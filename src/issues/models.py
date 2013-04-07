@@ -22,6 +22,10 @@ class Issue(models.Model):
     def __unicode__(self):
         return self.title
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ("issue", (str(self.community.pk), str(self.pk), ))
+
 
 class ProposalVoteValue(object):
     CON = -1
@@ -40,16 +44,17 @@ class ProposalVote(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     value = models.PositiveIntegerField(choices=ProposalVoteValue.CHOICES)
 
+    class Meta:
+        unique_together = (("proposal", "user"),)
+
 
 class ProposalType(object):
     TASK = 1
-    POLICY = 2
-    RULE = 3
-    ADMIN = 4
+    RULE = 2
+    ADMIN = 3
 
     CHOICES = (
                 (TASK, "Task"), 
-                (POLICY, "Policy"), 
                 (RULE, "Rule"),
                 (ADMIN, "Administrative"),
                )
@@ -70,6 +75,10 @@ class Proposal(models.Model):
                                   related_name="proposals_assigned")
     due_by = models.DateField(null=True, blank=True)
 
+    votes = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="proposals", 
+                                   through="ProposalVote")
+
     def __unicode__(self):
         return self.title
+
 

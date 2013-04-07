@@ -37,3 +37,7 @@ class Community(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ("community", (str(self.pk,)))

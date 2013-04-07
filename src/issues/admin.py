@@ -14,3 +14,4 @@ class IssueAdmin(admin.ModelAdmin):
     ]
 site.register(models.Issue, IssueAdmin)
 site.register(models.Proposal)
+site.register(models.ProposalVote)
