@@ -4,6 +4,7 @@ from django.db import models
 
 
 class Issue(models.Model):
+    active = models.BooleanField(default=True)
     community = models.ForeignKey(Community, related_name="issues")
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="issues_created")
@@ -15,9 +16,7 @@ class Issue(models.Model):
     calculated_score = models.IntegerField(default=0)
 
     is_closed = models.BooleanField(default=False)
-    closed_at = models.DateTimeField(null=True, blank=True)
-    closed_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, 
-                                  related_name="issues_closed")
+    closed_at_meeting = models.ForeignKey('meetings.Meeting', null=True, blank=True)
 
     def __unicode__(self):
         return self.title
@@ -62,6 +61,7 @@ class ProposalType(object):
 
 class Proposal(models.Model):
     issue = models.ForeignKey(Issue, related_name="proposals")
+    active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="proposals_created")
     type = models.PositiveIntegerField(choices=ProposalType.CHOICES)
@@ -80,5 +80,4 @@ class Proposal(models.Model):
 
     def __unicode__(self):
         return self.title
-
 

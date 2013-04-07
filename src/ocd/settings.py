@@ -129,6 +129,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'communities',
     'issues',
+    'meetings',
 )
 
 # A sample logging configuration. The only tangible logging
