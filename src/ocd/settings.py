@@ -1,4 +1,3 @@
-# Django settings for ocd project.
 import os.path
 
 DEBUG = True
@@ -129,6 +128,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'communities',
+    'issues',
 )
 
 # A sample logging configuration. The only tangible logging
