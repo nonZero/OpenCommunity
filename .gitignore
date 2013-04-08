@@ -3,3 +3,6 @@
 Scripts
 Lib
 Include
+db/ocd.db
+.project
+.pydevproject
