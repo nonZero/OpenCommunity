@@ -1,0 +1,35 @@
+{% load i18n %}
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        
+        <div class="container">
+            
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+            <a class="brand" href="{% url "home" %}">{% trans "Open Community" %}</a>
+
+            <div class="nav-collapse collapse">
+                <ul class="nav pull-right">
+                    {% if user.id %}
+                        <li>
+                            <span class="navbar-text">{{user.username}}</span>
+                        </li>
+                        <li>
+                            <a href="#" class='game_title pull-right'>{% trans "Log Out" %}</a>
+                        </li>
+                    {% else %} 
+                        <li>
+                            <a href="#" class='game_title pull-right'>{% trans "Login" %}</a>
+                        </li>
+                         {% endif %}
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

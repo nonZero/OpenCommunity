@@ -1,0 +1,46 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{LANGUAGE_CODE}}" class="lang-{{LANGUAGE_CODE}}">
+    <head>
+
+        <meta charset="utf-8">
+
+        <title>{% trans "Open Community" %}</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="{{ STATIC_URL }}bootstrap/css/bootstrap{% if LANGUAGE_CODE == 'he' %}-rtl{% endif %}.css" rel="stylesheet">
+        <link href="{{ STATIC_URL }}style.css" rel="stylesheet">
+        <link href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    </head>
+
+    <body>
+
+        {% include "_navbar.html" %}
+
+        <div class="container">
+
+            <div class="well">
+
+                {% block content %}
+                {% endblock %}
+
+            </div>
+
+            <footer>
+                <hr/>
+                <p>
+                    {% trans ":-)" %}
+                </p>
+            </footer>
+
+        </div>
+
+        {% block scripts %}
+
+        {% endblock %}
+
+    </body>
+</html>
+
