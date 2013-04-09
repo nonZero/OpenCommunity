@@ -4,20 +4,20 @@
 {% block breadcrumb %}
   <li><a href="../../..">{% trans "Communities" %}</a> <span class="divider">/</span></li>
   <li><a href="../..">{{community.name}}</a> <span class="divider">/</span></li>
-  <li><a href="../">Issues</a> <span class="divider">/</span></li>
+  <li><a href="../">{% trans "Issues" %}</a> <span class="divider">/</span></li>
   <li class="active">{{object.title}}</li>
 {% endblock %}
 
 {% block content %}
 
 
-        <h3>Abstract</h3>
+        <h3>{% trans "Abstract" %}</h3>
         <pre>{{object.abstract}}</pre>
 
-        <h3>Content</h3>
+        <h3>{% trans "Content" %}</h3>
         <pre>{{object.content}}</pre>
 
-        <h3>Proposals</h3>
+        <h3>{% trans "Proposals" %}</h3>
         <ul class="unstyled">
 
             {% for proposal in object.proposals.all %}
