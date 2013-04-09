@@ -132,6 +132,7 @@ INSTALLED_APPS = (
     'communities',
     'issues',
     'meetings',
+    'crispy_forms',
 )
 
 # A sample logging configuration. The only tangible logging

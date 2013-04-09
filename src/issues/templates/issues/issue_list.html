@@ -9,10 +9,25 @@
 
 {% block content %}
 
-    <ul class="nav nav-tabs nav-stacked">
-        {% for object in object_list %}
-            <li><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></li>
-        {% endfor %}
-    </ul>
+    <div class="row">
+        <div class="span4">
+            <ul class="nav nav-tabs nav-stacked issues-list">
+                {% for object in object_list %}
+                    <li>
+                        <a href="{{ object.get_absolute_url }}">{{ object.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block scripts %}
+
+    <script>
+
+    </script>
 
 {% endblock %}
