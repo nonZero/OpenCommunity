@@ -81,3 +81,7 @@ class Proposal(models.Model):
     def __unicode__(self):
         return self.title
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ("issue", (str(self.issue.community.pk), str(self.issue.pk), ))
+
