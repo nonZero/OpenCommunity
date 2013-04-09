@@ -1,0 +1,152 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-04-09 23:58+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\models.py:8 .\models.py:71
+msgid "Active"
+msgstr "פעיל"
+
+#: .\models.py:9
+msgid "Community"
+msgstr "קהילה"
+
+#: .\models.py:10
+msgid "Created at"
+msgstr "נוצר ב"
+
+#: .\models.py:11
+msgid "Create by"
+msgstr "נוצר על ידי"
+
+#: .\models.py:13 .\models.py:76
+msgid "Title"
+msgstr "כותרת"
+
+#: .\models.py:14 .\templates\issues\issue_detail.html.py:14
+msgid "Abstract"
+msgstr "תקציר"
+
+#: .\models.py:15 .\models.py:77 .\templates\issues\issue_detail.html.py:17
+msgid "Content"
+msgstr "פירוט"
+
+#: .\models.py:17
+msgid "Calculated Score"
+msgstr "ניקוד מצטבר"
+
+#: .\models.py:19
+msgid "Is close"
+msgstr "סגור"
+
+#: .\models.py:20
+msgid "Closed at meeting"
+msgstr "נסגר בישיבה"
+
+#: .\models.py:23 .\models.py:70
+msgid "Issue"
+msgstr "נושא לדיון"
+
+#: .\models.py:24 .\templates\issues\issue_detail.html.py:7
+#: .\templates\issues\issue_list.html.py:7
+msgid "Issues"
+msgstr "נושאים לדיון"
+
+#: .\models.py:40
+msgid "Con"
+msgstr "נגד"
+
+#: .\models.py:41
+msgid "Neutral"
+msgstr "נמנע"
+
+#: .\models.py:42
+msgid "Pro"
+msgstr "בעד"
+
+#: .\models.py:47 .\models.py:89
+msgid "Proposal"
+msgstr "הצעת החלטה"
+
+#: .\models.py:48
+msgid "User"
+msgstr "משתמש"
+
+#: .\models.py:49
+msgid "Vote"
+msgstr "הצבעה"
+
+#: .\models.py:53
+msgid "Proposal Vote"
+msgstr "הצבעה על הצעה"
+
+#: .\models.py:54
+msgid "Proposal Votes"
+msgstr "הצבעות על הצעה"
+
+#: .\models.py:63
+msgid "Task"
+msgstr "משימה"
+
+#: .\models.py:64
+msgid "Rule"
+msgstr "חוק"
+
+#: .\models.py:65
+msgid "Administrative"
+msgstr "מנהלתי"
+
+#: .\models.py:72
+msgid "Create at"
+msgstr "נוצר ב"
+
+#: .\models.py:73
+msgid "Created by"
+msgstr "נוצר על ידי"
+
+#: .\models.py:74
+msgid "Type"
+msgstr "סוג"
+
+#: .\models.py:79
+msgid "Is accepted"
+msgstr "התקבל"
+
+#: .\models.py:80
+msgid "Accepted at"
+msgstr "התקבל ב"
+
+#: .\models.py:81
+msgid "Assigned to"
+msgstr "אחראי"
+
+#: .\models.py:83
+msgid "Due by"
+msgstr "יעד"
+
+#: .\models.py:85
+msgid "Votes"
+msgstr "הצבעות"
+
+#: .\models.py:90 .\templates\issues\issue_detail.html.py:20
+msgid "Proposals"
+msgstr "הצעות החלטה"
+
+#: .\templates\issues\issue_detail.html.py:5
+#: .\templates\issues\issue_list.html.py:5
+msgid "Communities"
+msgstr "קהילות"

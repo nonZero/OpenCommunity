@@ -2,54 +2,63 @@
 {% load i18n %}
 
 {% block breadcrumb %}
-  <li><a href="../../..">{% trans "Communities" %}</a> <span class="divider">/</span></li>
-  <li><a href="../..">{{community.name}}</a> <span class="divider">/</span></li>
-  <li><a href="../">Issues</a> <span class="divider">/</span></li>
-  <li class="active">{{object.title}}</li>
+<li>
+	<a href="../../..">{% trans "Communities" %}</a><span class="divider">/</span>
+</li>
+<li>
+	<a href="../..">{{community.name}}</a><span class="divider">/</span>
+</li>
+<li>
+	<a href="../">{% trans "Issues" %}</a><span class="divider">/</span>
+</li>
+<li class="active">
+	{{object.title}}
+</li>
 {% endblock %}
 
 {% block content %}
 
-        <div class="row">
+<div class="row">
 
-            <div class="span6">
+	<div class="span6">
 
-                    <h2>{{object.title}}</h2>
+		<h2>{{object.title}}</h2>
 
-                    <p class="lead">
-                        {{object.abstract|linebreaksbr}}
-                    </p>
+		<p class="lead">
+			{{object.abstract|linebreaksbr}}
+		</p>
 
-                    {% if object.content %}
-                        <h3>Content</h3>
-                        <p>{{object.content|linebreaksbr}}</p>
-                    {% endif %}
+		{% if object.content %}
+		<h3>{% trans "Content" %}</h3>
+		<p>
+			{{object.content|linebreaksbr}}
+		</p>
+		{% endif %}
 
-            </div>
+	</div>
 
-            <div class="span6">
-                <h3>Proposals</h3>
+	<div class="span6">
+		<h3>{% trans "Proposals" %}</h3>
+		<ul class="unstyled">
 
+			{% for proposal in object.proposals.all %}
 
-                <ul class="unstyled">
+			<li>
+				<div class="well">
+					<h4>{{proposal.title}}</h4>
+					<div>
+						{{proposal.content|linebreaksbr}}
+					</div>
+				</div>
+			</li>
 
-                    {% for proposal in object.proposals.all %}
+			{% endfor %}
 
-                        <li>
-                            <div class="well">
-                                <h4>{{proposal.title}}</h4>
-                                <div>{{proposal.content|linebreaksbr}}</div>
-                            </div>
-                        </li>
+			<a class="btn" href="{% url "proposal_create" community.id object.id %}">{% trans "New Proposal" %}</a>
 
+		</ul>
+	</div>
 
-                    {% endfor %}
-
-                    <a class="btn" href="{% url "proposal_create" community.id object.id %}">{% trans "New Proposal" %}</a>
-                    
-                </ul>
-            </div>
-
-        </div>
-    </div>
+</div>
+</div>
 {% endblock %}

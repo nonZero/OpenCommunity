@@ -1,0 +1,102 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-04-10 00:27+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\models.py:10 .\models.py:44 .\models.py:52
+msgid "Meeting"
+msgstr "פגישה"
+
+#: .\models.py:11
+msgid "Issue"
+msgstr "נושא"
+
+#: .\models.py:12
+msgid "Order"
+msgstr "סדר"
+
+#: .\models.py:13
+msgid "Resolved"
+msgstr "נסגר"
+
+#: .\models.py:20
+msgid "Agenda Item"
+msgstr "פריט על סדר היום"
+
+#: .\models.py:21
+msgid "Agenda Items"
+msgstr "פריטים על סדר היום"
+
+#: .\models.py:25
+msgid "Community"
+msgstr "קהילה"
+
+#: .\models.py:26
+msgid "Created at"
+msgstr "נוצר ב"
+
+#: .\models.py:27
+msgid "Created by"
+msgstr "נוצר על ידי"
+
+#: .\models.py:29
+msgid "Scheduled at"
+msgstr "מועד"
+
+#: .\models.py:30
+msgid "Location"
+msgstr "מקום"
+
+#: .\models.py:31
+msgid "Comments"
+msgstr "הערות"
+
+#: .\models.py:33
+msgid "Agenda items"
+msgstr "סדר יום"
+
+#: .\models.py:36
+msgid "Participants"
+msgstr "משתתפים"
+
+#: .\models.py:38
+msgid "Is closed"
+msgstr "נסגר"
+
+#: .\models.py:39
+msgid "Closed at"
+msgstr "נסגר ב"
+
+#: .\models.py:41
+msgid "Closed by"
+msgstr "נסגר על ידי"
+
+#: .\models.py:45
+msgid "Meetings"
+msgstr "פגישות"
+
+#: .\models.py:53
+msgid "Name"
+msgstr "שם"
+
+#: .\models.py:56
+msgid "Meeting External Participant"
+msgstr "משתתף חיצוני"
+
+#: .\models.py:57
+msgid "Meeting External Participants"
+msgstr "משתתפים חיצוניים"
