@@ -1,10 +1,17 @@
 {% extends "base.html" %}
+{% load i18n %}
+
+{% block breadcrumb %}
+    <li class="active">{% trans "Communities" %}</li>
+  
+{% endblock %}
 
 {% block content %}
-    <h2>Communities</h2>
-    <ul>
+
+    <ul class="nav nav-tabs nav-stacked">
         {% for object in object_list %}
             <li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
         {% endfor %}
     </ul>
+
 {% endblock %}

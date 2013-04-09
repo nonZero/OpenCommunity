@@ -1,30 +1,37 @@
 {% extends "base.html" %}
+{% load i18n %}
+
+{% block breadcrumb %}
+  <li><a href="../../..">{% trans "Communities" %}</a> <span class="divider">/</span></li>
+  <li><a href="../..">{{community.name}}</a> <span class="divider">/</span></li>
+  <li><a href="../">Issues</a> <span class="divider">/</span></li>
+  <li class="active">{{object.title}}</li>
+{% endblock %}
 
 {% block content %}
-    <h2>{{community.name}} &gt;
-        Issues &gt; 
-        {{object.title}}</h2>
-    <div>
-        
+
+
         <h3>Abstract</h3>
         <pre>{{object.abstract}}</pre>
-        
+
         <h3>Content</h3>
         <pre>{{object.content}}</pre>
-        
-        
-        <h3>Proposal</h3>
-        <ul>
+
+        <h3>Proposals</h3>
+        <ul class="unstyled">
+
             {% for proposal in object.proposals.all %}
-                
+
                 <li>
-                    <h4>{{proposal.title}}</h4>
-                    <pre>{{proposal.content}}</pre>
+                    <div class="well">
+                        <h4>{{proposal.title}}</h4>
+                        <pre>{{proposal.content}}</pre>
+                    </div>
                 </li>
-                
-            
+
             {% endfor %}
+
         </ul>
-        
+
     </div>
 {% endblock %}

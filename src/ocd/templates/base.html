@@ -21,12 +21,15 @@
 
         <div class="container">
 
-            <div class="well">
+        <ul class="breadcrumb">
+                {% block breadcrumb %}
+                {% endblock %}
+        </ul>
+        
 
                 {% block content %}
                 {% endblock %}
 
-            </div>
 
             <footer>
                 <hr/>

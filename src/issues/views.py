@@ -19,6 +19,7 @@ class IssueMixin(object):
 
         return context
 
+
 class IssueList(IssueMixin, ListView):
     model = models.Issue
 
