@@ -3,3 +3,11 @@
         margin-top: 70px;
     }
 }
+
+.loading:after {
+    width: 10px;
+    height: 10px;
+    background: url("images/ajax-loader.gif") no-repeat;
+    content:".....";
+}
+
