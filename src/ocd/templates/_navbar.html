@@ -33,12 +33,13 @@
 
             {% if community %}
                 <ul class="nav">
-                        <li>
-                            <a href="{% url "issues" community.id %}">{% trans "Issues" %}</a>
-                        </li>
+                    <li>
+                        <a href="{% url "issues" community.id %}">{% trans "Issues" %}</a>
+                    </li>
                 </ul>
 
                 <a class="btn" href="{% url "issue_create" community.id %}">{% trans "Create Issue" %}</a>
+                <a class="btn" href="{% url "meeting_create" community.id %}">{% trans "Create Meeting" %}</a>
 
             {% endif %}
         </div>

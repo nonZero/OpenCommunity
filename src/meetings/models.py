@@ -10,7 +10,6 @@ class AgendaItem(models.Model):
     meeting = models.ForeignKey('Meeting', verbose_name=_("Meeting"))
     issue = models.ForeignKey(Issue, verbose_name=_("Issue"))
     order = models.PositiveIntegerField(default=100, verbose_name=_("Order"))
-    resolved = models.BooleanField(default=False, verbose_name=_("Resolved"))
 
     def __unicode__(self):
         return self.issue.title
@@ -46,6 +45,10 @@ class Meeting(models.Model):
 
     def __unicode__(self):
         return date_format(self.scheduled_at) + ", " + time_format(self.scheduled_at)
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ("meeting", (str(self.community.pk), str(self.pk),))
 
 
 class MeetingExternalParticipant(models.Model):

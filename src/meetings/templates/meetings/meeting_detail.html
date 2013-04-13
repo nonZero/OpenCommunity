@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block breadcrumb %}
+<li>
+	<a href="../../..">{% trans "Communities" %}</a><span class="divider">/</span>
+</li>
+<li>
+	<a href="../..">{{community.name}}</a><span class="divider">/</span>
+</li>
+<li>
+	<a href="../">{% trans "Meetings" %}</a><span class="divider">/</span>
+</li>
+<li class="active">
+	{{object.scheduled_at}}
+</li>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+
+	<div class="span6">
+
+		<h2>{{object.scheduled_at}}</h2>
+
+		<p class="lead">
+			{{object.location}}
+		</p>
+
+		{% if object.comments %}
+		<p>
+			{{object.comments|linebreaksbr}}
+		</p>
+		{% endif %}
+
+	</div>
+
+	<div class="span6">
+       <style scoped>
+            .issues li[data-set="0"] i {visibility:hidden}
+       </style>
+
+		<h3>{% trans "Issues" %}</h3>
+		<ul class="issues unstyled">
+		        {% csrf_token %}
+
+    			{% for i in issues %}
+    
+    			<li data-issue="{{i.id}}" data-set="{{i.in_upcoming_meeting|yesno:'1,0'}}">
+    			    <a href="#">
+    			        
+        				<i class="icon-ok"></i>
+                        {{i.title}}
+        			</a>
+    			</li>
+    
+    			{% endfor %}
+
+            </form>
+
+		</ul>
+	</div>
+
+</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{STATIC_URL}}js/meeting.js"></script>
+{% endblock %}

@@ -16,9 +16,11 @@ class Issue(models.Model):
 
     calculated_score = models.IntegerField(default=0, verbose_name=_("Calculated Score"))
 
+    in_upcoming_meeting = models.BooleanField(_("In upcoming meeting"), default=False)
+
     is_closed = models.BooleanField(default=False, verbose_name=_("Is close"))
     closed_at_meeting = models.ForeignKey('meetings.Meeting', null=True, blank=True, verbose_name=_("Closed at meeting"))
-    
+
     class Meta:
         verbose_name = _("Issue")
         verbose_name_plural = _("Issues")
@@ -28,7 +30,7 @@ class Issue(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ("issue", (str(self.community.pk), str(self.pk), ))
+        return ("issue", (str(self.community.pk), str(self.pk),))
 
 
 class ProposalVoteValue(object):
@@ -37,8 +39,8 @@ class ProposalVoteValue(object):
     PRO = 1
 
     CHOICES = (
-                (CON, ugettext("Con")), 
-                (NEUTRAL, ugettext("Neutral")), 
+                (CON, ugettext("Con")),
+                (NEUTRAL, ugettext("Neutral")),
                 (PRO, ugettext("Pro")),
                )
 
@@ -52,7 +54,7 @@ class ProposalVote(models.Model):
         unique_together = (("proposal", "user"),)
         verbose_name = _("Proposal Vote")
         verbose_name_plural = _("Proposal Votes")
-        
+
     def __unicode__(self):
         return "%s - %s %s" % (self.proposal.issue.title, self.user.first_name, self.user.last_name)
 
@@ -63,7 +65,7 @@ class ProposalType(object):
     ADMIN = 3
 
     CHOICES = (
-                (TASK, ugettext("Task")), 
+                (TASK, ugettext("Task")),
                 (RULE, ugettext("Rule")),
                 (ADMIN, ugettext("Administrative")),
                )
@@ -81,11 +83,11 @@ class Proposal(models.Model):
 
     is_accepted = models.BooleanField(default=False, verbose_name=_("Is accepted"))
     accepted_at = models.DateTimeField(null=True, blank=True, verbose_name=_("Accepted at"))
-    assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Assigned to"), null=True, blank=True, 
+    assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Assigned to"), null=True, blank=True,
                                   related_name="proposals_assigned")
     due_by = models.DateField(null=True, blank=True, verbose_name=_("Due by"))
 
-    votes = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("Votes"), blank=True, related_name="proposals", 
+    votes = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("Votes"), blank=True, related_name="proposals",
                                    through="ProposalVote")
 
     class Meta:
@@ -97,5 +99,5 @@ class Proposal(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ("issue", (str(self.issue.community.pk), str(self.issue.pk), ))
+        return ("issue", (str(self.issue.community.pk), str(self.issue.pk),))
 

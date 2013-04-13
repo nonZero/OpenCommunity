@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'^$', communities.views.CommunityList.as_view(), name='home'),
     url(r'^(?P<pk>\d+)/$', communities.views.CommunityDetailView.as_view(), name='community'),
     url(r'^(?P<community_id>\d+)/', include('issues.urls')),
+    url(r'^(?P<community_id>\d+)/', include('meetings.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
