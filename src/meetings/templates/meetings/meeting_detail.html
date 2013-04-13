@@ -43,9 +43,9 @@
        </style>
 
 		<h3>{% trans "Issues" %}</h3>
-        {% if object.is_closed %}
+        {% if object.is_published %}
             <p class="alert alert-success">
-                {% trans "Agenda published at" %} {{object.closed_at}}
+                {% trans "Agenda published at" %} {{object.published_at}}
             </p>
         {% else %}
             <p class="alert alert-warn">
@@ -68,7 +68,7 @@
     			{% endfor %}
 
 		</ul>
-        <form method="post" action="close/">
+        <form method="post" action="publish/">
             {% csrf_token %}
             <button>{% trans "Publish" %}</button>
         </form>

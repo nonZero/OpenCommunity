@@ -12,8 +12,8 @@ urlpatterns = patterns('',
     url(r'^meeting/(?P<pk>\d+)/$', views.MeetingDetailView.as_view(), 
         name="meeting" ),
 
-    url(r'^meeting/(?P<pk>\d+)/close/$', views.CloseMeetingView.as_view(),
-        name="meeting_close" ),
+    url(r'^meeting/(?P<pk>\d+)/publish/$', views.PublishMeetingView.as_view(),
+        name="meeting_publish" ),
 
 #    url(r'^issues/(?P<pk>\d+)/create-proposal/$', views.ProposalCreateView.as_view(), name="proposal_create" ),
 

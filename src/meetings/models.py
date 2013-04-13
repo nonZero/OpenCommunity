@@ -34,8 +34,12 @@ class Meeting(models.Model):
     participants = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                           related_name="participated_in_meeting", verbose_name=_("Participants"))
 
+    is_published = models.BooleanField(_("Is published"), default=False)
+    published_at = models.DateTimeField(_("Published at"), blank=True, null=True)
+    version = models.IntegerField(_("Version"), default=0)
+
     is_closed = models.BooleanField(default=False, verbose_name=_("Is closed"))
-    closed_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Closed at"))
+    closed_at = models.DateTimeField(_("Closed at"), blank=True, null=True)
     closed_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="meetings_closed",
                                   null=True, blank=True, verbose_name=_("Closed by"))
 

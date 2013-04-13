@@ -63,7 +63,7 @@ class MeetingDetailView(MeetingMixin, DetailView):
         return HttpResponse(json.dumps(int(add_to_meeting)), content_type='application/json')
 
 
-class CloseMeetingView(MeetingMixin, SingleObjectMixin, View):
+class PublishMeetingView(MeetingMixin, SingleObjectMixin, View):
     model = models.Meeting
 
     def post(self, request, *args, **kwargs):
@@ -71,13 +71,14 @@ class CloseMeetingView(MeetingMixin, SingleObjectMixin, View):
         # TODO AUTH
 
         m = self.get_object()
+        m.is_published = True
+        m.published_at = datetime.datetime.now()
+        m.version += 1
 
-        m.is_closed = True
-        m.closed_at = datetime.datetime.now()
-        m.closed_by = request.user
         m.agenda_items.all().delete()
         for issue in self.get_issues_queryset(in_upcoming_meeting=True):
             AgendaItem.objects.create(meeting=m, issue=issue)
+
         m.save()
 
         return redirect(m.get_absolute_url())
