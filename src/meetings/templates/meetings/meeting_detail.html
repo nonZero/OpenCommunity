@@ -28,6 +28,7 @@
 			{{object.location}}
 		</p>
 
+
 		{% if object.comments %}
 		<p>
 			{{object.comments|linebreaksbr}}
@@ -42,8 +43,17 @@
        </style>
 
 		<h3>{% trans "Issues" %}</h3>
+        {% if object.is_closed %}
+            <p class="alert alert-success">
+                {% trans "Agenda published at" %} {{object.closed_at}}
+            </p>
+        {% else %}
+            <p class="alert alert-warn">
+                {% trans "Agenda is not final" %}
+            </p>
+        {% endif %}
 		<ul class="issues unstyled">
-		        {% csrf_token %}
+		        
 
     			{% for i in issues %}
     
@@ -57,12 +67,13 @@
     
     			{% endfor %}
 
-            </form>
-
 		</ul>
+        <form method="post" action="close/">
+            {% csrf_token %}
+            <button>{% trans "Publish" %}</button>
+        </form>
 	</div>
 
-</div>
 </div>
 {% endblock %}
 

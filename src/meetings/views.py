@@ -1,9 +1,15 @@
-from django.http.response import HttpResponse
-from django.views.generic.detail import DetailView
+from django.http.response import HttpResponse, HttpResponseForbidden, \
+    HttpResponseServerError
+from django.shortcuts import redirect
+from django.views.generic.base import View
+from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import CreateView
+from django.views.generic.list import ListView
 from issues.views import CommunityMixin
 from meetings import models
 from meetings.forms import CreateMeetingForm
+from meetings.models import AgendaItem
+import datetime
 import json
 
 
@@ -11,12 +17,19 @@ class MeetingMixin(CommunityMixin):
     def get_queryset(self):
         return models.Meeting.objects.filter(community=self.community)
 
+    def get_issues_queryset(self, **kwargs):
+        return self.community.issues.filter(is_closed=False, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super(MeetingMixin, self).get_context_data(**kwargs)
 
         context['community'] = self.community
 
         return context
+
+
+class MeetingList(MeetingMixin, ListView):
+    model = models.Meeting
 
 
 class MeetingCreateView(MeetingMixin, CreateView):
@@ -31,9 +44,6 @@ class MeetingCreateView(MeetingMixin, CreateView):
 
 class MeetingDetailView(MeetingMixin, DetailView):
     model = models.Meeting
-
-    def get_issues_queryset(self):
-        return self.community.issues.filter(is_closed=False)
 
     def get_context_data(self, **kwargs):
         context = super(MeetingDetailView, self).get_context_data(**kwargs)
@@ -51,3 +61,25 @@ class MeetingDetailView(MeetingMixin, DetailView):
         issue.save()
 
         return HttpResponse(json.dumps(int(add_to_meeting)), content_type='application/json')
+
+
+class CloseMeetingView(MeetingMixin, SingleObjectMixin, View):
+    model = models.Meeting
+
+    def post(self, request, *args, **kwargs):
+
+        # TODO AUTH
+
+        m = self.get_object()
+
+        m.is_closed = True
+        m.closed_at = datetime.datetime.now()
+        m.closed_by = request.user
+        m.agenda_items.all().delete()
+        for issue in self.get_issues_queryset(in_upcoming_meeting=True):
+            AgendaItem.objects.create(meeting=m, issue=issue)
+        m.save()
+
+        return redirect(m.get_absolute_url())
+
+        # return HttpResponse(json.dumps(int(add_to_meeting)), content_type='application/json')
