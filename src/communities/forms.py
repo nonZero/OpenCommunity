@@ -1,18 +1,19 @@
+from communities.models import Community
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from meetings.models import Meeting
 
 
-class CreateMeetingForm(forms.ModelForm):
+class EditUpcomingMeetingForm(forms.ModelForm):
 
     class Meta:
-        model = Meeting
+        model = Community
+
         fields = (
-                   'scheduled_at',
-                   'location',
-                   'comments',
+                   'upcoming_meeting_scheduled_at',
+                   'upcoming_meeting_location',
+                   'upcoming_meeting_comments',
                    )
 
     def __init__(self, *args, **kwargs):
@@ -20,5 +21,4 @@ class CreateMeetingForm(forms.ModelForm):
 
         self.helper.add_input(Submit('submit', _('Submit')))
 
-        super(CreateMeetingForm, self).__init__(*args, **kwargs)
-
+        super(EditUpcomingMeetingForm, self).__init__(*args, **kwargs)

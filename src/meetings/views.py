@@ -1,9 +1,7 @@
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from issues.views import CommunityMixin
 from meetings import models
-from meetings.forms import CreateMeetingForm
 
 
 class MeetingMixin(CommunityMixin):
@@ -23,16 +21,6 @@ class MeetingMixin(CommunityMixin):
 
 class MeetingList(MeetingMixin, ListView):
     model = models.Meeting
-
-
-class MeetingCreateView(MeetingMixin, CreateView):
-    model = models.Meeting
-    form_class = CreateMeetingForm
-
-    def form_valid(self, form):
-        form.instance.community = self.community
-        form.instance.created_by = self.request.user
-        return super(MeetingCreateView, self).form_valid(form)
 
 
 class MeetingDetailView(MeetingMixin, DetailView):

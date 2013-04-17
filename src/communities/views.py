@@ -1,12 +1,13 @@
 from communities import models
+from communities.forms import EditUpcomingMeetingForm
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView
 from django.views.generic.base import RedirectView, View
 from django.views.generic.detail import DetailView, SingleObjectMixin
-from django.shortcuts import redirect
+from django.views.generic.edit import UpdateView
 import datetime
 import json
 
@@ -62,3 +63,12 @@ class PublishMeetingView(SingleObjectMixin, View):
         c.save()
 
         return redirect(c.get_upcoming_absolute_url())
+
+
+class EditUpcomingMeetingView(UpdateView):
+    model = models.Community
+    form_class = EditUpcomingMeetingForm
+    template_name = "communities/upcoming_form.html"
+
+    def get_success_url(self):
+        return self.get_object().get_upcoming_absolute_url()

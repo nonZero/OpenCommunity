@@ -22,25 +22,26 @@
     	<div class="span6">
     
             <div class="well">
-    
-                <dl class="dl-horizontal">
-            		<dt>
-            		    {% trans "Scheduled at" %}
-            		</dt>
-            		<dd>
+
+            <a href="edit/" class="btn pull-right">
+                {% trans "Edit" %}
+            </a>
+                <ul class="unstyled">
+                    <li>        
+                		<b>{% trans "Scheduled at" %}:</b>
                         {{object.upcoming_meeting_scheduled_at|default:_("Not set yet")}}
-            	    </dd>
-                    <dt>
-                        {% trans "Location" %}
-                    </dt>
-                    <dd>
+                    </li>
+                    <li>
+                        <b>{% trans "Location" %}:</b>
                         {{object.upcoming_meeting_location|default:_("Not set yet")}}
-                    </dd>
-        	    </dl>
+                    </li>
+                </ul>
+
                 {% if object.upcoming_meeting_comments %}
-                <p>
-                    {{object.upcoming_meeting_comments|linebreaksbr}}
-                </p>
+                    <hr/>
+                    <p>
+                        {{object.upcoming_meeting_comments|linebreaksbr}}
+                    </p>
                 {% endif %}
     
     		</div>
