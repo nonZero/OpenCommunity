@@ -49,16 +49,49 @@
 	    
 		<h3>{% trans "Proposals" %}</h3>
 		
-		<ul class="nav nav-tabs nav-stacked">
+		<ul class="proposals nav nav-tabs nav-stacked">
+
+		    <style>
+
+	            .proposals li .btns {
+		            display: none;
+		        }
+
+		        .proposals li:hover .btns {
+		            display: block;
+		        }
+
+		        .proposals li[data-accepted="0"] i {
+		            visibility: hidden;
+		        }
+		        
+		        .proposals li[data-accepted="1"] .btns .accept {
+		            display: none;
+		        }
+
+		        .proposals li[data-accepted="0"] .btns .cancel {
+		            display: none;
+		        }
+
+
+		    </style>
 
 			{% for proposal in object.proposals.all %}
 
-			<li>
-				<a href="{{proposal.get_absolute_url}}">
-				    {{proposal.title}}
-				    <span class="label">{{ proposal.get_type_display}}</span>
-			    </a>
-			</li>
+    			<li 
+    			 data-id="{{proposal.id}}"
+    			 data-accepted="{{proposal.is_accepted|yesno:"1,0"}}">
+    				<a href="{{proposal.get_absolute_url}}"  class="clearfix">
+                        <i class="icon-ok pull-right"></i>
+                        <span class="pull-right btns">
+                            <span class="btn btn-mini accept">{% trans "Accept" %}</span>
+                            <span class="btn btn-mini cancel">{% trans "Cancel" %}</span>
+                            &nbsp;
+                        </span>
+    				    {{proposal.title}}
+    				    <span class="label">{{ proposal.get_type_display}}</span>
+    			    </a>
+    			</li>
 
 			{% endfor %}
 
@@ -70,4 +103,8 @@
 
 </div>
 
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{STATIC_URL}}js/issue.js"></script>
 {% endblock %}

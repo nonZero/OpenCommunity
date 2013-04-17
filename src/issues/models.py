@@ -36,6 +36,9 @@ class Issue(models.Model):
     def get_absolute_url(self):
         return ("issue", (str(self.community.pk), str(self.pk),))
 
+    def accepted_proposals(self):
+        return self.proposals.filter(is_accepted=True)
+
 
 class ProposalVoteValue(object):
     CON = -1

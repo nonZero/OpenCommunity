@@ -41,7 +41,6 @@ class UpcomingMeetingView(DetailView):
         issue = self.get_issues_queryset().get(id=int(request.POST.get('issue')))
 
         add_to_meeting = request.POST['set'] == "0"
-        print issue, add_to_meeting
         issue.in_upcoming_meeting = add_to_meeting
         issue.save()
 

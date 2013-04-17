@@ -1,10 +1,14 @@
 from communities.models import Community
+from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
-from django.views.generic.detail import DetailView
+from django.views.generic.base import View
+from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView
 from issues import models
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm
+import datetime
+import json
 
 
 class CommunityMixin(object):
@@ -71,6 +75,9 @@ class ProposalCreateView(IssueMixin, CreateView):
         form.instance.issue = self.issue
         return super(ProposalCreateView, self).form_valid(form)
 
+    def get_success_url(self):
+        return self.issue.get_absolute_url()
+
 
 class ProposalMixin(IssueMixin):
     model = models.Proposal
@@ -85,7 +92,18 @@ class ProposalMixin(IssueMixin):
 
 
 class ProposalDetailView(ProposalMixin, DetailView):
-    pass
+
+    def post(self, request, *args, **kwargs):
+
+        # TODO AUTH
+
+        p = self.get_object()
+        p.is_accepted = request.POST['accepted'] == "0"
+        p.accepted_at = datetime.datetime.now() if p.is_accepted else None
+        p.save()
+
+        return HttpResponse(json.dumps(int(p.is_accepted)),
+                             content_type='application/json')
 
 
 class ProposalEditView(ProposalMixin, UpdateView):
