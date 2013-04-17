@@ -66,32 +66,46 @@
     
     	<div class="span6">
     
-           <style scoped>
-                .issues li[data-set="0"] i {visibility:hidden}
-           </style>
-    
     		<h3>{% trans "Issues" %}</h3>
-    		<ul class="issues unstyled">
-    		        
-    
-        			{% for i in object.issues.all %}
+    		<ul id="upcoming" class="issues unstyled  well">
+        			{% for i in object.upcoming_issues %}
         
-        			<li data-issue="{{i.id}}" data-set="{{i.in_upcoming_meeting|yesno:'1,0'}}">
-        			    <a href="#">
-        			        
-            				<i class="icon-ok"></i>
+        			<li data-issue="{{i.id}}">
+                        <i class="icon-th-list"></i>
+        			    <a href="{{i.get_absolute_url}}">
                             {{i.title}}
             			</a>
         			</li>
         
         			{% endfor %}
-    
     		</ul>
+    		
+    		<hr/>
+    		
+            <ul id="available" class="issues unstyled well">
+
+                    {% for i in object.available_issues %}
+
+                    <li data-issue="{{i.id}}" data-set="{{i.in_upcoming_meeting|yesno:'1,0'}}">
+                        <i class="grab icon-th-list"></i>
+                        <a href="{{i.get_absolute_url}}">
+                            {{i.title}}
+                        </a>
+                    </li>
+
+                    {% endfor %}
+            </ul>
+    		
     	</div>
     
     </div>
 {% endblock %}
 
+{% block extrahead %}
+    <link href="{{ STATIC_URL }}jquery-ui/css/ui-lightness/jquery-ui-1.10.2.custom.css" rel="stylesheet">
+{% endblock %}
+
 {% block scripts %}
+    <script src="{{STATIC_URL}}jquery-ui/js/jquery-ui-1.10.2.custom.js"></script>
     <script src="{{STATIC_URL}}js/meeting.js"></script>
 {% endblock %}

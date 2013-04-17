@@ -81,6 +81,9 @@ class Community(models.Model):
     def get_upcoming_absolute_url(self):
         return ("upcoming_meeting", (str(self.pk,)))
 
-    def upcoming_issues(self):
-        return self.issues.filter(active=True, is_closed=False, 
-                                  in_upcoming_meeting=True)
+    def upcoming_issues(self, upcoming=True):
+        return self.issues.filter(active=True, is_closed=False,
+                                  in_upcoming_meeting=upcoming)
+
+    def available_issues(self):
+        return self.upcoming_issues(False)
