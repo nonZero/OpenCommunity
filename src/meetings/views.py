@@ -1,16 +1,9 @@
-from django.http.response import HttpResponse, HttpResponseForbidden, \
-    HttpResponseServerError
-from django.shortcuts import redirect
-from django.views.generic.base import View
-from django.views.generic.detail import DetailView, SingleObjectMixin
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from issues.views import CommunityMixin
 from meetings import models
 from meetings.forms import CreateMeetingForm
-from meetings.models import AgendaItem
-import datetime
-import json
 
 
 class MeetingMixin(CommunityMixin):
@@ -52,35 +45,4 @@ class MeetingDetailView(MeetingMixin, DetailView):
 
         return context
 
-    def post(self, request, *args, **kwargs):
 
-        issue = self.get_issues_queryset().get(id=int(request.POST.get('issue')))
-
-        add_to_meeting = request.POST['set'] == "0"
-        issue.in_upcoming_meeting = add_to_meeting
-        issue.save()
-
-        return HttpResponse(json.dumps(int(add_to_meeting)), content_type='application/json')
-
-
-class PublishMeetingView(MeetingMixin, SingleObjectMixin, View):
-    model = models.Meeting
-
-    def post(self, request, *args, **kwargs):
-
-        # TODO AUTH
-
-        m = self.get_object()
-        m.is_published = True
-        m.published_at = datetime.datetime.now()
-        m.version += 1
-
-        m.agenda_items.all().delete()
-        for issue in self.get_issues_queryset(in_upcoming_meeting=True):
-            AgendaItem.objects.create(meeting=m, issue=issue)
-
-        m.save()
-
-        return redirect(m.get_absolute_url())
-
-        # return HttpResponse(json.dumps(int(add_to_meeting)), content_type='application/json')

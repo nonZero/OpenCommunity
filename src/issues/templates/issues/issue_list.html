@@ -9,12 +9,21 @@
 
 {% block content %}
 
+    {% include "_community_bar.html" with pill="issues" %}
+
     <div class="row">
         <div class="span4">
             <ul class="nav nav-tabs nav-stacked issues-list">
                 {% for object in object_list %}
                     <li>
-                        <a href="{{ object.get_absolute_url }}">{{ object.title }}</a>
+                        <a href="{{ object.get_absolute_url }}">
+                            {% if object.in_upcoming_meeting %}
+                            <span class="label label-info pull-right">
+                                {% trans "In upcoming meeting" %}
+                            </span>
+                            {% endif %}
+                            {{ object.title }}
+                        </a>
                     </li>
                 {% endfor %}
             </ul>

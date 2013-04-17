@@ -11,7 +11,11 @@
                 <span class="icon-bar"></span>
             </button>
 
-            <a class="brand" href="{% url "home" %}">{% trans "Open Community" %}</a>
+            {% if community %}
+                <a class="brand" href="{% url "issues" community.id %}">{{community.name}}</a>
+            {% else %}
+                <a class="brand" href="{% url "home" %}">{% trans "Open Community" %}</a>
+            {% endif %}
 
             <div class="nav-collapse collapse">
                 <ul class="nav pull-right">
@@ -32,14 +36,14 @@
             </div>
 
             {% if community %}
-                <ul class="nav">
-                    <li>
-                        <a href="{% url "issues" community.id %}">{% trans "Issues" %}</a>
-                    </li>
-                </ul>
-
-                <a class="btn" href="{% url "issue_create" community.id %}">{% trans "Create Issue" %}</a>
-                <a class="btn" href="{% url "meeting_create" community.id %}">{% trans "Create Meeting" %}</a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li>
+                            <a href="{% url "issues" community.id %}">{% trans "Issues" %}</a>
+                        </li>
+                    </ul>
+                    <a class="btn" href="{% url "issue_create" community.id %}">{% trans "Create Issue" %}</a>
+                </div>
 
             {% endif %}
         </div>

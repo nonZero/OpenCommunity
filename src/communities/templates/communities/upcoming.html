@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block breadcrumb %}
+<li>
+	<a href="../..">{% trans "Communities" %}</a><span class="divider">/</span>
+</li>
+<li>
+	<a href="..">{{community.name}}</a><span class="divider">/</span>
+</li>
+<li>
+	{% trans "Upcoming Meeting" %}</a>
+</li>
+{% endblock %}
+
+{% block content %}
+
+    {% include "_community_bar.html" with pill="upcoming" %}
+    
+    <div class="row">
+    
+    	<div class="span6">
+    
+            <div class="well">
+    
+                <dl class="dl-horizontal">
+            		<dt>
+            		    {% trans "Scheduled at" %}
+            		</dt>
+            		<dd>
+                        {{object.upcoming_meeting_scheduled_at|default:_("Not set yet")}}
+            	    </dd>
+                    <dt>
+                        {% trans "Location" %}
+                    </dt>
+                    <dd>
+                        {{object.upcoming_meeting_location|default:_("Not set yet")}}
+                    </dd>
+        	    </dl>
+                {% if object.upcoming_meeting_comments %}
+                <p>
+                    {{object.upcoming_meeting_comments|linebreaksbr}}
+                </p>
+                {% endif %}
+    
+    		</div>
+    
+            <form method="post" action="publish/" class="pull-right" style="padding:5px">
+                {% csrf_token %}
+                <button>{% trans "Publish" %}</button>
+            </form>
+    
+            {% if object.upcoming_meeting_is_published %}
+                <p class="alert alert-success">
+                    {% trans "Published at" %} {{object.upcoming_meeting_published_at}}
+                    ({% trans "Version" %} {{object.upcoming_meeting_version}})
+                </p>
+            {% else %}
+                <p class="alert alert-warn">
+                    {% trans "Draft" %}
+                </p>
+            {% endif %}
+    
+    	</div>
+    
+    	<div class="span6">
+    
+           <style scoped>
+                .issues li[data-set="0"] i {visibility:hidden}
+           </style>
+    
+    		<h3>{% trans "Issues" %}</h3>
+    		<ul class="issues unstyled">
+    		        
+    
+        			{% for i in object.issues.all %}
+        
+        			<li data-issue="{{i.id}}" data-set="{{i.in_upcoming_meeting|yesno:'1,0'}}">
+        			    <a href="#">
+        			        
+            				<i class="icon-ok"></i>
+                            {{i.title}}
+            			</a>
+        			</li>
+        
+        			{% endfor %}
+    
+    		</ul>
+    	</div>
+    
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{STATIC_URL}}js/meeting.js"></script>
+{% endblock %}
