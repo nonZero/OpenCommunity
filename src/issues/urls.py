@@ -10,10 +10,16 @@ urlpatterns = patterns('',
 
     url(r'^(?P<pk>\d+)/$', views.IssueDetailView.as_view(), name="issue"),
 
+    url(r'^(?P<pk>\d+)/edit/$', views.IssueEditView.as_view(),
+                                name="issue_edit"),
+
     url(r'^(?P<pk>\d+)/create-proposal/$', views.ProposalCreateView.as_view(),
             name="proposal_create"),
 
     url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/$',
         views.ProposalDetailView.as_view(), name="proposal"),
+
+    url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/edit/$',
+        views.ProposalEditView.as_view(), name="proposal_edit"),
 
 )

@@ -2,10 +2,9 @@ from communities.models import Community
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from issues import models
-from issues.forms import CreateIssueForm, CreateProposalForm
-# from django.views.generic.base import RedirectView
+from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm
 
 
 class CommunityMixin(object):
@@ -16,6 +15,9 @@ class CommunityMixin(object):
 
 
 class IssueMixin(CommunityMixin):
+
+    model = models.Issue
+
     def get_queryset(self):
         return models.Issue.objects.filter(community=self.community)
 
@@ -28,22 +30,24 @@ class IssueMixin(CommunityMixin):
 
 
 class IssueList(IssueMixin, ListView):
-    model = models.Issue
+    pass
 
 
 class IssueDetailView(IssueMixin, DetailView):
-    model = models.Issue
+    pass
 
 
 class IssueCreateView(IssueMixin, CreateView):
-
-    model = models.Issue
     form_class = CreateIssueForm
 
     def form_valid(self, form):
         form.instance.community = self.community
         form.instance.created_by = self.request.user
         return super(IssueCreateView, self).form_valid(form)
+
+
+class IssueEditView(IssueMixin, UpdateView):
+    form_class = CreateIssueForm
 
 
 class ProposalCreateView(IssueMixin, CreateView):
@@ -68,8 +72,7 @@ class ProposalCreateView(IssueMixin, CreateView):
         return super(ProposalCreateView, self).form_valid(form)
 
 
-class ProposalDetailView(IssueMixin, DetailView):
-
+class ProposalMixin(IssueMixin):
     model = models.Proposal
 
     @property
@@ -80,9 +83,10 @@ class ProposalDetailView(IssueMixin, DetailView):
     def get_queryset(self):
         return models.Proposal.objects.filter(issue=self.issue)
 
-    def get_context_data(self, **kwargs):
-        context = super(ProposalDetailView, self).get_context_data(**kwargs)
 
-        context['issue'] = self.issue
+class ProposalDetailView(ProposalMixin, DetailView):
+    pass
 
-        return context
+
+class ProposalEditView(ProposalMixin, UpdateView):
+    form_class = EditProposalForm

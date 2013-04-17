@@ -31,6 +31,8 @@ class CreateProposalForm(forms.ModelForm):
                    'type',
                    'title',
                    'content',
+                   'assigned_to',
+                   'due_by',
                    )
 
     def __init__(self, *args, **kwargs):
@@ -39,3 +41,7 @@ class CreateProposalForm(forms.ModelForm):
         self.helper.add_input(Submit('submit', _('Submit')))
 
         super(CreateProposalForm, self).__init__(*args, **kwargs)
+
+
+class EditProposalForm(CreateProposalForm):
+    pass

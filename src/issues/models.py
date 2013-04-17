@@ -29,6 +29,10 @@ class Issue(models.Model):
         return self.title
 
     @models.permalink
+    def get_edit_url(self):
+        return ("issue_edit", (str(self.community.pk), str(self.pk),))
+
+    @models.permalink
     def get_absolute_url(self):
         return ("issue", (str(self.community.pk), str(self.pk),))
 
@@ -81,13 +85,19 @@ class Proposal(models.Model):
     title = models.CharField(max_length=300, verbose_name=_("Title"))
     content = models.TextField(null=True, blank=True, verbose_name=_("Content"))
 
-    is_accepted = models.BooleanField(default=False, verbose_name=_("Is accepted"))
-    accepted_at = models.DateTimeField(null=True, blank=True, verbose_name=_("Accepted at"))
-    assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Assigned to"), null=True, blank=True,
-                                  related_name="proposals_assigned")
+    is_accepted = models.BooleanField(_("Is accepted"), default=False)
+    accepted_at = models.DateTimeField(_("Accepted at"), null=True, blank=True)
+    assigned_to = models.CharField(_("Assigned to"), max_length=200,
+                                   null=True, blank=True)
+    assigned_to_user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                         verbose_name=_("Assigned to user"),
+                                         null=True, blank=True,
+                                         related_name="proposals_assigned")
     due_by = models.DateField(null=True, blank=True, verbose_name=_("Due by"))
 
-    votes = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("Votes"), blank=True, related_name="proposals",
+    votes = models.ManyToManyField(settings.AUTH_USER_MODEL,
+                                   verbose_name=_("Votes"), blank=True,
+                                   related_name="proposals",
                                    through="ProposalVote")
 
     class Meta:
@@ -102,3 +112,7 @@ class Proposal(models.Model):
         return ("proposal", (str(self.issue.community.pk), str(self.issue.pk),
                                 str(self.pk)))
 
+    @models.permalink
+    def get_edit_url(self):
+        return ("proposal_edit", (str(self.issue.community.pk), str(self.issue.pk),
+                                str(self.pk)))

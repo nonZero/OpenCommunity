@@ -23,10 +23,16 @@
 
 	<div class="span6">
 
+        <a class="btn pull-right" href="{{object.get_edit_url}}">{% trans "Edit" %}</a>
+
 		<h2>{{object.title}}</h2>
 
 		<p class="lead">
+		    <b>
+            {{ object.created_by}},
 		    {{ object.created_at}} ({{ object.created_at|naturaltime}})
+		    </b>
+		    <br/>
 			{{object.abstract|linebreaksbr}}
 		</p>
 
@@ -48,16 +54,20 @@
 			{% for proposal in object.proposals.all %}
 
 			<li>
-				<a href="{{proposal.get_absolute_url}}">{{proposal.title}}</a>
+				<a href="{{proposal.get_absolute_url}}">
+				    {{proposal.title}}
+				    <span class="label">{{ proposal.get_type_display}}</span>
+			    </a>
 			</li>
 
 			{% endfor %}
 
-			<a class="btn" href="{% url "proposal_create" community.id object.id %}">{% trans "New Proposal" %}</a>
-
 		</ul>
+		
+        <a class="btn" href="{% url "proposal_create" community.id object.id %}">{% trans "New Proposal" %}</a>
+		
 	</div>
 
 </div>
-</div>
+
 {% endblock %}
