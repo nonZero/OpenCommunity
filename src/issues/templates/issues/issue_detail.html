@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load humanize %}
 
 {% block breadcrumb %}
 <li>
@@ -25,6 +26,7 @@
 		<h2>{{object.title}}</h2>
 
 		<p class="lead">
+		    {{ object.created_at}} ({{ object.created_at|naturaltime}})
 			{{object.abstract|linebreaksbr}}
 		</p>
 
@@ -38,18 +40,15 @@
 	</div>
 
 	<div class="span6">
+	    
 		<h3>{% trans "Proposals" %}</h3>
-		<ul class="unstyled">
+		
+		<ul class="nav nav-tabs nav-stacked">
 
 			{% for proposal in object.proposals.all %}
 
 			<li>
-				<div class="well">
-					<h4>{{proposal.title}}</h4>
-					<div>
-						{{proposal.content|linebreaksbr}}
-					</div>
-				</div>
+				<a href="{{proposal.get_absolute_url}}">{{proposal.title}}</a>
 			</li>
 
 			{% endfor %}

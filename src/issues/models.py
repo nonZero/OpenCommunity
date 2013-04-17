@@ -99,5 +99,6 @@ class Proposal(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ("issue", (str(self.issue.community.pk), str(self.issue.pk),))
+        return ("proposal", (str(self.issue.community.pk), str(self.issue.pk),
+                                str(self.pk)))
 

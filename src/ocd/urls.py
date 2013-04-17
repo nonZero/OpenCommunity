@@ -11,7 +11,7 @@ urlpatterns = patterns('',
     url(r'^(?P<pk>\d+)/', include('communities.urls')),
 
     url(r'^(?P<community_id>\d+)/', include('communities.urls')),
-    url(r'^(?P<community_id>\d+)/', include('issues.urls')),
+    url(r'^(?P<community_id>\d+)/issues/', include('issues.urls')),
     url(r'^(?P<community_id>\d+)/history/', include('meetings.urls')),
 
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

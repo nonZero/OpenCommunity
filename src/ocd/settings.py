@@ -133,6 +133,8 @@ INSTALLED_APPS = (
     'issues',
     'meetings',
     'crispy_forms',
+    'django.contrib.humanize',
+
 )
 
 # A sample logging configuration. The only tangible logging

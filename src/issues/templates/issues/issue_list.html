@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load humanize %}
 
 {% block breadcrumb %}
   <li><a href="../../..">{% trans "Communities" %}</a> <span class="divider">/</span></li>
@@ -23,6 +24,9 @@
                             </span>
                             {% endif %}
                             {{ object.title }}
+                            <span class="label">
+                            {{ object.created_at|naturaltime}}
+                            </span>
                         </a>
                     </li>
                 {% endfor %}

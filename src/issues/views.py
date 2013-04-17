@@ -68,5 +68,21 @@ class ProposalCreateView(IssueMixin, CreateView):
         return super(ProposalCreateView, self).form_valid(form)
 
 
-# class CommunityDetailView(RedirectView):
-#    model = models.Community
+class ProposalDetailView(IssueMixin, DetailView):
+
+    model = models.Proposal
+
+    @property
+    def issue(self):
+        return get_object_or_404(models.Issue, community=self.community,
+                                 pk=self.kwargs['issue_id'])
+
+    def get_queryset(self):
+        return models.Proposal.objects.filter(issue=self.issue)
+
+    def get_context_data(self, **kwargs):
+        context = super(ProposalDetailView, self).get_context_data(**kwargs)
+
+        context['issue'] = self.issue
+
+        return context
