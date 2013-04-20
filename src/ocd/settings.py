@@ -1,26 +1,28 @@
 import os.path
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
-PROJECT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-DB_PATH = os.path.abspath(os.path.join(PROJECT_PATH, "db", "ocd.db"))
+PROJECT_DIR = os.path.abspath(
+                      os.path.join(os.path.dirname(__file__), '..', '..'))
+
+ABSDIR = lambda path: os.path.abspath(os.path.join(PROJECT_DIR, path))
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Udi Oron', 'udioron@gmail.com'),
 )
 
 MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': DB_PATH,                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+        # engines: '.postgresql_psycopg2', '.mysql', '.sqlite3' or '.oracle'.
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', 
+        'NAME': 'opencommunity',
+        'USER': 'opencommunity',
+        'PASSWORD': 'opencommunity',
+        'HOST': '',
+        'PORT': '',
     }
 }
 
@@ -32,7 +34,7 @@ ALLOWED_HOSTS = []
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'Asia/Jerusalem'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -64,7 +66,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = ABSDIR('static')
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -155,13 +157,21 @@ LOGGING = {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
-        }
-    },
+        },
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+     },
     'loggers': {
         'django.request': {
-            'handlers': ['mail_admins'],
+            'handlers': ['mail_admins', 'console'],
             'level': 'ERROR',
             'propagate': True,
         },
     }
 }
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
