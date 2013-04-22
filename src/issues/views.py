@@ -2,16 +2,16 @@ from communities.models import Community
 from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
-from django.views.generic.base import View
-from django.views.generic.detail import DetailView, SingleObjectMixin
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from issues import models
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm
+from ocd.views import ProtectedMixin
 import datetime
 import json
 
 
-class CommunityMixin(object):
+class CommunityMixin(ProtectedMixin):
 
     @property
     def community(self):

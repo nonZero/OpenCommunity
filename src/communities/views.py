@@ -10,6 +10,7 @@ from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import UpdateView
 import datetime
 import json
+from ocd.views import ProtectedMixin
 
 
 class CommunityList(ListView):
@@ -25,7 +26,7 @@ class CommunityDetailView(RedirectView):
         return reverse('issues', args=(str(self.community.id),))
 
 
-class UpcomingMeetingView(DetailView):
+class UpcomingMeetingView(ProtectedMixin, DetailView):
     model = models.Community
     template_name = "communities/upcoming.html"
 
@@ -48,7 +49,7 @@ class UpcomingMeetingView(DetailView):
                             content_type='application/json')
 
 
-class PublishMeetingView(SingleObjectMixin, View):
+class PublishMeetingView(ProtectedMixin, SingleObjectMixin, View):
     model = models.Community
 
     def post(self, request, *args, **kwargs):
@@ -64,7 +65,7 @@ class PublishMeetingView(SingleObjectMixin, View):
         return redirect(c.get_upcoming_absolute_url())
 
 
-class EditUpcomingMeetingView(UpdateView):
+class EditUpcomingMeetingView(ProtectedMixin, UpdateView):
     model = models.Community
     form_class = EditUpcomingMeetingForm
     template_name = "communities/upcoming_form.html"
