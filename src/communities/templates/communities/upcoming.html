@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block breadcrumb %}
+<li>
+	<a href="../..">{% trans "Communities" %}</a><span class="divider">/</span>
+</li>
+<li>
+	<a href="..">{{community.name}}</a><span class="divider">/</span>
+</li>
+<li>
+	{% trans "Upcoming Meeting" %}</a>
+</li>
+{% endblock %}
+
+{% block content %}
+
+    {% include "_community_bar.html" with pill="upcoming" %}
+    
+    <div class="row">
+    
+    	<div class="span6">
+    
+            <div class="well">
+
+            <a href="edit/" class="btn pull-right">
+                {% trans "Edit" %}
+            </a>
+                <ul class="unstyled">
+                    <li>        
+                		<b>{% trans "Scheduled at" %}:</b>
+                        {{object.upcoming_meeting_scheduled_at|default:_("Not set yet")}}
+                    </li>
+                    <li>
+                        <b>{% trans "Location" %}:</b>
+                        {{object.upcoming_meeting_location|default:_("Not set yet")}}
+                    </li>
+                </ul>
+
+                {% if object.upcoming_meeting_comments %}
+                    <hr/>
+                    <p>
+                        {{object.upcoming_meeting_comments|linebreaksbr}}
+                    </p>
+                {% endif %}
+    
+    		</div>
+    
+            <form method="post" action="publish/" class="pull-right" style="padding:5px">
+                {% csrf_token %}
+                <button>{% trans "Publish" %}</button>
+            </form>
+    
+            {% if object.upcoming_meeting_is_published %}
+                <p class="alert alert-success">
+                    {% trans "Published at" %} {{object.upcoming_meeting_published_at}}
+                    ({% trans "Version" %} {{object.upcoming_meeting_version}})
+                </p>
+            {% else %}
+                <p class="alert alert-warn">
+                    {% trans "Draft" %}
+                </p>
+            {% endif %}
+    
+    	</div>
+    
+    	<div class="span6">
+    
+    		<h3>{% trans "Issues" %}</h3>
+    		<ul id="upcoming" class="issues unstyled  well">
+        			{% for i in object.upcoming_issues %}
+        
+        			<li data-issue="{{i.id}}">
+                        <i class="icon-th-list"></i>
+        			    <a href="{{i.get_absolute_url}}">
+                            {{i.title}}
+            			</a>
+        			</li>
+        
+        			{% endfor %}
+    		</ul>
+    		
+    		<hr/>
+    		
+            <ul id="available" class="issues unstyled well">
+
+                    {% for i in object.available_issues %}
+
+                    <li data-issue="{{i.id}}" data-set="{{i.in_upcoming_meeting|yesno:'1,0'}}">
+                        <i class="grab icon-th-list"></i>
+                        <a href="{{i.get_absolute_url}}">
+                            {{i.title}}
+                        </a>
+                    </li>
+
+                    {% endfor %}
+            </ul>
+    		
+    	</div>
+    
+    </div>
+{% endblock %}
+
+{% block extrahead %}
+    <link href="{{ STATIC_URL }}jquery-ui/css/ui-lightness/jquery-ui-1.10.2.custom.css" rel="stylesheet">
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{STATIC_URL}}jquery-ui/js/jquery-ui-1.10.2.custom.js"></script>
+    <script src="{{STATIC_URL}}js/meeting.js"></script>
+{% endblock %}

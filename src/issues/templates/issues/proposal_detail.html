@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load humanize %}
+
+{% block breadcrumb %}
+<li>
+	<a href="../../../..">{% trans "Communities" %}</a><span class="divider">/</span>
+</li>
+<li>
+	<a href="../../..">{{community.name}}</a><span class="divider">/</span>
+</li>
+<li>
+	<a href="../../">{% trans "Issues" %}</a><span class="divider">/</span>
+</li>
+<li>
+	<a href="../">{{object.issue.title}}</a><span class="divider">/</span>
+</li>
+<li class="active">
+	{{object.title}}
+</li>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+
+	<div class="span6">
+
+        <a class="btn pull-right" href="{{object.get_edit_url}}">{% trans "Edit" %}</a>
+
+		<h2>{{object.title}}</h2>
+
+		<p class="lead">
+		    
+		    {{ object.created_by}},
+		    
+		    {{ object.get_type_display}},
+		    
+		    <span title="{{ object.created_at|naturaltime}}">{{ object.created_at}}</span>
+			{{object.abstract|linebreaksbr}}
+		</p>
+
+		{% if object.content %}
+		<h3>{% trans "Content" %}</h3>
+		<p>
+			{{object.content|linebreaksbr}}
+		</p>
+		{% endif %}
+
+	</div>
+
+</div>
+{% endblock %}

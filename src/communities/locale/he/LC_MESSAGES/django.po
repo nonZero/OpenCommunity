@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-16 22:23+0300\n"
+"POT-Creation-Date: 2013-04-17 13:41+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\models.py:7 .\models.py:39
+#: .\forms.py:22
+msgid "Submit"
+msgstr ""
+
+#: .\models.py:7 .\models.py:70
 msgid "Community"
 msgstr "קהילה"
 
@@ -45,14 +49,93 @@ msgstr "חבר קהילה"
 msgid "Community Members"
 msgstr "חברי קהילה"
 
-#: .\models.py:34
+#: .\models.py:35
 msgid "Name"
 msgstr "שם"
 
-#: .\models.py:35
+#: .\models.py:37
 msgid "Members"
 msgstr "חברים"
 
-#: .\models.py:40 .\templates\communities\community_list.html.py:5
+#: .\models.py:42
+msgid "Upcoming meeting scheduled at"
+msgstr "מועד הפגישה הקרובה"
+
+#: .\models.py:45
+msgid "Upcoming meeting location"
+msgstr "מיקום הפגישה הקרובה"
+
+#: .\models.py:49
+msgid "Upcoming meeting comments"
+msgstr "הערות לפגישה הקרובה"
+
+#: .\models.py:57
+msgid "Participants in upcoming meeting"
+msgstr "משתתפים בפגישה הקרובה"
+
+#: .\models.py:60
+msgid "Upcoming meeting version"
+msgstr "מספר גרסת נתוני הפגישה הקרובה"
+
+#: .\models.py:63
+msgid "Upcoming meeting is published"
+msgstr "האם הפגישה הקרובה פורסמה?"
+
+#: .\models.py:66
+msgid "Upcoming meeting published at"
+msgstr "מועד פרסום הפגישה הקרובה"
+
+#: .\models.py:71 .\templates\communities\community_list.html.py:5
+#: .\templates\communities\upcoming.html.py:6
+#: .\templates\communities\upcoming_form.html.py:6
 msgid "Communities"
 msgstr "קהילות"
+
+#: .\templates\_community_bar.html.py:5
+#: .\templates\communities\upcoming.html.py:76
+msgid "Issues"
+msgstr "נושאים"
+
+#: .\templates\_community_bar.html.py:8
+#: .\templates\communities\upcoming.html.py:12
+#: .\templates\communities\upcoming_form.html.py:8
+msgid "Upcoming Meeting"
+msgstr "הפגישה הקרובה"
+
+#: .\templates\_community_bar.html.py:11
+msgid "History"
+msgstr ""
+
+#: .\templates\communities\upcoming.html.py:27
+#: .\templates\communities\upcoming_form.html.py:9
+msgid "Edit"
+msgstr "עריכה"
+
+#: .\templates\communities\upcoming.html.py:32
+msgid "Scheduled at"
+msgstr "מועד"
+
+#: .\templates\communities\upcoming.html.py:35
+#: .\templates\communities\upcoming.html.py:41
+msgid "Not set yet"
+msgstr "טרם נקבע"
+
+#: .\templates\communities\upcoming.html.py:38
+msgid "Location"
+msgstr "מיקום"
+
+#: .\templates\communities\upcoming.html.py:54
+msgid "Publish"
+msgstr "פרסם"
+
+#: .\templates\communities\upcoming.html.py:59
+msgid "Published at"
+msgstr "פורסם ב -"
+
+#: .\templates\communities\upcoming.html.py:60
+msgid "Version"
+msgstr "גרסא"
+
+#: .\templates\communities\upcoming.html.py:64
+msgid "Draft"
+msgstr "טיוטה"

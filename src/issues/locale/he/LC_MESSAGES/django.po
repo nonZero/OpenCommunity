@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-16 22:24+0300\n"
+"POT-Creation-Date: 2013-04-17 13:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: .\forms.py:21 .\forms.py:39
 msgid "Submit"
-msgstr "שלח"
+msgstr ""
 
 #: .\models.py:8 .\models.py:76
 msgid "Active"
@@ -53,7 +53,7 @@ msgstr "פירוט"
 msgid "Calculated Score"
 msgstr "ניקוד מצטבר"
 
-#: .\models.py:19
+#: .\models.py:19 .\templates\issues\issue_list.html.py:22
 msgid "In upcoming meeting"
 msgstr "בפגישה הקרובה"
 
@@ -168,4 +168,4 @@ msgstr "הצעת החלטה חדשה"
 
 #: .\templates\issues\issue_form.html.py:9
 msgid "Create Issue"
-msgstr "צור נושא לדיון"
+msgstr "נושא חדש"

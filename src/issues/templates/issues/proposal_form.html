@@ -3,11 +3,24 @@
 {% load crispy_forms_tags %}
 
 {% block breadcrumb %}
-  <li><a href="../../..">{% trans "Communities" %}</a> <span class="divider">/</span></li>
-  <li><a href="../..">{{community.name}}</a> <span class="divider">/</span></li>
-  <li><a href="../">Issues</a> <span class="divider">/</span></li>
-  <li><a href="../">{{issue.title}}</a> <span class="divider">/</span></li>
-  <li class="active">{% trans "New Proposal" %}</li>
+<li>
+    <a href="../../../../..">{% trans "Communities" %}</a><span class="divider">/</span>
+</li>
+<li>
+    <a href="../../../..">{{community.name}}</a><span class="divider">/</span>
+</li>
+<li>
+    <a href="../../../">{% trans "Issues" %}</a><span class="divider">/</span>
+</li>
+<li>
+    <a href="../../">{{object.issue.title}}</a><span class="divider">/</span>
+</li>
+<li>
+    <a href="../">{{object.title}}</a><span class="divider">/</span>
+</li>
+<li class="active">
+    {% trans "Edit" %}
+</li>
 {% endblock %}
 
 {% block content %}
