@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-10 00:27+0300\n"
+"POT-Creation-Date: 2013-04-16 22:27+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\models.py:10 .\models.py:44 .\models.py:52
+#: .\forms.py:21
+msgid "Submit"
+msgstr "שלח"
+
+#: .\models.py:10 .\models.py:47 .\models.py:59
 msgid "Meeting"
 msgstr "פגישה"
 
@@ -29,74 +33,112 @@ msgstr "נושא"
 msgid "Order"
 msgstr "סדר"
 
-#: .\models.py:13
-msgid "Resolved"
-msgstr "נסגר"
-
-#: .\models.py:20
+#: .\models.py:19
 msgid "Agenda Item"
 msgstr "פריט על סדר היום"
 
-#: .\models.py:21
+#: .\models.py:20
 msgid "Agenda Items"
 msgstr "פריטים על סדר היום"
 
-#: .\models.py:25
+#: .\models.py:24
 msgid "Community"
 msgstr "קהילה"
 
-#: .\models.py:26
+#: .\models.py:25
 msgid "Created at"
 msgstr "נוצר ב"
 
-#: .\models.py:27
+#: .\models.py:26
 msgid "Created by"
 msgstr "נוצר על ידי"
 
-#: .\models.py:29
+#: .\models.py:28
 msgid "Scheduled at"
 msgstr "מועד"
 
-#: .\models.py:30
+#: .\models.py:29
 msgid "Location"
 msgstr "מקום"
 
-#: .\models.py:31
+#: .\models.py:30
 msgid "Comments"
 msgstr "הערות"
 
-#: .\models.py:33
+#: .\models.py:32
 msgid "Agenda items"
 msgstr "סדר יום"
 
-#: .\models.py:36
+#: .\models.py:35
 msgid "Participants"
 msgstr "משתתפים"
 
+#: .\models.py:37
+msgid "Is published"
+msgstr "האם פורסם"
+
 #: .\models.py:38
+msgid "Published at"
+msgstr "פורסם בתאריך"
+
+#: .\models.py:39
+msgid "Version"
+msgstr "גירסה"
+
+#: .\models.py:41
 msgid "Is closed"
 msgstr "נסגר"
 
-#: .\models.py:39
+#: .\models.py:42
 msgid "Closed at"
 msgstr "נסגר ב"
 
-#: .\models.py:41
+#: .\models.py:44
 msgid "Closed by"
 msgstr "נסגר על ידי"
 
-#: .\models.py:45
+#: .\models.py:48 .\templates\meetings\meeting_detail.html.py:12
+#: .\templates\meetings\meeting_list.html.py:8
 msgid "Meetings"
 msgstr "פגישות"
 
-#: .\models.py:53
+#: .\models.py:60
 msgid "Name"
 msgstr "שם"
 
-#: .\models.py:56
+#: .\models.py:63
 msgid "Meeting External Participant"
 msgstr "משתתף חיצוני"
 
-#: .\models.py:57
+#: .\models.py:64
 msgid "Meeting External Participants"
 msgstr "משתתפים חיצוניים"
+
+#: .\templates\meetings\meeting_detail.html.py:6
+#: .\templates\meetings\meeting_form.html.py:6
+#: .\templates\meetings\meeting_list.html.py:5
+msgid "Communities"
+msgstr "קהילות"
+
+#: .\templates\meetings\meeting_detail.html.py:45
+msgid "Issues"
+msgstr "נושאים לדיון"
+
+#: .\templates\meetings\meeting_detail.html.py:48
+msgid "Agenda published at"
+msgstr "סדר יום פורסם בתאריך"
+
+#: .\templates\meetings\meeting_detail.html.py:52
+msgid "Agenda is not final"
+msgstr "סדר יום לא סופי"
+
+#: .\templates\meetings\meeting_detail.html.py:73
+msgid "Publish"
+msgstr "פרסם"
+
+#: .\templates\meetings\meeting_form.html.py:9
+msgid "Create Issue"
+msgstr "צור נושא לדיון"
+
+#~ msgid "Resolved"
+#~ msgstr "נסגר"

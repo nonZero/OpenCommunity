@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-09 23:05+0300\n"
+"POT-Creation-Date: 2013-04-16 22:30+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,6 +33,18 @@ msgstr "יציאה"
 msgid "Login"
 msgstr "כניסה"
 
-#: .\templates\base.html.py:37
+#: .\templates\_navbar.html.py:37
+msgid "Issues"
+msgstr "נושאים לדיון"
+
+#: .\templates\_navbar.html.py:41
+msgid "Create Issue"
+msgstr "צור נושא לדיון"
+
+#: .\templates\_navbar.html.py:42
+msgid "Create Meeting"
+msgstr "צור פגישה"
+
+#: .\templates\base.html.py:39
 msgid ":-)"
 msgstr ""
