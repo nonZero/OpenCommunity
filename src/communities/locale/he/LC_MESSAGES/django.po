@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-17 13:41+0300\n"
+"POT-Creation-Date: 2013-04-29 19:20+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,8 +18,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: .\forms.py:22
-msgid "Submit"
-msgstr ""
+msgid "Save"
+msgstr "שמירה"
 
 #: .\models.py:7 .\models.py:70
 msgid "Community"
@@ -92,7 +92,7 @@ msgid "Communities"
 msgstr "קהילות"
 
 #: .\templates\_community_bar.html.py:5
-#: .\templates\communities\upcoming.html.py:76
+#: .\templates\communities\upcoming.html.py:72
 msgid "Issues"
 msgstr "נושאים"
 
@@ -104,38 +104,46 @@ msgstr "הפגישה הקרובה"
 
 #: .\templates\_community_bar.html.py:11
 msgid "History"
-msgstr ""
+msgstr "היסטוריה"
 
-#: .\templates\communities\upcoming.html.py:27
+#: .\templates\communities\upcoming.html.py:24
+msgid "Meeting Details"
+msgstr "פרטי הפגישה"
+
+#: .\templates\communities\upcoming.html.py:28
+msgid "Publish"
+msgstr "פרסם"
+
+#: .\templates\communities\upcoming.html.py:33
+msgid "Published at"
+msgstr "פורסם ב -"
+
+#: .\templates\communities\upcoming.html.py:34
+msgid "Version"
+msgstr "גרסא"
+
+#: .\templates\communities\upcoming.html.py:38
+msgid "Draft"
+msgstr "טיוטה"
+
+#: .\templates\communities\upcoming.html.py:45
 #: .\templates\communities\upcoming_form.html.py:9
 msgid "Edit"
 msgstr "עריכה"
 
-#: .\templates\communities\upcoming.html.py:32
+#: .\templates\communities\upcoming.html.py:49
 msgid "Scheduled at"
 msgstr "מועד"
 
-#: .\templates\communities\upcoming.html.py:35
-#: .\templates\communities\upcoming.html.py:41
+#: .\templates\communities\upcoming.html.py:50
+#: .\templates\communities\upcoming.html.py:54
 msgid "Not set yet"
 msgstr "טרם נקבע"
 
-#: .\templates\communities\upcoming.html.py:38
+#: .\templates\communities\upcoming.html.py:53
 msgid "Location"
 msgstr "מיקום"
 
-#: .\templates\communities\upcoming.html.py:54
-msgid "Publish"
-msgstr "פרסם"
-
-#: .\templates\communities\upcoming.html.py:59
-msgid "Published at"
-msgstr "פורסם ב -"
-
-#: .\templates\communities\upcoming.html.py:60
-msgid "Version"
-msgstr "גרסא"
-
-#: .\templates\communities\upcoming.html.py:64
-msgid "Draft"
-msgstr "טיוטה"
+#: .\templates\communities\upcoming.html.py:118
+msgid "Close Meeting"
+msgstr "סגור פגישה"

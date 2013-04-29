@@ -25,9 +25,12 @@ class Meeting(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="meetings_created", verbose_name=_("Created by"))
 
-    scheduled_at = models.DateTimeField(verbose_name=_("Scheduled at"))
-    location = models.CharField(max_length=300, null=True, blank=True, verbose_name=_("Location"))
-    comments = models.TextField(null=True, blank=True, verbose_name=_("Comments"))
+    held_at = models.DateTimeField(_("Held at"))
+
+    scheduled_at = models.DateTimeField(_("Scheduled at"),
+                                        null=True, blank=True)
+    location = models.CharField(_("Location"), max_length=300, null=True, blank=True)
+    comments = models.TextField(_("Comments"), null=True, blank=True)
 
     agenda_items = models.ManyToManyField(Issue, through=AgendaItem, blank=True, verbose_name=_("Agenda items"))
 

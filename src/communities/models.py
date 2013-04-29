@@ -87,3 +87,10 @@ class Community(models.Model):
 
     def available_issues(self):
         return self.upcoming_issues(False)
+
+    def issues_ready_to_close(self):
+        return self.upcoming_issues().filter(
+                                         proposals__is_accepted=True
+                                     ).annotate(
+                                        num_proposals=models.Count('proposals')
+                                     )

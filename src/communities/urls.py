@@ -1,5 +1,5 @@
-from django.conf.urls import patterns, url
 from communities import views
+from django.conf.urls import patterns, url
 
 urlpatterns = patterns('',
 

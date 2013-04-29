@@ -19,6 +19,6 @@ class EditUpcomingMeetingForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
 
-        self.helper.add_input(Submit('submit', _('Submit')))
+        self.helper.add_input(Submit('submit', _('Save')))
 
         super(EditUpcomingMeetingForm, self).__init__(*args, **kwargs)

@@ -1,16 +1,20 @@
 from communities import models
 from communities.forms import EditUpcomingMeetingForm
 from django.conf import settings
+from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.db import transaction
 from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView
 from django.views.generic.base import RedirectView, View
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import UpdateView
+from meetings.models import Meeting, AgendaItem
+from ocd.views import ProtectedMixin
 import datetime
 import json
-from ocd.views import ProtectedMixin
+from django.utils.translation import ugettext_lazy as _
 
 
 class CommunityList(ListView):
@@ -20,7 +24,7 @@ class CommunityList(ListView):
 class CommunityDetailView(RedirectView):
     def get_redirect_url(self, **kwargs):
 
-        self.community = get_object_or_404(models.Community, 
+        self.community = get_object_or_404(models.Community,
                                            pk=self.kwargs['pk'])
 
         return reverse('issues', args=(str(self.community.id),))

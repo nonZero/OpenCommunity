@@ -2,8 +2,12 @@
 {% load i18n %}
 
 {% block breadcrumb %}
-  <li><a href="../../..">{% trans "Communities" %}</a> <span class="divider">/</span></li>
-  <li><a href="../..">{{community.name}}</a> <span class="divider">/</span></li>
+<li>
+    <a href="../../..">{% trans "Communities" %}</a><span class="divider">/</span>
+</li>
+<li>
+    <a href="../..">{{community.name}}</a><span class="divider">/</span>
+</li>
 <li>
     {% trans "Meetings" %}
 </li>
@@ -11,27 +15,29 @@
 
 {% block content %}
 
-    {% include "_community_bar.html" with pill="history" %}
+{% include "_community_bar.html" with pill="history" %}
 
-    <div class="row">
-        <div class="span4">
-            <ul class="nav nav-tabs nav-stacked issues-list">
-                {% for object in object_list %}
-                    <li>
-                        <a href="{{ object.get_absolute_url }}">{{ object.scheduled_at }}, {{ object.location }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
+<div class="row">
+    <div class="span4">
+        <ul class="nav nav-tabs nav-stacked issues-list">
+            {% for object in object_list %}
+                <li>
+                    <a href="{{ object.get_absolute_url }}">
+                        {{ object.held_at }}
+                        {% if object.location %}
+                            , {{ object.location }}
+                        {% endif %} 
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
-
+</div>
 
 {% endblock %}
 
 {% block scripts %}
 
-    <script>
-
-    </script>
+<script></script>
 
 {% endblock %}

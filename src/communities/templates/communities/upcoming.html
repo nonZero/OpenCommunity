@@ -21,6 +21,24 @@
     
     	<div class="span6">
     
+            <h3>{% trans "Meeting Details" %}</h3>
+
+            <form method="post" action="publish/" class="pull-right" style="padding:5px">
+                {% csrf_token %}
+                <button>{% trans "Publish" %}</button>
+            </form>
+    
+            {% if object.upcoming_meeting_is_published %}
+                <p class="alert alert-success">
+                    {% trans "Published at" %} {{object.upcoming_meeting_published_at}}
+                    ({% trans "Version" %} {{object.upcoming_meeting_version}})
+                </p>
+            {% else %}
+                <p class="alert alert-warn">
+                    {% trans "Draft" %}
+                </p>
+            {% endif %}
+
             <div class="well">
 
             <a href="edit/" class="btn pull-right">
@@ -46,27 +64,13 @@
     
     		</div>
     
-            <form method="post" action="publish/" class="pull-right" style="padding:5px">
-                {% csrf_token %}
-                <button>{% trans "Publish" %}</button>
-            </form>
-    
-            {% if object.upcoming_meeting_is_published %}
-                <p class="alert alert-success">
-                    {% trans "Published at" %} {{object.upcoming_meeting_published_at}}
-                    ({% trans "Version" %} {{object.upcoming_meeting_version}})
-                </p>
-            {% else %}
-                <p class="alert alert-warn">
-                    {% trans "Draft" %}
-                </p>
-            {% endif %}
     
     	</div>
     
     	<div class="span6">
     
     		<h3>{% trans "Issues" %}</h3>
+    		
     		<ul id="upcoming" class="issues unstyled  well">
         			{% for i in object.upcoming_issues %}
         
@@ -75,6 +79,13 @@
         			    <a href="{{i.get_absolute_url}}">
                             {{i.title}}
             			</a>
+                        {% with proposals=i.accepted_proposals.count %}
+                            {% if proposals %}
+                                <span class="badge badge-success">
+                                    {{ proposals}}
+                                </span>
+                            {% endif %}
+                        {% endwith %}
         			</li>
         
         			{% endfor %}
@@ -91,13 +102,26 @@
                         <a href="{{i.get_absolute_url}}">
                             {{i.title}}
                         </a>
+                        {% with proposals=i.accepted_proposals.count %}
+                            {% if proposals %}
+                                <span class="badge badge-success">
+                                    {{ proposals}}
+                                </span>
+                            {% endif %}
+                        {% endwith %}
                     </li>
 
                     {% endfor %}
             </ul>
-    		
-    	</div>
-    
+            
+            <a href="{% url "upcoming_close" community.id %}" class="btn">
+                {% trans "Close Meeting" %}
+            </a>
+                
+
+
+        </div>
+
     </div>
 {% endblock %}
 

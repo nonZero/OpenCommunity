@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from meetings.views import MeetingCreateView
 import communities.views
 
 admin.autodiscover()
@@ -10,7 +11,10 @@ urlpatterns = patterns('',
 
     url(r'^(?P<pk>\d+)/', include('communities.urls')),
 
-    url(r'^(?P<community_id>\d+)/', include('communities.urls')),
+    url(r'^(?P<community_id>\d+)/upcoming/close/$',
+            MeetingCreateView.as_view(),
+            name="upcoming_close"),
+
     url(r'^(?P<community_id>\d+)/issues/', include('issues.urls')),
     url(r'^(?P<community_id>\d+)/history/', include('meetings.urls')),
 

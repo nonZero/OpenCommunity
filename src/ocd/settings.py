@@ -104,6 +104,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -127,15 +128,17 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    'django.contrib.admindocs',
+    'django.contrib.humanize',
+
+    'crispy_forms',
+    'south',
+    'debug_toolbar',
+
     'communities',
     'issues',
     'meetings',
-    'crispy_forms',
-    'django.contrib.humanize',
 
 )
 
@@ -174,6 +177,9 @@ LOGGING = {
 LOGIN_REDIRECT_URL = "/"
 LOGIN_URL = "/login/"
 LOGOUT_URL = "/logout/"
+
+DATETIME_FORMAT = "N j, Y"
+
 try:
     from local_settings import *
 except ImportError:
