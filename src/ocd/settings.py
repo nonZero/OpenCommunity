@@ -178,7 +178,7 @@ LOGIN_REDIRECT_URL = "/"
 LOGIN_URL = "/login/"
 LOGOUT_URL = "/logout/"
 
-DATETIME_FORMAT = "N j, Y"
+FORMAT_MODULE_PATH = "ocd.formats"
 
 try:
     from local_settings import *
