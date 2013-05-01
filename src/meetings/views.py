@@ -59,8 +59,7 @@ class MeetingCreateView(MeetingMixin, CreateView):
 
         with transaction.commit_on_success():
             c = self.community
-            issues = c.issues.filter(is_closed=False, active=True,
-                                      in_upcoming_meeting=True)
+            issues = c.issues_ready_to_close().filter(is_closed=False)
             if len(issues) == 0:
                 messages.warning(self.request,
                                  _("Cannot close a meeting with no issues"))
