@@ -40,6 +40,7 @@ class Meeting(models.Model):
     class Meta:
         verbose_name = _("Meeting")
         verbose_name_plural = _("Meetings")
+        ordering = ("-held_at", )
 
     def __unicode__(self):
         return date_format(self.scheduled_at) + ", " + time_format(self.scheduled_at)
