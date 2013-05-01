@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.db import transaction
 from django.shortcuts import redirect
+from django.utils import timezone
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, ModelFormMixin
 from django.views.generic.list import ListView
@@ -46,6 +47,14 @@ class MeetingCreateView(MeetingMixin, CreateView):
     template_name = "meetings/meeting_close.html"
     form_class = CloseMeetingForm
 
+    def get_initial(self):
+        d = super(MeetingCreateView, self).get_initial()
+        dt = self.community.upcoming_meeting_scheduled_at
+        if not dt or dt > timezone.now():
+            dt = timezone.now()
+        d["held_at"] = dt
+        return d
+
     def form_valid(self, form):
 
         with transaction.commit_on_success():
@@ -66,6 +75,14 @@ class MeetingCreateView(MeetingMixin, CreateView):
             m.comments = c.upcoming_meeting_comments
 
             m.save()
+
+            c.upcoming_meeting_scheduled_at = None
+            c.upcoming_meeting_location = None
+            c.upcoming_meeting_comments = None
+            c.upcoming_meeting_version = 0
+            c.upcoming_meeting_is_published = False
+            c.upcoming_meeting_published_at = None
+            c.save()
 
             for i, issue in enumerate(issues):
 
