@@ -8,6 +8,14 @@
   <li class="active">{% trans "Issues" %}</li>
 {% endblock %}
 
+{% block navbar_page_buttons %}
+    <div class="pull-left">
+        <a href="{% url "issue_create" community.id %}" class="btn btn-navbar pull-left">
+            <i class="icon-plus icon-white"></i>
+        </a>
+    </div>
+{% endblock %}
+
 {% block content %}
 
     {% include "_community_bar.html" with pill="issues" %}
