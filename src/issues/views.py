@@ -34,7 +34,9 @@ class IssueMixin(CommunityMixin):
 
 
 class IssueList(IssueMixin, ListView):
-    pass
+
+    def get_queryset(self):
+        return super(IssueList, self).get_queryset().filter(is_closed=False)
 
 
 class IssueDetailView(IssueMixin, DetailView):

@@ -24,3 +24,12 @@
     content:".....";
 }
 
+
+.ongoing .proposals li {
+    text-decoration: line-through;
+}
+
+.ongoing .proposals li.accepted {
+    text-decoration: none;
+    font-weight: bold;
+}

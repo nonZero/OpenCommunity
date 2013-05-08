@@ -136,6 +136,7 @@ INSTALLED_APPS = (
     'south',
     'debug_toolbar',
 
+    'oc_util',
     'communities',
     'issues',
     'meetings',

@@ -76,3 +76,12 @@ class EditUpcomingMeetingView(ProtectedMixin, UpdateView):
 
     def get_success_url(self):
         return self.get_object().get_upcoming_absolute_url()
+
+
+class OngoingMeetingView(ProtectedMixin, DetailView):
+    model = models.Community
+    template_name = "communities/ongoing.html"
+
+    def get_issues_queryset(self, **kwargs):
+        return self.get_object().issues.filter(is_closed=False, **kwargs)
+
