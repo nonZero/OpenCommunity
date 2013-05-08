@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-29 19:12+0300\n"
+"POT-Creation-Date: 2013-05-08 10:24+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,7 +45,7 @@ msgstr "כותרת"
 msgid "Abstract"
 msgstr "תקציר"
 
-#: .\models.py:15 .\models.py:89 .\templates\issues\issue_detail.html.py:40
+#: .\models.py:15 .\models.py:89 .\templates\issues\issue_detail.html.py:47
 #: .\templates\issues\proposal_detail.html.py:44
 msgid "Content"
 msgstr "פירוט"
@@ -115,11 +115,11 @@ msgstr "משימה"
 
 #: .\models.py:76
 msgid "Rule"
-msgstr "חוק"
+msgstr "נוהל"
 
 #: .\models.py:77
-msgid "Administrative"
-msgstr "מנהלתי"
+msgid "Other"
+msgstr "אחר"
 
 #: .\models.py:84
 msgid "Create at"
@@ -157,7 +157,7 @@ msgstr "יעד"
 msgid "Votes"
 msgstr "הצבעות"
 
-#: .\models.py:108 .\templates\issues\issue_detail.html.py:50
+#: .\models.py:108 .\templates\issues\issue_detail.html.py:57
 msgid "Proposals"
 msgstr "הצעות החלטה"
 
@@ -174,15 +174,20 @@ msgstr "קהילות"
 msgid "Edit"
 msgstr ""
 
-#: .\templates\issues\issue_detail.html.py:87
+#: .\templates\issues\issue_detail.html.py:32
+#: .\templates\issues\issue_list.html.py:26
+msgid "Closed"
+msgstr "סגור"
+
+#: .\templates\issues\issue_detail.html.py:94
 msgid "Accept"
 msgstr "סמן כהחלטה שהתקבלה"
 
-#: .\templates\issues\issue_detail.html.py:88
+#: .\templates\issues\issue_detail.html.py:95
 msgid "Cancel"
 msgstr "בטל קבלת ההחלטה"
 
-#: .\templates\issues\issue_detail.html.py:100
+#: .\templates\issues\issue_detail.html.py:107
 #: .\templates\issues\proposal_form.html.py:19
 msgid "New Proposal"
 msgstr "הצעת החלטה חדשה"
@@ -191,6 +196,5 @@ msgstr "הצעת החלטה חדשה"
 msgid "Create Issue"
 msgstr "נושא חדש"
 
-#: .\templates\issues\issue_list.html.py:23
-msgid "Closed"
-msgstr "סגור"
+#~ msgid "Administrative"
+#~ msgstr "מנהלתי"
