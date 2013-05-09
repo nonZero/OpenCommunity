@@ -18,7 +18,7 @@ class CreateIssueForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
 
-        self.helper.add_input(Submit('submit', _('Submit')))
+        self.helper.add_input(Submit('submit', _('Create')))
 
         super(CreateIssueForm, self).__init__(*args, **kwargs)
 
@@ -38,7 +38,7 @@ class CreateProposalForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
 
-        self.helper.add_input(Submit('submit', _('Submit')))
+        self.helper.add_input(Submit('submit', _('Create')))
 
         super(CreateProposalForm, self).__init__(*args, **kwargs)
 

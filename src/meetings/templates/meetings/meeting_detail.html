@@ -1,82 +1,77 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load humanize %}
+
 
 {% block breadcrumb %}
-<li>
-	<a href="../../..">{% trans "Communities" %}</a><span class="divider">/</span>
-</li>
-<li>
-	<a href="../..">{{community.name}}</a><span class="divider">/</span>
-</li>
-<li>
-	<a href="../">{% trans "Meetings" %}</a><span class="divider">/</span>
-</li>
-<li class="active">
-	{{object.scheduled_at}}
-</li>
+    <li>
+        <a href="../../..">{% trans "Communities" %}</a><span class="divider">/</span>
+    </li>
+    <li>
+        <a href="../..">{{community.name}}</a><span class="divider">/</span>
+    </li>
+    <li>
+        <a href="../">{% trans "Meetings" %}</a><span class="divider">/</span>
+    </li>
+    <li class="active">
+        {{object.held_at}}
+    </li>
 {% endblock %}
 
 {% block content %}
 
 <div class="row">
 
-	<div class="span6">
+    <div class="span6">
 
-		<h2>{{object.scheduled_at}}</h2>
+        <h2>{{object.held_at|date:"DATETIME_FORMAT"}}</h2>
 
-		<p class="lead">
-			{{object.location}}
-		</p>
-
-
-		{% if object.comments %}
-		<p>
-			{{object.comments|linebreaksbr}}
-		</p>
-		{% endif %}
-
-	</div>
-
-	<div class="span6">
-       <style scoped>
-            .issues li[data-set="0"] i {visibility:hidden}
-       </style>
-
-		<h3>{% trans "Issues" %}</h3>
-        {% if object.is_published %}
-            <p class="alert alert-success">
-                {% trans "Agenda published at" %} {{object.published_at}}
-            </p>
-        {% else %}
-            <p class="alert alert-warn">
-                {% trans "Agenda is not final" %}
+        {% if object.location %}
+            <p class="lead">
+                {{object.location}}
             </p>
         {% endif %}
-		<ul class="issues unstyled">
-		        
 
-    			{% for i in issues %}
-    
-    			<li data-issue="{{i.id}}" data-set="{{i.in_upcoming_meeting|yesno:'1,0'}}">
-    			    <a href="#">
-    			        
-        				<i class="icon-ok"></i>
-                        {{i.title}}
-        			</a>
-    			</li>
-    
-    			{% endfor %}
+        {% if object.comments %}
+            <h4>{% trans "Comments" %}</h4>
+            <blockquote>
+                {{object.comments|linebreaksbr}}
+            </blockquote>
+        {% endif %}
 
-		</ul>
-        <form method="post" action="publish/">
-            {% csrf_token %}
-            <button>{% trans "Publish" %}</button>
-        </form>
-	</div>
+        {% if object.summary %}
+            <h4>{% trans "Summary" %}</h4>
+            <blockquote>
+                {{object.summary|linebreaksbr}}
+            </blockquote>
+        {% endif %}
+
+        {% for a in object.agenda_items.all %}
+
+            <div class="box">
+                <h4>
+                  <a href="{{ a.get_absolute_url }}">
+                    {{ a.title }}
+                  </a>
+                </h4>
+
+                <ul>
+                    {% for p in a.accepted_proposals %}
+                        <li>
+                            {{p.get_type_display}}:
+                            {{p.title}}
+                        </li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+        {% endfor %}
+
+
+    </div>
 
 </div>
 {% endblock %}
 
 {% block scripts %}
-    <script src="{{STATIC_URL}}js/meeting.js"></script>
 {% endblock %}

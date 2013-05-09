@@ -16,7 +16,7 @@ $(function() {
 
     $(function() {
 
-        $(".proposals span.btn").click(function(event) {
+        $(".proposals.open span.btn").click(function(event) {
             event.preventDefault();
             var li = $(this).closest('li');
             toggleProposal(li);

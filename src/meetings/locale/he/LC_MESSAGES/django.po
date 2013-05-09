@@ -8,7 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2013-04-16 22:27+0300\n"
+=======
+"POT-Creation-Date: 2013-05-08 10:02+0300\n"
+>>>>>>> 604798a8a6f2601623e3c82213134b185fd1121c
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +21,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+<<<<<<< HEAD
 #: .\forms.py:21
 msgid "Submit"
 msgstr "שלח"
 
 #: .\models.py:10 .\models.py:47 .\models.py:59
+=======
+#: .\forms.py:18
+msgid "Close Meeting"
+msgstr "סגור פגישה"
+
+#: .\models.py:10 .\models.py:43 .\models.py:56
+>>>>>>> 604798a8a6f2601623e3c82213134b185fd1121c
 msgid "Meeting"
 msgstr "פגישה"
 
@@ -54,6 +66,7 @@ msgid "Created by"
 msgstr "נוצר על ידי"
 
 #: .\models.py:28
+<<<<<<< HEAD
 msgid "Scheduled at"
 msgstr "מועד"
 
@@ -142,3 +155,79 @@ msgstr "צור נושא לדיון"
 
 #~ msgid "Resolved"
 #~ msgstr "נסגר"
+=======
+msgid "Held at"
+msgstr "מועד קיום הפגישה"
+
+#: .\models.py:30
+msgid "Scheduled at"
+msgstr "מועד"
+
+#: .\models.py:32
+msgid "Location"
+msgstr "מקום"
+
+#: .\models.py:33 .\templates\meetings\meeting_detail.html.py:36
+msgid "Comments"
+msgstr "הערות"
+
+#: .\models.py:35 .\templates\meetings\meeting_detail.html.py:43
+msgid "Summary"
+msgstr "סיכום הפגישה"
+
+#: .\models.py:37
+msgid "Agenda items"
+msgstr "סדר יום"
+
+#: .\models.py:40
+msgid "Participants"
+msgstr "משתתפים"
+
+#: .\models.py:44 .\templates\meetings\meeting_detail.html.py:14
+#: .\templates\meetings\meeting_list.html.py:12
+msgid "Meetings"
+msgstr "פגישות"
+
+#: .\models.py:57
+msgid "Name"
+msgstr "שם"
+
+#: .\models.py:60
+msgid "Meeting External Participant"
+msgstr "משתתף חיצוני"
+
+#: .\models.py:61
+msgid "Meeting External Participants"
+msgstr "משתתפים חיצוניים"
+
+#: .\views.py:65
+msgid "Cannot close a meeting with no issues"
+msgstr "לא ניתן לסגור פגישה ללא נושאים"
+
+#: .\templates\meetings\meeting_close.html.py:7
+#: .\templates\meetings\meeting_detail.html.py:8
+#: .\templates\meetings\meeting_form.html.py:6
+#: .\templates\meetings\meeting_list.html.py:6
+msgid "Communities"
+msgstr "קהילות"
+
+#: .\templates\meetings\meeting_close.html.py:13
+msgid "Upcoming Meeting"
+msgstr "פגישה קרובה"
+
+#: .\templates\meetings\meeting_close.html.py:16
+msgid "Close meeting"
+msgstr "סגור פגישה"
+
+#: .\templates\meetings\meeting_close.html.py:30
+msgid "Decisions"
+msgstr "החלטות"
+
+#: .\templates\meetings\meeting_close.html.py:52
+msgid "No decisions were made in this meeting."
+msgstr "בפגישה זו לא התקבלו החלטות"
+
+#: .\templates\meetings\meeting_form.html.py:9
+msgid "Create Issue"
+msgstr "נושא חדש"
+>>>>>>> 604798a8a6f2601623e3c82213134b185fd1121c

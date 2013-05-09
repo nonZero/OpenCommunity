@@ -1,8 +1,18 @@
 *.py[cod]
 *~
-Scripts
-Lib
-Include
-db/ocd.db
-.project
-.pydevproject
+/db/ocd.db
+
+# collected static files
+/static/
+
+# virtualenv stuff
+/Scripts/
+/Lib/
+/Include/
+/bin/
+/share/
+
+# aptana project files
+/.project
+/.pydevproject
+src/ocd/local_settings.py

@@ -4,16 +4,16 @@
 
 {% block breadcrumb %}
 <li>
-	<a href="../../..">{% trans "Communities" %}</a><span class="divider">/</span>
+    <a href="../../..">{% trans "Communities" %}</a><span class="divider">/</span>
 </li>
 <li>
-	<a href="../..">{{community.name}}</a><span class="divider">/</span>
+    <a href="../..">{{community.name}}</a><span class="divider">/</span>
 </li>
 <li>
-	<a href="../">{% trans "Issues" %}</a><span class="divider">/</span>
+    <a href="../">{% trans "Issues" %}</a><span class="divider">/</span>
 </li>
 <li class="active">
-	{{object.title}}
+    {{object.title}}
 </li>
 {% endblock %}
 
@@ -21,85 +21,92 @@
 
 <div class="row">
 
-	<div class="span6">
+    <div class="span6">
 
         <a class="btn pull-right" href="{{object.get_edit_url}}">{% trans "Edit" %}</a>
 
-		<h2>{{object.title}}</h2>
+        <h2>
+            {{object.title}}
+            {% if object.is_closed %}
+                <span class="label label-inverse large">
+                    {% trans "Closed" %}
+                </span>
+            {% endif %}
+        </h2>
 
-		<p class="lead">
-		    <b>
+        <p class="lead">
+            <b>
             {{ object.created_by}},
-		    {{ object.created_at}} ({{ object.created_at|naturaltime}})
-		    </b>
-		    <br/>
-			{{object.abstract|linebreaksbr}}
-		</p>
+            {{ object.created_at}} ({{ object.created_at|naturaltime}})
+            </b>
+            <br/>
+            {{object.abstract|linebreaksbr}}
+        </p>
 
-		{% if object.content %}
-		<h3>{% trans "Content" %}</h3>
-		<p>
-			{{object.content|linebreaksbr}}
-		</p>
-		{% endif %}
+        {% if object.content %}
+            <h3>{% trans "Content" %}</h3>
+            <p>
+                {{object.content|linebreaksbr}}
+            </p>
+        {% endif %}
 
-	</div>
+    </div>
 
-	<div class="span6">
-	    
-		<h3>{% trans "Proposals" %}</h3>
-		
-		<ul class="proposals nav nav-tabs nav-stacked">
+    <div class="span6">
+        
+        <h3>{% trans "Proposals" %}</h3>
+        
+        <ul class="proposals nav nav-tabs nav-stacked{% if not object.is_closed %} open{% endif %}">
 
-		    <style>
+            <style>
 
-	            .proposals li .btns {
-		            display: none;
-		        }
+                .proposals li .btns {
+                    display: none;
+                }
 
-		        .proposals li:hover .btns {
-		            display: block;
-		        }
+                .proposals.open li:hover .btns {
+                    display: block;
+                }
 
-		        .proposals li[data-accepted="0"] i {
-		            visibility: hidden;
-		        }
-		        
-		        .proposals li[data-accepted="1"] .btns .accept {
-		            display: none;
-		        }
+                .proposals li[data-accepted="0"] i {
+                    visibility: hidden;
+                }
+                
+                .proposals li[data-accepted="1"] .btns .accept {
+                    display: none;
+                }
 
-		        .proposals li[data-accepted="0"] .btns .cancel {
-		            display: none;
-		        }
+                .proposals li[data-accepted="0"] .btns .cancel {
+                    display: none;
+                }
 
 
-		    </style>
+            </style>
 
-			{% for proposal in object.proposals.all %}
+            {% for proposal in object.proposals.all %}
 
-    			<li 
-    			 data-id="{{proposal.id}}"
-    			 data-accepted="{{proposal.is_accepted|yesno:"1,0"}}">
-    				<a href="{{proposal.get_absolute_url}}"  class="clearfix">
+                <li 
+                 data-id="{{proposal.id}}"
+                 data-accepted="{{proposal.is_accepted|yesno:"1,0"}}">
+                    <a href="{{proposal.get_absolute_url}}"  class="clearfix">
                         <i class="icon-ok pull-right"></i>
                         <span class="pull-right btns">
                             <span class="btn btn-mini accept">{% trans "Accept" %}</span>
                             <span class="btn btn-mini cancel">{% trans "Cancel" %}</span>
                             &nbsp;
                         </span>
-    				    {{proposal.title}}
-    				    <span class="label">{{ proposal.get_type_display}}</span>
-    			    </a>
-    			</li>
+                        {{proposal.title}}
+                        <span class="label">{{ proposal.get_type_display}}</span>
+                    </a>
+                </li>
 
-			{% endfor %}
+            {% endfor %}
 
-		</ul>
-		
+        </ul>
+        
         <a class="btn" href="{% url "proposal_create" community.id object.id %}">{% trans "New Proposal" %}</a>
-		
-	</div>
+        
+    </div>
 
 </div>
 

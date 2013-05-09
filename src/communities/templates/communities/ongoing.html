@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block breadcrumb %}
+<li>
+    <a href="../..">{% trans "Communities" %}</a><span class="divider">/</span>
+</li>
+<li>
+    <a href="..">{{community.name}}</a><span class="divider">/</span>
+</li>
+<li>
+    {% trans "Ongoing Meeting" %}</a>
+</li>
+{% endblock %}
+
+{% block content %}
+
+    {% include "_community_bar.html" with pill="upcoming" %}
+
+    <div class="row ongoing">
+
+        <div class="span6">
+
+            <h3>{% trans "Meeting Details" %}</h3>
+
+            {% if object.upcoming_meeting_comments %}
+                <div class="accordion" id="meeting-comments-accordion">
+                  <div class="accordion-group">
+                    <div class="accordion-heading">
+                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#meeting-comments-accordion" 
+                      href="#meeting-comments">
+                        {% trans "Comments" %}
+                      </a>
+                    </div>
+                    <div id="meeting-comments" class="accordion-body collapse">
+                      <div class="accordion-inner">
+                        {{object.upcoming_meeting_comments|linebreaksbr}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            {% endif %}
+            
+            <h3>{% trans "Summary" %}</h3>
+            <p>
+                <textarea id="id_summary"></textarea>
+            </p>
+
+        </div>
+
+        <div class="span6">
+
+            <h3>{% trans "Issues" %}</h3>
+
+            <ul class="issues unstyled">
+                {% for i in object.upcoming_issues %}
+
+                    <li>
+                        <h4><a href="{{i.get_absolute_url}}">{{i.title}}</a></h4>
+                        <ul class="proposals">
+                            {% for p in i.proposals.all %}
+                                <li{% if p.is_accepted %} class="accepted"{% endif %}>
+                                    {{p.title}}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                {% endfor %}
+            </ul>
+
+            <hr/>
+
+            <a href="{% url "upcoming_close" community.id %}" class="btn">
+                {% trans "Close Meeting" %}
+            </a>
+
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block extrahead %}
+    <link href="{{ STATIC_URL }}jquery-ui/css/ui-lightness/jquery-ui-1.10.2.custom.css" rel="stylesheet">
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{STATIC_URL}}jquery-ui/js/jquery-ui-1.10.2.custom.js"></script>
+    <script src="{{STATIC_URL}}js/syncme.js"></script>
+    <script>
+    $(function(){
+        $('#id_summary').syncMe();
+    });
+    </script>
+{% endblock %}

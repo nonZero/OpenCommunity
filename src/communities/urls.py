@@ -1,5 +1,5 @@
-from django.conf.urls import patterns, url
 from communities import views
+from django.conf.urls import patterns, url
 
 urlpatterns = patterns('',
 
@@ -13,5 +13,9 @@ urlpatterns = patterns('',
 
     url(r'^upcoming/edit/$', views.EditUpcomingMeetingView.as_view(),
         name="upcoming_edit"),
+
+    url(r'^ongoing/$', views.OngoingMeetingView.as_view(),
+        name='ongoing_meeting'),
+
 
 )
