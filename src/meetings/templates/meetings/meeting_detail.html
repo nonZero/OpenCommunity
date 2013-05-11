@@ -33,11 +33,18 @@
         {% endif %}
 
         {% if object.comments %}
+            <h4>{% trans "Comments" %}</h4>
             <blockquote>
                 {{object.comments|linebreaksbr}}
             </blockquote>
         {% endif %}
 
+        {% if object.summary %}
+            <h4>{% trans "Summary" %}</h4>
+            <blockquote>
+                {{object.summary|linebreaksbr}}
+            </blockquote>
+        {% endif %}
 
         {% for a in object.agenda_items.all %}
 

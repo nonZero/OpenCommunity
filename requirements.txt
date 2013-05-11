@@ -1,6 +1,3 @@
-# django prerequisites
-psycopg2
-
 # django
 Django==1.5.1
 
@@ -12,3 +9,6 @@ South==0.7.6
 django-extensions==1.1.1
 django-debug-toolbar==0.9.4
 ipython
+
+# fabric
+# fabric-virtualenv

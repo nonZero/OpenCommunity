@@ -32,6 +32,8 @@ class Meeting(models.Model):
     location = models.CharField(_("Location"), max_length=300, null=True, blank=True)
     comments = models.TextField(_("Comments"), null=True, blank=True)
 
+    summary = models.TextField(_("Summary"), null=True, blank=True)
+
     agenda_items = models.ManyToManyField(Issue, through=AgendaItem, blank=True, verbose_name=_("Agenda items"))
 
     participants = models.ManyToManyField(settings.AUTH_USER_MODEL,

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-01 12:33+0300\n"
+"POT-Creation-Date: 2013-05-08 10:01+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,12 +86,14 @@ msgid "Upcoming meeting published at"
 msgstr "מועד פרסום הפגישה הקרובה"
 
 #: .\models.py:71 .\templates\communities\community_list.html.py:5
+#: .\templates\communities\ongoing.html.py:6
 #: .\templates\communities\upcoming.html.py:6
 #: .\templates\communities\upcoming_form.html.py:6
 msgid "Communities"
 msgstr "קהילות"
 
 #: .\templates\_community_bar.html.py:5
+#: .\templates\communities\ongoing.html.py:53
 #: .\templates\communities\upcoming.html.py:72
 msgid "Issues"
 msgstr "נושאים"
@@ -106,9 +108,26 @@ msgstr "הפגישה הקרובה"
 msgid "History"
 msgstr "היסטוריה"
 
+#: .\templates\communities\ongoing.html.py:12
+msgid "Ongoing Meeting"
+msgstr "הפגישה הנוכחית"
+
+#: .\templates\communities\ongoing.html.py:24
 #: .\templates\communities\upcoming.html.py:24
 msgid "Meeting Details"
 msgstr "פרטי הפגישה"
+
+#: .\templates\communities\ongoing.html.py:32
+msgid "Comments"
+msgstr "הערות"
+
+#: .\templates\communities\ongoing.html.py:44
+msgid "Summary"
+msgstr "סיכום הפגישה"
+
+#: .\templates\communities\ongoing.html.py:75
+msgid "Close Meeting"
+msgstr "סגור פגישה"
 
 #: .\templates\communities\upcoming.html.py:28
 msgid "Publish"
@@ -145,5 +164,5 @@ msgid "Location"
 msgstr "מיקום"
 
 #: .\templates\communities\upcoming.html.py:118
-msgid "Close Meeting"
-msgstr "סגור פגישה"
+msgid "Start Meeting"
+msgstr "התחל פגישה"

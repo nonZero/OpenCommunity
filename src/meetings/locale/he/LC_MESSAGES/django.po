@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-30 01:55+0300\n"
+"POT-Creation-Date: 2013-05-08 10:02+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Close Meeting"
 msgstr "סגור פגישה"
 
-#: .\models.py:10 .\models.py:41 .\models.py:53
+#: .\models.py:10 .\models.py:43 .\models.py:56
 msgid "Meeting"
 msgstr "פגישה"
 
@@ -65,36 +65,40 @@ msgstr "מועד"
 msgid "Location"
 msgstr "מקום"
 
-#: .\models.py:33
+#: .\models.py:33 .\templates\meetings\meeting_detail.html.py:36
 msgid "Comments"
 msgstr "הערות"
 
-#: .\models.py:35
+#: .\models.py:35 .\templates\meetings\meeting_detail.html.py:43
+msgid "Summary"
+msgstr "סיכום הפגישה"
+
+#: .\models.py:37
 msgid "Agenda items"
 msgstr "סדר יום"
 
-#: .\models.py:38
+#: .\models.py:40
 msgid "Participants"
 msgstr "משתתפים"
 
-#: .\models.py:42 .\templates\meetings\meeting_detail.html.py:14
+#: .\models.py:44 .\templates\meetings\meeting_detail.html.py:14
 #: .\templates\meetings\meeting_list.html.py:12
 msgid "Meetings"
 msgstr "פגישות"
 
-#: .\models.py:54
+#: .\models.py:57
 msgid "Name"
 msgstr "שם"
 
-#: .\models.py:57
+#: .\models.py:60
 msgid "Meeting External Participant"
 msgstr "משתתף חיצוני"
 
-#: .\models.py:58
+#: .\models.py:61
 msgid "Meeting External Participants"
 msgstr "משתתפים חיצוניים"
 
-#: .\views.py:57
+#: .\views.py:65
 msgid "Cannot close a meeting with no issues"
 msgstr "לא ניתן לסגור פגישה ללא נושאים"
 
@@ -119,7 +123,7 @@ msgstr "החלטות"
 
 #: .\templates\meetings\meeting_close.html.py:52
 msgid "No decisions were made in this meeting."
-msgstr "בפגישה זו לתקבלו החלטות"
+msgstr "בפגישה זו לא התקבלו החלטות"
 
 #: .\templates\meetings\meeting_form.html.py:9
 msgid "Create Issue"

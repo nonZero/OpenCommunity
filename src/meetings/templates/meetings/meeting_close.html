@@ -66,5 +66,11 @@
 
 {% block scripts %}
     <script src="{{STATIC_URL}}jquery-ui/js/jquery-ui-1.10.2.custom.js"></script>
+    <script src="{{STATIC_URL}}js/syncme.js"></script>
     <script src="{{STATIC_URL}}js/meeting.js"></script>
+    <script>
+    $(function(){
+        $('#id_summary').syncMe();
+    });
+    </script>
 {% endblock %}
