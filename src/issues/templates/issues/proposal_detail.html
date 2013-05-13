@@ -2,52 +2,85 @@
 {% load i18n %}
 {% load humanize %}
 
-{% block breadcrumb %}
-<li>
-	<a href="../../../..">{% trans "Communities" %}</a><span class="divider">/</span>
-</li>
-<li>
-	<a href="../../..">{{community.name}}</a><span class="divider">/</span>
-</li>
-<li>
-	<a href="../../">{% trans "Issues" %}</a><span class="divider">/</span>
-</li>
-<li>
-	<a href="../">{{object.issue.title}}</a><span class="divider">/</span>
-</li>
-<li class="active">
-	{{object.title}}
-</li>
+{% block page_header %}
+	{% trans "Proposal" %}
+{% endblock %}
+
+{% block header-end %}
+    <a href="#issuepanel" data-icon="bars" data-rel="back"></a>
+{% endblock %}
+
+{% block endpanel %}
+    <div data-role="panel" id="issuepanel" data-position="left">
+        <ul data-role="listview">
+            <li><a href="{{object.get_edit_url}}">{% trans "Edit" %}</a></li>
+        </ul>
+    </div>
 {% endblock %}
 
 {% block content %}
 
-<div class="row">
+    <a data-icon="arrow-r" data-role="button" href="{{object.issue.get_absolute_url}}">
+        {{object.issue}}
+    </a>
 
-	<div class="span6">
+    <div class="proposal" data-id="{{object.id}}"
+         data-accepted="{{object.is_accepeted|yesno:'1,0'}}">
 
-        <a class="btn pull-right" href="{{object.get_edit_url}}">{% trans "Edit" %}</a>
+        <div class="ui-grid-solo">
+            <div class="ui-block-a"><div class="ui-bar ui-bar-b">
+                <h2>{{ object.get_type_display}}: {{object.title}}</h2>
+                {% if object.is_closed %}
+                    <span class="label label-inverse large">
+                        {% trans "Closed" %}
+                    </span>
+                {% endif %}
+            </div></div>
+        </div>
+        <br/>
 
-		<h2>{{object.title}}</h2>
+        <div class="ui-grid-solo">
+            <div class="ui-block-a"><div class="ui-bar ui-bar-c" style="height:20px">
+                {{ object.created_by}}. 
+                {{ object.created_at}} ({{ object.created_at|naturaltime}})
+            </div></div>
+        </div>
 
-		<p class="lead">
-		    
-		    {{ object.created_by}},
-		    
-		    {{ object.get_type_display}},
-		    
-		    <span title="{{ object.created_at|naturaltime}}">{{ object.created_at}}</span>
-			{{object.abstract|linebreaksbr}}
-		</p>
+        <div class="ui-grid-solo accepted">
+            <div class="ui-block-a"><div class="ui-bar ui-bar-e" >
+                {% trans "Is accepted" %}
+            </div></div>
+        </div>
 
-		{% if object.content %}
-		<h3>{% trans "Content" %}</h3>
-		<p>
-			{{object.content|linebreaksbr}}
-		</p>
-		{% endif %}
+        {% if object.abstract %}
+            <div data-role="collapsible" data-collapsed="false"
+                data-theme="c" data-content-theme="d" data-mini="true">
+                <h4>{% trans "Abstract" %}</h4>
+                <p>{{object.abstract|linebreaksbr}}</p>
+            </div>
+        {% endif %}
 
-	</div>
+        {% if object.content %}
+            <div data-role="collapsible" data-collapsed="false"
+            data-theme="c" data-content-theme="d" data-mini="true">
+                <h4>{% trans "Content" %}</h4>
+                <p>
+                    {{object.content|linebreaksbr}}
+                </p>
+            </div>
+        {% endif %}
 
-</div>
+        <a href="#" data-role="button" class="accept" data-theme="a">{% trans "Accept" %}</a>
+        <a href="#" data-role="button" class="unaccept" data-theme="a">{% trans "Cancel" %}</a>
+
+    </div>
+{% endblock %}
+
+
+{% block extrahead %}
+    <link rel="stylesheet" href="{{STATIC_URL}}css/proposal.css"/>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{STATIC_URL}}js/proposal.js"></script>
 {% endblock %}

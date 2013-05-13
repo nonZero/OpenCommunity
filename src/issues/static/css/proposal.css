@@ -1,0 +1,12 @@
+.proposal[data-accepted="0"] .unaccept {
+    visibility: hidden;
+}
+
+.proposal[data-accepted="1"] .accept {
+    display: none;
+}
+
+.proposal[data-accepted="0"] .unaccept,
+.proposal[data-accepted="0"] .accepted {
+    display: none;
+}

@@ -8,7 +8,7 @@ urlpatterns = patterns('',
     url(r'^upcoming/$', views.UpcomingMeetingView.as_view(),
         name='upcoming_meeting'),
 
-    url(r'^upcoming/publish/$', views.PublishMeetingView.as_view(),
+    url(r'^upcoming/publish/$', views.PublishUpcomingView.as_view(),
         name="upcoming_publish"),
 
     url(r'^upcoming/edit/$', views.EditUpcomingMeetingView.as_view(),

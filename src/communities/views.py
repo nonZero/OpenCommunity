@@ -1,20 +1,17 @@
 from communities import models
-from communities.forms import EditUpcomingMeetingForm
+from communities.forms import EditUpcomingMeetingForm, \
+    PublishUpcomingMeetingForm
 from django.conf import settings
-from django.contrib import messages
 from django.core.urlresolvers import reverse
-from django.db import transaction
 from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView
-from django.views.generic.base import RedirectView, View
-from django.views.generic.detail import DetailView, SingleObjectMixin
+from django.views.generic.base import RedirectView
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
-from meetings.models import Meeting, AgendaItem
 from ocd.views import ProtectedMixin
 import datetime
 import json
-from django.utils.translation import ugettext_lazy as _
 
 
 class CommunityList(ListView):
@@ -22,6 +19,7 @@ class CommunityList(ListView):
 
 
 class CommunityDetailView(RedirectView):
+
     def get_redirect_url(self, **kwargs):
 
         self.community = get_object_or_404(models.Community,
@@ -53,22 +51,6 @@ class UpcomingMeetingView(ProtectedMixin, DetailView):
                             content_type='application/json')
 
 
-class PublishMeetingView(ProtectedMixin, SingleObjectMixin, View):
-    model = models.Community
-
-    def post(self, request, *args, **kwargs):
-
-        # TODO AUTH
-        c = self.get_object()
-        c.upcoming_meeting_is_published = True
-        c.upcoming_meeting_published_at = datetime.datetime.now()
-        c.upcoming_meeting_version += 1
-
-        c.save()
-
-        return redirect(c.get_upcoming_absolute_url())
-
-
 class EditUpcomingMeetingView(ProtectedMixin, UpdateView):
     model = models.Community
     form_class = EditUpcomingMeetingForm
@@ -76,6 +58,25 @@ class EditUpcomingMeetingView(ProtectedMixin, UpdateView):
 
     def get_success_url(self):
         return self.get_object().get_upcoming_absolute_url()
+
+
+class PublishUpcomingView(ProtectedMixin, UpdateView):
+    model = models.Community
+    form_class = PublishUpcomingMeetingForm
+    template_name = "communities/publish_upcoming.html"
+
+    def form_valid(self, form):
+
+        resp = super(PublishUpcomingView, self).form_valid(form)
+
+        c = self.object
+        c.upcoming_meeting_is_published = True
+        c.upcoming_meeting_published_at = datetime.datetime.now()
+        c.upcoming_meeting_version += 1
+
+        c.save()
+
+        return redirect(c.get_upcoming_absolute_url())
 
 
 class OngoingMeetingView(ProtectedMixin, DetailView):
