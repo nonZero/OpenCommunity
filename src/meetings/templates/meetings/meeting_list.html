@@ -1,38 +1,51 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block breadcrumb %}
-<li>
-    <a href="../../..">{% trans "Communities" %}</a><span class="divider">/</span>
-</li>
-<li>
-    <a href="../..">{{community.name}}</a><span class="divider">/</span>
-</li>
-<li>
+{% block page_header %}
     {% trans "Meetings" %}
-</li>
 {% endblock %}
+
+{% block header-start %}
+    <a href="#upcoming-panel" data-icon="bars" data-iconpos="notext"></a>
+{% endblock %}
+
+{% block header-end %}
+    <a href="#issuespanel" data-icon="bars" data-iconpos="notext"></a>
+{% endblock %}
+
+{% block startpanel %}
+    <div data-role="panel" id="upcoming-panel" data-position="right">
+        <ul data-role="listview">
+            <li data-icon="edit">
+                <a href="{% url "upcoming_edit" community.id  %}">{% trans "Edit" %}</a>
+            </li>
+            <li>
+                <a href="{% url "upcoming_publish" community.id  %}">{% trans "Publish" %}</a>
+            </li>
+        </ul>
+    </div>
+
+{% endblock %}
+
+{% block endpanel %}
+    {% include "_main_panel.html" %}
+{% endblock %}
+
 
 {% block content %}
 
-{% include "_community_bar.html" with pill="history" %}
-
-<div class="row">
-    <div class="span4">
-        <ul class="nav nav-tabs nav-stacked issues-list">
-            {% for object in object_list %}
-                <li>
-                    <a href="{{ object.get_absolute_url }}">
-                        {{ object.held_at }}
-                        {% if object.location %}
-                            , {{ object.location }}
-                        {% endif %} 
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-</div>
+<ul data-role="listview">
+    {% for object in object_list %}
+        <li>
+            <a href="{{ object.get_absolute_url }}">
+                {{ object.held_at }}
+                {% if object.location %}
+                    , {{ object.location }}
+                {% endif %} 
+            </a>
+        </li>
+    {% endfor %}
+</ul>
 
 {% endblock %}
 

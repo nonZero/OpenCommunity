@@ -22,3 +22,23 @@ class EditUpcomingMeetingForm(forms.ModelForm):
         self.helper.add_input(Submit('submit', _('Save')))
 
         super(EditUpcomingMeetingForm, self).__init__(*args, **kwargs)
+
+
+class PublishUpcomingMeetingForm(forms.ModelForm):
+
+    send_to_members = forms.BooleanField(False,
+                                         label=_("Send to All Members"))
+    send_to_board = forms.BooleanField(False,
+                                       label=_("Send to Board"))
+
+    class Meta:
+        model = Community
+
+        fields = ()
+
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+        attrs={'data-rel':'back'}
+        self.helper.add_input(Submit('submit', _('Publish'), **attrs))
+
+        super(PublishUpcomingMeetingForm, self).__init__(*args, **kwargs)

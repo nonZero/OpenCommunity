@@ -2,20 +2,31 @@
 {% load i18n %}
 {% load humanize %}
 
+{% block page_header %}
+    {% trans "Meetings" %}
+{% endblock %}
 
-{% block breadcrumb %}
-    <li>
-        <a href="../../..">{% trans "Communities" %}</a><span class="divider">/</span>
-    </li>
-    <li>
-        <a href="../..">{{community.name}}</a><span class="divider">/</span>
-    </li>
-    <li>
-        <a href="../">{% trans "Meetings" %}</a><span class="divider">/</span>
-    </li>
-    <li class="active">
-        {{object.held_at}}
-    </li>
+{% block header-start %}
+    <a href="#meeting-panel" data-icon="bars" data-iconpos="notext"></a>
+{% endblock %}
+
+{% block header-end %}
+    <a href="#issuespanel" data-icon="bars" data-iconpos="notext"></a>
+{% endblock %}
+
+{% block startpanel %}
+    <div data-role="panel" id="meeting-panel" data-position="right">
+        <ul data-role="listview">
+            <li>
+                <a href="#">{% trans "Share Link" %}</a>
+            </li>
+        </ul>
+    </div>
+
+{% endblock %}
+
+{% block endpanel %}
+    {% include "_main_panel.html" %}
 {% endblock %}
 
 {% block content %}
@@ -24,47 +35,72 @@
 
     <div class="span6">
 
-        <h2>{{object.held_at|date:"DATETIME_FORMAT"}}</h2>
+    <div class="ui-grid-solo">
+        <div class="ui-block-a">
+            <div class="ui-bar">
+                <a href="#meetings" data-rel="dialog" data-theme="a" 
+                data-icon="arrow-d" data-iconpos="left">
+                    {{object.held_at|date:"DATETIME_FORMAT"}}
+                </a>
+            </div>
+        </div>
+    </div>
 
-        {% if object.location %}
-            <p class="lead">
-                {{object.location}}
+    {% if object.location %}
+        <div data-role="collapsible" data-collapsed="false"
+            data-theme="c" data-content-theme="d" data-mini="true">
+            <h4>{% trans "Meeting Details" %}</h4>
+    
+            <p>
+                
+                    <b>{% trans "Location" %}:</b>
+                    {{object.location|default:_("Not set yet")}}
+                
             </p>
-        {% endif %}
+        </div>
+    {% endif %}
 
-        {% if object.comments %}
+    {% if object.comments %}
+        <div data-role="collapsible" data-collapsed="false"
+            data-theme="c" data-content-theme="d" data-mini="true">
+
             <h4>{% trans "Comments" %}</h4>
-            <blockquote>
-                {{object.comments|linebreaksbr}}
-            </blockquote>
-        {% endif %}
 
-        {% if object.summary %}
+            <p>
+                {{object.comments|linebreaksbr}}
+            </p>
+        </div>
+    {% endif %}
+
+    {% if object.summary %}
+        <div data-role="collapsible" data-collapsed="false"
+            data-theme="b" data-content-theme="d">
+    
             <h4>{% trans "Summary" %}</h4>
-            <blockquote>
+            <p>
                 {{object.summary|linebreaksbr}}
-            </blockquote>
-        {% endif %}
+            </p>
+        </div>
+    {% endif %}
 
         {% for a in object.agenda_items.all %}
 
-            <div class="box">
-                <h4>
-                  <a href="{{ a.get_absolute_url }}">
-                    {{ a.title }}
-                  </a>
-                </h4>
-
-                <ul>
+                <ul data-role="listview" data-inset="true">
+                    <li data-theme="b">
+                    <a href="{{ a.get_absolute_url }}">
+                        {{ a.title }}
+                    </a>
+                    </li>
                     {% for p in a.accepted_proposals %}
                         <li>
-                            {{p.get_type_display}}:
-                            {{p.title}}
+                            <a href="{{p.get_absolute_url}}">
+                                {{p.get_type_display}}: {{p.title}}
+                            </a>
                         </li>
                     {% endfor %}
                 </ul>
 
-            </div>
+            
         {% endfor %}
 
 
@@ -73,5 +109,27 @@
 </div>
 {% endblock %}
 
+{% block dialogs %}
+    <div data-role="dialog" id="meetings">
+        <div data-role="header">
+            <h2>{% trans "Meetings" %}</h2>
+        </div>
+        <div data-role="content">
+            <ul data-role="listview">
+                {% for m in community.meetings.all %}
+                    <li><a href="{{m.get_absolute_url}}">{{m}}</a></li>
+                {% endfor %}
+            </ul>
+    </div>
+{% endblock %}
+
 {% block scripts %}
+<script>
+$(function(){
+    $('#meeting-selector').change(function() {
+        
+    })
+})
+</script>
+
 {% endblock %}

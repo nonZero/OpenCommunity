@@ -1,0 +1,3 @@
+li[data-accepted="0"] img {
+    visibility: hidden;
+}

@@ -181,6 +181,8 @@ LOGOUT_URL = "/logout/"
 
 FORMAT_MODULE_PATH = "ocd.formats"
 
+CRISPY_TEMPLATE_PACK = "jquery-mobile"
+
 try:
     from local_settings import *
 except ImportError:

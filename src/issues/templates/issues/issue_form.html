@@ -2,16 +2,23 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 
-{% block breadcrumb %}
-  <li><a href="../../..">{% trans "Communities" %}</a> <span class="divider">/</span></li>
-  <li><a href="../..">{{community.name}}</a> <span class="divider">/</span></li>
-  <li><a href="../">Issues</a> <span class="divider">/</span></li>
-  <li class="active">{% trans "Create Issue" %}</li>
+{% block header-start %}
+    <a href="#" data-icon="back" data-rel="back">{% trans "Back" %}</a>
+{% endblock %}
+
+{% block page_header %}
+    {% if form.instance.id %}
+        {% trans "Edit Issue" %}
+    {% else %}
+        {% trans "Create Issue" %}
+    {% endif %}
+{% endblock %}
+
+{% block header-end %}
 {% endblock %}
 
 {% block content %}
 
     {% crispy form %}
-    
 
 {% endblock %}
