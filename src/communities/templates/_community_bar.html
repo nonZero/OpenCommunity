@@ -1,6 +1,6 @@
 {% load i18n %}
 
-<ul class="nav nav-pills">
+<ul class="nav nav-pills hidden-phone">
     <li{% if pill == 'issues' %} class="active"{% endif %}>
         <a href="{% url 'issues' community.id %}">{% trans "Issues" %}</a>
     </li>
@@ -10,5 +10,4 @@
     <li{% if pill == 'history' %} class="active"{% endif %}>
         <a href="{% url 'history' community.id %}">{% trans "History" %}</a>
     </li>
-    
 </ul>

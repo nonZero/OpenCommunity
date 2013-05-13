@@ -19,7 +19,18 @@
 
     <body>
 
-        {% include "_navbar.html" %}
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+
+                    {% block navbar_page_buttons %}
+                    {% endblock %}
+
+                    {% include "_navbar.html" %}
+
+                </div>
+            </div>
+        </div>
 
         <div class="container">
 
@@ -64,4 +75,5 @@
 
     </body>
 </html>
+
 

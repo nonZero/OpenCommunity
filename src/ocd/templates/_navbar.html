@@ -1,51 +1,47 @@
 {% load i18n %}
 
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="navbar-inner">
+<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+</button>
 
-        <div class="container">
+{% if community %}
+    <a class="brand" href="{% url "issues" community.id %}">{{community.name}}</a>
+{% else %}
+    <a class="brand" href="{% url "home" %}">{% trans "Open Community" %}</a>
+{% endif %}
 
-            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-
-            {% if community %}
-                <a class="brand" href="{% url "issues" community.id %}">{{community.name}}</a>
-            {% else %}
-                <a class="brand" href="{% url "home" %}">{% trans "Open Community" %}</a>
-            {% endif %}
-
-            <div class="nav-collapse collapse">
-                <ul class="nav pull-right">
-                    {% if user.id %}
-                        <li>
-                            <span class="navbar-text">{{user.username}}</span>
-                        </li>
-                        <li>
-                            <a href="{% url "logout" %}" class='game_title pull-right'>{% trans "Log Out" %}</a>
-                        </li>
-                    {% else %}
-                        <li>
-                            <a href="{% url "login" %}" class='game_title pull-right'>{% trans "Login" %}</a>
-                        </li>
-                         {% endif %}
-
-                </ul>
-            </div>
-
-            {% if community %}
-                <div class="nav-collapse collapse">
-                    <ul class="nav">
-                        <li>
-                            <a href="{% url "issues" community.id %}">{% trans "Issues" %}</a>
-                        </li>
-                    </ul>
-                    <a class="btn" href="{% url "issue_create" community.id %}">{% trans "Create Issue" %}</a>
-                </div>
-
-            {% endif %}
-        </div>
+{% if community %}
+    <div class="nav-collapse collapse pull-left">
+        <ul class="nav">
+                <li>
+                    <a href="{% url "issues" community.id %}">{% trans "Issues" %}</a>
+                </li>
+                <li>
+                    <a href="{% url 'upcoming_meeting' community.id %}">{% trans "Upcoming Meeting" %}</a>
+                </li>
+                <li>
+                    <a href="{% url 'history' community.id %}">{% trans "History" %}</a>
+                </li>
+        </ul>
     </div>
+ {% endif %}
+
+ <div class="nav-collapse collapse pull-right">
+    <ul class="nav">
+        {% if user.id %}
+            <li>
+                <a href="#">{{user.username}}</a>
+            </li>
+            <li>
+                <a href="{% url "logout" %}" class='game_title pull-right'>{% trans "Log Out" %}</a>
+            </li>
+        {% else %}
+            <li>
+                <a href="{% url "login" %}" class='game_title pull-right'>{% trans "Login" %}</a>
+            </li>
+        {% endif %}
+    </ul>
 </div>
+
