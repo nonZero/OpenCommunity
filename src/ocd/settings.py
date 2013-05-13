@@ -104,6 +104,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -176,6 +177,7 @@ LOGGING = {
     }
 }
 
+LOGIN_REDIRECT_URL = "/"
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.twitter.TwitterBackend',
     'social_auth.backends.facebook.FacebookBackend',
@@ -206,8 +208,7 @@ LOGOUT_URL = "/logout/"
 
 FORMAT_MODULE_PATH = "ocd.formats"
 
-FACEBOOK_APP_ID = "251222371580490"
-FACEBOOK_API_SECRET= "3c6aacc59e2e3b11191be2e46a791baa"
+CRISPY_TEMPLATE_PACK = "jquery-mobile"
 
 try:
     from local_settings import *

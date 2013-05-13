@@ -9,9 +9,8 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link href="{{ STATIC_URL }}bootstrap/css/bootstrap{% if LANGUAGE_CODE == 'he' %}-rtl{% endif %}.css" rel="stylesheet">
-        <link href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive{% if LANGUAGE_CODE == 'he' %}-rtl{% endif %}.css" rel="stylesheet">
-        <link href="{{ STATIC_URL }}style.css" rel="stylesheet">
+        <link href="{{ STATIC_URL }}m/{% if LANGUAGE_CODE == 'he' %}rtl.{% endif %}jquery.mobile-1.3.0.css" rel="stylesheet">
+        <link href="{{ STATIC_URL }}m/{% if LANGUAGE_CODE == 'he' %}rtl.{% endif %}style.css" rel="stylesheet">
         {% block extrahead %}
         {% endblock %}
 
@@ -19,49 +18,49 @@
 
     <body>
 
-        {% include "_navbar.html" %}
+        <div data-role="page">
 
-        <div class="container">
-
-            <div class="row hidden-phone">
-                <ul class="breadcrumb">
-                        {% block breadcrumb %}
-                        {% endblock %}
-                </ul>
+            <div data-role="header" data-position="fixed">
+                {% block header-start %}
+                <a href="#" data-icon="arrow-r" data-iconpos="notext" data-rel="back"></a>
+                {% endblock %}
+                <h1>
+                    {{community}}<br/>
+                    {% block page_header %}Page Title{% endblock %}
+                </h1>
+                {% block header-end %}
+                {% endblock %}
             </div>
 
-            {% if messages %}
-            <div class="row">
-                {% for message in messages %}
-                  <div class="alert alert-{{message.tags}}">
-                    <a class="close" data-dismiss="alert">×</a>
-                    {{message}}
-                  </div>
-                {% endfor %}
-              </div>
-            {% endif %}
+            <div data-role="content">
+                {% block content %}
+                {% endblock %}
+            </div>
 
-            {% block content %}
+            {% block startpanel %}
+            {% endblock %}
+
+            {% block endpanel %}
             {% endblock %}
 
 
-            <footer>
-                <hr/>
-                <p>
-                    {% trans ":-)" %}
-                </p>
-            </footer>
-
         </div>
 
+        {% block dialogs %}
+        {% endblock %}
+
         <script src="{{ STATIC_URL }}jquery-1.9.1.min.js"></script>
+        <script>
+            $(document).on("mobileinit", function(){
+                $.mobile.ajaxEnabled = false;
+            });
+        </script>
+        <script src="{{ STATIC_URL }}m/{% if LANGUAGE_CODE == 'he' %}rtl.{% endif %}jquery.mobile-1.3.0.js"></script>
         <script src="{{ STATIC_URL }}js/csrf.js"></script>
-        <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
-
         {% block scripts %}
-
         {% endblock %}
 
     </body>
 </html>
+
 

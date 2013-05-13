@@ -2,27 +2,12 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 
-{% block breadcrumb %}
-    <li>
-        <a href="../../..">{% trans "Communities" %}</a><span class="divider">/</span>
-    </li>
-    <li>
-        <a href="../..">{{community.name}}</a><span class="divider">/</span>
-    </li>
-    <li>
-        <a href="..">{% trans "Upcoming Meeting" %}</a><span class="divider">/</span>
-    </li>
-    <li>
-        {% trans "Close meeting" %}</a>
-    </li>
+{% block page_header %}
+    {% trans "Close meeting" %}</a>
 {% endblock %}
 
 {% block content %}
 
-    <div class="row">
-
-        <div class="span6">
-            
             {% with community.issues_ready_to_close as issues %}
     
                 {% if issues %}
@@ -48,8 +33,12 @@
 
                     {% crispy form %}
                 {% else %}
-                    <div class="alert alert-warning">
-                        {% trans "No decisions were made in this meeting."%}
+                    <div class="ui-grid-solo">
+                        <div class="ui-block-a">
+                            <div class="ui-bar ui-bar-e">
+                                {% trans "No decisions were made in this meeting."%}
+                            </div>
+                        </div>
                     </div>
                 {% endif %}
 
@@ -61,13 +50,12 @@
 {% endblock %}
 
 {% block extrahead %}
-    <link href="{{ STATIC_URL }}jquery-ui/css/ui-lightness/jquery-ui-1.10.2.custom.css" rel="stylesheet">
+    {# <link href="{{ STATIC_URL }}jquery-ui/css/ui-lightness/jquery-ui-1.10.2.custom.css" rel="stylesheet"> #}
 {% endblock %}
 
 {% block scripts %}
-    <script src="{{STATIC_URL}}jquery-ui/js/jquery-ui-1.10.2.custom.js"></script>
+    {# <script src="{{STATIC_URL}}jquery-ui/js/jquery-ui-1.10.2.custom.js"></script> #}
     <script src="{{STATIC_URL}}js/syncme.js"></script>
-    <script src="{{STATIC_URL}}js/meeting.js"></script>
     <script>
     $(function(){
         $('#id_summary').syncMe();

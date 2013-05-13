@@ -1,0 +1,8 @@
+{% if form.form_html %}
+    {% if form_show_errors %}
+        {% include "jquery-mobile/errors.html" %}
+    {% endif %}
+    {{ form.form_html }}
+{% else %}
+    {% include "jquery-mobile/uni_form.html" %}
+{% endif %}

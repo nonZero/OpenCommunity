@@ -5,7 +5,8 @@ from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from issues import models
-from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm
+from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
+    UpdateIssueForm
 from ocd.views import ProtectedMixin
 import datetime
 import json
@@ -53,7 +54,7 @@ class IssueCreateView(IssueMixin, CreateView):
 
 
 class IssueEditView(IssueMixin, UpdateView):
-    form_class = CreateIssueForm
+    form_class = UpdateIssueForm
 
 
 class ProposalCreateView(IssueMixin, CreateView):

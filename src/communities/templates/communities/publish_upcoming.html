@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block page_header %}
+    {% trans "Publish" %}
+{% endblock %}
+
+{% block header-start %}
+{% endblock %}
+
+{% block header-end %}
+{% endblock %}
+
+{% block startpanel %}
+{% endblock %}
+
+{% block endpanel %}
+{% endblock %}
+
+{% block content %}
+    <div class="ui-grid-solo">
+        <div class="ui-block-a">
+            {% if object.upcoming_meeting_is_published %}
+                <div class="ui-bar ui-bar-e">
+                    {% trans "Published at" %} {{object.upcoming_meeting_published_at}}
+                    ({% trans "Version" %} {{object.upcoming_meeting_version}})
+                </div>
+            {% else %}
+                <div class="ui-bar ui-bar-e">
+                    {% trans "Draft" %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+
+    <div data-role="collapsible" data-collapsed="false"
+        data-theme="c" data-content-theme="d" data-mini="true">
+        <h4>{% trans "Meeting Details" %}</h4>
+
+        <p>
+                <b>{% trans "Scheduled at" %}:</b>
+                {{object.upcoming_meeting_scheduled_at|default:_("Not set yet")}}
+                <br/>
+                <b>{% trans "Location" %}:</b>
+                {{object.upcoming_meeting_location|default:_("Not set yet")}}
+                {% if object.upcoming_meeting_comments %}
+                    <p>
+                        {{object.upcoming_meeting_comments|linebreaksbr}}
+                    </p>
+                {% endif %}
+        </p>
+
+    </div>
+
+    {% crispy form %}
+
+
+
+{% endblock %}
+
+{% block extrahead %}
+    {# <link href="{{ STATIC_URL }}jquery-ui/css/ui-lightness/jquery-ui-1.10.2.custom.css" rel="stylesheet"> #}
+{% endblock %}
+
+{% block scripts %}
+    {# <script src="{{STATIC_URL}}jquery-ui/js/jquery-ui-1.10.2.custom.js"></script> #}
+    <script src="{{STATIC_URL}}js/upcoming.js"></script>
+{% endblock %}

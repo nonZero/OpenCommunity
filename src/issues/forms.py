@@ -23,6 +23,15 @@ class CreateIssueForm(forms.ModelForm):
         super(CreateIssueForm, self).__init__(*args, **kwargs)
 
 
+class UpdateIssueForm(CreateIssueForm):
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+
+        self.helper.add_input(Submit('submit', _('Update')))
+
+        super(CreateIssueForm, self).__init__(*args, **kwargs)
+
+
 class CreateProposalForm(forms.ModelForm):
 
     class Meta:

@@ -1,14 +1,13 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block breadcrumb %}
-    <li class="active">{% trans "Communities" %}</li>
-  
+{% block page_header %}
+    {% trans "Communities" %}
 {% endblock %}
 
 {% block content %}
 
-    <ul class="nav nav-tabs nav-stacked">
+    <ul data-role="listview">
         {% for object in object_list %}
             <li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
         {% endfor %}
