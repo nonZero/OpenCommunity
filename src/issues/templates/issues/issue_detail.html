@@ -2,20 +2,16 @@
 {% load i18n %}
 {% load humanize %}
 
-{% block header-start %}
-    <a href="#" data-icon="back" data-rel="back">{% trans "Back" %}</a>
-{% endblock %}
-
 {% block page_header %}
     {% trans "Issue" %}
 {% endblock %}
 
 {% block header-end %}
-    <a href="#issuepanel" data-icon="bars">{% trans "Menu" %}</a>
+    <a href="#issuepanel" data-icon="bars" data-iconpos="notext"  data-rel="popup"></a>
 {% endblock %}
 
 {% block endpanel %}
-    <div data-role="panel" id="issuepanel" data-position="left">
+    <div data-role="popup" id="issuepanel">
         <ul data-role="listview">
             <li><a href="{{object.get_edit_url}}">{% trans "Edit" %}</a></li>
         </ul>
@@ -96,7 +92,7 @@
         </div>
     {% endif %}
 
-    <a data-role="button" data-theme="a"
+    <a data-role="button" data-rel="modal" data-theme="a"
     href="{% url "proposal_create" community.id object.id %}">{% trans "New Proposal" %}</a>
 
 

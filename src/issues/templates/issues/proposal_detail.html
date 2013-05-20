@@ -7,11 +7,11 @@
 {% endblock %}
 
 {% block header-end %}
-    <a href="#issuepanel" data-icon="bars" data-rel="back"></a>
+    <a href="#proposalpanel" data-icon="bars" data-iconpos="notext"  data-rel="popup"></a>
 {% endblock %}
 
 {% block endpanel %}
-    <div data-role="panel" id="issuepanel" data-position="left">
+    <div data-role="popup" id="proposalpanel" class="ui-content">
         <ul data-role="listview">
             <li><a href="{{object.get_edit_url}}">{% trans "Edit" %}</a></li>
         </ul>
