@@ -1,5 +1,5 @@
 {% load i18n %}
-<div data-role="panel" id="issuespanel" data-position="left">
+<div data-role="popup" id="issuespanel">
     <ul data-role="listview">
         <li{% if pill == 'issues' %} class="active"{% endif %}>
             <a href="{% url 'issues' community.id %}">{% trans "Issues" %}</a>

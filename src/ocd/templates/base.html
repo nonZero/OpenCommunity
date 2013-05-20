@@ -25,7 +25,12 @@
                 <a href="#" data-icon="arrow-r" data-iconpos="notext" data-rel="back"></a>
                 {% endblock %}
                 <h1>
-                    {{community}}<br/>
+                    {% if community %}
+                        {{community}}
+                    {% else %}
+                        {% trans "Open Community" %}
+                    {% endif %}
+                    <br/>
                     {% block page_header %}Page Title{% endblock %}
                 </h1>
                 {% block header-end %}
@@ -53,6 +58,8 @@
         <script>
             $(document).on("mobileinit", function(){
                 $.mobile.ajaxEnabled = false;
+                $.mobile.popup.prototype.options.overlayTheme = 'a';
+                $.mobile.popup.prototype.options.transition = 'slidedown';
             });
         </script>
         <script src="{{ STATIC_URL }}m/{% if LANGUAGE_CODE == 'he' %}rtl.{% endif %}jquery.mobile-1.3.0.js"></script>

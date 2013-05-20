@@ -7,11 +7,12 @@
 {% endblock %}
 
 {% block header-start %}
+    {# <a data-rel="dialog" href="{% url "issue_create" community.id %}" data-icon="plus" data-iconpos="notext"></a> #}
     <a href="{% url "issue_create" community.id %}" data-icon="plus" data-iconpos="notext"></a>
 {% endblock %}
 
 {% block header-end %}
-    <a href="#issuespanel" data-icon="bars" data-iconpos="notext"></a>
+    <a href="#issuespanel" data-icon="bars" data-iconpos="notext"  data-rel="popup"></a>
 {% endblock %}
 
 {% block endpanel %}
@@ -28,7 +29,7 @@
 
 {% block content %}
 
-    <ul data-role="listview">
+    <ul data-role="listview" data-filter="true" data-filter-placeholder="{% trans "Search" %}">
         {% for object in object_list %}
             <li>
                 <a href="{{ object.get_absolute_url }}">
@@ -58,9 +59,4 @@
 {% endblock %}
 
 {% block scripts %}
-
-    <script>
-
-    </script>
-
 {% endblock %}

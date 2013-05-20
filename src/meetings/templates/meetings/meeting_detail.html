@@ -7,15 +7,15 @@
 {% endblock %}
 
 {% block header-start %}
-    <a href="#meeting-panel" data-icon="bars" data-iconpos="notext"></a>
+    <a href="#meeting-panel" data-icon="bars" data-iconpos="notext" data-rel="popup"></a>
 {% endblock %}
 
 {% block header-end %}
-    <a href="#issuespanel" data-icon="bars" data-iconpos="notext"></a>
+    <a href="#issuespanel" data-icon="bars" data-iconpos="notext"  data-rel="popup"></a>
 {% endblock %}
 
 {% block startpanel %}
-    <div data-role="panel" id="meeting-panel" data-position="right">
+    <div data-role="popup" id="meeting-panel">
         <ul data-role="listview">
             <li>
                 <a href="#">{% trans "Share Link" %}</a>
