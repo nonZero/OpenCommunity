@@ -60,6 +60,9 @@ class IssueComment(models.Model):
                                    null=True, blank=True)
     content = models.TextField(verbose_name=_("Comment"))
 
+    class Meta:
+        ordering = ('created_at', )
+
     def update_content(self, expected_version, author, content):
         """ creates a new revision and updates current comment """
         if self.version != expected_version:
@@ -83,6 +86,10 @@ class IssueComment(models.Model):
             self.save()
 
         return True
+
+    @models.permalink
+    def get_delete_url(self):
+        return "delete_issue_comment", (self.issue.community.id, self.id)
 
 
 class IssueCommentRevision(models.Model):

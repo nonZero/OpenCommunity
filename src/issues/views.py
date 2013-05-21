@@ -2,8 +2,9 @@ from communities.models import Community
 from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.base import View
+from django.views.generic.detail import DetailView, SingleObjectMixin
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
     UpdateIssueForm
@@ -60,6 +61,20 @@ class IssueDetailView(IssueMixin, DetailView):
                               created_by=request.user)
 
         return render(request, 'issues/_comment.html', {'c': c})
+
+
+class IssueCommentDeleteView(CommunityMixin, DeleteView):
+
+    model = models.IssueComment
+
+    def get_queryset(self):
+        return models.IssueComment.objects.filter(issue__community=self.community)
+
+    def post(self, request, *args, **kwargs):
+        o = self.get_object()
+        o.active = 'undelete' in request.POST
+        o.save()
+        return HttpResponse(int(o.active))
 
 
 class IssueCreateView(IssueMixin, CreateView):

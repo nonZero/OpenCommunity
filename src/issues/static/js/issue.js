@@ -27,10 +27,30 @@ $(function() {
     // Comments
 
     $(function() {
-        $('#id_content').attr('required', 'required');
+
         $('#add-comment').ajaxForm(function(data) {
-            $("#add-comment").closest('li').before($(data.trim())).parent().listview('refresh');
+            var el = $(data.trim());
+            $("#add-comment").closest('li').before(el).parent().listview('refresh');
+            el.find('button').buttonMarkup();
             $("#add-comment").get(0).reset();
+        });
+
+        $('#comments').on('click', '.delete-comment button', function() {
+            var btn = $(this);
+            var form = btn.closest('form');
+            console.log(btn, form);
+            var extra = {};
+            if (btn.attr('name')) {
+                extra[btn.attr('name')] = btn.attr('value');
+            }
+            form.ajaxSubmit({
+                                data: extra,
+                                success: function(data) {
+                                    console.log(data, form);
+                                    form.closest('li').toggleClass('deleted', data=='0');
+                                }
+                            });
+            return false;
         });
     })
 

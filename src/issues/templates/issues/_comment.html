@@ -1,0 +1,19 @@
+{% load i18n %}
+<li{% if not c.active %} class="deleted"{% endif %}>
+    <form class="delete-comment" method="post" action="{{c.get_delete_url}}" 
+    style="float:left">
+        {% csrf_token %}
+        <span class="delete-btn">
+            <button data-icon="delete" data-iconpos="notext" data-theme="c" data-inline="true">{% trans "Delete" %}</button>
+        </span>
+        <span class="undelete-btn">
+            <button name="undelete" value="1" data-icon="back" data-iconpos="notext" data-theme="c" data-inline="true">{% trans "Undelete" %}</button>
+        </span>
+    </form>
+    <span class="comment-inner">
+        <i>{{c.created_by}} {% trans "at" %} {{c.created_at}}</i>:
+        <blockquote>
+            {{c.content|urlize|linebreaksbr}}
+        </blockquote>
+    </span>
+</li>
