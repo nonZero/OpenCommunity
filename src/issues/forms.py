@@ -1,14 +1,14 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django import forms
-from issues.models import Issue, Proposal
 from django.utils.translation import ugettext_lazy as _
+from issues import models
 
 
 class CreateIssueForm(forms.ModelForm):
 
     class Meta:
-        model = Issue
+        model = models.Issue
         fields = (
                    'title',
                    'abstract',
@@ -35,7 +35,7 @@ class UpdateIssueForm(CreateIssueForm):
 class CreateProposalForm(forms.ModelForm):
 
     class Meta:
-        model = Proposal
+        model = models.Proposal
         fields = (
                    'type',
                    'title',
@@ -54,3 +54,21 @@ class CreateProposalForm(forms.ModelForm):
 
 class EditProposalForm(CreateProposalForm):
     pass
+
+
+class CreateIssueCommentForm(forms.ModelForm):
+
+    class Meta:
+        model = models.IssueComment
+        fields = (
+                   'content',
+                   )
+
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+        self.helper.form_id="add-comment"
+
+        self.helper.add_input(Submit('submit', _('Add')))
+
+        super(CreateIssueCommentForm, self).__init__(*args, **kwargs)
+

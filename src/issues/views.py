@@ -1,10 +1,10 @@
 from communities.models import Community
-from django.http.response import HttpResponse
-from django.shortcuts import get_object_or_404
+from django.http.response import HttpResponse, HttpResponseBadRequest
+from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
-from issues import models
+from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
     UpdateIssueForm
 from ocd.views import ProtectedMixin
@@ -41,7 +41,25 @@ class IssueList(IssueMixin, ListView):
 
 
 class IssueDetailView(IssueMixin, DetailView):
-    pass
+
+    def get_context_data(self, **kwargs):
+        d = super(IssueDetailView, self).get_context_data(**kwargs)
+        d['form'] = forms.CreateIssueCommentForm()
+        return d
+
+    def post(self, request, *args, **kwargs):
+
+        # TODO AUTH
+
+        form = forms.CreateIssueCommentForm(request.POST)
+        if not form.is_valid():
+            return HttpResponseBadRequest()
+
+        i = self.get_object()
+        c = i.comments.create(content=form.cleaned_data['content'],
+                              created_by=request.user)
+
+        return render(request, 'issues/_comment.html', {'c': c})
 
 
 class IssueCreateView(IssueMixin, CreateView):

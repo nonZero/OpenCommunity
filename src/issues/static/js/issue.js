@@ -24,4 +24,15 @@ $(function() {
         });
     });
 
+    // Comments
+
+    $(function() {
+        $('#id_content').attr('required', 'required');
+        $('#add-comment').ajaxForm(function(data) {
+            $("#add-comment").closest('li').before($(data.trim())).parent().listview('refresh');
+            $("#add-comment").get(0).reset();
+        });
+    })
+
+
 });
