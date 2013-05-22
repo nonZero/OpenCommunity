@@ -1,19 +1,43 @@
 {% load i18n %}
+
 <li{% if not c.active %} class="deleted"{% endif %}>
-    <form class="delete-comment" method="post" action="{{c.get_delete_url}}" 
-    style="float:left">
+
+    <form class="delete-comment push" method="post" action="{{c.get_delete_url}}">
         {% csrf_token %}
         <span class="delete-btn">
-            <button data-icon="delete" data-iconpos="notext" data-theme="c" data-inline="true">{% trans "Delete" %}</button>
+            <button data-icon="delete" data-iconpos="notext" data-theme="e" data-inline="true">{% trans "Delete" %}</button>
         </span>
         <span class="undelete-btn">
-            <button name="undelete" value="1" data-icon="back" data-iconpos="notext" data-theme="c" data-inline="true">{% trans "Undelete" %}</button>
+            <button name="undelete" value="1" data-icon="back" data-iconpos="notext" data-theme="e" data-inline="true">{% trans "Undelete" %}</button>
         </span>
     </form>
+
+    <span class="edit-comment push">
+        <button data-id="{{c.id}}" data-url="{{c.get_edit_url}}" 
+        data-icon="edit" data-iconpos="notext" data-theme="e" data-inline="true"
+        >{% trans "Edit" %}</button>
+    </span>
+
+    <span class="cancel-edit-comment push">
+        <button data-icon="delete" data-iconpos="notext" data-theme="c" data-inline="true">{% trans "Cancel" %}</button>
+    </span>
+
     <span class="comment-inner">
-        <i>{{c.created_by}} {% trans "at" %} {{c.created_at}}</i>:
+        <i>
+            {{c.created_by}} {% trans "at" %} {{c.created_at}}
+        </i>:
+
         <blockquote>
             {{c.content|urlize|linebreaksbr}}
         </blockquote>
+
+        {% if c.last_edited_by %}
+            <i>
+                {% trans "version" %} {{c.version}},
+                {% trans "Last edited by" %} {{c.last_edited_by}} {% trans "at" %} {{c.last_edited_at}}
+            </i>
+        {% endif %}
+
     </span>
+
 </li>

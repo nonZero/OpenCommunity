@@ -1,25 +1,8 @@
-.deleted .comment-inner{
-    opacity:0.5;
-    text-decoration: line-through;
+.push {
+    float:left;
 }
 
-.delete-comment .ui-btn {
-    margin: 0;
+.push .ui-btn {
+    margin: 0 3px 0 0;
 }
 
-.undelete-btn, delete-btn {
-    float: left;
-}
-
-.undelete-btn{
-    display: none;
-}
-
-.deleted .undelete-btn{
-    display: inline;
-    opacity: 5;
-}
-
-.deleted .delete-btn, .deleted blockquote{
-    display: none;
-}

@@ -58,6 +58,9 @@ class EditProposalForm(CreateProposalForm):
 
 class CreateIssueCommentForm(forms.ModelForm):
 
+    submit_label = _('Add')
+    form_id = "add-comment"
+
     class Meta:
         model = models.IssueComment
         fields = (
@@ -66,9 +69,15 @@ class CreateIssueCommentForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
-        self.helper.form_id="add-comment"
+        if self.form_id:
+            self.helper.form_id = self.form_id
 
-        self.helper.add_input(Submit('submit', _('Add')))
+        self.helper.add_input(Submit('submit', self.submit_label))
 
         super(CreateIssueCommentForm, self).__init__(*args, **kwargs)
 
+
+class EditIssueCommentForm(CreateIssueCommentForm):
+
+    submit_label = _('Save')
+    form_id = None

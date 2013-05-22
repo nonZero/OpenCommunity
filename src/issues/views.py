@@ -77,6 +77,23 @@ class IssueCommentDeleteView(CommunityMixin, DeleteView):
         return HttpResponse(int(o.active))
 
 
+class IssueCommentEditView(CommunityMixin, UpdateView):
+
+    model = models.IssueComment
+    form_class = forms.EditIssueCommentForm
+
+    def get_queryset(self):
+        return models.IssueComment.objects.filter(issue__community=self.community)
+
+    def form_valid(self, form):
+        self.get_object().update_content(form.instance.version, self.request.user,
+                                     form.cleaned_data['content'])
+        return render(self.request, 'issues/_comment.html', {'c': self.get_object()})
+
+    def form_invalid(self, form):
+        return HttpResponse("")
+
+
 class IssueCreateView(IssueMixin, CreateView):
     form_class = CreateIssueForm
 

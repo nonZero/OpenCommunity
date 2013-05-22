@@ -91,6 +91,10 @@ class IssueComment(models.Model):
     def get_delete_url(self):
         return "delete_issue_comment", (self.issue.community.id, self.id)
 
+    @models.permalink
+    def get_edit_url(self):
+        return "edit_issue_comment", (self.issue.community.id, self.id)
+
 
 class IssueCommentRevision(models.Model):
     """ Holds data for historical comments """
