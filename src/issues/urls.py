@@ -22,4 +22,10 @@ urlpatterns = patterns('',
     url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/edit/$',
         views.ProposalEditView.as_view(), name="proposal_edit"),
 
+    url(r'^delete-comment/(?P<pk>\d+)/$',
+        views.IssueCommentDeleteView.as_view(), name="delete_issue_comment"),
+
+    url(r'^edit-comment/(?P<pk>\d+)/$',
+        views.IssueCommentEditView.as_view(), name="edit_issue_comment"),
+
 )

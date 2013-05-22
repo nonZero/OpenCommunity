@@ -1,10 +1,11 @@
 from communities.models import Community
-from django.http.response import HttpResponse
-from django.shortcuts import get_object_or_404
+from django.http.response import HttpResponse, HttpResponseBadRequest
+from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView
-from issues import models
+from django.views.generic.base import View
+from django.views.generic.detail import DetailView, SingleObjectMixin
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
     UpdateIssueForm
 from ocd.views import ProtectedMixin
@@ -41,7 +42,56 @@ class IssueList(IssueMixin, ListView):
 
 
 class IssueDetailView(IssueMixin, DetailView):
-    pass
+
+    def get_context_data(self, **kwargs):
+        d = super(IssueDetailView, self).get_context_data(**kwargs)
+        d['form'] = forms.CreateIssueCommentForm()
+        return d
+
+    def post(self, request, *args, **kwargs):
+
+        # TODO AUTH
+
+        form = forms.CreateIssueCommentForm(request.POST)
+        if not form.is_valid():
+            return HttpResponseBadRequest()
+
+        i = self.get_object()
+        c = i.comments.create(content=form.cleaned_data['content'],
+                              created_by=request.user)
+
+        return render(request, 'issues/_comment.html', {'c': c})
+
+
+class IssueCommentDeleteView(CommunityMixin, DeleteView):
+
+    model = models.IssueComment
+
+    def get_queryset(self):
+        return models.IssueComment.objects.filter(issue__community=self.community)
+
+    def post(self, request, *args, **kwargs):
+        o = self.get_object()
+        o.active = 'undelete' in request.POST
+        o.save()
+        return HttpResponse(int(o.active))
+
+
+class IssueCommentEditView(CommunityMixin, UpdateView):
+
+    model = models.IssueComment
+    form_class = forms.EditIssueCommentForm
+
+    def get_queryset(self):
+        return models.IssueComment.objects.filter(issue__community=self.community)
+
+    def form_valid(self, form):
+        self.get_object().update_content(form.instance.version, self.request.user,
+                                     form.cleaned_data['content'])
+        return render(self.request, 'issues/_comment.html', {'c': self.get_object()})
+
+    def form_invalid(self, form):
+        return HttpResponse("")
 
 
 class IssueCreateView(IssueMixin, CreateView):

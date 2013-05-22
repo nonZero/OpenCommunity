@@ -8,40 +8,40 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'AgendaItem'
-        db.create_table(u'meetings_agendaitem', (
+        # Adding model 'IssueCommentRevision'
+        db.create_table(u'issues_issuecommentrevision', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('meeting', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['meetings.Meeting'])),
-            ('issue', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['issues.Issue'])),
-            ('order', self.gf('django.db.models.fields.PositiveIntegerField')(default=100)),
+            ('comment', self.gf('django.db.models.fields.related.ForeignKey')(related_name='revisions', to=orm['issues.IssueComment'])),
+            ('version', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('created_by', self.gf('django.db.models.fields.related.ForeignKey')(related_name='issue_comment_versions_created', to=orm['auth.User'])),
+            ('content', self.gf('django.db.models.fields.TextField')()),
         ))
-        db.send_create_signal(u'meetings', ['AgendaItem'])
+        db.send_create_signal(u'issues', ['IssueCommentRevision'])
 
-        # Adding unique constraint on 'AgendaItem', fields ['meeting', 'issue']
-        db.create_unique(u'meetings_agendaitem', ['meeting_id', 'issue_id'])
+        # Adding model 'IssueComment'
+        db.create_table(u'issues_issuecomment', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('issue', self.gf('django.db.models.fields.related.ForeignKey')(related_name='comments', to=orm['issues.Issue'])),
+            ('active', self.gf('django.db.models.fields.BooleanField')(default=True)),
+            ('ordinal', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('created_by', self.gf('django.db.models.fields.related.ForeignKey')(related_name='issue_comments_created', to=orm['auth.User'])),
+            ('version', self.gf('django.db.models.fields.PositiveIntegerField')(default=1)),
+            ('last_edited_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('last_edited_by', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='issue_comments_last_edited', null=True, to=orm['auth.User'])),
+            ('content', self.gf('django.db.models.fields.TextField')()),
+        ))
+        db.send_create_signal(u'issues', ['IssueComment'])
 
-        # Adding field 'Meeting.held_at'
-        db.add_column(u'meetings_meeting', 'held_at',
-                      self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 4, 24, 0, 0)),
-                      keep_default=False)
-
-
-        # Changing field 'Meeting.scheduled_at'
-        db.alter_column(u'meetings_meeting', 'scheduled_at', self.gf('django.db.models.fields.DateTimeField')(null=True))
 
     def backwards(self, orm):
-        # Removing unique constraint on 'AgendaItem', fields ['meeting', 'issue']
-        db.delete_unique(u'meetings_agendaitem', ['meeting_id', 'issue_id'])
+        # Deleting model 'IssueCommentRevision'
+        db.delete_table(u'issues_issuecommentrevision')
 
-        # Deleting model 'AgendaItem'
-        db.delete_table(u'meetings_agendaitem')
+        # Deleting model 'IssueComment'
+        db.delete_table(u'issues_issuecomment')
 
-        # Deleting field 'Meeting.held_at'
-        db.delete_column(u'meetings_meeting', 'held_at')
-
-
-        # User chose to not deal with backwards NULL issues for 'Meeting.scheduled_at'
-        raise RuntimeError("Cannot reverse this migration. 'Meeting.scheduled_at' and its values cannot be restored.")
 
     models = {
         u'auth.group': {
@@ -117,6 +117,52 @@ class Migration(SchemaMigration):
             'is_closed': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '300'})
         },
+        u'issues.issuecomment': {
+            'Meta': {'object_name': 'IssueComment'},
+            'active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'content': ('django.db.models.fields.TextField', [], {}),
+            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'issue_comments_created'", 'to': u"orm['auth.User']"}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'issue': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'comments'", 'to': u"orm['issues.Issue']"}),
+            'last_edited_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'last_edited_by': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'issue_comments_last_edited'", 'null': 'True', 'to': u"orm['auth.User']"}),
+            'ordinal': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'version': ('django.db.models.fields.PositiveIntegerField', [], {'default': '1'})
+        },
+        u'issues.issuecommentrevision': {
+            'Meta': {'object_name': 'IssueCommentRevision'},
+            'comment': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'revisions'", 'to': u"orm['issues.IssueComment']"}),
+            'content': ('django.db.models.fields.TextField', [], {}),
+            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'issue_comment_versions_created'", 'to': u"orm['auth.User']"}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'version': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'})
+        },
+        u'issues.proposal': {
+            'Meta': {'object_name': 'Proposal'},
+            'accepted_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'assigned_to': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
+            'assigned_to_user': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'proposals_assigned'", 'null': 'True', 'to': u"orm['auth.User']"}),
+            'content': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'proposals_created'", 'to': u"orm['auth.User']"}),
+            'due_by': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'is_accepted': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'issue': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'proposals'", 'to': u"orm['issues.Issue']"}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '300'}),
+            'type': ('django.db.models.fields.PositiveIntegerField', [], {}),
+            'votes': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "'proposals'", 'blank': 'True', 'through': u"orm['issues.ProposalVote']", 'to': u"orm['auth.User']"})
+        },
+        u'issues.proposalvote': {
+            'Meta': {'unique_together': "(('proposal', 'user'),)", 'object_name': 'ProposalVote'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'proposal': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['issues.Proposal']"}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"}),
+            'value': ('django.db.models.fields.PositiveIntegerField', [], {})
+        },
         u'meetings.agendaitem': {
             'Meta': {'unique_together': "(('meeting', 'issue'),)", 'object_name': 'AgendaItem'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -125,7 +171,7 @@ class Migration(SchemaMigration):
             'order': ('django.db.models.fields.PositiveIntegerField', [], {'default': '100'})
         },
         u'meetings.meeting': {
-            'Meta': {'object_name': 'Meeting'},
+            'Meta': {'ordering': "('-held_at',)", 'object_name': 'Meeting'},
             'agenda_items': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['issues.Issue']", 'symmetrical': 'False', 'through': u"orm['meetings.AgendaItem']", 'blank': 'True'}),
             'comments': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'community': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'meetings'", 'to': u"orm['communities.Community']"}),
@@ -135,14 +181,9 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'location': ('django.db.models.fields.CharField', [], {'max_length': '300', 'null': 'True', 'blank': 'True'}),
             'participants': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'participated_in_meeting'", 'symmetrical': 'False', 'to': u"orm['auth.User']"}),
-            'scheduled_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'})
-        },
-        u'meetings.meetingexternalparticipant': {
-            'Meta': {'object_name': 'MeetingExternalParticipant'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'meeting': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['meetings.Meeting']"}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '200'})
+            'scheduled_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'summary': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'})
         }
     }
 
-    complete_apps = ['meetings']
+    complete_apps = ['issues']

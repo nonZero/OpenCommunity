@@ -8,18 +8,6 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'AgendaItem'
-        db.create_table(u'meetings_agendaitem', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('meeting', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['meetings.Meeting'])),
-            ('issue', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['issues.Issue'])),
-            ('order', self.gf('django.db.models.fields.PositiveIntegerField')(default=100)),
-        ))
-        db.send_create_signal(u'meetings', ['AgendaItem'])
-
-        # Adding unique constraint on 'AgendaItem', fields ['meeting', 'issue']
-        db.create_unique(u'meetings_agendaitem', ['meeting_id', 'issue_id'])
-
         # Adding model 'Meeting'
         db.create_table(u'meetings_meeting', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -50,12 +38,6 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
-        # Removing unique constraint on 'AgendaItem', fields ['meeting', 'issue']
-        db.delete_unique(u'meetings_agendaitem', ['meeting_id', 'issue_id'])
-
-        # Deleting model 'AgendaItem'
-        db.delete_table(u'meetings_agendaitem')
-
         # Deleting model 'Meeting'
         db.delete_table(u'meetings_meeting')
 
@@ -140,16 +122,8 @@ class Migration(SchemaMigration):
             'is_closed': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '300'})
         },
-        u'meetings.agendaitem': {
-            'Meta': {'unique_together': "(('meeting', 'issue'),)", 'object_name': 'AgendaItem'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'issue': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['issues.Issue']"}),
-            'meeting': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['meetings.Meeting']"}),
-            'order': ('django.db.models.fields.PositiveIntegerField', [], {'default': '100'})
-        },
         u'meetings.meeting': {
             'Meta': {'object_name': 'Meeting'},
-            'agenda_items': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['issues.Issue']", 'symmetrical': 'False', 'through': u"orm['meetings.AgendaItem']", 'blank': 'True'}),
             'comments': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'community': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'meetings'", 'to': u"orm['communities.Community']"}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
