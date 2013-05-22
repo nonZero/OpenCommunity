@@ -66,7 +66,7 @@
                 $('.dateinput').attr('type','date');
                 $('.timeinput').attr('type','time');
                 $('.datetimeinput').attr('type','datetime-local');
-                $('.crequired input,.crequired select').attr('required','required');
+                $('.crequired input,.crequired select,.crequired textarea').attr('required','required');
             });
         </script>
         <script src="{{ STATIC_URL }}m/{% if LANGUAGE_CODE == 'he' %}rtl.{% endif %}jquery.mobile-1.3.0.js"></script>
