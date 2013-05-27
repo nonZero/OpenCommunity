@@ -11,6 +11,10 @@
         {% csrf_token %}
         <table>
             <tr>
+                <td><a href="{% url "socialauth_begin" "facebook"  %}" class='game_title pull-right' ><img src="{{ STATIC_URL }}images/facebook_login.png" /></a></td>
+                <td><a href="{% url "socialauth_begin" "google"  %}" class='game_title pull-right' ><img src="{{ STATIC_URL }}images/google_login.png" /></a></td>
+            </tr>
+            <tr>
                 <td>{{ form.username.label_tag }}</td>
                 <td>{{ form.username }}</td>
             </tr>
@@ -23,12 +27,4 @@
         <input type="submit" value="login" />
         <input type="hidden" name="next" value="{{ next }}" />
     </form>
-    <ul>
-	<li>
-        <a href="{% url "socialauth_begin" "facebook"  %}" class='game_title pull-right'>FB Login</a>
-    </li>
-	<li>
-        <a href="{% url "socialauth_begin" "google"  %}" class='game_title pull-right'>Google Login</a>
-    </li>
-    </ul>
     {% endblock %}

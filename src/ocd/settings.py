@@ -104,7 +104,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    #'debug_toolbar.middleware.DebugToolbarMiddleware',
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -136,7 +136,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'south',
     'social_auth',
-    #'debug_toolbar',
+    'debug_toolbar',
 
     'oc_util',
     'communities',
@@ -206,9 +206,15 @@ LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = "/login/"
 LOGOUT_URL = "/logout/"
 
+FACEBOOK_APP_ID = "251222371580490"
+FACEBOOK_API_SECRET= "3c6aacc59e2e3b11191be2e46a791baa"
+
 FORMAT_MODULE_PATH = "ocd.formats"
 
 CRISPY_TEMPLATE_PACK = "jquery-mobile"
+
+FACEBOOK_APP_ID = "251222371580490"
+FACEBOOK_API_SECRET= "3c6aacc59e2e3b11191be2e46a791baa"
 
 try:
     from local_settings import *
