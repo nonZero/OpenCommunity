@@ -1,21 +1,18 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load humanize %}
-
-{% block header-start %}
-    <a href="#" data-icon="back" data-rel="back">{% trans "Back" %}</a>
-{% endblock %}
+{% load crispy_forms_tags %}
 
 {% block page_header %}
     {% trans "Issue" %}
 {% endblock %}
 
 {% block header-end %}
-    <a href="#issuepanel" data-icon="bars">{% trans "Menu" %}</a>
+    <a href="#issuepanel" data-icon="bars" data-iconpos="notext"  data-rel="popup"></a>
 {% endblock %}
 
 {% block endpanel %}
-    <div data-role="panel" id="issuepanel" data-position="left">
+    <div data-role="popup" id="issuepanel">
         <ul data-role="listview">
             <li><a href="{{object.get_edit_url}}">{% trans "Edit" %}</a></li>
         </ul>
@@ -23,6 +20,12 @@
 {% endblock %}
 
 {% block content %}
+
+    {% if object.closed_at_meeting %}
+        <a data-icon="arrow-r" data-role="button" href="{{object.closed_at_meeting.get_absolute_url}}">
+            {{object.closed_at_meeting}}
+        </a>
+    {% endif %}
 
     <div class="ui-grid-solo">
         <div class="ui-block-a">
@@ -96,8 +99,22 @@
         </div>
     {% endif %}
 
-    <a data-role="button" data-theme="a"
+    <a data-role="button" data-rel="modal" data-theme="a"
     href="{% url "proposal_create" community.id object.id %}">{% trans "New Proposal" %}</a>
+    
+    <div data-role="collapsible" data-collapsed="false"
+        data-theme="b" data-content-theme="d">
+        <h3>{% trans "Summary" %}</h3>
+        <ul data-role="listview" id="comments">
+            {% for c in object.comments.all %}
+                {% include "issues/_comment.html" %}
+            {% endfor %}
+            <li>
+            {% crispy form %}
+            </li>
+        </ul>
+    </div>
+
 
 
 {% endblock %}

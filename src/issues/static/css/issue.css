@@ -1,3 +1,39 @@
+.deleted .comment-inner{
+    opacity:0.5;
+    text-decoration: line-through;
+}
+
+.undelete-btn, delete-btn {
+    float: left;
+}
+
+.undelete-btn{
+    display: none;
+}
+
+.deleted .undelete-btn{
+    display: inline;
+    opacity: 5;
+}
+
+.deleted .delete-btn, .deleted blockquote, .deleted .edit-comment,
+.editing .delete-btn, .editing .edit-comment, .cancel-edit-comment{
+    display: none;
+}
+
+.editing .cancel-edit-comment {
+    display: inline;
+}
+
+
 li[data-accepted="0"] img {
     visibility: hidden;
+}
+
+#add-comment label {
+    display: block;
+}
+
+#add-comment textarea {
+    width: 100%;
 }

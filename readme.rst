@@ -48,7 +48,7 @@ Prerequisites for Developer Machines
 
   On windows::
 
-    copy src/ocd/local_settings.py.example src/ocd/local_settings.py
+    copy src\ocd\local_settings.py.example src\ocd\local_settings.py
 
 * Now create a directory for your sqlite db::
 
@@ -61,6 +61,7 @@ Prerequisites for Developer Machines
 * ... and create the database::
 
     python manage.py syncdb
+    python manage.py migrate
 
   (When asked, create a user for the admin interface)
 
