@@ -10,5 +10,11 @@
         <li{% if pill == 'history' %} class="active"{% endif %}>
             <a href="{% url 'history' community.id %}">{% trans "History" %}</a>
         </li>
+        <li data-role="list-divider">
+            {{user.display_name}}
+        </li>
+        <li>
+            <a href="{% url 'logout' %}">{% trans "Log out" %}</a>
+        </li>
     </ul>
 </div>

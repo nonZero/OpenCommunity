@@ -73,12 +73,12 @@
         <div data-role="collapsible" data-collapsed="false"
             data-theme="b" data-content-theme="d">
             <h3>{% trans "Proposals" %}</h3>
-    
+
             <ul data-role='listview' 
             class="proposals{% if not object.is_closed %} open{% endif %}">
-    
+
                 {% for proposal in object.proposals.all %}
-    
+
                     <li 
                     data-split-icon="check"
                      data-id="{{proposal.id}}"
