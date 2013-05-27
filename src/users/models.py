@@ -8,13 +8,16 @@ from users.default_roles import DefaultGroups
 
 
 class OCUserManager(BaseUserManager):
-    def create_user(self, email, display_name, password=None, **kwargs):
+    def create_user(self, email, display_name=None, password=None, **kwargs):
         """
         Creates and saves a User with the given email, display name and
         password.
         """
         if not email:
             raise ValueError('Users must have an email address')
+
+        if not display_name:
+            display_name = email
 
         user = self.model(
             email=OCUserManager.normalize_email(email),
