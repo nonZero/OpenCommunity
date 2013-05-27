@@ -7,19 +7,29 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
-    depends_on = (
-        ("users", "0002_create_users"),
-    )
-
     def forwards(self, orm):
+        # Removing unique constraint on 'CommunityMember', fields ['community', 'user']
+        db.delete_unique(u'communities_communitymember', ['community_id', 'user_id'])
 
-        # Changing field 'CommunityMember.user'
-        db.alter_column(u'communities_communitymember', 'user_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['users.OCUser']))
+        # Deleting model 'CommunityMember'
+        db.delete_table(u'communities_communitymember')
+
 
     def backwards(self, orm):
+        # Adding model 'CommunityMember'
+        db.create_table(u'communities_communitymember', (
+            ('is_in_board', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('community', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['communities.Community'])),
+            ('is_secretary', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
+            ('is_chairman', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+        ))
+        db.send_create_signal(u'communities', ['CommunityMember'])
 
-        # Changing field 'CommunityMember.user'
-        db.alter_column(u'communities_communitymember', 'user_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User']))
+        # Adding unique constraint on 'CommunityMember', fields ['community', 'user']
+        db.create_unique(u'communities_communitymember', ['community_id', 'user_id'])
+
 
     models = {
         u'auth.group': {
@@ -38,7 +48,6 @@ class Migration(SchemaMigration):
         u'communities.community': {
             'Meta': {'object_name': 'Community'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'members': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "'communities'", 'blank': 'True', 'through': u"orm['communities.CommunityMember']", 'to': u"orm['users.OCUser']"}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             'upcoming_meeting_comments': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_is_published': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -47,15 +56,6 @@ class Migration(SchemaMigration):
             'upcoming_meeting_published_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_scheduled_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_version': ('django.db.models.fields.IntegerField', [], {'default': '0'})
-        },
-        u'communities.communitymember': {
-            'Meta': {'unique_together': "(('community', 'user'),)", 'object_name': 'CommunityMember'},
-            'community': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['communities.Community']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_chairman': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'is_in_board': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'is_secretary': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['users.OCUser']"})
         },
         u'contenttypes.contenttype': {
             'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
