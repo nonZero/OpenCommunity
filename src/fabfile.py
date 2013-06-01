@@ -1,18 +1,15 @@
 from fabric.api import *
-from local_fab import code_dir, my_hosts
+code_dir = '/home/yaniv/OpenCommunity'
 
-env.hosts = my_hosts
-
+env.hosts = ['yaniv@oc.tiranoltd.com']
 
 def host_type():
     run('uname -s')
-
-
+    
 def deploy():
     with cd(code_dir):
-        run("git pull")
-        run("sudo supervisorctl restart opencommunity")
-
-
-def log():
-    run("tail %slogs/*" % code_dir)
+        run('git pull')
+        run('sudo supervisorctl reload opencommunity')
+        
+def showlog():
+    run('tail /home/yaniv/OpenCommunity/logs/OpenCommunity.log')

@@ -8,7 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
+<<<<<<< HEAD
+"POT-Creation-Date: 2013-04-16 22:27+0300\n"
+=======
 "POT-Creation-Date: 2013-05-08 10:02+0300\n"
+>>>>>>> 604798a8a6f2601623e3c82213134b185fd1121c
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +21,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+<<<<<<< HEAD
+#: .\forms.py:21
+msgid "Submit"
+msgstr "שלח"
+
+#: .\models.py:10 .\models.py:47 .\models.py:59
+=======
 #: .\forms.py:18
 msgid "Close Meeting"
 msgstr "סגור פגישה"
 
 #: .\models.py:10 .\models.py:43 .\models.py:56
+>>>>>>> 604798a8a6f2601623e3c82213134b185fd1121c
 msgid "Meeting"
 msgstr "פגישה"
 
@@ -54,6 +66,96 @@ msgid "Created by"
 msgstr "נוצר על ידי"
 
 #: .\models.py:28
+<<<<<<< HEAD
+msgid "Scheduled at"
+msgstr "מועד"
+
+#: .\models.py:29
+msgid "Location"
+msgstr "מקום"
+
+#: .\models.py:30
+msgid "Comments"
+msgstr "הערות"
+
+#: .\models.py:32
+msgid "Agenda items"
+msgstr "סדר יום"
+
+#: .\models.py:35
+msgid "Participants"
+msgstr "משתתפים"
+
+#: .\models.py:37
+msgid "Is published"
+msgstr "האם פורסם"
+
+#: .\models.py:38
+msgid "Published at"
+msgstr "פורסם בתאריך"
+
+#: .\models.py:39
+msgid "Version"
+msgstr "גירסה"
+
+#: .\models.py:41
+msgid "Is closed"
+msgstr "נסגר"
+
+#: .\models.py:42
+msgid "Closed at"
+msgstr "נסגר ב"
+
+#: .\models.py:44
+msgid "Closed by"
+msgstr "נסגר על ידי"
+
+#: .\models.py:48 .\templates\meetings\meeting_detail.html.py:12
+#: .\templates\meetings\meeting_list.html.py:8
+msgid "Meetings"
+msgstr "פגישות"
+
+#: .\models.py:60
+msgid "Name"
+msgstr "שם"
+
+#: .\models.py:63
+msgid "Meeting External Participant"
+msgstr "משתתף חיצוני"
+
+#: .\models.py:64
+msgid "Meeting External Participants"
+msgstr "משתתפים חיצוניים"
+
+#: .\templates\meetings\meeting_detail.html.py:6
+#: .\templates\meetings\meeting_form.html.py:6
+#: .\templates\meetings\meeting_list.html.py:5
+msgid "Communities"
+msgstr "קהילות"
+
+#: .\templates\meetings\meeting_detail.html.py:45
+msgid "Issues"
+msgstr "נושאים לדיון"
+
+#: .\templates\meetings\meeting_detail.html.py:48
+msgid "Agenda published at"
+msgstr "סדר יום פורסם בתאריך"
+
+#: .\templates\meetings\meeting_detail.html.py:52
+msgid "Agenda is not final"
+msgstr "סדר יום לא סופי"
+
+#: .\templates\meetings\meeting_detail.html.py:73
+msgid "Publish"
+msgstr "פרסם"
+
+#: .\templates\meetings\meeting_form.html.py:9
+msgid "Create Issue"
+msgstr "צור נושא לדיון"
+
+#~ msgid "Resolved"
+#~ msgstr "נסגר"
+=======
 msgid "Held at"
 msgstr "מועד קיום הפגישה"
 
@@ -128,3 +230,4 @@ msgstr "בפגישה זו לא התקבלו החלטות"
 #: .\templates\meetings\meeting_form.html.py:9
 msgid "Create Issue"
 msgstr "נושא חדש"
+>>>>>>> 604798a8a6f2601623e3c82213134b185fd1121c
