@@ -21,16 +21,18 @@
 
         <div data-role="page">
 
-            <div data-role="header" data-position="fixed">
+            <div id="main_header" data-role="header" data-position="fixed">
                 {% block header-start %}
                 <a href="#" data-icon="arrow-r" data-iconpos="notext" data-rel="back"></a>
                 {% endblock %}
                 <h1>
+                	<font color="#76ddf9">
                     {% if community %}
                         {{community}}
                     {% else %}
                         {% trans "Open Community" %}
                     {% endif %}
+                    </font>
                     <br/>
                     {% block page_header %}Page Title{% endblock %}
                 </h1>

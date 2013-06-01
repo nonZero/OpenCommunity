@@ -16,3 +16,4 @@
 /.project
 /.pydevproject
 src/ocd/local_settings.py
+db/2013-05-20.json
