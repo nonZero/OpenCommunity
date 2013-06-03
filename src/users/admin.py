@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import ugettext, ugettext_lazy as _
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
@@ -38,7 +39,10 @@ class UserChangeForm(forms.ModelForm):
     the user, but replaces the password field with admin's
     password hash display field.
     """
-    password = ReadOnlyPasswordHashField()
+    password = ReadOnlyPasswordHashField(label=_("Password"),
+        help_text=_("Raw passwords are not stored, so there is no way to see "
+                    "this user's password, but you can change the password "
+                    "using <a href=\"password/\">this form</a>."))
 
     class Meta:
         model = OCUser
@@ -80,7 +84,7 @@ class OCUserAdmin(UserAdmin):
     ordering = ('email',)
     filter_horizontal = ()
 
-    #inlines = [MembershipInline]
+    inlines = [MembershipInline]
 
 # Now register the new UserAdmin...
 admin.site.register(OCUser, OCUserAdmin)

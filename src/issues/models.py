@@ -179,6 +179,9 @@ class Proposal(models.Model):
     def __unicode__(self):
         return self.title
 
+    def is_task(self):
+        return self.type == ProposalType.TASK
+
     @models.permalink
     def get_absolute_url(self):
         return ("proposal", (str(self.issue.community.pk), str(self.issue.pk),
@@ -187,4 +190,9 @@ class Proposal(models.Model):
     @models.permalink
     def get_edit_url(self):
         return ("proposal_edit", (str(self.issue.community.pk), str(self.issue.pk),
+                                str(self.pk)))
+
+    @models.permalink
+    def get_edit_task_url(self):
+        return ("proposal_edit_task", (str(self.issue.community.pk), str(self.issue.pk),
                                 str(self.pk)))

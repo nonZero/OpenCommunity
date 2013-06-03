@@ -8,7 +8,9 @@
 
 {% block header-start %}
     {# <a data-rel="dialog" href="{% url "issue_create" community.id %}" data-icon="plus" data-iconpos="notext"></a> #}
-    <a href="{% url "issue_create" community.id %}" data-icon="plus" data-iconpos="notext"></a>
+    {% if cperms.issues.add_issue %}
+        <a href="{% url "issue_create" community.id %}" data-icon="plus" data-iconpos="notext"></a>
+    {% endif %}
 {% endblock %}
 
 {% block header-end %}

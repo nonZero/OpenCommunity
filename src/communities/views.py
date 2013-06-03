@@ -9,7 +9,7 @@ from django.views.generic import ListView
 from django.views.generic.base import RedirectView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
-from ocd.views import ProtectedMixin
+from ocd.base_views import ProtectedMixin
 import datetime
 import json
 

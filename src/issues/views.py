@@ -1,23 +1,15 @@
-from communities.models import Community
 from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView
-from django.views.generic.base import View
-from django.views.generic.detail import DetailView, SingleObjectMixin
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
-    UpdateIssueForm
-from ocd.views import ProtectedMixin
+    UpdateIssueForm, EditProposalTaskForm
+from ocd.base_views import CommunityMixin
 import datetime
 import json
-
-
-class CommunityMixin(ProtectedMixin):
-
-    @property
-    def community(self):
-        return get_object_or_404(Community, pk=self.kwargs['community_id'])
+from issues.models import ProposalType
 
 
 class IssueMixin(CommunityMixin):
@@ -31,11 +23,12 @@ class IssueMixin(CommunityMixin):
         context = super(IssueMixin, self).get_context_data(**kwargs)
 
         context['community'] = self.community
-
         return context
 
 
 class IssueList(IssueMixin, ListView):
+
+    required_permission = 'issues.viewopen_issue'
 
     def get_queryset(self):
         return super(IssueList, self).get_queryset().filter(is_closed=False)
@@ -43,14 +36,18 @@ class IssueList(IssueMixin, ListView):
 
 class IssueDetailView(IssueMixin, DetailView):
 
+    def get_required_permission(self):
+        o = self.get_object()
+        return 'issues.viewclosed_issue' if o.is_closed else 'issues.viewopen_issue'
+
     def get_context_data(self, **kwargs):
         d = super(IssueDetailView, self).get_context_data(**kwargs)
         d['form'] = forms.CreateIssueCommentForm()
         return d
 
-    def post(self, request, *args, **kwargs):
+    required_permission_for_post = 'issues.add_issuecomment'
 
-        # TODO AUTH
+    def post(self, request, *args, **kwargs):
 
         form = forms.CreateIssueCommentForm(request.POST)
         if not form.is_valid():
@@ -63,12 +60,19 @@ class IssueDetailView(IssueMixin, DetailView):
         return render(request, 'issues/_comment.html', {'c': c})
 
 
-class IssueCommentDeleteView(CommunityMixin, DeleteView):
-
+class IssueCommentMixin(CommunityMixin):
     model = models.IssueComment
+
+    def get_required_permission(self):
+        o = self.get_object()
+        return 'issues.editopen_issuecomment' if o.issue.is_closed else \
+            'issues.editclosed_issuecomment'
 
     def get_queryset(self):
         return models.IssueComment.objects.filter(issue__community=self.community)
+
+
+class IssueCommentDeleteView(IssueCommentMixin, DeleteView):
 
     def post(self, request, *args, **kwargs):
         o = self.get_object()
@@ -77,13 +81,9 @@ class IssueCommentDeleteView(CommunityMixin, DeleteView):
         return HttpResponse(int(o.active))
 
 
-class IssueCommentEditView(CommunityMixin, UpdateView):
+class IssueCommentEditView(IssueCommentMixin, UpdateView):
 
-    model = models.IssueComment
     form_class = forms.EditIssueCommentForm
-
-    def get_queryset(self):
-        return models.IssueComment.objects.filter(issue__community=self.community)
 
     def form_valid(self, form):
         self.get_object().update_content(form.instance.version, self.request.user,
@@ -97,6 +97,8 @@ class IssueCommentEditView(CommunityMixin, UpdateView):
 class IssueCreateView(IssueMixin, CreateView):
     form_class = CreateIssueForm
 
+    required_permission = 'issues.add_issue'
+
     def form_valid(self, form):
         form.instance.community = self.community
         form.instance.created_by = self.request.user
@@ -104,12 +106,20 @@ class IssueCreateView(IssueMixin, CreateView):
 
 
 class IssueEditView(IssueMixin, UpdateView):
+
+    required_permission = 'issues.editopen_issue'
+
     form_class = UpdateIssueForm
 
 
 class ProposalCreateView(IssueMixin, CreateView):
 
     model = models.Proposal
+
+    def get_required_permission(self):
+        return 'issues.editclosedproposal' if self.get_object().is_closed \
+            else 'issues.add_proposal'
+
     form_class = CreateProposalForm
 
     @property
@@ -146,10 +156,15 @@ class ProposalMixin(IssueMixin):
 
 class ProposalDetailView(ProposalMixin, DetailView):
 
+    def get_required_permission(self):
+        o = self.get_object()
+        return 'issues.viewclosed_proposal' if o.issue.is_closed else 'issues.viewopen_proposal'
+
+    def get_required_permission_for_post(self):
+        o = self.get_object()
+        return 'issues.acceptclosed_proposal' if o.issue.is_closed else 'issues.acceptopen_proposal'
+
     def post(self, request, *args, **kwargs):
-
-        # TODO AUTH
-
         p = self.get_object()
         p.is_accepted = request.POST['accepted'] == "0"
         p.accepted_at = datetime.datetime.now() if p.is_accepted else None
@@ -161,3 +176,18 @@ class ProposalDetailView(ProposalMixin, DetailView):
 
 class ProposalEditView(ProposalMixin, UpdateView):
     form_class = EditProposalForm
+
+    def get_required_permission(self):
+        o = self.get_object()
+        return 'issues.editclosed_proposal' if o.issue.is_closed else 'issues.edittask_proposal'
+
+
+class ProposalEditTaskView(ProposalMixin, UpdateView):
+    form_class = EditProposalTaskForm
+
+    def get_queryset(self):
+        return super(ProposalEditTaskView, self).get_queryset().filter(type=ProposalType.TASK)
+
+    def get_required_permission(self):
+        o = self.get_object()
+        return 'issues.editclosed_proposal' if o.issue.is_closed else 'issues.editopen_proposal'
