@@ -19,6 +19,10 @@
 
     <body>
 
+        <div id="loading" style="z-index: 100; background:white; position:absolute; top:0; left:0; right:0; bottom:0">
+            &nbsp;
+        </div>
+
         <div data-role="page">
 
             <div data-role="header" data-position="fixed">
@@ -63,6 +67,7 @@
                 $.mobile.popup.prototype.options.transition = 'slidedown';
             });
             $(function() {
+                $('#loading').hide();
                 $('.dateinput').attr('type','date');
                 $('.timeinput').attr('type','time');
                 $('.datetimeinput').attr('type','datetime-local');
