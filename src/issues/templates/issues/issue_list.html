@@ -31,7 +31,7 @@
 
 {% block content %}
 
-    <ul data-role="listview" data-filter="true" data-filter-placeholder="{% trans "Search" %}">
+    <ul class="content_fix" data-role="listview" data-filter="true" data-filter-placeholder="{% trans "Search" %}">
         {% for object in object_list %}
             <li>
                 <a href="{{ object.get_absolute_url }}">

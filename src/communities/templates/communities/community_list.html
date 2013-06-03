@@ -9,7 +9,7 @@
 
     {% if object_list %}
 
-        <ul data-role="listview">
+        <ul class="community_home" data-role="listview">
             {% for object in object_list %}
                 <li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
             {% endfor %}
