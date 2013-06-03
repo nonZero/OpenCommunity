@@ -20,6 +20,12 @@
             </li>
         {% endif %}
 
+        {% if cperms.community.invite_member %}
+            <li>
+                <a href="{% url 'members' community.id %}">{% trans "Members" %}</a>
+            </li>
+        {% endif %}
+
         <li data-role="list-divider">
             {{user.display_name}}
         </li>

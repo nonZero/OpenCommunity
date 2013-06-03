@@ -15,6 +15,7 @@ urlpatterns = patterns('',
             MeetingCreateView.as_view(),
             name="upcoming_close"),
 
+    url(r'^(?P<community_id>\d+)/members/', include('users.urls')),
     url(r'^(?P<community_id>\d+)/issues/', include('issues.urls')),
     url(r'^(?P<community_id>\d+)/history/', include('meetings.urls')),
 
