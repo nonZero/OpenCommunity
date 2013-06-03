@@ -14,7 +14,7 @@
             </li>
         {% endif %}
 
-        {% if cperms.meeting.view_meeting %}
+        {% if cperms.meetings.view_meeting %}
             <li{% if pill == 'history' %} class="active"{% endif %}>
                 <a href="{% url 'history' community.id %}">{% trans "History" %}</a>
             </li>

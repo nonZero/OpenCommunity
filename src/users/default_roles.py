@@ -18,7 +18,7 @@ class DefaultRoles(object):
                            'communities.access_community',
                            'issues.viewclosed_issue',
                            'issues.viewclosed_proposal',
-                           'meeting.view_meeting',
+                           'meetings.view_meeting',
                            ]
 
     permissions[OBSERVER] = permissions[VIEWER] + [

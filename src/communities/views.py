@@ -4,7 +4,7 @@ from communities.forms import EditUpcomingMeetingForm, \
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponse
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import redirect
 from django.views.generic import ListView
 from django.views.generic.base import RedirectView
 from django.views.generic.detail import DetailView, SingleObjectMixin
