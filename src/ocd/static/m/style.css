@@ -94,7 +94,6 @@ form.ui-listview-filter {
 }
 .ui-grid-solo .ui-bar, .ui-body {
     padding: 0;
-    overflow: auto;
 }
 /*.ui-grid-solo .ui-btn {
     margin: 5px 0 0 0;

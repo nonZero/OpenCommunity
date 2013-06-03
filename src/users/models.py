@@ -67,7 +67,7 @@ class OCUser(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = _('users')
 
     def __unicode__(self):
-        return self.email
+        return self.display_name
 
     def get_full_name(self):
         # The user is identified by their email address

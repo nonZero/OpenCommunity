@@ -2,10 +2,6 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 
-{% block header-start %}
-    <a href="#" data-icon="back" data-rel="back">{% trans "Back" %}</a>
-{% endblock %}
-
 {% block page_header %}
     {% if form.instance %}
         {% trans "New Proposal" %}

@@ -6,7 +6,7 @@
 	{% trans "Proposal" %}
 {% endblock %}
 
-{% block header-end %}
+{% block header-start %}
     <a href="#proposalpanel" data-icon="bars" data-iconpos="notext"  data-rel="popup"></a>
 {% endblock %}
 
@@ -77,8 +77,12 @@
             </div>
         {% endif %}
 
-        <a href="#" data-role="button" class="accept" data-theme="a">{% trans "Accept" %}</a>
-        <a href="#" data-role="button" class="unaccept" data-theme="a">{% trans "Cancel" %}</a>
+        {% if not object.issue.is_closed and cperms.issues.acceptopen_proposal %}
+
+            <a href="#" data-role="button" class="accept" data-theme="a">{% trans "Accept" %}</a>
+            <a href="#" data-role="button" class="unaccept" data-theme="a">{% trans "Cancel" %}</a>
+
+        {% endif %}
 
     </div>
 {% endblock %}
