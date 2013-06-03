@@ -5,26 +5,8 @@
     {% trans "Meetings" %}
 {% endblock %}
 
-{% block header-start %}
-    <a href="#upcoming-panel" data-icon="bars" data-iconpos="notext" data-rel="popup"></a>
-{% endblock %}
-
 {% block header-end %}
     <a href="#issuespanel" data-icon="bars" data-iconpos="notext" data-rel="popup"></a>
-{% endblock %}
-
-{% block startpanel %}
-    <div data-role="popup" id="upcoming-panel">
-        <ul data-role="listview">
-            <li data-icon="edit">
-                <a href="{% url "upcoming_edit" community.id  %}">{% trans "Edit" %}</a>
-            </li>
-            <li>
-                <a href="{% url "upcoming_publish" community.id  %}">{% trans "Publish" %}</a>
-            </li>
-        </ul>
-    </div>
-
 {% endblock %}
 
 {% block endpanel %}
