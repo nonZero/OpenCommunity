@@ -30,6 +30,9 @@
             {{user.display_name}}
         </li>
         <li>
+            <a href="{% url 'home' %}">{% trans "My Communities" %}</a>
+        </li>
+        <li>
             <a href="{% url 'logout' %}">{% trans "Log out" %}</a>
         </li>
     </ul>
