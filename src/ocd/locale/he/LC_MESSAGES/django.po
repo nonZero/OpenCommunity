@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-09 23:05+0300\n"
+"POT-Creation-Date: 2013-06-03 12:02+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,18 +21,35 @@ msgstr ""
 msgid "Page not found"
 msgstr "דף לא נמצא"
 
-#: .\templates\_navbar.html.py:14 .\templates\base.html.py:8
+#: .\templates\_navbar.html.py:12 .\templates\base.html.py:8
+#: .\templates\base.html.py:36
 msgid "Open Community"
 msgstr "קהילה פתוחה"
 
-#: .\templates\_navbar.html.py:23
+#: .\templates\_navbar.html.py:19
+msgid "Issues"
+msgstr ""
+
+#: .\templates\_navbar.html.py:22
+msgid "Upcoming Meeting"
+msgstr ""
+
+#: .\templates\_navbar.html.py:25
+msgid "History"
+msgstr ""
+
+#: .\templates\_navbar.html.py:38
 msgid "Log Out"
 msgstr "יציאה"
 
-#: .\templates\_navbar.html.py:27
+#: .\templates\_navbar.html.py:42 .\templates\login.html.py:12
 msgid "Login"
 msgstr "כניסה"
 
-#: .\templates\base.html.py:37
-msgid ":-)"
-msgstr ""
+#: .\templates\admin\base_site.html.py:5
+msgid "Open Community admin"
+msgstr "ניהול קהילה פתוחה"
+
+#: .\templates\admin\base_site.html.py:8
+msgid "Open Community Administration"
+msgstr "קהילה פתוחה: פאנל ניהול"
