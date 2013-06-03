@@ -41,8 +41,7 @@
             <div class="ui-bar">
                 <a href="#meetings" data-rel="dialog" data-theme="a" 
                 data-icon="arrow-d" data-iconpos="right">
-                	<!-- Need show meeting title, cant find in Model -->
-                	<p>{% trans "Meeting appoitment" %} {{object.held_at|date:"F"}}<br />
+                	<p>פגישה מספר {{object.id}}<br />
                     {{object.held_at|date:"m/Y"}}</p>
                 <div class="users">
                 	<p>{{object.participants.count}}</p>
