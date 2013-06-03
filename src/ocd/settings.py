@@ -1,4 +1,5 @@
 import os.path
+import sys
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
@@ -25,6 +26,9 @@ DATABASES = {
         'PORT': '',
     }
 }
+
+if 'test' in sys.argv:
+    DATABASES['default'] = {'ENGINE': 'django.db.backends.sqlite3'}
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -136,8 +140,10 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.humanize',
 
+    'django_nose',
     'crispy_forms',
     'south',
+    'django_extensions',
     'debug_toolbar',
 
     'oc_util',
