@@ -8,7 +8,6 @@ South==0.7.6
 # dev stuff
 django-extensions==1.1.1
 django-debug-toolbar==0.9.4
-django-extensions==1.1.1
 django-nose==1.1
 ipython
 
