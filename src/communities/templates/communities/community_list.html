@@ -7,10 +7,25 @@
 
 {% block content %}
 
-    <ul data-role="listview">
-        {% for object in object_list %}
-            <li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
-        {% endfor %}
-    </ul>
+    {% if object_list %}
+
+        <ul data-role="listview">
+            {% for object in object_list %}
+                <li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
+            {% endfor %}
+        </ul>
+
+    {% else %}
+
+    <div class="ui-grid-solo">
+        <div class="ui-block-a">
+            <div class="ui-bar ui-bar-e">
+                {% trans "You are not a member of any community" %}
+            </div>
+        </div>
+    </div>
+
+
+    {% endif %}
 
 {% endblock %}

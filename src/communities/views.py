@@ -7,33 +7,53 @@ from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView
 from django.views.generic.base import RedirectView
-from django.views.generic.detail import DetailView
+from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import UpdateView
-from ocd.base_views import ProtectedMixin
+from ocd.base_views import ProtectedMixin, LoginRequiredMixin
 import datetime
 import json
 
 
-class CommunityList(ListView):
+class CommunityList(LoginRequiredMixin, ListView):
     model = models.Community
 
+    def get_queryset(self):
+        qs = super(CommunityList, self).get_queryset()
+        if self.request.user.is_superuser:
+            return qs
+        return qs.filter(memberships__user=self.request.user)
 
-class CommunityDetailView(RedirectView):
+
+class CommunityModelMixin(ProtectedMixin):
+
+    model = models.Community
+
+    @property
+    def community(self):
+        return self.get_object()
+
+
+class CommunityDetailView(CommunityModelMixin, SingleObjectMixin, RedirectView):
 
     def get_redirect_url(self, **kwargs):
 
-        self.community = get_object_or_404(models.Community,
-                                           pk=self.kwargs['pk'])
+        perm = 'issues.viewopen_issue'
+        view_name = 'issues' if self.request.user.has_community_perm(
+                                     self.community, perm) else 'history'
 
-        return reverse('issues', args=(str(self.community.id),))
+        return reverse(view_name, args=(str(self.community.id),))
 
 
-class UpcomingMeetingView(ProtectedMixin, DetailView):
-    model = models.Community
+class UpcomingMeetingView(CommunityModelMixin, DetailView):
+
+    required_permission = 'communities.viewupcoming_community'
+
     template_name = "communities/upcoming.html"
 
     def get_issues_queryset(self, **kwargs):
         return self.get_object().issues.filter(is_closed=False, **kwargs)
+
+    required_permission_for_post = 'community.editagenda_community'
 
     def post(self, request, *args, **kwargs):
 
@@ -51,8 +71,10 @@ class UpcomingMeetingView(ProtectedMixin, DetailView):
                             content_type='application/json')
 
 
-class EditUpcomingMeetingView(ProtectedMixin, UpdateView):
-    model = models.Community
+class EditUpcomingMeetingView(CommunityModelMixin, UpdateView):
+
+    required_permission = 'communities.editupcoming_community'
+
     form_class = EditUpcomingMeetingForm
     template_name = "communities/upcoming_form.html"
 
@@ -60,8 +82,10 @@ class EditUpcomingMeetingView(ProtectedMixin, UpdateView):
         return self.get_object().get_upcoming_absolute_url()
 
 
-class PublishUpcomingView(ProtectedMixin, UpdateView):
-    model = models.Community
+class PublishUpcomingView(CommunityModelMixin, UpdateView):
+
+    required_permission = 'community.editagenda_community'
+
     form_class = PublishUpcomingMeetingForm
     template_name = "communities/publish_upcoming.html"
 
@@ -79,8 +103,10 @@ class PublishUpcomingView(ProtectedMixin, UpdateView):
         return redirect(c.get_upcoming_absolute_url())
 
 
-class OngoingMeetingView(ProtectedMixin, DetailView):
-    model = models.Community
+class OngoingMeetingView(CommunityModelMixin, DetailView):
+
+    required_permission = 'community.editupcoming_community'
+
     template_name = "communities/ongoing.html"
 
     def get_issues_queryset(self, **kwargs):

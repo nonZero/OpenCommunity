@@ -34,18 +34,33 @@
 
 {% block content %}
 
-<ul data-role="listview">
-    {% for object in object_list %}
-        <li>
-            <a href="{{ object.get_absolute_url }}">
-                {{ object.held_at }}
-                {% if object.location %}
-                    , {{ object.location }}
-                {% endif %} 
-            </a>
-        </li>
-    {% endfor %}
-</ul>
+    {% if object_list %}
+
+        <ul data-role="listview">
+            {% for object in object_list %}
+                <li>
+                    <a href="{{ object.get_absolute_url }}">
+                        {{ object.held_at }}
+                        {% if object.location %}
+                            , {{ object.location }}
+                        {% endif %} 
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+
+    {% else %}
+
+        <div class="ui-grid-solo">
+            <div class="ui-block-a">
+                <div class="ui-bar ui-bar-e">
+                    {% trans "This community did not conduct any meeting yet." %}
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+
 
 {% endblock %}
 

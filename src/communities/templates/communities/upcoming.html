@@ -6,7 +6,9 @@
 {% endblock %}
 
 {% block header-start %}
-    <a href="#upcoming-panel" data-icon="edit" data-iconpos="notext" data-rel="popup"></a>
+    {% if cperms.community.editupcoming_community %}
+        <a href="#upcoming-panel" data-icon="edit" data-iconpos="notext" data-rel="popup"></a>
+    {% endif %}
 {% endblock %}
 
 {% block header-end %}
@@ -16,17 +18,24 @@
 {% block startpanel %}
     <div data-role="popup" id="upcoming-panel">
         <ul data-role="listview">
-            <li data-icon="edit">
-                <a href="{% url "upcoming_edit" community.id  %}">{% trans "Edit" %}</a>
-            </li>
-            <li>
-                <a href="{% url "upcoming_publish" community.id  %}">{% trans "Publish" %}</a>
-            </li>
-            <li>
-                <a href="{% url "ongoing_meeting" community.id %}" >
-                    {% trans "Start Meeting" %}
-                </a>
-            </li>
+
+            {% if cperms.community.editupcoming_community %}
+                <li data-icon="edit">
+                    <a href="{% url "upcoming_edit" community.id  %}">{% trans "Edit" %}</a>
+                </li>
+            {% endif %}
+
+            {% if cperms.community.editagenda_community %}
+                <li>
+                    <a href="{% url "upcoming_publish" community.id  %}">{% trans "Publish" %}</a>
+                </li>
+                <li>
+                    <a href="{% url "ongoing_meeting" community.id %}" >
+                        {% trans "Start Meeting" %}
+                    </a>
+                </li>
+            {% endif %}
+
         </ul>
     </div>
 
@@ -90,41 +99,49 @@
                         {% endif %}
                     {% endwith %}
                     </a>
-                    <a href="#" class="addremove"></a>
+                    {% if cperms.community.editagenda_community %}
+                        <a href="#" class="addremove"></a>
+                    {% endif %}
                 </li>
 
                 {% endfor %}
         </ul>
     </div>
+
+
+    {% if cperms.community.editagenda_community %}
+
+        <div data-role="collapsible" data-collapsed="false"
+                data-theme="b" data-content-theme="c" >
     
-    <div data-role="collapsible" data-collapsed="false"
-            data-theme="b" data-content-theme="c" >
+            <h4>{% trans "Available Issues" %}</h4>
     
-        <h4>{% trans "Available Issues" %}</h4>
-                
-        <ul id="available" data-role="listview" data-split-icon="plus">
+            <ul id="available" data-role="listview" data-split-icon="plus">
+    
+                {% for i in object.available_issues %}
+    
+                    <li data-issue="{{i.id}}" data-set="{{i.in_upcoming_meeting|yesno:'1,0'}}">
+                        <i class="grab icon-th-list"></i>
+                        <a href="{{i.get_absolute_url}}">
+                            {{i.title}}
+                            {% with proposals=i.accepted_proposals.count %}
+                                {% if proposals %}
+                                    <span class="ui-li-count">
+                                        {{ proposals }}
+                                    </span>
+                                {% endif %}
+                            {% endwith %}
+                        </a>
+                        <a href="#" class="addremove"></a>
+                    </li>
+    
+                {% endfor %}
+            </ul>
+    
+        </div>
+        
+    {% endif %}
 
-            {% for i in object.available_issues %}
-
-                <li data-issue="{{i.id}}" data-set="{{i.in_upcoming_meeting|yesno:'1,0'}}">
-                    <i class="grab icon-th-list"></i>
-                    <a href="{{i.get_absolute_url}}">
-                        {{i.title}}
-                        {% with proposals=i.accepted_proposals.count %}
-                            {% if proposals %}
-                                <span class="ui-li-count">
-                                    {{ proposals }}
-                                </span>
-                            {% endif %}
-                        {% endwith %}
-                    </a>
-                    <a href="#" class="addremove"></a>
-                </li>
-
-            {% endfor %}
-        </ul>
-
-    </div>
 
 {% endblock %}
 
