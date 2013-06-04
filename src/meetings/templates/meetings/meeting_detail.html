@@ -3,6 +3,10 @@
 {% load humanize %}
 {% load letter_tag %}
 
+{% block extra-page-id %}
+	id="meeting-detail"
+{% endblock %}
+
 {% block page_header %}
     {% trans "Meetings" %}
 {% endblock %}
@@ -16,7 +20,7 @@
 {% endblock %}
 
 {% block startpanel %}
-    <div data-role="panel" id="meeting-panel">
+    <div data-role="popup" id="meeting-panel">
         <ul data-role="listview">
             <li>
                 <a href="#">{% trans "Share Link" %}</a>
@@ -100,7 +104,7 @@
                     {% for p in a.accepted_proposals %}
                         <li class="sub_agenda">
                             <a class="agenda_items" href="{{p.get_absolute_url}}">
-                                <div class="letter_count">{{ forloop.counter|to_char }}</div>
+                                <div class="letter_count num{{ forloop.counter }}">{{ forloop.counter|to_char }}</div>
                                 <p>{# {{p.get_type_display}}: #} <b>{{p.title}}</b></p>
                                 <br />
                                 <p>{{p.content}}</p>
