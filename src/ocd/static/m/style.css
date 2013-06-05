@@ -1,3 +1,4 @@
+@import url(http://fonts.googleapis.com/earlyaccess/alefhebrew.css);
 .push {
     float:left;
 }
@@ -8,7 +9,7 @@
 
 /*** Working on design ***/
 * {
-    font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    font-family: "Alef Hebrew", “Helvetica Neue”, Helvetica, Arial, sans-serif !important;
 }
 .ui-body-c, .ui-overlay-c {
     background: url("images/bg.jpg") repeat;
@@ -16,30 +17,35 @@
 
 .ui-btn-up-b .agenda_list {
     display: inline-block;
-    font-weight: bold;
+    font-weight: normal;
+    font-size: 30px;
     color: #fff;
     text-shadow: none;
     background: #3d3c3c;
-    padding: .7em 0;
-    width: 2em;
+    padding: 5px 0;
+    width: 38px;
     text-align: center;
     border-right: 1px solid #3d3c3c;
+    border-left: 1px solid #3d3c3c;
 }
 
 .ui-btn-hover-b .agenda_list {
     display: inline-block;
-    font-weight: bold;
+    font-weight: normal;
+    font-size: 30px;
     color: #fff;
     text-shadow: none;
     background: #3d3c3c;
-    padding: .7em 0;
-    width: 2em;
+    padding: 5px 0;
+    width: 38px;
     text-align: center;
     border-right: 1px solid #3d3c3c;
+    border-left: 1px solid #3d3c3c;
 }
 li.agenda.ui-li a.ui-link-inherit {
     padding: 0 0 0 40px;
     background: url(images/arrow-left.png) no-repeat 2% 50%;
+    font-size: 18px;
 }
 .ui-listview {
     border-radius: 0;
@@ -55,11 +61,20 @@ li.agenda.ui-li a.ui-link-inherit {
 }
 .letter_count {
     float: right;
-    padding: 1.3em 0;
+    padding: .5em 0;
     background: #cacccd;
     color: #3d3c3c;
-    width: 2em;
+    width: 38px;
     text-align: center;
+    font-size: 30px;
+    font-weight: normal;
+    border-left: 1px solid #ceced0;
+}
+.letter_count.num2,
+.letter_count.num4,
+.letter_count.num6,
+.letter_count.num8 {
+	background: #dcddde;
 }
 .agenda_items {
     padding-top: 0 !important;
@@ -67,12 +82,133 @@ li.agenda.ui-li a.ui-link-inherit {
 }
 #main_header.ui-bar-a {
     background-image: url(images/title_bg.png);
-/*  background-image: -webkit-gradient(linear, left top, left bottom, from( #018eb5 ), to( #00546b ));
-    background-image: -webkit-linear-gradient( #018eb5 , #00546b );
-    background-image:    -moz-linear-gradient( #018eb5 , #00546b );
-    background-image:     -ms-linear-gradient( #018eb5 , #00546b );
-    background-image:      -o-linear-gradient( #018eb5 , #00546b );
-    background-image: linear-gradient( rgb(1, 142, 181) , #00546b );*/
+
+}
+#main_header a.ui-btn-icon-notext {
+	width: 40px;
+	height: 50px;
+}
+#main_header .ui-bar-a .ui-shadow, .ui-bar-b .ui-shadow, .ui-bar-c .ui-shadow,
+#main_header span.ui-shadow,
+#main_header span.ui-icon-shadow,
+#main_header.ui-bar-a .ui-shadow {
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+#meeting-list a.ui-btn-left span.ui-icon,
+#issue-list a.ui-btn-left span.ui-icon,
+#issue-detail a.ui-btn-left span.ui-icon,
+#proposal-detail a.ui-btn-left span.ui-icon,
+#issue-create a.ui-btn-left span.ui-icon,
+#members-list a.ui-btn-left span.ui-icon,
+#upcoming-meeting a.ui-btn-left span.ui-icon,
+#meeting-detail a.ui-btn-left span.ui-icon {
+	background: none;
+	-webkit-border-radius: none;
+	border-radius: none;
+}
+#meeting-detail a.ui-btn-right span.ui-icon,
+#issue-detail a.ui-btn-right span.ui-icon,
+#proposal-detail a.ui-btn-right span.ui-icon,
+#upcoming-meeting a.ui-btn-right span.ui-icon,
+#issue-list a.ui-btn-right span.ui-icon {
+	background: none;
+	-webkit-border-radius: none;
+	border-radius: none;
+}
+#meeting-detail .ui-btn-right.ui-btn-up-a {
+	border: 0;
+	background: url(images/right_action.png) no-repeat left center transparent;
+	text-shadow: none;
+}
+#meeting-detail .ui-btn-right.ui-btn-hover-a {
+	border: 0;
+	background: url(images/right_action.png) no-repeat left center transparent;
+	text-shadow: none;
+}
+#issue-detail .ui-btn-right.ui-btn-up-a,
+#proposal-detail .ui-btn-right.ui-btn-up-a,
+#upcoming-meeting .ui-btn-right.ui-btn-up-a {
+	border: 0;
+	background: url(images/edit_action.png) no-repeat left center transparent;
+	text-shadow: none;
+}
+#issue-detail .ui-btn-right.ui-btn-hover-a,
+#proposal-detail .ui-btn-right.ui-btn-hover-a,
+#upcoming-meeting .ui-btn-right.ui-btn-hover-a {
+	border: 0;
+	background: url(images/edit_action.png) no-repeat left center transparent;
+	text-shadow: none;
+}
+#issue-list .ui-btn-right.ui-btn-up-a {
+	border: 0;
+	background: url(images/plus_action.png) no-repeat left center transparent;
+	text-shadow: none;
+}
+#issue-list .ui-btn-right.ui-btn-hover-a {
+	border: 0;
+	background: url(images/plus_action.png) no-repeat left center transparent;
+	text-shadow: none;
+}
+#meeting-list a.ui-btn-right,
+#members-list a.ui-btn-right,
+#create-proposal a.ui-btn-right,
+#login-page a.ui-btn-right,
+#login-page a.ui-btn-left,
+#issue-create a.ui-btn-right {
+	display: none;
+}
+#meeting-list a.ui-link-inherit {
+    padding-right: 1em;
+}
+
+#meeting-detail .ui-btn-left.ui-btn-up-a,
+#issue-list .ui-btn-left.ui-btn-up-a,
+#upcoming-meeting .ui-btn-left.ui-btn-up-a,
+#meeting-list .ui-btn-left.ui-btn-up-a {
+	border: 0;
+	background: url(images/left_action.png) no-repeat right center transparent;
+	text-shadow: none;
+}
+#meeting-detail .ui-btn-left.ui-btn-hover-a,
+#issue-list .ui-btn-left.ui-btn-hover-a,
+#upcoming-meeting .ui-btn-left.ui-btn-hover-a,
+#meeting-list .ui-btn-left.ui-btn-hover-a {
+	border: 0;
+	background: url(images/left_action.png) no-repeat right center transparent;
+	text-shadow: none;
+}
+#issue-detail .ui-btn-left.ui-btn-up-a,
+#proposal-detail .ui-btn-left.ui-btn-up-a,
+#members-list .ui-btn-left.ui-btn-up-a,
+#issue-create .ui-btn-left.ui-btn-up-a {
+	border: 0;
+	background: url(images/left_arrow_action.png) no-repeat right center transparent;
+	text-shadow: none;
+}
+#issue-detail .ui-btn-left.ui-btn-hover-a,
+#proposal-detail .ui-btn-left.ui-btn-hover-a,
+#members-list .ui-btn-left.ui-btn-hover-a,
+#issue-create .ui-btn-left.ui-btn-hover-a {
+	border: 0;
+	background: url(images/left_arrow_action.png) no-repeat right center transparent;
+	text-shadow: none;
+}
+#main_header a.ui-btn-corner-all {
+	-webkit-border-radius: 0;
+	border-radius: 0;
+}
+#main_header span.ui-btn-inner span.ui-icon {
+	width: 40px;
+	height: 40px;
+	background-color: transparent;
+}
+#main_header span.ui-btn-inner span.ui-icon-bars {
+	background-position: 0;
+}
+#main_header span.ui-btn-inner {
+	border: 0;
 }
 #main_header.ui-bar-a {
     border-bottom: 0;
@@ -83,7 +219,7 @@ li.agenda.ui-li a.ui-link-inherit {
     text-shadow: none;
     background-image: none;
 }
-.ui-content {
+#meeting-detail .ui-content {
     padding: 0 0 15px 0;
 }
 .ui-content ul.content_fix.ui-listview {
@@ -95,9 +231,6 @@ form.ui-listview-filter {
 .ui-grid-solo .ui-bar, .ui-body {
     padding: 0;
 }
-/*.ui-grid-solo .ui-btn {
-    margin: 5px 0 0 0;
-}*/
 .ui-grid-solo .ui-btn {
     margin: 0;
 }
@@ -136,21 +269,12 @@ form.ui-listview-filter {
 }
 .ui-grid-solo .ui-btn-icon-right > .ui-btn-inner > .ui-btn-text div.users p {
     width: auto;
-    font-size: 1.7em;
+    font-size: 24px;
     padding-right: 75%;
     border-left: 0;
 }
 .ui-grid-solo .ui-btn-icon-right > .ui-btn-inner > .ui-icon {
-/*  position: absolute;
-    top: 15%;
-    right: 5%;
-    margin-top: 0;
-    width: 32px;
-    height: 50px;
-    background-color: transparent;*/
     background: none;
-/*  background-image: url(images/date-grid-icon.png);
-    background-repeat: no-repeat;*/
     -webkit-border-radius: 0;
     border-radius: 0;
 }
@@ -167,6 +291,7 @@ form.ui-listview-filter {
     width: 75%;
     float: right;
     border-left: 1px solid #8f9698;
+    font-size: 18px;
 }
 .ui-collapsible-inset {
     margin-top: 0;
@@ -188,9 +313,6 @@ li.agenda .ui-icon-arrow-l {
     background-position: 0;
 }
 li.agenda .ui-icon {
-/*  background-color: transparent;
-    background-image: url(images/arrow-left.png);
-    background-repeat: no-repeat;*/
     background: none;
     -webkit-border-radius: 0;
     border-radius: 0;
@@ -201,24 +323,28 @@ li.agenda .ui-icon-shadow {
     box-shadow: none;
 }
 .agenda_items p {
-    display: inline;
-    font-size: 16px;
+    display: inline-block;
+    max-height: 3em;
+    max-width: 81%;
+    font-size: 15px;
     padding-right: 25px;
+    margin-top: .6em;
     color: #6c6c6e;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+.agenda_items p:last-child {
+	margin-top: 0;
+}
+
 li.sub_agenda .ui-icon {
     display: none;
 }
-/*.p-marg-up-down {
-    margin-top: 0.6em;
-    margin-bottom: 0;
-}*/
 p.summary {
     margin: 0;
     max-height: 4em;
+    font-size: 15px;
     overflow: hidden;
 /*  white-space: nowrap;*/
     text-overflow: ellipsis;
@@ -228,9 +354,9 @@ ul.agenda_itemlist.ui-listview-inset {
     margin: 1em;
 }
 li.sub_agenda.ui-li {
-    border-top: 1px solid #b4b4b6;
-    border-right: 1px solid #b4b4b6;
-    border-left: 1px solid #b4b4b6;
+    border-top: 1px solid #ceced0;
+    border-right: 1px solid #ceced0;
+    border-left: 1px solid #ceced0;
 }
 li.sub_agenda.ui-li:last-child {
     border-bottom: 1px solid #b4b4b6;
@@ -263,14 +389,52 @@ ul.content_fix .ui-li .ui-btn-inner a.ui-link-inherit {
 body.ui-mobile-viewport.ui-overlay-c .ui-page {
     padding-top: 67px !important;
 }
-/*textarea#id_abstract.ui-corner-all,
-#div_id_title .ui-corner-all,
-textarea#id_content.ui-corner-all {
-    -webkit-border-radius: 0;
-    border-radius: 0;
-    margin: 0 5%;
-}*/
-
 .h1top {
     color: #76ddf9;
+}
+#meeting-panel-screen.ui-popup-screen.in {
+	opacity: 0;
+	filter: Alpha(Opacity=0);
+}
+#meeting-panel-popup.ui-popup-container.slidedown.in.ui-popup-active {
+	top: 3.5em !important;
+	right: 0;
+	
+}
+#meeting-panel.ui-popup.ui-overlay-shadow.ui-corner-all.ui-body-c {
+	border: 0;
+}
+#meeting-panel-popup a.ui-link-inherit {
+	color: #fff;
+	font-weight: normal;
+	padding-right: 10px;
+	padding-left: 30px;
+	overflow: visible;
+}
+#meeting-panel-popup li.ui-btn-up-c,
+#meeting-panel-popup li.ui-btn-hover-c {
+	background: #3d3c3c;
+	background-image: none;
+	border-color: #666;
+}
+#community-list a.ui-btn-left,
+#community-list a.ui-btn-right,
+#meeting-panel-popup span.ui-icon.ui-icon-arrow-l.ui-icon-shadow {
+	display: none;
+}
+#upcoming-meeting .ui-content,
+#community-list .ui-content,
+#issue-detail .ui-content,
+#proposal-detail .ui-content,
+#issue-list .ui-content {
+	padding: 0;
+}
+#members-list .ui-content {
+	padding: 15px;
+}
+#issue-detail .ui-li-icon {
+	position: relative;
+	top: auto;
+	float: left;
+	margin-right: 10px;
 }

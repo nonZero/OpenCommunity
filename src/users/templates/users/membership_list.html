@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load i18n %}
 
+{% block extra-page-id %}
+	id="members-list"
+{% endblock %}
+
 {% block page_header %}
     {% trans "Members" %}
 {% endblock %}
