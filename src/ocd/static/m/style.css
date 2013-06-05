@@ -99,6 +99,7 @@ li.agenda.ui-li a.ui-link-inherit {
 #meeting-list a.ui-btn-left span.ui-icon,
 #issue-list a.ui-btn-left span.ui-icon,
 #issue-detail a.ui-btn-left span.ui-icon,
+#proposal-detail a.ui-btn-left span.ui-icon,
 #issue-create a.ui-btn-left span.ui-icon,
 #members-list a.ui-btn-left span.ui-icon,
 #upcoming-meeting a.ui-btn-left span.ui-icon,
@@ -109,6 +110,7 @@ li.agenda.ui-li a.ui-link-inherit {
 }
 #meeting-detail a.ui-btn-right span.ui-icon,
 #issue-detail a.ui-btn-right span.ui-icon,
+#proposal-detail a.ui-btn-right span.ui-icon,
 #upcoming-meeting a.ui-btn-right span.ui-icon,
 #issue-list a.ui-btn-right span.ui-icon {
 	background: none;
@@ -126,12 +128,14 @@ li.agenda.ui-li a.ui-link-inherit {
 	text-shadow: none;
 }
 #issue-detail .ui-btn-right.ui-btn-up-a,
+#proposal-detail .ui-btn-right.ui-btn-up-a,
 #upcoming-meeting .ui-btn-right.ui-btn-up-a {
 	border: 0;
 	background: url(images/edit_action.png) no-repeat left center transparent;
 	text-shadow: none;
 }
 #issue-detail .ui-btn-right.ui-btn-hover-a,
+#proposal-detail .ui-btn-right.ui-btn-hover-a,
 #upcoming-meeting .ui-btn-right.ui-btn-hover-a {
 	border: 0;
 	background: url(images/edit_action.png) no-repeat left center transparent;
@@ -149,6 +153,9 @@ li.agenda.ui-li a.ui-link-inherit {
 }
 #meeting-list a.ui-btn-right,
 #members-list a.ui-btn-right,
+#create-proposal a.ui-btn-right,
+#login-page a.ui-btn-right,
+#login-page a.ui-btn-left,
 #issue-create a.ui-btn-right {
 	display: none;
 }
@@ -173,6 +180,7 @@ li.agenda.ui-li a.ui-link-inherit {
 	text-shadow: none;
 }
 #issue-detail .ui-btn-left.ui-btn-up-a,
+#proposal-detail .ui-btn-left.ui-btn-up-a,
 #members-list .ui-btn-left.ui-btn-up-a,
 #issue-create .ui-btn-left.ui-btn-up-a {
 	border: 0;
@@ -180,6 +188,7 @@ li.agenda.ui-li a.ui-link-inherit {
 	text-shadow: none;
 }
 #issue-detail .ui-btn-left.ui-btn-hover-a,
+#proposal-detail .ui-btn-left.ui-btn-hover-a,
 #members-list .ui-btn-left.ui-btn-hover-a,
 #issue-create .ui-btn-left.ui-btn-hover-a {
 	border: 0;
@@ -416,9 +425,16 @@ body.ui-mobile-viewport.ui-overlay-c .ui-page {
 #upcoming-meeting .ui-content,
 #community-list .ui-content,
 #issue-detail .ui-content,
+#proposal-detail .ui-content,
 #issue-list .ui-content {
 	padding: 0;
 }
 #members-list .ui-content {
 	padding: 15px;
+}
+#issue-detail .ui-li-icon {
+	position: relative;
+	top: auto;
+	float: left;
+	margin-right: 10px;
 }
