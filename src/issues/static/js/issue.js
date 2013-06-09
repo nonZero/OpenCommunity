@@ -47,7 +47,6 @@ $(function() {
             form.ajaxSubmit({
                                 data: extra,
                                 success: function(data) {
-                                    console.log(data, form);
                                     form.closest('li').toggleClass('deleted', data=='0');
                                 }
                             });

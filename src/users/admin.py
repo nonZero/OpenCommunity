@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.models import Group
-from users.models import OCUser, Membership
+from users.models import OCUser, Membership, Invitation
 
 
 class UserCreationForm(forms.ModelForm):
@@ -54,8 +54,9 @@ class UserChangeForm(forms.ModelForm):
         return self.initial["password"]
 
 
-class MembershipInline(admin.TabularInline):
+class UserMembershipInline(admin.TabularInline):
     model = Membership
+    fk_name = 'user'
 
 
 class OCUserAdmin(UserAdmin):
@@ -84,13 +85,11 @@ class OCUserAdmin(UserAdmin):
     ordering = ('email',)
     filter_horizontal = ()
 
-    inlines = [MembershipInline]
+    inlines = [UserMembershipInline]
 
-# Now register the new UserAdmin...
 admin.site.register(OCUser, OCUserAdmin)
-# ... and, since we're not using Django's builtin permissions,
-# unregister the Group model from admin.
 admin.site.unregister(Group)
 
-#admin.site.register(Membership)
+admin.site.register(Membership)
+admin.site.register(Invitation)
 

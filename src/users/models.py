@@ -1,4 +1,5 @@
-from communities.models import Community
+from collections import defaultdict
+from django.conf import settings
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, \
     PermissionsMixin
 from django.core.mail import send_mail
@@ -6,7 +7,10 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from users.default_roles import DefaultGroups, ALL_PERMISSIONS
-from collections import defaultdict
+import random
+import string
+
+CODE_LENGTH = 48
 
 
 class OCUserManager(BaseUserManager):
@@ -130,6 +134,13 @@ class Membership(models.Model):
     default_group_name = models.CharField(_('Group'), max_length=50,
                                           choices=DefaultGroups.CHOICES)
 
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_("Created at"))
+    invited_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                   verbose_name=_("Invited by"),
+                                   related_name="members_invited", null=True,
+                                   blank=True)
+
     class Meta:
         unique_together = (("community", "user"),)
         verbose_name = _("Community Member")
@@ -141,3 +152,44 @@ class Membership(models.Model):
 
     def get_permissions(self):
         return DefaultGroups.permissions[self.default_group_name]
+
+CODE_CHARS = string.lowercase + string.digits
+
+
+def create_code(length=CODE_LENGTH):
+    """
+    Creates a random code of lowercase letters and numbers
+    """
+    return "".join(random.choice(CODE_CHARS) for _x in xrange(length))
+
+
+class Invitation(models.Model):
+    community = models.ForeignKey('communities.Community',
+                                  verbose_name=_("Community"),
+                                  related_name='invitations')
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                   verbose_name=_("Created by"),
+                                   related_name="invitations_created")
+
+    email = models.EmailField(_("Email"))
+
+    code = models.CharField(max_length=CODE_LENGTH, default=create_code)
+
+    user = models.ForeignKey(OCUser, verbose_name=_("User"),
+                             related_name='invitations', null=True, blank=True)
+
+    default_group_name = models.CharField(_('Group'), max_length=50,
+                                          choices=DefaultGroups.CHOICES)
+
+    class Meta:
+
+        unique_together = (("community", "email"),)
+
+        verbose_name = _("Invitation")
+        verbose_name_plural = _("Invitations")
+
+    def __unicode__(self):
+        return "%s: %s (%s)" % (self.community.name, self.email,
+                                self.get_default_group_name_display())

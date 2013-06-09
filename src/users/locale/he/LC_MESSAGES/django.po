@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-03 12:01+0300\n"
+"POT-Creation-Date: 2013-06-09 10:51+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,61 +44,97 @@ msgstr "מזכיר"
 msgid "chairman"
 msgstr "יושב ראש"
 
-#: .\models.py:50
+#: .\models.py:54
 msgid "email address"
-msgstr ""
+msgstr "כתובת דואל"
 
-#: .\models.py:55
+#: .\models.py:59
 msgid "staff status"
 msgstr "חבר בצוות האתר"
 
-#: .\models.py:56
+#: .\models.py:60
 msgid "Designates whether the user can log into this admin site."
 msgstr "יכול להכנס לאדמין"
 
-#: .\models.py:58
+#: .\models.py:62
 msgid "date joined"
 msgstr "תאריך הצטרפות"
 
-#: .\models.py:66
+#: .\models.py:70
 msgid "user"
 msgstr "משתמש"
 
-#: .\models.py:67
+#: .\models.py:71
 msgid "users"
 msgstr "משתמשים"
 
-#: .\models.py:126
+#: .\models.py:130 .\models.py:168
 msgid "Community"
 msgstr "קהילה"
 
-#: .\models.py:128
+#: .\models.py:132 .\models.py:180
 msgid "User"
 msgstr "משתמש"
 
-#: .\models.py:130
+#: .\models.py:134 .\models.py:183
 msgid "Group"
 msgstr "קבוצה"
 
-#: .\models.py:135
+#: .\models.py:138 .\models.py:171
+msgid "Created at"
+msgstr "נוצר בתאריך"
+
+#: .\models.py:140
+msgid "Invited by"
+msgstr "הוזמן על ידי"
+
+#: .\models.py:146
 msgid "Community Member"
 msgstr "חבר קהילה"
 
-#: .\models.py:136
+#: .\models.py:147
 msgid "Community Members"
 msgstr "חברי קהילה"
 
-#: .\templates\users\membership_list.html.py:5
+#: .\models.py:173
+msgid "Created by"
+msgstr "נוצר על ידי"
+
+#: .\models.py:176
+msgid "Email"
+msgstr "דואל"
+
+#: .\models.py:190
+msgid "Invitation"
+msgstr "הזמנה"
+
+#: .\models.py:191 .\templates\users\membership_list.html.py:40
+msgid "Invitations"
+msgstr "הזמנות"
+
+#: .\templates\users\_invitation.html.py:7
+msgid "Delete"
+msgstr "מחיקה"
+
+#: .\templates\users\membership_list.html.py:6
+#: .\templates\users\membership_list.html.py:15
 msgid "Members"
 msgstr "חברים"
 
-#: .\templates\users\membership_list.html.py:26
-msgid "This community did not conduct any meeting yet."
-msgstr "קהילה זו טרם פרסמה פגישות"
+#: .\templates\users\membership_list.html.py:31
+msgid "No members."
+msgstr "אין חברים בקהילה"
 
-msgid ""
-"Please enter a correct %(username)s and password. Note that both fields "
-"may be case-sensitive."
-msgstr ""
-"יש להזין %(username)s וסיסמא  תקינים.  בשני השדות יכולים להיות הבדלים בין "
-"אותיות קטנות וגדולות."
+#: .\templates\users\membership_list.html.py:49
+msgid "Invite"
+msgstr "הזמן"
+
+#~ msgid "This community did not conduct any meeting yet."
+#~ msgstr "קהילה זו טרם פרסמה פגישות"
+
+#~ msgid ""
+#~ "Please enter a correct %(username)s and password. Note that both fields "
+#~ "may be case-sensitive."
+#~ msgstr ""
+#~ "יש להזין %(username)s וסיסמא  תקינים.  בשני השדות יכולים להיות הבדלים בין "
+#~ "אותיות קטנות וגדולות."

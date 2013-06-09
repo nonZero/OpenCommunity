@@ -1,7 +1,12 @@
 from communities import models
 from django.contrib.admin import site
-from django.contrib.admin.options import ModelAdmin
-from users.admin import MembershipInline
+from django.contrib.admin.options import ModelAdmin, TabularInline
+from users.models import Membership
+
+
+class CommunityMembershipInline(TabularInline):
+    model = Membership
+    fk_name = 'community'
 
 
 class CommunityAdmin(ModelAdmin):
@@ -10,7 +15,7 @@ class CommunityAdmin(ModelAdmin):
               'name',
               )
 
-    inlines = [MembershipInline]
+    inlines = [CommunityMembershipInline]
 
 
 site.register(models.Community, CommunityAdmin)
