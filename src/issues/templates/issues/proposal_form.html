@@ -2,6 +2,10 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 
+{% block extra-page-id %}
+	id="create-proposal"
+{% endblock %}
+
 {% block page_header %}
     {% if form.instance %}
         {% trans "New Proposal" %}
