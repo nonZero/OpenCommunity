@@ -114,8 +114,7 @@ class IssueEditView(AjaxFormView, IssueMixin, UpdateView):
     form_class = UpdateIssueForm
 
 
-class ProposalCreateView(IssueMixin, CreateView):
-
+class ProposalCreateView(AjaxFormView, IssueMixin, CreateView):
     model = models.Proposal
 
     def get_required_permission(self):
@@ -176,7 +175,7 @@ class ProposalDetailView(ProposalMixin, DetailView):
                              content_type='application/json')
 
 
-class ProposalEditView(ProposalMixin, UpdateView):
+class ProposalEditView(AjaxFormView, ProposalMixin, UpdateView):
     form_class = EditProposalForm
 
     def get_required_permission(self):
