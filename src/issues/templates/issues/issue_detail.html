@@ -19,7 +19,7 @@
     <div data-role="popup" id="issuepanel">
         <ul data-role="listview">
             {% if cperms.issues.editopen_issue %}
-                <li><a href="{{object.get_edit_url}}">{% trans "Edit" %}</a></li>
+                <li><a data-rel="form" href="{{object.get_edit_url}}">{% trans "Edit" %}</a></li>
             {% endif %}
         </ul>
     </div>

@@ -6,10 +6,10 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
     UpdateIssueForm, EditProposalTaskForm
+from issues.models import ProposalType
 from ocd.base_views import CommunityMixin
 import datetime
 import json
-from issues.models import ProposalType
 
 
 class IssueMixin(CommunityMixin):
@@ -102,7 +102,13 @@ class IssueCreateView(IssueMixin, CreateView):
     def form_valid(self, form):
         form.instance.community = self.community
         form.instance.created_by = self.request.user
-        return super(IssueCreateView, self).form_valid(form)
+        self.object = form.save()
+        return HttpResponse(self.get_success_url())
+
+    def form_invalid(self, form):
+        resp = super(IssueCreateView, self).form_invalid(form)
+        resp.status_code = 403
+        return resp
 
 
 class IssueEditView(IssueMixin, UpdateView):

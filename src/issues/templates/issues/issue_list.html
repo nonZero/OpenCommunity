@@ -11,9 +11,8 @@
 {% endblock %}
 
 {% block header-start %}
-    {# <a data-rel="dialog" href="{% url "issue_create" community.id %}" data-icon="plus" data-iconpos="notext"></a> #}
     {% if cperms.issues.add_issue %}
-        <a href="{% url "issue_create" community.id %}" data-icon="plus" data-iconpos="notext"></a>
+        <a data-rel="form" href="{% url "issue_create" community.id %}"  data-icon="plus" data-iconpos="notext"></a>
     {% endif %}
 {% endblock %}
 
@@ -61,6 +60,13 @@
             </li>
         {% endfor %}
     </ul>
+
+{% endblock %}
+
+{% block dialogs %}
+        <div id="xxx">
+
+        </div>
 
 {% endblock %}
 
