@@ -6,7 +6,19 @@
     margin: 0 3px 0 0;
 }
 
-/*** Working on design ***/
+.form-popup {
+}
+
+.form-popup form {
+    padding: 10px;
+    overflow: auto;
+    max-height: 80%;
+}
+
+.form-popup .close-dialog {
+    margin: 0 5px;
+}
+
 * {
     font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
 }

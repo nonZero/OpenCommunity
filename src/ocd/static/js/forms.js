@@ -2,25 +2,27 @@
 
 $(function() {
 
-    $('body').on('pagebeforechange', function(event, data) {
 
-        if (data.options['role'] != 'dialog') {
+    $("body").on('click', 'a', function() {
+
+        if ($(this).data('rel') != 'form') {
             return;
         }
 
-        if (data.toPage.dialog) {
-            var el = data.toPage;
-            el.dialog( "option", "closeBtn", "none" );
-            el.find('.ui-header a').click(function() {
-                el.dialog("close");
-                return false;
-            });
-            var form = data.toPage.find('form');
+        var url = $(this).attr('href');
+
+        $.get(url, function(resp) {
+            var p = $(resp.trim()).popup({dismissible: false}).trigger('create').popup('open');
+            var form = p.find('form');
+
             form.ajaxForm({
-                url: data.absUrl,
+
+                url: url,
+
                 beforeSubmit: function() {
                     form.find('input[type="submit"]').prop('disabled', true);
                 },
+
                 success: function(resp) {
                     if (resp) {
                         window.location.href = resp;
@@ -28,6 +30,7 @@ $(function() {
                         window.location.reload();
                     }
                 },
+
                 error: function(resp) {
                     if (resp.status == 403) {
                         var newEl = $(resp.responseText.trim());
@@ -37,19 +40,15 @@ $(function() {
                         form.find('input[type="submit"]').prop('disabled', false);
                     }
                 }
+
             });
-        }
-    });
 
-    $("body").on('click', 'a', function() {
+            p.find('.close-dialog').click(function(ev) {
+                p.popup('close');
+                return false;
+            });
 
-        if ($(this).data('rel') != 'form') {
-            return;
-        }
 
-        $.mobile.changePage($(this).attr('href'), {
-            role: "dialog",
-            changeHash: false
         });
 
         return false;
