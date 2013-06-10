@@ -12,7 +12,7 @@ $(function() {
         var url = $(this).attr('href');
 
         $.get(url, function(resp) {
-            var p = $(resp.trim()).popup({dismissible: false}).trigger('create').popup('open');
+            var p = $(resp.trim()).html5inputs().popup({dismissible: false}).trigger('create').popup('open');
             var form = p.find('form');
 
             form.ajaxForm({
@@ -33,7 +33,7 @@ $(function() {
 
                 error: function(resp) {
                     if (resp.status == 403) {
-                        var newEl = $(resp.responseText.trim());
+                        var newEl = $(resp.responseText.trim()).html5inputs();
                         form.html(newEl.find('form').html()).trigger('create');
                     } else {
                         alert('Server Error! please try again or reload the page.');
@@ -53,6 +53,13 @@ $(function() {
 
         return false;
     });
-})
+});
 
-
+$.fn["html5inputs"] = function() {
+    return this.each(function() {
+        $(this).find('.dateinput').attr('type','date');
+        $(this).find('.timeinput').attr('type','time');
+        $(this).find('.datetimeinput').attr('type','datetime-local');
+        $(this).find('.crequired input,.crequired select,.crequired textarea').attr('required','required');
+    });
+};

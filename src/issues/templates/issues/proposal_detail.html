@@ -11,21 +11,19 @@
 {% endblock %}
 
 {% block header-start %}
-    <a href="#proposalpanel" data-icon="bars" data-iconpos="notext"  data-rel="popup"></a>
+    <a href="#proposalpanel" data-icon="bars" data-iconpos="notext"  data-rel="panel"></a>
 {% endblock %}
 
-{% block endpanel %}
-    <div data-role="popup" id="proposalpanel" class="ui-content">
+{% block startpanel %}
+    <div data-role="panel" id="proposalpanel">
         <ul data-role="listview">
-            <li><a href="{{object.get_edit_url}}">{% trans "Edit" %}</a></li>
-        </ul>
-        {% if object.is_task and cperms.issues.edittask_proposal %}
-            {% if cperms.issues.editclosed_proposal or not object.issue.is_closed %}
-                <ul data-role="listview">
-                    <li><a href="{{object.get_edit_task_url}}">{% trans "Reassign task" %}</a></li>
-                </ul>
+            <li><a data-rel="form" href="{{object.get_edit_url}}">{% trans "Edit" %}</a></li>
+            {% if object.is_task and cperms.issues.edittask_proposal %}
+                {% if cperms.issues.editclosed_proposal or not object.issue.is_closed %}
+                    <li><a data-rel="form" href="{{object.get_edit_task_url}}">{% trans "Reassign task" %}</a></li>
+                {% endif %}
             {% endif %}
-        {% endif %}
+        </ul>
     </div>
 {% endblock %}
 
