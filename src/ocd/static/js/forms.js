@@ -10,10 +10,11 @@ $(function() {
 
         if (data.toPage.dialog) {
             var el = data.toPage;
+            el.dialog( "option", "closeBtn", "none" );
             el.find('.ui-header a').click(function() {
                 el.dialog("close");
                 return false;
-            })
+            });
             var form = data.toPage.find('form');
             form.ajaxForm({
                 url: data.absUrl,

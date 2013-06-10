@@ -64,10 +64,13 @@ class CommunityMixin(ProtectedMixin):
 class AjaxFormView(object):
     """ a mixin used for ajax based forms.  see `forms.js`."""
 
+    reload_on_success = False
+
     def form_valid(self, form):
         """ returns link to redirect or empty string to reload as text/html """
         self.object = form.save()
-        return HttpResponse(self.get_success_url())
+        url = "" if self.reload_on_success else self.get_success_url()
+        return HttpResponse(url)
 
     def form_invalid(self, form):
         """ returns an 403 http response with form, including errors, as
@@ -75,4 +78,3 @@ class AjaxFormView(object):
         resp = super(AjaxFormView, self).form_invalid(form)
         resp.status_code = 403
         return resp
-

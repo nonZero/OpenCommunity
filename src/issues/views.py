@@ -105,7 +105,9 @@ class IssueCreateView(AjaxFormView, IssueMixin, CreateView):
         return super(IssueCreateView, self).form_valid(form)
 
 
-class IssueEditView(IssueMixin, UpdateView):
+class IssueEditView(AjaxFormView, IssueMixin, UpdateView):
+
+    reload_on_success = True
 
     required_permission = 'issues.editopen_issue'
 
