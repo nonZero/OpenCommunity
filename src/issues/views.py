@@ -6,10 +6,10 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
     UpdateIssueForm, EditProposalTaskForm
-from ocd.base_views import CommunityMixin
+from issues.models import ProposalType
+from ocd.base_views import CommunityMixin, AjaxFormView
 import datetime
 import json
-from issues.models import ProposalType
 
 
 class IssueMixin(CommunityMixin):
@@ -94,7 +94,7 @@ class IssueCommentEditView(IssueCommentMixin, UpdateView):
         return HttpResponse("")
 
 
-class IssueCreateView(IssueMixin, CreateView):
+class IssueCreateView(AjaxFormView, IssueMixin, CreateView):
     form_class = CreateIssueForm
 
     required_permission = 'issues.add_issue'
@@ -105,7 +105,9 @@ class IssueCreateView(IssueMixin, CreateView):
         return super(IssueCreateView, self).form_valid(form)
 
 
-class IssueEditView(IssueMixin, UpdateView):
+class IssueEditView(AjaxFormView, IssueMixin, UpdateView):
+
+    reload_on_success = True
 
     required_permission = 'issues.editopen_issue'
 

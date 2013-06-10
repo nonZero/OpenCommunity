@@ -1,7 +1,7 @@
 from communities.models import Community
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.http.response import HttpResponseForbidden
+from django.http.response import HttpResponseForbidden, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 
@@ -60,3 +60,21 @@ class CommunityMixin(ProtectedMixin):
             self._community = get_object_or_404(Community, pk=self.kwargs['community_id'])
         return self._community
 
+
+class AjaxFormView(object):
+    """ a mixin used for ajax based forms.  see `forms.js`."""
+
+    reload_on_success = False
+
+    def form_valid(self, form):
+        """ returns link to redirect or empty string to reload as text/html """
+        self.object = form.save()
+        url = "" if self.reload_on_success else self.get_success_url()
+        return HttpResponse(url)
+
+    def form_invalid(self, form):
+        """ returns an 403 http response with form, including errors, as
+        text/html """
+        resp = super(AjaxFormView, self).form_invalid(form)
+        resp.status_code = 403
+        return resp

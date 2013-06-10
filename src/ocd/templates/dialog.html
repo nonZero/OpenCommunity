@@ -1,0 +1,19 @@
+{% load i18n %}
+<div data-role="dialog">
+
+    <div data-role="header">
+        <h1>
+            {% block page_header %}Page Title{% endblock %}
+        </h1>
+    </div>
+
+    <div data-role="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+
+</div>
+
+{% block scripts %}
+{% endblock %}
