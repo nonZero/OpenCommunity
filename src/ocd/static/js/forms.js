@@ -10,7 +10,6 @@ $(function() {
 
         if (data.toPage.dialog) {
             var el = data.toPage;
-            //el.dialog(({ closeBtn: "none" }));
             el.find('.ui-header a').click(function() {
                 el.dialog("close");
                 return false;

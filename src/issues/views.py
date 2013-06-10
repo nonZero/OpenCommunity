@@ -7,7 +7,7 @@ from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
     UpdateIssueForm, EditProposalTaskForm
 from issues.models import ProposalType
-from ocd.base_views import CommunityMixin
+from ocd.base_views import CommunityMixin, AjaxFormView
 import datetime
 import json
 
@@ -94,7 +94,7 @@ class IssueCommentEditView(IssueCommentMixin, UpdateView):
         return HttpResponse("")
 
 
-class IssueCreateView(IssueMixin, CreateView):
+class IssueCreateView(AjaxFormView, IssueMixin, CreateView):
     form_class = CreateIssueForm
 
     required_permission = 'issues.add_issue'
@@ -102,13 +102,7 @@ class IssueCreateView(IssueMixin, CreateView):
     def form_valid(self, form):
         form.instance.community = self.community
         form.instance.created_by = self.request.user
-        self.object = form.save()
-        return HttpResponse(self.get_success_url())
-
-    def form_invalid(self, form):
-        resp = super(IssueCreateView, self).form_invalid(form)
-        resp.status_code = 403
-        return resp
+        return super(IssueCreateView, self).form_valid(form)
 
 
 class IssueEditView(IssueMixin, UpdateView):
