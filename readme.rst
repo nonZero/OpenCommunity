@@ -36,7 +36,7 @@ Prerequisites for Developer Machines
 * Your prompt should start with `(OpenCommunity)`.
 * On windows install some binary packages first::
 
-    windows-install.cmd
+    windows-setup.cmd
 
 * Now install all other requirements (This can take some time)::
 
