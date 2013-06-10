@@ -106,7 +106,7 @@
     {% endif %}
 
     {% if not object.is_closed and cperms.issues.add_proposal %}
-        <a data-role="button" data-rel="modal" data-theme="a"
+        <a data-role="button" data-rel="form" data-theme="a"
         href="{% url "proposal_create" community.id object.id %}">{% trans "New Proposal" %}</a>
     {% endif %}
     

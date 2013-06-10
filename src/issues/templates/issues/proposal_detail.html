@@ -17,7 +17,7 @@
 {% block endpanel %}
     <div data-role="popup" id="proposalpanel" class="ui-content">
         <ul data-role="listview">
-            <li><a href="{{object.get_edit_url}}">{% trans "Edit" %}</a></li>
+            <li><a data-rel="form" href="{{object.get_edit_url}}">{% trans "Edit" %}</a></li>
         </ul>
         {% if object.is_task and cperms.issues.edittask_proposal %}
             {% if cperms.issues.editclosed_proposal or not object.issue.is_closed %}

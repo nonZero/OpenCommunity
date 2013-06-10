@@ -143,6 +143,7 @@ INSTALLED_APPS = (
     'django_nose',
     'crispy_forms',
     'south',
+    'social_auth',
     'django_extensions',
     'debug_toolbar',
 
@@ -190,12 +191,43 @@ LOGGING = {
 }
 
 LOGIN_REDIRECT_URL = "/"
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.twitter.TwitterBackend',
+    'social_auth.backends.facebook.FacebookBackend',
+    'social_auth.backends.google.GoogleOAuthBackend',
+    'social_auth.backends.google.GoogleOAuth2Backend',
+    'social_auth.backends.google.GoogleBackend',
+    'social_auth.backends.yahoo.YahooBackend',
+    'social_auth.backends.browserid.BrowserIDBackend',
+    'social_auth.backends.contrib.linkedin.LinkedinBackend',
+    'social_auth.backends.contrib.disqus.DisqusBackend',
+    'social_auth.backends.contrib.livejournal.LiveJournalBackend',
+    'social_auth.backends.contrib.orkut.OrkutBackend',
+    'social_auth.backends.contrib.foursquare.FoursquareBackend',
+    'social_auth.backends.contrib.github.GithubBackend',
+    #'social_auth.backends.contrib.vk.VKOAuth2Backend',
+    'social_auth.backends.contrib.live.LiveBackend',
+    'social_auth.backends.contrib.skyrock.SkyrockBackend',
+    'social_auth.backends.contrib.yahoo.YahooOAuthBackend',
+    'social_auth.backends.contrib.readability.ReadabilityBackend',
+    #'social_auth.backends.contrib.fedora.FedoraBackend',
+    'social_auth.backends.OpenIDBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = "/login/"
 LOGOUT_URL = "/logout/"
+
+FACEBOOK_APP_ID = "251222371580490"
+FACEBOOK_API_SECRET= "3c6aacc59e2e3b11191be2e46a791baa"
 
 FORMAT_MODULE_PATH = "ocd.formats"
 
 CRISPY_TEMPLATE_PACK = "jquery-mobile"
+
+FACEBOOK_APP_ID = "251222371580490"
+FACEBOOK_API_SECRET= "3c6aacc59e2e3b11191be2e46a791baa"
 
 try:
     from local_settings import *
