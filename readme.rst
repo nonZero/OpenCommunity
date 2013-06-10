@@ -36,7 +36,7 @@ Prerequisites for Developer Machines
 * Your prompt should start with `(OpenCommunity)`.
 * On windows install some binary packages first::
 
-    windows-install.cmd
+    windows-setup.cmd
 
 * Now install all other requirements (This can take some time)::
 
@@ -70,6 +70,11 @@ Prerequisites for Developer Machines
     python manage.py runserver
 
 * Profit: http://localhost:8000/
+
+Problems
+========
+* You're running a command and getting " Django - “no module named django.core.management“ ". Solution: Activate env.
+* Each Redirect is verbose. Solution: comment out INTERNAL_IPS = ... line in src/ocd/local_settings.py
 
 Collaborating
 =============
