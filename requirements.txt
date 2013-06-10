@@ -9,6 +9,7 @@ django-social_auth==0.7.23
 # dev stuff
 django-extensions==1.1.1
 django-debug-toolbar==0.9.4
+django-nose==1.1
 ipython
 
 # fabric

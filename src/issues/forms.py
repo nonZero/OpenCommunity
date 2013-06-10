@@ -34,6 +34,8 @@ class UpdateIssueForm(CreateIssueForm):
 
 class CreateProposalForm(forms.ModelForm):
 
+    submit_button_text = _('Create')
+
     class Meta:
         model = models.Proposal
         fields = (
@@ -47,13 +49,23 @@ class CreateProposalForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
 
-        self.helper.add_input(Submit('submit', _('Create')))
+        self.helper.add_input(Submit('submit', self.submit_button_text))
 
         super(CreateProposalForm, self).__init__(*args, **kwargs)
 
 
 class EditProposalForm(CreateProposalForm):
-    pass
+    submit_button_text = _('Save')
+
+
+class EditProposalTaskForm(EditProposalForm):
+
+    class Meta:
+        model = models.Proposal
+        fields = (
+                   'assigned_to',
+                   'due_by',
+                   )
 
 
 class CreateIssueCommentForm(forms.ModelForm):

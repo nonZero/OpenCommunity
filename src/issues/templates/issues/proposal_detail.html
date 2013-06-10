@@ -2,11 +2,15 @@
 {% load i18n %}
 {% load humanize %}
 
+{% block extra-page-id %}
+	id="proposal-detail"
+{% endblock %}
+
 {% block page_header %}
 	{% trans "Proposal" %}
 {% endblock %}
 
-{% block header-end %}
+{% block header-start %}
     <a href="#proposalpanel" data-icon="bars" data-iconpos="notext"  data-rel="popup"></a>
 {% endblock %}
 
@@ -15,6 +19,13 @@
         <ul data-role="listview">
             <li><a href="{{object.get_edit_url}}">{% trans "Edit" %}</a></li>
         </ul>
+        {% if object.is_task and cperms.issues.edittask_proposal %}
+            {% if cperms.issues.editclosed_proposal or not object.issue.is_closed %}
+                <ul data-role="listview">
+                    <li><a href="{{object.get_edit_task_url}}">{% trans "Reassign task" %}</a></li>
+                </ul>
+            {% endif %}
+        {% endif %}
     </div>
 {% endblock %}
 
@@ -70,8 +81,12 @@
             </div>
         {% endif %}
 
-        <a href="#" data-role="button" class="accept" data-theme="a">{% trans "Accept" %}</a>
-        <a href="#" data-role="button" class="unaccept" data-theme="a">{% trans "Cancel" %}</a>
+        {% if not object.issue.is_closed and cperms.issues.acceptopen_proposal %}
+
+            <a href="#" data-role="button" class="accept" data-theme="a">{% trans "Accept" %}</a>
+            <a href="#" data-role="button" class="unaccept" data-theme="a">{% trans "Cancel" %}</a>
+
+        {% endif %}
 
     </div>
 {% endblock %}

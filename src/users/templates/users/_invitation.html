@@ -1,0 +1,12 @@
+{% load i18n %}
+
+<li>
+    <form class="delete-invitation push" method="post" action="{% url 'delete_invitation' object.community.id object.id %}">
+        {% csrf_token %}
+        <span class="delete-btn">
+            <button data-icon="delete" data-iconpos="notext" data-theme="e" data-inline="true">{% trans "Delete" %}</button>
+        </span>
+    </form>
+    {{ object.email }}
+    ({{ object.get_default_group_name_display }})
+</li>

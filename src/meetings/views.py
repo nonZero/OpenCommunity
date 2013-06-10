@@ -19,9 +19,6 @@ class MeetingMixin(CommunityMixin):
     def get_queryset(self):
         return models.Meeting.objects.filter(community=self.community)
 
-    def get_issues_queryset(self, **kwargs):
-        return self.community.issues.filter(is_closed=False, **kwargs)
-
     def get_context_data(self, **kwargs):
         context = super(MeetingMixin, self).get_context_data(**kwargs)
 
@@ -30,19 +27,17 @@ class MeetingMixin(CommunityMixin):
 
 
 class MeetingList(MeetingMixin, ListView):
-    pass
+    required_permission = 'meetings.view_meeting'
 
 
 class MeetingDetailView(MeetingMixin, DetailView):
-
-    def get_context_data(self, **kwargs):
-        context = super(MeetingDetailView, self).get_context_data(**kwargs)
-        context['issues'] = self.get_issues_queryset()
-
-        return context
+    required_permission = 'meetings.view_meeting'
 
 
 class MeetingCreateView(MeetingMixin, CreateView):
+
+    required_permission = 'meetings.add_meeting'
+
     template_name = "meetings/meeting_close.html"
     form_class = CloseMeetingForm
 
@@ -93,5 +88,3 @@ class MeetingCreateView(MeetingMixin, CreateView):
                 issue.save()
 
         return redirect(m.get_absolute_url())
-
-

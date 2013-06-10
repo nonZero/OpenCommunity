@@ -1,4 +1,5 @@
 from django.utils.translation import ugettext_lazy as _
+import itertools
 
 class DefaultRoles(object):
 
@@ -14,9 +15,10 @@ class DefaultRoles(object):
     permissions = {}
 
     permissions[VIEWER] = [
+                           'communities.access_community',
                            'issues.viewclosed_issue',
                            'issues.viewclosed_proposal',
-                           'meeting.view_meeting',
+                           'meetings.view_meeting',
                            ]
 
     permissions[OBSERVER] = permissions[VIEWER] + [
@@ -52,12 +54,14 @@ class DefaultRoles(object):
     permissions[DECIDER] = permissions[OPERATOR] + [
                            'issues.editopen_issuecomment',
                            'community.editagenda_community',
-                           'meetings.add_meeting',  # Close!
+                           'issues.acceptopen_proposal',
+                           'meetings.add_meeting',  # == Close Meeting
                           ]
 
     permissions[MANAGER] = permissions[DECIDER] + [
                            'issues.editopen_issue',
                            'issues.editclosed_issue',
+                           'issues.editclosed_issuecomment',
                            'issues.editopen_proposal',
                            'issues.editclosed_proposal',
                            'issues.acceptclosed_proposal',
@@ -72,10 +76,10 @@ class DefaultGroups(object):
 
     permissions = {}
 
-    permissions[MEMBER] = set(DefaultRoles.permissions[DefaultRoles.VIEWER])
-    permissions[BOARD] = set(DefaultRoles.permissions[DefaultRoles.PROPOSER])
-    permissions[SECRETARY] = set(DefaultRoles.permissions[DefaultRoles.OPERATOR])
-    permissions[CHAIRMAN] = set(DefaultRoles.permissions[DefaultRoles.DECIDER] +
+    permissions[MEMBER] = frozenset(DefaultRoles.permissions[DefaultRoles.VIEWER])
+    permissions[BOARD] = frozenset(DefaultRoles.permissions[DefaultRoles.PROPOSER])
+    permissions[SECRETARY] = frozenset(DefaultRoles.permissions[DefaultRoles.OPERATOR])
+    permissions[CHAIRMAN] = frozenset(DefaultRoles.permissions[DefaultRoles.DECIDER] +
                                 DefaultRoles.permissions[DefaultRoles.MANAGER])
     CHOICES = (
                 (MEMBER, _("member")),
@@ -84,3 +88,4 @@ class DefaultGroups(object):
                 (CHAIRMAN, _("chairman")),
                )
 
+ALL_PERMISSIONS = frozenset(itertools.chain(*DefaultGroups.permissions.values()))

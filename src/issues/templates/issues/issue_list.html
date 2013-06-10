@@ -2,13 +2,19 @@
 {% load i18n %}
 {% load opencommunity %}
 
+{% block extra-page-id %}
+	id="issue-list"
+{% endblock %}
+
 {% block page_header %}
     {% trans "Issues" %}
 {% endblock %}
 
 {% block header-start %}
     {# <a data-rel="dialog" href="{% url "issue_create" community.id %}" data-icon="plus" data-iconpos="notext"></a> #}
-    <a href="{% url "issue_create" community.id %}" data-icon="plus" data-iconpos="notext"></a>
+    {% if cperms.issues.add_issue %}
+        <a href="{% url "issue_create" community.id %}" data-icon="plus" data-iconpos="notext"></a>
+    {% endif %}
 {% endblock %}
 
 {% block header-end %}
@@ -29,7 +35,7 @@
 
 {% block content %}
 
-    <ul data-role="listview" data-filter="true" data-filter-placeholder="{% trans "Search" %}">
+    <ul class="content_fix" data-role="listview" data-filter="true" data-filter-placeholder="{% trans "Search" %}">
         {% for object in object_list %}
             <li>
                 <a href="{{ object.get_absolute_url }}">

@@ -3,18 +3,24 @@
 {% load humanize %}
 {% load crispy_forms_tags %}
 
+{% block extra-page-id %}
+	id="issue-detail"
+{% endblock %}
+
 {% block page_header %}
     {% trans "Issue" %}
 {% endblock %}
 
-{% block header-end %}
+{% block header-start %}
     <a href="#issuepanel" data-icon="bars" data-iconpos="notext"  data-rel="popup"></a>
 {% endblock %}
 
 {% block endpanel %}
     <div data-role="popup" id="issuepanel">
         <ul data-role="listview">
-            <li><a href="{{object.get_edit_url}}">{% trans "Edit" %}</a></li>
+            {% if cperms.issues.editopen_issue %}
+                <li><a href="{{object.get_edit_url}}">{% trans "Edit" %}</a></li>
+            {% endif %}
         </ul>
     </div>
 {% endblock %}
@@ -99,8 +105,10 @@
         </div>
     {% endif %}
 
-    <a data-role="button" data-rel="modal" data-theme="a"
-    href="{% url "proposal_create" community.id object.id %}">{% trans "New Proposal" %}</a>
+    {% if not object.is_closed and cperms.issues.add_proposal %}
+        <a data-role="button" data-rel="modal" data-theme="a"
+        href="{% url "proposal_create" community.id object.id %}">{% trans "New Proposal" %}</a>
+    {% endif %}
     
     <div data-role="collapsible" data-collapsed="false"
         data-theme="b" data-content-theme="d">
@@ -109,9 +117,11 @@
             {% for c in object.comments.all %}
                 {% include "issues/_comment.html" %}
             {% endfor %}
-            <li>
-            {% crispy form %}
-            </li>
+            {% if cperms.issues.add_issuecomment %}
+                <li>
+                    {% crispy form %}
+                </li>
+            {% endif %}
         </ul>
     </div>
 

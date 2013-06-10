@@ -1,0 +1,23 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{{ title }} | {% trans 'Open Community admin' %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'Open Community Administration' %}</h1>
+{% endblock %}
+
+{% block userlinks %}
+<b><a href="{% url 'home' %}">{% trans 'Home' %}</a></b> /
+{{block.super}}
+
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{% static "admin/opencommunity-admin.css" %}" />
+<link rel="stylesheet" type="text/css" href="{% static "fonts/alef/alef.css" %}" />
+
+{% endblock %}

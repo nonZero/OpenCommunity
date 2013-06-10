@@ -12,11 +12,13 @@
         <link href="{{ STATIC_URL }}m/{% if LANGUAGE_CODE == 'he' %}rtl.{% endif %}jquery.mobile-1.3.0.css" rel="stylesheet">
         <link href="{{ STATIC_URL }}m/style.css" rel="stylesheet">
         <link href="{{ STATIC_URL }}m/{% if LANGUAGE_CODE == 'he' %}rtl.{% endif %}style.css" rel="stylesheet">
+        <link href="{{ STATIC_URL }}fonts/alef/alef.css"  rel="stylesheet" />
         {% block extrahead %}
         {% endblock %}
 
     </head>
 
+    <body {% block extra-page-id %}{% endblock %}>
     <body>
     
     <div id="fb-root"></div>
@@ -31,22 +33,29 @@
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 
+        <div id="loading" style="z-index: 100; background:white; position:absolute; top:0; left:0; right:0; bottom:0">
+            &nbsp;
+        </div>
+
         <div data-role="page">
 
-            <div data-role="header" data-position="fixed">
+            <div id="main_header" data-role="header" data-position="fixed">
                 {% block header-start %}
-                <a href="#" data-icon="arrow-r" data-iconpos="notext" data-rel="back"></a>
+                    <a href="#"></a>
                 {% endblock %}
                 <h1>
-                    {% if community %}
-                        {{community}}
-                    {% else %}
-                        {% trans "Open Community" %}
-                    {% endif %}
+                    <span class="h1top">
+                        {% if community %}
+                            {{community}}
+                        {% else %}
+                            {% trans "Open Community" %}
+                        {% endif %}
+                    </span>
                     <br/>
                     {% block page_header %}Page Title{% endblock %}
                 </h1>
                 {% block header-end %}
+                <a href="#" data-icon="arrow-l" data-iconpos="notext" data-rel="back"></a>
                 {% endblock %}
             </div>
 
@@ -75,6 +84,7 @@
                 $.mobile.popup.prototype.options.transition = 'slidedown';
             });
             $(function() {
+                $('#loading').hide();
                 $('.dateinput').attr('type','date');
                 $('.timeinput').attr('type','time');
                 $('.datetimeinput').attr('type','datetime-local');

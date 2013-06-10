@@ -1,17 +1,36 @@
 {% load i18n %}
-<div data-role="popup" id="issuespanel">
+<div data-role="panel" data-position="left" id="issuespanel">
     <ul data-role="listview">
-        <li{% if pill == 'issues' %} class="active"{% endif %}>
-            <a href="{% url 'issues' community.id %}">{% trans "Issues" %}</a>
-        </li>
-        <li{% if pill == 'upcoming' %} class="active"{% endif %}>
-            <a href="{% url 'upcoming_meeting' community.id %}">{% trans "Upcoming Meeting" %}</a>
-        </li>
-        <li{% if pill == 'history' %} class="active"{% endif %}>
-            <a href="{% url 'history' community.id %}">{% trans "History" %}</a>
-        </li>
+
+        {% if cperms.issues.viewopen_issue %}
+            <li{% if pill == 'issues' %} class="active"{% endif %}>
+                <a href="{% url 'issues' community.id %}">{% trans "Issues" %}</a>
+            </li>
+        {% endif %}
+
+        {% if cperms.communities.viewupcoming_community %}
+            <li{% if pill == 'upcoming' %} class="active"{% endif %}>
+                <a href="{% url 'upcoming_meeting' community.id %}">{% trans "Upcoming Meeting" %}</a>
+            </li>
+        {% endif %}
+
+        {% if cperms.meetings.view_meeting %}
+            <li{% if pill == 'history' %} class="active"{% endif %}>
+                <a href="{% url 'history' community.id %}">{% trans "History" %}</a>
+            </li>
+        {% endif %}
+
+        {% if cperms.community.invite_member %}
+            <li>
+                <a href="{% url 'members' community.id %}">{% trans "Members" %}</a>
+            </li>
+        {% endif %}
+
         <li data-role="list-divider">
             {{user.display_name}}
+        </li>
+        <li>
+            <a href="{% url 'home' %}">{% trans "My Communities" %}</a>
         </li>
         <li>
             <a href="{% url 'logout' %}">{% trans "Log out" %}</a>

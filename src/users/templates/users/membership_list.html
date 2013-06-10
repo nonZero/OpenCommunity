@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block extra-page-id %}
+	id="members-list"
+{% endblock %}
+
+{% block page_header %}
+    {% trans "Members" %}
+{% endblock %}
+
+{% block content %}
+
+    {% if object_list %}
+
+        <div data-role="collapsible" data-collapsed="false"
+            data-theme="b" data-content-theme="d">
+            <h3>{% trans "Members" %}</h3>
+            <ul data-role="listview">
+                {% for object in object_list %}
+                    <li>
+                        {{ object.user.display_name }}
+                        ({{ object.get_default_group_name_display }})
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    {% else %}
+
+        <div class="ui-grid-solo">
+            <div class="ui-block-a">
+                <div class="ui-bar ui-bar-e">
+                    {% trans "No members." %}
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+
+    <div data-role="collapsible" data-collapsed="false"
+        data-theme="b" data-content-theme="d">
+        <h3>{% trans "Invitations" %}</h3>
+        <ul data-role="listview" id="invitations">
+            {% for object in invites %}
+                {% include 'users/_invitation.html' %}
+            {% endfor %}
+            <li>
+                <form method="post" id="invite-form">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    <input type="submit" value="{% trans "Invite" %}">
+                </form>
+
+            </li>
+        </ul>
+    </div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{{STATIC_URL}}js/memberships.js"></script>
+
+<script>
+    $(function() {
+       $('#id_email').attr('type', 'email');
+    });
+    
+</script>
+
+{% endblock %}

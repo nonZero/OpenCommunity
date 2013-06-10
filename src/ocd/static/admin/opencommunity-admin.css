@@ -1,0 +1,14 @@
+body {
+    margin: 10px;
+    background: #ccc;
+    font-family: 'Alef';
+}
+
+#branding h1 {
+    font-size: 24px;
+    font-weight: bold;
+}
+#container {
+    background: white;
+    border: 1px solid black;
+}

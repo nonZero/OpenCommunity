@@ -50,10 +50,13 @@
         </ul>
     </div>
 
-    <a data-role="button" data-theme="a" 
-    href="{% url "upcoming_close" community.id %}" class="btn">
-        {% trans "Close Meeting" %}
-    </a>
+    {% if cperms.meetings.add_meeting %}
+        <a data-role="button" data-theme="a" 
+        href="{% url "upcoming_close" community.id %}" class="btn">
+            {% trans "Close Meeting" %}
+        </a>
+    {% endif %}
+
 
 {% endblock %}
 
