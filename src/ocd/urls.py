@@ -2,6 +2,8 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from meetings.views import MeetingCreateView
 import communities.views
+from users.models import CODE_LENGTH
+from users.views import AcceptInvitationView
 
 admin.autodiscover()
 
