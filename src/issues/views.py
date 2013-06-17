@@ -31,7 +31,8 @@ class IssueList(IssueMixin, ListView):
     required_permission = 'issues.viewopen_issue'
 
     def get_queryset(self):
-        return super(IssueList, self).get_queryset().filter(is_closed=False)
+        return super(IssueList, self).get_queryset().filter(
+              is_closed=False).order_by('-in_upcoming_meeting', '-created_at')
 
 
 class IssueDetailView(IssueMixin, DetailView):
