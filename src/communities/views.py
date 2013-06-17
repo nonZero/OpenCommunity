@@ -9,7 +9,7 @@ from django.views.generic import ListView
 from django.views.generic.base import RedirectView
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import UpdateView
-from ocd.base_views import ProtectedMixin, LoginRequiredMixin
+from ocd.base_views import ProtectedMixin, LoginRequiredMixin, AjaxFormView
 import datetime
 import json
 
@@ -71,7 +71,9 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
                             content_type='application/json')
 
 
-class EditUpcomingMeetingView(CommunityModelMixin, UpdateView):
+class EditUpcomingMeetingView(AjaxFormView, CommunityModelMixin, UpdateView):
+
+    reload_on_success = True
 
     required_permission = 'communities.editupcoming_community'
 
