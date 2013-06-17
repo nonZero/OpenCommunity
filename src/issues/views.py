@@ -19,12 +19,6 @@ class IssueMixin(CommunityMixin):
     def get_queryset(self):
         return models.Issue.objects.filter(community=self.community)
 
-    def get_context_data(self, **kwargs):
-        context = super(IssueMixin, self).get_context_data(**kwargs)
-
-        context['community'] = self.community
-        return context
-
 
 class IssueList(IssueMixin, ListView):
 

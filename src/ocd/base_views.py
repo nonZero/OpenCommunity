@@ -67,6 +67,11 @@ class CommunityMixin(ProtectedMixin):
             self._community = get_object_or_404(Community, pk=self.kwargs['community_id'])
         return self._community
 
+    def get_context_data(self, **kwargs):
+        context = super(CommunityMixin, self).get_context_data(**kwargs)
+        context['community'] = self.community
+        return context
+
 
 class AjaxFormView(object):
     """ a mixin used for ajax based forms.  see `forms.js`."""

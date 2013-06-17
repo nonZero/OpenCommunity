@@ -1,11 +1,15 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.contrib.auth import login, authenticate
+from django.http.response import HttpResponse
+from django.shortcuts import render, redirect
+from django.utils.translation import ugettext_lazy as _
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView
 from django.views.generic.list import ListView
 from ocd.base_views import CommunityMixin
 from users import models
-from users.forms import InvitationForm
-from users.models import Invitation
-from django.http.response import HttpResponse
+from users.forms import InvitationForm, QuickSignupForm
+from users.models import Invitation, OCUser, Membership
 
 
 class MembershipMixin(CommunityMixin):
@@ -32,7 +36,7 @@ class MembershipList(MembershipMixin, ListView):
 
         form = InvitationForm(request.POST)
 
-        #TODO: check if user or invitation already exists
+        # TODO: check if user or invitation already exists
 
         if not form.is_valid():
             assert False
@@ -47,7 +51,7 @@ class MembershipList(MembershipMixin, ListView):
         return render(request, 'users/_invitation.html', {'object': i})
 
 
-class DeleteMembershipView(CommunityMixin, DeleteView):
+class DeleteInvitationView(CommunityMixin, DeleteView):
 
     required_permission = 'community.invite_member'
 
@@ -64,3 +68,57 @@ class DeleteMembershipView(CommunityMixin, DeleteView):
         self.object.delete()
         return HttpResponse("OK")
 
+
+class AcceptInvitationView(DetailView):
+
+    slug_field = 'code'
+    slug_url_kwarg = 'code'
+    model = models.Invitation
+
+    form = None
+
+    def get_form(self):
+        return QuickSignupForm(self.request.POST if
+                                    self.request.method == "POST" else None)
+
+    def get_context_data(self, **kwargs):
+        d = super(AcceptInvitationView, self).get_context_data(**kwargs)
+        d['user_exists'] = OCUser.objects.filter(email=self.get_object().email
+                                                 ).exists()
+        d['path'] = self.request.path
+        d['form'] = self.form if self.form else self.get_form()
+        return d
+
+    def post(self, request, *args, **kwargs):
+
+        i = self.get_object()
+
+        def create_membership(user):
+            m = Membership.objects.create(user=user, community=i.community,
+                              default_group_name=i.default_group_name,
+                                  invited_by=i.created_by)
+            i.delete()
+            return m
+
+        if request.user.is_authenticated():
+            if 'join' in request.POST:
+                m = create_membership(request.user)
+                return redirect(m.community.get_absolute_url())
+
+        else:
+            if 'signup' in request.POST:
+                self.form = self.get_form()
+                if self.form.is_valid():
+                    # Quickly create a user :-)
+                    self.form.instance.email = i.email
+                    u = self.form.save()
+                    m = create_membership(u)
+                    # TODO Send email with details
+                    user = authenticate(email=self.form.instance.email,
+                                password=self.form.cleaned_data['password1'])
+                    login(request, user)
+                    return redirect(m.community.get_absolute_url())
+
+        messages.warning(request,
+                  _("Oops. Something went wrong. Please try again."))
+        return self.get(request, *args, **kwargs)

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block extra-page-id %}
+    id="login-page"
+{% endblock %}
+
+{% block page_header %}
+    {% trans "Accept Invitation" %}
+{% endblock %}
+
+{% block content %}
+
+    {% if user.id %}
+        <h2>
+            {% trans "You are logged in as" %} {{user}}.
+        </h2>
+
+        <p>
+            {% trans "Wrong user?" %} <a href="{% url 'logout' %}">{% trans "Logout" %}</a>
+        </p>
+    {% endif %}
+
+    {% blocktrans with s=object.community.name %}You were invited to {{s}}.{% endblocktrans %}
+
+    {% if user.id or user_exists %}
+
+        <form method="post">
+            {% csrf_token %}
+            <button name="join" value="1">{% trans "Join This Community" %}</button>
+        </form>
+
+    {% else %}
+
+        <p>
+            {% trans "Already a user?" %} <a href="{% url 'login' %}?next={{path}}">{% trans "Login" %}</a>
+        </p>
+
+        <h2>
+            {% trans "Quick signup" %}
+        </h2>
+
+        <form method="post">
+            {% csrf_token %}
+            <div data-role="fieldcontain" class="control-group">
+                <label >{% trans "email" %}: {{object.email}}</label>
+            </div>
+            {{form|crispy}}
+            <button name="signup" value="1">{% trans "Join Open Community" %}</button>
+        </form>
+
+    {% endif %}
+
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

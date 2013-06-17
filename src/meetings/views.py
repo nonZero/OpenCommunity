@@ -19,12 +19,6 @@ class MeetingMixin(CommunityMixin):
     def get_queryset(self):
         return models.Meeting.objects.filter(community=self.community)
 
-    def get_context_data(self, **kwargs):
-        context = super(MeetingMixin, self).get_context_data(**kwargs)
-
-        context['community'] = self.community
-        return context
-
 
 class MeetingList(MeetingMixin, ListView):
     required_permission = 'meetings.view_meeting'

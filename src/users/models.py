@@ -54,7 +54,7 @@ class OCUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), max_length=255, unique=True,
         db_index=True,
     )
-    display_name = models.CharField(max_length=200)
+    display_name = models.CharField(_("Your name"), max_length=200)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(_('staff status'), default=False,
            help_text=_('Designates whether the user can log into this admin '
@@ -184,7 +184,6 @@ class Invitation(models.Model):
                                           choices=DefaultGroups.CHOICES)
 
     class Meta:
-
         unique_together = (("community", "email"),)
 
         verbose_name = _("Invitation")
@@ -193,3 +192,7 @@ class Invitation(models.Model):
     def __unicode__(self):
         return "%s: %s (%s)" % (self.community.name, self.email,
                                 self.get_default_group_name_display())
+
+    @models.permalink
+    def get_absolute_url(self):
+        return "accept_invitation", (self.code,)
