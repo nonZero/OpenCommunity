@@ -84,7 +84,9 @@ class EditUpcomingMeetingView(AjaxFormView, CommunityModelMixin, UpdateView):
         return self.get_object().get_upcoming_absolute_url()
 
 
-class PublishUpcomingView(CommunityModelMixin, UpdateView):
+class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):
+
+    reload_on_success = True
 
     required_permission = 'community.editagenda_community'
 
@@ -102,7 +104,7 @@ class PublishUpcomingView(CommunityModelMixin, UpdateView):
 
         c.save()
 
-        return redirect(c.get_upcoming_absolute_url())
+        return resp
 
 
 class OngoingMeetingView(CommunityModelMixin, DetailView):
