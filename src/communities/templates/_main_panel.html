@@ -26,6 +26,12 @@
             </li>
         {% endif %}
 
+        {% if user.is_staff %}
+            <li>
+                <a href="{% url 'admin:index' %}">{% trans "Admin" %}</a>
+            </li>
+        {% endif %}
+
         <li data-role="list-divider">
             {{user.display_name}}
         </li>
