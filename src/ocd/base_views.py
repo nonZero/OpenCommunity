@@ -42,7 +42,14 @@ class ProtectedMixin(object):
                     return HttpResponseForbidden("403 POST %s" % perm)
                 return HttpResponseForbidden("403 Unauthorized")
 
-        return super(ProtectedMixin, self).dispatch(request, *args, **kwargs)
+        resp = super(ProtectedMixin, self).dispatch(request, *args, **kwargs)
+
+        # Disable client side cache
+        resp['Expires'] = '0'
+        resp['Pragma'] = 'no-cache'
+        resp['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+
+        return resp
 
     def get_context_data(self, **kwargs):
         d = super(ProtectedMixin, self).get_context_data(**kwargs)
