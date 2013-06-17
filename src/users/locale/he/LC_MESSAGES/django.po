@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-09 10:51+0300\n"
+"POT-Creation-Date: 2013-06-17 19:44+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\admin.py:42
+#: .\admin.py:42 .\forms.py:20
 msgid "Password"
 msgstr "סיסמא"
 
@@ -44,9 +44,21 @@ msgstr "מזכיר"
 msgid "chairman"
 msgstr "יושב ראש"
 
+#: .\forms.py:21
+msgid "Password confirmation"
+msgstr ""
+
+#: .\forms.py:35
+msgid "Passwords don't match"
+msgstr ""
+
 #: .\models.py:54
 msgid "email address"
 msgstr "כתובת דואל"
+
+#: .\models.py:57
+msgid "Your name"
+msgstr "שמך"
 
 #: .\models.py:59
 msgid "staff status"
@@ -104,28 +116,77 @@ msgstr "נוצר על ידי"
 msgid "Email"
 msgstr "דואל"
 
-#: .\models.py:190
+#: .\models.py:189
 msgid "Invitation"
 msgstr "הזמנה"
 
-#: .\models.py:191 .\templates\users\membership_list.html.py:40
+#: .\models.py:190 .\templates\users\membership_list.html.py:44
 msgid "Invitations"
 msgstr "הזמנות"
+
+#: .\views.py:123
+msgid "Oops. Something went wrong. Please try again."
+msgstr "אופס. משהו השתבש. אנה נסה שוב."
 
 #: .\templates\users\_invitation.html.py:7
 msgid "Delete"
 msgstr "מחיקה"
 
-#: .\templates\users\membership_list.html.py:6
-#: .\templates\users\membership_list.html.py:15
+#: .\templates\users\invitation_detail.html.py:10
+msgid "Accept Invitation"
+msgstr "אישור הזמנה"
+
+#: .\templates\users\invitation_detail.html.py:17
+msgid "You are logged in as"
+msgstr "אתה מחובר למערכת בשם"
+
+#: .\templates\users\invitation_detail.html.py:21
+msgid "Wrong user?"
+msgstr "משתמש אחר?"
+
+#: .\templates\users\invitation_detail.html.py:21
+msgid "Logout"
+msgstr "יציאה"
+
+#: .\templates\users\invitation_detail.html.py:25
+#, python-format
+msgid "You were invited to %(s)s."
+msgstr "הוזמנת לקהילה %(s)s."
+
+#: .\templates\users\invitation_detail.html.py:31
+msgid "Join This Community"
+msgstr "הצטרף לקהילה"
+
+#: .\templates\users\invitation_detail.html.py:37
+msgid "Already a user?"
+msgstr "נרשמת כבר?"
+
+#: .\templates\users\invitation_detail.html.py:37
+msgid "Login"
+msgstr "כניסה"
+
+#: .\templates\users\invitation_detail.html.py:41
+msgid "Quick signup"
+msgstr "הרשמה מהירה"
+
+#: .\templates\users\invitation_detail.html.py:47
+msgid "email"
+msgstr "דואל"
+
+#: .\templates\users\invitation_detail.html.py:50
+msgid "Join Open Community"
+msgstr "הצטרף לקהילה פתוחה"
+
+#: .\templates\users\membership_list.html.py:10
+#: .\templates\users\membership_list.html.py:19
 msgid "Members"
 msgstr "חברים"
 
-#: .\templates\users\membership_list.html.py:31
+#: .\templates\users\membership_list.html.py:35
 msgid "No members."
 msgstr "אין חברים בקהילה"
 
-#: .\templates\users\membership_list.html.py:49
+#: .\templates\users\membership_list.html.py:53
 msgid "Invite"
 msgstr "הזמן"
 
