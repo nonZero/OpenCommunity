@@ -61,6 +61,7 @@ class DefaultRoles(object):
     permissions[MANAGER] = permissions[DECIDER] + [
                            'issues.editopen_issue',
                            'issues.editclosed_issue',
+                           'issues.deleteclosed_issue',
                            'issues.editclosed_issuecomment',
                            'issues.editopen_proposal',
                            'issues.editclosed_proposal',
