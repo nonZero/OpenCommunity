@@ -1,3 +1,6 @@
+import datetime
+import json
+
 from communities import models
 from communities.forms import EditUpcomingMeetingForm, \
     PublishUpcomingMeetingForm
@@ -10,8 +13,7 @@ from django.views.generic.base import RedirectView
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import UpdateView
 from ocd.base_views import ProtectedMixin, LoginRequiredMixin
-import datetime
-import json
+from communities.emails import mail_upcoming
 
 
 class CommunityList(LoginRequiredMixin, ListView):
@@ -69,6 +71,31 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
 
         return HttpResponse(json.dumps(int(add_to_meeting)),
                             content_type='application/json')
+class UpcomingMeetingMail(CommunityModelMixin, DetailView):
+
+    required_permission = 'communities.viewupcoming_community'
+
+    template_name = "communities/upcoming_mail.html"
+
+    def get_issues_queryset(self, **kwargs):
+        return self.get_object().issues.filter(is_closed=False, **kwargs)
+
+    required_permission_for_post = 'community.editagenda_community'
+
+    def post(self, request, *args, **kwargs):
+
+        if settings.DEBUG:
+            import time
+            time.sleep(0.3)
+
+        issue = self.get_issues_queryset().get(id=int(request.POST.get('issue')))
+
+        add_to_meeting = request.POST['set'] == "0"
+        issue.in_upcoming_meeting = add_to_meeting
+        issue.save()
+
+        return HttpResponse(json.dumps(int(add_to_meeting)),
+                            content_type='application/json')
 
 
 class EditUpcomingMeetingView(CommunityModelMixin, UpdateView):
@@ -99,7 +126,7 @@ class PublishUpcomingView(CommunityModelMixin, UpdateView):
         c.upcoming_meeting_version += 1
 
         c.save()
-
+        mail_upcoming(c)
         return redirect(c.get_upcoming_absolute_url())
 
 

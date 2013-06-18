@@ -8,6 +8,9 @@ urlpatterns = patterns('',
     url(r'^upcoming/$', views.UpcomingMeetingView.as_view(),
         name='upcoming_meeting'),
 
+    url(r'^upcoming/mail/$', views.UpcomingMeetingMail.as_view(),
+        name='upcoming_meeting_mail'),
+
     url(r'^upcoming/publish/$', views.PublishUpcomingView.as_view(),
         name="upcoming_publish"),
 
