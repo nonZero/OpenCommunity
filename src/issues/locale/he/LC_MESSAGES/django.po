@@ -240,6 +240,16 @@ msgstr "נושא חדש"
 msgid "Search"
 msgstr "חיפוש"
 
+#: .\templates\issues\issue_confirm_delete.html.py:16
+msgid ""
+"Are you sure you want to delete %(object_name) \"%(escaped_object)\"?"
+msgstr ""
+"האם אתה בטוח שברצונך למחוק את %(object_name) \"%(escaped_object)\"?"
+
+#: .\templates\issues\issue_confirm_delete.html.py:25
+msgid "Confirm"
+msgstr "אישור"
+
 #: .\templates\issues\proposal_detail.html.py:21
 msgid "Reassign task"
 msgstr "עדכן משימה"

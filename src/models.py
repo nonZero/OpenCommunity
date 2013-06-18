@@ -1,7 +1,6 @@
 from communities.models import Community
 from django.conf import settings
-from django.db import models, transaction
-from django.utils import timezone
+from django.db import models
 from django.utils.translation import ugettext, ugettext_lazy as _
 
 
@@ -32,10 +31,6 @@ class Issue(models.Model):
     @models.permalink
     def get_edit_url(self):
         return ("issue_edit", (str(self.community.pk), str(self.pk),))
-    
-    @models.permalink
-    def get_delete_url(self):
-        return ("issue_delete", (str(self.community.pk), str(self.pk),))
 
     @models.permalink
     def get_absolute_url(self):
@@ -43,74 +38,6 @@ class Issue(models.Model):
 
     def accepted_proposals(self):
         return self.proposals.filter(is_accepted=True)
-
-
-class IssueComment(models.Model):
-    issue = models.ForeignKey(Issue, related_name="comments")
-    active = models.BooleanField(default=True)
-    ordinal = models.PositiveIntegerField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True,
-                                      verbose_name=_("Created at"))
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                   verbose_name=_("Created by"),
-                                   related_name="issue_comments_created")
-
-    version = models.PositiveIntegerField(default=1)
-    last_edited_at = models.DateTimeField(auto_now_add=True,
-                                      verbose_name=_("Last Edited at"))
-    last_edited_by = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                   verbose_name=_("Created by"),
-                                   related_name="issue_comments_last_edited",
-                                   null=True, blank=True)
-    content = models.TextField(verbose_name=_("Comment"))
-
-    class Meta:
-        ordering = ('created_at', )
-
-    def update_content(self, expected_version, author, content):
-        """ creates a new revision and updates current comment """
-        if self.version != expected_version:
-            return False
-
-        content = content.strip()
-
-        if self.content == content:
-            return True
-
-        with transaction.commit_on_success():
-            IssueCommentRevision.objects.create(comment=self,
-                                                version=expected_version,
-                                                created_at=self.created_at,
-                                                created_by=self.created_by,
-                                                content=self.content)
-            self.version += 1
-            self.last_edited_at = timezone.now()
-            self.last_edited_by = author
-            self.content = content
-            self.save()
-
-        return True
-
-    @models.permalink
-    def get_delete_url(self):
-        return "delete_issue_comment", (self.issue.community.id, self.id)
-
-    @models.permalink
-    def get_edit_url(self):
-        return "edit_issue_comment", (self.issue.community.id, self.id)
-
-
-class IssueCommentRevision(models.Model):
-    """ Holds data for historical comments """
-    comment = models.ForeignKey(IssueComment, related_name='revisions')
-    version = models.PositiveIntegerField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True,
-                                      verbose_name=_("Created at"))
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
-                               verbose_name=_("Created by"),
-                               related_name="issue_comment_versions_created")
-
-    content = models.TextField(verbose_name=_("Content"))
 
 
 class ProposalVoteValue(object):
@@ -147,7 +74,7 @@ class ProposalType(object):
     CHOICES = (
                 (TASK, ugettext("Task")),
                 (RULE, ugettext("Rule")),
-                (ADMIN, ugettext("Other")),
+                (ADMIN, ugettext("Administrative")),
                )
 
 
@@ -183,9 +110,6 @@ class Proposal(models.Model):
     def __unicode__(self):
         return self.title
 
-    def is_task(self):
-        return self.type == ProposalType.TASK
-
     @models.permalink
     def get_absolute_url(self):
         return ("proposal", (str(self.issue.community.pk), str(self.issue.pk),
@@ -194,9 +118,4 @@ class Proposal(models.Model):
     @models.permalink
     def get_edit_url(self):
         return ("proposal_edit", (str(self.issue.community.pk), str(self.issue.pk),
-                                str(self.pk)))
-
-    @models.permalink
-    def get_edit_task_url(self):
-        return ("proposal_edit_task", (str(self.issue.community.pk), str(self.issue.pk),
                                 str(self.pk)))

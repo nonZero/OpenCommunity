@@ -1,0 +1,29 @@
+{% extends "dialog.html" %}
+{% load i18n %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+
+{% block extra-page-id %}
+id="issue-delete"
+{% endblock %}
+
+{% block page_header %}
+{% trans "Issue" %}
+{% endblock %}
+
+{% block content %}
+<p>
+	{% blocktrans with escaped_object=object %}Are you sure you want to delete {{ object_name }} "{{ escaped_object }}"?{% endblocktrans %}
+</p>
+<ul>
+	{{ deleted_objects|unordered_list }}
+</ul>
+<form action="" method="post">
+	{% csrf_token %}
+	<div>
+		<input type="hidden" name="post" value="yes" />
+		<input type="submit" value="{% trans "Confirm" %}" />
+	</div>
+</form>
+
+{% endblock %}

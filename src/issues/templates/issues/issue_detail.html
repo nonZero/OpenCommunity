@@ -20,6 +20,7 @@
         <ul data-role="listview">
             {% if cperms.issues.editopen_issue %}
                 <li><a data-rel="form" href="{{object.get_edit_url}}">{% trans "Edit" %}</a></li>
+                <li><a data-rel="form" href="{{object.get_delete_url}}">{% trans "Delete" %}</a></li>
             {% endif %}
         </ul>
     </div>

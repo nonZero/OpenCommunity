@@ -5,7 +5,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
-    UpdateIssueForm, EditProposalTaskForm
+    UpdateIssueForm, DeleteIssueForm, EditProposalTaskForm
 from issues.models import ProposalType
 from ocd.base_views import CommunityMixin, AjaxFormView
 import datetime
@@ -112,7 +112,20 @@ class IssueEditView(AjaxFormView, IssueMixin, UpdateView):
     required_permission = 'issues.editopen_issue'
 
     form_class = UpdateIssueForm
+    
+class IssueDeleteView(CommunityMixin, DeleteView):
 
+    form_class = DeleteIssueForm
+    
+    model = models.Issue
+    
+    def get_required_permission(self):
+        o = self.get_object()
+        return 'issues.deleteclosed_issue' if (o.is_closed or o.created_by != self.request.user) else 'issues.add_issue'
+    
+    def delete(self, request, *args, **kwargs):
+        self.get_object().delete()
+        return HttpResponse("-")
 
 class ProposalCreateView(AjaxFormView, IssueMixin, CreateView):
     model = models.Proposal
