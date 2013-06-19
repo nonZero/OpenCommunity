@@ -3,20 +3,23 @@ import datetime
 from south.db import db
 from south.v2 import DataMigration
 from django.db import models
+from django.db.utils import DatabaseError
 
 class Migration(DataMigration):
 
     def forwards(self, orm):
-        "Write your forwards methods here."
-        for old in orm['auth.User'].objects.all():
-            o = orm['users.OCUser'].objects.create(
-                         id=old.id, email=old.email or old.username,
-                         is_staff=old.is_staff, is_superuser=old.is_superuser,
-                         display_name=old.username,
-                         is_active=old.is_active,
-                         date_joined=old.date_joined,
-                         password=old.password
-                         )
+        try:
+            for old in orm['auth.User'].objects.all():
+                o = orm['users.OCUser'].objects.create(
+                             id=old.id, email=old.email or old.username,
+                             is_staff=old.is_staff, is_superuser=old.is_superuser,
+                             display_name=old.username,
+                             is_active=old.is_active,
+                             date_joined=old.date_joined,
+                             password=old.password
+                             )
+        except DatabaseError:
+            pass
 
     def backwards(self, orm):
         orm['users.OCUser'].objects.all().delete()
