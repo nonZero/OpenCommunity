@@ -235,7 +235,7 @@ class Invitation(models.Model):
 
         message = render_to_string("emails/invitation.txt", d)
         recipient_list = [self.email]
-        from_email = settings.FROM_EMAIL
+        from_email = "%s <%s>" % (self.community.name, settings.FROM_EMAIL)
         self.last_sent_at = timezone.now()
 
         try:
