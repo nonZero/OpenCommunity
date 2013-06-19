@@ -6,7 +6,7 @@ $(function() {
         $("#invite-form").closest('li').before(el).parent().listview('refresh');
         el.hide().show('slow');
         el.find('button').button();
-        $("#invite-form").get(0).reset();
+        $("#invite-form #id_email").val("");
     });
 
     // Delete invitation form

@@ -28,7 +28,9 @@ class MembershipList(MembershipMixin, ListView):
         d = super(MembershipList, self).get_context_data(**kwargs)
 
         d['invites'] = Invitation.objects.filter(community=self.community)
-        d['form'] = InvitationForm()
+        d['form'] = InvitationForm(initial={'message':
+                                            Invitation.DEFAULT_MESSAGE %
+                                            self.community.get_board_name()})
 
         return d
 
@@ -46,7 +48,8 @@ class MembershipList(MembershipMixin, ListView):
 
         i = form.save()
 
-        # TODO: send mail
+        i.send()
+
 
         return render(request, 'users/_invitation.html', {'object': i})
 

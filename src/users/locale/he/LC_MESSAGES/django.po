@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-17 19:44+0300\n"
+"POT-Creation-Date: 2013-06-19 10:42+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\admin.py:42 .\forms.py:20
+#: .\admin.py:42 .\forms.py:21
 msgid "Password"
 msgstr "סיסמא"
 
@@ -44,89 +44,154 @@ msgstr "מזכיר"
 msgid "chairman"
 msgstr "יושב ראש"
 
-#: .\forms.py:21
+#: .\forms.py:22
 msgid "Password confirmation"
 msgstr ""
 
-#: .\forms.py:35
+#: .\forms.py:36
 msgid "Passwords don't match"
 msgstr ""
 
-#: .\models.py:54
+#: .\models.py:58
 msgid "email address"
 msgstr "כתובת דואל"
 
-#: .\models.py:57
+#: .\models.py:61
 msgid "Your name"
 msgstr "שמך"
 
-#: .\models.py:59
+#: .\models.py:63
 msgid "staff status"
 msgstr "חבר בצוות האתר"
 
-#: .\models.py:60
+#: .\models.py:64
 msgid "Designates whether the user can log into this admin site."
 msgstr "יכול להכנס לאדמין"
 
-#: .\models.py:62
+#: .\models.py:66
 msgid "date joined"
 msgstr "תאריך הצטרפות"
 
-#: .\models.py:70
+#: .\models.py:74
 msgid "user"
 msgstr "משתמש"
 
-#: .\models.py:71
+#: .\models.py:75
 msgid "users"
 msgstr "משתמשים"
 
-#: .\models.py:130 .\models.py:168
+#: .\models.py:134 .\models.py:184
 msgid "Community"
 msgstr "קהילה"
 
-#: .\models.py:132 .\models.py:180
+#: .\models.py:136 .\models.py:197
 msgid "User"
 msgstr "משתמש"
 
-#: .\models.py:134 .\models.py:183
+#: .\models.py:138 .\models.py:200
 msgid "Group"
 msgstr "קבוצה"
 
-#: .\models.py:138 .\models.py:171
+#: .\models.py:142 .\models.py:187
 msgid "Created at"
 msgstr "נוצר בתאריך"
 
-#: .\models.py:140
+#: .\models.py:144
 msgid "Invited by"
 msgstr "הוזמן על ידי"
 
-#: .\models.py:146
+#: .\models.py:150
 msgid "Community Member"
 msgstr "חבר קהילה"
 
-#: .\models.py:147
+#: .\models.py:151
 msgid "Community Members"
 msgstr "חברי קהילה"
 
-#: .\models.py:173
+#: .\models.py:176
+msgid "Pending"
+msgstr "ממתין למשלוח"
+
+#: .\models.py:177
+msgid "Sent"
+msgstr "נשלח"
+
+#: .\models.py:178
+msgid "Failed"
+msgstr "נכשל"
+
+#: .\models.py:189
 msgid "Created by"
 msgstr "נוצר על ידי"
 
-#: .\models.py:176
+#: .\models.py:192
 msgid "Email"
 msgstr "דואל"
 
-#: .\models.py:189
+#: .\models.py:193
+msgid "Message"
+msgstr "הודעה"
+
+#: .\models.py:203
+msgid "Status"
+msgstr "סטאטוס"
+
+#: .\models.py:205
+msgid "Times Sent"
+msgstr "מספר הפעמים שההזמנה נשלחה"
+
+#: .\models.py:206
+msgid "Sent at"
+msgstr "נשלח לאחרונה ב"
+
+#: .\models.py:211
 msgid "Invitation"
 msgstr "הזמנה"
 
-#: .\models.py:190 .\templates\users\membership_list.html.py:44
+#: .\models.py:212 .\templates\users\membership_list.html.py:44
 msgid "Invitations"
 msgstr "הזמנות"
 
-#: .\views.py:123
+#: .\models.py:214
+msgid "INVITAION_DEFAULT_MESSAGE"
+msgstr ""
+"המערכת תאפשר לך מעורבות בתהליך קבלת ההחלטות של ה%s.\n"
+"אחרי אישור ההצטרפות ניתן לראות את הנושאים לדיון, את סדר היום לישיבה הקרובה, "
+"ואת סיכום ההחלטות מהישיבות הקודמות, ובעתיד ניתן יהיה גם לדון ולהשפיע עליהם."
+
+#: .\models.py:229
+#, python-format
+msgid "Invitation to %s"
+msgstr "הזמנה לקהילה %s"
+
+#: .\views.py:126
 msgid "Oops. Something went wrong. Please try again."
 msgstr "אופס. משהו השתבש. אנה נסה שוב."
+
+#: .\templates\emails\invitation.txt.py:2
+msgid "Hello!"
+msgstr "שלום!"
+
+#: .\templates\emails\invitation.txt.py:4
+#, python-format
+msgid "%(u)s have invited you to join %(c)s."
+msgstr "%(u)s הזמין אותך להצטרף לקהילה %(c)s."
+
+#: .\templates\emails\invitation.txt.py:8
+msgid "Click here to join this community:"
+msgstr "להצטרפות לחץ כאן"
+
+#: .\templates\emails\invitation.txt.py:10
+msgid "(Or copy the url above to your browser)"
+msgstr "או העתק כתובת זו לדפדפן"
+
+#: .\templates\emails\invitation.txt.py:12
+msgid "Thank you!"
+msgstr "תודה,"
+
+#: .\templates\emails\invitation.txt.py:14
+msgid "Open Community Team"
+msgstr "צוות לקהילה פתוחה"
 
 #: .\templates\users\_invitation.html.py:7
 msgid "Delete"

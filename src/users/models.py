@@ -4,13 +4,17 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, \
     PermissionsMixin
 from django.core.mail import send_mail
 from django.db import models
+from django.template.loader import render_to_string
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, ugettext
 from users.default_roles import DefaultGroups, ALL_PERMISSIONS
+import logging
 import random
 import string
 
 CODE_LENGTH = 48
+
+logger = logging.getLogger(__name__)
 
 
 class OCUserManager(BaseUserManager):
@@ -163,6 +167,18 @@ def create_code(length=CODE_LENGTH):
     return "".join(random.choice(CODE_CHARS) for _x in xrange(length))
 
 
+class EmailStatus(object):
+    PENDING = 0
+    SENT = 1
+    FAILED = 2
+
+    choices = (
+               (PENDING, _('Pending')),
+               (SENT, _('Sent')),
+               (FAILED, _('Failed')),
+               )
+
+
 class Invitation(models.Model):
     community = models.ForeignKey('communities.Community',
                                   verbose_name=_("Community"),
@@ -174,6 +190,7 @@ class Invitation(models.Model):
                                    related_name="invitations_created")
 
     email = models.EmailField(_("Email"))
+    message = models.TextField(_("Message"), null=True, blank=True)
 
     code = models.CharField(max_length=CODE_LENGTH, default=create_code)
 
@@ -183,11 +200,19 @@ class Invitation(models.Model):
     default_group_name = models.CharField(_('Group'), max_length=50,
                                           choices=DefaultGroups.CHOICES)
 
+    status = models.PositiveIntegerField(_("Status"),
+                     choices=EmailStatus.choices, default=EmailStatus.PENDING)
+    times_sent = models.PositiveIntegerField(_("Times Sent"), default=0)
+    error_count = models.PositiveIntegerField(_("Error count"), default=0)
+    last_sent_at = models.DateTimeField(_("Sent at"), null=True, blank=True)
+
     class Meta:
         unique_together = (("community", "email"),)
 
         verbose_name = _("Invitation")
         verbose_name_plural = _("Invitations")
+
+    DEFAULT_MESSAGE = _("INVITAION_DEFAULT_MESSAGE")
 
     def __unicode__(self):
         return "%s: %s (%s)" % (self.community.name, self.email,
@@ -196,3 +221,32 @@ class Invitation(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return "accept_invitation", (self.code,)
+
+    def send(self, base_url=None):
+
+        if not base_url:
+            base_url = settings.HOST_URL
+
+        subject = _("Invitation to %s") % self.community.name
+        d = {
+              'base_url': base_url,
+              'object': self,
+             }
+
+        message = render_to_string("emails/invitation.txt", d)
+        recipient_list = [self.email]
+        from_email = settings.FROM_EMAIL
+        self.last_sent_at = timezone.now()
+
+        try:
+            send_mail(subject, message, from_email, recipient_list)
+            self.times_sent += 1
+            self.status = EmailStatus.SENT
+            self.save()
+            return True
+        except:
+            logger.error("Invitation email sending failed", exc_info=True)
+            self.error_count += 1
+            self.status = EmailStatus.ERROR
+            self.save()
+            return False

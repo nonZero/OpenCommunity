@@ -13,6 +13,9 @@ ADMINS = (
     ('Udi Oron', 'udioron@gmail.com'),
 )
 
+FROM_EMAIL = "noreply@opencommunity.dev"
+HOST_URL = "http://localhost:8000"
+
 MANAGERS = ADMINS
 
 DATABASES = {

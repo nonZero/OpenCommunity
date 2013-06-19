@@ -12,6 +12,7 @@ class InvitationForm(ModelForm):
         fields = (
                   'email',
                   'default_group_name',
+                  'message',
                   )
 
 

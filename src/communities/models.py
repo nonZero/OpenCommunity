@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import models
-from django.utils.translation import ugettext, ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _
 
 
 class Community(models.Model):
@@ -32,6 +32,8 @@ class Community(models.Model):
     upcoming_meeting_published_at = models.DateTimeField(
                                         _("Upcoming meeting published at"),
                                         blank=True, null=True)
+    board_name = models.CharField(_("Board Name"), max_length=200,
+                                  null=True, blank=True)
 
     class Meta:
         verbose_name = _("Community")
@@ -61,3 +63,6 @@ class Community(models.Model):
                                      ).annotate(
                                         num_proposals=models.Count('proposals')
                                      )
+
+    def get_board_name(self):
+        return self.board_name or _('Board')

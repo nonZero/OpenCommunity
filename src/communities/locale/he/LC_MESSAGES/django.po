@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-03 12:17+0300\n"
+"POT-Creation-Date: 2013-06-19 10:36+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,7 @@ msgid "Send to Board"
 msgstr "שלח לחברי הועד"
 
 #: .\forms.py:42 .\templates\communities\publish_upcoming.html.py:6
-#: .\templates\communities\upcoming.html.py:30
+#: .\templates\communities\upcoming.html.py:39
 msgid "Publish"
 msgstr "פרסם"
 
@@ -66,13 +66,21 @@ msgstr "האם הפגישה הקרובה פורסמה?"
 msgid "Upcoming meeting published at"
 msgstr "מועד פרסום הפגישה הקרובה"
 
-#: .\models.py:37
+#: .\models.py:35
+msgid "Board Name"
+msgstr "שם הועד"
+
+#: .\models.py:39
 msgid "Community"
 msgstr "קהילה"
 
-#: .\models.py:38
+#: .\models.py:40
 msgid "Communities"
 msgstr "קהילות"
+
+#: .\models.py:68
+msgid "Board"
+msgstr "ועד"
 
 #: .\templates\_community_bar.html.py:5 .\templates\_main_panel.html.py:7
 #: .\templates\communities\ongoing.html.py:29
@@ -80,7 +88,7 @@ msgid "Issues"
 msgstr "נושאים"
 
 #: .\templates\_community_bar.html.py:8 .\templates\_main_panel.html.py:13
-#: .\templates\communities\upcoming.html.py:5
+#: .\templates\communities\upcoming.html.py:9
 msgid "Upcoming Meeting"
 msgstr "הפגישה הקרובה"
 
@@ -92,16 +100,20 @@ msgstr "היסטוריה"
 msgid "Members"
 msgstr "חברים"
 
-#: .\templates\_main_panel.html.py:33
-#: .\templates\communities\community_list.html.py:5
+#: .\templates\_main_panel.html.py:31
+msgid "Admin"
+msgstr "ניהול המערכת"
+
+#: .\templates\_main_panel.html.py:39
+#: .\templates\communities\community_list.html.py:9
 msgid "My Communities"
 msgstr "הקהילות שלי"
 
-#: .\templates\_main_panel.html.py:36
+#: .\templates\_main_panel.html.py:42
 msgid "Log out"
 msgstr "יציאה"
 
-#: .\templates\communities\community_list.html.py:23
+#: .\templates\communities\community_list.html.py:27
 msgid "You are not a member of any community"
 msgstr "אינך שייך עדיין לאף קהילה."
 
@@ -121,64 +133,54 @@ msgstr "סיכום הפגישה"
 msgid "Close Meeting"
 msgstr "סגור פגישה"
 
-#: .\templates\communities\publish_upcoming.html.py:26
-#: .\templates\communities\upcoming.html.py:53
-msgid "Published at"
-msgstr "פורסם ב -"
-
-#: .\templates\communities\publish_upcoming.html.py:27
-#: .\templates\communities\upcoming.html.py:54
-msgid "Version"
-msgstr "גרסא"
-
-#: .\templates\communities\publish_upcoming.html.py:31
-#: .\templates\communities\upcoming.html.py:58
-msgid "Draft"
-msgstr "טיוטה"
-
-#: .\templates\communities\publish_upcoming.html.py:40
-#: .\templates\communities\upcoming.html.py:67
-msgid "Meeting Details"
-msgstr "פרטי הפגישה"
-
-#: .\templates\communities\publish_upcoming.html.py:43
-#: .\templates\communities\upcoming.html.py:70
-msgid "Scheduled at"
-msgstr "מועד"
-
-#: .\templates\communities\publish_upcoming.html.py:44
-#: .\templates\communities\publish_upcoming.html.py:47
-#: .\templates\communities\upcoming.html.py:71
-#: .\templates\communities\upcoming.html.py:74
-msgid "Not set yet"
-msgstr "טרם נקבע"
-
-#: .\templates\communities\publish_upcoming.html.py:46
-#: .\templates\communities\upcoming.html.py:73
-msgid "Location"
-msgstr "מיקום"
-
-#: .\templates\communities\upcoming.html.py:24
+#: .\templates\communities\upcoming.html.py:30
+#: .\templates\communities\upcoming_form.html.py:6
 msgid "Edit"
 msgstr "עריכה"
 
-#: .\templates\communities\upcoming.html.py:34
+#: .\templates\communities\upcoming.html.py:44
 msgid "Start Meeting"
 msgstr "התחל פגישה"
 
-#: .\templates\communities\upcoming.html.py:87
+#: .\templates\communities\upcoming.html.py:63
+msgid "Published at"
+msgstr "פורסם ב -"
+
+#: .\templates\communities\upcoming.html.py:64
+msgid "Version"
+msgstr "גרסא"
+
+#: .\templates\communities\upcoming.html.py:68
+msgid "Draft"
+msgstr "טיוטה"
+
+#: .\templates\communities\upcoming.html.py:77
+msgid "Meeting Details"
+msgstr "פרטי הפגישה"
+
+#: .\templates\communities\upcoming.html.py:80
+msgid "Scheduled at"
+msgstr "מועד"
+
+#: .\templates\communities\upcoming.html.py:81
+#: .\templates\communities\upcoming.html.py:84
+msgid "Not set yet"
+msgstr "טרם נקבע"
+
+#: .\templates\communities\upcoming.html.py:83
+msgid "Location"
+msgstr "מיקום"
+
+#: .\templates\communities\upcoming.html.py:97
 msgid "Agenda items"
 msgstr ""
 
-#: .\templates\communities\upcoming.html.py:117
+#: .\templates\communities\upcoming.html.py:127
 msgid "Available Issues"
 msgstr "נושאים נוספים"
 
 #~ msgid "User"
 #~ msgstr "משתמש"
-
-#~ msgid "Is In Board"
-#~ msgstr "בועד"
 
 #~ msgid "Is Chairman"
 #~ msgstr "יו'ר"
