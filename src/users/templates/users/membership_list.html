@@ -50,7 +50,7 @@
                 <form method="post" id="invite-form">
                     {% csrf_token %}
                     {{form|crispy}}
-                    <input type="submit" value="{% trans "Invite" %}">
+                    <input type="submit" data-theme="a" value="{% trans "Invite" %}">
                 </form>
 
             </li>

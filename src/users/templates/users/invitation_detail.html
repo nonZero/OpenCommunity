@@ -12,43 +12,65 @@
 
 {% block content %}
 
+    {% blocktrans with s=object.community.name %}You were invited to {{s}}.{% endblocktrans %}
+
     {% if user.id %}
         <h2>
             {% trans "You are logged in as" %} {{user}}.
         </h2>
 
-        <p>
-            {% trans "Wrong user?" %} <a href="{% url 'logout' %}">{% trans "Logout" %}</a>
-        </p>
-    {% endif %}
-
-    {% blocktrans with s=object.community.name %}You were invited to {{s}}.{% endblocktrans %}
-
-    {% if user.id or user_exists %}
+        {% if user.email != object.email %}
+            <div class="ui-grid-solo">
+                <div class="ui-block-a">
+                    <div class="ui-bar ui-bar-e">
+                        <p>
+                            {% blocktrans with i=object.email u=user.email %}Warning! The invitation was sent to {{i}}, but you are joining as {{u}}!{% endblocktrans %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
 
         <form method="post">
             {% csrf_token %}
-            <button name="join" value="1">{% trans "Join This Community" %}</button>
+            <button name="join" value="1" data-role="button" data-theme="a">{% trans "Join This Community" %}</button>
         </form>
+
+        <p>
+            <a href="{% url 'logout' %}?next={{login_path|urlencode}}">{% trans "Switch to a different user" %}</a> 
+            {% if not user_exists %}
+                |
+                <a href="{% url 'logout' %}?next={{path}}">{% trans "Logout and signup as a new user" %}</a>
+            {% endif %}
+        </p>
 
     {% else %}
 
-        <p>
-            {% trans "Already a user?" %} <a href="{% url 'login' %}?next={{path}}">{% trans "Login" %}</a>
-        </p>
+        {% if user_exists %}
 
-        <h2>
-            {% trans "Quick signup" %}
-        </h2>
+            <p>
+                {% trans "Login to join" %} <a href="{% url 'login' %}?next={{path}}">{% trans "Login" %}</a>
+            </p>
 
-        <form method="post">
-            {% csrf_token %}
-            <div data-role="fieldcontain" class="control-group">
-                <label >{% trans "email" %}: {{object.email}}</label>
-            </div>
-            {{form|crispy}}
-            <button name="signup" value="1">{% trans "Join Open Community" %}</button>
-        </form>
+        {% else %}
+
+            <p>
+                {% trans "Already a user?" %} <a href="{% url 'login' %}?next={{path}}">{% trans "Login" %}</a>
+            </p>
+
+            <h2>
+                {% trans "Quick signup" %}
+            </h2>
+
+            <form method="post">
+                {% csrf_token %}
+                <div data-role="fieldcontain" class="control-group">
+                    <label >{% trans "email" %}: {{object.email}}</label>
+                </div>
+                {{form|crispy}}
+                <button name="signup" data-role="button" data-theme="a" value="1">{% trans "Join Open Community" %}</button>
+            </form>
+        {% endif %}
 
     {% endif %}
 

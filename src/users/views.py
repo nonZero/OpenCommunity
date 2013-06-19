@@ -1,6 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
-from django.http.response import HttpResponse
+from django.core.urlresolvers import reverse
+from django.db.utils import IntegrityError
+from django.http.response import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.detail import DetailView
@@ -38,10 +40,20 @@ class MembershipList(MembershipMixin, ListView):
 
         form = InvitationForm(request.POST)
 
-        # TODO: check if user or invitation already exists
-
         if not form.is_valid():
-            assert False
+            return HttpResponseForbidden(
+                                 _("Form error. Please supply a valid email."))
+
+        # somewhat of a privacy problem next line. should probably fail silently
+        if Membership.objects.filter(community=self.community,
+                                 user__email=form.instance.email).exists():
+            return HttpResponseForbidden(
+                         _("This user already a member of this community."))
+
+        if Invitation.objects.filter(community=self.community,
+                                 email=form.instance.email).exists():
+            return HttpResponseForbidden(
+                         _("This user is already invited to this community."))
 
         form.instance.community = self.community
         form.instance.created_by = request.user
@@ -89,6 +101,7 @@ class AcceptInvitationView(DetailView):
         d['user_exists'] = OCUser.objects.filter(email=self.get_object().email
                                                  ).exists()
         d['path'] = self.request.path
+        d['login_path'] = reverse('login') + "?next=" + self.request.path
         d['form'] = self.form if self.form else self.get_form()
         return d
 
@@ -97,9 +110,12 @@ class AcceptInvitationView(DetailView):
         i = self.get_object()
 
         def create_membership(user):
-            m = Membership.objects.create(user=user, community=i.community,
-                              default_group_name=i.default_group_name,
-                                  invited_by=i.created_by)
+            try:
+                m = Membership.objects.get(user=user, community=i.community)
+            except Membership.DoesNotExist:
+                m = Membership.objects.create(user=user, community=i.community,
+                                  default_group_name=i.default_group_name,
+                                      invited_by=i.created_by)
             i.delete()
             return m
 
