@@ -3,6 +3,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from users.models import OCUser
 
 
 class EditUpcomingMeetingForm(forms.ModelForm):
@@ -42,3 +43,30 @@ class PublishUpcomingMeetingForm(forms.ModelForm):
         self.helper.add_input(Submit('submit', _('Publish'), **attrs))
 
         super(PublishUpcomingMeetingForm, self).__init__(*args, **kwargs)
+
+
+class UpcomingMeetingParticipantsForm(forms.ModelForm):
+
+    upcoming_meeting_participants = forms.ModelMultipleChoiceField(label=_(
+                                         "Participants in upcoming meeting"),
+                                       required=False,
+                                       queryset=OCUser.objects.all(),
+                                       widget=forms.CheckboxSelectMultiple)
+
+    class Meta:
+        model = Community
+
+        fields = (
+                   'upcoming_meeting_participants',
+                   'upcoming_meeting_guests',
+                   )
+
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+
+        self.helper.add_input(Submit('submit', _('Save')))
+
+        super(UpcomingMeetingParticipantsForm, self).__init__(*args, **kwargs)
+
+        self.fields['upcoming_meeting_participants'].queryset = self.instance.get_members()
+

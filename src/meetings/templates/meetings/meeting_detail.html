@@ -42,14 +42,17 @@
 
     <div class="ui-grid-solo">
         <div class="ui-block-a">
-            <div class="ui-bar">
+            <div class="ui-bar meeting-header">
                 <a href="#meetings" data-rel="dialog" data-theme="a" 
-                data-icon="arrow-d" data-iconpos="right">
+                 data-icon="arrow-d" data-iconpos="right" class="select-meeting">
                 	<p>פגישה מספר {{object.id}}<br />
                     {{object.held_at|date:"m/Y"}}</p>
-                <div class="users">
-                	<p>{{object.participants.count}}</p>
-                </div>
+                </a>
+                <a href="#participants" data-rel="dialog" data-theme="a" 
+                 data-icon="arrow-d" data-iconpos="right" class="show-participants">
+                    <div class="users">
+                    	<p>{{total_participants}}</p>
+                    </div>
                 </a>
             </div>
         </div>
@@ -133,6 +136,31 @@
                     <li><a href="{{m.get_absolute_url}}">{{m}}</a></li>
                 {% endfor %}
             </ul>
+        </div>
+    </div>
+
+    <div data-role="dialog" id="participants">
+        <div data-role="header">
+            <h2>{% trans "Participants" %}</h2>
+        </div>
+        <div data-role="content">
+            <ul data-role="listview">
+                {% for p in object.participations.all %}
+                    <li>
+                        {{p.display_name}}
+                        {% if p.default_group_name %}
+                            ({{p.get_default_group_name_display}})
+                        {% endif %}
+                    </li>
+                {% endfor %}
+
+                {% for g in guest_list %}
+                    <li>
+                        {{g}}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 {% endblock %}
 

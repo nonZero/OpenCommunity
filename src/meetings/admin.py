@@ -8,6 +8,11 @@ class AgendaItemInline(admin.TabularInline):
     extra = 0
 
 
+class MeetingParticipantInline(admin.TabularInline):
+    model = models.MeetingParticipant
+    extra = 0
+
+
 class MeetingExternalParticipantInline(admin.TabularInline):
     model = models.MeetingExternalParticipant
     extra = 0
@@ -15,9 +20,15 @@ class MeetingExternalParticipantInline(admin.TabularInline):
 
 class MeetingAdmin(admin.ModelAdmin):
     inlines = [
+        MeetingParticipantInline,
         MeetingExternalParticipantInline,
         AgendaItemInline,
     ]
+
+    list_display = (
+                    '__unicode__',
+                    'community',
+                    )
 
 site.register(models.Meeting, MeetingAdmin)
 site.register(models.AgendaItem)

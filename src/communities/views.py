@@ -1,6 +1,6 @@
 from communities import models
 from communities.forms import EditUpcomingMeetingForm, \
-    PublishUpcomingMeetingForm
+    PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponse
@@ -80,8 +80,15 @@ class EditUpcomingMeetingView(AjaxFormView, CommunityModelMixin, UpdateView):
     form_class = EditUpcomingMeetingForm
     template_name = "communities/upcoming_form.html"
 
-    def get_success_url(self):
-        return self.get_object().get_upcoming_absolute_url()
+
+class EditUpcomingMeetingParticipantsView(AjaxFormView, CommunityModelMixin, UpdateView):
+
+    reload_on_success = True
+
+    required_permission = 'communities.editparticipants_community'
+
+    form_class = UpcomingMeetingParticipantsForm
+    template_name = "communities/participants_form.html"
 
 
 class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):

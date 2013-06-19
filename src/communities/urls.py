@@ -14,6 +14,10 @@ urlpatterns = patterns('',
     url(r'^upcoming/edit/$', views.EditUpcomingMeetingView.as_view(),
         name="upcoming_edit"),
 
+    url(r'^upcoming/participants/$',
+        views.EditUpcomingMeetingParticipantsView.as_view(),
+        name="upcoming_edit_participants"),
+
     url(r'^ongoing/$', views.OngoingMeetingView.as_view(),
         name='ongoing_meeting'),
 

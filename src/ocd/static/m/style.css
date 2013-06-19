@@ -265,23 +265,33 @@ form.ui-listview-filter {
     background: #064556;
     background-image: none;
 }
-.ui-grid-solo .ui-btn-inner {
+.select-meeting .ui-btn-inner {
     border-top: 1px solid #555555;
 }
-.ui-grid-solo .ui-btn-icon-right .ui-btn-inner {
+.select-meeting {
+    float:right;
+    height:100%;
+    width:75%
+}
+.select-meeting .ui-btn-inner {
     padding-right: 15%;
     background: url(images/date-grid-icon.png) no-repeat 97% 50%;
 }
-.ui-grid-solo div.users {
+.show-participants {
     float: right;
-    width: 24%;
-    height: 44px;
+    width:25%;
+    height:100%;
+}
+
+div.users {
+    float: right;
+    width: 100%;
+    height: 48px;
     background: url(images/users.png) no-repeat 80% 50%;
 }
 .ui-grid-solo .ui-btn-icon-right > .ui-btn-inner > .ui-btn-text div.users p {
     width: auto;
     font-size: 24px;
-    padding-right: 75%;
     border-left: 0;
 }
 .ui-grid-solo .ui-btn-icon-right > .ui-btn-inner > .ui-icon {
@@ -299,7 +309,7 @@ form.ui-listview-filter {
 }
 .ui-grid-solo .ui-btn-icon-right > .ui-btn-inner > .ui-btn-text p {
     margin: 0;
-    width: 75%;
+    width: 100%;
     float: right;
     border-left: 1px solid #8f9698;
     font-size: 18px;

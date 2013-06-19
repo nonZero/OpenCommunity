@@ -8,7 +8,8 @@ from django.views.generic.list import ListView
 from issues.views import CommunityMixin
 from meetings import models
 from meetings.forms import CloseMeetingForm
-from meetings.models import AgendaItem
+from meetings.models import AgendaItem, MeetingParticipant
+from users.models import Membership
 import datetime
 
 
@@ -26,6 +27,13 @@ class MeetingList(MeetingMixin, ListView):
 
 class MeetingDetailView(MeetingMixin, DetailView):
     required_permission = 'meetings.view_meeting'
+
+    def get_context_data(self, **kwargs):
+        d = super(MeetingDetailView, self).get_context_data(**kwargs)
+        o = self.get_object()
+        d['guest_list'] = o.get_guest_list()
+        d['total_participants'] = len(d['guest_list']) + o.participants.count()
+        return d
 
 
 class MeetingCreateView(MeetingMixin, CreateView):
@@ -60,6 +68,7 @@ class MeetingCreateView(MeetingMixin, CreateView):
                                 or datetime.datetime.now())
             m.location = c.upcoming_meeting_location
             m.comments = c.upcoming_meeting_comments
+            m.guests = c.upcoming_meeting_guests
 
             m.save()
 
@@ -69,6 +78,7 @@ class MeetingCreateView(MeetingMixin, CreateView):
             c.upcoming_meeting_version = 0
             c.upcoming_meeting_is_published = False
             c.upcoming_meeting_published_at = None
+            c.upcoming_meeting_guests = None
             c.save()
 
             for i, issue in enumerate(issues):
@@ -80,5 +90,18 @@ class MeetingCreateView(MeetingMixin, CreateView):
                     issue.closed_at_meeting = m
                     issue.in_upcoming_meeting = False  # ???
                 issue.save()
+
+            for i, p in enumerate(c.upcoming_meeting_participants.all()):
+
+                try:
+                    mm = p.memberships.get(community=c)
+                except Membership.DoesNotExist:
+                    mm = None
+
+                MeetingParticipant.objects.create(meeting=m, ordinal=i, user=p,
+                      display_name=p.display_name,
+                      default_group_name=mm.default_group_name if mm else None)
+
+            c.upcoming_meeting_participants = []
 
         return redirect(m.get_absolute_url())

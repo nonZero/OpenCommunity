@@ -5,6 +5,39 @@
     {% trans "Ongoing Meeting" %}</a>
 {% endblock %}
 
+{% block header-start %}
+    {% if cperms.community.editupcoming_community %}
+        <a href="#upcoming-panel" data-icon="edit" data-iconpos="notext" data-rel="panel"></a>
+    {% endif %}
+{% endblock %}
+
+{% block startpanel %}
+    <div data-role="panel" id="upcoming-panel">
+        <ul data-role="listview">
+
+            {% if cperms.community.editupcoming_community %}
+                <li data-icon="edit">
+                    <a data-rel="form"
+                        href="{% url "upcoming_edit" community.id  %}">
+                        {% trans "Edit" %}
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if cperms.community.editparticipants_community %}
+                <li data-icon="edit">
+                    <a data-rel="form"
+                        href="{% url "upcoming_edit_participants" community.id  %}">
+                        {% trans "Select Participants" %}
+                    </a>
+                </li>
+            {% endif %}
+
+        </ul>
+    </div>
+
+{% endblock %}
+
 {% block content %}
 
     {% if object.upcoming_meeting_comments %}

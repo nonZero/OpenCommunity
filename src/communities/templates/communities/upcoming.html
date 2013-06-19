@@ -32,6 +32,15 @@
                 </li>
             {% endif %}
 
+            {% if cperms.community.editparticipants_community %}
+                <li data-icon="edit">
+                    <a data-rel="form"
+                        href="{% url "upcoming_edit_participants" community.id  %}">
+                        {% trans "Select Participants" %}
+                    </a>
+                </li>
+            {% endif %}
+
             {% if cperms.community.editagenda_community %}
                 <li>
                     <a data-rel="form" 

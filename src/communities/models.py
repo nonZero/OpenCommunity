@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from users.models import OCUser
 
 
 class Community(models.Model):
@@ -22,6 +23,10 @@ class Community(models.Model):
                                       related_name="+",
                                       verbose_name=_(
                                          "Participants in upcoming meeting"))
+
+    upcoming_meeting_guests = models.TextField(_("Guests in upcoming meeting"),
+                           null=True, blank=True,
+                           help_text=_("Enter each guest in a separate line"))
 
     upcoming_meeting_version = models.IntegerField(
                                    _("Upcoming meeting version"), default=0)
@@ -66,3 +71,6 @@ class Community(models.Model):
 
     def get_board_name(self):
         return self.board_name or _('Board')
+
+    def get_members(self):
+        return OCUser.objects.filter(memberships__community=self)
