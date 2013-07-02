@@ -2,16 +2,18 @@ from communities import models
 from communities.forms import EditUpcomingMeetingForm, \
     PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm
 from django.conf import settings
+from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponse
-from django.shortcuts import redirect
 from django.views.generic import ListView
 from django.views.generic.base import RedirectView
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import UpdateView
+from django.utils.translation import ugettext_lazy as _
 from ocd.base_views import ProtectedMixin, LoginRequiredMixin, AjaxFormView
 import datetime
 import json
+from communities.models import SendToOption
 
 
 class CommunityList(LoginRequiredMixin, ListView):
@@ -71,6 +73,16 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
                             content_type='application/json')
 
 
+class PublishUpcomingMeetingPreviewView(CommunityModelMixin, DetailView):
+
+    required_permission = 'communities.viewupcoming_community'
+
+    template_name = "emails/agenda.html"
+
+    def get_issues_queryset(self, **kwargs):
+        return self.get_object().issues.filter(is_closed=False, **kwargs)
+
+
 class EditUpcomingMeetingView(AjaxFormView, CommunityModelMixin, UpdateView):
 
     reload_on_success = True
@@ -105,11 +117,15 @@ class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):
         resp = super(PublishUpcomingView, self).form_valid(form)
 
         c = self.object
-        c.upcoming_meeting_is_published = True
-        c.upcoming_meeting_published_at = datetime.datetime.now()
-        c.upcoming_meeting_version += 1
+        if form.cleaned_data['send_to'] != SendToOption.ONLY_ME:
+            c.upcoming_meeting_is_published = True
+            c.upcoming_meeting_published_at = datetime.datetime.now()
+            c.upcoming_meeting_version += 1
 
-        c.save()
+            c.save()
+
+        total = c.send_agenda(self.request.user, form.cleaned_data['send_to'])
+        messages.info(self.request, _("Agenda will be sent to %d users") % total)
 
         return resp
 
@@ -122,4 +138,3 @@ class OngoingMeetingView(CommunityModelMixin, DetailView):
 
     def get_issues_queryset(self, **kwargs):
         return self.get_object().issues.filter(is_closed=False, **kwargs)
-

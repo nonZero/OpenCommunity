@@ -1,0 +1,29 @@
+{% extends "dialog.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block extra-page-id %}
+	id="issue-create"
+{% endblock %}
+
+{% block page_header %}
+    {% trans "Create Issue" %}
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {% crispy form %}
+        <h3>{% trans "New Proposal" %}</h3>
+        {{form.new_proposal|crispy}}
+        <div class="form-actions">
+            <input type="submit" name="submit" value="{% trans "Create" %}" 
+            class="btn btn-primary" id="submit-id-submit" data-theme="a"/>
+        </div>
+    </form>
+
+    <script>
+        refreshProposalForm();
+    </script>
+
+{% endblock %}

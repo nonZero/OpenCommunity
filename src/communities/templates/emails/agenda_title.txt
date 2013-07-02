@@ -1,0 +1,1 @@
+{% load i18n %}{{object}}: {% if object.upcoming_meeting_scheduled_at %}{% trans "Upcoming Agenda For" %} {{upcoming_meeting_scheduled_at}}{% else %}{% trans "Upcoming Agenda" %}{% endif %}{% if upcoming_meeting_version > 1 %}({% trans "Version" %} {{object.upcoming_meeting_version}}){% endif %}

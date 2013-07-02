@@ -12,7 +12,13 @@ $(function() {
         var url = $(this).attr('href');
 
         $.get(url, function(resp) {
-            var p = $(resp.trim()).html5inputs().popup({dismissible: false}).trigger('create').popup('open');
+            var p = $(resp.trim()).html5inputs().appendTo("#mypopups")
+                .popup({dismissible: false})
+                .trigger('create')
+                .popup('open')
+                .on("popupafterclose", function(event, ui) {
+                    $(this).popup('destroy');
+                 });
             var form = p.find('form');
 
             form.ajaxForm({

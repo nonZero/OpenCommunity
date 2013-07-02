@@ -62,7 +62,6 @@ class MembershipList(MembershipMixin, ListView):
 
         i.send()
 
-
         return render(request, 'users/_invitation.html', {'object': i})
 
 

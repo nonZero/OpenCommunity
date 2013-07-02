@@ -1,0 +1,26 @@
+{% load i18n %}{% block content %}{% autoescape off %}*** {{community}}: {% trans "Upcoming Meeting" %} ***
+
+{% trans "View online" %}: {{base_url}}{{community.get_absolute_url}}
+
+*{% trans "Meeting Details" %}*
+
+{% trans "Scheduled at" %}: {{object.upcoming_meeting_scheduled_at|default:_("Not set yet")}}
+{% trans "Location" %}: {{object.upcoming_meeting_location|default:_("Not set yet")}}
+{% if object.upcoming_meeting_comments %}
+{{object.upcoming_meeting_comments}}
+{% endif %}
+{% if object.upcoming_meeting_is_published %}{% trans "Published at" %} {{object.upcoming_meeting_published_at}} ({% trans "Version" %} {{object.upcoming_meeting_version}})
+{% else %}{% trans "Draft" %}
+{% endif %}
+
+*{% trans "The following issues will be discussed in the next meeting" %}*
+{% for i in object.upcoming_issues %}
+== {{i.title}}
+-> {{base_url}}{{i.get_absolute_url}}
+{% if i.abstract %}
+{{i.abstract}}
+{% endif %}{% with proposals=i.accepted_proposals.count %}{% if proposals %}
+    {% trans "Proposals" %}{% for p in i.accepted_proposals.all %}
+        - {{p}}{% endfor %}{% endif %}{% endwith %}
+{% endfor %}{% endautoescape %}
+{% endblock %}

@@ -1,4 +1,4 @@
-from communities.models import Community
+from communities.models import Community, SendToOption
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django import forms
@@ -27,10 +27,9 @@ class EditUpcomingMeetingForm(forms.ModelForm):
 
 class PublishUpcomingMeetingForm(forms.ModelForm):
 
-    send_to_members = forms.BooleanField(False,
-                                         label=_("Send to All Members"))
-    send_to_board = forms.BooleanField(False,
-                                       label=_("Send to Board"))
+    send_to = forms.TypedChoiceField(label=_("Send to"), coerce=int,
+                                choices=SendToOption.choices,
+                                widget=forms.RadioSelect)
 
     class Meta:
         model = Community

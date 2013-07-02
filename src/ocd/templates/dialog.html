@@ -2,7 +2,7 @@
 
 <div class="form-popup" data-role="popup" data-overlay-theme="a" data-theme="c" class="ui-corner-all">
 
-    <div data-role="header" data-theme="a" class="ui-bar-a ui-corner-top ui-header">
+    <div data-role="header" data-theme="a" class="ui-bar-a ui-corner-top ui-header dialog-header">
         <a href="#" class="close-dialog push" data-inline="true"
         data-role="button" data-icon="delete"
         data-iconpos="notext" >{% trans "Close" %}</a>
@@ -11,7 +11,7 @@
         </h1>
     </div>
 
-    <div data-role="content">
+    <div data-role="content" class="dialog-content">
         {% block content %}
         {% endblock %}
     </div>

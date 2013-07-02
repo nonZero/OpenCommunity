@@ -1,0 +1,91 @@
+{% load i18n %}
+<div{% if LANGUAGE_CODE == 'he' %} dir="rtl"{% endif %}
+    style="font-family: Arial, Helvetica, sans-serif{% if LANGUAGE_CODE == 'he' %};direction:rtl{% endif %}"
+>
+
+{% block content %}
+    <div style="border: 1px solid black">
+        <h1 style="margin:0; background: #ddd;padding: 4px"
+        >{{community}}: {% trans "Upcoming Meeting" %}</h1>
+
+        <div style="padding:3px 6px">
+            <p>
+                <a href="{{base_url}}{{community.get_absolute_url}}">{% trans "View online" %}</a>
+            </p>
+
+            <div style="border: solid 1px #ccc; margin: 4px 0;padding: 0"> 
+                <h2 style="margin:0; background: #ddd;padding: 4px">{% trans "Meeting Details" %}</h2>
+
+                <div style="margin:0; padding: 4px">
+                        <b>{% trans "Scheduled at" %}:</b>
+                        {{object.upcoming_meeting_scheduled_at|default:_("Not set yet")}}
+                        <br/>
+                        <b>{% trans "Location" %}:</b>
+                        {{object.upcoming_meeting_location|default:_("Not set yet")}}
+                        {% if object.upcoming_meeting_comments %}
+                            <div>
+                                {{object.upcoming_meeting_comments|linebreaksbr}}
+                            </div>
+                        {% endif %}
+                        <br/>
+                        <i>
+                            {% if object.upcoming_meeting_is_published %}
+                                {% trans "Published at" %} {{object.upcoming_meeting_published_at}}
+                                ({% trans "Version" %} {{object.upcoming_meeting_version}})
+                            {% else %}
+                                {% trans "Draft" %}
+                            {% endif %}
+                        </i>
+                </div>
+            </div>
+        </div>
+
+                <h2 style="margin:12px 0 0 0; background:#eee; padding:6px 3px 3px"
+                >{% trans "The following issues will be discussed in the next meeting" %}</h2>
+            <div style="padding:12px 6px">
+                    ({% trans "click links for more details" %})
+        
+        
+                {% for i in object.upcoming_issues %}
+                    <article style="border: solid 1px #ccc; margin-top: 12px;">
+        
+                        <h3 style="margin:0; background: #ddd;padding: 4px">
+                            <a href="{{base_url}}{{i.get_absolute_url}}">
+                                {{i.title}}
+                            </a>
+                        </h3>
+                        {% if i.abstract %}
+                            <div style="padding:3px;">
+                                {{i.abstract|linebreaks}}
+                            </div>
+                        {% endif %}
+                        
+                        {% with proposals=i.accepted_proposals.count %}
+                            {% if proposals %}
+                                <h4 style="margin:0; background: #eee; padding: 2px">
+                                    {% trans "Proposals" %}
+                                </h4>
+                                <ul>
+                                    {% for p in i.accepted_proposals.all %}
+                                        <li style="padding:2px 0">
+                                            <a href="{{base_url}}{{p.get_absolute_url}}">
+                                                {{p}}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        {% endwith %}
+                    </article>
+        
+                {% endfor %}
+        
+            </div>
+        </div>
+    </div>
+
+        
+
+{% endblock %}
+
+</div>

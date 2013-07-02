@@ -6,7 +6,7 @@ from django.core.mail import send_mail
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _, ugettext
+from django.utils.translation import ugettext_lazy as _
 from users.default_roles import DefaultGroups, ALL_PERMISSIONS
 import logging
 import random

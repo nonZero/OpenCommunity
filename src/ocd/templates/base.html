@@ -66,7 +66,7 @@
             {% block endpanel %}
             {% endblock %}
 
-            <div data-role="popup" id="popup" data-dismissible="true">
+            <div data-role="popup" id="popup" data-dismissible="true" style="display:none">
                 <div data-role="header" data-theme="a" class="ui-bar-a ui-corner-top ui-header">
                     <h3>{% trans "Attention" %}</h3>
                 </div>
@@ -79,6 +79,10 @@
                 </div>
             </div>
 
+        </div>
+
+        <div id="mypopups" style="display:none">
+            
         </div>
 
         {% block dialogs %}

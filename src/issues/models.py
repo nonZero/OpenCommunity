@@ -12,7 +12,7 @@ class Issue(models.Model):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Create by"), related_name="issues_created")
 
     title = models.CharField(max_length=300, verbose_name=_("Title"))
-    abstract = models.TextField(null=True, blank=True, verbose_name=_("Abstract"))
+    abstract = models.TextField(null=True, blank=True, verbose_name=_("Background"))
     content = models.TextField(null=True, blank=True, verbose_name=_("Content"))
 
     calculated_score = models.IntegerField(default=0, verbose_name=_("Calculated Score"))

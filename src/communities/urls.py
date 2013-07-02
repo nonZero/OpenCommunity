@@ -11,6 +11,10 @@ urlpatterns = patterns('',
     url(r'^upcoming/publish/$', views.PublishUpcomingView.as_view(),
         name="upcoming_publish"),
 
+    url(r'^upcoming/publish/preview$',
+        views.PublishUpcomingMeetingPreviewView.as_view(),
+        name='preview_upcoming_meeting'),
+
     url(r'^upcoming/edit/$', views.EditUpcomingMeetingView.as_view(),
         name="upcoming_edit"),
 

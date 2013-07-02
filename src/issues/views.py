@@ -91,6 +91,7 @@ class IssueCommentEditView(IssueCommentMixin, UpdateView):
 
 class IssueCreateView(AjaxFormView, IssueMixin, CreateView):
     form_class = CreateIssueForm
+    template_name="issues/issue_create_form.html"
 
     required_permission = 'issues.add_issue'
 
