@@ -76,7 +76,7 @@ Collaborating
 
 * Setup your git repo to get upstream changes::
 
-    git remote add upstream git://github.com/nonZero/OpenCommunity.git
+    git remote add upstream git://github.com/hasadna/OpenCommunity.git
     git pull upstream master
 
 
