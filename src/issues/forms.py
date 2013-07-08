@@ -6,14 +6,16 @@ from issues import models
 from issues.models import ProposalType
 
 
-class CreateIssueForm(forms.ModelForm):
-
+class BaseIssueForm(forms.ModelForm):
     class Meta:
         model = models.Issue
         fields = (
                    'title',
                    'abstract',
                    )
+
+
+class CreateIssueForm(BaseIssueForm):
 
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
@@ -43,13 +45,13 @@ class CreateIssueForm(forms.ModelForm):
         return o
 
 
-class UpdateIssueForm(CreateIssueForm):
+class UpdateIssueForm(BaseIssueForm):
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
 
         self.helper.add_input(Submit('submit', _('Update')))
 
-        super(CreateIssueForm, self).__init__(*args, **kwargs)
+        super(UpdateIssueForm, self).__init__(*args, **kwargs)
         self.helper.form_tag = True
 
 
