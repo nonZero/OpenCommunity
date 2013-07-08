@@ -10,9 +10,7 @@
 
     {% with community.issues_ready_to_close as issues %}
 
-        {% if issues %}
-            {% crispy form %}
-        {% else %}
+        {% if not issues %}
             <div class="ui-grid-solo">
                 <div class="ui-block-a">
                     <div class="ui-bar ui-bar-e">
@@ -21,6 +19,8 @@
                 </div>
             </div>
         {% endif %}
+
+        {% crispy form %}
 
     {% endwith %}
 

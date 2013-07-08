@@ -57,12 +57,6 @@ class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
 
         with transaction.commit_on_success():
             c = self.community
-            # FIXME
-            issues = c.issues_ready_to_close().filter(is_closed=False)
-            if len(issues) == 0:
-                messages.warning(self.request,
-                                 _("Cannot close a meeting with no issues"))
-                return redirect(c.get_absolute_url())
 
             m = form.instance
             m.community = c
@@ -85,14 +79,18 @@ class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
             c.upcoming_meeting_guests = None
             c.save()
 
-            for i, issue in enumerate(issues):
+            for i, issue in enumerate(c.upcoming_issues()):
 
-                AgendaItem.objects.create(meeting=m, issue=issue, order=i)
+                closed = issue.proposals.filter(active=True, is_accepted=True
+                                                ).exists()
 
-                if len(issue.proposals.filter(active=True, is_accepted=True)):
+                AgendaItem.objects.create(meeting=m, issue=issue, order=i,
+                                          closed=closed)
+
+                if closed:
                     issue.is_closed = True
                     issue.closed_at_meeting = m
-                    issue.in_upcoming_meeting = False  # ???
+                    issue.in_upcoming_meeting = False
                 issue.save()
 
             for i, p in enumerate(c.upcoming_meeting_participants.all()):
@@ -107,5 +105,7 @@ class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
                       default_group_name=mm.default_group_name if mm else None)
 
             c.upcoming_meeting_participants = []
+
+        # TODO: send protocol
 
         return HttpResponse(m.get_absolute_url())

@@ -58,33 +58,36 @@
         </div>
     </div>
 
-<!--------- Boaz said to remove to different page -----------------------
-    {% if object.location %}
-        <div data-role="collapsible" data-collapsed="false"
-            data-theme="c" data-content-theme="d" data-mini="true">
-            <h4>{% trans "Meeting Details" %}</h4>
-    
-            <p>
-                
-                    <b>{% trans "Location" %}:</b>
-                    {{object.location|default:_("Not set yet")}}
-                
-            </p>
-        </div>
-    {% endif %}
-
-    {% if object.comments %}
-        <div data-role="collapsible" data-collapsed="false"
-            data-theme="c" data-content-theme="d" data-mini="true">
-
-            <h4>{% trans "Comments" %}</h4>
-
-            <p>
-                {{object.comments|linebreaksbr}}
-            </p>
-        </div>
-    {% endif %}
------------------------ End of stuff to remove -------------------------->
+{% comment %}
+  <!--------- Boaz said to remove to different page -----------------------
+      {% if object.location %}
+          <div data-role="collapsible" data-collapsed="false"
+              data-theme="c" data-content-theme="d" data-mini="true">
+              <h4>{% trans "Meeting Details" %}</h4>
+      
+              <p>
+                  
+                      <b>{% trans "Location" %}:</b>
+                      {{object.location|default:_("Not set yet")}}
+                  
+              </p>
+          </div>
+      {% endif %}
+  
+      {% if object.comments %}
+          <div data-role="collapsible" data-collapsed="false"
+              data-theme="c" data-content-theme="d" data-mini="true">
+  
+              <h4>{% trans "Comments" %}</h4>
+  
+              <p>
+                  {{object.comments|linebreaksbr}}
+              </p>
+          </div>
+      {% endif %}
+  ----------------------- End of stuff to remove -------------------------->
+  
+    {% endcomment %}
     {% if object.summary %}
         <div data-role="collapsible" data-collapsed="false"
             data-theme="b" data-content-theme="d" data-corners="false">
@@ -96,27 +99,35 @@
         </div>
     {% endif %}
 
-        {% for a in object.agenda_items.all %}
+        {% for a in object.agenda.all %}
 
                 <ul class="agenda_itemlist" data-role="listview" data-inset="true">
                     <li class="agenda" data-theme="b">
-                    <a href="{{ a.get_absolute_url }}">
-                        <div class="agenda_list">{{ forloop.counter }}</div>&nbsp;&nbsp;{{ a.title }}
+                    <a href="{{ a.issue.get_absolute_url }}">
+                        <div class="agenda_list">{{ forloop.counter }}</div>&nbsp;&nbsp;{{ a.issue.title }}
                     </a>
                     </li>
-                    {% for p in a.accepted_proposals %}
+                    {% if a.closed %}
+                        {% for p in a.issue.accepted_proposals %}
+                            <li class="sub_agenda">
+                                <a class="agenda_items" href="{{p.get_absolute_url}}">
+                                    <div class="letter_count num{{ forloop.counter }}">{{ forloop.counter|to_char }}</div>
+                                    <p>{# {{p.get_type_display}}: #} <b>{{p.title}}</b></p>
+                                    <br />
+                                    <p>{{p.content}}</p>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    {% else %}
                         <li class="sub_agenda">
-                            <a class="agenda_items" href="{{p.get_absolute_url}}">
-                                <div class="letter_count num{{ forloop.counter }}">{{ forloop.counter|to_char }}</div>
-                                <p>{# {{p.get_type_display}}: #} <b>{{p.title}}</b></p>
-                                <br />
-                                <p>{{p.content}}</p>
+                            <a class="agenda_items" href="#">
+                                <div class="letter_count num{{ forloop.counter }}">*</div>
+                                <p><b>{% trans "Undecided" %}</b></p>
                             </a>
                         </li>
-                    {% endfor %}
+                    {% endif %}
                 </ul>
 
-            
         {% endfor %}
 
 

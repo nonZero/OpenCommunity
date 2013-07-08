@@ -8,9 +8,11 @@ from users.default_roles import DefaultGroups
 
 
 class AgendaItem(models.Model):
-    meeting = models.ForeignKey('Meeting', verbose_name=_("Meeting"))
+    meeting = models.ForeignKey('Meeting', verbose_name=_("Meeting"),
+                                related_name="agenda")
     issue = models.ForeignKey(Issue, verbose_name=_("Issue"))
     order = models.PositiveIntegerField(default=100, verbose_name=_("Order"))
+    closed = models.BooleanField(_('Closed'), default=True)
 
     def __unicode__(self):
         return self.issue.title
