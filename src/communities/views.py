@@ -1,19 +1,19 @@
 from communities import models
 from communities.forms import EditUpcomingMeetingForm, \
-    PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm
+    PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm, StartMeetingForm
+from communities.models import SendToOption
 from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponse
+from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView
-from django.views.generic.base import RedirectView
+from django.views.generic.base import RedirectView, View
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import UpdateView
-from django.utils.translation import ugettext_lazy as _
 from ocd.base_views import ProtectedMixin, LoginRequiredMixin, AjaxFormView
 import datetime
 import json
-from communities.models import SendToOption
 
 
 class CommunityList(LoginRequiredMixin, ListView):
@@ -35,19 +35,9 @@ class CommunityModelMixin(ProtectedMixin):
         return self.get_object()
 
 
-class CommunityDetailView(CommunityModelMixin, SingleObjectMixin, RedirectView):
-
-    def get_redirect_url(self, **kwargs):
-
-        perm = 'issues.viewopen_issue'
-        view_name = 'issues' if self.request.user.has_community_perm(
-                                     self.community, perm) else 'history'
-
-        return reverse(view_name, args=(str(self.community.id),))
-
-
 class UpcomingMeetingView(CommunityModelMixin, DetailView):
 
+    # TODO show empty page to 'issues.viewopen_issue'
     required_permission = 'communities.viewupcoming_community'
 
     template_name = "communities/upcoming.html"
@@ -62,6 +52,8 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
         if settings.DEBUG:
             import time
             time.sleep(0.3)
+
+        # TODO: show draft only to those allowed to manage it.
 
         issue = self.get_issues_queryset().get(id=int(request.POST.get('issue')))
 
@@ -117,24 +109,36 @@ class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):
         resp = super(PublishUpcomingView, self).form_valid(form)
 
         c = self.object
-        if form.cleaned_data['send_to'] != SendToOption.ONLY_ME:
+
+        # increment agenda if publishing agenda.
+        if not c.upcoming_meeting_started and form.cleaned_data['send_to'] != SendToOption.ONLY_ME:
             c.upcoming_meeting_is_published = True
             c.upcoming_meeting_published_at = datetime.datetime.now()
             c.upcoming_meeting_version += 1
 
             c.save()
 
-        total = c.send_agenda(self.request.user, form.cleaned_data['send_to'])
-        messages.info(self.request, _("Agenda will be sent to %d users") % total)
+        template = 'protocol_draft' if c.upcoming_meeting_started else 'agenda'
+
+        total = c.send_mail(template, self.request.user, form.cleaned_data['send_to'])
+        messages.info(self.request, _("Sending to %d users") % total)
 
         return resp
 
 
-class OngoingMeetingView(CommunityModelMixin, DetailView):
+class StartMeetingView(AjaxFormView, CommunityModelMixin, UpdateView):
+
+    reload_on_success = True
 
     required_permission = 'community.editupcoming_community'
 
-    template_name = "communities/ongoing.html"
+    form_class = StartMeetingForm
 
-    def get_issues_queryset(self, **kwargs):
-        return self.get_object().issues.filter(is_closed=False, **kwargs)
+    template_name = "communities/start_meeting.html"
+
+
+class ProtocolDraftPreviewView(CommunityModelMixin, DetailView):
+
+    required_permission = 'meetings.add_meeting'
+
+    template_name = "emails/protocol_draft.html"

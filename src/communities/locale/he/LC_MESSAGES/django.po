@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-02 12:24+0300\n"
+"POT-Creation-Date: 2013-07-08 22:10+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\forms.py:23 .\forms.py:66
+#: .\forms.py:23 .\forms.py:59 .\forms.py:83
 msgid "Save"
 msgstr "שמירה"
 
@@ -25,90 +25,97 @@ msgstr "שמירה"
 msgid "Send to"
 msgstr "נמענים"
 
-#: .\forms.py:42 .\templates\communities\publish_upcoming.html.py:6
-#: .\templates\communities\upcoming.html.py:48
+#: .\forms.py:42 .\templates\communities\publish_upcoming.html.py:9
+#: .\templates\communities\upcoming.html.py:57
 msgid "Publish"
 msgstr "פרסם"
 
-#: .\forms.py:50 .\models.py:47
+#: .\forms.py:67 .\models.py:51
 msgid "Participants in upcoming meeting"
 msgstr "משתתפים בפגישה הקרובה"
 
-#: .\models.py:22
+#: .\models.py:23
 msgid "Only Me (review)"
 msgstr "רק לי (לבדיקה)"
 
-#: .\models.py:23
+#: .\models.py:24
 msgid "Only attendees"
 msgstr "למשתתפים בפגישה בלבד"
 
-#: .\models.py:24
+#: .\models.py:25
 msgid "The Board"
 msgstr "לועד בלבד"
 
-#: .\models.py:25
+#: .\models.py:26
 msgid "All Members"
 msgstr "לכל חברי הקהילה"
 
-#: .\models.py:30
+#: .\models.py:31
 msgid "Name"
 msgstr "שם"
 
-#: .\models.py:32
+#: .\models.py:33 .\templates\communities\upcoming.html.py:86
+msgid "Meeting started"
+msgstr "הפגישה התחילה"
+
+#: .\models.py:36
 msgid "Upcoming meeting scheduled at"
 msgstr "מועד הפגישה הקרובה"
 
-#: .\models.py:35
+#: .\models.py:39
 msgid "Upcoming meeting location"
 msgstr "מיקום הפגישה הקרובה"
 
-#: .\models.py:39
+#: .\models.py:43
 msgid "Upcoming meeting comments"
 msgstr "הערות לפגישה הקרובה"
 
-#: .\models.py:49
+#: .\models.py:53
 msgid "Guests in upcoming meeting"
 msgstr "אורחים בפגישה הקרובה"
 
-#: .\models.py:51
+#: .\models.py:55
 msgid "Enter each guest in a separate line"
 msgstr "נא לרשום כל שם בשורה נפרדת"
 
-#: .\models.py:54
+#: .\models.py:58
 msgid "Upcoming meeting version"
 msgstr "מספר גרסת נתוני הפגישה הקרובה"
 
-#: .\models.py:57
+#: .\models.py:61
 msgid "Upcoming meeting is published"
 msgstr "האם הפגישה הקרובה פורסמה?"
 
-#: .\models.py:60
+#: .\models.py:64
 msgid "Upcoming meeting published at"
 msgstr "מועד פרסום הפגישה הקרובה"
 
-#: .\models.py:62
+#: .\models.py:68
+msgid "Upcoming meeting summary"
+msgstr "סיכום הפגישה הקרובה"
+
+#: .\models.py:70
 msgid "Board Name"
 msgstr "שם הועד"
 
-#: .\models.py:66
+#: .\models.py:74
 msgid "Community"
 msgstr "קהילה"
 
-#: .\models.py:67
+#: .\models.py:75
 msgid "Communities"
 msgstr "קהילות"
 
-#: .\models.py:95
+#: .\models.py:103
 msgid "Board"
 msgstr "ועד"
 
-#: .\views.py:128
-#, python-format
-msgid "Agenda will be sent to %d users"
-msgstr "סדר היום ישלח ל-%d משתמשים"
+#: .\views.py:124
+msgid "Sending to %d users"
+msgstr "שולח ל-%d משתמשים"
 
 #: .\templates\_community_bar.html.py:5 .\templates\_main_panel.html.py:7
-#: .\templates\communities\ongoing.html.py:62
+#: .\templates\communities\ongoing.html.py:58
 msgid "Issues"
 msgstr "נושאים"
 
@@ -148,14 +155,14 @@ msgid "Ongoing Meeting"
 msgstr "הפגישה הנוכחית"
 
 #: .\templates\communities\ongoing.html.py:22
-#: .\templates\communities\upcoming.html.py:30
+#: .\templates\communities\upcoming.html.py:36
 #: .\templates\communities\upcoming_form.html.py:6
 msgid "Edit"
 msgstr "עריכה"
 
 #: .\templates\communities\ongoing.html.py:31
 #: .\templates\communities\participants_form.html.py:6
-#: .\templates\communities\upcoming.html.py:39
+#: .\templates\communities\upcoming.html.py:45
 msgid "Select Participants"
 msgstr "בחר משתתפים"
 
@@ -163,77 +170,95 @@ msgstr "בחר משתתפים"
 msgid "Comments"
 msgstr "הערות"
 
-#: .\templates\communities\ongoing.html.py:55
-msgid "Summary"
-msgstr "סיכום הפגישה"
-
-#: .\templates\communities\ongoing.html.py:89
+#: .\templates\communities\ongoing.html.py:85
+#: .\templates\communities\upcoming.html.py:161
 msgid "Close Meeting"
 msgstr "סגור פגישה"
 
-#: .\templates\communities\upcoming.html.py:53
+#: .\templates\communities\publish_upcoming.html.py:7
+#: .\templates\communities\upcoming.html.py:55
+msgid "Send"
+msgstr "שלח"
+
+#: .\templates\communities\start_meeting.html.py:6
+msgid "Confirm"
+msgstr "אישור"
+
+#: .\templates\communities\upcoming.html.py:28
+msgid "Create Issue"
+msgstr ""
+
+#: .\templates\communities\upcoming.html.py:67
 msgid "Start Meeting"
 msgstr "התחל פגישה"
 
-#: .\templates\communities\upcoming.html.py:72
-#: .\templates\emails\agenda.html.py:33 .\templates\emails\agenda.txt.py:12
+#: .\templates\communities\upcoming.html.py:91
+#: .\templates\emails\agenda.html.py:15 .\templates\emails\agenda.txt.py:12
 msgid "Published at"
 msgstr "פורסם ב -"
 
-#: .\templates\communities\upcoming.html.py:73
-#: .\templates\emails\agenda.html.py:34 .\templates\emails\agenda.txt.py:12
+#: .\templates\communities\upcoming.html.py:92
+#: .\templates\emails\agenda.html.py:16 .\templates\emails\agenda.txt.py:12
 #: .\templates\emails\agenda_title.txt.py:1
 msgid "Version"
 msgstr "גרסא"
 
-#: .\templates\communities\upcoming.html.py:77
-#: .\templates\emails\agenda.html.py:36 .\templates\emails\agenda.txt.py:13
+#: .\templates\communities\upcoming.html.py:96
+#: .\templates\emails\agenda.html.py:18 .\templates\emails\agenda.txt.py:13
 msgid "Draft"
 msgstr "טיוטה"
 
-#: .\templates\communities\upcoming.html.py:86
-#: .\templates\emails\agenda.html.py:17 .\templates\emails\agenda.txt.py:5
+#: .\templates\communities\upcoming.html.py:105
+#: .\templates\emails\agenda.html.py:27 .\templates\emails\agenda.txt.py:5
 msgid "Meeting Details"
 msgstr "פרטי הפגישה"
 
-#: .\templates\communities\upcoming.html.py:89
-#: .\templates\emails\agenda.html.py:20 .\templates\emails\agenda.txt.py:7
+#: .\templates\communities\upcoming.html.py:108
+#: .\templates\emails\agenda.html.py:30 .\templates\emails\agenda.txt.py:7
 msgid "Scheduled at"
 msgstr "מועד"
 
-#: .\templates\communities\upcoming.html.py:90
-#: .\templates\communities\upcoming.html.py:93
-#: .\templates\emails\agenda.html.py:21 .\templates\emails\agenda.html.py:24
+#: .\templates\communities\upcoming.html.py:109
+#: .\templates\communities\upcoming.html.py:112
+#: .\templates\emails\agenda.html.py:31 .\templates\emails\agenda.html.py:34
 #: .\templates\emails\agenda.txt.py:7 .\templates\emails\agenda.txt.py:8
 msgid "Not set yet"
 msgstr "טרם נקבע"
 
-#: .\templates\communities\upcoming.html.py:92
-#: .\templates\emails\agenda.html.py:23 .\templates\emails\agenda.txt.py:8
+#: .\templates\communities\upcoming.html.py:111
+#: .\templates\emails\agenda.html.py:33 .\templates\emails\agenda.txt.py:8
 msgid "Location"
 msgstr "מיקום"
 
-#: .\templates\communities\upcoming.html.py:106
+#: .\templates\communities\upcoming.html.py:125
 msgid "Agenda items"
 msgstr ""
 
-#: .\templates\communities\upcoming.html.py:136
+#: .\templates\communities\upcoming.html.py:151
+#: .\templates\emails\protocol_draft.html.py:57
+msgid "Summary"
+msgstr "סיכום הפגישה"
+
+#: .\templates\communities\upcoming.html.py:170
 msgid "Available Issues"
 msgstr "נושאים נוספים"
 
-#: .\templates\emails\agenda.html.py:13 .\templates\emails\agenda.txt.py:3
+#: .\templates\emails\agenda.html.py:23 .\templates\emails\agenda.txt.py:3
+#: .\templates\emails\protocol_draft.html.py:13
+#: .\templates\emails\protocol_draft.txt.py:3
 msgid "View online"
 msgstr "לצפיה באתר"
 
-#: .\templates\emails\agenda.html.py:44 .\templates\emails\agenda.txt.py:16
+#: .\templates\emails\agenda.html.py:45 .\templates\emails\agenda.txt.py:16
 msgid "The following issues will be discussed in the next meeting"
 msgstr "הנושאים שיועלו לדיון"
 
-#: .\templates\emails\agenda.html.py:46
+#: .\templates\emails\agenda.html.py:47
+#: .\templates\emails\protocol_draft.html.py:38
 msgid "click links for more details"
 msgstr "למידע נוסף יש ללחוץ על הקישורים"
 
-#: .\templates\emails\agenda.html.py:66 .\templates\emails\agenda.txt.py:23
+#: .\templates\emails\agenda.html.py:67 .\templates\emails\agenda.txt.py:23
 msgid "Proposals"
 msgstr ""
 
@@ -244,6 +269,36 @@ msgstr "סדר יום לפגישת ועד שתתקיים ב"
 #: .\templates\emails\agenda_title.txt.py:1
 msgid "Upcoming Agenda"
 msgstr "סדר יום לפגישת הועד הקרובה"
+
+#: .\templates\emails\protocol_draft.html.py:9
+#: .\templates\emails\protocol_draft.txt.py:1
+#: .\templates\emails\protocol_draft_title.txt.py:1
+msgid "Protocol Draft"
+msgstr "טיוטת פרוטוקול"
+
+#: .\templates\emails\protocol_draft.html.py:17
+msgid "Participants"
+msgstr "משתתפים"
+
+#: .\templates\emails\protocol_draft.html.py:25
+msgid "Guests"
+msgstr "אורחים"
+
+#: .\templates\emails\protocol_draft.html.py:36
+msgid "Agenda"
+msgstr "סדר יום"
+
+#: .\templates\emails\protocol_draft.html.py:75
+msgid "Accepted Proposals"
+msgstr "החלטות שהתקבלו"
+
+#: .\templates\emails\protocol_draft.html.py:88
+msgid "No Accepted Proposals"
+msgstr "לא התקבלו החלטות"
+
+#: .\templates\emails\protocol_draft_title.txt.py:1
+msgid "Protocol Draft For"
+msgstr "טיוטת פרוטוקול ל-"
 
 #~ msgid "Send to All Members"
 #~ msgstr "שלח לכל חברי הקהילה"

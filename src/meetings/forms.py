@@ -10,7 +10,9 @@ class CloseMeetingForm(forms.ModelForm):
     class Meta:
         model = Meeting
 
-        fields = ('held_at', 'summary',)
+        fields = (
+                  'held_at',
+                  )
 
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()

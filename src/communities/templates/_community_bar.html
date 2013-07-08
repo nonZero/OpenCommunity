@@ -5,7 +5,7 @@
         <a href="{% url 'issues' community.id %}">{% trans "Issues" %}</a>
     </li>
     <li{% if pill == 'upcoming' %} class="active"{% endif %}>
-        <a href="{% url 'upcoming_meeting' community.id %}">{% trans "Upcoming Meeting" %}</a>
+        <a href="{% url 'community' community.id %}">{% trans "Upcoming Meeting" %}</a>
     </li>
     <li{% if pill == 'history' %} class="active"{% endif %}>
         <a href="{% url 'history' community.id %}">{% trans "History" %}</a>

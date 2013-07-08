@@ -3,11 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block page_header %}
-    {% if object.upcoming_meeting_started %}
-      {% trans "Send" %}
-    {% else %}
-      {% trans "Publish" %}
-    {% endif %}
+    {% trans "Confirm" %}
 {% endblock %}
 
 {% block content %}

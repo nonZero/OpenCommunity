@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "dialog.html" %}
 {% load i18n %}
 {% load crispy_forms_tags %}
 
@@ -8,57 +8,20 @@
 
 {% block content %}
 
-            {% with community.issues_ready_to_close as issues %}
-    
-                {% if issues %}
-                    
-                    <h3>{% trans "Decisions" %}</h3>
-                    <ul class="unstyled">
-                        {% for i in issues %}
-                            <li>
-                                <b>{{i.title}}</b>
-                                <ul>
-                                    {% for p in i.accepted_proposals %}
-                                        <li>
-                                            {{p.title}}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </li>
+    {% with community.issues_ready_to_close as issues %}
 
-                        {% endfor %}
-                    </ul>
-
-                    <hr/>
-
-                    {% crispy form %}
-                {% else %}
-                    <div class="ui-grid-solo">
-                        <div class="ui-block-a">
-                            <div class="ui-bar ui-bar-e">
-                                {% trans "No decisions were made in this meeting."%}
-                            </div>
-                        </div>
+        {% if issues %}
+            {% crispy form %}
+        {% else %}
+            <div class="ui-grid-solo">
+                <div class="ui-block-a">
+                    <div class="ui-bar ui-bar-e">
+                        {% trans "No decisions were made in this meeting."%}
                     </div>
-                {% endif %}
+                </div>
+            </div>
+        {% endif %}
 
-            {% endwith %}
+    {% endwith %}
 
-        </div>
-
-    </div>
-{% endblock %}
-
-{% block extrahead %}
-    {# <link href="{{ STATIC_URL }}jquery-ui/css/ui-lightness/jquery-ui-1.10.2.custom.css" rel="stylesheet"> #}
-{% endblock %}
-
-{% block scripts %}
-    {# <script src="{{STATIC_URL}}jquery-ui/js/jquery-ui-1.10.2.custom.js"></script> #}
-    <script src="{{STATIC_URL}}js/syncme.js"></script>
-    <script>
-    $(function(){
-        $('#id_summary').syncMe();
-    });
-    </script>
 {% endblock %}

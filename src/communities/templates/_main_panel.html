@@ -10,7 +10,7 @@
 
         {% if cperms.communities.viewupcoming_community %}
             <li{% if pill == 'upcoming' %} class="active"{% endif %}>
-                <a href="{% url 'upcoming_meeting' community.id %}">{% trans "Upcoming Meeting" %}</a>
+                <a href="{% url 'community' community.id %}">{% trans "Upcoming Meeting" %}</a>
             </li>
         {% endif %}
 

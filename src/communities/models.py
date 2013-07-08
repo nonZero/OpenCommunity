@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.db.models.query_utils import Q
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 from ocd.email import send_mails
@@ -28,6 +29,9 @@ class SendToOption(object):
 
 class Community(models.Model):
     name = models.CharField(max_length=200, verbose_name=_("Name"))
+    upcoming_meeting_started = models.BooleanField(
+                                        _("Meeting started"),
+                                        default=False)
     upcoming_meeting_scheduled_at = models.DateTimeField(
                                         _("Upcoming meeting scheduled at"),
                                         blank=True, null=True)
@@ -59,6 +63,10 @@ class Community(models.Model):
     upcoming_meeting_published_at = models.DateTimeField(
                                         _("Upcoming meeting published at"),
                                         blank=True, null=True)
+
+    upcoming_meeting_summary = models.TextField(
+                                             _("Upcoming meeting summary"),
+                                             null=True, blank=True)
     board_name = models.CharField(_("Board Name"), max_length=200,
                                   null=True, blank=True)
 
@@ -75,7 +83,7 @@ class Community(models.Model):
 
     @models.permalink
     def get_upcoming_absolute_url(self):
-        return ("upcoming_meeting", (str(self.pk,)))
+        return ("community", (str(self.pk,)))
 
     def upcoming_issues(self, upcoming=True):
         return self.issues.filter(active=True, is_closed=False,
@@ -97,7 +105,12 @@ class Community(models.Model):
     def get_members(self):
         return OCUser.objects.filter(memberships__community=self)
 
-    def send_agenda(self, sender, send_to, base_url=None):
+    def get_guest_list(self):
+        if not self.upcoming_meeting_guests:
+            return []
+        return filter(None, [s.strip() for s in self.upcoming_meeting_guests.splitlines()])
+
+    def send_mail(self, template, sender, send_to, base_url=None):
 
         if not base_url:
             base_url = settings.HOST_URL
@@ -109,10 +122,10 @@ class Community(models.Model):
               'LANGUAGE_CODE': settings.LANGUAGE_CODE,
              }
 
-        subject = render_to_string("emails/agenda_title.txt", d)
+        subject = render_to_string("emails/%s_title.txt" % template, d)
 
-        message = render_to_string("emails/agenda.txt", d)
-        html_message = render_to_string("emails/agenda.html", d)
+        message = render_to_string("emails/%s.txt" % template, d)
+        html_message = render_to_string("emails/%s.html" % template, d)
         from_email = "%s <%s>" % (self.name, settings.FROM_EMAIL)
 
         recipient_list = set([sender.email])

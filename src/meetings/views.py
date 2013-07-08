@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.db import transaction
+from django.http.response import HttpResponse
 from django.shortcuts import redirect
 from django.utils import timezone
 from django.views.generic.detail import DetailView
@@ -9,6 +10,7 @@ from issues.views import CommunityMixin
 from meetings import models
 from meetings.forms import CloseMeetingForm
 from meetings.models import AgendaItem, MeetingParticipant
+from ocd.base_views import AjaxFormView
 from users.models import Membership
 import datetime
 
@@ -36,7 +38,7 @@ class MeetingDetailView(MeetingMixin, DetailView):
         return d
 
 
-class MeetingCreateView(MeetingMixin, CreateView):
+class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
 
     required_permission = 'meetings.add_meeting'
 
@@ -55,11 +57,12 @@ class MeetingCreateView(MeetingMixin, CreateView):
 
         with transaction.commit_on_success():
             c = self.community
+            # FIXME
             issues = c.issues_ready_to_close().filter(is_closed=False)
             if len(issues) == 0:
                 messages.warning(self.request,
                                  _("Cannot close a meeting with no issues"))
-                return redirect(c.get_upcoming_absolute_url())
+                return redirect(c.get_absolute_url())
 
             m = form.instance
             m.community = c
@@ -72,6 +75,7 @@ class MeetingCreateView(MeetingMixin, CreateView):
 
             m.save()
 
+            c.upcoming_meeting_started = False
             c.upcoming_meeting_scheduled_at = None
             c.upcoming_meeting_location = None
             c.upcoming_meeting_comments = None
@@ -104,4 +108,4 @@ class MeetingCreateView(MeetingMixin, CreateView):
 
             c.upcoming_meeting_participants = []
 
-        return redirect(m.get_absolute_url())
+        return HttpResponse(m.get_absolute_url())

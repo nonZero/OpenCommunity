@@ -3,15 +3,15 @@ from django.conf.urls import patterns, url
 
 urlpatterns = patterns('',
 
-    url(r'^$', views.CommunityDetailView.as_view(), name='community'),
-
-    url(r'^upcoming/$', views.UpcomingMeetingView.as_view(),
-        name='upcoming_meeting'),
+    url(r'^$', views.UpcomingMeetingView.as_view(), name='community'),
 
     url(r'^upcoming/publish/$', views.PublishUpcomingView.as_view(),
         name="upcoming_publish"),
 
-    url(r'^upcoming/publish/preview$',
+    url(r'^upcoming/start/$', views.StartMeetingView.as_view(),
+        name="upcoming_start"),
+
+    url(r'^upcoming/publish/preview/$',
         views.PublishUpcomingMeetingPreviewView.as_view(),
         name='preview_upcoming_meeting'),
 
@@ -22,8 +22,9 @@ urlpatterns = patterns('',
         views.EditUpcomingMeetingParticipantsView.as_view(),
         name="upcoming_edit_participants"),
 
-    url(r'^ongoing/$', views.OngoingMeetingView.as_view(),
-        name='ongoing_meeting'),
+    url(r'^protocol-preview/$',
+        views.ProtocolDraftPreviewView.as_view(),
+        name='preview_ongoing_protocol'),
 
 
 )

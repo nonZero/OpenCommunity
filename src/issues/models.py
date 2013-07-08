@@ -43,6 +43,9 @@ class Issue(models.Model):
     def active_proposals(self):
         return self.proposals.filter(active=True)
 
+    def active_comments(self):
+        return self.comments.filter(active=True)
+
 
 class IssueComment(models.Model):
     issue = models.ForeignKey(Issue, related_name="comments")

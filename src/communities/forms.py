@@ -44,6 +44,23 @@ class PublishUpcomingMeetingForm(forms.ModelForm):
         super(PublishUpcomingMeetingForm, self).__init__(*args, **kwargs)
 
 
+class StartMeetingForm(forms.ModelForm):
+
+    class Meta:
+        model = Community
+
+        fields = (
+                  'upcoming_meeting_started',
+                  )
+
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+        attrs={'data-rel':'back'}
+        self.helper.add_input(Submit('submit', _('Save'), **attrs))
+
+        super(StartMeetingForm, self).__init__(*args, **kwargs)
+
+
 class UpcomingMeetingParticipantsForm(forms.ModelForm):
 
     upcoming_meeting_participants = forms.ModelMultipleChoiceField(label=_(

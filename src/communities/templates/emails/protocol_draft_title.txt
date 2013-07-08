@@ -1,0 +1,1 @@
+{% load i18n %}{% autoescape off %}{{object}}: {% if object.upcoming_meeting_scheduled_at %}{% trans "Protocol Draft For" %} {{upcoming_meeting_scheduled_at}}{% else %}{% trans "Protocol Draft" %}{% endif %}{% endautoescape %}
