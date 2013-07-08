@@ -9,6 +9,16 @@
         >{{community}}: {% trans "Upcoming Meeting" %}</h1>
 
         <div style="padding:3px 6px">
+            <p style="float:left">
+                <i>
+                    {% if object.upcoming_meeting_is_published %}
+                        {% trans "Published at" %} {{object.upcoming_meeting_published_at}}
+                        ({% trans "Version" %} {{object.upcoming_meeting_version}})
+                    {% else %}
+                        {% trans "Draft" %}
+                    {% endif %}
+                </i>
+            </p>
             <p>
                 <a href="{{base_url}}{{community.get_absolute_url}}">{% trans "View online" %}</a>
             </p>
@@ -27,15 +37,6 @@
                                 {{object.upcoming_meeting_comments|linebreaksbr}}
                             </div>
                         {% endif %}
-                        <br/>
-                        <i>
-                            {% if object.upcoming_meeting_is_published %}
-                                {% trans "Published at" %} {{object.upcoming_meeting_published_at}}
-                                ({% trans "Version" %} {{object.upcoming_meeting_version}})
-                            {% else %}
-                                {% trans "Draft" %}
-                            {% endif %}
-                        </i>
                 </div>
             </div>
         </div>
