@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load crispy_forms_tags %}
 
 <div class="form-popup" data-role="popup" data-overlay-theme="a" data-theme="c" class="ui-corner-all">
 
@@ -13,6 +14,7 @@
 
     <div data-role="content" class="dialog-content">
         {% block content %}
+            {% crispy form %}
         {% endblock %}
     </div>
 

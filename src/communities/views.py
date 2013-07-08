@@ -1,6 +1,7 @@
 from communities import models
 from communities.forms import EditUpcomingMeetingForm, \
-    PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm, StartMeetingForm
+    PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm, StartMeetingForm, \
+    EditUpcomingMeetingSummaryForm
 from communities.models import SendToOption
 from django.conf import settings
 from django.contrib import messages
@@ -135,6 +136,17 @@ class StartMeetingView(AjaxFormView, CommunityModelMixin, UpdateView):
     form_class = StartMeetingForm
 
     template_name = "communities/start_meeting.html"
+
+
+class EditUpcomingSummaryView(AjaxFormView, CommunityModelMixin, UpdateView):
+
+    reload_on_success = True
+
+    required_permission = 'community.editupcoming_community'
+
+    form_class = EditUpcomingMeetingSummaryForm
+
+    template_name = "communities/edit_summary.html"
 
 
 class ProtocolDraftPreviewView(CommunityModelMixin, DetailView):

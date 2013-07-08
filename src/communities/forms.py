@@ -44,6 +44,23 @@ class PublishUpcomingMeetingForm(forms.ModelForm):
         super(PublishUpcomingMeetingForm, self).__init__(*args, **kwargs)
 
 
+class EditUpcomingMeetingSummaryForm(forms.ModelForm):
+
+    class Meta:
+        model = Community
+
+        fields = (
+                   'upcoming_meeting_summary',
+                   )
+
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+
+        self.helper.add_input(Submit('submit', _('Save')))
+
+        super(EditUpcomingMeetingSummaryForm, self).__init__(*args, **kwargs)
+
+
 class StartMeetingForm(forms.ModelForm):
 
     class Meta:
