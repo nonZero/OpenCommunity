@@ -19,8 +19,8 @@
 -> {{base_url}}{{i.get_absolute_url}}
 {% if i.abstract %}
 {{i.abstract}}
-{% endif %}{% with proposals=i.accepted_proposals.count %}{% if proposals %}
-    {% trans "Proposals" %}{% for p in i.accepted_proposals.all %}
+{% endif %}{% with proposals=i.active_proposals.count %}{% if proposals %}
+    {% trans "Proposals" %}{% for p in i.active_proposals.all %}
         - {{p}}{% endfor %}{% endif %}{% endwith %}
 {% endfor %}{% endautoescape %}
 {% endblock %}

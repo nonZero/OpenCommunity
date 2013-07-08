@@ -60,13 +60,13 @@
                             </div>
                         {% endif %}
                         
-                        {% with proposals=i.accepted_proposals.count %}
+                        {% with proposals=i.active_proposals.count %}
                             {% if proposals %}
                                 <h4 style="margin:0; background: #eee; padding: 2px">
                                     {% trans "Proposals" %}
                                 </h4>
                                 <ul>
-                                    {% for p in i.accepted_proposals.all %}
+                                    {% for p in i.active_proposals.all %}
                                         <li style="padding:2px 0">
                                             <a href="{{base_url}}{{p.get_absolute_url}}">
                                                 {{p}}
