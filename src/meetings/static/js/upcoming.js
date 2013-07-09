@@ -34,7 +34,7 @@ $(function() {
         $("#available").append(el);
         toggleIssue(el, 1);
     }).sortable({
-        'containment': 'parent',
+        'containment': $('#agenda').parent().parent(),
         'forcePlaceholderSize': true,
         'opacity': 0.6,
         update: function(event, ui) {
