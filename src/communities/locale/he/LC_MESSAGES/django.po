@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-08 23:54+0300\n"
+"POT-Creation-Date: 2013-07-09 03:24+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -229,7 +229,7 @@ msgid "Undecided"
 msgstr "לא התקבלו החלטות"
 
 #: .\templates\communities\upcoming.html.py:149
-#: .\templates\emails\protocol_draft.html.py:57
+#: .\templates\emails\_protocol.html.py:60
 msgid "Summary"
 msgstr "סיכום הפגישה"
 
@@ -241,20 +241,41 @@ msgstr "סגור פגישה"
 msgid "Available Issues"
 msgstr "נושאים נוספים"
 
+#: .\templates\emails\_protocol.html.py:14
 #: .\templates\emails\agenda.html.py:23 .\templates\emails\agenda.txt.py:3
-#: .\templates\emails\protocol_draft.html.py:13
+#: .\templates\emails\protocol.txt.py:3
 #: .\templates\emails\protocol_draft.txt.py:3
 msgid "View online"
 msgstr "לצפיה באתר"
 
+#: .\templates\emails\_protocol.html.py:18
+msgid "Participants"
+msgstr "משתתפים"
+
+#: .\templates\emails\_protocol.html.py:26
+msgid "Guests"
+msgstr "אורחים"
+
+#: .\templates\emails\_protocol.html.py:37
+msgid "Agenda"
+msgstr "סדר יום"
+
+#: .\templates\emails\_protocol.html.py:42
+#: .\templates\emails\agenda.html.py:47
+msgid "click links for more details"
+msgstr "למידע נוסף יש ללחוץ על הקישורים"
+
+#: .\templates\emails\_protocol.html.py:78
+msgid "Accepted Proposals"
+msgstr "החלטות שהתקבלו"
+
+#: .\templates\emails\_protocol.html.py:91
+msgid "No Accepted Proposals"
+msgstr "לא התקבלו החלטות"
+
 #: .\templates\emails\agenda.html.py:45 .\templates\emails\agenda.txt.py:16
 msgid "The following issues will be discussed in the next meeting"
 msgstr "הנושאים שיועלו לדיון"
-
-#: .\templates\emails\agenda.html.py:47
-#: .\templates\emails\protocol_draft.html.py:38
-msgid "click links for more details"
-msgstr "למידע נוסף יש ללחוץ על הקישורים"
 
 #: .\templates\emails\agenda.html.py:67 .\templates\emails\agenda.txt.py:23
 msgid "Proposals"
@@ -268,31 +289,16 @@ msgstr "סדר יום לפגישת ועד שתתקיים ב"
 msgid "Upcoming Agenda"
 msgstr "סדר יום לפגישת הועד הקרובה"
 
-#: .\templates\emails\protocol_draft.html.py:9
+#: .\templates\emails\protocol.html.py:3 .\templates\emails\protocol.txt.py:1
+#: .\templates\emails\protocol_title.txt.py:1
+msgid "Protocol"
+msgstr "פרוטוקול"
+
+#: .\templates\emails\protocol_draft.html.py:3
 #: .\templates\emails\protocol_draft.txt.py:1
 #: .\templates\emails\protocol_draft_title.txt.py:1
 msgid "Protocol Draft"
 msgstr "טיוטת פרוטוקול"
-
-#: .\templates\emails\protocol_draft.html.py:17
-msgid "Participants"
-msgstr "משתתפים"
-
-#: .\templates\emails\protocol_draft.html.py:25
-msgid "Guests"
-msgstr "אורחים"
-
-#: .\templates\emails\protocol_draft.html.py:36
-msgid "Agenda"
-msgstr "סדר יום"
-
-#: .\templates\emails\protocol_draft.html.py:75
-msgid "Accepted Proposals"
-msgstr "החלטות שהתקבלו"
-
-#: .\templates\emails\protocol_draft.html.py:88
-msgid "No Accepted Proposals"
-msgstr "לא התקבלו החלטות"
 
 #: .\templates\emails\protocol_draft_title.txt.py:1
 msgid "Protocol Draft For"
