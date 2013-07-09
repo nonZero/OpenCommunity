@@ -49,11 +49,6 @@
                             {{i.title}}
                         </a>
                     </h3>
-                    {% if i.abstract %}
-                        <div style="padding:3px;">
-                            {{i.abstract|linebreaks}}
-                        </div>
-                    {% endif %}
     
                     {% if i.active_comments.count %}
                       <h4 style="margin:0; background: #eee; padding: 2px">
