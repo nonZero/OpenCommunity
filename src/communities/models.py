@@ -87,7 +87,7 @@ class Community(models.Model):
 
     def upcoming_issues(self, upcoming=True):
         return self.issues.filter(active=True, is_closed=False,
-                                  in_upcoming_meeting=upcoming)
+            in_upcoming_meeting=upcoming).order_by('order_in_upcoming_meeting')
 
     def available_issues(self):
         return self.upcoming_issues(False)

@@ -10,8 +10,14 @@
     margin: 0 3px 0 0;
 }
 
-.form-popup {
+.issue.loading {
+    opacity: 0.5 !important;
 }
+
+.issue.loading .ui-btn-inner .ui-btn-inner {
+    visibility: hidden;
+}
+
 
 .form-popup form {
     padding: 10px;

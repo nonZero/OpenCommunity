@@ -6,6 +6,7 @@ from communities.models import SendToOption
 from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.db.models.aggregates import Max
 from django.http.response import HttpResponse
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView
@@ -39,6 +40,7 @@ class CommunityModelMixin(ProtectedMixin):
 class UpcomingMeetingView(CommunityModelMixin, DetailView):
 
     # TODO show empty page to 'issues.viewopen_issue'
+    # TODO: show draft only to those allowed to manage it.
     required_permission = 'communities.viewupcoming_community'
 
     template_name = "communities/upcoming.html"
@@ -50,16 +52,19 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
 
     def post(self, request, *args, **kwargs):
 
+        """ add / removes an issue from upcoming meeting """
+
         if settings.DEBUG:
             import time
             time.sleep(0.3)
-
-        # TODO: show draft only to those allowed to manage it.
 
         issue = self.get_issues_queryset().get(id=int(request.POST.get('issue')))
 
         add_to_meeting = request.POST['set'] == "0"
         issue.in_upcoming_meeting = add_to_meeting
+        last = self.get_object().upcoming_issues().aggregate(
+                                 last=Max('order_in_upcoming_meeting'))['last']
+        issue.order_in_upcoming_meeting = (last or 0) + 1
         issue.save()
 
         return HttpResponse(json.dumps(int(add_to_meeting)),

@@ -126,7 +126,7 @@
         <ul id="agenda" data-role="listview" data-split-icon="minus" data-count-theme="a">
                 {% for i in object.upcoming_issues %}
 
-                <li data-issue="{{i.id}}">
+                <li class="issue" data-issue="{{i.id}}">
                     <a href="{{i.get_absolute_url}}">
                         {{i.title}}
                         {% if object.upcoming_meeting_started and i.accepted_proposals.count == 0 %}
@@ -186,7 +186,7 @@
     
                 {% for i in object.available_issues %}
     
-                    <li data-issue="{{i.id}}" data-set="{{i.in_upcoming_meeting|yesno:'1,0'}}">
+                    <li class="issue" data-issue="{{i.id}}" data-set="{{i.in_upcoming_meeting|yesno:'1,0'}}">
                         <i class="grab icon-th-list"></i>
                         <a href="{{i.get_absolute_url}}">
                             {{i.title}}

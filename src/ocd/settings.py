@@ -13,6 +13,7 @@ ADMINS = (
     ('Udi Oron', 'udioron@gmail.com'),
 )
 
+EMAIL_SUBJECT_PREFIX = '[OpenCommunity] '
 FROM_EMAIL = "noreply@opencommunity.dev"
 HOST_URL = "http://localhost:8000"
 

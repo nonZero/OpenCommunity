@@ -97,6 +97,7 @@ class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
                     issue.is_closed = True
                     issue.closed_at_meeting = m
                     issue.in_upcoming_meeting = False
+                    issue.order_in_upcoming_meeting = None
                 issue.save()
 
             for i, p in enumerate(c.upcoming_meeting_participants.all()):

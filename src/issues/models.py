@@ -18,6 +18,9 @@ class Issue(models.Model):
     calculated_score = models.IntegerField(default=0, verbose_name=_("Calculated Score"))
 
     in_upcoming_meeting = models.BooleanField(_("In upcoming meeting"), default=False)
+    order_in_upcoming_meeting = models.IntegerField(
+                                        _("Order in upcoming meeting"),
+                                        default=9999, null=True, blank=True)
 
     is_closed = models.BooleanField(default=False, verbose_name=_("Is close"))
     closed_at_meeting = models.ForeignKey('meetings.Meeting', null=True, blank=True, verbose_name=_("Closed at meeting"))
