@@ -78,7 +78,7 @@
         </div>
     {% endif %}
 
-    {% if object.proposals.count %}
+    {% if object.proposals.active.count %}
         <div data-role="collapsible" data-collapsed="false"
             data-theme="b" data-content-theme="d">
             <h3>{% trans "Proposals" %}</h3>

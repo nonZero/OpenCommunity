@@ -45,7 +45,7 @@ class Issue(models.Model):
         return ("issue", (str(self.community.pk), str(self.pk),))
 
     def accepted_proposals(self):
-        return self.proposals.filter(is_accepted=True)
+        return self.proposals.filter(is_accepted=True, active=True)
 
     def active_proposals(self):
         return self.proposals.filter(active=True)
