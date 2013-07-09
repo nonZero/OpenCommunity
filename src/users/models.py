@@ -18,6 +18,14 @@ logger = logging.getLogger(__name__)
 
 
 class OCUserManager(BaseUserManager):
+
+    @classmethod
+    def normalize_email(cls, email):
+        return email.lower()
+
+    def get_by_natural_key(self, username):
+        return self.get(email__iexact=username)
+
     def create_user(self, email, display_name=None, password=None, **kwargs):
         """
         Creates and saves a User with the given email, display name and

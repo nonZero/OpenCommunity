@@ -15,6 +15,9 @@ class InvitationForm(ModelForm):
                   'message',
                   )
 
+    def clean_email(self):
+        return self.cleaned_data.get("email").lower()
+
 
 class QuickSignupForm(ModelForm):
 
