@@ -13,6 +13,9 @@ urlpatterns = patterns('',
     url(r'^(?P<pk>\d+)/edit/$', views.IssueEditView.as_view(),
                                 name="issue_edit"),
 
+    url(r'^(?P<pk>\d+)/delete/$', views.IssueDeleteView.as_view(),
+                                name="issue_delete"),
+
     url(r'^(?P<pk>\d+)/create-proposal/$', views.ProposalCreateView.as_view(),
             name="proposal_create"),
 

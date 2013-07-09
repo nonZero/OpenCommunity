@@ -31,7 +31,11 @@ $(function() {
 
                 success: function(resp) {
                     if (resp) {
-                        window.location.href = resp;
+                        if (resp == '-') {
+                            window.history.back();
+                        } else {
+                            window.location.href = resp;
+                        }
                     } else {
                         window.location.reload();
                     }

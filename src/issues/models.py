@@ -37,6 +37,10 @@ class Issue(models.Model):
         return ("issue_edit", (str(self.community.pk), str(self.pk),))
 
     @models.permalink
+    def get_delete_url(self):
+        return ("issue_delete", (str(self.community.pk), str(self.pk),))
+
+    @models.permalink
     def get_absolute_url(self):
         return ("issue", (str(self.community.pk), str(self.pk),))
 

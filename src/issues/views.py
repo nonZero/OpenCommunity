@@ -17,7 +17,8 @@ class IssueMixin(CommunityMixin):
     model = models.Issue
 
     def get_queryset(self):
-        return models.Issue.objects.filter(community=self.community)
+        return models.Issue.objects.filter(community=self.community,
+                                           active=True)
 
 
 class IssueList(IssueMixin, ListView):
@@ -108,6 +109,26 @@ class IssueEditView(AjaxFormView, IssueMixin, UpdateView):
     required_permission = 'issues.editopen_issue'
 
     form_class = UpdateIssueForm
+
+
+class IssueDeleteView(AjaxFormView, IssueMixin, DeleteView):
+
+    def get_required_permission(self):
+        o = self.get_object()
+        if o.is_closed:
+            return 'issues.editclosed_issue'
+
+        return 'issues.add_issue' if o.created_by == self.request.user \
+            else 'issues.editopen_issue'
+
+    def get_success_url(self):
+        return "" if self.issue.active else "-"
+
+    def delete(self, request, *args, **kwargs):
+        o = self.get_object()
+        o.active = False
+        o.save()
+        return HttpResponse("-")
 
 
 class ProposalCreateView(AjaxFormView, IssueMixin, CreateView):
