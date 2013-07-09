@@ -79,11 +79,11 @@ class Community(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ("community", (str(self.pk,)))
+        return "community", (str(self.pk),)
 
     @models.permalink
     def get_upcoming_absolute_url(self):
-        return ("community", (str(self.pk,)))
+        return "community", (str(self.pk),)
 
     def upcoming_issues(self, upcoming=True):
         return self.issues.filter(active=True, is_closed=False,
