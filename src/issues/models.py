@@ -160,6 +160,11 @@ class ProposalType(object):
                )
 
 
+class ProposalManager(models.Manager):
+    def active(self):
+        return self.get_query_set().filter(active=True)
+
+
 class Proposal(models.Model):
     issue = models.ForeignKey(Issue, related_name="proposals", verbose_name=_("Issue"))
     active = models.BooleanField(default=True, verbose_name=_("Active"))
@@ -185,6 +190,8 @@ class Proposal(models.Model):
                                    related_name="proposals",
                                    through="ProposalVote")
 
+    objects = ProposalManager()
+
     class Meta:
         verbose_name = _("Proposal")
         verbose_name_plural = _("Proposals")
@@ -209,3 +216,9 @@ class Proposal(models.Model):
     def get_edit_task_url(self):
         return ("proposal_edit_task", (str(self.issue.community.pk), str(self.issue.pk),
                                 str(self.pk)))
+
+    @models.permalink
+    def get_delete_url(self):
+        return ("proposal_delete", (str(self.issue.community.pk), str(self.issue.pk),
+                                str(self.pk)))
+

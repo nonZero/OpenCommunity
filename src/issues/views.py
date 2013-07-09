@@ -211,3 +211,25 @@ class ProposalEditTaskView(ProposalMixin, UpdateView):
     def get_required_permission(self):
         o = self.get_object()
         return 'issues.editclosed_proposal' if o.issue.is_closed else 'issues.editopen_proposal'
+
+
+class ProposalDeleteView(AjaxFormView, ProposalMixin, DeleteView):
+
+    def get_required_permission(self):
+        o = self.get_object()
+        if o.issue.is_closed:
+            return 'issues.editclosed_issue'
+
+        return 'issues.add_proposal' if o.created_by == self.request.user \
+            else 'issues.editopen_proposal'
+
+    def get_success_url(self):
+        return "" if self.issue.active else "-"
+
+    def delete(self, request, *args, **kwargs):
+        o = self.get_object()
+        o.active = False
+        o.save()
+        return HttpResponse("-")
+
+

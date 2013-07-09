@@ -86,7 +86,7 @@
             <ul data-role='listview' 
             class="proposals{% if not object.is_closed %} open{% endif %}">
 
-                {% for proposal in object.proposals.all %}
+                {% for proposal in object.proposals.active %}
 
                     <li 
                     data-split-icon="check"

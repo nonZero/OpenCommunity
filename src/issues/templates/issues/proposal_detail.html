@@ -18,6 +18,7 @@
     <div data-role="panel" id="proposalpanel">
         <ul data-role="listview">
             <li><a data-rel="form" href="{{object.get_edit_url}}">{% trans "Edit" %}</a></li>
+            <li><a data-rel="form" href="{{object.get_delete_url}}">{% trans "Delete" %}</a></li>
             {% if object.is_task and cperms.issues.edittask_proposal %}
                 {% if cperms.issues.editclosed_proposal or not object.issue.is_closed %}
                     <li><a data-rel="form" href="{{object.get_edit_task_url}}">{% trans "Reassign task" %}</a></li>
