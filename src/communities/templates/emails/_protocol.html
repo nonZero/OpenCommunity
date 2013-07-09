@@ -1,0 +1,103 @@
+{% load i18n %}
+
+<div{% if LANGUAGE_CODE == 'he' %} dir="rtl"{% endif %}
+    style="font-family: Arial, Helvetica, sans-serif{% if LANGUAGE_CODE == 'he' %};direction:rtl{% endif %}">
+
+    <div style="border: 1px solid black">
+    
+        <h1 style="margin:0; background: #ddd;padding: 4px">
+            {{community}}: {{title}}
+        </h1>
+    
+        <div style="padding:3px 6px">
+            <p>
+                <a href="{{base_url}}{{url}}">{% trans "View online" %}</a>
+            </p>
+    
+            <div style="border: solid 1px #ccc; margin: 4px 0;padding: 0"> 
+                <h2 style="margin:0; background: #ddd;padding: 4px">{% trans "Participants" %}</h2>
+    
+                <div style="margin:0; padding: 4px">
+                    {% for u in participants %}
+                        {{ u }}{% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                    {% if guests %}
+                        <p>
+                            <b>{% trans "Guests" %}:</b>
+                            {% for x in guests %}
+                                {{ x }}{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    
+        <h2 style="margin:12px 0 0 0; background:#eee; padding:6px 3px 3px">
+            {% trans "Agenda" %}
+        </h2>
+    
+        <div style="padding:12px 6px">
+    
+            ({% trans "click links for more details" %})
+    
+            {% for i in issues %}
+                <article style="border: solid 1px #ccc; margin-top: 12px;">
+    
+                    <h3 style="margin:0; background: #ddd;padding: 4px">
+                        <a href="{{base_url}}{{i.get_absolute_url}}">
+                            {{i.title}}
+                        </a>
+                    </h3>
+                    {% if i.abstract %}
+                        <div style="padding:3px;">
+                            {{i.abstract|linebreaks}}
+                        </div>
+                    {% endif %}
+    
+                    {% if i.active_comments.count %}
+                      <h4 style="margin:0; background: #eee; padding: 2px">
+                          {% trans "Summary" %}
+                      </h4>
+                      {% for c in i.active_comments.all %}
+                        <p style="padding:0; margin: 3px;">
+                            {{c.content|urlize|linebreaksbr}}
+                            {% comment %}
+                              <i style="font-size: smaller">
+                                   ({{c.created_by}} {% trans "at" %} {{c.created_at}})
+                              </i>
+                            {% endcomment %}
+                        </p>
+                      {% endfor %}
+                    {% endif %}
+    
+                    {% with proposals=i.accepted_proposals.count %}
+                        {% if proposals %}
+                            <h4 style="margin:0; background: #eee; padding: 2px">
+                                {% trans "Accepted Proposals" %}
+                            </h4>
+                            <ul>
+                                {% for p in i.accepted_proposals.all %}
+                                    <li style="padding:2px 0">
+                                        <a href="{{base_url}}{{p.get_absolute_url}}">
+                                            {{ p.get_type_display}}: {{p.title}}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>
+                                <b>{% trans "No Accepted Proposals" %}</b>
+                            </p>
+    
+                        {% endif %}
+                    {% endwith %}
+    
+                </article>
+    
+            {% endfor %}
+    
+        </div>
+    </div>
+
+</div>

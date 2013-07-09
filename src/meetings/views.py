@@ -1,10 +1,9 @@
 from django.contrib import messages
 from django.db import transaction
 from django.http.response import HttpResponse
-from django.shortcuts import redirect
 from django.utils import timezone
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, ModelFormMixin
+from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from issues.views import CommunityMixin
 from meetings import models
@@ -13,6 +12,8 @@ from meetings.models import AgendaItem, MeetingParticipant
 from ocd.base_views import AjaxFormView
 from users.models import Membership
 import datetime
+from communities.models import SendToOption
+from django.utils.translation import ugettext_lazy as _
 
 
 class MeetingMixin(CommunityMixin):
@@ -36,6 +37,11 @@ class MeetingDetailView(MeetingMixin, DetailView):
         d['guest_list'] = o.get_guest_list()
         d['total_participants'] = len(d['guest_list']) + o.participants.count()
         return d
+
+
+class MeetingProtocolView(MeetingMixin, DetailView):
+    required_permission = 'meetings.view_meeting'
+    template_name = "emails/protocol.html"
 
 
 class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
@@ -106,6 +112,8 @@ class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
 
             c.upcoming_meeting_participants = []
 
-        # TODO: send protocol
+        total = c.send_mail('protocol', self.request.user,
+                            form.cleaned_data['send_to'], {'object': m})
+        messages.info(self.request, _("Sending to %d users") % total)
 
         return HttpResponse(m.get_absolute_url())

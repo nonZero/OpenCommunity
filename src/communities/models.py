@@ -110,17 +110,18 @@ class Community(models.Model):
             return []
         return filter(None, [s.strip() for s in self.upcoming_meeting_guests.splitlines()])
 
-    def send_mail(self, template, sender, send_to, base_url=None):
+    def send_mail(self, template, sender, send_to, data=None, base_url=None):
 
         if not base_url:
             base_url = settings.HOST_URL
 
-        d = {
+        d = data.copy() if data else {}
+
+        d.update({
               'base_url': base_url,
-              'object': self,
               'community': self,
               'LANGUAGE_CODE': settings.LANGUAGE_CODE,
-             }
+             })
 
         subject = render_to_string("emails/%s_title.txt" % template, d)
 
