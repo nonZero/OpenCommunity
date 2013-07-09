@@ -17,8 +17,12 @@
 {% block startpanel %}
     <div data-role="panel" id="proposalpanel">
         <ul data-role="listview">
-            <li><a data-rel="form" href="{{object.get_edit_url}}">{% trans "Edit" %}</a></li>
-            <li><a data-rel="form" href="{{object.get_delete_url}}">{% trans "Delete" %}</a></li>
+            {% if cperms.issues.editclosed_proposal or not object.issue.is_closed %}
+                {% if cperms.issues.editopen_proposal or object.created_by == user %}
+                    <li><a data-rel="form" href="{{object.get_edit_url}}">{% trans "Edit" %}</a></li>
+                    <li><a data-rel="form" href="{{object.get_delete_url}}">{% trans "Delete" %}</a></li>
+                {% endif %}
+            {% endif %}
             {% if object.is_task and cperms.issues.edittask_proposal %}
                 {% if cperms.issues.editclosed_proposal or not object.issue.is_closed %}
                     <li><a data-rel="form" href="{{object.get_edit_task_url}}">{% trans "Reassign task" %}</a></li>
