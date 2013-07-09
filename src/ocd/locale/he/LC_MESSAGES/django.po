@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-03 14:40+0300\n"
+"POT-Creation-Date: 2013-07-09 11:57+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgid "Page not found"
 msgstr "דף לא נמצא"
 
 #: .\templates\_navbar.html.py:12 .\templates\base.html.py:8
-#: .\templates\base.html.py:37
+#: .\templates\base.html.py:38
 msgid "Open Community"
 msgstr "קהילה פתוחה"
 
@@ -32,20 +32,28 @@ msgstr "נושאים לדיון"
 
 #: .\templates\_navbar.html.py:22
 msgid "Upcoming Meeting"
-msgstr ""
+msgstr "הפגישה הקרובה"
 
 #: .\templates\_navbar.html.py:25
 msgid "History"
-msgstr ""
+msgstr "היסטוריה"
 
 #: .\templates\_navbar.html.py:38
 msgid "Log Out"
 msgstr "יציאה"
 
-#: .\templates\_navbar.html.py:42 .\templates\login.html.py:7
-#: .\templates\login.html.py:16
+#: .\templates\_navbar.html.py:42 .\templates\login.html.py:11
+#: .\templates\login.html.py:20
 msgid "Login"
 msgstr "כניסה"
+
+#: .\templates\base.html.py:72
+msgid "Attention"
+msgstr "שים לב"
+
+#: .\templates\base.html.py:79 .\templates\dialog.html.py:9
+msgid "Close"
+msgstr "סגור"
 
 #: .\templates\admin\base_site.html.py:5
 msgid "Open Community admin"

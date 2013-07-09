@@ -80,6 +80,12 @@ li.agenda.ui-li a.ui-link-inherit {
     background: url(images/arrow-left.png) no-repeat 2% 50%;
     font-size: 18px;
 }
+#issue-list li a.ui-link-inherit {
+    background: url(images/arrow-left.png) no-repeat 2% 50%;
+}
+#meeting-list li a.ui-link-inherit {
+    background: url(images/arrow-left.png) no-repeat 2% 50%;
+}
 .ui-listview {
     border-radius: 0;
 }
@@ -118,8 +124,8 @@ li.agenda.ui-li a.ui-link-inherit {
 
 }
 #main_header a.ui-btn-icon-notext {
-	width: 40px;
-	height: 50px;
+	width: 32px;
+	height: 32px;
 }
 #main_header .ui-bar-a .ui-shadow, .ui-bar-b .ui-shadow, .ui-bar-c .ui-shadow,
 #main_header span.ui-shadow,
@@ -233,8 +239,8 @@ li.agenda.ui-li a.ui-link-inherit {
 	border-radius: 0;
 }
 #main_header span.ui-btn-inner span.ui-icon {
-	width: 40px;
-	height: 40px;
+	width: 32px;
+	height: 32px;
 	background-color: transparent;
 }
 #main_header span.ui-btn-inner span.ui-icon-bars {
@@ -296,25 +302,29 @@ form.ui-listview-filter {
     width:75%
 }
 .select-meeting .ui-btn-inner {
-    padding-right: 15%;
-    background: url(images/date-grid-icon.png) no-repeat 97% 50%;
+    padding-right: 25%;
+    background: url(images/date-grid-icon.png) no-repeat 92% 50%;
 }
 .show-participants {
     float: right;
     width:25%;
     height:100%;
 }
-
-div.users {
-    float: right;
-    width: 100%;
-    height: 48px;
-    background: url(images/users.png) no-repeat 80% 50%;
+a.show-participants span.ui-btn-inner {
+	padding-right: 0;
 }
-.ui-grid-solo .ui-btn-icon-right > .ui-btn-inner > .ui-btn-text div.users p {
-    width: auto;
+div.users {
+/*    float: right;
+    width: 100%;*/
+    height: 48px;
+    background: url(images/users.png) no-repeat right 50%;
+    padding: 0 60% 0 0;
+}
+.ui-grid-solo .ui-btn-icon-right > .ui-btn-inner > .ui-btn-text div.users span {
+/*    width: auto;*/
     font-size: 24px;
     border-left: 0;
+    line-height: 48px;
 }
 .ui-grid-solo .ui-btn-icon-right > .ui-btn-inner > .ui-icon {
     background: none;
@@ -430,7 +440,7 @@ ul.content_fix .ui-li .ui-btn-inner a.ui-link-inherit {
     padding-right: 1em;
 }
 body.ui-mobile-viewport.ui-overlay-c .ui-page {
-    padding-top: 67px !important;
+    padding-top: 45px !important;
 }
 .h1top {
     color: #76ddf9;
@@ -480,4 +490,107 @@ body.ui-mobile-viewport.ui-overlay-c .ui-page {
 	top: auto;
 	float: left;
 	margin-right: 10px;
+}
+.page_title {
+	font-size: 30px;
+	text-align: center;
+	color: #4a4949;
+	padding: 5px 0;
+	font-weight: bold;
+}
+span.search {
+	font-size: 18px;
+	font-weight: bold;
+	float: right;
+	height: 27px;
+	padding: 10px 0;
+	margin-right: 1em;
+}
+#issue-list form.ui-bar-c {
+	background: transparent;
+	margin-left: 1em;
+}
+#issue-list form .ui-input-search.ui-body-c {
+	background: #ffffff;
+}
+#issue-list form .ui-input-search.ui-icon-searchfield:after {
+	left: 7px;
+	right: auto;
+}
+#issue-list form .ui-input-clear {
+	left: auto;
+	right: 0;
+}
+#issue-list form .ui-input-search {
+	padding-right: 35px;
+}
+#issue-list form .ui-input-search input.ui-input-text {
+	padding: .3em 0;
+	font-size: 18px;
+	font-weight: normal;
+}
+#issue-list form .ui-input-search input::-webkit-input-placeholder {
+	color: #000000;
+}
+.ui-content ul.content_in {
+	margin: 1em;
+}
+#issue-list ul.content_in li span.ui-icon {
+	display: none;
+}
+.issue_date {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 19px 0;
+	font-weight: normal;
+	color: #ffffff;
+	background: #3d3c3c;
+	width: 5em;
+	text-align: center;
+	text-shadow: none;
+}
+.issue_title {
+	padding-right: 4.5em;
+	width: 70%;
+	text-shadow: none;
+	color: #fff;
+	font-size: 18px;
+	font-weight: normal;
+	overflow: hidden;
+	height: 3em;
+	white-space: normal;
+}
+#issue-list ul.content_in li {
+	border: 0;
+	margin-bottom: .1em;
+	background: #448698;
+}
+#issue-list ul.content_in .ui-li {
+	border-top: 0;
+}
+#issue-list ul.content_in a.ui-link-inherit {
+	padding: .2em 15px;
+}
+#issuespanel li span.ui-icon,
+#meeting-list li span.ui-icon {
+	display: none;
+}
+#meeting-list .ui-content {
+	padding: 0 15px 15px 15px;
+}
+#meeting-list ul.ui-listview {
+	margin-top: 10px;
+}
+#meeting-list ul.ui-listview li {
+	border: 0;
+	margin-bottom: .1em;
+	background: #448698;
+	margin-right: 10px;
+	margin-left: 10px;
+}
+#meeting-list ul.ui-listview a.ui-link-inherit {
+	color: #fff;
+	text-shadow: none;
+	font-weight: normal;
 }

@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block extra-page-id %}
+id="ongoing-meeting"
+{% endblock %}
+
+{% block page_header %}
+{% trans "Ongoing Meeting" %}</a>
+{% endblock %}
+
+{% block header-start %}
+    <a href="#meeting-panel" data-icon="bars" data-iconpos="notext" data-rel="popup"></a>
+{% endblock %}
+
+{% block header-end %}
+    <a href="#issuespanel" data-icon="bars" data-iconpos="notext"  data-rel="popup"></a>
+{% endblock %}
+
+{% block startpanel %}
+    <div data-role="popup" id="meeting-panel">
+        <ul data-role="listview">
+            <li>
+                <a href="#">{% trans "Share Link" %}</a>
+            </li>
+        </ul>
+    </div>
+
+{% endblock %}
+
+{% block endpanel %}
+    {% include "_main_panel.html" %}
+{% endblock %}
+
+{% block header-start %}
+    {% if cperms.community.editupcoming_community %}
+        <a href="#upcoming-panel" data-icon="edit" data-iconpos="notext" data-rel="panel"></a>
+    {% endif %}
+{% endblock %}
+
+{% block startpanel %}
+    <div data-role="panel" id="upcoming-panel">
+        <ul data-role="listview">
+
+            {% if cperms.community.editupcoming_community %}
+                <li data-icon="edit">
+                    <a data-rel="form"
+                        href="{% url "upcoming_edit" community.id  %}">
+                        {% trans "Edit" %}
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if cperms.community.editparticipants_community %}
+                <li data-icon="edit">
+                    <a data-rel="form"
+                        href="{% url "upcoming_edit_participants" community.id  %}">
+                        {% trans "Select Participants" %}
+                    </a>
+                </li>
+            {% endif %}
+
+        </ul>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+
+{% if object.upcoming_meeting_comments %}
+<div data-role="collapsible" data-corners="false" data-collapsed="false" data-theme="c" data-content-theme="d" data-mini="true">
+
+	{#<h4>{% trans "Opening" %}</h4>#}
+
+	<p>
+		{{object.upcoming_meeting_comments|linebreaksbr}}
+	</p>
+</div>
+{% endif %}
+
+<h3>{% trans "Opening" %}</h3>
+<p class="ongoing-summary">
+	<textarea id="id_summary"></textarea>
+</p>
+
+<!-- For Udi to check - removing collapsible ul 
+<div class="upcoming-issues" data-role="collapsible" data-corners="false" data-collapsed="false" data-theme="b" data-content-theme="d">
+-->
+<div class="upcoming-issues" data-corners="false" data-theme="b" data-content-theme="d">
+	<h3>{% trans "Issues" %}</h3>
+
+	<ul class="agenda_itemlist" data-role="listview">
+		{% for i in object.upcoming_issues %}
+
+		<li class="agenda" data-theme="b">
+			<a href="{{i.get_absolute_url}}"> <div class="agenda_list">{{ forloop.counter }}</div>&nbsp;&nbsp;{{i.title}}
+			<!--p>
+				<ul class="proposals">
+					{% for p in i.proposals.all %}
+					<li{% if p.is_accepted %} class="accepted"{% endif %}>
+						{{p.title}}
+		</li>
+		{% endfor %}
+	</ul>
+	</p-->
+	</a>
+	</li>
+
+	{% endfor %}
+	</ul>
+</div>
+
+{% if cperms.meetings.add_meeting %}
+<a data-role="button" data-corners="false" data-theme="a"
+href="{% url "upcoming_close" community.id %}" class="btn std-button"> {% trans "Close Meeting" %} </a>
+<div class="std-button-shadow"></div>
+{% endif %}
+
+{% endblock %}
+
+{% block extrahead %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{{STATIC_URL}}js/syncme.js"></script>
+<script>
+	$(function() {
+		$('#id_summary').syncMe();
+	}); 
+</script>
+
+{% endblock %}

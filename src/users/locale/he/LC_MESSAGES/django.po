@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-19 12:57+0300\n"
+"POT-Creation-Date: 2013-07-09 11:57+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,11 +46,11 @@ msgstr "יושב ראש"
 
 #: .\forms.py:22
 msgid "Password confirmation"
-msgstr ""
+msgstr "אימות סיסמא"
 
 #: .\forms.py:36
 msgid "Passwords don't match"
-msgstr ""
+msgstr "סיסמאות לא תואממות"
 
 #: .\models.py:58
 msgid "email address"
@@ -180,7 +180,7 @@ msgstr "משתמש זה כבר חבר בקהילה"
 msgid "This user is already invited to this community."
 msgstr "משתמש זה כבר הוזמן לקהילה"
 
-#: .\views.py:142
+#: .\views.py:141
 msgid "Oops. Something went wrong. Please try again."
 msgstr "אופס. משהו השתבש. אנה נסה שוב."
 
@@ -234,17 +234,17 @@ msgstr ""
 "שים לב! ההזמנה נשלחה אל <span dir=\"ltr\">%(i)s</span>, אבל אתה מחובר בתור "
 "<span dir=\"ltr\">%(u)s</span>!"
 
-#: .\templates\users\invitation_detail.html.py:35
+#: .\templates\users\invitation_detail.html.py:36
+msgid "Join This Community"
+msgstr "הצטרף לקהילה"
+
+#: .\templates\users\invitation_detail.html.py:40
 msgid "Switch to a different user"
 msgstr "אני כבר רשום למערכת, ומעוניין להצטרף לקבוצה כמשתמש אחר"
 
-#: .\templates\users\invitation_detail.html.py:38
+#: .\templates\users\invitation_detail.html.py:43
 msgid "Logout and signup as a new user"
 msgstr "הרשמה כמשתמש חדש"
-
-#: .\templates\users\invitation_detail.html.py:44
-msgid "Join This Community"
-msgstr "הצטרף לקהילה"
 
 #: .\templates\users\invitation_detail.html.py:52
 msgid "Login to join"

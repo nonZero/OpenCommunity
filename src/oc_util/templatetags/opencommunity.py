@@ -1,10 +1,11 @@
 from __future__ import unicode_literals
-import datetime
 from django import template
 from django.template import defaultfilters
+from django.utils.formats import date_format
 from django.utils.timezone import is_aware, utc
 from django.utils.translation import pgettext, ungettext, ugettext as _, \
     ungettext, ugettext
+import datetime
 
 
 def simpletimesince(d, now=None, reversed=False):
@@ -115,3 +116,18 @@ def octime(value):
             return ungettext(
                 'an hour from now', '%(count)s hours from now', count
             ) % {'count': count}
+
+
+@register.filter
+def ocshortdate(value):
+    """
+    For date and time values shows how many seconds, minutes, hours or days ago
+    compared to current timestamp returns representing string.
+    """
+    if not isinstance(value, datetime.date): # datetime is a subclass of date
+        return value
+
+    now = datetime.date.today()
+    if value.date() != now:
+        return date_format(value, "DATE_FORMAT_OCSHORTDATE")
+    return date_format(value, "DATE_FORMAT_OCSHORTTIME")

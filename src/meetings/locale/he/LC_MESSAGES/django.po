@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-09 03:24+0300\n"
+"POT-Creation-Date: 2013-07-09 11:57+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -97,8 +97,7 @@ msgstr "אורחים"
 msgid "Enter each guest in a separate line"
 msgstr "רשום כל אורח בשורה נפקדת"
 
-#: .\models.py:52 .\templates\meetings\meeting_detail.html.py:11
-#: .\templates\meetings\meeting_detail.html.py:143
+#: .\models.py:52 .\templates\meetings\meeting_detail.html.py:143
 #: .\templates\meetings\meeting_list.html.py:9
 msgid "Meetings"
 msgstr "פגישות"
@@ -127,7 +126,7 @@ msgstr "משתתף חיצוני"
 msgid "Meeting External Participants"
 msgstr "משתתפים חיצוניים"
 
-#: .\views.py:117
+#: .\views.py:118
 #, python-format
 msgid "Sending to %d users"
 msgstr "שולח ל-%d משתמשים"
@@ -139,6 +138,10 @@ msgstr "סגור פגישה"
 #: .\templates\meetings\meeting_close.html.py:17
 msgid "No decisions were made in this meeting."
 msgstr "בפגישה זו לא התקבלו החלטות"
+
+#: .\templates\meetings\meeting_detail.html.py:11
+msgid "Meetings history"
+msgstr "הסטוריית ישיבות"
 
 #: .\templates\meetings\meeting_detail.html.py:26
 msgid "Share Link"

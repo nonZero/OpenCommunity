@@ -34,7 +34,8 @@
 
 {% block content %}
 
-    <ul class="content_fix" data-role="listview" data-filter="true" data-filter-placeholder="{% trans "Search" %}">
+	<span class="search">{% trans "Search" %}:</span>
+    <ul class="content_in" data-role="listview" data-filter="true" data-filter-placeholder="{% trans "Search issues" %}">
         {% for object in object_list %}
             <li>
                 <a href="{{ object.get_absolute_url }}">
@@ -43,19 +44,24 @@
                             {% trans "Closed" %}
                         </span>
                     {% endif %}
+                    <!-- MAYBE FOR FUTURE USE
                     {% if object.in_upcoming_meeting %}
                         <u>
-                            {% trans "In upcoming meeting" %}:</u>
+                            {% trans "In upcoming meeting" %}:
+                        </u>
                     {% endif %}
-                    {{ object.title }}
-                    <i>({{ object.created_at|octime}})</i>
+                    -->
+                    <div class="issue_date">{{ object.created_at|ocshortdate }}</div>
+                    <div class="issue_title">{{ object.title }}</div>
+                    <!-- MAYBE FOR FUTURE USE
                     {% with proposals=object.accepted_proposals.count %}
                         {% if proposals %}
                             <span class="badge badge-success">
-                                {{ proposals}}
+                                {{ proposals }}
                             </span>
                         {% endif %}
                     {% endwith %}
+                    -->
                 </a>
             </li>
         {% endfor %}

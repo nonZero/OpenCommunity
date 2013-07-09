@@ -38,8 +38,6 @@
                             {% trans "Open Community" %}
                         {% endif %}
                     </span>
-                    <br/>
-                    {% block page_header %}Page Title{% endblock %}
                 </h1>
                 {% block header-end %}
                 <a href="#" data-icon="arrow-l" data-iconpos="notext" data-rel="back"></a>
@@ -47,6 +45,9 @@
             </div>
 
             <div data-role="content">
+            	<div class="page_title">
+                    {% block page_header %}Page Title{% endblock %}
+               </div>
 
                 {% if messages %}
                 <ul class="messages">
