@@ -34,14 +34,13 @@ $(function() {
         $("#available").append(el);
         toggleIssue(el, 1);
     }).sortable({
-            'appendTo': $('#agenda').parent().parent().parent().parent().parent(),
-            'containment': 'parent',
-            'forcePlaceholderSize': true,
-            'opacity': 0.6,
-            update: function(event, ui) {
-                reorderIssues();
-            }
-        });
+        'containment': 'parent',
+        'forcePlaceholderSize': true,
+        'opacity': 0.6,
+        update: function(event, ui) {
+            reorderIssues();
+        }
+    }).removeClass('ui-corner-all').filter('li').removeClass('ui-corner-bottom');
 
     $('#available').on('click', '.addremove', function() {
         $(this).find('.ui-icon-plus').removeClass('ui-icon-plus').addClass('ui-icon-minus');
