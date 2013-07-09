@@ -7,7 +7,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db.models.aggregates import Max
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView
 from django.views.generic.base import RedirectView, View
@@ -58,17 +58,30 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
             import time
             time.sleep(0.3)
 
-        issue = self.get_issues_queryset().get(id=int(request.POST.get('issue')))
+        if 'issue' in request.POST:
 
-        add_to_meeting = request.POST['set'] == "0"
-        issue.in_upcoming_meeting = add_to_meeting
-        last = self.get_object().upcoming_issues().aggregate(
-                                 last=Max('order_in_upcoming_meeting'))['last']
-        issue.order_in_upcoming_meeting = (last or 0) + 1
-        issue.save()
+            issue = self.get_issues_queryset().get(id=int(request.POST.get('issue')))
 
-        return HttpResponse(json.dumps(int(add_to_meeting)),
-                            content_type='application/json')
+            add_to_meeting = request.POST['set'] == "0"
+            issue.in_upcoming_meeting = add_to_meeting
+            last = self.get_object().upcoming_issues().aggregate(
+                                     last=Max('order_in_upcoming_meeting'))['last']
+            issue.order_in_upcoming_meeting = (last or 0) + 1
+            issue.save()
+
+            return HttpResponse(json.dumps(int(add_to_meeting)),
+                                content_type='application/json')
+
+        if 'issues[]' in request.POST:
+            issues = [int(x) for x in request.POST.getlist('issues[]')]
+            qs = self.get_object().upcoming_issues()
+            for i, iid in enumerate(issues):
+                qs.filter(id=iid).update(order_in_upcoming_meeting=i)
+
+            return HttpResponse(json.dumps(True),
+                                content_type='application/json')
+
+        return HttpResponseBadRequest("Oops, bad request")
 
 
 class PublishUpcomingMeetingPreviewView(CommunityModelMixin, DetailView):

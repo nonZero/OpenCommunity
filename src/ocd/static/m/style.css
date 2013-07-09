@@ -18,6 +18,18 @@
     visibility: hidden;
 }
 
+#agenda {
+    position:relative;
+}
+
+.loader {
+    display:none;
+}
+
+.loading .loader {
+    display:inline;
+}
+
 
 .form-popup form {
     padding: 10px;

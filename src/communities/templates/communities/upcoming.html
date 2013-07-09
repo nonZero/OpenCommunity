@@ -119,10 +119,15 @@
 
     </div>
 
-    <div data-role="collapsible" data-collapsed="false"
+    <div id="agenda-container" data-role="collapsible" data-collapsed="false"
             data-theme="b" data-content-theme="c" >
 
-        <h4>{% trans "Agenda items" %}</h4>
+        <h4>
+            {% trans "Agenda items" %}
+            <span class="loader">
+                <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/>
+            </span>
+        </h4>
         <ul id="agenda" data-role="listview" data-split-icon="minus" data-count-theme="a">
                 {% for i in object.upcoming_issues %}
 
@@ -216,6 +221,7 @@
 {% endblock %}
 
 {% block scripts %}
+    <script src="{{STATIC_URL}}jquery-ui/js/jquery-ui-1.10.2.custom.js"></script>
     <script src="{{STATIC_URL}}js/upcoming.js"></script>
     <script src="{{STATIC_URL}}js/issues.js"></script>
     </script>
