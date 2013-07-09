@@ -22,12 +22,16 @@
     position:relative;
 }
 
+#agenda a {
+    -webkit-touch-callout: none;
+}
+
 #agenda li .grab{
     width: 25px;
-    height: 25px;
-    background: url('../images/drag-handle.png');
+    height: 30px;
+    background: url('../images/drag-handle.png') center no-repeat;
     float: right;
-    margin: 0 6px;
+    padding: 8px 8px 4px 8px;
 }
 
 .loader {

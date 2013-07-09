@@ -33,13 +33,11 @@ $(function() {
         el.addClass('loading');
         $("#available").append(el);
         toggleIssue(el, 1);
-    }).on('click', 'li a .grab', function() {
-        return false;
     }).sortable({
         'containment': $('#agenda').parent().parent(),
         'opacity': 0.6,
         cursorAt: { top: 25 },
-        handle: "a .grab",
+        handle: ".grab",
         update: function(event, ui) {
             reorderIssues();
         }
