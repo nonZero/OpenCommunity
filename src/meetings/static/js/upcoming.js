@@ -35,8 +35,8 @@ $(function() {
         toggleIssue(el, 1);
     }).sortable({
         'containment': $('#agenda').parent().parent(),
-        'forcePlaceholderSize': true,
         'opacity': 0.6,
+        cursorAt: { top: 25 },
         update: function(event, ui) {
             reorderIssues();
         }
