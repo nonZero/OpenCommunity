@@ -133,6 +133,7 @@
 
                 <li class="issue" data-issue="{{i.id}}">
                     <a href="{{i.get_absolute_url}}">
+                        <div class="grab"></div>
                         {{i.title}}
                         {% if object.upcoming_meeting_started and i.accepted_proposals.count == 0 %}
                             <span class="ui-li-count">
@@ -192,8 +193,8 @@
                 {% for i in object.available_issues %}
     
                     <li class="issue" data-issue="{{i.id}}" data-set="{{i.in_upcoming_meeting|yesno:'1,0'}}">
-                        <i class="grab icon-th-list"></i>
                         <a href="{{i.get_absolute_url}}">
+                            <div class="grab"></div>
                             {{i.title}}
                             {% with proposals=i.accepted_proposals.count %}
                                 {% if proposals %}

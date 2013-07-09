@@ -22,6 +22,14 @@
     position:relative;
 }
 
+#agenda li .grab{
+    width: 25px;
+    height: 25px;
+    background: url('../images/drag-handle.png');
+    float: right;
+    margin: 0 6px;
+}
+
 .loader {
     display:none;
 }
