@@ -13,6 +13,9 @@ urlpatterns = patterns('',
     url(r'^(?P<pk>\d+)/edit/$', views.IssueEditView.as_view(),
                                 name="issue_edit"),
 
+    url(r'^(?P<pk>\d+)/set-length/$', views.IssueSetLengthView.as_view(),
+                                name="issue_set_length"),
+
     url(r'^(?P<pk>\d+)/delete/$', views.IssueDeleteView.as_view(),
                                 name="issue_delete"),
 

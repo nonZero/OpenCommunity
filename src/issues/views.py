@@ -1,7 +1,8 @@
 from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView
-from django.views.generic.detail import DetailView
+from django.views.generic.base import View
+from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
@@ -110,7 +111,7 @@ class IssueCommentEditView(IssueCommentMixin, UpdateView):
 
 class IssueCreateView(AjaxFormView, IssueMixin, CreateView):
     form_class = CreateIssueForm
-    template_name="issues/issue_create_form.html"
+    template_name = "issues/issue_create_form.html"
 
     required_permission = 'issues.add_issue'
 
@@ -127,6 +128,23 @@ class IssueEditView(AjaxFormView, IssueMixin, UpdateView):
     required_permission = 'issues.editopen_issue'
 
     form_class = UpdateIssueForm
+
+
+class IssueSetLengthView(IssueMixin, SingleObjectMixin, View):
+
+    required_permission = 'community.editagenda_community'
+
+    def post(self, request, *args, **kwargs):
+        o = self.get_object()
+        s = request.POST.get('length', '').strip()
+        if s:
+            l = s.split(':')
+            t = int(l[0]) * 60 + int(l[1])
+        else:
+            t = None
+        o.length_in_minutes=t
+        o.save()
+        return HttpResponse("%d:%02d" % (t / 60, t % 60) if t else "?")
 
 
 class IssueDeleteView(AjaxFormView, IssueMixin, DeleteView):

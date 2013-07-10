@@ -115,3 +115,25 @@ def octime(value):
             return ungettext(
                 'an hour from now', '%(count)s hours from now', count
             ) % {'count': count}
+
+
+@register.filter
+def minutes(value):
+    if not isinstance(value, int): 
+        return value
+
+    if value < 60:
+        return str(value)
+
+    return "%d:%02d" % (value / 60, value % 60)
+
+
+@register.filter
+def minutes_strict(value):
+    if value is None:
+        return "00:00"
+
+    if not isinstance(value, int): 
+        return value
+
+    return "%02d:%02d" % (value / 60, value % 60) if value else "?"

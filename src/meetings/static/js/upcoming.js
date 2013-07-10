@@ -51,5 +51,24 @@ $(function() {
         toggleIssue(el, 0);
     });
 
+    $('#agenda').on('click', '.timer span', function() {
+        $(this).hide();
+        var v = $(this).data('strict');
+        if (v == "") {
+            v = '00:00';
+        }
+        $(this).parent().append($('<input type="time" step="300" class="x" value="'+v+'"/><button>Save</button>'));
+    });
+
+    $('#agenda').on('click', '.timer button', function() {
+        var el = $(this).parent();
+        var v = el.find('.x').val();
+        el.find('input,button').detach();
+        el.find('span').html('...').data('strict', v).show();
+        $.post(el.data('url'), {length: v}, function(data) {
+            el.find('span').text(data);
+        });
+    });
+
 
 });

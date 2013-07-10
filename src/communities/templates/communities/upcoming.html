@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load opencommunity %}
 
 {% block extra-page-id %}
 	id="upcoming-meeting"
@@ -132,6 +133,9 @@
                 {% for i in object.upcoming_issues %}
 
                 <li class="issue" data-issue="{{i.id}}">
+                    <div class="timer" data-url="{% url 'issue_set_length' community.id i.id %}">
+                        <span data-strict="{{i.length_in_minutes|minutes_strict}}">{{i.length_in_minutes|minutes|default:'?'}}</span>
+                    </div>
                     <div class="grab"></div>
                     <a href="{{i.get_absolute_url}}">
                         {{i.title}}
