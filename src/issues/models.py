@@ -3,6 +3,7 @@ from django.conf import settings
 from django.db import models, transaction
 from django.utils import timezone
 from django.utils.translation import ugettext, ugettext_lazy as _
+from ocd.base_models import HTMLField
 
 
 class Issue(models.Model):
@@ -12,8 +13,8 @@ class Issue(models.Model):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Create by"), related_name="issues_created")
 
     title = models.CharField(max_length=300, verbose_name=_("Title"))
-    abstract = models.TextField(null=True, blank=True, verbose_name=_("Background"))
-    content = models.TextField(null=True, blank=True, verbose_name=_("Content"))
+    abstract = HTMLField(null=True, blank=True, verbose_name=_("Background"))
+    content = HTMLField(null=True, blank=True, verbose_name=_("Content"))
 
     calculated_score = models.IntegerField(default=0, verbose_name=_("Calculated Score"))
 
@@ -173,7 +174,7 @@ class Proposal(models.Model):
     type = models.PositiveIntegerField(choices=ProposalType.CHOICES, verbose_name=_("Type"))
 
     title = models.CharField(max_length=300, verbose_name=_("Title"))
-    content = models.TextField(null=True, blank=True, verbose_name=_("Content"))
+    content = HTMLField(null=True, blank=True, verbose_name=_("Content"))
 
     is_accepted = models.BooleanField(_("Is accepted"), default=False)
     accepted_at = models.DateTimeField(_("Accepted at"), null=True, blank=True)

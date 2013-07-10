@@ -7,6 +7,7 @@ from ocd.email import send_mails
 from users.default_roles import DefaultGroups
 from users.models import OCUser
 import logging
+from ocd.base_models import HTMLField
 
 
 logger = logging.getLogger(__name__)
@@ -39,9 +40,8 @@ class Community(models.Model):
                                          _("Upcoming meeting location"),
                                          max_length=300, null=True,
                                          blank=True)
-    upcoming_meeting_comments = models.TextField(
-                                             _("Upcoming meeting comments"),
-                                             null=True, blank=True)
+    upcoming_meeting_comments = HTMLField(_("Upcoming meeting comments"),
+                                          null=True, blank=True)
 
     upcoming_meeting_participants = models.ManyToManyField(
                                       settings.AUTH_USER_MODEL,
@@ -64,9 +64,8 @@ class Community(models.Model):
                                         _("Upcoming meeting published at"),
                                         blank=True, null=True)
 
-    upcoming_meeting_summary = models.TextField(
-                                             _("Upcoming meeting summary"),
-                                             null=True, blank=True)
+    upcoming_meeting_summary = HTMLField(_("Upcoming meeting summary"),
+                                         null=True, blank=True)
     board_name = models.CharField(_("Board Name"), max_length=200,
                                   null=True, blank=True)
 

@@ -18,6 +18,7 @@ def host_type():
 def deploy():
     with virtualenv(code_dir):
         run("git pull")
+        run("pip install -r requirements.txt")
         run("cd src && python manage.py migrate")
         run("cd src && python manage.py collectstatic --noinput")
         run("sudo supervisorctl restart opencommunity")

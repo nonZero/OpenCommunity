@@ -81,7 +81,7 @@
               <h4>{% trans "Comments" %}</h4>
   
               <p>
-                  {{object.comments|linebreaksbr}}
+                  {{object.comments|safe}}
               </p>
           </div>
       {% endif %}
@@ -114,7 +114,7 @@
                                     <div class="letter_count num{{ forloop.counter }}">{{ forloop.counter|to_char }}</div>
                                     <p>{# {{p.get_type_display}}: #} <b>{{p.title}}</b></p>
                                     <br />
-                                    <p>{{p.content}}</p>
+                                    <p>{{p.content|safe}}</p>
                                 </a>
                             </li>
                         {% endfor %}

@@ -5,6 +5,9 @@ Django==1.5.1
 django-crispy-forms==1.2.3
 South==0.7.6
 
+# general libs
+bleach==1.2.2
+
 # dev stuff
 django-extensions==1.1.1
 django-debug-toolbar==0.9.4

@@ -70,7 +70,7 @@
             <div data-role="collapsible" data-collapsed="false"
                 data-theme="c" data-content-theme="d" data-mini="true">
                 <h4>{% trans "Abstract" %}</h4>
-                <p>{{object.abstract|urlize|linebreaksbr}}</p>
+                <p>{{object.abstract|safe}}</p>
             </div>
         {% endif %}
 
@@ -79,7 +79,7 @@
             data-theme="c" data-content-theme="d" data-mini="true">
                 <h4>{% trans "Content" %}</h4>
                 <p>
-                    {{object.content|urlize|linebreaksbr}}
+                    {{object.content|safe}}
                 </p>
             </div>
         {% endif %}
@@ -101,4 +101,6 @@
 
 {% block scripts %}
     <script src="{{STATIC_URL}}js/proposal.js"></script>
+    <script src="{{STATIC_URL}}tinymce/jquery.tinymce.min.js"></script>
+    <script src="{{STATIC_URL}}tinymce/tinymce.min.js"></script>
 {% endblock %}

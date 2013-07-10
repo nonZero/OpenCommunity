@@ -18,7 +18,20 @@ $(function() {
                 .popup('open')
                 .on("popupafterclose", function(event, ui) {
                     $(this).popup('destroy');
+                    p.find('textarea.wysiwyg').each(function() {
+                        $(this).tinymce().remove();
+                    });
+                    p.detach();
                  });
+
+            p.find('textarea.wysiwyg').tinymce({
+                   directionality : 'rtl',
+                   language : 'he_IL',
+                   menubar: false,
+                   toolbar_items_size: 'small',
+                   toolbar: "bold italic underline | bullist numlist | blockquote",
+            });
+
             var form = p.find('form');
 
             form.ajaxForm({

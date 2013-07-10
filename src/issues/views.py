@@ -159,6 +159,11 @@ class ProposalCreateView(AjaxFormView, IssueMixin, CreateView):
     def get_success_url(self):
         return self.issue.get_absolute_url()
 
+    def get_form_kwargs(self):
+        d = super(ProposalCreateView, self).get_form_kwargs()
+        d['prefix'] = 'proposal'
+        return d
+
 
 class ProposalMixin(IssueMixin):
     model = models.Proposal
@@ -231,5 +236,3 @@ class ProposalDeleteView(AjaxFormView, ProposalMixin, DeleteView):
         o.active = False
         o.save()
         return HttpResponse("-")
-
-

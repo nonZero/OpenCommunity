@@ -37,7 +37,7 @@ html,body{direction:rtl;text-align:right;}
 .ui-bar-a select,
 .ui-bar-a textarea,
 .ui-bar-a button {
-	font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-bar-a .ui-link-inherit {
 	color: #fff /*{a-bar-color}*/;
@@ -78,7 +78,7 @@ html,body{direction:rtl;text-align:right;}
 .ui-body-a select,
 .ui-body-a textarea,
 .ui-body-a button {
-	font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-a .ui-link-inherit {
 	color: 	#fff /*{a-body-color}*/;
@@ -152,7 +152,7 @@ html,body{direction:rtl;text-align:right;}
 .ui-btn-up-a,
 .ui-btn-hover-a,
 .ui-btn-down-a {
-	font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif /*{global-font-family}*/;
 	text-decoration: none;
 }
 /* B
@@ -175,7 +175,7 @@ html,body{direction:rtl;text-align:right;}
 .ui-bar-b select,
 .ui-bar-b textarea,
 .ui-bar-b button {
-	font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-bar-b .ui-link-inherit {
 	color: 	#fff /*{b-bar-color}*/;
@@ -216,7 +216,7 @@ html,body{direction:rtl;text-align:right;}
 .ui-body-b select,
 .ui-body-b textarea,
 .ui-body-b button {
-	font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-b .ui-link-inherit {
 	color: 	#333 /*{b-body-color}*/;
@@ -290,7 +290,7 @@ html,body{direction:rtl;text-align:right;}
 .ui-btn-up-b,
 .ui-btn-hover-b,
 .ui-btn-down-b {
-	font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif /*{global-font-family}*/;
 	text-decoration: none;
 }
 /* C
@@ -329,7 +329,7 @@ html,body{direction:rtl;text-align:right;}
 .ui-bar-c select,
 .ui-bar-c textarea,
 .ui-bar-c button {
-	font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-c,
 .ui-overlay-c {
@@ -353,7 +353,7 @@ html,body{direction:rtl;text-align:right;}
 .ui-body-c select,
 .ui-body-c textarea,
 .ui-body-c button {
-	font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-c .ui-link-inherit {
 	color: 	#333 /*{c-body-color}*/;
@@ -427,7 +427,7 @@ html,body{direction:rtl;text-align:right;}
 .ui-btn-up-c,
 .ui-btn-hover-c,
 .ui-btn-down-c {
-	font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif /*{global-font-family}*/;
 	text-decoration: none;
 }
 /* D
@@ -450,7 +450,7 @@ html,body{direction:rtl;text-align:right;}
 .ui-bar-d select,
 .ui-bar-d textarea,
 .ui-bar-d button {
-	font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-bar-d .ui-link-inherit {
 	color: 	#333 /*{d-bar-color}*/;
@@ -490,7 +490,7 @@ html,body{direction:rtl;text-align:right;}
 .ui-body-d select,
 .ui-body-d textarea,
 .ui-body-d button {
-	font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-d .ui-link-inherit {
 	color: 	#333 /*{d-body-color}*/;
@@ -565,7 +565,7 @@ html,body{direction:rtl;text-align:right;}
 .ui-btn-up-d,
 .ui-btn-hover-d,
 .ui-btn-down-d {
-	font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif /*{global-font-family}*/;
 	text-decoration: none;
 }
 /* E
@@ -588,7 +588,7 @@ html,body{direction:rtl;text-align:right;}
 .ui-bar-e select,
 .ui-bar-e textarea,
 .ui-bar-e button {
-	font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-bar-e .ui-link-inherit {
 	color: 	#333 /*{e-bar-color}*/;
@@ -628,7 +628,7 @@ html,body{direction:rtl;text-align:right;}
 .ui-body-e select,
 .ui-body-e textarea,
 .ui-body-e button {
-	font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-e .ui-link-inherit {
 	color: 	#222 /*{e-body-color}*/;
@@ -702,7 +702,7 @@ html,body{direction:rtl;text-align:right;}
 .ui-btn-up-e,
 .ui-btn-hover-e,
 .ui-btn-down-e {
-	font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif /*{global-font-family}*/;
 	text-decoration: none;
 }
 /* Structure */
@@ -727,7 +727,7 @@ a.ui-link-inherit {
 	background-image:     -ms-linear-gradient( #5393c5 /*{global-active-background-start}*/, #6facd5 /*{global-active-background-end}*/); /* IE10 */
 	background-image:      -o-linear-gradient( #5393c5 /*{global-active-background-start}*/, #6facd5 /*{global-active-background-end}*/); /* Opera 11.10+ */
 	background-image:         linear-gradient( #5393c5 /*{global-active-background-start}*/, #6facd5 /*{global-active-background-end}*/);
-	font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-btn-active:visited,
 .ui-btn-active:hover,

@@ -112,7 +112,7 @@
                 {{object.upcoming_meeting_location|default:_("Not set yet")}}
                 {% if object.upcoming_meeting_comments %}
                     <p>
-                        {{object.upcoming_meeting_comments|linebreaksbr}}
+                        {{object.upcoming_meeting_comments|safe}}
                     </p>
                 {% endif %}
         </p>
@@ -165,7 +165,7 @@
                             </a>
                         </div>
                         {% if object.upcoming_meeting_summary %}
-                          {{object.upcoming_meeting_summary|urlize|linebreaksbr}}
+                          {{object.upcoming_meeting_summary|safe}}
                         {% endif %}
                     </p>
                 </div>
@@ -226,5 +226,6 @@
     <script src="{{STATIC_URL}}js/jquery.ui.touch-punch.js"></script>
     <script src="{{STATIC_URL}}js/upcoming.js"></script>
     <script src="{{STATIC_URL}}js/issues.js"></script>
-    </script>
+    <script src="{{STATIC_URL}}tinymce/jquery.tinymce.min.js"></script>
+    <script src="{{STATIC_URL}}tinymce/tinymce.min.js"></script>
 {% endblock %}

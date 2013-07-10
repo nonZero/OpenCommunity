@@ -34,7 +34,7 @@
                         {{object.upcoming_meeting_location|default:_("Not set yet")}}
                         {% if object.upcoming_meeting_comments %}
                             <div>
-                                {{object.upcoming_meeting_comments|linebreaksbr}}
+                                {{object.upcoming_meeting_comments|safe}}
                             </div>
                         {% endif %}
                 </div>
@@ -57,7 +57,7 @@
                         </h3>
                         {% if i.abstract %}
                             <div style="padding:3px;">
-                                {{i.abstract|linebreaks}}
+                                {{i.abstract|safe}}
                             </div>
                         {% endif %}
                         
