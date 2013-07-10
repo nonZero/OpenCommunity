@@ -56,7 +56,7 @@
                       </h4>
                       {% for c in i.active_comments.all %}
                         <p style="padding:0; margin: 3px;">
-                            {{c.content|urlize|linebreaksbr}}
+                            {{c.content|safe}}
                             {% comment %}
                               <i style="font-size: smaller">
                                    ({{c.created_by}} {% trans "at" %} {{c.created_at}})

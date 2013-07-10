@@ -72,7 +72,7 @@ class IssueComment(models.Model):
                                    verbose_name=_("Created by"),
                                    related_name="issue_comments_last_edited",
                                    null=True, blank=True)
-    content = models.TextField(verbose_name=_("Comment"))
+    content = HTMLField(verbose_name=_("Comment"))
 
     class Meta:
         ordering = ('created_at', )

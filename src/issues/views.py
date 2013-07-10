@@ -53,7 +53,13 @@ class IssueDetailView(IssueMixin, DetailView):
         c = i.comments.create(content=form.cleaned_data['content'],
                               created_by=request.user)
 
-        return render(request, 'issues/_comment.html', {'c': c})
+        cperms = self.request.user.get_community_perms(self.community)
+
+        return render(request, 'issues/_comment.html', {
+                                                        'c': c,
+                                                        'object': i,
+                                                        'cperms': cperms,
+                                                        })
 
 
 class IssueCommentMixin(CommunityMixin):
@@ -82,12 +88,24 @@ class IssueCommentEditView(IssueCommentMixin, UpdateView):
     form_class = forms.EditIssueCommentForm
 
     def form_valid(self, form):
-        self.get_object().update_content(form.instance.version, self.request.user,
+        c = self.get_object()
+        c.update_content(form.instance.version, self.request.user,
                                      form.cleaned_data['content'])
-        return render(self.request, 'issues/_comment.html', {'c': self.get_object()})
+        cperms = self.request.user.get_community_perms(self.community)
+
+        return render(self.request, 'issues/_comment.html', {
+                                                        'c': c,
+                                                        'object': c.issue,
+                                                        'cperms': cperms,
+                                                        })
 
     def form_invalid(self, form):
         return HttpResponse("")
+
+    def get_form_kwargs(self):
+        d = super(IssueCommentEditView, self).get_form_kwargs()
+        d['prefix'] = 'ic%d' % self.get_object().id
+        return d
 
 
 class IssueCreateView(AjaxFormView, IssueMixin, CreateView):

@@ -24,11 +24,18 @@ $(function() {
     // Comments
 
     // Add comment form
-    $('#add-comment').ajaxForm(function(data) {
-        var el = $(data.trim());
-        $("#add-comment").closest('li').before(el).parent().listview('refresh');
-        el.find('button').button();
-        $("#add-comment").get(0).reset();
+    $('#add-comment').ajaxForm({
+        beforeSubmit: function(arr, form) {
+            if (!$('#id_content').val()) {
+                return false;
+            }
+        },
+        success: function(data) {
+            var el = $(data.trim());
+            $("#add-comment").closest('li').before(el).parent().listview('refresh');
+            el.find('button').button();
+            $("#add-comment").get(0).reset();
+        }
     });
 
     // Delete and undelete comment form
@@ -59,6 +66,7 @@ $(function() {
         li.find('.comment-inner').hide().after(el);
         $.get(btn.data('url'), function(data) {
             el.html(data).find('button').button();
+            wysiwygize(el.find('textarea'));
         })
     });
 
@@ -67,15 +75,21 @@ $(function() {
         var btn = $(this);
         var li = btn.closest('li'); 
         li.removeClass('editing');
+        li.find('textarea').tinymce().remove();
         li.find('.comment-inner').show();
         li.find('.edit-issue-form').parent().remove();
     });
 
     // - save edits
-    $('#comments').on('click', '.save-comment button', function() {
+    $('#comments').on('click', '.save-comment button', function(ev) {
         var btn = $(this);
-        btn.button('disable');
         var form = btn.closest('form');
+        if (!form.find('textarea').val()) {
+            ev.preventDefault();
+            return false;
+        }
+        btn.button('disable');
+        form.find('textarea').tinymce().remove();
         form.ajaxSubmit(function(data) {
                             if (!data) {
                                 btn.button('enable');
@@ -83,11 +97,12 @@ $(function() {
                             }
                             var new_li = $(data.trim());
                             new_li.find('button').button();
-                            new_li.find('textarea').attr('required', 'required');
                             form.closest('li').replaceWith(new_li);
                             $("#comments").listview('refresh');
                         });
         return false;
     });
+
+    wysiwygize($('#id_content'));
 
 });

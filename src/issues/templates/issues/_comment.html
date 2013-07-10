@@ -30,7 +30,7 @@
         </i>:
 
         <blockquote>
-            {{c.content|urlize|linebreaksbr}}
+            {{c.content|safe}}
         </blockquote>
 
         {% if c.last_edited_by %}
