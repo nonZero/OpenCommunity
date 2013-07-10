@@ -142,7 +142,7 @@ class IssueSetLengthView(IssueMixin, SingleObjectMixin, View):
             t = int(l[0]) * 60 + int(l[1])
         else:
             t = None
-        o.length_in_minutes=t
+        o.length_in_minutes = t
         o.save()
         return HttpResponse("%d:%02d" % (t / 60, t % 60) if t else "?")
 
