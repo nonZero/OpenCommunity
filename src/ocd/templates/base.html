@@ -105,6 +105,10 @@
         <script src="{{ STATIC_URL }}js/csrf.js"></script>
         <script src="{{ STATIC_URL }}js/jquery.form.js"></script>
         <script src="{{ STATIC_URL }}js/forms.js"></script>
+        <script src="{{STATIC_URL}}tinymce/jquery.tinymce.min.js"></script>
+        <script>
+        tmce_url = '{{STATIC_URL}}tinymce/tinymce.min.js';
+        </script>
 
         {% block scripts %}
 

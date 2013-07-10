@@ -24,13 +24,7 @@ $(function() {
                     p.detach();
                  });
 
-            p.find('textarea.wysiwyg').tinymce({
-                   directionality : 'rtl',
-                   language : 'he_IL',
-                   menubar: false,
-                   toolbar_items_size: 'small',
-                   toolbar: "bold italic underline | bullist numlist | blockquote",
-            });
+            wysiwygize(p.find('textarea.wysiwyg'));
 
             var form = p.find('form');
 
@@ -86,3 +80,15 @@ $.fn["html5inputs"] = function() {
         $(this).find('.crequired input,.crequired select,.crequired textarea').attr('required','required');
     });
 };
+
+function wysiwygize(x) {
+    x.tinymce({
+           script_url: tmce_url,
+           directionality : 'rtl',
+           language : 'he_IL',
+           menubar: false,
+           toolbar_items_size: 'small',
+           toolbar: "bold italic underline | bullist numlist | blockquote",
+    });
+}
+
