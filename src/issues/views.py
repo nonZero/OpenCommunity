@@ -138,11 +138,14 @@ class IssueSetLengthView(IssueMixin, SingleObjectMixin, View):
         o = self.get_object()
         s = request.POST.get('length', '').strip()
         if s:
-            l = s.split(':')
-            t = int(l[0]) * 60 + int(l[1])
+            try:
+                l = s.split(':')
+                t = int(l[0]) * 60 + int(l[1])
+            except:
+                return HttpResponseBadRequest("Bad Request")
         else:
             t = None
-        o.length_in_minutes = t
+        o.length_in_minutes = max(min(t, 60 * 24 - 1), 0)
         o.save()
         return HttpResponse("%d:%02d" % (t / 60, t % 60) if t else "?")
 
