@@ -2,7 +2,12 @@
 Installing OpenCommunity
 ========================
 
-    **Be warned:** OpenCommunity is work in progress!!
+OpenCommunity is an open source project from `Hasadna`_. Its aim is to help communities thrive in the Cloud.
+Our first step is to support setting the agenda sork for the managment committee.
+Join the conversation in our `google group`_ (English and Hebrew).
+
+.. _Hasadna: http://www.hasadna.org.il
+.. _google group: https://groups.google.com/forum/#!forum/omiflaga
 
 Prerequisites for Developer Machines
 ====================================
@@ -76,7 +81,7 @@ Collaborating
 
 * Setup your git repo to get upstream changes::
 
-    git remote add upstream git://github.com/nonZero/OpenCommunity.git
+    git remote add upstream git://github.com/hasadna/OpenCommunity.git
     git pull upstream master
 
 
