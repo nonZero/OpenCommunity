@@ -1,3 +1,4 @@
-{% load i18n %}{% block content %}{% autoescape off %}*** {{community}}: {% trans "Protocol Draft" %} ***
+{% load i18n %}{% autoescape off %}*** {{community}}: {% trans "Protocol Draft" %} ***
 
-{% trans "View online" %}: {{base_url}}{{community.get_absolute_url}}{% endautoescape %}{% endblock %}
+{% trans "View online" %}: {{base_url}}{{community.get_absolute_url}}
+{% endautoescape %}
