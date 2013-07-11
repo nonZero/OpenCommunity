@@ -13,6 +13,12 @@ DATABASES = {
     }
 }
 
-# INTERNAL_IPS = ('127.0.0.1',)
-
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+_host = 'www.opencommunity.org.il'
+HOST_URL = "http://%s" % _host
+ALLOWED_HOSTS = [_host]
+FROM_EMAIL = "noreply@opencommunity.org.il"
+
+# Uncomment the following line to enable the debug toolbar
+# INTERNAL_IPS = ('127.0.0.1',)

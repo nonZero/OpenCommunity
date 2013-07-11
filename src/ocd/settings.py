@@ -201,6 +201,10 @@ FORMAT_MODULE_PATH = "ocd.formats"
 
 CRISPY_TEMPLATE_PACK = "jquery-mobile"
 
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS': False,
+}
+
 try:
     from local_settings import *
 except ImportError:

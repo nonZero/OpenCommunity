@@ -86,3 +86,13 @@ Collaborating
     pip install -r requirements.txt
     python manage.py syncdb
     python manage.py migrate
+
+
+Common Problems and Solutions
+=============================
+* If the following message appear when running `python manage.py`::
+
+    Django - "no module named django.core.management"
+    
+  You probably have not activated your virtualenv, or did not
+  install the requirements.
