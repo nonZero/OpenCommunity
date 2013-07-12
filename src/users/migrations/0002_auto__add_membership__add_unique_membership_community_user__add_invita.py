@@ -7,7 +7,25 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
+    depends_on = (
+        ("communities", "0001_initial"),
+    )
+
     def forwards(self, orm):
+        # Adding model 'Membership'
+        db.create_table(u'users_membership', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('community', self.gf('django.db.models.fields.related.ForeignKey')(related_name='memberships', to=orm['communities.Community'])),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='memberships', to=orm['users.OCUser'])),
+            ('default_group_name', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('invited_by', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='members_invited', null=True, to=orm['users.OCUser'])),
+        ))
+        db.send_create_signal(u'users', ['Membership'])
+
+        # Adding unique constraint on 'Membership', fields ['community', 'user']
+        db.create_unique(u'users_membership', ['community_id', 'user_id'])
+
         # Adding model 'Invitation'
         db.create_table(u'users_invitation', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -15,38 +33,33 @@ class Migration(SchemaMigration):
             ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('created_by', self.gf('django.db.models.fields.related.ForeignKey')(related_name='invitations_created', to=orm['users.OCUser'])),
             ('email', self.gf('django.db.models.fields.EmailField')(max_length=75)),
-            ('code', self.gf('django.db.models.fields.CharField')(default='om8y8e7efh4sx7iomcqstcwvifsn5zgf6hssiomyav4dxkd1', max_length=48)),
+            ('message', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+            ('code', self.gf('django.db.models.fields.CharField')(default='dnviair0i2taa7arucayhljqt4493stl19svku03iikrg9fa', max_length=48)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='invitations', null=True, to=orm['users.OCUser'])),
             ('default_group_name', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('status', self.gf('django.db.models.fields.PositiveIntegerField')(default=0)),
+            ('times_sent', self.gf('django.db.models.fields.PositiveIntegerField')(default=0)),
+            ('error_count', self.gf('django.db.models.fields.PositiveIntegerField')(default=0)),
+            ('last_sent_at', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
         ))
         db.send_create_signal(u'users', ['Invitation'])
 
         # Adding unique constraint on 'Invitation', fields ['community', 'email']
         db.create_unique(u'users_invitation', ['community_id', 'email'])
 
-        # Adding field 'Membership.created_at'
-        db.add_column(u'users_membership', 'created_at',
-                      self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, default=datetime.datetime(2013, 6, 3, 0, 0), blank=True),
-                      keep_default=False)
-
-        # Adding field 'Membership.invited_by'
-        db.add_column(u'users_membership', 'invited_by',
-                      self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='members_invited', null=True, to=orm['users.OCUser']),
-                      keep_default=False)
-
 
     def backwards(self, orm):
         # Removing unique constraint on 'Invitation', fields ['community', 'email']
         db.delete_unique(u'users_invitation', ['community_id', 'email'])
 
+        # Removing unique constraint on 'Membership', fields ['community', 'user']
+        db.delete_unique(u'users_membership', ['community_id', 'user_id'])
+
+        # Deleting model 'Membership'
+        db.delete_table(u'users_membership')
+
         # Deleting model 'Invitation'
         db.delete_table(u'users_invitation')
-
-        # Deleting field 'Membership.created_at'
-        db.delete_column(u'users_membership', 'created_at')
-
-        # Deleting field 'Membership.invited_by'
-        db.delete_column(u'users_membership', 'invited_by_id')
 
 
     models = {
@@ -65,14 +78,18 @@ class Migration(SchemaMigration):
         },
         u'communities.community': {
             'Meta': {'object_name': 'Community'},
+            'board_name': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
-            'upcoming_meeting_comments': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'upcoming_meeting_comments': ('ocd.base_models.HTMLField', [], {'null': 'True', 'blank': 'True'}),
+            'upcoming_meeting_guests': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_is_published': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'upcoming_meeting_location': ('django.db.models.fields.CharField', [], {'max_length': '300', 'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_participants': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "'+'", 'blank': 'True', 'to': u"orm['users.OCUser']"}),
             'upcoming_meeting_published_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_scheduled_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'upcoming_meeting_started': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'upcoming_meeting_summary': ('ocd.base_models.HTMLField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_version': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         u'contenttypes.contenttype': {
@@ -84,13 +101,18 @@ class Migration(SchemaMigration):
         },
         u'users.invitation': {
             'Meta': {'unique_together': "(('community', 'email'),)", 'object_name': 'Invitation'},
-            'code': ('django.db.models.fields.CharField', [], {'default': "'fihsn4tusaoqp143qybvzg1p6f3tpo2anuhj1vobu25mf9s4'", 'max_length': '48'}),
+            'code': ('django.db.models.fields.CharField', [], {'default': "'dcedyu82b73b1b6uzbdkxfgb0tqxjo9f5cnr5y5t1rdtx92m'", 'max_length': '48'}),
             'community': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'invitations'", 'to': u"orm['communities.Community']"}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'invitations_created'", 'to': u"orm['users.OCUser']"}),
             'default_group_name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
+            'error_count': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'last_sent_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'message': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'status': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
+            'times_sent': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'invitations'", 'null': 'True', 'to': u"orm['users.OCUser']"})
         },
         u'users.membership': {

@@ -37,8 +37,6 @@ class Migration(SchemaMigration):
             ('permission', models.ForeignKey(orm[u'auth.permission'], null=False))
         ))
         db.create_unique(u'users_ocuser_user_permissions', ['ocuser_id', 'permission_id'])
-
-
     def backwards(self, orm):
         # Deleting model 'OCUser'
         db.delete_table(u'users_ocuser')
@@ -48,7 +46,6 @@ class Migration(SchemaMigration):
 
         # Removing M2M table for field user_permissions on 'OCUser'
         db.delete_table('users_ocuser_user_permissions')
-
 
     models = {
         u'auth.group': {

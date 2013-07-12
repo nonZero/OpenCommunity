@@ -7,16 +7,31 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
+    depends_on = (
+        ("issues", "0001_initial"),
+    )
+
     def forwards(self, orm):
-        # Adding field 'AgendaItem.closed'
-        db.add_column(u'meetings_agendaitem', 'closed',
-                      self.gf('django.db.models.fields.BooleanField')(default=True),
-                      keep_default=False)
+        # Adding model 'AgendaItem'
+        db.create_table(u'meetings_agendaitem', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('meeting', self.gf('django.db.models.fields.related.ForeignKey')(related_name='agenda', to=orm['meetings.Meeting'])),
+            ('issue', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['issues.Issue'])),
+            ('order', self.gf('django.db.models.fields.PositiveIntegerField')(default=100)),
+            ('closed', self.gf('django.db.models.fields.BooleanField')(default=True)),
+        ))
+        db.send_create_signal(u'meetings', ['AgendaItem'])
+
+        # Adding unique constraint on 'AgendaItem', fields ['meeting', 'issue']
+        db.create_unique(u'meetings_agendaitem', ['meeting_id', 'issue_id'])
 
 
     def backwards(self, orm):
-        # Deleting field 'AgendaItem.closed'
-        db.delete_column(u'meetings_agendaitem', 'closed')
+        # Removing unique constraint on 'AgendaItem', fields ['meeting', 'issue']
+        db.delete_unique(u'meetings_agendaitem', ['meeting_id', 'issue_id'])
+
+        # Deleting model 'AgendaItem'
+        db.delete_table(u'meetings_agendaitem')
 
 
     models = {
@@ -38,7 +53,7 @@ class Migration(SchemaMigration):
             'board_name': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
-            'upcoming_meeting_comments': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'upcoming_meeting_comments': ('ocd.base_models.HTMLField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_guests': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_is_published': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'upcoming_meeting_location': ('django.db.models.fields.CharField', [], {'max_length': '300', 'null': 'True', 'blank': 'True'}),
@@ -46,7 +61,7 @@ class Migration(SchemaMigration):
             'upcoming_meeting_published_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_scheduled_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_started': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'upcoming_meeting_summary': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'upcoming_meeting_summary': ('ocd.base_models.HTMLField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_version': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         u'contenttypes.contenttype': {
@@ -58,17 +73,19 @@ class Migration(SchemaMigration):
         },
         u'issues.issue': {
             'Meta': {'object_name': 'Issue'},
-            'abstract': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'abstract': ('ocd.base_models.HTMLField', [], {'null': 'True', 'blank': 'True'}),
             'active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'calculated_score': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'closed_at_meeting': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['meetings.Meeting']", 'null': 'True', 'blank': 'True'}),
             'community': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'issues'", 'to': u"orm['communities.Community']"}),
-            'content': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'content': ('ocd.base_models.HTMLField', [], {'null': 'True', 'blank': 'True'}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'issues_created'", 'to': u"orm['users.OCUser']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'in_upcoming_meeting': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'is_closed': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'length_in_minutes': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'order_in_upcoming_meeting': ('django.db.models.fields.IntegerField', [], {'default': '9999', 'null': 'True', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '300'})
         },
         u'meetings.agendaitem': {
@@ -76,7 +93,7 @@ class Migration(SchemaMigration):
             'closed': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'issue': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['issues.Issue']"}),
-            'meeting': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['meetings.Meeting']"}),
+            'meeting': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'agenda'", 'to': u"orm['meetings.Meeting']"}),
             'order': ('django.db.models.fields.PositiveIntegerField', [], {'default': '100'})
         },
         u'meetings.meeting': {
