@@ -20,6 +20,11 @@ Deployment Instructions
     # create postgres db and grant permisions
     sudo -iu postgres createdb opencommunity -O oc
 
+For best luck, uncomment the following line in `/etc/nginx/nginx.conf`::
+
+    server_names_hash_bucket_size 64;
+
+
 Le'ts install a send-only mail server as well::
 
     apt-get install postfix
@@ -79,6 +84,9 @@ Let's set up the database::
 
     # Create a superuser to allow yourself an access to the admin
     python manage.py createsuperuser
+
+    # And while we are here:
+    python manage.py collectstatic --noinput
 
 Let's set up a gunicorn server, back as root::
 
