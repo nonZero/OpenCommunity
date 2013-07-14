@@ -1,6 +1,8 @@
 from django.db import models
-from ocd.validation import enhance_html
 from django.utils.translation import ugettext_lazy as _
+from ocd.validation import enhance_html
+import random
+import string
 
 
 class HTMLField(models.TextField):
@@ -26,3 +28,33 @@ try:
     add_introspection_rules([], ["^ocd\.base_models\.HTMLField"])
 except ImportError:
     pass
+
+
+UID_CHARS = string.lowercase + string.digits
+UID_LENGTH = 24
+
+
+def create_uid(length=UID_LENGTH):
+    """
+    Creates a random code of lowercase letters and numbers
+    """
+    return "".join(random.choice(UID_CHARS) for _x in xrange(length))
+
+
+class UIDManager(models.Manager):
+    def get_by_natural_key(self, uid):
+        return self.get(uid=uid)
+
+
+class UIDMixin(models.Model):
+
+    uid = models.CharField(max_length=UID_LENGTH, unique=True,
+                           default=create_uid)
+
+    objects = UIDManager()
+
+    def natural_key(self):
+        return (self.uid,)
+
+    class Meta:
+        abstract = True

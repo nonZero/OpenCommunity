@@ -1,0 +1,1 @@
+./dump.sh | python fix_json2.py

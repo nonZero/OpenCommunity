@@ -5,6 +5,7 @@ from django.utils.formats import date_format, time_format
 from django.utils.translation import ugettext_lazy as _
 from issues.models import Issue
 from users.default_roles import DefaultGroups
+from ocd.base_models import UIDMixin
 
 
 class AgendaItem(models.Model):
@@ -14,16 +15,20 @@ class AgendaItem(models.Model):
     order = models.PositiveIntegerField(default=100, verbose_name=_("Order"))
     closed = models.BooleanField(_('Closed'), default=True)
 
-    def __unicode__(self):
-        return self.issue.title
-
     class Meta:
         unique_together = (("meeting", "issue"),)
         verbose_name = _("Agenda Item")
         verbose_name_plural = _("Agenda Items")
 
+    def __unicode__(self):
+        return self.issue.title
 
-class Meeting(models.Model):
+#     def natural_key(self):
+#         return (self.meeting.natural_key(), self.issue.natural_key())
+#     natural_key.dependencies = ['meetings.meeting', 'issues.issue']
+
+
+class Meeting(UIDMixin):
     community = models.ForeignKey(Community, related_name="meetings", verbose_name=_("Community"))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="meetings_created", verbose_name=_("Created by"))
@@ -85,6 +90,10 @@ class MeetingParticipant(models.Model):
     def __unicode__(self):
         return self.user
 
+#     def natural_key(self):
+#         return (self.meeting.natural_key(), self.user.natural_key())
+#     natural_key.dependencies = ['meetings.meeting', 'users.ocuser']
+
 
 class MeetingExternalParticipant(models.Model):
     meeting = models.ForeignKey(Meeting, verbose_name=_("Meeting"))
@@ -96,3 +105,7 @@ class MeetingExternalParticipant(models.Model):
 
     def __unicode__(self):
         return self.name
+
+#     def natural_key(self):
+#         return (self.meetings.natural_key(), self.name)
+#     natural_key.dependencies = ['meetings.meeting']

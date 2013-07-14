@@ -7,7 +7,7 @@ from ocd.email import send_mails
 from users.default_roles import DefaultGroups
 from users.models import OCUser
 import logging
-from ocd.base_models import HTMLField
+from ocd.base_models import HTMLField, UIDMixin
 
 
 logger = logging.getLogger(__name__)
@@ -28,7 +28,7 @@ class SendToOption(object):
               )
 
 
-class Community(models.Model):
+class Community(UIDMixin):
     name = models.CharField(max_length=200, verbose_name=_("Name"))
     upcoming_meeting_started = models.BooleanField(
                                         _("Meeting started"),

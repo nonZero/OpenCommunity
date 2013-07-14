@@ -3,10 +3,10 @@ from django.conf import settings
 from django.db import models, transaction
 from django.utils import timezone
 from django.utils.translation import ugettext, ugettext_lazy as _
-from ocd.base_models import HTMLField
+from ocd.base_models import HTMLField, UIDMixin, UIDManager
 
 
-class Issue(models.Model):
+class Issue(UIDMixin):
     active = models.BooleanField(default=True, verbose_name=_("Active"))
     community = models.ForeignKey(Community, verbose_name=_("Community"), related_name="issues")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
@@ -57,7 +57,7 @@ class Issue(models.Model):
         return self.comments.filter(active=True)
 
 
-class IssueComment(models.Model):
+class IssueComment(UIDMixin):
     issue = models.ForeignKey(Issue, related_name="comments")
     active = models.BooleanField(default=True)
     ordinal = models.PositiveIntegerField(null=True, blank=True)
@@ -163,12 +163,12 @@ class ProposalType(object):
                )
 
 
-class ProposalManager(models.Manager):
+class ProposalManager(UIDManager):
     def active(self):
         return self.get_query_set().filter(active=True)
 
 
-class Proposal(models.Model):
+class Proposal(UIDMixin):
     issue = models.ForeignKey(Issue, related_name="proposals", verbose_name=_("Issue"))
     active = models.BooleanField(default=True, verbose_name=_("Active"))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Create at"))
