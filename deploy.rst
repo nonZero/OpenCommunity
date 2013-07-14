@@ -90,6 +90,7 @@ Let's set up a gunicorn server, back as root::
     cp /home/oc/OpenCommunity/conf/supervisor.conf /etc/supervisor/conf.d/opencommunity.conf
 
     # restart services
+    service nginx start
     service supervisor stop
     service supervisor start
 
