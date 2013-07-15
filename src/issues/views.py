@@ -12,6 +12,7 @@ from oc_util.templatetags.opencommunity import minutes
 from ocd.base_views import CommunityMixin, AjaxFormView
 import datetime
 import json
+from ocd.validation import enhance_html
 
 
 class IssueMixin(CommunityMixin):
@@ -52,7 +53,7 @@ class IssueDetailView(IssueMixin, DetailView):
             return HttpResponseBadRequest()
 
         i = self.get_object()
-        c = i.comments.create(content=form.cleaned_data['content'],
+        c = i.comments.create(content=enhance_html(form.cleaned_data['content']),
                               created_by=request.user)
 
         cperms = self.request.user.get_community_perms(self.community)

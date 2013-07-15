@@ -4,6 +4,7 @@ from django.db import models, transaction
 from django.utils import timezone
 from django.utils.translation import ugettext, ugettext_lazy as _
 from ocd.base_models import HTMLField, UIDMixin, UIDManager
+from ocd.validation import enhance_html
 
 
 class Issue(UIDMixin):
@@ -84,7 +85,7 @@ class IssueComment(UIDMixin):
         if self.version != expected_version:
             return False
 
-        content = content.strip()
+        content = enhance_html(content.strip())
 
         if self.content == content:
             return True
