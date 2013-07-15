@@ -47,6 +47,14 @@ li .timer {
 
 }
 
+#agenda .undecided {
+    left: 120px;
+}
+
+#available .undecided {
+    display: none;
+}
+
 .loader {
     display:none;
 }
