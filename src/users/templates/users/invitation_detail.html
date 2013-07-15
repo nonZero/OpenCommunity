@@ -33,15 +33,15 @@
 
         <form method="post">
             {% csrf_token %}
-            <button name="join" value="1" data-role="button" data-theme="a">{% trans "Join This Community" %}</button>
+            <button name="join" value="1" data-role="button" data-theme="a">{% trans "Join this community as" %} {{user.email}}</button>
         </form>
 
         <p>
-            <a href="{% url 'logout' %}?next={{login_path|urlencode}}">{% trans "Switch to a different user" %}</a> 
             {% if not user_exists %}
+                <a href="{% url 'logout' %}?next={{path}}">{% trans "Signup and join this community as" %} {{object.email}}</a>
                 |
-                <a href="{% url 'logout' %}?next={{path}}">{% trans "Logout and signup as a new user" %}</a>
             {% endif %}
+            <a href="{% url 'logout' %}?next={{login_path|urlencode}}">{% trans "Logout" %}</a> 
         </p>
 
     {% else %}

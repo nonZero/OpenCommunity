@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-19 12:57+0300\n"
+"POT-Creation-Date: 2013-07-15 11:21+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\admin.py:42 .\forms.py:21
+#: .\admin.py:42 .\forms.py:24
 msgid "Password"
 msgstr "סיסמא"
 
@@ -44,126 +44,126 @@ msgstr "מזכיר"
 msgid "chairman"
 msgstr "יושב ראש"
 
-#: .\forms.py:22
+#: .\forms.py:25
 msgid "Password confirmation"
 msgstr ""
 
-#: .\forms.py:36
+#: .\forms.py:39
 msgid "Passwords don't match"
 msgstr ""
 
-#: .\models.py:58
+#: .\models.py:66
 msgid "email address"
 msgstr "כתובת דואל"
 
-#: .\models.py:61
+#: .\models.py:69
 msgid "Your name"
 msgstr "שמך"
 
-#: .\models.py:63
+#: .\models.py:71
 msgid "staff status"
 msgstr "חבר בצוות האתר"
 
-#: .\models.py:64
+#: .\models.py:72
 msgid "Designates whether the user can log into this admin site."
 msgstr "יכול להכנס לאדמין"
 
-#: .\models.py:66
+#: .\models.py:74
 msgid "date joined"
 msgstr "תאריך הצטרפות"
 
-#: .\models.py:74
+#: .\models.py:82
 msgid "user"
 msgstr "משתמש"
 
-#: .\models.py:75
+#: .\models.py:83
 msgid "users"
 msgstr "משתמשים"
 
-#: .\models.py:134 .\models.py:184
+#: .\models.py:142 .\models.py:192
 msgid "Community"
 msgstr "קהילה"
 
-#: .\models.py:136 .\models.py:197
+#: .\models.py:144 .\models.py:205
 msgid "User"
 msgstr "משתמש"
 
-#: .\models.py:138 .\models.py:200
+#: .\models.py:146 .\models.py:208
 msgid "Group"
 msgstr "קבוצה"
 
-#: .\models.py:142 .\models.py:187
+#: .\models.py:150 .\models.py:195
 msgid "Created at"
 msgstr "נוצר בתאריך"
 
-#: .\models.py:144
+#: .\models.py:152
 msgid "Invited by"
 msgstr "הוזמן על ידי"
 
-#: .\models.py:150
+#: .\models.py:158
 msgid "Community Member"
 msgstr "חבר קהילה"
 
-#: .\models.py:151
+#: .\models.py:159
 msgid "Community Members"
 msgstr "חברי קהילה"
 
-#: .\models.py:176
+#: .\models.py:184
 msgid "Pending"
 msgstr "ממתין למשלוח"
 
-#: .\models.py:177
+#: .\models.py:185
 msgid "Sent"
 msgstr "נשלח"
 
-#: .\models.py:178
+#: .\models.py:186
 msgid "Failed"
 msgstr "נכשל"
 
-#: .\models.py:189
+#: .\models.py:197
 msgid "Created by"
 msgstr "נוצר על ידי"
 
-#: .\models.py:192
+#: .\models.py:200
 msgid "Email"
 msgstr "דואל"
 
-#: .\models.py:193
+#: .\models.py:201
 msgid "Message"
 msgstr "הודעה"
 
-#: .\models.py:203
+#: .\models.py:211
 msgid "Status"
 msgstr "סטאטוס"
 
-#: .\models.py:205
+#: .\models.py:213
 msgid "Times Sent"
 msgstr "מספר הפעמים שההזמנה נשלחה"
 
-#: .\models.py:206
+#: .\models.py:214
 msgid "Error count"
 msgstr "מספר הפעימים שהמשלוח נכשל"
 
-#: .\models.py:207
+#: .\models.py:215
 msgid "Sent at"
 msgstr "נשלח לאחרונה ב"
 
-#: .\models.py:212
+#: .\models.py:220
 msgid "Invitation"
 msgstr "הזמנה"
 
-#: .\models.py:213 .\templates\users\membership_list.html.py:44
+#: .\models.py:221 .\templates\users\membership_list.html.py:44
 msgid "Invitations"
 msgstr "הזמנות"
 
-#: .\models.py:215
+#: .\models.py:223
 msgid "INVITAION_DEFAULT_MESSAGE"
 msgstr ""
 "המערכת תאפשר לך מעורבות בתהליך קבלת ההחלטות של ה%s.\n"
 "אחרי אישור ההצטרפות ניתן לראות את הנושאים לדיון, את סדר היום לישיבה הקרובה, "
 "ואת סיכום ההחלטות מהישיבות הקודמות, ובעתיד ניתן יהיה גם לדון ולהשפיע עליהם."
 
-#: .\models.py:230
+#: .\models.py:238
 #, python-format
 msgid "Invitation to %s"
 msgstr "הזמנה לקהילה %s"
@@ -180,7 +180,7 @@ msgstr "משתמש זה כבר חבר בקהילה"
 msgid "This user is already invited to this community."
 msgstr "משתמש זה כבר הוזמן לקהילה"
 
-#: .\views.py:142
+#: .\views.py:141
 msgid "Oops. Something went wrong. Please try again."
 msgstr "אופס. משהו השתבש. אנה נסה שוב."
 
@@ -234,17 +234,17 @@ msgstr ""
 "שים לב! ההזמנה נשלחה אל <span dir=\"ltr\">%(i)s</span>, אבל אתה מחובר בתור "
 "<span dir=\"ltr\">%(u)s</span>!"
 
-#: .\templates\users\invitation_detail.html.py:35
-msgid "Switch to a different user"
-msgstr "אני כבר רשום למערכת, ומעוניין להצטרף לקבוצה כמשתמש אחר"
+#: .\templates\users\invitation_detail.html.py:36
+msgid "Join this community as"
+msgstr "הצטרף לקהילה כ"
 
-#: .\templates\users\invitation_detail.html.py:38
-msgid "Logout and signup as a new user"
-msgstr "הרשמה כמשתמש חדש"
+#: .\templates\users\invitation_detail.html.py:41
+msgid "Signup and join this community as"
+msgstr "הרשם לאתר והצטרף לקהילה כ"
 
 #: .\templates\users\invitation_detail.html.py:44
-msgid "Join This Community"
-msgstr "הצטרף לקהילה"
+msgid "Logout"
+msgstr "יציאה"
 
 #: .\templates\users\invitation_detail.html.py:52
 msgid "Login to join"
@@ -283,15 +283,6 @@ msgstr "אין חברים בקהילה"
 #: .\templates\users\membership_list.html.py:53
 msgid "Invite"
 msgstr "הזמן"
-
-#~ msgid "Logout"
-#~ msgstr "יציאה"
-
-#~ msgid "Wrong user?"
-#~ msgstr "משתמש אחר?"
-
-#~ msgid "This community did not conduct any meeting yet."
-#~ msgstr "קהילה זו טרם פרסמה פגישות"
 
 msgid ""
 "Please enter a correct %(username)s and password. Note that both fields "
