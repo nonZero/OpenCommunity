@@ -169,6 +169,7 @@ li.agenda.ui-li a.ui-link-inherit {
 #issue-create a.ui-btn-left span.ui-icon,
 #members-list a.ui-btn-left span.ui-icon,
 #upcoming-meeting a.ui-btn-left span.ui-icon,
+#community-list a.ui-btn-left span.ui-icon,
 #meeting-detail a.ui-btn-left span.ui-icon {
 	background: none;
 	-webkit-border-radius: none;
@@ -232,6 +233,7 @@ li.agenda.ui-li a.ui-link-inherit {
 #meeting-detail .ui-btn-left.ui-btn-up-a,
 #issue-list .ui-btn-left.ui-btn-up-a,
 #upcoming-meeting .ui-btn-left.ui-btn-up-a,
+#community-list .ui-btn-left.ui-btn-up-a,
 #meeting-list .ui-btn-left.ui-btn-up-a {
 	border: 0;
 	background: url(images/left_action.png) no-repeat right center transparent;
@@ -240,6 +242,7 @@ li.agenda.ui-li a.ui-link-inherit {
 #meeting-detail .ui-btn-left.ui-btn-hover-a,
 #issue-list .ui-btn-left.ui-btn-hover-a,
 #upcoming-meeting .ui-btn-left.ui-btn-hover-a,
+#community-list .ui-btn-left.ui-btn-hover-a,
 #meeting-list .ui-btn-left.ui-btn-hover-a {
 	border: 0;
 	background: url(images/left_action.png) no-repeat right center transparent;
@@ -493,7 +496,6 @@ body.ui-mobile-viewport.ui-overlay-c .ui-page {
 	background-image: none;
 	border-color: #666;
 }
-#community-list a.ui-btn-left,
 #community-list a.ui-btn-right,
 #meeting-panel-popup span.ui-icon.ui-icon-arrow-l.ui-icon-shadow {
 	display: none;

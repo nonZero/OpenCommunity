@@ -9,6 +9,32 @@
     {% trans "My Communities" %}
 {% endblock %}
 
+{% block header-end %}
+    <a href="#endpanel" data-icon="bars" data-iconpos="notext"  data-rel="popup"></a>
+{% endblock %}
+
+{% block endpanel %}
+    <div data-role="panel" data-position="left" id="endpanel">
+        <ul data-role="listview">
+
+            {% if user.is_staff %}
+                <li>
+                    <a href="{% url 'admin:index' %}">{% trans "Admin" %}</a>
+                </li>
+            {% endif %}
+
+            <li data-role="list-divider">
+                {{user.display_name}}
+            </li>
+
+            <li>
+                <a href="{% url 'logout' %}">{% trans "Log out" %}</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+
 {% block content %}
 
     {% if object_list %}
