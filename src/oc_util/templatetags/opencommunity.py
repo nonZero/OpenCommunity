@@ -119,11 +119,14 @@ def octime(value):
 
 @register.filter
 def minutes(value):
-    if not isinstance(value, int): 
+    if not isinstance(value, int):
         return value
 
+    if not value:
+        return None
+
     if value < 60:
-        return str(value)
+        return "%d %s" % (value, _("minutes"))
 
     return "%d:%02d" % (value / 60, value % 60)
 

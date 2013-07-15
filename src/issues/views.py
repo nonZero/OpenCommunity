@@ -8,6 +8,7 @@ from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
     UpdateIssueForm, EditProposalTaskForm
 from issues.models import ProposalType
+from oc_util.templatetags.opencommunity import minutes
 from ocd.base_views import CommunityMixin, AjaxFormView
 import datetime
 import json
@@ -147,7 +148,7 @@ class IssueSetLengthView(IssueMixin, SingleObjectMixin, View):
             t = None
         o.length_in_minutes = max(min(t, 60 * 24 - 1), 0)
         o.save()
-        return HttpResponse("%d:%02d" % (t / 60, t % 60) if t else "?")
+        return HttpResponse(minutes(t) or "--:--")
 
 
 class IssueDeleteView(AjaxFormView, IssueMixin, DeleteView):
