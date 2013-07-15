@@ -133,25 +133,7 @@
         </h4>
         <ul id="agenda" data-role="listview" data-split-icon="minus" data-count-theme="a">
                 {% for i in object.upcoming_issues %}
-
-                <li class="issue" data-issue="{{i.id}}">
-                    <div class="timer" data-url="{% url 'issue_set_length' community.id i.id %}">
-                        <span data-strict="{{i.length_in_minutes|minutes_strict}}">{{i.length_in_minutes|minutes|default:'--:--'}}</span>
-                    </div>
-                    <div class="grab"></div>
-                    <a href="{{i.get_absolute_url}}">
-                        {{i.title}}
-                        {% if object.upcoming_meeting_started and i.accepted_proposals.count == 0 %}
-                            <span class="ui-li-count">
-                                {% trans "Undecided" %}
-                            </span>
-                        {% endif %}
-                    </a>
-                    {% if cperms.community.editagenda_community %}
-                        <a href="#" class="addremove"></a>
-                    {% endif %}
-                </li>
-
+                    {% include "communities/_issue.html" %}
                 {% endfor %}
         </ul>
     </div>
@@ -191,36 +173,15 @@
 
         <div data-role="collapsible" data-collapsed="{% if object.upcoming_meeting_started %}true{% else %}false{% endif %}"
                 data-theme="b" data-content-theme="c" >
-    
+
             <h4>{% trans "Available Issues" %}</h4>
-    
-            <ul id="available" data-role="listview" data-split-icon="plus">
-    
+
+            <ul id="available" data-role="listview" data-split-icon="plus"  data-count-theme="a">
                 {% for i in object.available_issues %}
-    
-                    <li class="issue" data-issue="{{i.id}}" data-set="{{i.in_upcoming_meeting|yesno:'1,0'}}">
-                        <div class="timer" data-url="{% url 'issue_set_length' community.id i.id %}">
-                            <span data-strict="{{i.length_in_minutes|minutes_strict}}">{{i.length_in_minutes|minutes|default:'--:--'}}</span>
-                        </div>
-                        <div class="grab"></div>
-                        <a href="{{i.get_absolute_url}}">
-                            {{i.title}}
-                            {% with proposals=i.accepted_proposals.count %}
-                                {% if proposals %}
-                                    <span class="ui-li-count">
-                                        {{ proposals }}
-                                    </span>
-                                {% endif %}
-                            {% endwith %}
-                        </a>
-                        <a href="#" class="addremove"></a>
-                    </li>
-    
+                    {% include "communities/_issue.html" %}
                 {% endfor %}
             </ul>
-    
         </div>
-        
     {% endif %}
 
 
