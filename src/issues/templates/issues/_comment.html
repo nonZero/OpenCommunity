@@ -2,7 +2,7 @@
 
 <li{% if not c.active %} class="deleted"{% endif %}>
 
-    {% if object.is_open and cperms.issues.editopen_issuecomment or cperms.issues.editclosed_issuecomment %}
+    {% if cperms.issues.editclosed_issuecomment or cperms.issues.editopen_issuecomment and not object.is_closed  %}
         <form class="delete-comment push" method="post" action="{{c.get_delete_url}}">
             {% csrf_token %}
             <span class="delete-btn">

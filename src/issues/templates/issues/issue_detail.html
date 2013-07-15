@@ -120,7 +120,7 @@
             {% for c in object.comments.all %}
                 {% include "issues/_comment.html" %}
             {% endfor %}
-            {% if cperms.issues.add_issuecomment %}
+            {% if cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and not object.is_closed %}
                 <li>
                     {% crispy form %}
                 </li>
