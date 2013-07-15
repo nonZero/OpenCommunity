@@ -13,6 +13,8 @@
 {% block header-start %}
     {% if cperms.issues.add_issue %}
         <a data-rel="form" href="{% url "issue_create" community.id %}"  data-icon="plus" data-iconpos="notext"></a>
+    {% else %}
+        <a href="#" style="visibility:hidden"></a>
     {% endif %}
 {% endblock %}
 

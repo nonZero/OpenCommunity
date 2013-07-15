@@ -12,7 +12,15 @@
 {% endblock %}
 
 {% block header-start %}
-    <a href="#issuepanel" data-icon="bars" data-iconpos="notext"  data-rel="panel"></a>
+    {% if cperms.issues.editclosed_issue or not object.is_closed %}
+        {% if cperms.issues.editopen_issue or object.created_by == user %}
+            <a href="#issuepanel" data-icon="bars" data-iconpos="notext"  data-rel="panel"></a>
+        {% else %}
+            <a href="#" style="visibility:hidden"></a>
+        {% endif %}
+    {% else %}
+        <a href="#" style="visibility:hidden"></a>
+    {% endif %}
 {% endblock %}
 
 {% block endpanel %}
