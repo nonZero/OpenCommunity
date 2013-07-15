@@ -41,7 +41,7 @@
                 </li>
             {% endif %}
 
-            {% if cperms.community.editparticipants_community %}
+            {% if cperms.community.editparticipants_community and community.upcoming_meeting_started %}
                 <li data-icon="edit">
                     <a data-rel="form"
                         href="{% url "upcoming_edit_participants" community.id  %}">
@@ -55,7 +55,7 @@
                     <a data-rel="form" 
                     href="{% url "upcoming_publish" community.id  %}">
                         {% if object.upcoming_meeting_started %}
-                          {% trans "Send" %}
+                          {% trans "Send Summary" %}
                         {% else %}
                           {% trans "Publish" %}
                         {% endif %}
@@ -67,7 +67,11 @@
                 <li>
                     <a data-rel="form" 
                     href="{% url "upcoming_start" community.id  %}">
-                        {% trans "Start Meeting" %}
+                        {% if object.upcoming_meeting_started %}
+                            {% trans "Undo Start Meeting" %}
+                        {% else %}
+                            {% trans "Start Meeting" %}
+                        {% endif %}
                     </a>
                 </li>
             {% endif %}

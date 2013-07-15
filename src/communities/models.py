@@ -27,6 +27,12 @@ class SendToOption(object):
                (ALL_MEMBERS, _("All Members")),
               )
 
+    publish_choices = (
+               (ONLY_ME, _("Only Me (review)")),
+               (BOARD_ONLY, _("The Board")),
+               (ALL_MEMBERS, _("All Members")),
+              )
+
 
 class Community(UIDMixin):
     name = models.CharField(max_length=200, verbose_name=_("Name"))

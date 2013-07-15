@@ -123,6 +123,14 @@ class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):
     form_class = PublishUpcomingMeetingForm
     template_name = "communities/publish_upcoming.html"
 
+    def get_form(self, form_class):
+        form = super(PublishUpcomingView, self).get_form(form_class)
+        c = self.get_object()
+        if not c.upcoming_meeting_started:
+            form.fields['send_to'].choices = SendToOption.publish_choices
+
+        return form
+
     def form_valid(self, form):
 
         resp = super(PublishUpcomingView, self).form_valid(form)
