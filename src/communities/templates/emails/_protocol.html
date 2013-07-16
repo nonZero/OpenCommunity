@@ -90,7 +90,9 @@
                                             <b>{% trans "Due by" %}</b>: {{p.due_by}}
                                         {% endif %}
                                         {% if p.content %}
-                                            {{p.content|safe}}
+                                            <div>
+                                                {{p.content|safe}}
+                                            </div>
                                         {% endif %}
                                     </li>
                                 {% endfor %}
