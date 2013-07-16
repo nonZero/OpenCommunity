@@ -20,9 +20,24 @@ class UsersModelsTest(TestCase):
                  [DefaultGroups.MEMBER] * 10)
         for i, g in enumerate(roles):
             u = OCUser.objects.create_user("foo%d@foo.inc" % i,
-                                           "Foo Bar %d" % i)
+                                           "Foo Foo %d" % i)
             Membership.objects.create(user=u, community=self.c, default_group_name=g)
             self.members.append(u)
+
+        self.c2 = Community.objects.create(name="Bar Inc.")
+
+        self.members2 = []
+
+        roles2 = (
+                 [DefaultGroups.CHAIRMAN] * 3 +
+                 [DefaultGroups.SECRETARY] * 4 +
+                 [DefaultGroups.BOARD] * 6 +
+                 [DefaultGroups.MEMBER] * 8)
+        for i, g in enumerate(roles2):
+            u = OCUser.objects.create_user("bar%d@bar.inc" % i,
+                                           "Bar Bar %d" % i)
+            Membership.objects.create(user=u, community=self.c2, default_group_name=g)
+            self.members2.append(u)
 
     def tearDown(self):
         Community.objects.all().delete()
@@ -34,6 +49,9 @@ class UsersModelsTest(TestCase):
 
         self.assertEquals(18, self.c.memberships.count())
         self.assertEquals(8, self.c.memberships.board().count())
+
+        self.assertEquals(21, self.c2.memberships.count())
+        self.assertEquals(13, self.c2.memberships.board().count())
 
     def test_send_agenda(self):
         # template = 'protocol_draft' if c.upcoming_meeting_started else 'agenda'
