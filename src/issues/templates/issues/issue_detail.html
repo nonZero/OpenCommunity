@@ -109,7 +109,7 @@
     {% endif %}
 
     {% if object.comments.count or cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and not object.is_closed %}
-        <div class="issue_proposal">
+        <div>
             <h4>{% trans "Summary" %}</h4>
             <ul data-role="listview" id="comments">
                 {% for c in object.comments.all %}
