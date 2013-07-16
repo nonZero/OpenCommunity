@@ -149,7 +149,7 @@ class ProposalVote(models.Model):
         verbose_name_plural = _("Proposal Votes")
 
     def __unicode__(self):
-        return "%s - %s %s" % (self.proposal.issue.title, self.user.first_name, self.user.last_name)
+        return "%s - %s" % (self.proposal.issue.title, self.user.display_name)
 
 
 class ProposalType(object):

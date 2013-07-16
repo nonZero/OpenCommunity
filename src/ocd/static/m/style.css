@@ -20,16 +20,18 @@
 
 #agenda {
     position:relative;
+    margin: -9px;
 }
 
 #agenda a {
     -webkit-touch-callout: none;
 }
 
-#agenda li .grab{
+/*#available-agenda li .grab,*/
+#agenda li .grab {
     width: 25px;
     height: 30px;
-    background: url('../images/drag-handle.png') center no-repeat;
+    background: url('images/drag-handle.png') center no-repeat;
     float: right;
     padding: 8px 8px 4px 8px;
 }
@@ -40,15 +42,30 @@ li .timer {
 
 #agenda li .timer {
     display: block;
-    height: 30px;
     float: left;
-    padding: 10px 8px 2px 8px;
-    margin-left: 45px;
+    padding: 2px 8px 2px 8px;
+    margin: 8px 0 0 45px;
+    background: white;
+    text-shadow: none;
+    color: black;
+    -webkit-border-radius: .5em;
+    border-radius: .5em;
+    font-size: 14px;
+    font-weight: bold;
+    border: #888 1px solid;
 
 }
 
 #agenda .undecided {
-    left: 120px;
+    background: #194e5c;
+    text-shadow: none;
+    background-image: none;
+    -webkit-border-radius: .5em;
+    border-radius: .5em;
+    margin: 1em;
+    font-size: 14px;
+    font-weight: bold;
+    padding: .2em .5em;
 }
 
 #available .undecided {
@@ -108,25 +125,29 @@ li .timer {
     border-right: 1px solid #3d3c3c;
     border-left: 1px solid #3d3c3c;
 }
+/* Left arrow for list item */
 li.agenda.ui-li a.ui-link-inherit {
     padding: 0 0 0 40px;
     background: url(images/arrow-left.png) no-repeat 2% 50%;
     font-size: 18px;
 }
-#issue-list li a.ui-link-inherit {
-    background: url(images/arrow-left.png) no-repeat 2% 50%;
-}
+#issue-list li a.ui-link-inherit,
+#community-list li a.ui-link-inherit,
+#issue-detail li a.ui-link-inherit,
+#meetings li a.ui-link-inherit,
+#participants li a.ui-link-inherit,
 #meeting-list li a.ui-link-inherit {
     background: url(images/arrow-left.png) no-repeat 2% 50%;
 }
+/* End Left arrow for list item */
 .ui-listview {
     border-radius: 0;
 }
 .ui-listview-inset .ui-li {
     border-width: 0;
 }
-.ui-li .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li {
-    padding-right: 1px;
+.ui-li .ui-btn-inner a.ui-link-inherit, 
+.ui-li-static.ui-li {
 }
 .ui-li .ui-btn-inner a.agenda_items.ui-link-inherit {
     padding-right: 0;
@@ -168,6 +189,7 @@ li.agenda.ui-li a.ui-link-inherit {
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
+#community-list a.ui-btn-left span.ui-icon,
 #meeting-list a.ui-btn-left span.ui-icon,
 #issue-list a.ui-btn-left span.ui-icon,
 #issue-detail a.ui-btn-left span.ui-icon,
@@ -175,8 +197,8 @@ li.agenda.ui-li a.ui-link-inherit {
 #issue-create a.ui-btn-left span.ui-icon,
 #members-list a.ui-btn-left span.ui-icon,
 #upcoming-meeting a.ui-btn-left span.ui-icon,
-#community-list a.ui-btn-left span.ui-icon,
 #meeting-detail a.ui-btn-left span.ui-icon {
+
 	background: none;
 	-webkit-border-radius: none;
 	border-radius: none;
@@ -190,26 +212,26 @@ li.agenda.ui-li a.ui-link-inherit {
 	-webkit-border-radius: none;
 	border-radius: none;
 }
+#upcoming-meeting .ui-btn-right.ui-btn-hover-a,
 #meeting-detail .ui-btn-right.ui-btn-up-a {
 	border: 0;
 	background: url(images/right_action.png) no-repeat left center transparent;
 	text-shadow: none;
 }
+#upcoming-meeting .ui-btn-right.ui-btn-up-a,
 #meeting-detail .ui-btn-right.ui-btn-hover-a {
 	border: 0;
 	background: url(images/right_action.png) no-repeat left center transparent;
 	text-shadow: none;
 }
 #issue-detail .ui-btn-right.ui-btn-up-a,
-#proposal-detail .ui-btn-right.ui-btn-up-a,
-#upcoming-meeting .ui-btn-right.ui-btn-up-a {
+#proposal-detail .ui-btn-right.ui-btn-up-a {
 	border: 0;
 	background: url(images/edit_action.png) no-repeat left center transparent;
 	text-shadow: none;
 }
 #issue-detail .ui-btn-right.ui-btn-hover-a,
-#proposal-detail .ui-btn-right.ui-btn-hover-a,
-#upcoming-meeting .ui-btn-right.ui-btn-hover-a {
+#proposal-detail .ui-btn-right.ui-btn-hover-a {
 	border: 0;
 	background: url(images/edit_action.png) no-repeat left center transparent;
 	text-shadow: none;
@@ -236,19 +258,19 @@ li.agenda.ui-li a.ui-link-inherit {
     padding-right: 1em;
 }
 
+#community-list .ui-btn-left.ui-btn-up-a,
 #meeting-detail .ui-btn-left.ui-btn-up-a,
 #issue-list .ui-btn-left.ui-btn-up-a,
 #upcoming-meeting .ui-btn-left.ui-btn-up-a,
-#community-list .ui-btn-left.ui-btn-up-a,
 #meeting-list .ui-btn-left.ui-btn-up-a {
 	border: 0;
 	background: url(images/left_action.png) no-repeat right center transparent;
 	text-shadow: none;
 }
+#community-list .ui-btn-left.ui-btn-hover-a,
 #meeting-detail .ui-btn-left.ui-btn-hover-a,
 #issue-list .ui-btn-left.ui-btn-hover-a,
 #upcoming-meeting .ui-btn-left.ui-btn-hover-a,
-#community-list .ui-btn-left.ui-btn-hover-a,
 #meeting-list .ui-btn-left.ui-btn-hover-a {
 	border: 0;
 	background: url(images/left_action.png) no-repeat right center transparent;
@@ -319,15 +341,21 @@ form.ui-listview-filter {
 .ui-btn-up-a {
     border: 0;
     border-top: 1px solid #555555;
-    background: #064556;
+    background: #194e5c;
     text-shadow: none;
     background-image: none;
+    -webkit-border-radius: .5em;
+	border-radius: .5em;
+	margin: 2em auto;
 }
 .ui-btn-hover-a {
     border: 0;
     border-top: 1px solid #555555;
-    background: #064556;
+    background: #194e5c;
     background-image: none;
+    -webkit-border-radius: .5em;
+	border-radius: .5em;
+	margin: 2em auto;
 }
 .select-meeting .ui-btn-inner {
     border-top: 1px solid #555555;
@@ -581,7 +609,7 @@ span.search {
 	font-weight: normal;
 	color: #ffffff;
 	background: #3d3c3c;
-	width: 5em;
+	width: 3.5em;
 	text-align: center;
 	text-shadow: none;
 }
@@ -607,25 +635,337 @@ span.search {
 #issue-list ul.content_in a.ui-link-inherit {
 	padding: .2em 15px;
 }
+/* Hide existing left icon to go next */
 #issuespanel li span.ui-icon,
-#meeting-list li span.ui-icon {
+#meeting-list li span.ui-icon,
+#issue-detail li span.ui-icon,
+#meetings li span.ui-icon,
+#participants li span.ui-icon,
+#community-list li span.ui-icon {
 	display: none;
 }
+/* End Hide existing left icon to go next */
 #meeting-list .ui-content {
 	padding: 0 15px 15px 15px;
 }
-#meeting-list ul.ui-listview {
+#meeting-list .ui-content ul.ui-listview {
 	margin-top: 10px;
 }
-#meeting-list ul.ui-listview li {
+/* li items */
+#meeting-list .ui-content ul.ui-listview li,
+#agenda-container ul.ui-listview li,
+#available-agenda ul.ui-listview li,
+#issue-detail .ui-content ul.ui-listview li,
+#community-list .ui-content ul.ui-listview li {
 	border: 0;
 	margin-bottom: .1em;
 	background: #448698;
 	margin-right: 10px;
 	margin-left: 10px;
 }
-#meeting-list ul.ui-listview a.ui-link-inherit {
+span.comment-inner,
+span.comment-inner blockquote,
+#meeting-list .ui-content ul.ui-listview a.ui-link-inherit,
+#agenda-container ul.ui-listview a.ui-link-inherit,
+#available-agenda ul.ui-listview a.ui-link-inherit,
+#issue-detail .ui-content ul.ui-listview a.ui-link-inherit,
+#community-list .ui-content ul.ui-listview a.ui-link-inherit {
 	color: #fff;
 	text-shadow: none;
 	font-weight: normal;
+}
+/* End li items */
+p.sub-title {
+	text-align: center;
+	font-weight: bold;
+	font-size: 18pt;
+	margin-top: 0;
+	margin-bottom: 5px;
+}
+#upcoming-meeting .meeting-info,
+#proposal-detail .proposal-info,
+#issue-detail .proposal-info {
+	padding: 15px;
+	border-top: 1px solid #d8d8d9;
+	border-bottom: 1px solid #d8d8d9;
+	background: #fcfcfc;
+    background-image: -webkit-gradient(linear, left top, left bottom, from( #e7e7e8 ), to( #fcfcfc )); /* Saf4+, Chrome */
+    background-image: -webkit-linear-gradient( top, #e7e7e8 , #fcfcfc ); /* Chrome 10+, Saf5.1+ */
+    background-image:    -moz-linear-gradient( top, #e7e7e8 , #fcfcfc ); /* FF3.6 */
+    background-image:     -ms-linear-gradient( top, #e7e7e8 , #fcfcfc ); /* IE10 */
+    background-image:      -o-linear-gradient( top, #e7e7e8 , #fcfcfc ); /* Opera 11.10+ */
+    background-image: linear-gradient( top, rgb(231, 231, 232) , #fcfcfc );
+}
+#upcoming-meeting .meeting-info p {
+	margin: 0;
+	font-size: 18pt;
+}
+#upcoming-meeting .meeting-info p span {
+	font-size: 15pt;
+}
+#agenda-container.agenda-list,
+.issue_proposal,
+#available-agenda.agenda-list {
+	margin: 5px 15px 15px 15px;
+}
+#agenda-container.agenda-list h4,
+#issue-detail h4,
+#proposal-detail .proposal h4,
+#available-agenda.agenda-list h4 {
+	margin-top: 0;
+	margin-bottom: 15px;
+	font-size: 18pt;
+	font-weight: bold;
+}
+#agenda-container .ui-li-link-alt span.ui-btn-inner,
+#available-agenda .ui-li-link-alt span.ui-btn-inner {
+	display: none;
+}
+#agenda-container .ui-li-link-alt {
+	background: url(images/minus_action.png) no-repeat 50% 50%;
+}
+#available-agenda .ui-li-link-alt {
+	background: url(images/plus_action.png) no-repeat 50% 50%;
+}
+.draggable-devider {
+	margin: 20px 15px 12px 15px;
+	width: auto;
+	height: 20px;
+	background: #eaeaea;
+	background-repeat: no-repeat;
+	background-image: url(images/drag-devider.png);
+    background-image: url(images/drag-devider.png), -webkit-gradient(linear, left top, left bottom, from( #f9f9f9 ), to( #dcdddd )); /* Saf4+, Chrome */
+    background-image: url(images/drag-devider.png), -webkit-linear-gradient( top, #f9f9f9 , #dcdddd ); /* Chrome 10+, Saf5.1+ */
+    background-image: url(images/drag-devider.png), -moz-linear-gradient( top, #f9f9f9 , #dcdddd ); /* FF3.6 */
+    background-image: url(images/drag-devider.png), -ms-linear-gradient( top, #f9f9f9 , #dcdddd ); /* IE10 */
+    background-image: url(images/drag-devider.png), -o-linear-gradient( top, #f9f9f9 , #dcdddd ); /* Opera 11.10+ */
+    background-image: url(images/drag-devider.png), linear-gradient( top, rgb(249, 249, 249) , #dcdddd );
+    background-position: 50% 50%;
+	border: 1px solid #b7b7b8;
+	border-radius: 3px;
+}
+ul#available.ui-listview {
+	margin: -9px;
+}
+#available a.ui-link-inherit {
+	margin-right: 41px;
+}
+#issue-detail ul li a.ui-link-inherit {
+	margin-right: 20px;
+}
+#issue-detail .ui-content  ul.ui-listview li.add-comment {
+	background: transparent;
+	padding: 0;
+}
+#comments li {
+	padding: 15px;
+}
+span.comment-inner blockquote {
+	margin-bottom: 0;
+}
+/* WYSIWYG top bar */
+#mce_9,
+#mce_25 {
+	background: #3d3c3c;
+	padding: 10px;
+}
+#mce_9 i {
+	color: #f5f5f5;
+	text-shadow: none;
+}
+#mce_9 .mce-btn {
+	background: transparent;
+	border: 0;
+}
+#mce_9 .mce-widget {
+	box-shadow: none;
+}
+#mce_9 .mce-btn-group {
+	margin: 0 10px;
+}
+.mce-statusbar {
+	display: none !important;
+}
+/* End WYSIWYG top bar */
+/* WYSIWYG canter & bottom bar */
+#mce_8,
+#mce_24,
+#mce_30,
+#mce_15 {
+	border-color: #d8e0df;
+}
+/* End WYSIWYG center & bottom bar */
+span.edit-comment push:focus {
+	outline: 0;
+}
+.edit-comment.push .ui-btn {
+	border: 0;
+	background: url(images/edit_action.png) no-repeat #448698;
+}
+.delete-comment.push .ui-btn,
+.cancel-edit-comment.push .ui-btn {
+	border: 0;
+	background: url(images/delete_action.png) no-repeat #448698 50% 20%;
+}
+.edit-comment.push .ui-btn .ui-btn-inner,
+.cancel-edit-comment.push .ui-btn .ui-btn-inner,
+.delete-comment.push .ui-btn .ui-btn-inner {
+	display: none;
+}
+.edit-comment.push .ui-shadow,
+.cancel-edit-comment.push .ui-shadow,
+.delete-comment.push .ui-shadow {
+	-moz-box-shadow: 0 0 0;
+	-webkit-box-shadow: 0 0 0;
+}
+#issue-detail .abstract,
+#proposal-detail .abstract {
+	margin: 0 15px 0 0;
+}
+#issue-detail .issue-by,
+#proposal-detail .issue-by {
+	padding: 10px 0;
+	border-top: 1px solid #d8d8d9;
+	border-bottom: 1px solid #d8d8d9;
+	background: #fcfcfc;
+    background-image: -webkit-gradient(linear, left top, left bottom, from( #e7e7e8 ), to( #fcfcfc )); /* Saf4+, Chrome */
+    background-image: -webkit-linear-gradient( top, #e7e7e8 , #fcfcfc ); /* Chrome 10+, Saf5.1+ */
+    background-image:    -moz-linear-gradient( top, #e7e7e8 , #fcfcfc ); /* FF3.6 */
+    background-image:     -ms-linear-gradient( top, #e7e7e8 , #fcfcfc ); /* IE10 */
+    background-image:      -o-linear-gradient( top, #e7e7e8 , #fcfcfc ); /* Opera 11.10+ */
+    background-image: linear-gradient( top, rgb(231, 231, 232) , #fcfcfc );
+}
+#comments form.edit-issue-form {
+	width:90%;
+}
+#issue-detail .form-popup.ui-body-c {
+	border-radius: 0;
+}
+#issue-detail .form-popup.ui-body-c .ui-header {
+	background: #448698;
+}
+#issue-detail .ui-bar-a a.close-dialog.ui-shadow {
+	-moz-box-shadow: 0 0 0;
+	-webkit-box-shadow: 0 0 0;
+	box-shadow: 0 0 0;
+}
+#issue-detail a.close-dialog.ui-btn-icon-notext .ui-btn-inner .ui-icon {
+	float: left;
+	background: url(images/delete_action.png) no-repeat 50% 50%;
+}
+#issue-detail a.close-dialog.ui-btn-up-a,
+#issue-detail a.close-dialog.ui-btn-hover-a {
+	width: auto;
+	background: transparent;
+	border: 0;
+}
+#issue-detail .form-popup.ui-popup .ui-title,
+#participants .ui-dialog-contain .ui-title,
+#meetings .ui-dialog-contain .ui-title {
+	margin-left: 0;
+	margin-right: 0;
+	width: 90%;
+}
+#issue-detail form .ui-input-text {
+	width: 95%;
+	border-radius: 0;
+}
+#issue-detail .dialog-content label.control-label {
+	font-size: 18px;
+	font-weight: bold;
+}
+#issue-detail .ui-select .ui-btn {
+	border-radius: 0;
+	width: auto;
+}
+#issue-detail a.close-dialog.ui-btn-icon-notext .ui-btn-inner {
+	border: 0;
+}
+#issue-detail a.close-dialog.ui-btn-icon-notext .ui-btn-inner .ui-icon-shadow {
+	-moz-box-shadow: 0 0 0;
+	-webkit-box-shadow: 0 0 0;
+}
+#proposal-detail .ui-btn-icon-right > .ui-btn-inner > .ui-icon {
+	background: url(images/arrow-right.png) no-repeat;
+}
+#proposal-detail .ui-content a.ui-btn-up-c,
+#proposal-detail .ui-content a.ui-btn-hover-c {
+	border: 0;
+	margin-bottom: .1em;
+	background: #448698;
+	margin-right: 10px;
+	margin-left: 10px;
+	color: #fff;
+	text-shadow: none;
+	font-weight: normal;
+}
+#proposal-detail .ui-icon-shadow,
+#meetings .ui-btn-inner .ui-icon-shadow,
+#meetings .ui-bar-a .ui-shadow,
+#participants .ui-btn-inner .ui-icon-shadow,
+#participants .ui-bar-a .ui-shadow,
+#meeting-detail a.show-participants.ui-shadow {
+	-moz-box-shadow: 0 0 0;
+	-webkit-box-shadow: 0 0 0;
+	box-shadow: 0 0 0;
+}
+#proposal-detail .proposal {
+	margin: 15px 15px 0 15px;
+}
+#meetings .ui-dialog-contain,
+#participants .ui-dialog-contain {
+	border-radius: 0;
+}
+#meetings .ui-dialog-contain .ui-header,
+#participants .ui-dialog-contain .ui-header {
+/*	background: #448698;*/
+	background-image: url(images/title_bg.png);
+}
+#meetings .ui-header .ui-btn-right,
+#participants .ui-header .ui-btn-right {
+	width: auto;
+	right: auto;
+	left: 5px;
+}
+#meetings .ui-btn-icon-notext .ui-btn-inner .ui-icon,
+#participants .ui-btn-icon-notext .ui-btn-inner .ui-icon {
+	float: left;
+}
+#meetings .ui-btn-icon-notext .ui-btn-inner,
+#participants .ui-btn-icon-notext .ui-btn-inner {
+	border: 0;
+}
+#meetings .ui-btn-right.ui-btn-up-a,
+#meetings .ui-btn-right.ui-btn-hover-a,
+#participants .ui-btn-right.ui-btn-up-a,
+#participants .ui-btn-right.ui-btn-hover-a {
+	background: url(images/delete_action.png) no-repeat left center transparent;
+	background-size: 24px;
+}
+#meetings .ui-content,
+#participants .ui-content {
+	padding: 0;
+}
+#meetings ul.ui-listview li,
+#participants ul.ui-listview li {
+	border: 0;
+	margin-bottom: .1em;
+	background: #448698;
+	margin-right: 0;
+	margin-left: 0;
+	padding-right: 15px;
+	color: #fff;
+	text-shadow: none;
+	font-weight: normal;
+}
+#meetings ul.ui-listview li a.ui-link-inherit,
+#participants ul.ui-listview li a.ui-link-inherit {
+	padding-right: 15px;
+	color: #fff;
+	text-shadow: none;
+	font-weight: normal;
+}
+#meetings .ui-dialog-contain .ui-content .ui-listview,
+#participants .ui-dialog-contain .ui-content .ui-listview {
+	margin: 0;
 }

@@ -9,7 +9,7 @@
     <a href="{{i.get_absolute_url}}">
         {{i.title}}
         {% if object.upcoming_meeting_started and i.accepted_proposals.count == 0 %}
-            <span class="undecided ui-li-count">
+            <span class="undecided">
                 {% trans "Undecided" %}
             </span>
         {% endif %}
