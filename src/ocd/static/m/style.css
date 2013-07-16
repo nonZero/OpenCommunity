@@ -671,7 +671,6 @@ span.search {
 #meeting-list .ui-content ul.ui-listview li,
 #agenda-container ul.ui-listview li,
 #available-agenda ul.ui-listview li,
-#issue-detail .ui-content ul.ui-listview li,
 #community-list .ui-content ul.ui-listview li {
 	border: 0;
 	margin-bottom: .1em;
@@ -679,8 +678,24 @@ span.search {
 	margin-right: 10px;
 	margin-left: 10px;
 }
-span.comment-inner,
-span.comment-inner blockquote,
+#issue-detail .ui-content ul.ui-listview li {
+	border: 0;
+	margin-bottom: .1em;
+	background: #fff;
+	margin-right: 10px;
+	margin-left: 10px;
+}
+span.comment-inner {
+	color: #333;
+	text-shadow: none;
+	font-weight: normal;
+}
+
+span.comment-inner blockquote {
+	color: #333;
+	text-shadow: none;
+	font-weight: normal;
+}
 #meeting-list .ui-content ul.ui-listview a.ui-link-inherit,
 #agenda-container ul.ui-listview a.ui-link-inherit,
 #available-agenda ul.ui-listview a.ui-link-inherit,
@@ -725,6 +740,7 @@ p.sub-title {
 	margin: 5px 15px 15px 15px;
 }
 #agenda-container.agenda-list h4,
+#members-list h4,
 #issue-detail h4,
 #proposal-detail .proposal h4,
 #available-agenda.agenda-list h4 {
@@ -780,48 +796,42 @@ span.comment-inner blockquote {
 	margin-bottom: 0;
 }
 /* WYSIWYG top bar */
-#mce_9,
-#mce_25 {
+.mce-container.mce-panel.mce-first.mce-stack-layout-item {
 	background: #3d3c3c;
-	padding: 10px;
+	padding: 5px;
 }
-#mce_9 i {
-	color: #f5f5f5;
-	text-shadow: none;
-}
-#mce_9 .mce-btn {
-	background: transparent;
-	border: 0;
-}
-#mce_9 .mce-widget {
+.mce-container.mce-panel.mce-first.mce-stack-layout-item .mce-widget {
 	box-shadow: none;
 }
-#mce_9 .mce-btn-group {
-	margin: 0 10px;
-}
+
 .mce-statusbar {
 	display: none !important;
 }
-/* End WYSIWYG top bar */
-/* WYSIWYG canter & bottom bar */
-#mce_8,
-#mce_24,
-#mce_30,
-#mce_15 {
-	border-color: #d8e0df;
+.mce-btn-group {
+	margin: 0 10px !important;
 }
-/* End WYSIWYG center & bottom bar */
+.mce-btn {
+	border: 0 !important;
+	background: transparent !important;
+	-webkit-box-shadow: 0 0 0 !important;
+	-moz-box-shadow: 0 0 0 !important;
+	box-shadow: 0 0 0 !important;
+}
+.mce-btn-small .mce-ico {
+	color: #f5f5f5 !important;
+	text-shadow: none !important;
+}
 span.edit-comment push:focus {
 	outline: 0;
 }
 .edit-comment.push .ui-btn {
 	border: 0;
-	background: url(images/edit_action.png) no-repeat #448698;
+	background: url(images/comment_edit_action.png) no-repeat;
 }
 .delete-comment.push .ui-btn,
 .cancel-edit-comment.push .ui-btn {
 	border: 0;
-	background: url(images/delete_action.png) no-repeat #448698 50% 20%;
+	background: url(images/comment_delete_action.png) no-repeat 50% 20%;
 }
 .edit-comment.push .ui-btn .ui-btn-inner,
 .cancel-edit-comment.push .ui-btn .ui-btn-inner,
@@ -860,15 +870,19 @@ span.edit-comment push:focus {
 #issue-detail .form-popup.ui-body-c .ui-header {
 	background: #448698;
 }
-#issue-detail .ui-bar-a a.close-dialog.ui-shadow {
+#issue-detail .ui-bar-a a.close-dialog.ui-shadow,
+#issue-list .ui-bar-a a.close-dialog.ui-shadow {
 	-moz-box-shadow: 0 0 0;
 	-webkit-box-shadow: 0 0 0;
 	box-shadow: 0 0 0;
 }
+#issue-list a.close-dialog..ui-btn-icon-notext .ui-btn-inner .ui-icon,
 #issue-detail a.close-dialog.ui-btn-icon-notext .ui-btn-inner .ui-icon {
 	float: left;
 	background: url(images/delete_action.png) no-repeat 50% 50%;
 }
+#issue-list a.close-dialog.ui-btn-up-a,
+#issue-list a.close-dialog.ui-btn-hover-a,
 #issue-detail a.close-dialog.ui-btn-up-a,
 #issue-detail a.close-dialog.ui-btn-hover-a {
 	width: auto;
@@ -876,6 +890,7 @@ span.edit-comment push:focus {
 	border: 0;
 }
 #issue-detail .form-popup.ui-popup .ui-title,
+#issue-issue .form-popup.ui-popup .ui-title,
 #participants .ui-dialog-contain .ui-title,
 #meetings .ui-dialog-contain .ui-title {
 	margin-left: 0;
@@ -894,6 +909,7 @@ span.edit-comment push:focus {
 	border-radius: 0;
 	width: auto;
 }
+#issue-list a.close-dialog.ui-btn-icon-notext .ui-btn-inner,
 #issue-detail a.close-dialog.ui-btn-icon-notext .ui-btn-inner {
 	border: 0;
 }
@@ -933,6 +949,7 @@ span.edit-comment push:focus {
 	border-radius: 0;
 }
 #meetings .ui-dialog-contain .ui-header,
+#issue-list .ui-popup-container .ui-bar-a,
 #participants .ui-dialog-contain .ui-header {
 /*	background: #448698;*/
 	background-image: url(images/title_bg.png);
@@ -984,4 +1001,74 @@ span.edit-comment push:focus {
 #meetings .ui-dialog-contain .ui-content .ui-listview,
 #participants .ui-dialog-contain .ui-content .ui-listview {
 	margin: 0;
+}
+#members-list .members-name {
+	padding: 15px;
+	border: 1px solid #d8d8d9;
+	background: #fcfcfc;
+    background-image: -webkit-gradient(linear, left top, left bottom, from( #e7e7e8 ), to( #fcfcfc )); /* Saf4+, Chrome */
+    background-image: -webkit-linear-gradient( top, #e7e7e8 , #fcfcfc ); /* Chrome 10+, Saf5.1+ */
+    background-image:    -moz-linear-gradient( top, #e7e7e8 , #fcfcfc ); /* FF3.6 */
+    background-image:     -ms-linear-gradient( top, #e7e7e8 , #fcfcfc ); /* IE10 */
+    background-image:      -o-linear-gradient( top, #e7e7e8 , #fcfcfc ); /* Opera 11.10+ */
+    background-image: linear-gradient( top, rgb(231, 231, 232) , #fcfcfc );
+}
+#members-list ul.ui-listview li.members {
+	border: 0;
+	margin-bottom: .1em;
+	background: #448698;
+	margin-right: 10px;
+	margin-left: 10px;
+	padding: 10px 20px;
+	color: #fff;
+	text-shadow: none;
+	font-weight: normal;
+}
+.add-member {
+	margin-top: 15px;
+}
+#invitations form.delete-invitation .ui-btn-up-e,
+#invitations form.delete-invitation .ui-btn-hover-e {
+	border: 0;
+	background: url(images/delete_action.png) no-repeat center;
+}
+#invitations form.delete-invitation .ui-btn-inner {
+	display: none;
+}
+#invitations form.delete-invitation .ui-shadow {
+	-moz-box-shadow: 0 0 0;
+	-webkit-box-shadow: 0 0 0;
+	box-shadow: 0 0 0;
+}
+#invitations li.add-member {
+	padding-right: 15px;
+}
+#invite-form .ui-btn-corner-all,
+#invite-form .ui-corner-all {
+	border-radius: 0;
+}
+#invite-form label.control-label {
+	font-size: 1.17em;
+	font-weight: bold;
+}
+#invitations.ui-listview {
+	background: #fcfcfc;
+    background-image: -webkit-gradient(linear, left top, left bottom, from( #e7e7e8 ), to( #fcfcfc )); /* Saf4+, Chrome */
+    background-image: -webkit-linear-gradient( top, #e7e7e8 , #fcfcfc ); /* Chrome 10+, Saf5.1+ */
+    background-image:    -moz-linear-gradient( top, #e7e7e8 , #fcfcfc ); /* FF3.6 */
+    background-image:     -ms-linear-gradient( top, #e7e7e8 , #fcfcfc ); /* IE10 */
+    background-image:      -o-linear-gradient( top, #e7e7e8 , #fcfcfc ); /* Opera 11.10+ */
+    background-image: linear-gradient( top, rgb(231, 231, 232) , #fcfcfc );
+}
+#invite-form div.ui-input-text,
+#invite-form textarea {
+	background: #fff;
+}
+#issue-list .dialog-header a.close-dialog {
+	width: auto;
+}
+#issue-detail #comments .comment-inner blockquote p.ui-li-desc {
+	white-space: normal;
+	overflow: visible;
+	color: #333;
 }
