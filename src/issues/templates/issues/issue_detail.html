@@ -108,7 +108,7 @@
         href="{% url "proposal_create" community.id object.id %}">{% trans "New Proposal" %}</a>
     {% endif %}
     
-    <div class="issue_proposal">
+    <div>
         <h4>{% trans "Summary" %}</h4>
         <ul data-role="listview" id="comments">
             {% for c in object.comments.all %}
