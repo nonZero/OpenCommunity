@@ -655,6 +655,7 @@ span.search {
 #meeting-list .ui-content ul.ui-listview li,
 #agenda-container ul.ui-listview li,
 #available-agenda ul.ui-listview li,
+#issue-detail .ui-content .issue_proposal ul.ui-listview li,
 #community-list .ui-content ul.ui-listview li {
 	border: 0;
 	margin-bottom: .1em;
@@ -766,8 +767,9 @@ ul#available.ui-listview {
 #available a.ui-link-inherit {
 	margin-right: 41px;
 }
-#issue-detail ul li a.ui-link-inherit {
+#issue-detail .issue_proposal li a.ui-link-inherit {
 	margin-right: 20px;
+	padding-right: 0;
 }
 #issue-detail .ui-content  ul.ui-listview li.add-comment {
 	background: transparent;
@@ -778,6 +780,12 @@ ul#available.ui-listview {
 }
 span.comment-inner blockquote {
 	margin-bottom: 0;
+}
+span.comment-inner blockquote ul {
+	padding: 10px 15px;
+}
+#comments span.comment-inner blockquote ul li {
+	padding: 3px 0;
 }
 /* WYSIWYG top bar */
 .mce-container.mce-panel.mce-first.mce-stack-layout-item {
