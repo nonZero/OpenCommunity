@@ -69,6 +69,16 @@ class UsersModelsTest(TestCase):
         self.assertEquals(18, self.c.send_mail(template, u, SendToOption.ALL_MEMBERS))
         self.assertEquals(len(mail.outbox), 18)
 
+        u = self.members2[0]
+
+        mail.outbox = []
+        self.assertEquals(13, self.c2.send_mail(template, u, SendToOption.BOARD_ONLY))
+        self.assertEquals(len(mail.outbox), 13)
+
+        mail.outbox = []
+        self.assertEquals(21, self.c2.send_mail(template, u, SendToOption.ALL_MEMBERS))
+        self.assertEquals(len(mail.outbox), 21)
+
         u = OCUser.objects.create_user('baz@baz.com', 'Baz')
 
         mail.outbox = []
