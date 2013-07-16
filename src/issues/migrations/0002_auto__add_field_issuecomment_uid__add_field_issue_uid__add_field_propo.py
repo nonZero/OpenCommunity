@@ -24,9 +24,10 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.CharField')(max_length=24, null=True, blank=True),
                       keep_default=False)
 
-        create_uids(orm['issues.Issue'])
-        create_uids(orm['issues.IssueComment'])
-        create_uids(orm['issues.Proposal'])
+        if not db.dry_run:
+            create_uids(orm['issues.Issue'])
+            create_uids(orm['issues.IssueComment'])
+            create_uids(orm['issues.Proposal'])
 
     def backwards(self, orm):
         # Deleting field 'IssueComment.uid'

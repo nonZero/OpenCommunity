@@ -138,6 +138,12 @@ class OCUser(AbstractBaseUser, PermissionsMixin):
         return d
 
 
+class MembershipManager(models.Manager):
+    def board(self):
+        return self.get_query_set().exclude(
+                                    default_group_name=DefaultGroups.MEMBER)
+
+
 class Membership(models.Model):
     community = models.ForeignKey('communities.Community', verbose_name=_("Community"),
                                   related_name='memberships')
@@ -152,6 +158,8 @@ class Membership(models.Model):
                                    verbose_name=_("Invited by"),
                                    related_name="members_invited", null=True,
                                    blank=True)
+
+    objects = MembershipManager()
 
     class Meta:
         unique_together = (("community", "user"),)

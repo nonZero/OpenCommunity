@@ -14,7 +14,8 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.CharField')(max_length=24, null=True, blank=True),
                       keep_default=False)
 
-        create_uids(orm['meetings.Meeting'])
+        if not db.dry_run:
+            create_uids(orm['meetings.Meeting'])
 
 
     def backwards(self, orm):

@@ -141,9 +141,7 @@ class Community(UIDMixin):
                       self.memberships.values_list('user__email', flat=True)))
         elif send_to == SendToOption.BOARD_ONLY:
             recipient_list.update(list(
-                        self.memberships.filter(
-                                default_group_name=DefaultGroups.BOARD
-                                    ).values_list('user__email', flat=True)))
+                        self.memberships.board().values_list('user__email', flat=True)))
         elif send_to == SendToOption.ONLY_ATTENDEES:
             recipient_list.update(list(
                        self.upcoming_meeting_participants.values_list(

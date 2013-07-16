@@ -14,7 +14,8 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.CharField')(max_length=24, null=True, blank=True),
                       keep_default=False)
 
-        create_uids(orm['communities.Community'])
+        if not db.dry_run:
+            create_uids(orm['communities.Community'])
 
 
     def backwards(self, orm):
