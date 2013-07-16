@@ -1,0 +1,15 @@
+<li>
+    <a href="{{ c.get_absolute_url }}">
+        {% if c.is_public %}
+            <img class="ui-li-icon" src="{{STATIC_URL}}images/world.png" width="16" height="16"/>
+        {% else %}
+            <img class="ui-li-icon" src="{{STATIC_URL}}images/lock.png" width="16" height="16"/>
+        {% endif %}
+
+        <b>{{ c.name }}</b>
+
+        {% if role %}
+          ({{role}})
+        {% endif %}
+    </a>
+</li>

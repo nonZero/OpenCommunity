@@ -35,7 +35,11 @@ class SendToOption(object):
 
 
 class Community(UIDMixin):
+
     name = models.CharField(max_length=200, verbose_name=_("Name"))
+    is_public = models.BooleanField(_("Public Community"), default=False,
+                                    db_index=True)
+
     upcoming_meeting_started = models.BooleanField(
                                         _("Meeting started"),
                                         default=False)

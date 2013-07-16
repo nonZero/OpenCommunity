@@ -1,9 +1,11 @@
 from communities.models import Community
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import redirect_to_login
 from django.http.response import HttpResponseForbidden, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
+from users.permissions import has_community_perm, get_community_perms
 
 
 class LoginRequiredMixin(object):
@@ -18,15 +20,18 @@ class ProtectedMixin(object):
     required_permission = None
     required_permission_for_post = None
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
+
+        if not request.user.is_authenticated():
+            if not self.community.is_public:
+                return redirect_to_login(request.build_absolute_uri())
 
         if hasattr(self, 'get_required_permission'):
             perm = self.get_required_permission()
         else:
             perm = self.required_permission or "communities.access_community"
 
-        if not request.user.has_community_perm(self.community, perm):
+        if not has_community_perm(request.user, self.community, perm):
             if settings.DEBUG:
                 return HttpResponseForbidden("403 %s" % perm)
             return HttpResponseForbidden("403 Unauthorized")
@@ -37,7 +42,7 @@ class ProtectedMixin(object):
             else:
                 perm = self.required_permission_for_post or "communities.access_community"
 
-            if not request.user.has_community_perm(self.community, perm):
+            if not has_community_perm(request.user, self.community, perm):
                 if settings.DEBUG:
                     return HttpResponseForbidden("403 POST %s" % perm)
                 return HttpResponseForbidden("403 Unauthorized")
@@ -53,7 +58,7 @@ class ProtectedMixin(object):
 
     def get_context_data(self, **kwargs):
         d = super(ProtectedMixin, self).get_context_data(**kwargs)
-        d['cperms'] = self.request.user.get_community_perms(self.community)
+        d['cperms'] = get_community_perms(self.request.user, self.community)
         return d
 
 

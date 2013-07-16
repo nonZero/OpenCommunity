@@ -107,20 +107,22 @@
         <a data-role="button" data-rel="form" data-theme="a"
         href="{% url "proposal_create" community.id object.id %}">{% trans "New Proposal" %}</a>
     {% endif %}
-    
-    <div class="issue_proposal">
-        <h4>{% trans "Summary" %}</h4>
-        <ul data-role="listview" id="comments">
-            {% for c in object.comments.all %}
-                {% include "issues/_comment.html" %}
-            {% endfor %}
-            {% if cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and not object.is_closed %}
-                <li>
-                    {% crispy form %}
-                </li>
-            {% endif %}
-        </ul>
-    </div>
+
+    {% if object.comments.count or cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and not object.is_closed %}
+        <div class="issue_proposal">
+            <h4>{% trans "Summary" %}</h4>
+            <ul data-role="listview" id="comments">
+                {% for c in object.comments.all %}
+                    {% include "issues/_comment.html" %}
+                {% endfor %}
+                {% if cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and not object.is_closed %}
+                    <li>
+                        {% crispy form %}
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
 
 {% endblock %}
 

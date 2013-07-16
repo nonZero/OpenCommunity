@@ -6,55 +6,78 @@
 {% endblock %}
 
 {% block page_header %}
-    {% trans "My Communities" %}
+    {% trans "Open Community" %}
 {% endblock %}
 
 {% block header-end %}
-    <a href="#endpanel" data-icon="bars" data-iconpos="notext"  data-rel="popup"></a>
+    {% if user.id %}
+        <a href="#endpanel" data-icon="bars" data-iconpos="notext"  data-rel="popup"></a>
+    {% endif %}
 {% endblock %}
 
 {% block endpanel %}
-    <div data-role="panel" data-position="left" id="endpanel">
-        <ul data-role="listview">
+    {% if user.id %}
+        <div data-role="panel" data-position="left" id="endpanel">
+            <ul data-role="listview">
 
-            {% if user.is_staff %}
-                <li>
-                    <a href="{% url 'admin:index' %}">{% trans "Admin" %}</a>
+                {% if user.is_staff %}
+                    <li>
+                        <a href="{% url 'admin:index' %}">{% trans "Admin" %}</a>
+                    </li>
+                {% endif %}
+
+                <li data-role="list-divider">
+                    {{user.display_name}}
                 </li>
-            {% endif %}
 
-            <li data-role="list-divider">
-                {{user.display_name}}
-            </li>
-
-            <li>
-                <a href="{% url 'logout' %}">{% trans "Log out" %}</a>
-            </li>
-        </ul>
-    </div>
+                <li>
+                    <a href="{% url 'logout' %}">{% trans "Log out" %}</a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
 {% endblock %}
 
 
 {% block content %}
 
+    {% if user.id %}
+
+          <h2>
+              {% trans "My Communities" %}
+          </h2>
+
+          {% if user.memberships.count %}
+                <ul class="community_home" data-role="listview">
+                    {% for m in user.memberships.all %}
+                      {% include 'communities/_community.html' with c=m.community role=m.get_default_group_name_display %}
+                    {% endfor %}
+                </ul>
+
+          {% endif %}
+
+        {% else %}
+
+        <div class="ctr">
+            {% trans "Plesae login to view your communities" %}
+            <a href="{% url 'login' %}" data-role="button" data-inline="true" data-theme="a">
+                {% trans "Login" %}
+            </a>
+        </div>
+
+    {% endif %}
+
     {% if object_list %}
 
+      <h2>
+          {% trans "All Communities" %}
+      </h2>
+
         <ul class="community_home" data-role="listview">
-            {% for object in object_list %}
-                <li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
+            {% for c in object_list %}
+                {% include 'communities/_community.html' %}
             {% endfor %}
         </ul>
-
-    {% else %}
-
-    <div class="ui-grid-solo">
-        <div class="ui-block-a">
-            <div class="ui-bar ui-bar-e">
-                {% trans "You are not a member of any community" %}
-            </div>
-        </div>
-    </div>
-
 
     {% endif %}
 

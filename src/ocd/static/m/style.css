@@ -10,6 +10,16 @@
     margin: 0 3px 0 0;
 }
 
+.notice {
+    text-align: center;
+    font-weight: bold;
+    font-size: larger;
+    margin: 1em 2em;
+    background: #FFF3A5;
+    border: 2px solid #777;
+    padding: 1em 2em;
+}
+
 .issue.loading {
     opacity: 0.5 !important;
 }
@@ -139,6 +149,12 @@ li.agenda.ui-li a.ui-link-inherit {
 #meeting-list li a.ui-link-inherit {
     background: url(images/arrow-left.png) no-repeat 2% 50%;
 }
+
+#community-list li a.ui-link-inherit {
+    margin-right: 20px;
+}
+
+
 /* End Left arrow for list item */
 .ui-listview {
     border-radius: 0;

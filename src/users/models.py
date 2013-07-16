@@ -7,7 +7,7 @@ from django.db import models
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from users.default_roles import DefaultGroups, ALL_PERMISSIONS
+from users.default_roles import DefaultGroups
 import logging
 import random
 import string
@@ -99,43 +99,16 @@ class OCUser(AbstractBaseUser, PermissionsMixin):
         """
         send_mail(subject, message, from_email, [self.email])
 
-    _community_permissions_cache = None
 
-    def _get_community_permissions(self, community):
-        def get_permissions():
-            try:
-                m = self.memberships.get(community=community)
-                return m.get_permissions()
-            except Membership.DoesNotExist:
-                return []
 
-        if not self._community_permissions_cache:
-            self._community_permissions_cache = {}
 
-        if community.id not in self._community_permissions_cache:
-            self._community_permissions_cache[community.id] = get_permissions()
 
-        return self._community_permissions_cache[community.id]
 
-    def has_community_perm(self, community, perm):
 
-        if self.is_active and self.is_superuser:
-            return True
 
-        return perm in self._get_community_permissions(community)
 
-    def get_community_perms(self, community):
 
-        if self.is_active and self.is_superuser:
-            perms = ALL_PERMISSIONS
-        else:
-            perms = self._get_community_permissions(community)
 
-        d = defaultdict(dict)
-        for s in perms:
-            m, p = s.split('.')
-            d[m][p] = True
-        return d
 
 
 class MembershipManager(models.Manager):

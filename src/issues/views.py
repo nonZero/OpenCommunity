@@ -56,13 +56,9 @@ class IssueDetailView(IssueMixin, DetailView):
         c = i.comments.create(content=enhance_html(form.cleaned_data['content']),
                               created_by=request.user)
 
-        cperms = self.request.user.get_community_perms(self.community)
-
-        return render(request, 'issues/_comment.html', {
-                                                        'c': c,
-                                                        'object': i,
-                                                        'cperms': cperms,
-                                                        })
+        self.object = i  # this makes the next line work
+        context = self.get_context_data(object=i, c=c)
+        return render(request, 'issues/_comment.html', context)
 
 
 class IssueCommentMixin(CommunityMixin):
@@ -94,13 +90,9 @@ class IssueCommentEditView(IssueCommentMixin, UpdateView):
         c = self.get_object()
         c.update_content(form.instance.version, self.request.user,
                                      form.cleaned_data['content'])
-        cperms = self.request.user.get_community_perms(self.community)
 
-        return render(self.request, 'issues/_comment.html', {
-                                                        'c': c,
-                                                        'object': c.issue,
-                                                        'cperms': cperms,
-                                                        })
+        context = self.get_context_data(object=c.issue, c=c)
+        return render(self.request, 'issues/_comment.html', context)
 
     def form_invalid(self, form):
         return HttpResponse("")

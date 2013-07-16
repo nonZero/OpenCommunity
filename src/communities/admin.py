@@ -13,6 +13,7 @@ class CommunityAdmin(ModelAdmin):
 
     fields = (
               'name',
+              'is_public',
               )
 
     inlines = [CommunityMembershipInline]

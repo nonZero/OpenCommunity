@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-16 19:26+0300\n"
+"POT-Creation-Date: 2013-07-16 22:10+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -258,6 +258,10 @@ msgstr "סגור פגישה"
 msgid "Available Issues"
 msgstr "נושאים נוספים"
 
+#: .\templates\communities\upcoming.html.py:190
+msgid "Agenda not yet published"
+msgstr "טרם פורסם סדר היום לפגישה הקרובה"
+
 #: .\templates\emails\_protocol.html.py:14
 #: .\templates\emails\agenda.html.py:24 .\templates\emails\agenda.txt.py:3
 #: .\templates\emails\protocol.txt.py:3
@@ -285,7 +289,15 @@ msgstr "סיכום הדיון"
 msgid "Accepted Proposals"
 msgstr "החלטות שהתקבלו"
 
-#: .\templates\emails\_protocol.html.py:90
+#: .\templates\emails\_protocol.html.py:87
+msgid "Assigned to"
+msgstr ""
+
+#: .\templates\emails\_protocol.html.py:91
+msgid "Due by"
+msgstr ""
+
+#: .\templates\emails\_protocol.html.py:103
 msgid "No Accepted Proposals"
 msgstr "לא התקבלו החלטות"
 

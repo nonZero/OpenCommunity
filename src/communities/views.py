@@ -5,27 +5,25 @@ from communities.forms import EditUpcomingMeetingForm, \
 from communities.models import SendToOption
 from django.conf import settings
 from django.contrib import messages
-from django.core.urlresolvers import reverse
 from django.db.models.aggregates import Max
 from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView
-from django.views.generic.base import RedirectView, View
-from django.views.generic.detail import DetailView, SingleObjectMixin
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from ocd.base_views import ProtectedMixin, LoginRequiredMixin, AjaxFormView
 import datetime
 import json
 
 
-class CommunityList(LoginRequiredMixin, ListView):
+class CommunityList(ListView):
     model = models.Community
 
     def get_queryset(self):
         qs = super(CommunityList, self).get_queryset()
         if self.request.user.is_superuser:
             return qs
-        return qs.filter(memberships__user=self.request.user)
+        return qs.filter(is_public=True)
 
 
 class CommunityModelMixin(ProtectedMixin):
@@ -41,7 +39,7 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
 
     # TODO show empty page to 'issues.viewopen_issue'
     # TODO: show draft only to those allowed to manage it.
-    required_permission = 'communities.viewupcoming_community'
+    required_permission = 'communities.access_community'
 
     template_name = "communities/upcoming.html"
 
