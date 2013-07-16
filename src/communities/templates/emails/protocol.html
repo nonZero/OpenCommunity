@@ -2,6 +2,6 @@
 
 {% trans "Protocol" as title %}
 
-{% include 'emails/_protocol.html' with url=object.get_absolute_url participants=object.participants.all guests=object.get_guest_list issues=object.agenda_items.all %}
+{% include 'emails/_protocol.html' with summary=object.summary url=object.get_absolute_url participants=object.participants.all guests=object.get_guest_list issues=object.agenda_items.all %}
 
 
