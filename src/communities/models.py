@@ -43,6 +43,10 @@ class Community(UIDMixin):
     upcoming_meeting_started = models.BooleanField(
                                         _("Meeting started"),
                                         default=False)
+    upcoming_meeting_title = models.CharField(
+                                         _("Upcoming meeting title"),
+                                         max_length=300, null=True,
+                                         blank=True)
     upcoming_meeting_scheduled_at = models.DateTimeField(
                                         _("Upcoming meeting scheduled at"),
                                         blank=True, null=True)

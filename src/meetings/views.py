@@ -67,6 +67,7 @@ class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
             m = form.instance
             m.community = c
             m.created_by = self.request.user
+            m.title = c.upcoming_meeting_title
             m.scheduled_at = (c.upcoming_meeting_scheduled_at
                                 or datetime.datetime.now())
             m.location = c.upcoming_meeting_location
@@ -76,6 +77,7 @@ class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
             m.save()
 
             c.upcoming_meeting_started = False
+            c.upcoming_meeting_title = None
             c.upcoming_meeting_scheduled_at = None
             c.upcoming_meeting_location = None
             c.upcoming_meeting_comments = None

@@ -1,7 +1,7 @@
 {% load i18n %}
 
-{% trans "Protocol" as title %}
+{% trans "Protocol" as title_type %}
 
-{% include 'emails/_protocol.html' with summary=object.summary url=object.get_absolute_url participants=object.participants.all guests=object.get_guest_list issues=object.agenda_items.all %}
+{% include 'emails/_protocol.html' with title=object.title summary=object.summary url=object.get_absolute_url participants=object.participants.all guests=object.get_guest_list issues=object.agenda_items.all %}
 
 

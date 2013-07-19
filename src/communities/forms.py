@@ -12,6 +12,7 @@ class EditUpcomingMeetingForm(forms.ModelForm):
         model = Community
 
         fields = (
+                   'upcoming_meeting_title',
                    'upcoming_meeting_scheduled_at',
                    'upcoming_meeting_location',
                    'upcoming_meeting_comments',

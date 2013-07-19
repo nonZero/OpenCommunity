@@ -7,7 +7,13 @@
 {% block content %}
     <div style="border: 1px solid black">
         <h1 style="margin:0; background: #ddd;padding: 4px"
-        >{{community}}: {% trans "Upcoming Meeting" %}</h1>
+        >{{community}}: {% trans "Upcoming Meeting" %}
+            {% if community.upcoming_meeting_title %}
+              -
+              {{community.upcoming_meeting_title}} 
+            {% endif %}
+
+        </h1>
 
         <div style="padding:3px 6px">
             <p style="float:left">

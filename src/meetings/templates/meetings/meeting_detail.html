@@ -46,7 +46,11 @@
                     <a href="#meetings" data-rel="dialog" data-theme="a"
                         data-icon="arrow-d" data-iconpos="right" class="select-meeting">
                         <p>
-                            פגישה מספר {{object.id}}
+                            {% if object.title %}
+                                {{object.title}}
+                            {% else %}
+                                {% trans "Protocol" %}
+                            {% endif %}
                             <br />
                             {{object.held_at|date:"m/Y"}}
                         </p>

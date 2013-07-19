@@ -35,6 +35,7 @@ class Meeting(UIDMixin):
 
     held_at = models.DateTimeField(_("Held at"))
 
+    title = models.CharField(_("Title"), max_length=300, null=True, blank=True)
     scheduled_at = models.DateTimeField(_("Scheduled at"),
                                         null=True, blank=True)
     location = models.CharField(_("Location"), max_length=300, null=True, blank=True)

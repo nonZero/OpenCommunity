@@ -8,6 +8,11 @@
 
 {% block page_header %}
     {% trans "Upcoming Meeting" %}
+    {% if object.upcoming_meeting_title and cperms.communities.viewupcoming_community %}
+        {% if cperms.community.editagenda_community or object.upcoming_meeting_is_published %}
+            - {{object.upcoming_meeting_title}}
+        {% endif %}
+    {% endif %}
 {% endblock %}
 
 {% block header-start %}
