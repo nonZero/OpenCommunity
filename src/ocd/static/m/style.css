@@ -101,6 +101,15 @@ li .timer {
     margin: 0 5px;
 }
 
+.ui-field-contain {
+    margin: 0.2em 0 0.8em;
+}
+
+.form-popup .ui-field-contain label.ui-input-text {
+    font-weight: bold;
+    width: auto;
+}
+
 /*body {
     font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
 }*/
