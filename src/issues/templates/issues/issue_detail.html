@@ -124,6 +124,14 @@
         </div>
     {% endif %}
 
+    {% if object.community.upcoming_meeting_started and cperms.meetings.add_meeting %}
+        <form id="issue-complete" method="post" action="{% url 'issue_complete' community.id issue.id %}">
+            {% csrf_token %}
+            <input name="enable" type="hidden" value="{{object.completed|yesno:'0,1'}}"/>
+            <button data-theme="b" class="btn">{% if object.completed %}{% trans "Undo complete discussion" %}{% else %}{% trans "Complete discussion" %}{% endif %}</button>
+        </form>
+    {% endif %}
+
 {% endblock %}
 
 {% block extrahead %}

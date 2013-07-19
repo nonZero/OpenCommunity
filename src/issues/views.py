@@ -124,6 +124,17 @@ class IssueEditView(AjaxFormView, IssueMixin, UpdateView):
     form_class = UpdateIssueForm
 
 
+class IssueCompleteView(IssueMixin, SingleObjectMixin, View):
+
+    required_permission = 'meetings.add_meeting'
+
+    def post(self, request, *args, **kwargs):
+        o = self.get_object()
+        o.completed = request.POST.get('enable') == '1'
+        o.save()
+        return HttpResponse("-")
+
+
 class IssueSetLengthView(IssueMixin, SingleObjectMixin, View):
 
     required_permission = 'community.editagenda_community'

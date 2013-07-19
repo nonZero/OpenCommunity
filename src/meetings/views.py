@@ -89,13 +89,10 @@ class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
 
             for i, issue in enumerate(c.upcoming_issues()):
 
-                closed = issue.proposals.filter(active=True, is_accepted=True
-                                                ).exists()
-
                 AgendaItem.objects.create(meeting=m, issue=issue, order=i,
-                                          closed=closed)
+                                          closed=issue.completed)
 
-                if closed:
+                if issue.completed:
                     issue.is_closed = True
                     issue.closed_at_meeting = m
                     issue.in_upcoming_meeting = False

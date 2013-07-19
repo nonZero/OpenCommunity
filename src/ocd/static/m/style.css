@@ -66,16 +66,7 @@ li .timer {
 
 }
 
-#agenda .undecided {
-    background: #194e5c;
-    text-shadow: none;
-    background-image: none;
-    -webkit-border-radius: .5em;
-    border-radius: .5em;
-    margin: 1em;
-    font-size: 14px;
-    font-weight: bold;
-    padding: .2em .5em;
+#agenda .undecided img {
 }
 
 #available .undecided {

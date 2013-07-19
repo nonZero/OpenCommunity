@@ -8,9 +8,9 @@
     <div class="grab"></div>
     <a href="{{i.get_absolute_url}}">
         {{i.title}}
-        {% if object.upcoming_meeting_started and i.accepted_proposals.count == 0 %}
+        {% if object.upcoming_meeting_started and not i.completed %}
             <span class="undecided">
-                {% trans "Undecided" %}
+                <img src="{{STATIC_URL}}images/cog.png"/>
             </span>
         {% endif %}
     </a>

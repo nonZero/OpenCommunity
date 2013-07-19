@@ -26,6 +26,8 @@ class Issue(UIDMixin):
     length_in_minutes = models.IntegerField(_("Length (in minutes)"),
                                             null=True, blank=True)
 
+    completed = models.BooleanField(default=False,
+                                    verbose_name=_("Discussion completed"))
     is_closed = models.BooleanField(default=False, verbose_name=_("Is close"))
     closed_at_meeting = models.ForeignKey('meetings.Meeting', null=True, blank=True, verbose_name=_("Closed at meeting"))
 

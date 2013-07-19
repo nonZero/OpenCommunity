@@ -149,7 +149,7 @@ msgstr "שתף קישור"
 
 #: .\templates\meetings\meeting_detail.html.py:126
 msgid "Undecided"
-msgstr "לא התקבלו החלטות"
+msgstr "הדיון לא הושלם"
 
 #: .\templates\meetings\meeting_form.html.py:6
 msgid "Communities"

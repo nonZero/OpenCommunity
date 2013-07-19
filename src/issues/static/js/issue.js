@@ -103,6 +103,12 @@ $(function() {
         return false;
     });
 
+    $('#issue-complete').ajaxForm({
+        success: function(data) {
+            history.back();
+        }
+    });
+
     wysiwygize($('#id_content'));
 
 });

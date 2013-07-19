@@ -16,6 +16,9 @@ urlpatterns = patterns('',
     url(r'^(?P<pk>\d+)/set-length/$', views.IssueSetLengthView.as_view(),
                                 name="issue_set_length"),
 
+    url(r'^(?P<pk>\d+)/complete/$', views.IssueCompleteView.as_view(),
+                                name="issue_complete"),
+
     url(r'^(?P<pk>\d+)/delete/$', views.IssueDeleteView.as_view(),
                                 name="issue_delete"),
 
