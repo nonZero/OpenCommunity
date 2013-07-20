@@ -392,6 +392,7 @@ form.ui-listview-filter {
 }
 .select-meeting .ui-btn-inner {
     padding-right: 25%;
+    padding-bottom: 6px;
     background: url(images/date-grid-icon.png) no-repeat 92% 50%;
 }
 .show-participants {

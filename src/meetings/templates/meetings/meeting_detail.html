@@ -47,12 +47,12 @@
                         data-icon="arrow-d" data-iconpos="right" class="select-meeting">
                         <p>
                             {% if object.title %}
-                                {{object.title}}
+                                <span style="font-size: 20px;">{{object.title}}</span>
                             {% else %}
                                 {% trans "Protocol" %}
                             {% endif %}
                             <br />
-                            {{object.held_at|date:"m/Y"}}
+                            <span style="font-size: 14px;">{{object.held_at|date:"d/m/Y H:i"}}</span>
                         </p>
                     </a>
                     <a href="#participants" data-rel="dialog" data-theme="a"
