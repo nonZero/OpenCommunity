@@ -1,20 +1,23 @@
 {% load i18n %}
 {% load opencommunity %}
 
-<li class="issue" data-issue="{{i.id}}">
-    <div class="timer" data-url="{% url 'issue_set_length' community.id i.id %}">
-        <span data-strict="{{i.length_in_minutes|minutes_strict}}">{{i.length_in_minutes|minutes|default:'--:--'}}</span>
-    </div>
-    <div class="grab"></div>
-    <a href="{{i.get_absolute_url}}">
+<div>
+<div class="grab"></div>
+<div class="pull-right timer push" data-url="{% url 'issue_set_length' community.id i.id %}">
+    <span data-strict="{{i.length_in_minutes|minutes_strict}}">{{i.length_in_minutes|minutes|default:'--:--'}}</span>
+</div>
+
+<a href="{{i.get_absolute_url}}" class="issue list-group-item" data-issue="{{i.id}}">
+    
         {{i.title}}
         {% if object.upcoming_meeting_started and not i.completed %}
             <span class="undecided">
                 <img src="{{STATIC_URL}}images/cog.png"/>
             </span>
         {% endif %}
-    </a>
+</a>
     {% if cperms.community.editagenda_community %}
         <a href="#" class="addremove"></a>
     {% endif %}
-</li>
+
+</div>

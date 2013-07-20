@@ -1,0 +1,15 @@
+#!/usr/bin/env python
+
+from livereload.task import Task
+import os
+
+
+def make_css():
+    import subprocess
+    print subprocess.call(["make_css.cmd"])
+
+
+Task.add(os.getcwd())
+Task.add('ocd/assets/less/*.less', make_css)
+
+print "OpenCommunity is watching..."

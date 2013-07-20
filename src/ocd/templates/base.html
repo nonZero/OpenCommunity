@@ -9,9 +9,9 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link href="{{ STATIC_URL }}m/{% if LANGUAGE_CODE == 'he' %}rtl.{% endif %}jquery.mobile-1.3.0.css" rel="stylesheet">
-        <link href="{{ STATIC_URL }}m/style.css" rel="stylesheet">
-        <link href="{{ STATIC_URL }}m/{% if LANGUAGE_CODE == 'he' %}rtl.{% endif %}style.css" rel="stylesheet">
+        <!-- <link href="{{ STATIC_URL }}css/{% if LANGUAGE_CODE == 'he' %}rtl.{% endif %}bootstrap.css" rel="stylesheet"> -->
+        <link href="{{ STATIC_URL }}css/{% if LANGUAGE_CODE == 'he' %}rtl.{% endif %}style.css" rel="stylesheet">
+        <link href="{{ STATIC_URL }}css/custom.css" rel="stylesheet">
         <link href="{{ STATIC_URL }}fonts/alef/alef.css"  rel="stylesheet" />
         {% block extrahead %}
         {% endblock %}
@@ -20,52 +20,57 @@
 
     <body {% block extra-page-id %}{% endblock %}>
 
-        <div id="loading" style="z-index: 100; background:white; position:absolute; top:0; left:0; right:0; bottom:0">
-            &nbsp;
-        </div>
+        <div id="page">
 
-        <div data-role="page">
-
-            <div id="main_header" data-role="header" data-position="fixed">
-                {% block header-start %}
-                    <a href="#" style="visibility:hidden"></a>
-                {% endblock %}
-                <h1>
-                    <span class="h1top">
-                        {% if community %}
-                            {{community}}
-                        {% else %}
-                            {% trans "Open Community" %}
-                        {% endif %}
-                    </span>
-                </h1>
-                {% block header-end %}
-                <a href="#" data-icon="arrow-l" data-iconpos="notext" data-rel="back"></a>
-                {% endblock %}
+            <div id="main_header">
+                <div class="navbar">
+                      <a class="navbar-brand" href="#">
+                          {% if community %}
+                                {{community}}
+                          {% else %}
+                                {% trans "Open Community" %}
+                          {% endif %}
+                      </a>
+                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </button>
+                    <div class="collapse bs-navbar-collapse">
+                          <ul class="nav navbar-nav">
+                            {% block startpanel %}
+                            {% endblock %}
+                            {% block endpanel %}
+                            {% endblock %}
+                          </ul>
+                    </div>
+                </div>
             </div>
 
-            <div data-role="content">
-            	<div class="page_title">
-                    {% block page_header %}Page Title{% endblock %}
+            <div class="container">
+                
+            	<div class="row-fluid page_title">
+            	    <div class="span12">
+                        <h2>{% block page_header %}Page Title{% endblock %}</h2>
+                    </div>
                </div>
 
                 {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                    {% endfor %}
-                </ul>
+                    <div class="row-fluid page_title">
+                        <div class="span12">
+                            <ul class="messages">
+                                {% for message in messages %}
+                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                   </div>
                 {% endif %}
 
                 {% block content %}
                 {% endblock %}
             </div>
 
-            {% block startpanel %}
-            {% endblock %}
-
-            {% block endpanel %}
-            {% endblock %}
 
             <div data-role="popup" id="popup" data-dismissible="true" style="display:none">
                 <div data-role="header" data-theme="a" class="ui-bar-a ui-corner-top ui-header">
@@ -91,26 +96,14 @@
 
 
         <script src="{{ STATIC_URL }}jquery-1.9.1.min.js"></script>
-        <script>
-            $(document).on("mobileinit", function(){
-                $.mobile.ajaxEnabled = false;
-                $.mobile.popup.prototype.options.overlayTheme = 'a';
-                $.mobile.popup.prototype.options.transition = 'slidedown';
-            });
-            $(function() {
-                $('#loading').hide();
-                //$('body').html5inputs();
-            });
-        </script>
-        <script src="{{ STATIC_URL }}m/{% if LANGUAGE_CODE == 'he' %}rtl.{% endif %}jquery.mobile-1.3.0.js"></script>
         <script src="{{ STATIC_URL }}js/csrf.js"></script>
-        <script src="{{ STATIC_URL }}js/jquery.form.js"></script>
-        <script src="{{ STATIC_URL }}js/forms.js"></script>
-        <script src="{{STATIC_URL}}tinymce/jquery.tinymce.min.js"></script>
-        <script>
+        <script src="{{ STATIC_URL }}js/bootstrap.js"></script>
+        <!-- <script src="{{ STATIC_URL }}js/jquery.form.js"></script> -->
+        <!-- <script src="{{ STATIC_URL }}js/forms.js"></script> -->
+        <!-- <script src="{{STATIC_URL}}tinymce/jquery.tinymce.min.js"></script> -->
+        <!-- <script>
         tmce_url = '{{STATIC_URL}}tinymce/tinymce.min.js';
-        </script>
-
+        </script> -->
         {% block scripts %}
 
         {% endblock %}
