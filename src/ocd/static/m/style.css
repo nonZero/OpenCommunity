@@ -36,8 +36,8 @@
 }
 
 .issuecomments .form-actions {
-    max-width: 300px;
-    margin: -0.5em auto -1em 0;
+    max-width: 100px;
+    margin: -0.5em auto -1em auto;
 }
 
 #agenda {
