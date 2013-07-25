@@ -12,7 +12,6 @@ from meetings.models import AgendaItem, MeetingParticipant
 from ocd.base_views import AjaxFormView
 from users.models import Membership
 import datetime
-from communities.models import SendToOption
 from django.utils.translation import ugettext_lazy as _
 
 
