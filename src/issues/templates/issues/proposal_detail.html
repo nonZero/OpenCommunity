@@ -85,9 +85,10 @@
         {% endif %}
 
         {% if not object.issue.is_closed and cperms.issues.acceptopen_proposal %}
-
-            <a href="#" data-role="button" class="accept" data-theme="a">{% trans "Accept" %}</a>
-            <a href="#" data-role="button" class="unaccept" data-theme="a">{% trans "Cancel" %}</a>
+            <div class="narrow">
+                <a href="#" data-role="button" class="accept" data-theme="a">{% trans "Accept" %}</a>
+                <a href="#" data-role="button" class="unaccept" data-theme="a">{% trans "Cancel" %}</a>
+            </div>
 
         {% endif %}
 

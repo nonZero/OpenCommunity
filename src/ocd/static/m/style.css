@@ -10,6 +10,12 @@
     margin: 0 3px 0 0;
 }
 
+.narrow {
+    max-width: 300px;
+    margin: 1.5em auto;
+}
+
+
 .notice {
     text-align: center;
     font-weight: bold;
@@ -367,7 +373,6 @@ form.ui-listview-filter {
     background-image: none;
     -webkit-border-radius: .5em;
 	border-radius: .5em;
-	margin: 2em auto;
 }
 .ui-btn-hover-a {
     border: 0;
@@ -376,7 +381,6 @@ form.ui-listview-filter {
     background-image: none;
     -webkit-border-radius: .5em;
 	border-radius: .5em;
-	margin: 2em auto;
 }
 .select-meeting .ui-btn-inner {
     border-top: 1px solid #555555;

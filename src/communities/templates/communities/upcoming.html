@@ -169,10 +169,12 @@
             {% endif %}
 
             {% if object.upcoming_meeting_started and cperms.meetings.add_meeting %}
-                <a data-rel="form" data-role="button" data-theme="a"
-                href="{% url "upcoming_close" community.id %}" class="btn">
-                    {% trans "Close Meeting" %}
-                </a>
+                <div class="narrow">
+                    <a data-rel="form" data-role="button" data-theme="a"
+                    href="{% url "upcoming_close" community.id %}" class="btn">
+                        {% trans "Close Meeting" %}
+                    </a>
+                </div>
             {% endif %}
 
             {% if cperms.community.editagenda_community %}

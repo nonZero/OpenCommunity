@@ -104,8 +104,10 @@
     {% endif %}
 
     {% if not object.is_closed and cperms.issues.add_proposal %}
-        <a data-role="button" data-rel="form" data-theme="a"
-        href="{% url "proposal_create" community.id object.id %}">{% trans "New Proposal" %}</a>
+        <div class="narrow">
+            <a data-role="button" data-rel="form" data-theme="a"
+            href="{% url "proposal_create" community.id object.id %}">{% trans "New Proposal" %}</a>
+        </div>
     {% endif %}
 
     {% if object.comments.count or cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and not object.is_closed %}
@@ -128,7 +130,9 @@
         <form id="issue-complete" method="post" action="{% url 'issue_complete' community.id issue.id %}">
             {% csrf_token %}
             <input name="enable" type="hidden" value="{{object.completed|yesno:'0,1'}}"/>
-            <button data-theme="b" class="btn">{% if object.completed %}{% trans "Undo complete discussion" %}{% else %}{% trans "Complete discussion" %}{% endif %}</button>
+            <div class="narrow">
+                <button data-theme="b" >{% if object.completed %}{% trans "Undo complete discussion" %}{% else %}{% trans "Complete discussion" %}{% endif %}</button>
+            </div>
         </form>
         <br/>
     {% endif %}
