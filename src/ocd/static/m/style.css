@@ -26,12 +26,18 @@
     padding: 1em 2em;
 }
 
+
 .issue.loading {
     opacity: 0.5 !important;
 }
 
 .issue.loading .ui-btn-inner .ui-btn-inner {
     visibility: hidden;
+}
+
+.issuecomments .form-actions {
+    max-width: 300px;
+    margin: -0.5em auto -1em 0;
 }
 
 #agenda {
