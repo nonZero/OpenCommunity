@@ -66,10 +66,15 @@ li .timer {
 
 }
 
-#agenda .undecided img {
+#agenda .completed {
+    margin-right: -15px;
+    margin-left: 3px;
 }
 
-#available .undecided {
+#agenda .completed img {
+}
+
+#available .completed {
     display: none;
 }
 

@@ -7,12 +7,20 @@
     </div>
     <div class="grab"></div>
     <a href="{{i.get_absolute_url}}">
-        {{i.title}}
-        {% if object.upcoming_meeting_started and not i.completed %}
-            <span class="undecided">
-                <img src="{{STATIC_URL}}images/cog.png"/>
-            </span>
+        {% if object.upcoming_meeting_started %}
+            {% if i.completed %}
+                <span class="completed">
+                    <img src="{{STATIC_URL}}images/tick.png"/>
+                </span>
+            {% else %}
+                {% if i.accepted_proposals.count or i.active_comments.count %}
+                    <span class="completed">
+                        <img src="{{STATIC_URL}}images/cog.png"/>
+                    </span>
+                {% endif %}
+            {% endif %}
         {% endif %}
+        {{i.title}}
     </a>
     {% if cperms.community.editagenda_community %}
         <a href="#" class="addremove"></a>
