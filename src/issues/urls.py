@@ -7,6 +7,7 @@ urlpatterns = patterns('',
     url(r'^$', views.IssueList.as_view(), name="issues"),
 
     url(r'^create/$', views.IssueCreateView.as_view(), name="issue_create"),
+    url(r'^upcoming-create/$', views.IssueCreateView.as_view(upcoming=True), name="issue_create_upcoming"),
 
     url(r'^(?P<pk>\d+)/$', views.IssueDetailView.as_view(), name="issue"),
 
