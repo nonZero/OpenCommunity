@@ -4,171 +4,160 @@
 {% load letter_tag %}
 
 {% block extra-page-id %}
-    id="meeting-detail"
+id="meeting-detail"
 {% endblock %}
 
 {% block page_header %}
-    {% trans "Meetings history" %}
+{% trans "Meetings history" %}
 {% endblock %}
 
 {% block header-start %}
-    <a href="#meeting-panel" data-icon="bars" data-iconpos="notext" data-rel="popup"></a>
+<a href="#meeting-panel" data-icon="bars" data-iconpos="notext" data-rel="popup"></a>
 {% endblock %}
 
 {% block header-end %}
-    <a href="#issuespanel" data-icon="bars" data-iconpos="notext"  data-rel="popup"></a>
+<a href="#issuespanel" data-icon="bars" data-iconpos="notext"  data-rel="popup"></a>
 {% endblock %}
 
 {% block startpanel %}
-    <div data-role="popup" id="meeting-panel">
-        <ul data-role="listview">
-            <li>
-                <a href="#">{% trans "Share Link" %}</a>
-            </li>
-        </ul>
-    </div>
+<div data-role="popup" id="meeting-panel">
+	<ul data-role="listview">
+		<li>
+			<a href="#">{% trans "Share Link" %}</a>
+		</li>
+	</ul>
+</div>
 
 {% endblock %}
 
 {% block endpanel %}
-    {% include "_main_panel.html" %}
+{% include "_main_panel.html" %}
 {% endblock %}
 
 {% block content %}
 
 <div class="row">
 
-    <div class="span6">
+	<div class="span6">
 
-    <div class="ui-grid-solo">
-        <div class="ui-block-a">
-            <div class="ui-bar meeting-header">
-                    <a href="#meetings" data-rel="dialog" data-theme="a"
-                        data-icon="arrow-d" data-iconpos="right" class="select-meeting">
-                        <p>
-                            {% if object.title %}
-                                <span style="font-size: 20px;">{{object.title}}</span>
-                            {% else %}
-                                {% trans "Protocol" %}
-                            {% endif %}
-                            <br />
-                            <span style="font-size: 14px;">{{object.held_at|date:"d/m/Y H:i"}}</span>
-                        </p>
-                    </a>
-                    <a href="#participants" data-rel="dialog" data-theme="a"
-                    data-icon="arrow-d" data-iconpos="right" class="show-participants">
-                    <div class="users">
-                        <span>{{total_participants}}</span>
-                    </div> </a>
-                </div>
-            </div>
-        </div>
+		<div class="ui-grid-solo">
+			<div class="ui-block-a">
+				<div class="ui-bar meeting-header">
+					<a href="#meetings" data-rel="dialog" data-theme="a"
+					data-icon="arrow-d" data-iconpos="right" class="select-meeting">
+					<p>
+						{% if object.title %}
+						<span>{{object.title}}</span>
+						{% else %}
+						{% trans "Protocol" %}
+						{% endif %}
+						<br />
+						<span style="font-size: 14px;">{{object.held_at|date:"d/m/Y H:i"}}</span>
+					</p> </a>
+					<a href="#participants" data-rel="dialog" data-theme="a"
+					data-icon="arrow-d" data-iconpos="right" class="show-participants">
+					<div class="users">
+						<span>{{total_participants}}</span>
+					</div> </a>
+				</div>
+			</div>
+		</div>
 
-        {% if object.summary %}
-        <div data-role="collapsible" data-collapsed="false"
-        data-theme="b" data-content-theme="d" data-corners="false">
+		{% if object.summary %}
+		<div data-role="collapsible" data-collapsed="false"
+		data-theme="b" data-content-theme="d" data-corners="false">
 
-            <!--h4>{% trans "Summary" %}</h4-->
-            <p class="summary">
-                {{object.summary|linebreaksbr}}
-            </p>
-        </div>
-        {% endif %}
+			<!--h4>{% trans "Summary" %}</h4-->
+			<p class="summary">
+				{{object.summary|linebreaksbr}}
+			</p>
+		</div>
+		{% endif %}
 
-        {% for a in object.agenda.all %}
+		<div class="table-inner">
+		{% for a in object.agenda.all %}
 
-            <ul class="agenda_itemlist" data-role="listview" data-inset="true">
+		<table class="table table-condensed meeting-table">
+			<thead>
+				<tr>
+					<th class="count"><a href="{{ a.issue.get_absolute_url }}">{{ forloop.counter }}</a></th>
+					<th class="head_title"><a href="{{ a.issue.get_absolute_url }}">{{ a.issue.title }}</a></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% if a.closed %}
+				{% for p in a.issue.accepted_proposals %}
+				<tr>
+					<td class="sub_count num{{ forloop.counter }}" rowspan="2">{{ forloop.counter|to_char }}</td>
+					<td class="body_title"><a href="{{p.get_absolute_url}}"><b>{{p.title}}</b></a></td>
+				</tr>
+				<tr class="table_divider">
+					<td><a href="{{p.get_absolute_url}}">{{p.content|safe}}</a></td>
+				</tr>
+				{% endfor %}
+				{% else %}
+				<tr>
+					<td rowspan="2">{{ forloop.counter|to_char }}</td>
+					<td><a href="#">{% trans "Undecided" %}</a></td>
+				</tr>
+				{% endif %}
+			</tbody>
+		</table>
 
-                <li class="agenda" data-theme="b">
-                    <a href="{{ a.issue.get_absolute_url }}">
-                    <div class="agenda_list">
-                        {{ forloop.counter }}
-                    </div>&nbsp;&nbsp;{{ a.issue.title }} </a>
-                </li>
-
-                {% if a.closed %}
-                    {% for p in a.issue.accepted_proposals %}
-                    <li class="sub_agenda">
-                        <a class="agenda_items" href="{{p.get_absolute_url}}">
-                        <div class="letter_count num{{ forloop.counter }}">
-                            {{ forloop.counter|to_char }}
-                        </div>
-                        <p>
-                            {# {{p.get_type_display}}: #} <b>{{p.title}}</b>
-                        </p>
-                        <br />
-                        <p>
-                            {{p.content|safe}}
-                        </p> </a>
-                    </li>
-                    {% endfor %}
-                {% else %}
-                    <li class="sub_agenda">
-                        <a class="agenda_items" href="#">
-                            <div class="letter_count num{{ forloop.counter }}">
-                                *
-                            </div>
-                            <p>
-                                <b>{% trans "Undecided" %}</b>
-                            </p> 
-                        </a>
-                    </li>
-                {% endif %}
-            </ul>
-
-        {% endfor %}
-
-    </div>
+		{% endfor %}
+		</div>
+	</div>
 
 </div>
 {% endblock %}
 
 {% block dialogs %}
-    <div data-role="dialog" id="meetings">
-        <div data-role="header">
-            <h2>{% trans "Meetings" %}</h2>
-        </div>
-        <div data-role="content">
-            <ul data-role="listview">
-                {% for m in community.meetings.all %}
-                    <li>
-                        <a href="{{m.get_absolute_url}}">{{m}}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
+<div data-role="dialog" id="meetings">
+	<div data-role="header">
+		<h2>{% trans "Meetings" %}</h2>
+	</div>
+	<div data-role="content">
+		<ul data-role="listview">
+			{% for m in community.meetings.all %}
+			<li>
+				<a href="{{m.get_absolute_url}}">{{m}}</a>
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+</div>
 
-    <div data-role="dialog" id="participants">
-        <div data-role="header">
-            <h2>{% trans "Participants" %}</h2>
-        </div>
-        <div data-role="content">
-            <ul data-role="listview">
-                {% for p in object.participations.all %}
-                    <li>
-                        {{p.display_name}}
-                        {% if p.default_group_name %}
-                            ({{p.get_default_group_name_display}})
-                        {% endif %}
-                    </li>
-                {% endfor %}
+<div data-role="dialog" id="participants">
+	<div data-role="header">
+		<h2>{% trans "Participants" %}</h2>
+	</div>
+	<div data-role="content">
+		<ul data-role="listview">
+			{% for p in object.participations.all %}
+			<li>
+				{{p.display_name}}
+				{% if p.default_group_name %}
+				({{p.get_default_group_name_display}})
+				{% endif %}
+			</li>
+			{% endfor %}
 
-                {% for g in guest_list %}
-                    <li>
-                        {{g}}
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
+			{% for g in guest_list %}
+			<li>
+				{{g}}
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+</div>
 {% endblock %}
 
 {% block scripts %}
-    <script>
-        $(function() {
-            $('#meeting-selector').change(function() {});
-        });
-    </script>
+<script>
+	$(function() {
+		$('#meeting-selector').change(function() {
+		});
+	}); 
+</script>
 
 {% endblock %}

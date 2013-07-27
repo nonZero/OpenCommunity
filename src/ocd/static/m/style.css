@@ -10,6 +10,12 @@
     margin: 0 3px 0 0;
 }
 
+.narrow {
+    max-width: 300px;
+    margin: 1.5em auto;
+}
+
+
 .notice {
     text-align: center;
     font-weight: bold;
@@ -20,12 +26,18 @@
     padding: 1em 2em;
 }
 
+
 .issue.loading {
     opacity: 0.5 !important;
 }
 
 .issue.loading .ui-btn-inner .ui-btn-inner {
     visibility: hidden;
+}
+
+.issuecomments .form-actions {
+    max-width: 100px;
+    margin: -0.5em auto -1em auto;
 }
 
 #agenda {
@@ -55,30 +67,27 @@ li .timer {
     float: left;
     padding: 2px 8px 2px 8px;
     margin: 8px 0 0 45px;
-    background: white;
+    background: transparent;
     text-shadow: none;
-    color: black;
+    color: #fff;
     -webkit-border-radius: .5em;
     border-radius: .5em;
     font-size: 14px;
     font-weight: bold;
-    border: #888 1px solid;
-
+/*    border: #888 1px solid;*/
+}
+#agenda li .ui-btn-inner.ui-li-has-alt a.ui-link-inherit {
+	padding-left: 0;
+}
+#agenda .completed {
+    margin-right: -15px;
+    margin-left: 3px;
 }
 
-#agenda .undecided {
-    background: #194e5c;
-    text-shadow: none;
-    background-image: none;
-    -webkit-border-radius: .5em;
-    border-radius: .5em;
-    margin: 1em;
-    font-size: 14px;
-    font-weight: bold;
-    padding: .2em .5em;
+#agenda .completed img {
 }
 
-#available .undecided {
+#available .completed {
     display: none;
 }
 
@@ -117,13 +126,118 @@ li .timer {
     background: url("images/bg.jpg") repeat;
 }
 
+.table-inner {
+	padding: 15px;
+}
+
+table.meeting-table {
+	width: 100%;
+	border-collapse: collapse;
+	border: 1px solid #ceced0;
+	margin-bottom: 15px;
+}
+
+.meeting-table thead tr th {
+    font-weight: normal;
+    color: #fff;
+    text-decoration: none;
+	padding: 5px 0;
+}
+
+.meeting-table thead tr th.head_title {
+	font-size: 18px;
+	padding-left: 30px;
+	padding-right: 10px;
+	background: url(images/arrow-left.png) #448698 no-repeat 10px 50%;
+}
+
+.meeting-table tbody tr td.body_title {
+	padding-top: 10px;
+}
+
+.meeting-table tbody tr td {
+	padding-right: 25px;
+}
+
+.meeting-table tbody tr td a.ui-link p {
+	margin: 0;
+}
+
+.meeting-table tbody tr td a.ui-link {
+	text-decoration: none;
+	font-size: 15px;
+	color: #6c6c6e !important;
+	display: block;
+	font-weight: normal;
+	max-height: 2.6em;
+	overflow: hidden;
+}
+
+.meeting-table tbody tr td.body_title a.ui-link {
+	max-height: 18px;
+	overflow: hidden;
+}
+
+.meeting-table thead tr th a {
+    font-weight: normal !important;
+    color: #fff !important;
+    text-decoration: none !important;
+    display: block;
+    max-height: 2.6em;
+	overflow: hidden;
+}
+
+.meeting-table thead tr th.count {
+    font-size: 30px;
+    background: #3d3c3c;
+    width: 38px;
+	text-align: center;
+}
+
+.meeting-table tbody tr td.sub_count {
+    font-size: 30px;
+    width: 38px;
+	text-align: center;
+	background: #cacccd;
+	padding: 0;
+}
+
+.meeting-table tbody {
+	background: #fff;
+}
+
+.meeting-table tbody tr.table_divider {
+	border-bottom: 1px solid #ceced0;
+}
+
+.meeting-table tbody tr.table_divider td {
+	padding-bottom: 10px;
+}
+
+.meeting-table tbody tr:last-child.table_divider {
+	border-bottom: 0;
+}
+
+.meeting-table tbody tr td.sub_count.num2,
+.meeting-table tbody tr td.sub_count.num4,
+.meeting-table tbody tr td.sub_count.num6,
+.meeting-table tbody tr td.sub_count.num8 {
+	background: #dcddde;
+}
+
+.meeting-table thead tr td a {
+    font-weight: normal !important;
+    color: #3d3c3c !important;
+    text-decoration: none !important;
+    display: block;
+}
+
 .ui-btn-up-b .agenda_list {
     display: inline-block;
     font-weight: normal;
     font-size: 30px;
     color: #fff;
     text-shadow: none;
-    background: #3d3c3c;
     padding: 5px 0;
     width: 38px;
     text-align: center;
@@ -371,7 +485,6 @@ form.ui-listview-filter {
     background-image: none;
     -webkit-border-radius: .5em;
 	border-radius: .5em;
-	margin: 2em auto;
 }
 .ui-btn-hover-a {
     border: 0;
@@ -380,41 +493,48 @@ form.ui-listview-filter {
     background-image: none;
     -webkit-border-radius: .5em;
 	border-radius: .5em;
-	margin: 2em auto;
 }
 .select-meeting .ui-btn-inner {
     border-top: 1px solid #555555;
 }
 .select-meeting {
     float:right;
-    height:100%;
-    width:75%
+    height:68px;
+    width:70%
+}
+.meeting-header a.select-meeting p {
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .select-meeting .ui-btn-inner {
     padding-right: 25%;
     padding-bottom: 6px;
     background: url(images/date-grid-icon.png) no-repeat 92% 50%;
+    border-left: 1px dashed #8f9698;
+    padding-left: 2%;
 }
 .show-participants {
     float: right;
-    width:25%;
+    width:30%;
     height:100%;
 }
 a.show-participants span.ui-btn-inner {
-	padding-right: 0;
+	padding-right: .6em;
+	padding-left: 0;
+	border-top-color: #194e5c;
 }
 div.users {
 /*    float: right;
     width: 100%;*/
     height: 48px;
     background: url(images/users.png) no-repeat right 50%;
-    padding: 0 60% 0 0;
+    padding: 0 50% 0 0;
 }
 .ui-grid-solo .ui-btn-icon-right > .ui-btn-inner > .ui-btn-text div.users span {
 /*    width: auto;*/
     font-size: 24px;
     border-left: 0;
-    line-height: 48px;
+    line-height: 43px;
 }
 .ui-grid-solo .ui-btn-icon-right > .ui-btn-inner > .ui-icon {
     background: none;
@@ -433,8 +553,8 @@ div.users {
     margin: 0;
     width: 100%;
     float: right;
-    border-left: 1px solid #8f9698;
     font-size: 18px;
+    font-weight: normal;
 }
 .ui-collapsible-inset {
     margin-top: 0;
@@ -627,28 +747,42 @@ span.search {
 #issue-list ul.content_in li span.ui-icon {
 	display: none;
 }
+table.issue-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-bottom: 2px;
+	min-height: 49px;
+}
+
 .issue_date {
-	position: absolute;
-	top: 0;
-	right: 0;
-	padding: 19px 0;
+	width: 40px;
+	padding: 10px;
 	font-weight: normal;
 	color: #ffffff;
 	background: #3d3c3c;
-	width: 3.5em;
 	text-align: center;
 	text-shadow: none;
 }
 .issue_title {
-	padding-right: 4.5em;
-	width: 70%;
+	overflow: hidden;
+	max-height: 3em;
+	background: #448698;
+	white-space: normal;
+}
+.issue-table tbody tr td.issue_title {
+	padding: 10px 10px 10px 30px;
+	background: url(images/arrow-left.png) #448698 no-repeat 10px 50%;
+}
+.issue-table tbody tr td a.ui-link {
+	text-decoration: none;
 	text-shadow: none;
-	color: #fff;
+	color: #fff !important;
 	font-size: 18px;
 	font-weight: normal;
+	display: block;
+	max-height: 2em;
 	overflow: hidden;
-	height: 3em;
-	white-space: normal;
+	line-height: 1;
 }
 #issue-list ul.content_in li {
 	border: 0;
@@ -724,6 +858,23 @@ p.sub-title {
 	margin-top: 0;
 	margin-bottom: 5px;
 }
+#issue-detail .ui-content p.sub-title {
+	text-align: right;
+	margin-right: 15px;
+}
+#issue-detail .ui-content .issuecomments h4 {
+	margin-right: 15px;
+}
+#issue-complete .narrow .ui-btn-up-b,
+#issue-complete .narrow .ui-btn-hover-b {
+	border: 0;
+	border-top: 1px solid #555555;
+	background: #194e5c;
+	text-shadow: none;
+	background-image: none;
+	-webkit-border-radius: .5em;
+	border-radius: .5em;
+}
 #upcoming-meeting .meeting-info,
 #proposal-detail .proposal-info,
 #issue-detail .proposal-info {
@@ -740,10 +891,10 @@ p.sub-title {
 }
 #upcoming-meeting .meeting-info p {
 	margin: 0;
-	font-size: 18pt;
+	font-size: 16pt;
 }
 #upcoming-meeting .meeting-info p span {
-	font-size: 15pt;
+	font-size: 14pt;
 }
 #agenda-container.agenda-list,
 .issue_proposal,
@@ -1009,9 +1160,15 @@ span.edit-comment push:focus {
 	text-shadow: none;
 	font-weight: normal;
 }
-#meetings ul.ui-listview li a.ui-link-inherit,
 #participants ul.ui-listview li a.ui-link-inherit {
 	padding-right: 15px;
+	color: #fff;
+	text-shadow: none;
+	font-weight: normal;
+}
+#meetings ul.ui-listview li a.ui-link-inherit {
+	font-size: 14px;
+	padding-right: 0;
 	color: #fff;
 	text-shadow: none;
 	font-weight: normal;

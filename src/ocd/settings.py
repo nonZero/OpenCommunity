@@ -4,6 +4,8 @@ import sys
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
+QA_SERVER = False  # triggers minor UI changes
+
 PROJECT_DIR = os.path.abspath(
                       os.path.join(os.path.dirname(__file__), '..', '..'))
 

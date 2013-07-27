@@ -39,17 +39,20 @@
     <span class="search">{% trans "Search" %}:</span>
     <ul class="content_in" data-role="listview" data-filter="true" data-filter-placeholder="">
         {% for object in object_list %}
-            <li>
-                <a href="{{ object.get_absolute_url }}">
-                    {% if object.is_closed %}
+			<table class="table table-condensed issue-table">
+				<tr>
+					<td class="issue_date">{{ object.created_at|ocshortdate }}</td>
+					<td class="issue_title">
+						<a href="{{ object.get_absolute_url }}">
+	                    {% if object.is_closed %}
                         <span class="label label-inverse">
                             {% trans "Closed" %}
                         </span>
-                    {% endif %}
-                    <div class="issue_date">{{ object.created_at|ocshortdate }}</div>
-                    <div class="issue_title">{{ object.title }}</div>
-                </a>
-            </li>
+	                    {% endif %}
+						{{ object.title }}</a>
+					</td>
+				</tr>
+			</table>
         {% endfor %}
     </ul>
 

@@ -31,9 +31,9 @@
     <div data-role="panel" id="upcoming-panel">
         <ul data-role="listview">
 
-            {% if cperms.issues.add_issue %}
+            {% if cperms.community.editagenda_community %}
                 <li data-icon="plus">
-                    <a data-rel="form" href="{% url "issue_create" community.id %}"  data-icon="plus" data-iconpos="notext">{% trans "Create Issue" %}</a>
+                    <a data-rel="form" href="{% url "issue_create_upcoming" community.id %}"  data-icon="plus" data-iconpos="notext">{% trans "Create Issue" %}</a>
                 </li>
             {% endif %}
 
@@ -169,10 +169,12 @@
             {% endif %}
 
             {% if object.upcoming_meeting_started and cperms.meetings.add_meeting %}
-                <a data-rel="form" data-role="button" data-theme="a"
-                href="{% url "upcoming_close" community.id %}" class="btn">
-                    {% trans "Close Meeting" %}
-                </a>
+                <div class="narrow">
+                    <a data-rel="form" data-role="button" data-theme="a"
+                    href="{% url "upcoming_close" community.id %}" class="btn">
+                        {% trans "Close Meeting" %}
+                    </a>
+                </div>
             {% endif %}
 
             {% if cperms.community.editagenda_community %}

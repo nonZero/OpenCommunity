@@ -88,6 +88,7 @@ function wysiwygize(x) {
            language : 'he_IL',
            menubar: false,
            toolbar_items_size: 'small',
+           content_css : "/static/m/tinymce.css",
            toolbar: "bold italic underline | bullist numlist | blockquote",
     });
 }

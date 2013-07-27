@@ -1,3 +1,4 @@
+from django.db.models.aggregates import Max
 from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView
@@ -7,12 +8,12 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
     UpdateIssueForm, EditProposalTaskForm
-from issues.models import ProposalType
+from issues.models import ProposalType, Issue
 from oc_util.templatetags.opencommunity import minutes
 from ocd.base_views import CommunityMixin, AjaxFormView
+from ocd.validation import enhance_html
 import datetime
 import json
-from ocd.validation import enhance_html
 
 
 class IssueMixin(CommunityMixin):
@@ -107,11 +108,22 @@ class IssueCreateView(AjaxFormView, IssueMixin, CreateView):
     form_class = CreateIssueForm
     template_name = "issues/issue_create_form.html"
 
-    required_permission = 'issues.add_issue'
+    def get_required_permission(self):
+        return 'community.editagenda_community' if self.upcoming else 'issues.add_issue'
+
+    upcoming = False
 
     def form_valid(self, form):
         form.instance.community = self.community
         form.instance.created_by = self.request.user
+        form.instance.in_upcoming_meeting = self.upcoming
+        if self.upcoming:
+            max_upcoming = Issue.objects.filter(
+                                community=self.community).aggregate(x=Max(
+                                             'order_in_upcoming_meeting'))['x']
+            form.instance.order_in_upcoming_meeting = max_upcoming + 1 \
+                                                        if max_upcoming else 1
+
         return super(IssueCreateView, self).form_valid(form)
 
 
@@ -122,6 +134,17 @@ class IssueEditView(AjaxFormView, IssueMixin, UpdateView):
     required_permission = 'issues.editopen_issue'
 
     form_class = UpdateIssueForm
+
+
+class IssueCompleteView(IssueMixin, SingleObjectMixin, View):
+
+    required_permission = 'meetings.add_meeting'
+
+    def post(self, request, *args, **kwargs):
+        o = self.get_object()
+        o.completed = request.POST.get('enable') == '1'
+        o.save()
+        return HttpResponse("-")
 
 
 class IssueSetLengthView(IssueMixin, SingleObjectMixin, View):
