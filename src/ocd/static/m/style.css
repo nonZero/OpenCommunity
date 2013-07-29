@@ -1111,7 +1111,7 @@ span.edit-comment push:focus {
 	box-shadow: 0 0 0;
 }
 #proposal-detail .proposal {
-	margin: 15px 15px 0 15px;
+	margin: 15px 0 0 0;
 }
 #meetings .ui-dialog-contain,
 #participants .ui-dialog-contain {

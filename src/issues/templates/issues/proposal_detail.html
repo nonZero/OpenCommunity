@@ -34,7 +34,7 @@
 
 {% block content %}
 
-    <a data-icon="arrow-r" data-role="button" href="{{object.issue.get_absolute_url}}">
+    <a data-icon="arrow-r" data-role="button" data-corners="false" href="{{object.issue.get_absolute_url}}">
         {{object.issue}}
     </a>
 
@@ -42,23 +42,22 @@
          data-accepted="{{object.is_accepted|yesno:'1,0'}}">
 
         <div class="ui-grid-solo">
-            <div class="ui-block-a"><div class="ui-bar ui-bar-b">
-                <h2>{{ object.get_type_display}}: {{object.title}}</h2>
+                <h4 class="abstract">{{ object.get_type_display}}: {{object.title}}</h4>
                 {% if object.is_closed %}
                     <span class="label label-inverse large">
                         {% trans "Closed" %}
                     </span>
                 {% endif %}
-            </div></div>
         </div>
-        <br/>
 
-        <div class="ui-grid-solo">
-            <div class="ui-block-a"><div class="ui-bar ui-bar-c" style="height:20px">
+        <div class="issue-by">
+        	<h5 class="abstract">
                 {{ object.created_by}}. 
-                {{ object.created_at}} ({{ object.created_at|naturaltime}})
-            </div></div>
+                {{ object.created_at}} {# ({{ object.created_at|naturaltime}}) #}
+            </h5>
         </div>
+
+		<br />
 
         <div class="ui-grid-solo accepted">
             <div class="ui-block-a"><div class="ui-bar ui-bar-e" >
@@ -75,9 +74,8 @@
         {% endif %}
 
         {% if object.content %}
-            <div data-role="collapsible" data-collapsed="false"
-            data-theme="c" data-content-theme="d" data-mini="true">
-                <h4>{% trans "Content" %}</h4>
+            <div class="proposal-info">
+                {# <h4>{% trans "Content" %}</h4> #}
                 <p>
                     {{object.content|safe}}
                 </p>
