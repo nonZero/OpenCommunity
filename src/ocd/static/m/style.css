@@ -123,7 +123,7 @@ li .timer {
     font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
 }*/
 .ui-body-c, .ui-overlay-c {
-    background: url("images/bg.jpg") repeat;
+    background: url("images/background.jpg") repeat;
 }
 
 .table-inner {
@@ -755,7 +755,7 @@ table.issue-table {
 }
 
 .issue_date {
-	width: 40px;
+	width: 42px;
 	padding: 10px;
 	font-weight: normal;
 	color: #ffffff;
@@ -1246,4 +1246,7 @@ span.edit-comment push:focus {
 	white-space: normal;
 	overflow: visible;
 	color: #333;
+}
+.hidden {
+	display: none;
 }

@@ -96,7 +96,7 @@ class EditUpcomingMeetingView(AjaxFormView, CommunityModelMixin, UpdateView):
 
     reload_on_success = True
 
-    required_permission = 'communities.editupcoming_community'
+    required_permission = 'community.editupcoming_community'
 
     form_class = EditUpcomingMeetingForm
     template_name = "communities/upcoming_form.html"
@@ -106,7 +106,7 @@ class EditUpcomingMeetingParticipantsView(AjaxFormView, CommunityModelMixin, Upd
 
     reload_on_success = True
 
-    required_permission = 'communities.editparticipants_community'
+    required_permission = 'community.editparticipants_community'
 
     form_class = UpcomingMeetingParticipantsForm
     template_name = "communities/participants_form.html"
