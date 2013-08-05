@@ -31,7 +31,7 @@ class IssueList(IssueMixin, ListView):
 
     def get_queryset(self):
         return super(IssueList, self).get_queryset().filter(
-              is_closed=False).order_by('-in_upcoming_meeting', '-created_at')
+              is_closed=False).order_by('-created_at')
 
 
 class IssueDetailView(IssueMixin, DetailView):

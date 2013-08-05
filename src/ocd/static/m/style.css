@@ -891,10 +891,10 @@ p.sub-title {
 }
 #upcoming-meeting .meeting-info p {
 	margin: 0;
-	font-size: 16pt;
+	font-size: 12pt;
 }
 #upcoming-meeting .meeting-info p span {
-	font-size: 14pt;
+	font-size: 12pt;
 }
 #agenda-container.agenda-list,
 .issue_proposal,
