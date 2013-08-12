@@ -44,22 +44,23 @@
         </a>
     {% endif %}
 
-    <p class="sub-title">
-        {{object.title}}
-    </p>
-
     {% if object.is_closed %}
         <span class="label label-inverse large"> {% trans "Closed" %} </span>
         <br/>
     {% endif %}
 
-    <div class="issue-by">
-        <h5 class="abstract">{{ object.created_by}}
-        {{ object.created_at}}{#  ({{ object.created_at|naturaltime}}) #}</h5>
-    </div>
+	<table class="table table-condensed issue-detail-table">
+		<tr>
+			<td class="icon" rowspan="2"></td>
+			<td class="title">{{object.title}}</td>
+		</tr>
+		<tr>
+			<td class="name">{{ object.created_by}} {{ object.created_at}}</td>
+		</tr>
+	</table>
 
     {% if object.abstract %}
-        <h4 class="abstract">{% trans "Abstract" %}</h4>
+        <!--h4 class="abstract">{% trans "Abstract" %}</h4-->
         <div class="proposal-info">
             <p>
                 {{object.abstract|safe}}
@@ -80,12 +81,11 @@
         <div class="issue_proposal">
             <h4>{% trans "Proposals" %}</h4>
         
+        {% for proposal in object.proposals.active %}
             <ul data-role='listview'
-            class="proposals{% if not object.is_closed %} open{% endif %}">
-        
-                {% for proposal in object.proposals.active %}
-        
-                    <li
+            class="prop-table proposals{% if not object.is_closed %} open{% endif %}">
+        			<li class="drag-icon"></li>
+                    <li class="prop-title"
                         data-split-icon="check"
                         data-id="{{proposal.id}}"
                         data-accepted="{{proposal.is_accepted|yesno:"1,0"}}"
@@ -93,18 +93,22 @@
     
                             <a href="{{proposal.get_absolute_url}}" data-icon="check"> <img src="{{STATIC_URL}}images/check.png"
                             alt="Checked"
-                            class="ui-li-icon ui-corner-none"> {{ proposal.get_type_display}}: {{proposal.title}} </a>
+                            class="ui-li-icon ui-corner-none">{{proposal.title}}</a>
     
                     </li>
-
-                {% endfor %}
+                    <li class="prop-content">
+                    	{{ proposal.content|safe }}
+                    </li>
+        			{% if proposal.get_type_display == "כללי" %}<span class="task"></span>{% endif %}
 
             </ul>
+            {% endfor %}
+
         </div>
     {% endif %}
 
     {% if not object.is_closed and cperms.issues.add_proposal %}
-        <div class="narrow">
+        <div class="narrow clear">
             <a data-role="button" data-rel="form" data-theme="a"
             href="{% url "proposal_create" community.id object.id %}">{% trans "New Proposal" %}</a>
         </div>

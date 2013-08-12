@@ -20,14 +20,13 @@ id="meeting-detail"
 {% endblock %}
 
 {% block startpanel %}
-<div data-role="popup" id="meeting-panel">
+<!-- <div data-role="popup" id="meeting-panel">
 	<ul data-role="listview">
 		<li>
 			<a href="#">{% trans "Share Link" %}</a>
 		</li>
 	</ul>
-</div>
-
+</div> -->
 {% endblock %}
 
 {% block endpanel %}
@@ -49,7 +48,7 @@ id="meeting-detail"
 						{% if object.title %}
 						<span>{{object.title}}</span>
 						{% else %}
-						{% trans "Protocol" %}
+						{% trans "Summary" %}
 						{% endif %}
 						<br />
 						<span style="font-size: 14px;">{{object.held_at|date:"d/m/Y H:i"}}</span>
@@ -97,8 +96,8 @@ id="meeting-detail"
 				{% endfor %}
 				{% else %}
 				<tr>
-					<td rowspan="2">{{ forloop.counter|to_char }}</td>
-					<td><a href="#">{% trans "Undecided" %}</a></td>
+					<td class="sub_count num1" rowspan="2"><span>*</span></td>
+					<td class="body_title" style="vertical-align: top;" rowspan="2"><a href="#">{% trans "Undecided" %}</a></td>
 				</tr>
 				{% endif %}
 			</tbody>

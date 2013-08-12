@@ -39,6 +39,8 @@ class Community(UIDMixin):
     name = models.CharField(max_length=200, verbose_name=_("Name"))
     is_public = models.BooleanField(_("Public Community"), default=False,
                                     db_index=True)
+    logo = models.FileField(upload_to='community_logo', verbose_name=_("Community Logo"), blank=True, null=True)
+    community_identifier = models.CharField(max_length=300, verbose_name=_("Community Identifier"), blank=True, null=True)
 
     upcoming_meeting_started = models.BooleanField(
                                         _("Meeting started"),
