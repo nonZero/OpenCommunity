@@ -39,6 +39,8 @@ class Community(UIDMixin):
     name = models.CharField(max_length=200, verbose_name=_("Name"))
     is_public = models.BooleanField(_("Public Community"), default=False,
                                     db_index=True)
+    logo = models.ImageField(upload_to='community_logo', verbose_name=_("Community Logo"), blank=True, null=True)
+    official_identifier = models.CharField(max_length=300, verbose_name=_("Community Identifier"), blank=True, null=True)
 
     upcoming_meeting_started = models.BooleanField(
                                         _("Meeting started"),
@@ -54,7 +56,7 @@ class Community(UIDMixin):
                                          _("Upcoming meeting location"),
                                          max_length=300, null=True,
                                          blank=True)
-    upcoming_meeting_comments = HTMLField(_("Upcoming meeting comments"),
+    upcoming_meeting_comments = HTMLField(_("Upcoming meeting background"),
                                           null=True, blank=True)
 
     upcoming_meeting_participants = models.ManyToManyField(

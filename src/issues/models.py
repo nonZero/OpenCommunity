@@ -162,7 +162,7 @@ class ProposalType(object):
     CHOICES = (
                 (TASK, ugettext("Task")),
                 (RULE, ugettext("Rule")),
-                (ADMIN, ugettext("Other")),
+                (ADMIN, ugettext("General")),
                )
 
 

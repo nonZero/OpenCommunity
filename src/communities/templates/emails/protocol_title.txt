@@ -1,1 +1,1 @@
-{% load i18n %}{% autoescape off %}{{community}}: {% trans "Protocol" %}: {% if object.title %}{{object.title}} - {% endif %}{{object.held_at}}{% endautoescape %}
+{% load i18n %}{% autoescape off %}{{community}}: {% trans "Summary" %}: {% if object.title %}{{object.title}} - {% endif %}{{object.held_at}}{% endautoescape %}

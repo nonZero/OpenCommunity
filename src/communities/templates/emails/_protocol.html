@@ -5,8 +5,17 @@
 
     <div style="border: 1px solid black">
     
+    	{% if community.logo %}
+    	<div style="width: 100%">
+    		<center>
+    		<img src="{{base_url}}{{MEDIA_URL}}{{ community.logo }}"/>
+    		</center>
+    	</div>
+    	{% endif %}
+        <h1 style="margin:0 0 1em 0; text-align: center; padding: 4px">
+            {{community}}{% if community.official_identifier %} {{ community.official_identifier }}{% endif %}
+        </h1> 
         <h1 style="margin:0; background: #ddd;padding: 4px">
-            {{community}}: 
             {% if title %}
               {{title}} -
             {% endif %}
@@ -24,6 +33,7 @@
             {% endif %}
     
     
+            {% if participants or guests %}
             <div style="border: solid 1px #ccc; margin: 4px 0;padding: 0"> 
                 <h2 style="margin:0; background: #ddd;padding: 4px">{% trans "Participants" %}</h2>
     
@@ -41,10 +51,11 @@
                     {% endif %}
                 </div>
             </div>
+            {% endif %}
         </div>
     
         <h2 style="margin:12px 0 0 0; background:#eee; padding:6px 3px 3px">
-            {% trans "Agenda" %}
+            {% trans "Issues & Decisions" %}
         </h2>
     
         <div style="padding:12px 6px">

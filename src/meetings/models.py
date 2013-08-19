@@ -59,7 +59,11 @@ class Meeting(UIDMixin):
         ordering = ("-held_at", )
 
     def __unicode__(self):
-        return date_format(self.scheduled_at) + ", " + time_format(self.scheduled_at)
+        s = date_format(self.held_at)
+        if self.title:
+            s += " - " + self.title
+        return s
+        #return date_format(self.scheduled_at) + ", " + time_format(self.scheduled_at)
 
     def get_guest_list(self):
         if not self.guests:

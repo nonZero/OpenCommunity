@@ -40,7 +40,7 @@
             {% if cperms.community.editupcoming_community %}
                 <li data-icon="edit">
                     <a data-rel="form"
-                        href="{% url "upcoming_edit" community.id  %}">
+                        href="{% url "upcoming_edit" community.id %}">
                         {% trans "Edit" %}
                     </a>
                 </li>
@@ -97,21 +97,22 @@
 
             {% if object.upcoming_meeting_started %}
                 <p class="sub-title">
-                    {% trans "Meeting started" %}
+                    --{% trans "Meeting started" %}--
                 </p>
-            {% endif %}
+            {% else %}
 
             {% if object.upcoming_meeting_is_published %}
                 <p class="sub-title">
-                    {% trans "Published at" %} {{object.upcoming_meeting_published_at}}
+                    --{% trans "Published" %}--
                 </p>
-                <p class="sub-title">
-                    ({% trans "Version" %} {{object.upcoming_meeting_version}})
+                <p class="sub-title" style="font-size: 14px">
+                    ({% trans "Version" %} {{object.upcoming_meeting_version}} - {{object.upcoming_meeting_published_at}})
                 </p>
             {% else %}
                 <p class="sub-title">
                     --{% trans "Draft" %}--
                 </p>
+            {% endif %}
             {% endif %}
 
             <div class="meeting-info">

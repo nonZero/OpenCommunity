@@ -34,7 +34,7 @@
 
 {% block content %}
 
-    <a data-icon="arrow-r" data-role="button" href="{{object.issue.get_absolute_url}}">
+    <a data-icon="arrow-r" data-role="button" data-corners="false" href="{{object.issue.get_absolute_url}}">
         {{object.issue}}
     </a>
 
@@ -42,23 +42,32 @@
          data-accepted="{{object.is_accepted|yesno:'1,0'}}">
 
         <div class="ui-grid-solo">
-            <div class="ui-block-a"><div class="ui-bar ui-bar-b">
-                <h2>{{ object.get_type_display}}: {{object.title}}</h2>
-                {% if object.is_closed %}
+                <h4 class="abstract">{{ object.get_type_display}}: {{object.title}}</h4>
+                {% if object.get_type_display == 'משימה' %}
+	                <h4 class="abstract assihned_to">
+	                	{% if object.assigned_to %}	
+	            			<b>{% trans "Assigned to" %}:</b> {{ object.assigned_to }}&nbsp;
+        				{% endif %}
+        				{% if object.due_by %}
+	            			<b>{% trans "Due by" %}:</b> {{ object.due_by }}
+            			{% endif %}
+	        		</h4>
+            	{% endif %}
+                <!--{% if object.is_closed %}
                     <span class="label label-inverse large">
                         {% trans "Closed" %}
                     </span>
-                {% endif %}
-            </div></div>
+                {% endif %}-->
         </div>
-        <br/>
 
-        <div class="ui-grid-solo">
-            <div class="ui-block-a"><div class="ui-bar ui-bar-c" style="height:20px">
+        <div class="issue-by">
+        	<h5 class="abstract">
                 {{ object.created_by}}. 
-                {{ object.created_at}} ({{ object.created_at|naturaltime}})
-            </div></div>
+                {{ object.created_at}} {# ({{ object.created_at|naturaltime}}) #}
+            </h5>
         </div>
+
+		<br />
 
         <div class="ui-grid-solo accepted">
             <div class="ui-block-a"><div class="ui-bar ui-bar-e" >
@@ -75,16 +84,15 @@
         {% endif %}
 
         {% if object.content %}
-            <div data-role="collapsible" data-collapsed="false"
-            data-theme="c" data-content-theme="d" data-mini="true">
-                <h4>{% trans "Content" %}</h4>
+            <div class="proposal-info">
+                {# <h4>{% trans "Content" %}</h4> #}
                 <p>
                     {{object.content|safe}}
                 </p>
             </div>
         {% endif %}
 
-        {% if not object.issue.is_closed and cperms.issues.acceptopen_proposal %}
+        {% if not object.issue.is_closed and cperms.issues.acceptopen_proposal and object.issue.in_upcoming_meeting and object.issue.community.upcoming_meeting_started %}
             <div class="narrow">
                 <a href="#" data-role="button" class="accept" data-theme="a">{% trans "Accept" %}</a>
                 <a href="#" data-role="button" class="unaccept" data-theme="a">{% trans "Cancel" %}</a>

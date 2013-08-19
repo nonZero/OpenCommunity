@@ -2,6 +2,8 @@ from django.contrib import messages
 from django.db import transaction
 from django.http.response import HttpResponse
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
+from django.views.generic.base import RedirectView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
@@ -9,10 +11,10 @@ from issues.views import CommunityMixin
 from meetings import models
 from meetings.forms import CloseMeetingForm
 from meetings.models import AgendaItem, MeetingParticipant
+from communities.models import SendToOption
 from ocd.base_views import AjaxFormView
 from users.models import Membership
 import datetime
-from django.utils.translation import ugettext_lazy as _
 
 
 class MeetingMixin(CommunityMixin):
@@ -23,8 +25,13 @@ class MeetingMixin(CommunityMixin):
         return models.Meeting.objects.filter(community=self.community)
 
 
-class MeetingList(MeetingMixin, ListView):
+class MeetingList(MeetingMixin, RedirectView):
     required_permission = 'meetings.view_meeting'
+    
+    def get_redirect_url(self, **kwargs):
+        o = models.Meeting.objects.latest('held_at')
+        if o:
+            return o.get_absolute_url()
 
 
 class MeetingDetailView(MeetingMixin, DetailView):
@@ -72,6 +79,7 @@ class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
             m.location = c.upcoming_meeting_location
             m.comments = c.upcoming_meeting_comments
             m.guests = c.upcoming_meeting_guests
+            m.summary = c.upcoming_meeting_summary
 
             m.save()
 
@@ -80,6 +88,7 @@ class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
             c.upcoming_meeting_scheduled_at = None
             c.upcoming_meeting_location = None
             c.upcoming_meeting_comments = None
+            c.upcoming_meeting_summary = None
             c.upcoming_meeting_version = 0
             c.upcoming_meeting_is_published = False
             c.upcoming_meeting_published_at = None
