@@ -29,7 +29,7 @@ class MeetingList(MeetingMixin, RedirectView):
     required_permission = 'meetings.view_meeting'
     
     def get_redirect_url(self, **kwargs):
-        o = models.Meeting.objects.latest('held_at')
+        o = models.Meeting.objects.filter(community=self.community).latest('held_at')
         if o:
             return o.get_absolute_url()
 
