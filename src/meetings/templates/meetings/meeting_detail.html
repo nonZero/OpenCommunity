@@ -63,12 +63,12 @@ id="meeting-detail"
 		</div>
 
 		{% if object.summary %}
-		<div data-role="collapsible" data-collapsed="false"
+		<div class="no-margin" data-role="collapsible" data-collapsed="false"
 		data-theme="b" data-content-theme="d" data-corners="false">
 
 			<!--h4>{% trans "Summary" %}</h4-->
 			<p class="summary">
-				{{object.summary|linebreaksbr}}
+				{{object.summary|safe|linebreaksbr}}
 			</p>
 		</div>
 		{% endif %}

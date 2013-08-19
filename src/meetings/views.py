@@ -79,6 +79,7 @@ class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
             m.location = c.upcoming_meeting_location
             m.comments = c.upcoming_meeting_comments
             m.guests = c.upcoming_meeting_guests
+            m.summary = c.upcoming_meeting_summary
 
             m.save()
 
@@ -87,6 +88,7 @@ class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
             c.upcoming_meeting_scheduled_at = None
             c.upcoming_meeting_location = None
             c.upcoming_meeting_comments = None
+            c.upcoming_meeting_summary = None
             c.upcoming_meeting_version = 0
             c.upcoming_meeting_is_published = False
             c.upcoming_meeting_published_at = None

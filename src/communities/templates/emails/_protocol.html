@@ -8,12 +8,12 @@
     	{% if community.logo %}
     	<div style="width: 100%">
     		<center>
-    		<img src="{{ STATIC_URL }}{{ community.logo }}"/>
+    		<img src="{{base_url}}{{MEDIA_URL}}{{ community.logo }}"/>
     		</center>
     	</div>
     	{% endif %}
         <h1 style="margin:0 0 1em 0; text-align: center; padding: 4px">
-            {{community}}{% if community.community_identifier %} {{ community.community_identifier }}{% endif %}
+            {{community}}{% if community.official_identifier %} {{ community.official_identifier }}{% endif %}
         </h1> 
         <h1 style="margin:0; background: #ddd;padding: 4px">
             {% if title %}

@@ -43,11 +43,21 @@
 
         <div class="ui-grid-solo">
                 <h4 class="abstract">{{ object.get_type_display}}: {{object.title}}</h4>
-                {% if object.is_closed %}
+                {% if object.get_type_display == 'משימה' %}
+	                <h4 class="abstract assihned_to">
+	                	{% if object.assigned_to %}	
+	            			<b>{% trans "Assigned to" %}:</b> {{ object.assigned_to }}&nbsp;
+        				{% endif %}
+        				{% if object.due_by %}
+	            			<b>{% trans "Due by" %}:</b> {{ object.due_by }}
+            			{% endif %}
+	        		</h4>
+            	{% endif %}
+                <!--{% if object.is_closed %}
                     <span class="label label-inverse large">
                         {% trans "Closed" %}
                     </span>
-                {% endif %}
+                {% endif %}-->
         </div>
 
         <div class="issue-by">
@@ -82,7 +92,7 @@
             </div>
         {% endif %}
 
-        {% if not object.issue.is_closed and cperms.issues.acceptopen_proposal %}
+        {% if not object.issue.is_closed and cperms.issues.acceptopen_proposal and object.issue.in_upcoming_meeting and object.issue.community.upcoming_meeting_started %}
             <div class="narrow">
                 <a href="#" data-role="button" class="accept" data-theme="a">{% trans "Accept" %}</a>
                 <a href="#" data-role="button" class="unaccept" data-theme="a">{% trans "Cancel" %}</a>

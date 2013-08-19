@@ -45,8 +45,18 @@
     {% endif %}
 
     {% if object.is_closed %}
-        <span class="label label-inverse large"> {% trans "Closed" %} </span>
-        <br/>
+    	<p class="sub-title">
+    		--{% trans "Closed" %}--
+		</p>
+        <!--span class="label label-inverse large"> {% trans "Closed" %} </span>
+        <br/-->
+    {% else %}
+	{% if object.in_upcoming_meeting %}
+    	<p class="sub-title">
+    		--{% trans "In upcoming meeting" %}--
+		</p>
+	{% endif %}
+
     {% endif %}
 
 	<table class="table table-condensed issue-detail-table">
@@ -55,13 +65,13 @@
 			<td class="title">{{object.title}}</td>
 		</tr>
 		<tr>
-			<td class="name">{{ object.created_by}} {{ object.created_at}}</td>
+			<td class="name">{{ object.created_by}} ({{ object.created_at}})</td>
 		</tr>
 	</table>
 
     {% if object.abstract %}
         <!--h4 class="abstract">{% trans "Abstract" %}</h4-->
-        <div class="proposal-info">
+        <div class="proposal-info no-margin">
             <p>
                 {{object.abstract|safe}}
             </p>
@@ -84,23 +94,34 @@
         {% for proposal in object.proposals.active %}
             <ul data-role='listview'
             class="prop-table proposals{% if not object.is_closed %} open{% endif %}">
-        			<li class="drag-icon"></li>
-                    <li class="prop-title"
-                        data-split-icon="check"
+        			<li class="drag-icon" data-split-icon="check"
                         data-id="{{proposal.id}}"
-                        data-accepted="{{proposal.is_accepted|yesno:"1,0"}}"
+                        data-accepted="{{proposal.is_accepted|yesno:"1,0"}}" data-icon="check"><img src="{{STATIC_URL}}images/check.png"
+                            alt="Checked"
+                            class="ui-li-icon ui-corner-none"></li>
+                    <li class="prop-title"
+                        
                         data-theme-icon-="b">
     
-                            <a href="{{proposal.get_absolute_url}}" data-icon="check"> <img src="{{STATIC_URL}}images/check.png"
-                            alt="Checked"
-                            class="ui-li-icon ui-corner-none">{{proposal.title}}</a>
+                            <a href="{{proposal.get_absolute_url}}"> {{proposal.title}}
     
                     </li>
                     <li class="prop-content">
+                    	{% if proposal.get_type_display == "משימה" %}
+                    		<p style="padding-bottom: 0;">
+                    			{% if proposal.assigned_to %}
+                    				<b>{% trans "Assigned to" %}:</b> {{ proposal.assigned_to }}&nbsp;
+            					{% endif %}
+            					{% if proposal.due_by %}
+                					<b>{% trans "Due by" %}:</b> {{ proposal.due_by }}
+            					{% endif %}
+        					</p>
+                    	{% endif %}
                     	{{ proposal.content|safe }}
                     </li>
-        			{% if proposal.get_type_display == "כללי" %}<span class="task"></span>{% endif %}
-
+        			{% if proposal.get_type_display == "נוהל" %}<span class="nohal"></span>{% endif %}
+        			{% if proposal.get_type_display == "משימה" %}<span class="task"></span>{% endif %}
+					</a>
             </ul>
             {% endfor %}
 
@@ -121,7 +142,7 @@
                 {% for c in object.comments.all %}
                     {% include "issues/_comment.html" %}
                 {% endfor %}
-                {% if cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and not object.is_closed %}
+                {% if cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and not object.is_closed and object.in_upcoming_meeting %}
                     <li>
                         {% crispy form %}
                     </li>
@@ -130,13 +151,13 @@
         </div>
     {% endif %}
 
-    {% if object.community.upcoming_meeting_started and cperms.meetings.add_meeting %}
+    {% if object.community.upcoming_meeting_started and cperms.meetings.add_meeting and object.in_upcoming_meeting %}
         <br/>
         <form id="issue-complete" method="post" action="{% url 'issue_complete' community.id issue.id %}">
             {% csrf_token %}
             <input name="enable" type="hidden" value="{{object.completed|yesno:'0,1'}}"/>
             <div class="narrow">
-                <button data-theme="b" data-icon="{% if object.completed %}back{% else %}check{% endif %}" data-iconpos="left">{% if object.completed %}{% trans "Undo complete discussion" %}{% else %}{% trans "Complete discussion" %}{% endif %}</button>
+                <button data-theme="b">{% if object.completed %}{% trans "Undo complete discussion" %}{% else %}{% trans "Complete discussion" %}{% endif %}</button>
             </div>
         </form>
         <br/>
