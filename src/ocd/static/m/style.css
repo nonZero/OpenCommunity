@@ -159,7 +159,7 @@ table.issue-detail-table {
 	padding-left: 30px;
 	padding-right: 10px;
 	background: url(images/arrow-left.png) #448698 no-repeat 10px 50%;
-	word-break: break-all;
+	word-break: break-word;
 }
 .issue-detail-table tr td.title {
 	font-size: 24px;
@@ -169,7 +169,7 @@ table.issue-detail-table {
 	background: #448698;
 	text-shadow: none;
 	font-weight: bold;
-	word-break: break-all;
+	word-break: break-word;
 }
 .issue-detail-table tr td.name {
 	text-shadow: none;
@@ -816,7 +816,7 @@ table.issue-table {
 .issue-table tbody tr td.issue_title {
 	padding: 10px 10px 10px 30px;
 	background: url(images/arrow-left.png) #448698 no-repeat 10px 50%;
-	word-break: break-all;
+	word-break: break-word;
 }
 .issue-table tbody tr td.issue_title a.ui-link {
 /*	line-height: 20px;*/
@@ -939,7 +939,7 @@ p.sub-title {
     background-image: linear-gradient( top, rgb(231, 231, 232) , #fcfcfc );
 }
 #proposal-detail .proposal-info p {
-	word-break: break-all;
+	word-break: break-word;
 }
 .proposal-info.no-margin p,
 #meeting-detail .no-margin p {margin:0}
@@ -948,7 +948,7 @@ p.sub-title {
 	font-size: 12pt;
 }
 .proposal-info.no-margin p a.ui-link {
-	word-break: break-all;
+	word-break: break-word;
 }
 #upcoming-meeting .meeting-info p span {
 	font-size: 12pt;
@@ -967,7 +967,7 @@ p.sub-title {
 	margin-bottom: 15px;
 	font-size: 18pt;
 	font-weight: bold;
-	word-break: break-all;
+	word-break: break-word;
 }
 #proposal-detail .proposal h4.abstract {
 	margin-left: 15px;
@@ -1312,7 +1312,7 @@ span.edit-comment push:focus {
 	white-space: normal;
 	overflow: visible;
 	color: #333;
-	word-break: break-all;
+	word-break: break-word;
 	font-size: 15px;
 }
 .hidden {
@@ -1383,38 +1383,40 @@ span.edit-comment push:focus {
 	background: url(images/drag-icon.png) no-repeat center #cacccd;
 }
 #issue-detail .issue_proposal ul.proposals li.prop-title {
-	display: inline-block;
-	width: 100%;
+	display: block;
+	width: auto;
+	padding: .7em 15px 0 15px;
 	margin: 0;
-	padding: 0;
 	background: #ffffff;
 }
 #issue-detail .issue_proposal ul.proposals li.prop-title a {
 	color: #6c6c6e;
 	font-size: 15px;
 	font-weight: bold;
-	padding: .7em 15px 0 15px;
-	margin: 0;
+/*	padding: .7em 15px 0 15px;
+	margin: 0;*/
 	background: none;
 	white-space: normal;
-	word-break: break-all;
+	text-decoration: none;
+	word-break: break-word;
 }
 #issue-detail .issue_proposal ul.proposals li.prop-content {
-	display: inline-block;
-	width: 100%;
+	display: block;
+	width: auto;
 	margin: 0;
-	padding: 0;
+	padding: 0 15px .7em 15px;
 	background: #ffffff;
 }
 #issue-detail .issue_proposal ul.proposals li.prop-content p {
 	color: #6c6c6e;
 	font-size: 15px;
-	font-weight: normal;
-	padding: 0 15px .7em 15px;
 	margin: 0;
+	font-weight: normal;
 	display: block;
 	white-space: normal;
-	word-break: break-all;
+	word-break: break-word;
+}
+#issue-detail .issue_proposal ul.proposals li.prop-content p.assign {
 }
 .clear {clear: both;}
 .nohal {

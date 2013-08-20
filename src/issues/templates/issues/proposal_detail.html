@@ -86,9 +86,7 @@
         {% if object.content %}
             <div class="proposal-info">
                 {# <h4>{% trans "Content" %}</h4> #}
-                <p>
-                    {{object.content|safe}}
-                </p>
+                {{object.content|safe}}
             </div>
         {% endif %}
 
