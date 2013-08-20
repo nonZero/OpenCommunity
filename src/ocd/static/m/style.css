@@ -688,7 +688,7 @@ body.ui-mobile-viewport.ui-overlay-c .ui-page {
     padding-top: 45px !important;
 }
 .h1top {
-    color: #76ddf9;
+    color: #fff;
 }
 #meeting-panel-screen.ui-popup-screen.in {
 	opacity: 0;
@@ -1406,6 +1406,7 @@ span.edit-comment push:focus {
 	margin: 0;
 	padding: 0 15px .7em 15px;
 	background: #ffffff;
+	color: #6c6c6e;
 }
 #issue-detail .issue_proposal ul.proposals li.prop-content p {
 	color: #6c6c6e;
