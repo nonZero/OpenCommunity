@@ -13,8 +13,11 @@
     		</center>
     	</div>
     	{% endif %}
+        <h1 style="margin:0 0 1em 0; text-align: center; padding: 4px">
+            {{community}}{% if community.official_identifier %} {{ community.official_identifier }}{% endif %}
+        </h1>
         <h1 style="margin:0; background: #ddd;padding: 4px"
-        >{{community}}: {% trans "Upcoming Meeting" %}
+        >{% trans "Upcoming Meeting" %}
             {% if community.upcoming_meeting_title %}
               -
               {{community.upcoming_meeting_title}} 
