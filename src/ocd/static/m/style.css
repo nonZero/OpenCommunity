@@ -882,7 +882,7 @@ span.comment-inner {
 	color: #333;
 	text-shadow: none;
 	font-weight: normal;
-	font-size: 13px;
+	font-size: 15px;
 }
 
 span.comment-inner blockquote {
@@ -1024,10 +1024,12 @@ ul#available.ui-listview {
 span.comment-inner blockquote {
 	margin-bottom: 0;
 }
-span.comment-inner blockquote ul {
+span.comment-inner blockquote ul,
+span.comment-inner blockquote ol {
 	padding: 10px 15px;
 }
-#comments span.comment-inner blockquote ul li {
+#comments span.comment-inner blockquote ul li,
+#comments span.comment-inner blockquote ol li {
 	padding: 3px 0;
 }
 /* WYSIWYG top bar */
@@ -1407,6 +1409,7 @@ span.edit-comment push:focus {
 	padding: 0 15px .7em 15px;
 	background: #ffffff;
 	color: #6c6c6e;
+	font-weight: normal;
 }
 #issue-detail .issue_proposal ul.proposals li.prop-content p {
 	color: #6c6c6e;

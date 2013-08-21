@@ -89,7 +89,7 @@ function wysiwygize(x) {
            menubar: false,
            toolbar_items_size: 'small',
            content_css : "/static/m/tinymce.css",
-           toolbar: "bold italic underline | bullist numlist | blockquote",
+           toolbar: "bold italic underline | bullist numlist",
     });
 }
 

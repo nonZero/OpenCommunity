@@ -35,8 +35,26 @@
 
 	}
 
+	function refreshProposalEditForm() {
+
+		// prevent html5 required field
+		$('#id_type').val() == '';
+
+		// hide task related fields
+		var els = $('#div_id_assigned_to,#div_id_due_by');
+		if ($('#id_type').val() == '1') {
+			els.show();
+		} else {
+			els.hide();
+		}
+
+	}
+	refreshProposalEditForm();
 	$(function() {
-		$('body').on('change', '#id_proposal-type', refreshProposalForm)
+		$('body').on('change', '#id_proposal-type', refreshProposalForm);
+	}); 
+	$(function() {
+		$('body').on('change', '#id_type', refreshProposalEditForm);
 	}); 
 </script>
 
