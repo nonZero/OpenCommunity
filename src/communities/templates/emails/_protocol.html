@@ -112,6 +112,20 @@
                                     </li>
                                 {% endfor %}
                             </ul>
+                            {% if i.unaccepted_proposals %}
+                            <h4 style="margin:0; background: #eee; padding: 2px">
+                                {% trans "Rejected Proposals" %}
+                            </h4>
+                            <ul>
+                                {% for n in i.unaccepted_proposals.all %}
+                                    <li style="padding:2px 0">
+                                        <a href="{{base_url}}{{p.get_absolute_url}}">
+                                            {{n.title}}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
                         {% else %}
                             <p>
                                 <b>{% trans "No Accepted Proposals" %}</b>

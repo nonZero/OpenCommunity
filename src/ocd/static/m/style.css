@@ -11,7 +11,7 @@
 }
 
 .narrow {
-    max-width: 300px;
+    max-width: 265px;
     margin: 1.5em auto;
 }
 
@@ -26,7 +26,9 @@
     padding: 1em 2em;
 }
 
-
+.version {
+	text-align: center;
+}
 .issue.loading {
     opacity: 0.5 !important;
 }
@@ -164,8 +166,8 @@ table.issue-detail-table {
 .issue-detail-table tr td.title {
 	font-size: 24px;
 	color: #fff;
-	padding-left: 10px;
-	padding-right: 10px;
+	padding: 10px 5px 5px 5px;
+	line-height: 1;
 	background: #448698;
 	text-shadow: none;
 	font-weight: bold;
@@ -224,11 +226,21 @@ table.issue-detail-table {
 
 .issue-detail-table tr td.icon {
     font-size: 30px;
-    background: url(images/thumbup.png) no-repeat center #3d3c3c;
+    background: url(images/issue-icon.png) no-repeat center #3d3c3c;
     width: 45px;
 	text-align: center;
 }
 
+.issue_proposal .check_box {
+	display: table-cell;
+	width: 30px;
+	padding: 5px;
+	background: url(images/proposal-uncheck.png) no-repeat center;
+	border-right: 1px solid #d8e0df;
+}
+.issue_proposal .check_box.checked {
+	background: url(images/proposal-check.png) no-repeat center;
+}
 .meeting-table tbody tr td.sub_count {
     font-size: 30px;
     width: 38px;
@@ -875,14 +887,28 @@ table.issue-table {
 	border: 0;
 	margin-bottom: .1em;
 	background: #fff;
-	margin-right: 10px;
-	margin-left: 10px;
+/*	margin-right: 10px;
+	margin-left: 10px;*/
+}
+#issue-detail .ui-content ul.ui-listview li:last-child {
+	background: transparent;
+	padding: 10px 0 0 0;
+}
+form#add-comment label {
+	display: none;
+}
+.issuecomments ul#comments.ui-listview {
+	margin: 0 10px;
 }
 span.comment-inner {
-	color: #333;
+	color: #333333;
 	text-shadow: none;
 	font-weight: normal;
 	font-size: 15px;
+}
+span.comment-inner i {
+	color: #6c6c6e;
+	font-size: 14px;
 }
 
 span.comment-inner blockquote {
@@ -925,7 +951,6 @@ p.sub-title {
 	border-radius: .5em;
 }
 #upcoming-meeting .meeting-info,
-#proposal-detail .proposal-info,
 #issue-detail .proposal-info {
 	padding: 15px;
 	border-top: 1px solid #d8d8d9;
@@ -938,11 +963,28 @@ p.sub-title {
     background-image:      -o-linear-gradient( top, #e7e7e8 , #fcfcfc ); /* Opera 11.10+ */
     background-image: linear-gradient( top, rgb(231, 231, 232) , #fcfcfc );
 }
+.save-comment .ui-btn-up-a {
+	width: 40%;
+	margin: 10px auto;
+}
+.save-comment .ui-btn-hover-a {
+	width: 40%;
+	margin: 10px auto;
+}
+#proposal-detail .proposal-info {
+	padding: 15px;
+	border: 1px solid #d8e0df;
+	background: #fff;
+}
 #proposal-detail .proposal-info p {
 	word-break: break-word;
 }
 .proposal-info.no-margin p,
-#meeting-detail .no-margin p {margin:0}
+#meeting-detail .no-margin p {
+	margin:0;
+	color: #4d4d4d;
+	font-size: 15px;
+}
 #upcoming-meeting .meeting-info p {
 	margin: 0;
 	font-size: 12pt;
@@ -950,13 +992,22 @@ p.sub-title {
 .proposal-info.no-margin p a.ui-link {
 	word-break: break-word;
 }
+#proposal-detail .accepted {
+	position: relative;
+	background: url(images/accepted.png) no-repeat right center #f0f187;
+	border: 1px solid #d8e0df;
+	padding: 20px 48px 20px 10px;
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
 #upcoming-meeting .meeting-info p span {
 	font-size: 12pt;
 }
 #agenda-container.agenda-list,
 .issue_proposal,
 #available-agenda.agenda-list {
-	margin: 5px 15px 15px 15px;
+	margin: 5px 10px 10px 10px;
 }
 #agenda-container.agenda-list h4,
 #members-list h4,
@@ -964,18 +1015,56 @@ p.sub-title {
 #proposal-detail .proposal h4,
 #available-agenda.agenda-list h4 {
 	margin-top: 0;
-	margin-bottom: 15px;
-	font-size: 18pt;
+	margin-bottom: 5px;
+	font-size: 18px;
 	font-weight: bold;
 	word-break: break-word;
 }
 #proposal-detail .proposal h4.abstract {
 	margin-left: 15px;
+	font-size: 18px;
 }
-#proposal-detail .proposal h4.assihned_to {
+#proposal-detail .proposal h4.abstract-title {
+	margin: 15px;
+}
+#proposal-detail .proposal h4.assigned_to {
 	font-weight: normal;
+	font-size: 14px;
 }
-
+#proposal-detail a.prop-issue-title {
+	display: block;
+	margin: 0 15px;
+	padding-right: 50px;
+	background: url('images/prop-back.png') no-repeat right center #448698;
+	text-shadow: none;
+	height: 29px;
+}
+#proposal-detail a.prop-issue-title .prop-issue {
+	display: inline-block;
+	font-size: 15px;
+	font-weight: bold;
+	color: #fff;
+	text-shadow: none;
+	padding: 0 5px;
+	line-height: 29px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100%;
+}
+#proposal-detail .prop-subject {
+	display: table;
+	width: 100%;
+	background: #fff;
+	border: 1px solid #d8e0df;
+}
+#proposal-detail .prop-type {
+	display: table-cell;
+	vertical-align: middle;
+	background: #e3e3e3;
+	width: 24px;
+	padding: 0 12px;
+}
 #agenda-container .ui-li-link-alt span.ui-btn-inner,
 #available-agenda .ui-li-link-alt span.ui-btn-inner {
 	display: none;
@@ -1019,10 +1108,10 @@ ul#available.ui-listview {
 	padding: 0;
 }
 #comments li {
-	padding: 15px;
+	padding: 3px 10px 1px 0;
 }
 span.comment-inner blockquote {
-	margin-bottom: 0;
+	margin: 10px 0 0 0;
 }
 span.comment-inner blockquote ul,
 span.comment-inner blockquote ol {
@@ -1179,7 +1268,7 @@ span.edit-comment push:focus {
 	box-shadow: 0 0 0;
 }
 #proposal-detail .proposal {
-	margin: 15px 0 0 0;
+	margin: 1px 15px 0 15px;
 }
 #meetings .ui-dialog-contain,
 #participants .ui-dialog-contain {
@@ -1382,7 +1471,22 @@ span.edit-comment push:focus {
 	width: 40px;
 	margin: 0;
 	padding: 0;
-	background: url(images/drag-icon.png) no-repeat center #cacccd;
+}
+.general-icon {
+	background: url(images/general-icon.png) no-repeat center;
+}
+.task-icon {
+	background: url(images/task-icon.png) no-repeat center;
+}
+.rule-icon {
+	background: url(images/rule-icon.png) no-repeat center;
+}
+
+#issue-detail .issue_proposal ul:nth-child(even).proposals li.drag-icon {
+	background-color: #cacccd;
+}
+#issue-detail .issue_proposal ul:nth-child(odd).proposals li.drag-icon {
+	background-color: #dcddde;
 }
 #issue-detail .issue_proposal ul.proposals li.prop-title {
 	display: block;

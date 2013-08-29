@@ -14,6 +14,7 @@ from django.views.generic.edit import UpdateView
 from ocd.base_views import ProtectedMixin, LoginRequiredMixin, AjaxFormView
 import datetime
 import json
+import os
 
 
 class CommunityList(ListView):
@@ -24,6 +25,11 @@ class CommunityList(ListView):
         if self.request.user.is_superuser:
             return qs
         return qs.filter(is_public=True)
+    
+    def get_context_data(self, **kwargs):
+        d = super(CommunityList, self).get_context_data(**kwargs)
+        d['version'] = open(os.path.join(settings.STATIC_ROOT, 'version.txt')).read()
+        return d
 
 
 class CommunityModelMixin(ProtectedMixin):

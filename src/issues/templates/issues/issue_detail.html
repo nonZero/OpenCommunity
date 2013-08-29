@@ -96,11 +96,15 @@ id="issue-detail"
 	{% for proposal in object.proposals.active %}
 	<ul data-role='content'
 	class="prop-table proposals{% if not object.is_closed %} open{% endif %}">
-		<li class="drag-icon" data-split-icon="check"
+		<li class="drag-icon 
+		{% if proposal.type == 1 %}task-icon{% endif %}
+		{% if proposal.type == 2 %}rule-icon{% endif %}
+		{% if proposal.type == 3 %}general-icon{% endif %}"
+		 data-split-icon="check"
 		data-id="{{proposal.id}}"
-		data-accepted="{{proposal.is_accepted|yesno:"1,0"}}" data-icon="check"><img src="{{STATIC_URL}}images/check.png"
+		data-accepted="{{proposal.is_accepted|yesno:"1,0"}}" data-icon="check"><!--img src="{{STATIC_URL}}images/check.png"
 			alt="Checked"
-			class="ui-li-icon ui-corner-none">
+			class="ui-li-icon ui-corner-none"--><!-- Need to check if needed -->
 		</li>
 		<li class="prop-title"
 
@@ -109,7 +113,7 @@ id="issue-detail"
 			<a href="{{proposal.get_absolute_url}}" style="text-decoration: none;"> {{proposal.title}}
 		</li>
 		<li class="prop-content">
-			{% if proposal.get_type_display == "משימה" %}
+			{% if proposal.type == 1 %}
 			<p class="assign">
 				{% if proposal.assigned_to %}
 				<b>{% trans "Assigned to" %}:</b> {{ proposal.assigned_to }}&nbsp;
@@ -121,9 +125,10 @@ id="issue-detail"
 			{% endif %}
 			{{proposal.content|safe}}
 		</li>
-		{% if proposal.get_type_display == "נוהל" %}<span class="nohal"></span>{% endif %}
-		{% if proposal.get_type_display == "משימה" %}<span class="task"></span>{% endif %}
 		</a>
+		<li class="check_box {% if proposal.is_accepted %}checked{% endif %} ">
+			
+		</li>
 	</ul>
 	{% endfor %}
 
@@ -133,7 +138,7 @@ id="issue-detail"
 {% if not object.is_closed and cperms.issues.add_proposal %}
 <div class="narrow clear">
 	<a data-role="button" data-rel="form" data-theme="a"
-	href="{% url "proposal_create" community.id object.id %}">{% trans "New Proposal" %}</a>
+	href="{% url "proposal_create" community.id object.id %}">{% trans "Add Proposal" %}</a>
 </div>
 {% endif %}
 

@@ -53,6 +53,9 @@ class Issue(UIDMixin):
     def accepted_proposals(self):
         return self.proposals.filter(is_accepted=True, active=True)
 
+    def unaccepted_proposals(self):
+        return self.proposals.filter(is_accepted=False, active=True)
+
     def active_proposals(self):
         return self.proposals.filter(active=True)
 
