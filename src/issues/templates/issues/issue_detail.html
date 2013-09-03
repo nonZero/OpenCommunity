@@ -150,7 +150,7 @@ id="issue-detail"
 		{% include "issues/_comment.html" %}
 		{% endfor %}
 		{% if cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and not object.is_closed and object.in_upcoming_meeting %}
-		<li>
+		<li class="rich_editor">
 			{% crispy form %}
 		</li>
 		{% endif %}
