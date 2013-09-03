@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-29 22:13+0300\n"
+"POT-Creation-Date: 2013-09-03 16:19+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,6 @@ msgid "Send to"
 msgstr "נמענים"
 
 #: .\forms.py:43 .\templates\communities\publish_upcoming.html.py:9
-#: .\templates\communities\upcoming.html.py:65
 msgid "Publish"
 msgstr "פרסם"
 
@@ -126,7 +125,7 @@ msgstr "קהילות"
 msgid "Board"
 msgstr "ועד"
 
-#: .\views.py:158
+#: .\views.py:155
 #, python-format
 msgid "Sending to %d users"
 msgstr "שולח ל-%d משתמשים"
@@ -216,6 +215,10 @@ msgstr ""
 #: .\templates\communities\upcoming_form.html.py:6
 msgid "Edit"
 msgstr "עריכה"
+
+#: .\templates\communities\upcoming.html.py:65
+msgid "Publish Agenda"
+msgstr "פרסם סדר יום"
 
 #: .\templates\communities\upcoming.html.py:76
 msgid "Undo Start Meeting"
@@ -338,12 +341,10 @@ msgid "Proposals"
 msgstr ""
 
 #: .\templates\emails\agenda_title.txt.py:1
-#: .\templates\emails\protocol_draft_title.txt.py:1
 msgid "Upcoming Agenda For"
 msgstr "סדר יום לפגישת ועד שתתקיים ב"
 
 #: .\templates\emails\agenda_title.txt.py:1
-#: .\templates\emails\protocol_draft_title.txt.py:1
 msgid "Upcoming Agenda"
 msgstr "סדר יום לפגישת הועד הקרובה"
 
@@ -353,9 +354,8 @@ msgid "Summary Draft"
 msgstr "טיוטת סיכום"
 
 #: .\templates\emails\protocol_draft_title.txt.py:1
-#, fuzzy
 msgid "Meeting Summary Draft"
-msgstr "טיוטת סיכום"
+msgstr "טויטת סיכום פגישה"
 
 #~ msgid "Current version"
 #~ msgstr "גירסה נוכחית"
