@@ -221,7 +221,7 @@ table.issue-detail-table {
 .meeting-table thead tr th.count {
     font-size: 30px;
     background: #3d3c3c;
-/*    width: 38px;*/
+    width: 38px;
 	text-align: center;
 }
 
@@ -998,6 +998,13 @@ p.sub-title {
 	margin: 0;
 	font-size: 12pt;
 }
+#upcoming-meeting .ui-body-c .ui-panel-content-wrap-closed .ui-content h3 {
+	margin-right: 15px;
+}
+#upcoming-meeting .ui-body-c .ui-panel-content-wrap-closed .ui-content .ui-grid-solo .ui-block-a .ui-bar.ui-bar-c {
+	margin-right: 15px;
+	margin-left: 15px;
+}
 .proposal-info.no-margin p a.ui-link {
 	word-break: break-word;
 	font-weight: normal;
@@ -1047,7 +1054,7 @@ p.sub-title {
 }
 #proposal-detail a.prop-issue-title {
 	display: block;
-	margin: 0 15px;
+/*	margin: 0 15px;*/
 	padding-right: 50px;
 	background: url('images/prop-back.png') no-repeat right center #448698;
 	text-shadow: none;
@@ -1282,7 +1289,19 @@ span.edit-comment push:focus {
 	box-shadow: 0 0 0;
 }
 #proposal-detail .proposal {
+	position: relative;
 	margin: 1px 15px 0 15px;
+}
+.unaccept {
+	position: absolute;
+	top: 0;
+	left: 0;
+	font-weight: normal;
+	border: 0;
+	margin: 8px;
+}
+.unaccept span.ui-btn-inner {
+	padding: .8em 20px;
 }
 #meetings .ui-dialog-contain,
 #participants .ui-dialog-contain {

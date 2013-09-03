@@ -34,12 +34,16 @@
 
 {% block content %}
 
+    <div class="proposal" data-id="{{object.id}}"
+         data-accepted="{{object.is_accepted|yesno:'1,0'}}">
+
+        <div class="accepted">
+        	{% trans "Proposal accepted" %}!
+        </div>
+
     <a class="prop-issue-title" href="{{object.issue.get_absolute_url}}">
         <div class="prop-issue">{{object.issue}}</div>
     </a>
-
-    <div class="proposal" data-id="{{object.id}}"
-         data-accepted="{{object.is_accepted|yesno:'1,0'}}">
 
         <div class="ui-grid-solo prop-subject">
 			<div class="prop-type">
@@ -69,9 +73,9 @@
         </div>
 
 		<br />
-        <div class="accepted">
+        <!--div class="accepted">
         	{% trans "Proposal accepted" %}!
-        </div>
+        </div-->
         {% if object.abstract %}
             <div data-role="collapsible" data-collapsed="false"
                 data-theme="c" data-content-theme="d" data-mini="true">
