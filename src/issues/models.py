@@ -7,6 +7,21 @@ from ocd.base_models import HTMLField, UIDMixin, UIDManager
 from ocd.validation import enhance_html
 
 
+class IssueStatus(object):
+
+    OPEN = 1
+    IN_UPCOMING_MEETING = 2
+    IN_UPCOMING_MEETING_COMPLETED = 3
+    ARCHIVED = 4
+
+    choices = (
+               (OPEN, _('Open')),
+               (IN_UPCOMING_MEETING, _('In upcoming meeting')),
+               (IN_UPCOMING_MEETING_COMPLETED, _('In upcoming meeting (completed)')),
+               (ARCHIVED, _('Archived')),
+               )
+
+
 class Issue(UIDMixin):
     active = models.BooleanField(default=True, verbose_name=_("Active"))
     community = models.ForeignKey(Community, verbose_name=_("Community"), related_name="issues")
@@ -19,6 +34,8 @@ class Issue(UIDMixin):
 
     calculated_score = models.IntegerField(default=0, verbose_name=_("Calculated Score"))
 
+    status = models.IntegerField(choices=IssueStatus.choices,
+                                 default=IssueStatus.OPEN)
     in_upcoming_meeting = models.BooleanField(_("In upcoming meeting"), default=False)
     order_in_upcoming_meeting = models.IntegerField(
                                         _("Order in upcoming meeting"),
@@ -83,7 +100,7 @@ class IssueComment(UIDMixin):
     content = HTMLField(verbose_name=_("Comment"))
 
     class Meta:
-        ordering = ('created_at', )
+        ordering = ('created_at',)
 
     def update_content(self, expected_version, author, content):
         """ creates a new revision and updates current comment """
@@ -174,6 +191,18 @@ class ProposalManager(UIDManager):
         return self.get_query_set().filter(active=True)
 
 
+class ProposalStatus(object):
+    IN_DISCUSSION = 1
+    ACCEPTED = 2
+    REJECTED = 3
+
+    choices = (
+               (IN_DISCUSSION, 'In discussion'),
+               (ACCEPTED, 'Accepted'),
+               (REJECTED, 'Rejected'),
+              )
+
+
 class Proposal(UIDMixin):
     issue = models.ForeignKey(Issue, related_name="proposals", verbose_name=_("Issue"))
     active = models.BooleanField(default=True, verbose_name=_("Active"))
@@ -184,6 +213,9 @@ class Proposal(UIDMixin):
     title = models.CharField(max_length=300, verbose_name=_("Title"))
     content = HTMLField(null=True, blank=True, verbose_name=_("Content"))
 
+    status = models.IntegerField(choices=ProposalStatus.choices,
+                                 default=ProposalStatus.IN_DISCUSSION)
+    decided_at_meeting = models.ForeignKey('meetings.Meeting', null=True, blank=True)
     is_accepted = models.BooleanField(_("Is accepted"), default=False)
     accepted_at = models.DateTimeField(_("Accepted at"), null=True, blank=True)
     assigned_to = models.CharField(_("Assigned to"), max_length=200,
