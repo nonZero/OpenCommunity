@@ -39,6 +39,8 @@ def deploy():
         run("pip install -r deploy-requirements.txt")
         run("cd src && python manage.py migrate")
         run("cd src && python manage.py collectstatic --noinput")
+        run("git log -n 1 --format=\"%ai %h\" > static/version.txt")
+        run("git log -n 1 > static/version-full.txt")
         run("cd src && kill -HUP `cat masterpid`")
 
 
