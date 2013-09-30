@@ -208,6 +208,13 @@ DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,
 }
 
+version_file = os.path.join(STATIC_ROOT, 'version.txt')
+if os.path.exists(version_file):
+    with open(version_file) as f:
+        OPENCOMMUNITY_VERSION = f.read()
+else:
+    OPENCOMMUNITY_VERSION = None
+
 try:
     from local_settings import *
 except ImportError:

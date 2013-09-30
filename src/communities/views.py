@@ -28,7 +28,7 @@ class CommunityList(ListView):
     
     def get_context_data(self, **kwargs):
         d = super(CommunityList, self).get_context_data(**kwargs)
-        d['version'] = open(os.path.join(settings.STATIC_ROOT, 'version.txt')).read()
+        d['version'] = settings.OPENCOMMUNITY_VERSION
         return d
 
 
