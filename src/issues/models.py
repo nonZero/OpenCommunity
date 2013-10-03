@@ -2,10 +2,13 @@ from communities.models import Community
 from django.conf import settings
 from django.db import models, transaction
 from django.utils import timezone
+from django.utils.text import get_valid_filename
+
 from django.utils.translation import ugettext, ugettext_lazy as _
 from ocd.base_models import HTMLField, UIDMixin, UIDManager
 from ocd.validation import enhance_html
 
+import os.path
 
 class Issue(UIDMixin):
     active = models.BooleanField(default=True, verbose_name=_("Active"))
@@ -130,7 +133,28 @@ class IssueCommentRevision(models.Model):
 
     content = models.TextField(verbose_name=_("Content"))
 
+    
+def issue_attachment_path(instance, filename):
+    filename = get_valid_filename(os.path.basename(filename))
+    return os.path.join(instance.issue.community.uid, instance.issue.uid, filename)
 
+    
+class IssueAttachment(UIDMixin):
+    issue = models.ForeignKey(Issue, related_name="attachments")
+    file = models.FileField(upload_to=issue_attachment_path)
+    title = models.CharField(max_length=100)
+    active = models.BooleanField(default=True)
+    ordinal = models.PositiveIntegerField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_("File created at"))
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                   verbose_name=_("Created by"),
+                                   related_name="files_created")
+
+    class Meta:       
+        ordering = ('created_at', )
+
+        
 class ProposalVoteValue(object):
     CON = -1
     NEUTRAL = 0

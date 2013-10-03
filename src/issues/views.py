@@ -7,7 +7,7 @@ from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
-    UpdateIssueForm, EditProposalTaskForm
+    UpdateIssueForm, EditProposalTaskForm, AddAttachmentForm
 from issues.models import ProposalType, Issue
 from oc_util.templatetags.opencommunity import minutes
 from ocd.base_views import CommunityMixin, AjaxFormView
@@ -186,7 +186,40 @@ class IssueDeleteView(AjaxFormView, IssueMixin, DeleteView):
         o.save()
         return HttpResponse("-")
 
+        
+class AttachmentCreateView(AjaxFormView, IssueMixin, CreateView):
+    model = models.IssueAttachment
+    form_class = AddAttachmentForm
 
+    required_permission = 'issues.editopen_issue'
+    reload_on_success = True
+    
+    @property
+    def issue(self):
+        return get_object_or_404(models.Issue, community=self.community, pk=self.kwargs['pk'])
+        
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        form.instance.issue = self.issue
+        return super(AttachmentCreateView, self).form_valid(form)
+
+
+class AttachmentDeleteView(DeleteView, AjaxFormView):
+    model = models.IssueAttachment
+    required_permission = 'issues.editopen_issue'
+
+    @property
+    def issue(self):
+        return get_object_or_404(models.Issue, pk=self.kwargs['issue_id'])
+    
+    def delete(self, request, *args, **kwargs):
+        o = self.get_object()
+        o.delete()
+        return HttpResponse("")
+
+
+
+    
 class ProposalCreateView(AjaxFormView, IssueMixin, CreateView):
     model = models.Proposal
 
