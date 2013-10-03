@@ -1,0 +1,15 @@
+{% extends "dialog.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block page_header %}
+    {% trans "Delete Attachment" %}
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {% trans "Are you sure?" %}
+        <button>{% trans "Delete" %}</button>
+    </form>
+{% endblock %}

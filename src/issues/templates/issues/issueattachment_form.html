@@ -1,0 +1,20 @@
+{% extends "dialog.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block extra-page-id %}
+	id="add-attachment"
+{% endblock %}
+
+{% block page_header %}
+    {% trans "Add attachment" %}
+{% endblock %}
+
+{% block header-end %}
+{% endblock %}
+
+{% block content %}
+
+    {% crispy form %}
+
+{% endblock %}
