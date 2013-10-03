@@ -55,6 +55,39 @@ class UpdateIssueForm(BaseIssueForm):
         self.helper.form_tag = True
 
 
+class AddAttachmentBaseForm(forms.ModelForm):
+    class Meta:
+        model = models.IssueAttachment
+        fields = (
+                   'title',
+                   'file',
+                   )
+                   
+    FILE_EXT_WHITELIST = ['pdf','txt','doc', 'docx', 'xls', 'xlsx', 'csv', 'jpg', 'jpeg', 'gif', 'png']
+    
+    def clean_file(self):
+        file_obj = self.cleaned_data['file']
+        if len(file_obj.name.split('.')) == 1:
+                raise forms.ValidationError(_("File type is not supported."))
+        if file_obj.name.split('.')[-1] in self.FILE_EXT_WHITELIST:
+            return file_obj
+        else:
+            raise forms.ValidationError(_("File type is not allowed!"))
+
+            
+class AddAttachmentForm(AddAttachmentBaseForm):
+    submit_button_text = _('Upload')
+    
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+
+        self.helper.add_input(Submit('submit', self.submit_button_text))
+
+        super(AddAttachmentForm, self).__init__(*args, **kwargs)
+
+
+
+    
 class CreateProposalBaseForm(forms.ModelForm):
 
     class Meta:
