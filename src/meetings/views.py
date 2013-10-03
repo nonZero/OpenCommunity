@@ -1,21 +1,14 @@
 from django.contrib import messages
-from django.db import transaction
 from django.http.response import HttpResponse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.base import RedirectView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
-from django.views.generic.list import ListView
 from issues.views import CommunityMixin
 from meetings import models
 from meetings.forms import CloseMeetingForm
-from meetings.models import AgendaItem, MeetingParticipant
-from communities.models import SendToOption
 from ocd.base_views import AjaxFormView
-from users.models import Membership
-import datetime
-from issues.models import IssueStatus
 
 
 class MeetingMixin(CommunityMixin):
@@ -28,7 +21,7 @@ class MeetingMixin(CommunityMixin):
 
 class MeetingList(MeetingMixin, RedirectView):
     required_permission = 'meetings.view_meeting'
-    
+
     def get_redirect_url(self, **kwargs):
         o = models.Meeting.objects.filter(community=self.community).latest('held_at')
         if o:
