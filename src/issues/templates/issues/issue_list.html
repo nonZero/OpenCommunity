@@ -44,11 +44,6 @@
 					<td class="issue_date">{{ object.created_at|ocshortdate }}</td>
 					<td class="issue_title">
 						<a href="{{ object.get_absolute_url }}">
-	                    {% if object.is_closed %}
-                        <span class="label label-inverse">
-                            {% trans "Closed" %}
-                        </span>
-	                    {% endif %}
 						{{ object.title }}</a>
 					</td>
 				</tr>

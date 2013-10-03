@@ -241,6 +241,9 @@ table.issue-detail-table {
 .issue_proposal .check_box.checked {
 	background: url(images/proposal-check.png) no-repeat center;
 }
+.issue_proposal .check_box.rejected {
+	background: url(images/proposal-rejected.png) no-repeat center;
+}
 .meeting-table tbody tr td.sub_count {
     font-size: 30px;
     width: 38px;

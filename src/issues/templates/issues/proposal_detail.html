@@ -17,14 +17,14 @@
 {% block startpanel %}
     <div data-role="panel" id="proposalpanel">
         <ul data-role="listview">
-            {% if cperms.issues.editclosed_proposal or not object.issue.is_closed %}
+            {% if cperms.issues.editclosed_proposal or object.is_open %}
                 {% if cperms.issues.editopen_proposal or object.created_by == user %}
                     <li><a data-rel="form" href="{{object.get_edit_url}}">{% trans "Edit" %}</a></li>
                     <li><a data-rel="form" href="{{object.get_delete_url}}">{% trans "Delete" %}</a></li>
                 {% endif %}
             {% endif %}
             {% if object.is_task and cperms.issues.edittask_proposal %}
-                {% if cperms.issues.editclosed_proposal or not object.issue.is_closed %}
+                {% if cperms.issues.editclosed_proposal or object.is_open %}
                     <li><a data-rel="form" href="{{object.get_edit_task_url}}">{% trans "Reassign task" %}</a></li>
                 {% endif %}
             {% endif %}
@@ -39,14 +39,16 @@
     </a>
 
     <div class="proposal" data-id="{{object.id}}"
-         data-accepted="{{object.is_accepted|yesno:'1,0'}}">
+         data-accepted="{{object.status}}">
 
         <div class="ui-grid-solo prop-subject">
 			<div class="prop-type">
 				<img src="{{STATIC_URL}}m/images/{% if object.type == 1 %}task-icon{% endif %}{% if object.type == 2 %}rule-icon{% endif %}{% if object.type == 3 %}general-icon{% endif %}.png"/>
 			</div>
         	<div class="prop-info">
-                <h4 class="abstract abstract-title">{{object.title}}</h4>
+                <h4 class="abstract abstract-title">
+                  {{object.title}} ({{object.get_status_display}}{% if object.decided_at_meeting %} {{object.decided_at_meeting}}{% endif %})
+                </h4>
                 <h4 class="abstract assigned_to">
                 {% if object.type == 1 %}
                 	{% if object.assigned_to %}	
@@ -60,18 +62,11 @@
                 <p><b>{% trans "By:" %}</b> {{ object.created_by}}. {{ object.created_at}} {# ({{ object.created_at|naturaltime}}) #}</p>
         		</h4>
 
-                <!--{% if object.is_closed %}
-                    <span class="label label-inverse large">
-                        {% trans "Closed" %}
-                    </span>
-                {% endif %}-->
-	        </div>
+            </div>
         </div>
 
 		<br />
-        <div class="accepted">
-        	{% trans "Proposal accepted" %}!
-        </div>
+        
         {% if object.abstract %}
             <div data-role="collapsible" data-collapsed="false"
                 data-theme="c" data-content-theme="d" data-mini="true">
@@ -87,11 +82,27 @@
             </div>
         {% endif %}
 
-        {% if not object.issue.is_closed and cperms.issues.acceptopen_proposal and object.issue.in_upcoming_meeting and object.issue.community.upcoming_meeting_started %}
-            <div class="narrow">
-                <a href="#" data-role="button" class="accept" data-theme="a">{% trans "Accept proposal" %}</a>
-                <a href="#" data-role="button" class="unaccept" data-theme="a">{% trans "Cancel approval" %}</a>
-            </div>
+        {% if object.can_vote and cperms.issues.acceptopen_proposal %}
+            <form method="post">
+
+                {% csrf_token %}
+
+                <div class="narrow accept-buttons">
+
+                    {% if object.status != object.statuses.ACCEPTED %}
+                      <button data-role="button" name="accepted" value="{{object.statuses.ACCEPTED}}" data-theme="a">{% trans "Accept proposal" %}</button>
+                    {% endif %}
+
+                    {% if object.status != object.statuses.REJECTED %}
+                        <button data-role="button" name="accepted" value="{{object.statuses.REJECTED}}" data-theme="a">{% trans "Reject proposal" %}</button>
+                    {% endif %}
+
+                    {% if object.status != object.statuses.IN_DISCUSSION %}
+                        <button data-role="button" name="accepted" value="{{object.statuses.IN_DISCUSSION}}" data-theme="a">{% trans "Cancel approval" %}</button>
+                    {% endif %}
+
+                </div>
+            </form>
 
         {% endif %}
 
@@ -104,5 +115,4 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="{{STATIC_URL}}js/proposal.js"></script>
 {% endblock %}

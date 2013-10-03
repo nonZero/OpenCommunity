@@ -6,6 +6,12 @@ from django.http.response import HttpResponseForbidden, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from users.permissions import has_community_perm, get_community_perms
+import json
+
+
+def json_response(content, *args, **kwargs):
+    kwargs['content_type'] = 'application/json'
+    return HttpResponse(json.dumps(content), *args, **kwargs)
 
 
 class LoginRequiredMixin(object):

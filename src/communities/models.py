@@ -1,13 +1,18 @@
 from django.conf import settings
-from django.db import models
+from django.db import models, transaction
 from django.db.models.query_utils import Q
 from django.template.loader import render_to_string
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from meetings.models import MeetingParticipant
+from ocd.base_models import HTMLField, UIDMixin
 from ocd.email import send_mails
 from users.default_roles import DefaultGroups
-from users.models import OCUser
+from users.models import OCUser, Membership
+import issues.models as issues_models
 import logging
-from ocd.base_models import HTMLField, UIDMixin
+import meetings.models as meetings_models
+from issues.models import ProposalStatus
 
 
 logger = logging.getLogger(__name__)
@@ -101,17 +106,22 @@ class Community(UIDMixin):
         return "community", (str(self.pk),)
 
     def upcoming_issues(self, upcoming=True):
-        return self.issues.filter(active=True, is_closed=False,
-            in_upcoming_meeting=upcoming).order_by('order_in_upcoming_meeting')
+        l = issues_models.IssueStatus.IS_UPCOMING if upcoming else \
+            issues_models.IssueStatus.NOT_IS_UPCOMING
+        return self.issues.filter(active=True, status__in=(l)
+                                  ).order_by('order_in_upcoming_meeting')
 
     def available_issues(self):
         return self.upcoming_issues(False)
 
     def issues_ready_to_close(self):
         return self.upcoming_issues().filter(
-                                         proposals__is_accepted=True
-                                     ).annotate(
-                                        num_proposals=models.Count('proposals')
+                                         proposals__active=True,
+                                         proposals__decided_at_meeting=None,
+                                         proposals__status__in=[
+                                                    ProposalStatus.ACCEPTED,
+                                                    ProposalStatus.REJECTED
+                                                    ]
                                      )
 
     def get_board_name(self):
@@ -163,3 +173,75 @@ class Community(UIDMixin):
         send_mails(from_email, recipient_list, subject, message, html_message)
 
         return len(recipient_list)
+
+    def close_meeting(self, m, user):
+
+        with transaction.commit_on_success():
+            m.community = self
+            m.created_by = user
+            m.title = self.upcoming_meeting_title
+            m.scheduled_at = (self.upcoming_meeting_scheduled_at
+                                or timezone.now())
+            m.location = self.upcoming_meeting_location
+            m.comments = self.upcoming_meeting_comments
+            m.guests = self.upcoming_meeting_guests
+            m.summary = self.upcoming_meeting_summary
+
+            m.save()
+
+            self.upcoming_meeting_started = False
+            self.upcoming_meeting_title = None
+            self.upcoming_meeting_scheduled_at = None
+            self.upcoming_meeting_location = None
+            self.upcoming_meeting_comments = None
+            self.upcoming_meeting_summary = None
+            self.upcoming_meeting_version = 0
+            self.upcoming_meeting_is_published = False
+            self.upcoming_meeting_published_at = None
+            self.upcoming_meeting_guests = None
+            self.save()
+
+            for i, issue in enumerate(self.upcoming_issues()):
+
+                proposals = issue.proposals.filter(
+                                active=True,
+                                decided_at_meeting=None
+                            ).exclude(
+                                status=ProposalStatus.IN_DISCUSSION
+                            )
+                for p in proposals:
+                    p.decided_at_meeting = m
+                    p.save()
+
+                for c in issue.comments.filter(active=True, meeting=None):
+                    c.meeting = m
+                    c.save()
+
+                meetings_models.AgendaItem.objects.create(
+                                              meeting=m, issue=issue, order=i,
+                                              closed=issue.completed)
+
+                issue.is_published = True
+
+                if issue.completed:
+                    issue.status = issue.statuses.ARCHIVED
+                    issue.order_in_upcoming_meeting = None
+
+                issue.save()
+
+            for i, p in enumerate(self.upcoming_meeting_participants.all()):
+
+                try:
+                    mm = p.memberships.get(community=self)
+                except Membership.DoesNotExist:
+                    mm = None
+
+                MeetingParticipant.objects.create(meeting=m, ordinal=i, user=p,
+                      display_name=p.display_name,
+                      default_group_name=mm.default_group_name if mm else None)
+
+            self.upcoming_meeting_participants = []
+
+        return m
+
+

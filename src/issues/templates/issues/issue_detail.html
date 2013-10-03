@@ -3,181 +3,158 @@
 {% load humanize %}
 {% load crispy_forms_tags %}
 
+
 {% block extra-page-id %}
 id="issue-detail"
 {% endblock %}
 
+
 {% block page_header %}
-{% trans "Issue" %}
+    {% trans "Issue" %}
 {% endblock %}
 
+
 {% block header-start %}
-{% if cperms.issues.editclosed_issue or not object.is_closed %}
-{% if cperms.issues.editopen_issue or object.created_by == user %}
-<a href="#issuepanel" data-icon="bars" data-iconpos="notext"  data-rel="panel"></a>
-{% else %}
-<a href="#" style="visibility:hidden"></a>
-{% endif %}
-{% else %}
-<a href="#" style="visibility:hidden"></a>
-{% endif %}
+    {% if cperms.issues.editclosed_issue or not object.is_archived %}
+        {% if cperms.issues.editopen_issue or object.created_by == user %}
+            <a href="#issuepanel" data-icon="bars" data-iconpos="notext"  data-rel="panel"></a>
+        {% else %}
+        <a href="#" style="visibility:hidden"></a>
+        {% endif %}
+    {% else %}
+        <a href="#" style="visibility:hidden"></a>
+    {% endif %}
 {% endblock %}
 
 {% block endpanel %}
-<div data-role="panel" id="issuepanel">
-	<ul data-role="listview">
-		{% if cperms.issues.editclosed_issue or not object.is_closed %}
-		{% if cperms.issues.editopen_issue or object.created_by == user %}
-		<li>
-			<a data-rel="form" href="{{object.get_edit_url}}">{% trans "Edit" %}</a>
-		</li>
-		<li>
-			<a data-rel="form" href="{{object.get_delete_url}}">{% trans "Delete" %}</a>
-		</li>
-		{% endif %}
-		{% endif %}
-	</ul>
-</div>
+    <div data-role="panel" id="issuepanel">
+        <ul data-role="listview">
+            {% if cperms.issues.editclosed_issue or not object.is_archived %}
+                {% if cperms.issues.editopen_issue or object.created_by == user %}
+                    <li>
+                        <a data-rel="form" href="{{object.get_edit_url}}">{% trans "Edit" %}</a>
+                    </li>
+                    <li>
+                        <a data-rel="form" href="{{object.get_delete_url}}">{% trans "Delete" %}</a>
+                    </li>
+                {% endif %}
+            {% endif %}
+        </ul>
+    </div>
 {% endblock %}
 
 {% block content %}
 
-{% if object.closed_at_meeting %}
-<a data-icon="arrow-r" data-role="button" href="{{object.closed_at_meeting.get_absolute_url}}"> {{object.closed_at_meeting}} </a>
-{% endif %}
+    {% if object.is_archived %}
 
-{% if object.is_closed %}
-<p class="sub-title">
-	--{% trans "Closed" %}--
-</p>
-<!--span class="label label-inverse large"> {% trans "Closed" %} </span>
-<br/-->
-{% else %}
-{% if object.in_upcoming_meeting %}
-<p class="sub-title">
-	--{% trans "In upcoming meeting" %}--
-</p>
-{% endif %}
+        <p class="sub-title">
+            --{% trans "Closed" %}--
+        </p>
 
-{% endif %}
+    {% else %}
 
-<table class="table table-condensed issue-detail-table">
-	<tr>
-		<td class="icon" rowspan="2"></td>
-		<td class="title">{{object.title}}</td>
-	</tr>
-	<tr>
-		<td class="name">{{ object.created_by}} ({{ object.created_at}})</td>
-	</tr>
-</table>
+        {% if object.is_upcoming %}
+            <p class="sub-title">
+                --{% trans "In upcoming meeting" %}--
+            </p>
+        {% endif %}
 
-{% if object.abstract %}
-<!--h4 class="abstract">{% trans "Abstract" %}</h4-->
-<div class="proposal-info no-margin">
-	<p>
-		{{object.abstract|safe}}
-	</p>
-</div>
-{% endif %}
+    {% endif %}
 
-{% if object.content %}
-<h4 class="abstract">{% trans "Content" %}</h4>
-<div class="proposal-info">
-	<p>
-		{{object.content|safe}}
-	</p>
-</div>
-{% endif %}
+    <table class="table table-condensed issue-detail-table">
+        <tr>
+            <td class="icon" rowspan="2"></td>
+            <td class="title">{{object.title}}</td>
+        </tr>
+        <tr>
+            <td class="name">{{ object.created_by}} ({{ object.created_at}})</td>
+        </tr>
+    </table>
 
-{% if object.proposals.active.count %}
-<div class="issue_proposal">
-	<h4>{% trans "Proposals" %}</h4>
+    {% if object.abstract %}
 
-	{% for proposal in object.proposals.active %}
-	<ul data-role='content'
-	class="prop-table proposals{% if not object.is_closed %} open{% endif %}">
-		<li class="drag-icon 
-		{% if proposal.type == 1 %}task-icon{% endif %}
-		{% if proposal.type == 2 %}rule-icon{% endif %}
-		{% if proposal.type == 3 %}general-icon{% endif %}"
-		 data-split-icon="check"
-		data-id="{{proposal.id}}"
-		data-accepted="{{proposal.is_accepted|yesno:"1,0"}}" data-icon="check"><!--img src="{{STATIC_URL}}images/check.png"
-			alt="Checked"
-			class="ui-li-icon ui-corner-none"--><!-- Need to check if needed -->
-		</li>
-		<li class="prop-title"
+        {# h4 class="abstract">{% trans "Abstract" %}</h4> #}
 
-		data-theme-icon-="b">
+        <div class="proposal-info no-margin">
+            <p>
+                {{object.abstract|safe}}
+            </p>
+        </div>
+    {% endif %}
 
-			<a href="{{proposal.get_absolute_url}}" style="text-decoration: none;"> {{proposal.title}}
-		</li>
-		<li class="prop-content">
-			{% if proposal.type == 1 %}
-			<p class="assign">
-				{% if proposal.assigned_to %}
-				<b>{% trans "Assigned to" %}:</b> {{ proposal.assigned_to }}&nbsp;
-				{% endif %}
-				{% if proposal.due_by %}
-				<b>{% trans "Due by" %}:</b> {{ proposal.due_by }}
-				{% endif %}
-			</p>
-			{% endif %}
-			{{proposal.content|safe}}
-		</li>
-		</a>
-		<li class="check_box {% if proposal.is_accepted %}checked{% endif %} ">
-			
-		</li>
-	</ul>
-	{% endfor %}
+    {% if object.content %}
 
-</div>
-{% endif %}
+        <h4 class="abstract">{% trans "Content" %}</h4>
 
-{% if not object.is_closed and cperms.issues.add_proposal %}
-<div class="narrow clear">
-	<a data-role="button" data-rel="form" data-theme="a"
-	href="{% url "proposal_create" community.id object.id %}">{% trans "Add Proposal" %}</a>
-</div>
-{% endif %}
+        <div class="proposal-info">
+            <p>
+                {{object.content|safe}}
+            </p>
+        </div>
 
-{% if object.comments.count or cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and not object.is_closed %}
-<div class="issuecomments">
-	<h4>{% trans "Summary" %}</h4>
-	<ul data-role="listview" id="comments">
-		{% for c in object.comments.all %}
-		{% include "issues/_comment.html" %}
-		{% endfor %}
-		{% if cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and not object.is_closed and object.in_upcoming_meeting %}
-		<li>
-			{% crispy form %}
-		</li>
-		{% endif %}
-	</ul>
-</div>
-{% endif %}
+    {% endif %}
 
-{% if object.community.upcoming_meeting_started and cperms.meetings.add_meeting and object.in_upcoming_meeting %}
-<br/>
-<form id="issue-complete" method="post" action="{% url 'issue_complete' community.id issue.id %}">
-	{% csrf_token %}
-	<input name="enable" type="hidden" value="{{object.completed|yesno:'0,1'}}"/>
-	<div class="narrow">
-		<button data-theme="b">
-			{% if object.completed %}{% trans "Undo complete discussion" %}{% else %}{% trans "Complete discussion" %}{% endif %}
-		</button>
-	</div>
-</form>
-<br/>
-{% endif %}
+    {% if object.proposals.active.count %}
+        <div class="issue_proposal">
+
+            <h4>{% trans "Past Proposals" %}</h4>
+
+            {% for proposal in object.proposals.closed %}
+                {% include 'issues/_proposal.html' %}
+            {% endfor %}
+
+            <h4>{% trans "Proposals" %}</h4>
+
+            {% for proposal in object.proposals.open %}
+                {% include 'issues/_proposal.html' %}
+            {% endfor %}
+
+        </div>
+    {% endif %}
+
+    {% if cperms.issues.add_proposal and not object.is_archived %}
+        <div class="narrow clear">
+            <a data-role="button" data-rel="form" data-theme="a"
+            href="{% url "proposal_create" community.id object.id %}">{% trans "Add Proposal" %}</a>
+        </div>
+    {% endif %}
+
+    {% if object.comments.count or cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
+        <div class="issuecomments">
+            <h4>{% trans "Summary" %}</h4>
+            <ul data-role="listview" id="comments">
+                {% for c in object.comments.all %}
+                    {% include "issues/_comment.html" %}
+                {% endfor %}
+                {% if cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
+                    <li>
+                        {% crispy form %}
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if cperms.meetings.add_meeting and object.community.upcoming_meeting_started and object.status == object.statuses.IN_UPCOMING_MEETING %}
+        <br/>
+        <form id="issue-complete" method="post" action="{% url 'issue_complete' community.id issue.id %}">
+            {% csrf_token %}
+            <input name="enable" type="hidden" value="{{object.completed|yesno:'0,1'}}"/>
+            <div class="narrow">
+                <button data-theme="b">
+                    {% if object.completed %}{% trans "Undo complete discussion" %}{% else %}{% trans "Complete discussion" %}{% endif %}
+                </button>
+            </div>
+        </form>
+        <br/>
+    {% endif %}
 
 {% endblock %}
 
 {% block extrahead %}
-<link rel="stylesheet" href="{{STATIC_URL}}css/issue.css"/>
+    <link rel="stylesheet" href="{{STATIC_URL}}css/issue.css"/>
 {% endblock %}
 
 {% block scripts %}
-<script src="{{STATIC_URL}}js/issue.js"></script>
+    <script src="{{STATIC_URL}}js/issue.js"></script>
 {% endblock %}

@@ -26,7 +26,7 @@
 }
 
 
-li[data-accepted="0"] img {
+li[data-accepted="1"] img {
     visibility: hidden;
 }
 

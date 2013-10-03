@@ -200,8 +200,8 @@ msgstr "בחר משתתפים"
 
 #: .\templates\communities\publish_upcoming.html.py:7
 #: .\templates\communities\upcoming.html.py:63
-msgid "Send Summary"
-msgstr "שלח סיכום"
+msgid "Send Summary Draft"
+msgstr "שלח טיוטת סיכום"
 
 #: .\templates\communities\start_meeting.html.py:6
 msgid "Confirm"
