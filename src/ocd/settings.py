@@ -67,6 +67,13 @@ LOCALE_PATHS = (
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
+UPLOAD_PATH = ABSDIR('uploads')
+
+UPLOAD_ALLOWED_EXTS = [
+                       'pdf', 'txt', 'doc', 'docx', 'xls', 'xlsx', 'csv',
+                      'jpg', 'jpeg', 'gif', 'png'
+                      ]
+
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
 MEDIA_ROOT = ABSDIR('media')

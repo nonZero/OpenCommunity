@@ -8,6 +8,7 @@ from ocd.base_models import HTMLField, UIDMixin, UIDManager
 from ocd.validation import enhance_html
 
 import os.path
+from ocd.storages import uploads_storage
 
 class IssueStatus(object):
 
@@ -164,15 +165,16 @@ class IssueCommentRevision(models.Model):
 
     content = models.TextField(verbose_name=_("Content"))
 
-    
+
 def issue_attachment_path(instance, filename):
     filename = get_valid_filename(os.path.basename(filename))
     return os.path.join(instance.issue.community.uid, instance.issue.uid, filename)
 
-    
+
 class IssueAttachment(UIDMixin):
     issue = models.ForeignKey(Issue, related_name="attachments")
-    file = models.FileField(upload_to=issue_attachment_path)
+    file = models.FileField(storage=uploads_storage,
+                            upload_to=issue_attachment_path)
     title = models.CharField(max_length=100)
     active = models.BooleanField(default=True)
     ordinal = models.PositiveIntegerField(null=True, blank=True)
@@ -182,10 +184,18 @@ class IssueAttachment(UIDMixin):
                                    verbose_name=_("Created by"),
                                    related_name="files_created")
 
-    class Meta:       
-        ordering = ('created_at', )
+    class Meta:
+        ordering = ('created_at',)
 
-        
+    @models.permalink
+    def get_absolute_url(self):
+        return "attachment_download", (
+                                       str(self.issue.community.pk),
+                                       str(self.issue.pk),
+                                       str(self.pk)
+                                       )
+
+
 class ProposalVoteValue(object):
     CON = -1
     NEUTRAL = 0

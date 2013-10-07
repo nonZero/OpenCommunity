@@ -12,6 +12,7 @@ from issues.models import ProposalType, Issue, IssueStatus
 from oc_util.templatetags.opencommunity import minutes
 from ocd.base_views import CommunityMixin, AjaxFormView, json_response
 from ocd.validation import enhance_html
+import mimetypes
 
 
 class IssueMixin(CommunityMixin):
@@ -186,18 +187,18 @@ class IssueDeleteView(AjaxFormView, IssueMixin, DeleteView):
         o.save()
         return HttpResponse("-")
 
-        
+
 class AttachmentCreateView(AjaxFormView, IssueMixin, CreateView):
     model = models.IssueAttachment
     form_class = AddAttachmentForm
 
     required_permission = 'issues.editopen_issue'
     reload_on_success = True
-    
+
     @property
     def issue(self):
         return get_object_or_404(models.Issue, community=self.community, pk=self.kwargs['pk'])
-        
+
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         form.instance.issue = self.issue
@@ -211,15 +212,31 @@ class AttachmentDeleteView(DeleteView, AjaxFormView):
     @property
     def issue(self):
         return get_object_or_404(models.Issue, pk=self.kwargs['issue_id'])
-    
+
     def delete(self, request, *args, **kwargs):
         o = self.get_object()
         o.delete()
         return HttpResponse("")
 
 
+class AttachmentDownloadView(CommunityMixin, SingleObjectMixin, View):
 
-    
+    model = models.IssueAttachment
+
+    def get_required_permission(self):
+        o = self.get_object().issue
+        return 'issues.viewclosed_issue' if o.is_published else \
+            'issues.viewopen_issue'
+
+    def get(self, request, *args, **kwargs):
+        o = self.get_object()
+        filename = o.file.name.split('/')[-1]
+        mime_type = mimetypes.guess_type(filename, True)[0] or "text/plain"
+        response = HttpResponse(o.file, content_type=mime_type)
+        response['Content-Disposition'] = 'attachment; filename=%s' % filename
+        return response
+
+
 class ProposalCreateView(AjaxFormView, IssueMixin, CreateView):
     model = models.Proposal
 

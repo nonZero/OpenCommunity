@@ -26,9 +26,14 @@ urlpatterns = patterns('',
     url(r'^(?P<pk>\d+)/attach/$', views.AttachmentCreateView.as_view(),
                                 name="add_attachment"),
 
-    url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/remove_attachment/$', views.AttachmentDeleteView.as_view(),
+    url(r'^(?P<issue_id>\d+)/remove-attachment/(?P<pk>\d+)/$',
+                                views.AttachmentDeleteView.as_view(),
                                 name="attachment_delete"),
-                                
+
+    url(r'^(?P<issue_id>\d+)/download-attachment/(?P<pk>\d+)/$',
+                                views.AttachmentDownloadView.as_view(),
+                                name="attachment_download"),
+
     url(r'^(?P<pk>\d+)/create-proposal/$', views.ProposalCreateView.as_view(),
             name="proposal_create"),
 

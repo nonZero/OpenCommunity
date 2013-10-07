@@ -1,6 +1,7 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django import forms
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from issues import models
 from issues.models import ProposalType
@@ -62,22 +63,20 @@ class AddAttachmentBaseForm(forms.ModelForm):
                    'title',
                    'file',
                    )
-                   
-    FILE_EXT_WHITELIST = ['pdf','txt','doc', 'docx', 'xls', 'xlsx', 'csv', 'jpg', 'jpeg', 'gif', 'png']
-    
+
     def clean_file(self):
         file_obj = self.cleaned_data['file']
         if len(file_obj.name.split('.')) == 1:
                 raise forms.ValidationError(_("File type is not supported."))
-        if file_obj.name.split('.')[-1] in self.FILE_EXT_WHITELIST:
+        if file_obj.name.split('.')[-1] in settings.UPLOAD_ALLOWED_EXTS:
             return file_obj
         else:
             raise forms.ValidationError(_("File type is not allowed!"))
 
-            
+
 class AddAttachmentForm(AddAttachmentBaseForm):
     submit_button_text = _('Upload')
-    
+
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
 
@@ -87,7 +86,7 @@ class AddAttachmentForm(AddAttachmentBaseForm):
 
 
 
-    
+
 class CreateProposalBaseForm(forms.ModelForm):
 
     class Meta:
@@ -107,7 +106,7 @@ class CreateProposalForm(CreateProposalBaseForm):
 
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
-        
+
         self.helper.add_input(Submit('submit', self.submit_button_text))
 
         super(CreateProposalForm, self).__init__(*args, **kwargs)
