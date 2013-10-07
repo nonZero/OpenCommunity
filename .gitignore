@@ -21,3 +21,5 @@
 /man/
 /.settings/
 db/2013-05-20.json
+src/ocd/static/bootstrap3/
+src/ocd/static/assets/
