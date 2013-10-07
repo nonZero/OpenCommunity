@@ -1,9 +1,8 @@
-from communities.models import Community
 from django.conf import settings
 from django.db import models
-from django.utils.formats import date_format, time_format
+from django.utils.formats import date_format
 from django.utils.translation import ugettext_lazy as _
-from issues.models import Issue
+from issues.models import Issue, ProposalStatus
 from users.default_roles import DefaultGroups
 from ocd.base_models import UIDMixin
 
@@ -27,9 +26,25 @@ class AgendaItem(models.Model):
 #         return (self.meeting.natural_key(), self.issue.natural_key())
 #     natural_key.dependencies = ['meetings.meeting', 'issues.issue']
 
+    def comments(self):
+        return self.issue.comments.filter(active=True, meeting=self.meeting)
+
+    @property
+    def proposals(self):
+        return self.issue.proposals.filter(active=True,
+                                           decided_at_meeting=self.meeting)
+
+    @property
+    def accepted_proposals(self):
+        return self.proposals.filter(status=ProposalStatus.ACCEPTED)
+
+    @property
+    def rejected_proposals(self):
+        return self.proposals.filter(status=ProposalStatus.REJECTED)
+
 
 class Meeting(UIDMixin):
-    community = models.ForeignKey(Community, related_name="meetings", verbose_name=_("Community"))
+    community = models.ForeignKey('communities.Community', related_name="meetings", verbose_name=_("Community"))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="meetings_created", verbose_name=_("Created by"))
 

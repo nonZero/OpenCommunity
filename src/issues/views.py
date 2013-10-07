@@ -1,19 +1,18 @@
 from django.db.models.aggregates import Max
 from django.http.response import HttpResponse, HttpResponseBadRequest
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic import ListView
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
-    UpdateIssueForm, EditProposalTaskForm
-from issues.models import ProposalType, Issue
+    UpdateIssueForm, EditProposalTaskForm, AddAttachmentForm
+from issues.models import ProposalType, Issue, IssueStatus
 from oc_util.templatetags.opencommunity import minutes
-from ocd.base_views import CommunityMixin, AjaxFormView
+from ocd.base_views import CommunityMixin, AjaxFormView, json_response
 from ocd.validation import enhance_html
-import datetime
-import json
+import mimetypes
 
 
 class IssueMixin(CommunityMixin):
@@ -30,15 +29,16 @@ class IssueList(IssueMixin, ListView):
     required_permission = 'issues.viewopen_issue'
 
     def get_queryset(self):
-        return super(IssueList, self).get_queryset().filter(
-              is_closed=False).order_by('-created_at')
+        return super(IssueList, self).get_queryset().exclude(
+              status=IssueStatus.ARCHIVED).order_by('-created_at')
 
 
 class IssueDetailView(IssueMixin, DetailView):
 
     def get_required_permission(self):
         o = self.get_object()
-        return 'issues.viewclosed_issue' if o.is_closed else 'issues.viewopen_issue'
+        return 'issues.viewclosed_issue' if o.is_published else \
+            'issues.viewopen_issue'
 
     def get_context_data(self, **kwargs):
         d = super(IssueDetailView, self).get_context_data(**kwargs)
@@ -67,7 +67,7 @@ class IssueCommentMixin(CommunityMixin):
 
     def get_required_permission(self):
         o = self.get_object()
-        return 'issues.editopen_issuecomment' if o.issue.is_closed else \
+        return 'issues.editopen_issuecomment' if o.issue.is_upcoming else \
             'issues.editclosed_issuecomment'
 
     def get_queryset(self):
@@ -116,7 +116,8 @@ class IssueCreateView(AjaxFormView, IssueMixin, CreateView):
     def form_valid(self, form):
         form.instance.community = self.community
         form.instance.created_by = self.request.user
-        form.instance.in_upcoming_meeting = self.upcoming
+        form.instance.status = IssueStatus.IN_UPCOMING_MEETING if \
+                                     self.upcoming else IssueStatus.OPEN
         if self.upcoming:
             max_upcoming = Issue.objects.filter(
                                 community=self.community).aggregate(x=Max(
@@ -171,7 +172,7 @@ class IssueDeleteView(AjaxFormView, IssueMixin, DeleteView):
 
     def get_required_permission(self):
         o = self.get_object()
-        if o.is_closed:
+        if o.is_published:
             return 'issues.editclosed_issue'
 
         return 'issues.add_issue' if o.created_by == self.request.user \
@@ -187,11 +188,61 @@ class IssueDeleteView(AjaxFormView, IssueMixin, DeleteView):
         return HttpResponse("-")
 
 
+class AttachmentCreateView(AjaxFormView, IssueMixin, CreateView):
+    model = models.IssueAttachment
+    form_class = AddAttachmentForm
+
+    required_permission = 'issues.editopen_issue'
+    reload_on_success = True
+
+    @property
+    def issue(self):
+        return get_object_or_404(models.Issue, community=self.community, pk=self.kwargs['pk'])
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        form.instance.issue = self.issue
+        return super(AttachmentCreateView, self).form_valid(form)
+
+
+class AttachmentDeleteView(DeleteView, AjaxFormView):
+    model = models.IssueAttachment
+    required_permission = 'issues.editopen_issue'
+
+    @property
+    def issue(self):
+        return get_object_or_404(models.Issue, pk=self.kwargs['issue_id'])
+
+    def delete(self, request, *args, **kwargs):
+        o = self.get_object()
+        o.delete()
+        return HttpResponse("")
+
+
+class AttachmentDownloadView(CommunityMixin, SingleObjectMixin, View):
+
+    model = models.IssueAttachment
+
+    def get_required_permission(self):
+        o = self.get_object().issue
+        return 'issues.viewclosed_issue' if o.is_published else \
+            'issues.viewopen_issue'
+
+    def get(self, request, *args, **kwargs):
+        o = self.get_object()
+        filename = o.file.name.split('/')[-1]
+        mime_type = mimetypes.guess_type(filename, True)[0] or "text/plain"
+        response = HttpResponse(o.file, content_type=mime_type)
+        response['Content-Disposition'] = 'attachment; filename=%s' % filename
+        return response
+
+
 class ProposalCreateView(AjaxFormView, IssueMixin, CreateView):
     model = models.Proposal
 
     def get_required_permission(self):
-        return 'issues.editclosedproposal' if self.get_object().is_closed \
+        return 'issues.editclosedproposal' if \
+            self.get_object().status == IssueStatus.ARCHIVED \
             else 'issues.add_proposal'
 
     form_class = CreateProposalForm
@@ -237,20 +288,26 @@ class ProposalDetailView(ProposalMixin, DetailView):
 
     def get_required_permission(self):
         o = self.get_object()
-        return 'issues.viewclosed_proposal' if o.issue.is_closed else 'issues.viewopen_proposal'
+        return 'issues.viewclosed_proposal' if o.decided_at_meeting else 'issues.viewopen_proposal'
 
     def get_required_permission_for_post(self):
         o = self.get_object()
-        return 'issues.acceptclosed_proposal' if o.issue.is_closed else 'issues.acceptopen_proposal'
+        return 'issues.acceptclosed_proposal' if o.decided_at_meeting else 'issues.acceptopen_proposal'
 
     def post(self, request, *args, **kwargs):
+        """ Used to change a proposal status (accept/reject) """
         p = self.get_object()
-        p.is_accepted = request.POST['accepted'] == "0"
-        p.accepted_at = datetime.datetime.now() if p.is_accepted else None
+        v = int(request.POST['accepted'])
+        if v not in [
+                     p.statuses.ACCEPTED,
+                     p.statuses.REJECTED,
+                     p.statuses.IN_DISCUSSION
+                     ]:
+            return HttpResponseBadRequest("Bad value for accepted POST parameter")
+        p.status = v
         p.save()
 
-        return HttpResponse(json.dumps(int(p.is_accepted)),
-                             content_type='application/json')
+        return redirect(p.issue)
 
 
 class ProposalEditView(AjaxFormView, ProposalMixin, UpdateView):
@@ -260,7 +317,7 @@ class ProposalEditView(AjaxFormView, ProposalMixin, UpdateView):
 
     def get_required_permission(self):
         o = self.get_object()
-        return 'issues.editclosed_proposal' if o.issue.is_closed else 'issues.edittask_proposal'
+        return 'issues.editclosed_proposal' if o.decided_at_meeting else 'issues.edittask_proposal'
 
 
 class ProposalEditTaskView(ProposalMixin, UpdateView):
@@ -271,14 +328,14 @@ class ProposalEditTaskView(ProposalMixin, UpdateView):
 
     def get_required_permission(self):
         o = self.get_object()
-        return 'issues.editclosed_proposal' if o.issue.is_closed else 'issues.editopen_proposal'
+        return 'issues.editclosed_proposal' if o.decided_at_meeting else 'issues.editopen_proposal'
 
 
 class ProposalDeleteView(AjaxFormView, ProposalMixin, DeleteView):
 
     def get_required_permission(self):
         o = self.get_object()
-        if o.issue.is_closed:
+        if o.decided_at_meeting:
             return 'issues.editclosed_issue'
 
         return 'issues.add_proposal' if o.created_by == self.request.user \

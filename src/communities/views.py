@@ -11,10 +11,10 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
-from ocd.base_views import ProtectedMixin, LoginRequiredMixin, AjaxFormView
+from ocd.base_views import ProtectedMixin, AjaxFormView
 import datetime
 import json
-import os
+from issues.models import IssueStatus
 
 
 class CommunityList(ListView):
@@ -25,10 +25,10 @@ class CommunityList(ListView):
         if self.request.user.is_superuser:
             return qs
         return qs.filter(is_public=True)
-    
+
     def get_context_data(self, **kwargs):
         d = super(CommunityList, self).get_context_data(**kwargs)
-        d['version'] = open(os.path.join(settings.STATIC_ROOT, 'version.txt')).read()
+        d['version'] = settings.OPENCOMMUNITY_VERSION
         return d
 
 
@@ -49,9 +49,6 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
 
     template_name = "communities/upcoming.html"
 
-    def get_issues_queryset(self, **kwargs):
-        return self.get_object().issues.filter(is_closed=False, **kwargs)
-
     required_permission_for_post = 'community.editagenda_community'
 
     def post(self, request, *args, **kwargs):
@@ -64,10 +61,11 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
 
         if 'issue' in request.POST:
 
-            issue = self.get_issues_queryset().get(id=int(request.POST.get('issue')))
+            issue = self.get_object().issues.get(id=int(request.POST.get('issue')))
 
             add_to_meeting = request.POST['set'] == "0"
-            issue.in_upcoming_meeting = add_to_meeting
+            issue.status = IssueStatus.IN_UPCOMING_MEETING if add_to_meeting \
+                            else IssueStatus.OPEN
             last = self.get_object().upcoming_issues().aggregate(
                                      last=Max('order_in_upcoming_meeting'))['last']
             issue.order_in_upcoming_meeting = (last or 0) + 1
@@ -93,9 +91,6 @@ class PublishUpcomingMeetingPreviewView(CommunityModelMixin, DetailView):
     required_permission = 'communities.viewupcoming_community'
 
     template_name = "emails/agenda.html"
-
-    def get_issues_queryset(self, **kwargs):
-        return self.get_object().issues.filter(is_closed=False, **kwargs)
 
 
 class EditUpcomingMeetingView(AjaxFormView, CommunityModelMixin, UpdateView):

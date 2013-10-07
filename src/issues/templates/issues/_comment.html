@@ -1,10 +1,10 @@
 {% load i18n %}
 
-{% if c.active or cperms.issues.editclosed_issuecomment or cperms.issues.editopen_issuecomment and not object.is_closed  %}
+{% if c.active or cperms.issues.editclosed_issuecomment or cperms.issues.editopen_issuecomment and c.is_open  %}
     
     <li{% if not c.active %} class="deleted"{% endif %}>
     
-        {% if cperms.issues.editclosed_issuecomment or cperms.issues.editopen_issuecomment and not object.is_closed  %}
+        {% if cperms.issues.editclosed_issuecomment or cperms.issues.editopen_issuecomment and c.is_open  %}
             <form class="delete-comment push" method="post" action="{{c.get_delete_url}}">
                 {% csrf_token %}
                 <span class="delete-btn">
@@ -20,20 +20,27 @@
                 data-icon="edit" data-iconpos="notext" data-theme="e" data-inline="true"
                 >{% trans "Edit" %}</button>
             </span>
-        
+
             <span class="cancel-edit-comment push">
                 <button data-icon="delete" data-iconpos="notext" data-theme="c" data-inline="true">{% trans "Cancel" %}</button>
             </span>
         {% endif %}
-    
+
         <span class="comment-inner">
+            {% if c.meeting %}
+                <p><b>
+                    <a href="{{c.meeting.get_absolute_url}}">
+                        {{c.meeting}}
+                    </a>
+                </b></p>
+            {% endif %}
             <i>
                 {{c.created_by}} {% trans "at" %} {{c.created_at}}
             </i>
             <blockquote>
                 {{c.content|safe}}
             </blockquote>
-    
+
             {% if c.last_edited_by %}
                 <i>
                     {% trans "version" %} {{c.version}},

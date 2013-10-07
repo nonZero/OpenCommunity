@@ -67,6 +67,13 @@ LOCALE_PATHS = (
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
+UPLOAD_PATH = ABSDIR('uploads')
+
+UPLOAD_ALLOWED_EXTS = [
+                       'pdf', 'txt', 'doc', 'docx', 'xls', 'xlsx', 'csv',
+                      'jpg', 'jpeg', 'gif', 'png' , 'ppt', 'pptx', 'rtf'
+                      ]
+
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
 MEDIA_ROOT = ABSDIR('media')
@@ -207,6 +214,13 @@ CRISPY_TEMPLATE_PACK = "jquery-mobile"
 DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,
 }
+
+version_file = os.path.join(STATIC_ROOT, 'version.txt')
+if os.path.exists(version_file):
+    with open(version_file) as f:
+        OPENCOMMUNITY_VERSION = f.read()
+else:
+    OPENCOMMUNITY_VERSION = None
 
 try:
     from local_settings import *

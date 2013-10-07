@@ -4,39 +4,39 @@
     style="font-family: Arial, Helvetica, sans-serif{% if LANGUAGE_CODE == 'he' %};direction:rtl{% endif %}">
 
     <div style="border: 1px solid black">
-    
-    	{% if community.logo %}
-    	<div style="width: 100%">
-    		<center>
-    		<img src="{{base_url}}{{MEDIA_URL}}{{ community.logo }}"/>
-    		</center>
-    	</div>
-    	{% endif %}
+
+        {% if community.logo %}
+            <div style="width: 100%">
+                <center>
+                <img src="{{base_url}}{{MEDIA_URL}}{{ community.logo }}"/>
+                </center>
+            </div>
+        {% endif %}
+
         <h1 style="margin:0 0 1em 0; text-align: center; padding: 4px">
             {{community}}{% if community.official_identifier %} {{ community.official_identifier }}{% endif %}
-        </h1> 
+        </h1>
+
         <h1 style="margin:0; background: #ddd;padding: 4px">
             {% if title %}
               {{title}} -
             {% endif %}
             {{title_type}}
         </h1>
-    
+
         <div style="padding:3px 6px">
             <p>
                 <a href="{{base_url}}{{url}}">{% trans "View online" %}</a>
             </p>
-            
-            
+
             {% if summary %}
               {{summary|safe}}
             {% endif %}
-    
-    
+
             {% if participants or guests %}
             <div style="border: solid 1px #ccc; margin: 4px 0;padding: 0"> 
                 <h2 style="margin:0; background: #ddd;padding: 4px">{% trans "Participants" %}</h2>
-    
+
                 <div style="margin:0; padding: 4px">
                     {% for u in participants %}
                         {{ u }}{% if not forloop.last %},{% endif %}
@@ -53,27 +53,28 @@
             </div>
             {% endif %}
         </div>
-    
+
         <h2 style="margin:12px 0 0 0; background:#eee; padding:6px 3px 3px">
             {% trans "Issues & Decisions" %}
         </h2>
-    
+
         <div style="padding:12px 6px">
-    
-            {% for i in issues %}
+
+            {% for a in agenda %}
                 <article style="border: solid 1px #ccc; margin-top: 12px;">
-    
+
                     <h3 style="margin:0; background: #ddd;padding: 4px">
-                        <a href="{{base_url}}{{i.get_absolute_url}}">
-                            {{i.title}}
+                        <a href="{{base_url}}{{a.issue.get_absolute_url}}">
+                            {{a.issue.title}}
                         </a>
                     </h3>
 
-                    {% if i.active_comments.count %}
+                    {% if a.comments.count %}
                       <h4 style="margin:0; background: #eee; padding: 2px">
                           {% trans "Discussion Summary" %}
                       </h4>
-                      {% for c in i.active_comments.all %}
+
+                      {% for c in a.comments.all %}
                         <p style="padding:0; margin: 3px;">
                             {{c.content|safe}}
                             {% comment %}
@@ -84,18 +85,19 @@
                         </p>
                       {% endfor %}
                     {% endif %}
-    
-                    {% with proposals=i.accepted_proposals.count %}
-                        {% if proposals %}
+
+                    {% with proposals=a.proposals %}
+                        {% if proposals.count %}
                             <h4 style="margin:0; background: #eee; padding: 2px">
-                                {% trans "Accepted Proposals" %}
+                                {% trans "Proposals" %}
                             </h4>
                             <ul>
-                                {% for p in i.accepted_proposals.all %}
+                                {% for p in proposals %}
                                     <li style="padding:2px 0">
                                         <a href="{{base_url}}{{p.get_absolute_url}}">
-                                            {{ p.get_type_display}}: {{p.title}}
+                                            {% if p.type != 3 %}{{ p.get_type_display}}: {% endif %}{{p.title}}
                                         </a>
+                                        <b>{{ p.get_status_display }}</b>
                                         {% if p.assigned_to %}
                                             &nbsp;
                                             <b>{% trans "Assigned to" %}</b>: {{p.assigned_to}}
@@ -112,32 +114,17 @@
                                     </li>
                                 {% endfor %}
                             </ul>
-                            {% if i.unaccepted_proposals %}
-                            <h4 style="margin:0; background: #eee; padding: 2px">
-                                {% trans "Rejected Proposals" %}
-                            </h4>
-                            <ul>
-                                {% for n in i.unaccepted_proposals.all %}
-                                    <li style="padding:2px 0">
-                                        <a href="{{base_url}}{{p.get_absolute_url}}">
-                                            {{n.title}}
-                                        </a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                            {% endif %}
                         {% else %}
                             <p>
-                                <b>{% trans "No Accepted Proposals" %}</b>
+                                <b>{% trans "No Decided Proposals" %}</b>
                             </p>
-    
                         {% endif %}
                     {% endwith %}
-    
+
                 </article>
-    
+
             {% endfor %}
-    
+
         </div>
     </div>
 

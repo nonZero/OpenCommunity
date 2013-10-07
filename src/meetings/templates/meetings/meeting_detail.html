@@ -84,22 +84,21 @@ id="meeting-detail"
 				</tr>
 			</thead>
 			<tbody>
-				{% if a.closed %}
-				{% for p in a.issue.accepted_proposals %}
-				<tr>
-					<td class="sub_count num{{ forloop.counter }} {% if p.type == 1 %}task-icon{% endif %}{% if p.type == 2 %}rule-icon{% endif %}{% if p.type == 3 %}general-icon{% endif %}" rowspan="2">							{# {{ forloop.counter|to_char }} #}
-					</td>
-					<td class="body_title"><a href="{{p.get_absolute_url}}"><b>{{p.title}}</b></a></td>
-				</tr>
-				<tr class="table_divider">
-					<td><a href="{{p.get_absolute_url}}">{{p.content|safe}}</a></td>
-				</tr>
-				{% endfor %}
+				{% if a.proposals.count %}
+    				{% for p in a.proposals %}
+        				<tr>
+        					<td class="sub_count num{{ forloop.counter }}" rowspan="2">{{ forloop.counter|to_char }}</td>
+        					<td class="body_title"><a href="{{p.get_absolute_url}}">{{p.get_status_display}}: <b>{{p.title}}</b></a></td>
+        				</tr>
+        				<tr class="table_divider">
+        					<td><a href="{{p.get_absolute_url}}">{{p.content|safe}}</a></td>
+        				</tr>
+    				{% endfor %}
 				{% else %}
-				<tr>
-					<td class="sub_count num1" rowspan="2"><span>*</span></td>
-					<td class="body_title" style="vertical-align: top;" rowspan="2"><a href="#">{% trans "Undecided" %}</a></td>
-				</tr>
+    				<tr>
+    					<td class="sub_count num1" rowspan="2"><span>*</span></td>
+    					<td class="body_title" style="vertical-align: top;" rowspan="2"><a href="#">{% trans "Undecided" %}</a></td>
+    				</tr>
 				{% endif %}
 			</tbody>
 		</table>

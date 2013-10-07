@@ -80,7 +80,13 @@
         </ul>
 
     {% endif %}
-
-	<p class="version">{% trans "Version" %}: {{ version }}</p>
+    
+    {% if version %}
+        <p class="version">{% trans "Version" %}: 
+            <span dir="ltr">{{ version }}</span>
+        </p>
+    {% else %}
+        <p class="version">DEVELOPMENT SERVER</p>
+    {% endif %}
 
 {% endblock %}

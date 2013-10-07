@@ -76,6 +76,11 @@ It should look like this::
     ALLOWED_HOSTS = [_host]
     FROM_EMAIL = "noreply@opencommunity.org.il"
 
+Let's make a directory for our uploads::
+
+    mkdir uploads
+    chmod a+rwx uploads
+
 Let's set up the database::
 
     cd src
@@ -87,6 +92,8 @@ Let's set up the database::
 
     # And while we are here:
     python manage.py collectstatic --noinput
+
+
 
 Let's set up a gunicorn server, back as root::
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-29 20:41+0300\n"
+"POT-Creation-Date: 2013-10-07 11:25+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,186 +17,217 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\forms.py:52
+#: .\forms.py:53
 msgid "Update"
 msgstr "עדכון"
 
-#: .\forms.py:73 .\templates\issues\issue_create_form.html.py:20
+#: .\forms.py:72 .\forms.py:75
+msgid "File type is not allowed!"
+msgstr "לא ניתן להעלות קבצים מסוג זה"
+
+#: .\forms.py:82
+msgid "Upload"
+msgstr "העלה קובץ"
+
+#: .\forms.py:109 .\templates\issues\issue_create_form.html.py:20
 msgid "Create"
 msgstr "צור חדש"
 
-#: .\forms.py:85 .\forms.py:121 .\templates\issues\issuecomment_form.html.py:6
+#: .\forms.py:121 .\forms.py:157
+#: .\templates\issues\issuecomment_form.html.py:6
 msgid "Save"
 msgstr "שמירה"
 
-#: .\forms.py:100
+#: .\forms.py:136
 msgid "Add"
 msgstr "הוספה"
 
-#: .\models.py:11 .\models.py:179
-msgid "Active"
-msgstr "פעיל"
+#: .\models.py:22
+msgid "Open"
+msgstr "הצעה פתוחה"
 
-#: .\models.py:12
-msgid "Community"
-msgstr "קהילה"
-
-#: .\models.py:13 .\models.py:71 .\models.py:126
-msgid "Created at"
-msgstr "נוצר ב"
-
-#: .\models.py:14
-msgid "Create by"
-msgstr "נוצר על ידי"
-
-#: .\models.py:16 .\models.py:184
-msgid "Title"
-msgstr "כותרת"
-
-#: .\models.py:17
-msgid "Background"
-msgstr "רקע"
-
-#: .\models.py:18 .\models.py:131 .\models.py:185
-#: .\templates\issues\issue_detail.html.py:84
-msgid "Content"
-msgstr "פירוט"
-
-#: .\models.py:20
-msgid "Calculated Score"
-msgstr "ניקוד מצטבר"
-
-#: .\models.py:22 .\templates\issues\issue_detail.html.py:58
+#: .\models.py:23 .\templates\issues\issue_detail.html.py:58
 msgid "In upcoming meeting"
 msgstr "בפגישה הקרובה"
 
 #: .\models.py:24
+msgid "In upcoming meeting (completed)"
+msgstr "בפגישה הקרובה (הדיון תם)"
+
+#: .\models.py:25
+msgid "Archived"
+msgstr "בארכיון"
+
+#: .\models.py:33 .\models.py:267
+msgid "Active"
+msgstr "פעיל"
+
+#: .\models.py:34
+msgid "Community"
+msgstr "קהילה"
+
+#: .\models.py:35 .\models.py:101 .\models.py:162
+msgid "Created at"
+msgstr "נוצר ב"
+
+#: .\models.py:36
+msgid "Create by"
+msgstr "נוצר על ידי"
+
+#: .\models.py:38 .\models.py:179 .\models.py:275
+msgid "Title"
+msgstr "כותרת"
+
+#: .\models.py:39
+msgid "Background"
+msgstr "רקע"
+
+#: .\models.py:40 .\models.py:167 .\models.py:276
+#: .\templates\issues\issue_detail.html.py:87
+msgid "Content"
+msgstr "פירוט"
+
+#: .\models.py:42
+msgid "Calculated Score"
+msgstr "ניקוד מצטבר"
+
+#: .\models.py:49
 msgid "Order in upcoming meeting"
 msgstr "סדר בפגישה הקרובה"
 
-#: .\models.py:26
+#: .\models.py:51
 msgid "Length (in minutes)"
 msgstr "זמן (בדקות)"
 
-#: .\models.py:30
+#: .\models.py:55
 msgid "Discussion completed"
 msgstr "הדיון הושלם"
 
-#: .\models.py:31
-msgid "Is close"
-msgstr "סגור"
+#: .\models.py:56
+msgid "Is published to members"
+msgstr "פורסם לחברי הקהילה"
 
-#: .\models.py:32
-msgid "Closed at meeting"
-msgstr "נסגר בישיבה"
-
-#: .\models.py:35 .\models.py:178 .\templates\issues\issue_detail.html.py:11
+#: .\models.py:60 .\models.py:266 .\templates\issues\issue_detail.html.py:13
 msgid "Issue"
 msgstr "נושא לדיון"
 
-#: .\models.py:36 .\templates\issues\issue_list.html.py:10
+#: .\models.py:61 .\templates\issues\issue_list.html.py:10
 msgid "Issues"
 msgstr "נושאים לדיון"
 
-#: .\models.py:73 .\models.py:80 .\models.py:128 .\models.py:181
+#: .\models.py:103 .\models.py:112 .\models.py:164 .\models.py:185
+#: .\models.py:271
 msgid "Created by"
 msgstr "נוצר על ידי"
 
-#: .\models.py:78
+#: .\models.py:110
 msgid "Last Edited at"
 msgstr "עריכה אחרונה"
 
-#: .\models.py:83
+#: .\models.py:115
 msgid "Comment"
 msgstr "הערה"
 
-#: .\models.py:140
+#: .\models.py:177
+msgid "File"
+msgstr "קובץ"
+
+#: .\models.py:183
+msgid "File created at"
+msgstr "נוצר ב"
+
+#: .\models.py:206
 msgid "Con"
 msgstr "נגד"
 
-#: .\models.py:141
+#: .\models.py:207
 msgid "Neutral"
 msgstr "נמנע"
 
-#: .\models.py:142
+#: .\models.py:208
 msgid "Pro"
 msgstr "בעד"
 
-#: .\models.py:147 .\models.py:205
+#: .\models.py:213 .\models.py:299
 #: .\templates\issues\proposal_detail.html.py:10
 msgid "Proposal"
 msgstr "הצעת החלטה"
 
-#: .\models.py:148
+#: .\models.py:214
 msgid "User"
 msgstr "משתמש"
 
-#: .\models.py:149
+#: .\models.py:215
 msgid "Vote"
 msgstr "הצבעה"
 
-#: .\models.py:153
+#: .\models.py:219
 msgid "Proposal Vote"
 msgstr "הצבעה על הצעה"
 
-#: .\models.py:154
+#: .\models.py:220
 msgid "Proposal Votes"
 msgstr "הצבעות על הצעה"
 
-#: .\models.py:166
+#: .\models.py:232
 msgid "Task"
 msgstr "משימה"
 
-#: .\models.py:167
+#: .\models.py:233
 msgid "Rule"
 msgstr "נוהל"
 
-#: .\models.py:168
+#: .\models.py:234
 msgid "General"
 msgstr "כללי"
 
-#: .\models.py:180
+#: .\models.py:258
+msgid "In discussion"
+msgstr "בדיון"
+
+#: .\models.py:259
+msgid "Accepted"
+msgstr "ההחלטה התקבלה"
+
+#: .\models.py:260
+msgid "Rejected"
+msgstr "ההצעה נדחתה"
+
+#: .\models.py:268
 msgid "Create at"
 msgstr "נוצר ב"
 
-#: .\models.py:182
+#: .\models.py:272
 msgid "Type"
 msgstr "סוג"
 
-#: .\models.py:187
-msgid "Is accepted"
-msgstr "התקבל"
-
-#: .\models.py:188
-msgid "Accepted at"
-msgstr "התקבל ב"
-
-#: .\models.py:189 .\templates\issues\issue_detail.html.py:119
-#: .\templates\issues\proposal_detail.html.py:53
+#: .\models.py:283 .\templates\issues\_proposal.html.py:26
+#: .\templates\issues\proposal_detail.html.py:55
 msgid "Assigned to"
 msgstr "אחראי"
 
-#: .\models.py:192
+#: .\models.py:286
 msgid "Assigned to user"
 msgstr "אחראי"
 
-#: .\models.py:195 .\templates\issues\issue_detail.html.py:122
-#: .\templates\issues\proposal_detail.html.py:57
+#: .\models.py:289 .\templates\issues\_proposal.html.py:29
+#: .\templates\issues\proposal_detail.html.py:59
 msgid "Due by"
 msgstr "יעד"
 
-#: .\models.py:198
+#: .\models.py:292
 msgid "Votes"
 msgstr "הצבעות"
 
-#: .\models.py:206 .\templates\issues\issue_detail.html.py:94
+#: .\models.py:300 .\templates\issues\issue_detail.html.py:130
 msgid "Proposals"
 msgstr "הצעות החלטה"
 
 #: .\templates\issues\_comment.html.py:11
 #: .\templates\issues\issue_confirm_delete.html.py:6
 #: .\templates\issues\issue_confirm_delete.html.py:14
-#: .\templates\issues\issue_detail.html.py:35
+#: .\templates\issues\issue_detail.html.py:38
+#: .\templates\issues\issueattachment_confirm_delete.html.py:13
 #: .\templates\issues\proposal_confirm_delete.html.py:6
 #: .\templates\issues\proposal_confirm_delete.html.py:14
 #: .\templates\issues\proposal_detail.html.py:23
@@ -208,7 +239,7 @@ msgid "Undelete"
 msgstr "ביטול מחיקה"
 
 #: .\templates\issues\_comment.html.py:21
-#: .\templates\issues\issue_detail.html.py:32
+#: .\templates\issues\issue_detail.html.py:35
 #: .\templates\issues\proposal_detail.html.py:22
 msgid "Edit"
 msgstr "עריכה"
@@ -217,23 +248,24 @@ msgstr "עריכה"
 msgid "Cancel"
 msgstr "ביטול"
 
-#: .\templates\issues\_comment.html.py:31
-#: .\templates\issues\_comment.html.py:41
+#: .\templates\issues\_comment.html.py:38
+#: .\templates\issues\_comment.html.py:47
 msgid "at"
 msgstr "ב"
 
-#: .\templates\issues\_comment.html.py:40
+#: .\templates\issues\_comment.html.py:46
 msgid "version"
 msgstr "גרסא"
 
-#: .\templates\issues\_comment.html.py:41
+#: .\templates\issues\_comment.html.py:47
 msgid "Last edited by"
 msgstr "נערך לאחרונה על ידי"
 
 #: .\templates\issues\issue_confirm_delete.html.py:13
+#: .\templates\issues\issueattachment_confirm_delete.html.py:12
 #: .\templates\issues\proposal_confirm_delete.html.py:13
 msgid "Are you sure?"
-msgstr ""
+msgstr "האם אתה בטוח?"
 
 #: .\templates\issues\issue_create_form.html.py:10
 #: .\templates\issues\issue_form.html.py:13
@@ -246,30 +278,35 @@ msgid "New Proposal"
 msgstr "הצעת החלטה חדשה"
 
 #: .\templates\issues\issue_detail.html.py:51
-#: .\templates\issues\issue_detail.html.py:53
-#: .\templates\issues\issue_list.html.py:49
-#: .\templates\issues\proposal_detail.html.py:65
 msgid "Closed"
 msgstr "סגור"
 
-#: .\templates\issues\issue_detail.html.py:75
-#: .\templates\issues\proposal_detail.html.py:78
-msgid "Abstract"
-msgstr "תקציר"
+#: .\templates\issues\issue_detail.html.py:101
+msgid "Attachments"
+msgstr "קבצים מצורפים"
 
-#: .\templates\issues\issue_detail.html.py:141
+#: .\templates\issues\issue_detail.html.py:115
+#: .\templates\issues\issueattachment_form.html.py:10
+msgid "Add attachment"
+msgstr "צרף קובץ"
+
+#: .\templates\issues\issue_detail.html.py:124
+msgid "Past Proposals"
+msgstr "החלטות קודמות"
+
+#: .\templates\issues\issue_detail.html.py:142
 msgid "Add Proposal"
 msgstr "הוסף הצעה"
 
-#: .\templates\issues\issue_detail.html.py:147
+#: .\templates\issues\issue_detail.html.py:148
 msgid "Summary"
 msgstr "סיכום"
 
-#: .\templates\issues\issue_detail.html.py:168
+#: .\templates\issues\issue_detail.html.py:169
 msgid "Undo complete discussion"
 msgstr "החזר נושא לדיון"
 
-#: .\templates\issues\issue_detail.html.py:168
+#: .\templates\issues\issue_detail.html.py:169
 msgid "Complete discussion"
 msgstr "הדיון הושלם"
 
@@ -281,28 +318,51 @@ msgstr "ערוך נושא"
 msgid "Search"
 msgstr "חיפוש"
 
+#: .\templates\issues\issueattachment_confirm_delete.html.py:6
+msgid "Delete Attachment"
+msgstr "מחק קובץ"
+
 #: .\templates\issues\proposal_detail.html.py:28
 msgid "Reassign task"
 msgstr "עדכן משימה"
 
-#: .\templates\issues\proposal_detail.html.py:60
+#: .\templates\issues\proposal_detail.html.py:62
 msgid "By:"
 msgstr "מאת:"
 
 #: .\templates\issues\proposal_detail.html.py:73
-msgid "Proposal accepted"
-msgstr "ההצעה התקבלה"
+msgid "Abstract"
+msgstr "תקציר"
 
-#: .\templates\issues\proposal_detail.html.py:92
+#: .\templates\issues\proposal_detail.html.py:93
 msgid "Accept proposal"
 msgstr "קבל את ההחלטה"
 
-#: .\templates\issues\proposal_detail.html.py:93
+#: .\templates\issues\proposal_detail.html.py:97
+msgid "Reject proposal"
+msgstr "דחה הצעה"
+
+#: .\templates\issues\proposal_detail.html.py:101
 msgid "Cancel approval"
 msgstr "בטל"
 
-#~ msgid "Accept"
-#~ msgstr "אישור"
+#~ msgid "File type is not supported."
+#~ msgstr "לא ניתן להעלות קבצים מסוג זה"
+
+#~ msgid "Proposal accepted"
+#~ msgstr "ההצעה התקבלה"
+
+#~ msgid "Is close"
+#~ msgstr "סגור"
+
+#~ msgid "Closed at meeting"
+#~ msgstr "נסגר בישיבה"
+
+#~ msgid "Is accepted"
+#~ msgstr "התקבל"
+
+#~ msgid "Accepted at"
+#~ msgstr "התקבל ב"
 
 #~ msgid "Other"
 #~ msgstr "אחר"

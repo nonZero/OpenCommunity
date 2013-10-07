@@ -1,20 +1,14 @@
 from django.contrib import messages
-from django.db import transaction
 from django.http.response import HttpResponse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.base import RedirectView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
-from django.views.generic.list import ListView
 from issues.views import CommunityMixin
 from meetings import models
 from meetings.forms import CloseMeetingForm
-from meetings.models import AgendaItem, MeetingParticipant
-from communities.models import SendToOption
 from ocd.base_views import AjaxFormView
-from users.models import Membership
-import datetime
 
 
 class MeetingMixin(CommunityMixin):
@@ -27,7 +21,7 @@ class MeetingMixin(CommunityMixin):
 
 class MeetingList(MeetingMixin, RedirectView):
     required_permission = 'meetings.view_meeting'
-    
+
     def get_redirect_url(self, **kwargs):
         o = models.Meeting.objects.filter(community=self.community).latest('held_at')
         if o:
@@ -67,61 +61,11 @@ class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
 
     def form_valid(self, form):
 
-        with transaction.commit_on_success():
-            c = self.community
+        m = self.community.close_meeting(form.instance, self.request.user)
 
-            m = form.instance
-            m.community = c
-            m.created_by = self.request.user
-            m.title = c.upcoming_meeting_title
-            m.scheduled_at = (c.upcoming_meeting_scheduled_at
-                                or datetime.datetime.now())
-            m.location = c.upcoming_meeting_location
-            m.comments = c.upcoming_meeting_comments
-            m.guests = c.upcoming_meeting_guests
-            m.summary = c.upcoming_meeting_summary
-
-            m.save()
-
-            c.upcoming_meeting_started = False
-            c.upcoming_meeting_title = None
-            c.upcoming_meeting_scheduled_at = None
-            c.upcoming_meeting_location = None
-            c.upcoming_meeting_comments = None
-            c.upcoming_meeting_summary = None
-            c.upcoming_meeting_version = 0
-            c.upcoming_meeting_is_published = False
-            c.upcoming_meeting_published_at = None
-            c.upcoming_meeting_guests = None
-            c.save()
-
-            for i, issue in enumerate(c.upcoming_issues()):
-
-                AgendaItem.objects.create(meeting=m, issue=issue, order=i,
-                                          closed=issue.completed)
-
-                if issue.completed:
-                    issue.is_closed = True
-                    issue.closed_at_meeting = m
-                    issue.in_upcoming_meeting = False
-                    issue.order_in_upcoming_meeting = None
-                issue.save()
-
-            for i, p in enumerate(c.upcoming_meeting_participants.all()):
-
-                try:
-                    mm = p.memberships.get(community=c)
-                except Membership.DoesNotExist:
-                    mm = None
-
-                MeetingParticipant.objects.create(meeting=m, ordinal=i, user=p,
-                      display_name=p.display_name,
-                      default_group_name=mm.default_group_name if mm else None)
-
-            c.upcoming_meeting_participants = []
-
-        total = c.send_mail('protocol', self.request.user,
+        total = self.community.send_mail('protocol', self.request.user,
                             form.cleaned_data['send_to'], {'object': m})
+
         messages.info(self.request, _("Sending to %d users") % total)
 
         return HttpResponse(m.get_absolute_url())

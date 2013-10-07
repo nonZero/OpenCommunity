@@ -27,6 +27,11 @@ def host_type():
     run('uname -s')
 
 
+def git_log():
+    with virtualenv(env.code_dir):
+        run("git log -n 1")
+
+
 def freeze():
     with virtualenv(env.code_dir):
         run("pip freeze")
@@ -37,8 +42,10 @@ def deploy():
         run("git pull")
         run("pip install -r requirements.txt")
         run("pip install -r deploy-requirements.txt")
-        run("cd src && python manage.py migrate")
+        run("cd src && python manage.py migrate --merge")
         run("cd src && python manage.py collectstatic --noinput")
+        run("git log -n 1 --format=\"%ai %h\" > static/version.txt")
+        run("git log -n 1 > static/version-full.txt")
         run("cd src && kill -HUP `cat masterpid`")
 
 
