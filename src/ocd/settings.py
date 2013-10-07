@@ -4,6 +4,8 @@ import sys
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
+QA_SERVER = False  # triggers minor UI changes
+
 PROJECT_DIR = os.path.abspath(
                       os.path.join(os.path.dirname(__file__), '..', '..'))
 
@@ -65,14 +67,21 @@ LOCALE_PATHS = (
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
+UPLOAD_PATH = ABSDIR('uploads')
+
+UPLOAD_ALLOWED_EXTS = [
+                       'pdf', 'txt', 'doc', 'docx', 'xls', 'xlsx', 'csv',
+                      'jpg', 'jpeg', 'gif', 'png' , 'ppt', 'pptx', 'rtf'
+                      ]
+
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = ABSDIR('media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -205,6 +214,13 @@ CRISPY_TEMPLATE_PACK = "jquery-mobile"
 DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,
 }
+
+version_file = os.path.join(STATIC_ROOT, 'version.txt')
+if os.path.exists(version_file):
+    with open(version_file) as f:
+        OPENCOMMUNITY_VERSION = f.read()
+else:
+    OPENCOMMUNITY_VERSION = None
 
 try:
     from local_settings import *
