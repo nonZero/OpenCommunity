@@ -10,6 +10,7 @@ from ocd.validation import enhance_html
 import os.path
 from ocd.storages import uploads_storage
 
+
 class IssueStatus(object):
 
     OPEN = 1
@@ -173,9 +174,9 @@ def issue_attachment_path(instance, filename):
 
 class IssueAttachment(UIDMixin):
     issue = models.ForeignKey(Issue, related_name="attachments")
-    file = models.FileField(storage=uploads_storage,
+    file = models.FileField(_("File"), storage=uploads_storage,
                             upload_to=issue_attachment_path)
-    title = models.CharField(max_length=100)
+    title = models.CharField(_("Title"), max_length=100)
     active = models.BooleanField(default=True)
     ordinal = models.PositiveIntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True,

@@ -65,13 +65,17 @@ class AddAttachmentBaseForm(forms.ModelForm):
                    )
 
     def clean_file(self):
+
         file_obj = self.cleaned_data['file']
+
         if len(file_obj.name.split('.')) == 1:
-                raise forms.ValidationError(_("File type is not supported."))
-        if file_obj.name.split('.')[-1] in settings.UPLOAD_ALLOWED_EXTS:
-            return file_obj
-        else:
             raise forms.ValidationError(_("File type is not allowed!"))
+
+        if file_obj.name.split('.')[-1] not in settings.UPLOAD_ALLOWED_EXTS:
+            raise forms.ValidationError(_("File type is not allowed!"))
+
+        return file_obj
+
 
 
 class AddAttachmentForm(AddAttachmentBaseForm):
