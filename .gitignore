@@ -7,6 +7,8 @@
 
 # collected static files
 /static/
+# uploaded media files
+/media/
 
 # virtualenv stuff
 /Scripts/
