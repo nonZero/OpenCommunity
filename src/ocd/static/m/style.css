@@ -201,6 +201,7 @@ table.issue-detail-table {
 	font-weight: normal;
 	max-height: 2.6em;
 	overflow: hidden;
+	word-break: break-word;
 }
 
 .meeting-table tbody tr td.body_title a.ui-link {
@@ -222,6 +223,10 @@ table.issue-detail-table {
     background: #3d3c3c;
     width: 38px;
 	text-align: center;
+}
+
+.meeting-table thead tr th.count a {
+    width: 38px;
 }
 
 .issue-detail-table tr td.icon {
@@ -248,7 +253,7 @@ table.issue-detail-table {
     font-size: 30px;
     width: 38px;
 	text-align: center;
-	background: #cacccd;
+	background-color: #cacccd;
 	padding: 0;
 }
 
@@ -272,7 +277,7 @@ table.issue-detail-table {
 .meeting-table tbody tr td.sub_count.num4,
 .meeting-table tbody tr td.sub_count.num6,
 .meeting-table tbody tr td.sub_count.num8 {
-	background: #dcddde;
+	background-color: #dcddde;
 }
 
 .meeting-table thead tr td a {
@@ -280,6 +285,10 @@ table.issue-detail-table {
     color: #3d3c3c !important;
     text-decoration: none !important;
     display: block;
+}
+
+table.meeting-table tr.table_divider td p {
+	margin: 0;
 }
 
 .ui-btn-up-b .agenda_list {
@@ -893,7 +902,7 @@ table.issue-table {
 /*	margin-right: 10px;
 	margin-left: 10px;*/
 }
-#issue-detail .ui-content ul.ui-listview li:last-child {
+#issue-detail .ui-content ul.ui-listview li.rich_editor {
 	background: transparent;
 	padding: 10px 0 0 0;
 }
@@ -992,8 +1001,16 @@ p.sub-title {
 	margin: 0;
 	font-size: 12pt;
 }
+#upcoming-meeting .ui-body-c .ui-panel-content-wrap-closed .ui-content h3 {
+	margin-right: 15px;
+}
+#upcoming-meeting .ui-body-c .ui-panel-content-wrap-closed .ui-content .ui-grid-solo .ui-block-a .ui-bar.ui-bar-c {
+	margin-right: 15px;
+	margin-left: 15px;
+}
 .proposal-info.no-margin p a.ui-link {
 	word-break: break-word;
+	font-weight: normal;
 }
 #proposal-detail .accepted {
 	position: relative;
@@ -1040,7 +1057,7 @@ p.sub-title {
 }
 #proposal-detail a.prop-issue-title {
 	display: block;
-	margin: 0 15px;
+/*	margin: 0 15px;*/
 	padding-right: 50px;
 	background: url('images/prop-back.png') no-repeat right center #448698;
 	text-shadow: none;
@@ -1275,7 +1292,19 @@ span.edit-comment push:focus {
 	box-shadow: 0 0 0;
 }
 #proposal-detail .proposal {
+	position: relative;
 	margin: 1px 15px 0 15px;
+}
+.unaccept {
+	position: absolute;
+	top: 0;
+	left: 0;
+	font-weight: normal;
+	border: 0;
+	margin: 8px;
+}
+.unaccept span.ui-btn-inner {
+	padding: .8em 20px;
 }
 #meetings .ui-dialog-contain,
 #participants .ui-dialog-contain {
@@ -1519,6 +1548,10 @@ span.edit-comment push:focus {
 	margin: 0;
 	padding: 0 15px .7em 15px;
 	background: #ffffff;
+	color: #6c6c6e;
+	font-weight: normal;
+}
+#issue-detail .issue_proposal ul.proposals li.prop-content a.ui-link {
 	color: #6c6c6e;
 	font-weight: normal;
 }

@@ -3,11 +3,11 @@
 {% load humanize %}
 
 {% block extra-page-id %}
-	id="proposal-detail"
+    id="proposal-detail"
 {% endblock %}
 
 {% block page_header %}
-	{% trans "Proposal" %}
+    {% trans "Proposal" %}
 {% endblock %}
 
 {% block header-start %}
@@ -42,30 +42,30 @@
          data-accepted="{{object.status}}">
 
         <div class="ui-grid-solo prop-subject">
-			<div class="prop-type">
-				<img src="{{STATIC_URL}}m/images/{% if object.type == 1 %}task-icon{% endif %}{% if object.type == 2 %}rule-icon{% endif %}{% if object.type == 3 %}general-icon{% endif %}.png"/>
-			</div>
-        	<div class="prop-info">
+            <div class="prop-type">
+                <img src="{{STATIC_URL}}m/images/{% if object.type == 1 %}task-icon{% endif %}{% if object.type == 2 %}rule-icon{% endif %}{% if object.type == 3 %}general-icon{% endif %}.png"/>
+            </div>
+            <div class="prop-info">
                 <h4 class="abstract abstract-title">
                   {{object.title}} ({{object.get_status_display}}{% if object.decided_at_meeting %} {{object.decided_at_meeting}}{% endif %})
                 </h4>
                 <h4 class="abstract assigned_to">
                 {% if object.type == 1 %}
-                	{% if object.assigned_to %}	
-            			<p style="margin: 0; line-height: 14px;"><b>{% trans "Assigned to" %}:</b> {{ object.assigned_to }}</p>
-            			{% if object.assigned_to and object.due_by %}{% endif %}
-    				{% endif %}
-    				{% if object.due_by %}
-            			<p style="margin: 0; line-height: 14px;"><b>{% trans "Due by" %}:</b> {{ object.due_by }}</p>
-        			{% endif %}
-            	{% endif %}
+                    {% if object.assigned_to %} 
+                        <p style="margin: 0; line-height: 14px;"><b>{% trans "Assigned to" %}:</b> {{ object.assigned_to }}</p>
+                        {% if object.assigned_to and object.due_by %}{% endif %}
+                    {% endif %}
+                    {% if object.due_by %}
+                        <p style="margin: 0; line-height: 14px;"><b>{% trans "Due by" %}:</b> {{ object.due_by }}</p>
+                    {% endif %}
+                {% endif %}
                 <p><b>{% trans "By:" %}</b> {{ object.created_by}}. {{ object.created_at}} {# ({{ object.created_at|naturaltime}}) #}</p>
-        		</h4>
+                </h4>
 
             </div>
         </div>
 
-		<br />
+        <br />
         
         {% if object.abstract %}
             <div data-role="collapsible" data-collapsed="false"
