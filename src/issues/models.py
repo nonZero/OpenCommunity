@@ -40,7 +40,6 @@ class Issue(UIDMixin):
                                  default=IssueStatus.OPEN)
     statuses = IssueStatus
 
-#     in_upcoming_meeting = models.BooleanField(_("In upcoming meeting"), default=False)
     order_in_upcoming_meeting = models.IntegerField(
                                         _("Order in upcoming meeting"),
                                         default=9999, null=True, blank=True)

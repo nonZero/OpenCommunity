@@ -97,6 +97,7 @@
                                         <a href="{{base_url}}{{p.get_absolute_url}}">
                                             {{ p.get_type_display}}: {{p.title}}
                                         </a>
+                                        <b>{{ p.get_status_display }}</b>
                                         {% if p.assigned_to %}
                                             &nbsp;
                                             <b>{% trans "Assigned to" %}</b>: {{p.assigned_to}}

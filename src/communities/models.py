@@ -4,6 +4,7 @@ from django.db.models.query_utils import Q
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from issues.models import ProposalStatus, IssueStatus
 from meetings.models import MeetingParticipant
 from ocd.base_models import HTMLField, UIDMixin
 from ocd.email import send_mails
@@ -12,7 +13,6 @@ from users.models import OCUser, Membership
 import issues.models as issues_models
 import logging
 import meetings.models as meetings_models
-from issues.models import ProposalStatus
 
 
 logger = logging.getLogger(__name__)
@@ -244,4 +244,21 @@ class Community(UIDMixin):
 
         return m
 
+    def draft_agenda(self):
+        """ prepares a fake agenda item list for 'protocol_draft' template. """
 
+        def as_agenda_item(issue):
+            return {
+                    'issue': issue,
+
+                    'proposals':
+                        issue.proposals.filter(decided_at_meeting=None,
+                                               active=True)
+                            .exclude(status=ProposalStatus.IN_DISCUSSION),
+
+                    'comments':
+                        issue.comments.filter(meeting=None, active=True),
+                    }
+
+        return [as_agenda_item(x) for x in
+                self.issues.filter(status__in=IssueStatus.IS_UPCOMING)]

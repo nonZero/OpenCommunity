@@ -2,6 +2,6 @@
 
 {% trans "Summary Draft" as title_type %}
 
-{% include 'emails/_protocol.html' with title=community.upcoming_meeting_title summary=community.upcoming_meeting_summary url=community.get_absolute_url participants=community.upcoming_meeting_participants.all guests=community.get_guest_list issues=community.upcoming_issues %}
+{% include 'emails/_protocol.html' with title=community.upcoming_meeting_title summary=community.upcoming_meeting_summary url=community.get_absolute_url participants=community.upcoming_meeting_participants.all guests=community.get_guest_list agenda=community.draft_agenda %}
 
 
