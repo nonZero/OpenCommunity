@@ -34,12 +34,13 @@
 
 {% block content %}
 
-    <a class="prop-issue-title" href="{{object.issue.get_absolute_url}}">
-        <div class="prop-issue">{{object.issue}}</div>
-    </a>
 
     <div class="proposal" data-id="{{object.id}}"
          data-accepted="{{object.status}}">
+
+        <a class="prop-issue-title" href="{{object.issue.get_absolute_url}}">
+            <div class="prop-issue">{{object.issue}}</div>
+        </a>
 
         <div class="ui-grid-solo prop-subject">
             <div class="prop-type">
