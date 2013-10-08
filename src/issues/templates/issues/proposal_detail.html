@@ -47,7 +47,7 @@
 			</div>
         	<div class="prop-info">
                 <h4 class="abstract abstract-title">
-                  {{object.title}} ({{object.get_status_display}}{% if object.decided_at_meeting %} {{object.decided_at_meeting}}{% endif %})
+                  {{object.title}} 
                 </h4>
                 <h4 class="abstract assigned_to">
                 {% if object.type == 1 %}
@@ -59,13 +59,24 @@
             			<p style="margin: 0; line-height: 14px;"><b>{% trans "Due by" %}:</b> {{ object.due_by }}</p>
         			{% endif %}
             	{% endif %}
-                <p><b>{% trans "By:" %}</b> {{ object.created_by}}. {{ object.created_at}} {# ({{ object.created_at|naturaltime}}) #}</p>
+                <p>
+                    <b>{% trans "By:" %}</b> {{ object.created_by}}. {{ object.created_at}} {# ({{ object.created_at|naturaltime}}) #} <br/>
+                    <b>{{object.get_status_display}}</b> 
+                    {% if object.decided_at_meeting %} <b>{% trans 'at' %}:</b> {{object.decided_at_meeting }}{% endif %}
+                </p>
         		</h4>
 
             </div>
         </div>
 
 		<br />
+
+       {% if object.status == object.statuses.ACCEPTED %}
+            <div class="accepted">
+            {% trans "Proposal accepted" %}!
+            </div>
+       {% endif %}
+
         
         {% if object.abstract %}
             <div data-role="collapsible" data-collapsed="false"

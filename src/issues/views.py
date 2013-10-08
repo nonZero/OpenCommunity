@@ -233,7 +233,7 @@ class AttachmentDownloadView(CommunityMixin, SingleObjectMixin, View):
         filename = o.file.name.split('/')[-1]
         mime_type = mimetypes.guess_type(filename, True)[0] or "text/plain"
         response = HttpResponse(o.file, content_type=mime_type)
-        response['Content-Disposition'] = 'attachment; filename=%s' % filename
+        response['Content-Disposition'] = 'attachment; filename=%s' % filename.encode('utf-8')
         return response
 
 

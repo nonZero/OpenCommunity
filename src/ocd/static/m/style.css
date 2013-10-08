@@ -248,7 +248,7 @@ table.issue-detail-table {
     font-size: 30px;
     width: 38px;
 	text-align: center;
-	background: #cacccd;
+	background-color: #cacccd;
 	padding: 0;
 }
 
@@ -272,7 +272,7 @@ table.issue-detail-table {
 .meeting-table tbody tr td.sub_count.num4,
 .meeting-table tbody tr td.sub_count.num6,
 .meeting-table tbody tr td.sub_count.num8 {
-	background: #dcddde;
+	background-color: #dcddde;
 }
 
 .meeting-table thead tr td a {
