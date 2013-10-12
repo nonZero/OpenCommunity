@@ -34,6 +34,14 @@ id="issue-detail"
                     <li>
                         <a data-rel="form" href="{{object.get_edit_url}}">{% trans "Edit" %}</a>
                     </li>
+                    
+                    {% if cperms.issues.editopen_issue %}
+                        <li>
+                            <a id="add-attachment"  data-rel="form" 
+                                href="{% url 'add_attachment' community.id object.id %}"> {% trans 'Add attachment' %} </a>
+                        </li>
+                    {% endif %}
+                    
                     <li>
                         <a data-rel="form" href="{{object.get_delete_url}}">{% trans "Delete" %}</a>
                     </li>
@@ -96,9 +104,11 @@ id="issue-detail"
 
 
     <div class="issue_attachments">
+        <span class="loader">
+            <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/>
+        </span>
+        
         {% if object.attachments.count %}
-
-            <h4 class="abstract">{% trans "Attachments" %}</h4>
             <ul>
                 {% for att in object.attachments.all %}
                     <li><a href="{{ att.get_absolute_url }}">{{ att.title }}</a>
@@ -108,13 +118,7 @@ id="issue-detail"
                 {% endfor %}
             </ul>
         {% endif %}
-
-        {% if cperms.issues.editopen_issue %}
-            <div class="narrow">
-                <a id="add-attachment" data-icon="arrow-r" data-theme="b" data-rel="form" data-role="button"
-                    href="{% url 'add_attachment' community.id object.id %}"> {% trans 'Add attachment' %} </a>
-            </div>
-        {% endif %}
+        
     </div>
 
 
