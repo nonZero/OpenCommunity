@@ -67,7 +67,7 @@
         </div>
 
         <br />
-        
+
         {% if object.abstract %}
             <div data-role="collapsible" data-collapsed="false"
                 data-theme="c" data-content-theme="d" data-mini="true">
@@ -84,7 +84,7 @@
         {% endif %}
 
         {% if object.can_vote and cperms.issues.acceptopen_proposal %}
-            <form method="post">
+            <form id="proposal-form" method="post">
 
                 {% csrf_token %}
 
@@ -116,4 +116,7 @@
 {% endblock %}
 
 {% block scripts %}
+
+    <script src="{{STATIC_URL}}js/proposal.js"></script>
+
 {% endblock %}
