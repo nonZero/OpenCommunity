@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-08 17:40+0300\n"
+"POT-Creation-Date: 2013-10-14 12:03+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,8 +82,8 @@ msgstr "מקום"
 msgid "Comments"
 msgstr "הערות"
 
-#: models.py:59 templates/meetings/meeting_detail.html:51
-#: templates/meetings/meeting_detail.html:69
+#: models.py:59 templates/meetings/meeting_detail.html:44
+#: templates/meetings/meeting_detail.html:62
 msgid "Summary"
 msgstr "סיכום הפגישה"
 
@@ -91,7 +91,7 @@ msgstr "סיכום הפגישה"
 msgid "Agenda items"
 msgstr "סדר יום"
 
-#: models.py:65 templates/meetings/meeting_detail.html:136
+#: models.py:65 templates/meetings/meeting_detail.html:141
 msgid "Participants"
 msgstr "משתתפים"
 
@@ -103,7 +103,7 @@ msgstr "אורחים"
 msgid "Enter each guest in a separate line"
 msgstr "רשום כל אורח בשורה נפקדת"
 
-#: models.py:73 templates/meetings/meeting_detail.html:121
+#: models.py:73 templates/meetings/meeting_detail.html:126
 #: templates/meetings/meeting_list.html:9
 msgid "Meetings"
 msgstr "פגישות"
@@ -149,15 +149,19 @@ msgstr "בפגישה זו לא התקבלו החלטות"
 msgid "Meetings history"
 msgstr "הסטוריית ישיבות"
 
-#: templates/meetings/meeting_detail.html:26
-msgid "Share Link"
-msgstr "שתף קישור"
+#: templates/meetings/meeting_detail.html:92
+msgid "Assigned to"
+msgstr "אחראי"
 
-#: templates/meetings/meeting_detail.html:103
+#: templates/meetings/meeting_detail.html:95
+msgid "Due by"
+msgstr "יעד"
+
+#: templates/meetings/meeting_detail.html:108
 msgid "Closed without descisions"
 msgstr "הדיון נסגר ללא החלטות"
 
-#: templates/meetings/meeting_detail.html:104
+#: templates/meetings/meeting_detail.html:109
 msgid "Undecided"
 msgstr "הדיון לא הושלם"
 
@@ -212,6 +216,9 @@ msgstr "ט"
 #: templatetags/letter_tag.py:5
 msgid "j"
 msgstr "י"
+
+#~ msgid "Share Link"
+#~ msgstr "שתף קישור"
 
 #~ msgid "Cannot close a meeting with no issues"
 #~ msgstr "לא ניתן לסגור פגישה ללא נושאים"

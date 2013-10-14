@@ -1,5 +1,5 @@
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
+from crispy_forms.layout import Layout, MultiField, Fieldset, Div, Button, Submit, Field
 from django import forms
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
@@ -82,11 +82,19 @@ class AddAttachmentForm(AddAttachmentBaseForm):
     submit_button_text = _('Upload')
 
     def __init__(self, *args, **kwargs):
+        super(AddAttachmentForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
-
+        """
+        self.helper.layout = Layout(
+            Fieldset(
+                Field('title'),
+                Field('file'),
+                Submit('submit', self.submit_button_text)
+               ))
+        """
         self.helper.add_input(Submit('submit', self.submit_button_text))
 
-        super(AddAttachmentForm, self).__init__(*args, **kwargs)
+        
 
 
 

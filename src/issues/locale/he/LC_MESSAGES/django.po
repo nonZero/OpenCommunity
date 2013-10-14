@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-08 17:42+0300\n"
+"POT-Creation-Date: 2013-10-14 12:48+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,15 +30,15 @@ msgstr "לא ניתן להעלות קבצים מסוג זה"
 msgid "Upload"
 msgstr "העלה קובץ"
 
-#: forms.py:109 templates/issues/issue_create_form.html:20
+#: forms.py:117 templates/issues/issue_create_form.html:20
 msgid "Create"
 msgstr "צור חדש"
 
-#: forms.py:121 forms.py:157 templates/issues/issuecomment_form.html:6
+#: forms.py:129 forms.py:165 templates/issues/issuecomment_form.html:6
 msgid "Save"
 msgstr "שמירה"
 
-#: forms.py:136
+#: forms.py:144
 msgid "Add"
 msgstr "הוספה"
 
@@ -46,7 +46,7 @@ msgstr "הוספה"
 msgid "Open"
 msgstr "הצעה פתוחה"
 
-#: models.py:23 templates/issues/issue_detail.html:58
+#: models.py:23 templates/issues/issue_detail.html:66
 msgid "In upcoming meeting"
 msgstr "בפגישה הקרובה"
 
@@ -83,7 +83,7 @@ msgid "Background"
 msgstr "רקע"
 
 #: models.py:40 models.py:167 models.py:276
-#: templates/issues/issue_detail.html:87
+#: templates/issues/issue_detail.html:96
 msgid "Content"
 msgstr "פירוט"
 
@@ -200,7 +200,7 @@ msgid "Type"
 msgstr "סוג"
 
 #: models.py:283 templates/issues/_proposal.html:26
-#: templates/issues/proposal_detail.html:55
+#: templates/issues/proposal_detail.html:56
 msgid "Assigned to"
 msgstr "אחראי"
 
@@ -209,7 +209,7 @@ msgid "Assigned to user"
 msgstr "אחראי"
 
 #: models.py:289 templates/issues/_proposal.html:29
-#: templates/issues/proposal_detail.html:59
+#: templates/issues/proposal_detail.html:60
 msgid "Due by"
 msgstr "יעד"
 
@@ -224,7 +224,7 @@ msgstr "הצעות החלטה"
 #: templates/issues/_comment.html:11
 #: templates/issues/issue_confirm_delete.html:6
 #: templates/issues/issue_confirm_delete.html:14
-#: templates/issues/issue_detail.html:38
+#: templates/issues/issue_detail.html:46
 #: templates/issues/issueattachment_confirm_delete.html:13
 #: templates/issues/proposal_confirm_delete.html:6
 #: templates/issues/proposal_confirm_delete.html:14
@@ -246,7 +246,6 @@ msgid "Cancel"
 msgstr "ביטול"
 
 #: templates/issues/_comment.html:38 templates/issues/_comment.html.py:47
-#: templates/issues/proposal_detail.html:65
 msgid "at"
 msgstr "ב"
 
@@ -274,22 +273,18 @@ msgstr "נושא חדש"
 msgid "New Proposal"
 msgstr "הצעת החלטה חדשה"
 
-#: templates/issues/issue_detail.html:51
-msgid "Closed"
-msgstr "סגור"
-
-#: templates/issues/issue_detail.html:101
-msgid "Attachments"
-msgstr "קבצים מצורפים"
-
-#: templates/issues/issue_detail.html:115
+#: templates/issues/issue_detail.html:41
 #: templates/issues/issueattachment_form.html:10
 msgid "Add attachment"
 msgstr "צרף קובץ"
 
-#: templates/issues/issue_detail.html:124
-msgid "Past Proposals"
-msgstr "החלטות קודמות"
+#: templates/issues/issue_detail.html:59
+msgid "Closed"
+msgstr "סגור"
+
+#: templates/issues/issue_detail.html:123
+msgid "Decisions"
+msgstr "החלטות"
 
 #: templates/issues/issue_detail.html:142
 msgid "Add Proposal"
@@ -323,11 +318,11 @@ msgstr "מחק קובץ"
 msgid "Reassign task"
 msgstr "עדכן משימה"
 
-#: templates/issues/proposal_detail.html:63
+#: templates/issues/proposal_detail.html:64
 msgid "By:"
 msgstr "מאת:"
 
-#: templates/issues/proposal_detail.html:76
+#: templates/issues/proposal_detail.html:75
 msgid "Proposal accepted"
 msgstr "ההצעה התקבלה"
 
@@ -346,6 +341,12 @@ msgstr "דחה הצעה"
 #: templates/issues/proposal_detail.html:112
 msgid "Cancel approval"
 msgstr "בטל"
+
+#~ msgid "Attachments"
+#~ msgstr "קבצים מצורפים"
+
+#~ msgid "Past Proposals"
+#~ msgstr "החלטות קודמות"
 
 #~ msgid "File type is not supported."
 #~ msgstr "לא ניתן להעלות קבצים מסוג זה"

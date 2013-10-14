@@ -79,64 +79,62 @@ id="issue-detail"
         </tr>
     </table>
 
-    {% if object.abstract %}
-
-        {# h4 class="abstract">{% trans "Abstract" %}</h4> #}
-
+    <span class="loader">
+        <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/>
+    </span>
+    {% if object.abstract or object.attachments.count %}
         <div class="proposal-info no-margin">
-            <p>
-                {{object.abstract|safe}}
-            </p>
+            {# h4 class="abstract">{% trans "Abstract" %}</h4> #}
+
+            {% if object.abstract %}
+                <p>
+                    {{object.abstract|safe}}
+                </p>
+            {% endif %}
+
+            {% if object.content %}
+                <h4 class="abstract">{% trans "Content" %}</h4>
+
+                <div class="proposal-info">
+                    <p>
+                        {{object.content|safe}}
+                    </p>
+                </div>
+            {% endif %}
+
+            <div class="issue_attachments">
+                {% if object.attachments.count %}
+                    <ul>
+                        {% for att in object.attachments.all %}
+                            <li><a href="{{ att.get_absolute_url }}">{{ att.title }}</a>
+                            {% if cperms.issues.editopen_issue %}
+                                <a id="remove-attachment" href="{% url 'attachment_delete' community.id object.id att.id %}" data-rel="form"><img src="{{ STATIC_URL }}images/icon-remove.gif"/></a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
         </div>
     {% endif %}
-
-    {% if object.content %}
-
-        <h4 class="abstract">{% trans "Content" %}</h4>
-
-        <div class="proposal-info">
-            <p>
-                {{object.content|safe}}
-            </p>
-        </div>
-
-    {% endif %}
-
-
-    <div class="issue_attachments">
-        <span class="loader">
-            <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/>
-        </span>
-        
-        {% if object.attachments.count %}
-            <ul>
-                {% for att in object.attachments.all %}
-                    <li><a href="{{ att.get_absolute_url }}">{{ att.title }}</a>
-                    {% if cperms.issues.editopen_issue %}
-                        <a id="remove-attachment" href="{% url 'attachment_delete' community.id object.id att.id %}" data-rel="form"><img src="{{ STATIC_URL }}images/icon-remove.gif"/></a></li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        {% endif %}
-        
-    </div>
-
 
     {% if object.proposals.active.count %}
         <div class="issue_proposal">
 
-            <h4>{% trans "Past Proposals" %}</h4>
+            {% if object.proposals.closed %}
+                <h4>{% trans "Decisions" %}</h4>
 
-            {% for proposal in object.proposals.closed %}
-                {% include 'issues/_proposal.html' %}
-            {% endfor %}
+                {% for proposal in object.proposals.closed %}
+                    {% include 'issues/_proposal.html' %}
+                {% endfor %}
+            {% endif %}
+            
+            {% if object.proposals.open %}
+                <h4>{% trans "Proposals" %}</h4>
 
-            <h4>{% trans "Proposals" %}</h4>
-
-            {% for proposal in object.proposals.open %}
-                {% include 'issues/_proposal.html' %}
-            {% endfor %}
-
+                {% for proposal in object.proposals.open %}
+                    {% include 'issues/_proposal.html' %}
+                {% endfor %}
+            {% endif %}
         </div>
     {% endif %}
 

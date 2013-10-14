@@ -37,3 +37,7 @@ li[data-accepted="1"] img {
 #add-comment textarea {
     width: 100%;
 }
+
+.issue_attachments ul {
+    margin: 4px 0;
+}

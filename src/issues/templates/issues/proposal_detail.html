@@ -62,8 +62,6 @@
                 {% endif %}
                 <p>
                     <b>{% trans "By:" %}</b> {{ object.created_by}}. {{ object.created_at}} {# ({{ object.created_at|naturaltime}}) #} <br/>
-                    <b>{{object.get_status_display}}</b> 
-                    {% if object.decided_at_meeting %} <b>{% trans 'at' %}:</b> {{object.decided_at_meeting }}{% endif %}
                 </p>
                 </h4>
 
@@ -74,7 +72,8 @@
 
        {% if object.status == object.statuses.ACCEPTED %}
             <div class="accepted">
-            {% trans "Proposal accepted" %}!
+                {% trans "Proposal accepted" %}!
+                {% if object.decided_at_meeting %} ( <a href="{{ object.decided_at_meeting.get_absolute_url }}">{{ object.decided_at_meeting.held_at }}</a> ){% endif %}
             </div>
        {% endif %}
 

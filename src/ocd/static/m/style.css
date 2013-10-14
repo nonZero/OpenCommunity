@@ -291,6 +291,10 @@ table.meeting-table tr.table_divider td p {
 	margin: 0;
 }
 
+.meeting-table p.assign span {
+    padding-left: 5px;
+}
+
 .ui-btn-up-b .agenda_list {
     display: inline-block;
     font-weight: normal;
@@ -823,7 +827,7 @@ table.issue-table {
 }
 
 .issue_date {
-	width: 43px;
+	width: 49px;
 	padding: 10px;
 	font-weight: normal;
 	color: #ffffff;
@@ -1566,6 +1570,7 @@ span.edit-comment push:focus {
 }
 #issue-detail .issue_proposal ul.proposals li.prop-content p.assign {
 }
+
 .clear {clear: both;}
 .nohal {
 	position: absolute;
