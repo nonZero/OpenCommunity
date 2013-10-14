@@ -34,9 +34,8 @@ $(function() {
 
                 beforeSubmit: function() {
                     form.find('input[type="submit"]').prop('disabled', true);
-                    if(form.find('input[type="file"]').length > 0) {
-                        p.popup('close');
-                        $('div[class*="attachment"]').addClass('loading')
+                    if(form.find('input[type="file"]').length > 0) {                        
+                        $('input#id_file').parent().append($('span.loader').clone().show())
                     }
                 },
 
