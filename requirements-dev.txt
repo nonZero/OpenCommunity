@@ -1,0 +1,2 @@
+# windows users should install pycrypto from bins using easy_install
+fabric==1.8.0
