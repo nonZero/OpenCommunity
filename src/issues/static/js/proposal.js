@@ -1,13 +1,24 @@
 "use strict";
 
-$(function() {
-    $('#proposal-form button').click(function () {
-        console.log($(this).val());
-        $('#proposal-form').ajaxForm({
-            data: {accepted: $(this).val()},
-            success: function(resp) {
-                history.back();
-            }
-        });
+function unacceptProposal(el) {
+    $.post('', {
+        issue : el.data('id'),
+        accepted : el.data('accepted'),
+        unaccept: '1',
+    }, function(data) {
+        history.back();
     });
+}
+
+
+$(function() {
+
+    $(".unaccept").click(function(event) {
+        event.preventDefault();
+        var el = $(this).closest('.proposal');
+        unacceptProposal(el);
+        return false;
+    });
+
 });
+

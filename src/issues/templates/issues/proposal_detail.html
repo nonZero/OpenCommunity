@@ -70,14 +70,34 @@
 
         <br />
 
-       {% if object.status == object.statuses.ACCEPTED %}
-            <div class="accepted">
-                {% trans "Proposal accepted" %}!
-                {% if object.decided_at_meeting %} ( <a href="{{ object.decided_at_meeting.get_absolute_url }}">{{ object.decided_at_meeting.held_at }}</a> ){% endif %}
-            </div>
-       {% endif %}
+       {% if cperms.issues.add_proposal or not proposal.is_open %}
+            {% if object.status == object.statuses.ACCEPTED %}
+                    <div class="accepted">
+                        {% trans "Proposal accepted" %}!
+                        {% if object.decided_at_meeting %} (<a href="{{ object.decided_at_meeting.get_absolute_url }}">
+                            {{ object.decided_at_meeting.get_title_or_date }}
+                            </a>)
+                        {% endif %}
 
+                        {% if object.can_vote and cperms.issues.acceptopen_proposal %}
+                            <a href="#" data-role="button" class="unaccept" data-theme="a">{% trans "Cancel approval" %}</a>
+                        {% endif %}
+                    </div>
+            {% elif object.status == object.statuses.REJECTED %}
+                    <div class="rejected">
+                        {% trans "Proposal rejected" %}!
+                        {% if object.decided_at_meeting %} (<a href="{{ object.decided_at_meeting.get_absolute_url }}">
+                            {{ object.decided_at_meeting.get_title_or_date }}
+                            </a>)
+                        {% endif %}
 
+                        {% if object.can_vote and cperms.issues.acceptopen_proposal %}
+                            <a href="#" data-role="button" class="unaccept" data-theme="a">{% trans "Cancel approval" %}</a>
+                        {% endif %}
+                    </div>
+            {% endif %}
+        {% endif %}
+        
         {% if object.abstract %}
             <div data-role="collapsible" data-collapsed="false"
                 data-theme="c" data-content-theme="d" data-mini="true">
@@ -99,20 +119,13 @@
                 {% csrf_token %}
 
                 <div class="narrow accept-buttons">
-
                     {% if object.status != object.statuses.ACCEPTED %}
-                      <button data-role="button" name="accepted" value="{{object.statuses.ACCEPTED}}" data-theme="a">{% trans "Accept proposal" %}</button>
+                        <button data-role="button" name="accepted" value="{{object.statuses.ACCEPTED}}" data-theme="a">{% trans "Accept proposal" %}</button>
                     {% endif %}
-
                     {% if object.status != object.statuses.REJECTED %}
                         <button data-role="button" name="accepted" value="{{object.statuses.REJECTED}}" data-theme="a">{% trans "Reject proposal" %}</button>
                     {% endif %}
-
-                    {% if object.status != object.statuses.IN_DISCUSSION %}
-                        <button data-role="button" name="accepted" value="{{object.statuses.IN_DISCUSSION}}" data-theme="a">{% trans "Cancel approval" %}</button>
-                    {% endif %}
-
-                </div>
+                </div>                  
             </form>
 
         {% endif %}

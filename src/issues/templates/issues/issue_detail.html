@@ -61,7 +61,7 @@ id="issue-detail"
 
     {% else %}
 
-        {% if object.is_upcoming %}
+        {% if object.is_upcoming and community.upcoming_meeting_is_published %}
             <p class="sub-title">
                 --{% trans "In upcoming meeting" %}--
             </p>
@@ -117,21 +117,18 @@ id="issue-detail"
         </div>
     {% endif %}
 
-    {% if object.proposals.active.count %}
+    {% if object.proposals.active.count %}        
         <div class="issue_proposal">
-
             {% if object.proposals.closed %}
                 <h4>{% trans "Decisions" %}</h4>
-
-                {% for proposal in object.proposals.closed %}
+                {% for proposal in object.proposals.closed %}                
                     {% include 'issues/_proposal.html' %}
                 {% endfor %}
             {% endif %}
             
             {% if object.proposals.open %}
                 <h4>{% trans "Proposals" %}</h4>
-
-                {% for proposal in object.proposals.open %}
+                {% for proposal in object.proposals.open %}                
                     {% include 'issues/_proposal.html' %}
                 {% endfor %}
             {% endif %}
@@ -146,21 +143,22 @@ id="issue-detail"
     {% endif %}
 
     {% if object.comments.count or cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
-        <div class="issuecomments">
-            <h4>{% trans "Summary" %}</h4>
-            <ul data-role="listview" id="comments">
-                {% for c in object.comments.all %}
-                    {% include "issues/_comment.html" %}
-                {% endfor %}
-                {% if cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
-                    <li class="rich_editor">
-                        {% crispy form %}
-                    </li>
-                {% endif %}
-            </ul>
+        <div class="issuecomments">            
+                <h4>{% trans "Summary" %}</h4>
+                <ul data-role="listview" id="comments">
+                        {% for c in object.comments.all %}
+                            {% include "issues/_comment.html" %}
+                        {% endfor %}
+                    {% if cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
+                        <li class="rich_editor">
+                            {% crispy form %}
+                        </li>
+                    {% endif %}
+                </ul> 
         </div>
     {% endif %}
 
+    
     {% if cperms.meetings.add_meeting and object.community.upcoming_meeting_started and object.status == object.statuses.IN_UPCOMING_MEETING %}
         <br/>
         <form id="issue-complete" method="post" action="{% url 'issue_complete' community.id issue.id %}">

@@ -89,6 +89,10 @@ class Issue(UIDMixin):
         return self.status in IssueStatus.IS_UPCOMING
 
     @property
+    def is_current(self):
+        return self.status in IssueStatus.IS_UPCOMING and self.community.upcoming_meeting_started
+        
+    @property
     def is_archived(self):
         return self.status == IssueStatus.ARCHIVED
 

@@ -1018,13 +1018,29 @@ p.sub-title {
 }
 #proposal-detail .accepted {
 	position: relative;
-	background: url(images/accepted.png) no-repeat right center #f0f187;
+	background: url(images/accepted.png) no-repeat right center #b8d29a;
 	border: 1px solid #d8e0df;
 	padding: 20px 48px 20px 10px;
 	font-size: 18px;
 	font-weight: bold;
 	margin-bottom: 20px;
 }
+
+#proposal-detail .rejected {
+   position: relative;
+   background: url(images/proposal-rejected.png) no-repeat #d2af7d;
+   background-position: 99% 50%;
+   border: 1px solid #e8d8df;
+   padding: 20px 48px 20px 10px;
+   font-size: 18px;
+   font-weight: bold;
+   margin-bottom: 20px;
+}
+
+#proposal-detail .accepted a.ui-link {
+    font-size: 14px;
+}
+
 #upcoming-meeting .meeting-info p span {
 	font-size: 12pt;
 }
