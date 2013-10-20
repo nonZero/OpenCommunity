@@ -14,49 +14,29 @@ id="issue-detail"
 {% endblock %}
 
 
-{% block header-start %}
-    {% if cperms.issues.editclosed_issue or not object.is_archived %}
-        {% if cperms.issues.editopen_issue or object.created_by == user %}
-            <a href="#issuepanel" data-icon="bars" data-iconpos="notext"  data-rel="panel"></a>
-        {% else %}
-        <a href="#" style="visibility:hidden"></a>
-        {% endif %}
-    {% else %}
-        <a href="#" style="visibility:hidden"></a>
-    {% endif %}
-{% endblock %}
-
-{% block endpanel %}
-    <div data-role="panel" id="issuepanel">
-        <ul data-role="listview">
-            {% if cperms.issues.editclosed_issue or not object.is_archived %}
-                {% if cperms.issues.editopen_issue or object.created_by == user %}
-                    <li>
-                        <a data-rel="form" href="{{object.get_edit_url}}">{% trans "Edit" %}</a>
-                    </li>
-                    <li>
-                        <a data-rel="form" href="{{object.get_delete_url}}">{% trans "Delete" %}</a>
-                    </li>
-                {% endif %}
-            {% endif %}
-        </ul>
-    </div>
+{% block pagemenu %}
+	{% if cperms.issues.editclosed_issue or not object.is_archived %}
+	    {% if cperms.issues.editopen_issue or object.created_by == user %}
+            <a class="list-group-item" data-rel="form" href="{{object.get_edit_url}}">{% trans "Edit" %}</a>
+            <a class="list-group-item" data-rel="form" href="{{object.get_delete_url}}">{% trans "Delete" %}</a>
+	    {% endif %}
+	{% endif %}
 {% endblock %}
 
 {% block content %}
 
     {% if object.is_archived %}
 
-        <p class="sub-title">
+        <h2 class="text-center">
             --{% trans "Closed" %}--
-        </p>
+        </h2>
 
     {% else %}
 
         {% if object.is_upcoming %}
-            <p class="sub-title">
+            <h2 class="text-center">
                 --{% trans "In upcoming meeting" %}--
-            </p>
+            </h2>
         {% endif %}
 
     {% endif %}
@@ -73,24 +53,18 @@ id="issue-detail"
 
     {% if object.abstract %}
 
-        {# h4 class="abstract">{% trans "Abstract" %}</h4> #}
-
-        <div class="proposal-info no-margin">
+        <div class="oc_detail_top">
             <p>
                 {{object.abstract|safe}}
             </p>
-        </div>
     {% endif %}
 
     {% if object.content %}
 
-        <h4 class="abstract">{% trans "Content" %}</h4>
-
-        <div class="proposal-info">
+        <h4>{% trans "Content" %}</h4>
             <p>
                 {{object.content|safe}}
             </p>
-        </div>
 
     {% endif %}
 
@@ -98,36 +72,36 @@ id="issue-detail"
     <div class="issue_attachments">
         {% if object.attachments.count %}
 
-            <h4 class="abstract">{% trans "Attachments" %}</h4>
+            <h4>{% trans "Attachments" %}</h4>
             <ul>
                 {% for att in object.attachments.all %}
                     <li><a href="{{ att.get_absolute_url }}">{{ att.title }}</a>
                     {% if cperms.issues.editopen_issue %}
-                        <a id="remove-attachment" href="{% url 'attachment_delete' community.id object.id att.id %}" data-rel="form"><img src="{{ STATIC_URL }}/images/icon-remove.gif"/></a></li>
+                        <a id="remove-attachment" href="{% url 'attachment_delete' community.id object.id att.id %}" data-rel="form"><img src="{{ STATIC_URL }}images/icon-remove.gif"/></a></li>
                     {% endif %}
                 {% endfor %}
             </ul>
         {% endif %}
 
         {% if cperms.issues.editopen_issue %}
-            <div class="narrow">
-                <a id="add-attachment" data-icon="arrow-r" data-theme="b" data-rel="form" data-role="button"
-                    href="{% url 'add_attachment' community.id object.id %}"> {% trans 'Add attachment' %} </a>
-            </div>
+            <a id="add-attachment" data-rel="form" href="{% url 'add_attachment' community.id object.id %}">
+            	{% trans 'Add attachment' %}
+        	</a>
         {% endif %}
     </div>
+        </div>
 
 
     {% if object.proposals.active.count %}
         <div class="issue_proposal">
 
-            <h4>{% trans "Past Proposals" %}</h4>
+            <h2>{% trans "Past Proposals" %}</h2>
 
             {% for proposal in object.proposals.closed %}
                 {% include 'issues/_proposal.html' %}
             {% endfor %}
 
-            <h4>{% trans "Proposals" %}</h4>
+            <h2>{% trans "Proposals" %}</h2>
 
             {% for proposal in object.proposals.open %}
                 {% include 'issues/_proposal.html' %}
@@ -138,20 +112,33 @@ id="issue-detail"
 
     {% if cperms.issues.add_proposal and not object.is_archived %}
         <div class="narrow clear">
-            <a data-role="button" data-rel="form" data-theme="a"
-            href="{% url "proposal_create" community.id object.id %}">{% trans "Add Proposal" %}</a>
+            <a data-toggle="modal" href="#addProposalModal" class="btn btn-oc btn-lg btn-block">{% trans "Add Proposal" %}</a>
+            <!--<a class="btn btn-oc btn-lg btn-block" data-rel="form" href="{% url "proposal_create" community.id object.id %}">{% trans "Add Proposal" %}</a>-->
         </div>
+        <div class="modal fade" id="addProposalModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div class="modal-dialog">
+		      <div class="modal-content">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		          <h4 class="modal-title">{% trans "Add Proposal" %}</h4>
+		        </div>
+		        <div class="modal-body">
+		        	{% crispy proposal_form %}
+		        </div>
+		      </div>
+		    </div>
+		  </div>
     {% endif %}
 
     {% if object.comments.count or cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
         <div class="issuecomments">
-            <h4>{% trans "Summary" %}</h4>
-            <ul data-role="listview" id="comments">
+            <h2>{% trans "Summary" %}</h2>
+            <ul id="comments">
                 {% for c in object.comments.all %}
                     {% include "issues/_comment.html" %}
                 {% endfor %}
                 {% if cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
-                    <li>
+                    <li class="rich_editor">
                         {% crispy form %}
                     </li>
                 {% endif %}
@@ -165,7 +152,7 @@ id="issue-detail"
             {% csrf_token %}
             <input name="enable" type="hidden" value="{{object.completed|yesno:'0,1'}}"/>
             <div class="narrow">
-                <button data-theme="b">
+                <button>
                     {% if object.completed %}{% trans "Undo complete discussion" %}{% else %}{% trans "Complete discussion" %}{% endif %}
                 </button>
             </div>

@@ -1,8 +1,8 @@
 {% load i18n %}
-<form method="post" action="{{form.instance.get_edit_url}}" class="edit-issue-form">
+<form method="post" action="{{form.instance.get_edit_url}}" class="edit-issue-form col-lg-11 col-md-11 col-sm-11 col-xs-11">
     {% csrf_token %}
     {{form.content}}{{form.content.errors}}
-    <span class="save-comment">
-        <button data-theme="a">{% trans "Save" %}</button>
-    </span>
+    <div class="save-comment narrow">
+        <button class="btn btn-oc btn-lg btn-block">{% trans "Save" %}</button>
+    </div>
 </form>

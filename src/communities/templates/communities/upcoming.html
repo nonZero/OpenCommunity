@@ -15,80 +15,49 @@
     {% endif %}
 {% endblock %}
 
-{% block header-start %}
-    {% if cperms.community.editupcoming_community %}
-        <a href="#upcoming-panel" data-icon="edit" data-iconpos="notext" data-rel="panel"></a>
-    {% else %}
-        <a href="#" style="visibility:hidden"></a>
-    {% endif %}
-{% endblock %}
+{% block pagemenu %}
+{% if cperms.community.editagenda_community %}
+    <a class="list-group-item" data-rel="form" href="{% url "issue_create_upcoming" community.id %}">{% trans "Create Issue" %}</a>
+{% endif %}
 
-{% block header-end %}
-    <a href="#issuespanel" data-icon="bars" data-iconpos="notext"  data-rel="popup"></a>
-{% endblock %}
+{% if cperms.community.editupcoming_community %}
+    <a class="list-group-item" data-rel="form"
+        href="{% url "upcoming_edit" community.id %}">
+        {% trans "Edit" %}
+    </a>
+{% endif %}
 
-{% block startpanel %}
-    <div data-role="panel" id="upcoming-panel">
-        <ul data-role="listview">
+{% if cperms.community.editparticipants_community and community.upcoming_meeting_started %}
+    <a class="list-group-item" data-rel="form"
+        href="{% url "upcoming_edit_participants" community.id  %}">
+        {% trans "Select Participants" %}
+    </a>
+{% endif %}
 
-            {% if cperms.community.editagenda_community %}
-                <li data-icon="plus">
-                    <a data-rel="form" href="{% url "issue_create_upcoming" community.id %}"  data-icon="plus" data-iconpos="notext">{% trans "Create Issue" %}</a>
-                </li>
-            {% endif %}
+{% if cperms.community.editagenda_community %}
+    <a class="list-group-item" data-rel="form" 
+    href="{% url "upcoming_publish" community.id  %}">
+        {% if object.upcoming_meeting_started %}
+          {% trans "Summary Draft" %}
+        {% else %}
+          {% trans "Publish Agenda" %}
+        {% endif %}
+    </a>
+{% endif %}
 
-            {% if cperms.community.editupcoming_community %}
-                <li data-icon="edit">
-                    <a data-rel="form"
-                        href="{% url "upcoming_edit" community.id %}">
-                        {% trans "Edit" %}
-                    </a>
-                </li>
-            {% endif %}
-
-            {% if cperms.community.editparticipants_community and community.upcoming_meeting_started %}
-                <li data-icon="edit">
-                    <a data-rel="form"
-                        href="{% url "upcoming_edit_participants" community.id  %}">
-                        {% trans "Select Participants" %}
-                    </a>
-                </li>
-            {% endif %}
-
-            {% if cperms.community.editagenda_community %}
-                <li>
-                    <a data-rel="form" 
-                    href="{% url "upcoming_publish" community.id  %}">
-                        {% if object.upcoming_meeting_started %}
-                          {% trans "Summary Draft" %}
-                        {% else %}
-                          {% trans "Publish Agenda" %}
-                        {% endif %}
-                    </a>
-                </li>
-            {% endif %}
-            
-            {% if cperms.community.editupcoming_community %}
-                <li>
-                    <a data-rel="form" 
-                    href="{% url "upcoming_start" community.id  %}">
-                        {% if object.upcoming_meeting_started %}
-                            {% trans "Undo Start Meeting" %}
-                        {% else %}
-                            {% trans "Start Meeting" %}
-                        {% endif %}
-                    </a>
-                </li>
-            {% endif %}
-
-        </ul>
-    </div>
+{% if cperms.community.editupcoming_community %}
+    <a class="list-group-item" data-rel="form" 
+    href="{% url "upcoming_start" community.id  %}">
+        {% if object.upcoming_meeting_started %}
+            {% trans "Undo Start Meeting" %}
+        {% else %}
+            {% trans "Start Meeting" %}
+        {% endif %}
+    </a>
+{% endif %}
 
 {% endblock %}
 
-{% block endpanel %}
-    {% include "_main_panel.html" %}
-{% endblock %}
 
 {% block content %}
 
@@ -96,58 +65,55 @@
         {% if cperms.community.editagenda_community or object.upcoming_meeting_is_published %}
 
             {% if object.upcoming_meeting_started %}
-                <p class="sub-title">
+                <h2 class="text-center">
                     --{% trans "Meeting started" %}--
-                </p>
+                </h2>
             {% else %}
 
             {% if object.upcoming_meeting_is_published %}
-                <p class="sub-title">
+                <h2 class="text-center">
                     --{% trans "Published" %}--
-                </p>
-                <p class="sub-title" style="font-size: 14px">
+                </h2>
+                <h2 class="text-center">
                     ({% trans "Version" %} {{object.upcoming_meeting_version}} - {{object.upcoming_meeting_published_at}})
-                </p>
+                </h2>
             {% else %}
-                <p class="sub-title">
+                <h2 class="text-center">
                     --{% trans "Draft" %}--
-                </p>
+                </h2>
             {% endif %}
             {% endif %}
 
-            <div class="meeting-info">
-                <p>
-                    <b>{% trans "Location" %}:</b>
-                    <span>{{object.upcoming_meeting_location|default:_("Not set yet")}}</span>
-                    <br/>
-                    <b>{% trans "Scheduled at" %}:</b>
-                    <span>{{object.upcoming_meeting_scheduled_at|default:_("Not set yet")}}</span>
+            <div class="oc_detail_top">
+                <dl class="dl-horizontal">
+                    <dt>{% trans "Location" %}:</dt>
+                    <dd>{{object.upcoming_meeting_location|default:_("Not set yet")}}</dd>
+                    <dt>{% trans "Scheduled at" %}:</dt>
+                    <dd>{{object.upcoming_meeting_scheduled_at|default:_("Not set yet")}}</dd>
                     {% if object.upcoming_meeting_comments %}
-                        <p>
-                            <span>{{object.upcoming_meeting_comments|safe}}</span>
-                        </p>
+                        <dt>{{object.upcoming_meeting_comments|safe}}</dt>
                     {% endif %}
-                </p>
+                </dl>
             </div>
 
             <div id="agenda-container" class="agenda-list">
 
-                <h4>
+                <h2>
                     {% trans "Agenda items" %}
                     <span class="loader">
                         <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/>
                     </span>
-                </h4>
-                <ul id="agenda" data-role="listview" data-split-icon="minus" data-count-theme="a">
-                        {% for i in object.upcoming_issues %}
-                            {% include "communities/_issue.html" %}
-                        {% endfor %}
+                </h2>
+                <ul id="agenda" class="nav nav-pills nav-stacked">
+                    {% for i in object.upcoming_issues %}
+                        {% include "communities/_issue.html" %}
+                    {% endfor %}
                 </ul>
             </div>
 
             {% if object.upcoming_meeting_started and cperms.community.editupcoming_community %}
 
-                <h3>{% trans "Summary" %}</h3>
+                <h2>{% trans "Summary" %}</h2>
                 <div class="ui-grid-solo">
                     <div class="ui-block-a">
                         <div class="ui-bar ui-bar-c">
@@ -182,9 +148,9 @@
 
                 <div id="available-agenda" class="agenda-list">
 
-                    <h4>{% trans "Available Issues" %}</h4>
+                    <h2>{% trans "Available Issues" %}</h2>
 
-                    <ul id="available" data-role="listview" data-split-icon="plus">
+                    <ul id="available" class="nav nav-pills nav-stacked">
                         {% for i in object.available_issues %}
                             {% include "communities/_issue.html" %}
                         {% endfor %}

@@ -28,8 +28,8 @@ $(function() {
     }
 
     $('#agenda').on('click', '.addremove', function() {
-        $(this).find('.ui-icon-minus').removeClass('ui-icon-minus').addClass('ui-icon-plus');
-        var el = $(this).parent();
+        //$(this).find('.icon-minus').removeClass('icon-minus').addClass('icon-plus');
+        var el = $(this).parent().parent();
         el.addClass('loading');
         $("#available").append(el);
         toggleIssue(el, 1);
@@ -44,8 +44,8 @@ $(function() {
     }).removeClass('ui-corner-all').filter('li').removeClass('ui-corner-bottom');
 
     $('#available').on('click', '.addremove', function() {
-        $(this).find('.ui-icon-plus').removeClass('ui-icon-plus').addClass('ui-icon-minus');
-        var el = $(this).parent();
+        //$(this).find('.icon-plus').removeClass('icon-plus').addClass('icon-minus');
+        var el = $(this).parent().parent();
         el.addClass('loading');
         $("#agenda").append(el);
         toggleIssue(el, 0);

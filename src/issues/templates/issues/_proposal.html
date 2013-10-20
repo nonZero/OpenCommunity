@@ -1,39 +1,26 @@
 {% load i18n %}
-<ul data-role='content'
-class="prop-table proposals{% if proposal.is_open %} open{% endif %}">
-    <li class="drag-icon
-    {% if proposal.type == 1 %}task-icon{% endif %}
-    {% if proposal.type == 2 %}rule-icon{% endif %}
-    {% if proposal.type == 3 %}general-icon{% endif %}"
-    data-split-icon="check"
-    data-id="{{proposal.id}}"
-    data-accepted="{{proposal.status}}" data-icon="check">
-        <!--img src="{{STATIC_URL}}images/check.png"
-        alt="Checked"
-        class="ui-li-icon ui-corner-none"--><!-- Need to check if needed -->
-    </li>
-
-    <li class="prop-title" data-theme-icon-="b">
-        <a href="{{proposal.get_absolute_url}}" style="text-decoration: none;">
-            {{proposal.title}}
-        </a>
-    </li>
-
-    <li class="prop-content">
-        {% if proposal.type == 1 %}
-            <p class="assign">
-                {% if proposal.assigned_to %}
-                    <b>{% trans "Assigned to" %}:</b> {{ proposal.assigned_to }}&nbsp;
-                {% endif %}
-                {% if proposal.due_by %}
-                    <b>{% trans "Due by" %}:</b> {{ proposal.due_by }}
-                {% endif %}
-            </p>
-        {% endif %}
-        {{proposal.content|safe}}
-    </li>
-
-    <li class="check_box {% if proposal.status == proposal.statuses.ACCEPTED %}checked{% endif %}{% if proposal.status == proposal.statuses.REJECTED %}rejected{% endif %}">
-
-    </li>
+<ul class="prop-table proposals{% if proposal.is_open %} open{% endif %}">
+	<li class="drag-icon
+	{% if proposal.type == 1 %}task-icon{% endif %}
+	{% if proposal.type == 2 %}rule-icon{% endif %}
+	{% if proposal.type == 3 %}general-icon{% endif %}"
+	data-id="{{proposal.id}}"
+	data-accepted="{{proposal.status}}"></li>
+	<li class="prop-title">
+		<a href="{{proposal.get_absolute_url}}"> {{proposal.title}} </a>
+	</li>
+	<li class="prop-content">
+		{% if proposal.type == 1 %}
+		<p class="assign">
+			{% if proposal.assigned_to %}
+			<b>{% trans "Assigned to" %}:</b> {{ proposal.assigned_to }}&nbsp;
+			{% endif %}
+			{% if proposal.due_by %}
+			<b>{% trans "Due by" %}:</b> {{ proposal.due_by }}
+			{% endif %}
+		</p>
+		{% endif %}
+		{{proposal.content|safe}}
+	</li>
+	<li class="check_box {% if proposal.status == proposal.statuses.ACCEPTED %}checked{% endif %}{% if proposal.status == proposal.statuses.REJECTED %}rejected{% endif %}"></li>
 </ul>

@@ -1,0 +1,16 @@
+{% load i18n %}
+{% if cperms.issues.viewopen_issue %}
+	<a class="list-group-item {% if pill == 'issues' %} class="active"{% endif %}" href="{% url 'issues' community.id %}">{% trans "Issues" %}</a>
+{% endif %}
+
+{% if cperms.communities.viewupcoming_community %}
+	<a class="list-group-item {% if pill == 'upcoming' %} class="active"{% endif %}" href="{% url 'community' community.id %}">{% trans "Upcoming Meeting" %}</a>
+{% endif %}
+
+{% if cperms.meetings.view_meeting and community.meetings.count %}
+	<a class="list-group-item" href="{% url 'history' community.id %}">{% trans "History" %}</a>
+{% endif %}
+
+{% if cperms.community.invite_member %}
+	<a class="list-group-item" href="{% url 'members' community.id %}">{% trans "Members" %}</a>
+{% endif %}

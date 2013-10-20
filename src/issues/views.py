@@ -43,6 +43,7 @@ class IssueDetailView(IssueMixin, DetailView):
     def get_context_data(self, **kwargs):
         d = super(IssueDetailView, self).get_context_data(**kwargs)
         d['form'] = forms.CreateIssueCommentForm()
+        d['proposal_form'] = forms.CreateProposalForm()
         return d
 
     required_permission_for_post = 'issues.add_issuecomment'

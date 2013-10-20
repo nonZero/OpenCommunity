@@ -71,7 +71,7 @@ UPLOAD_PATH = ABSDIR('uploads')
 
 UPLOAD_ALLOWED_EXTS = [
                        'pdf', 'txt', 'doc', 'docx', 'xls', 'xlsx', 'csv',
-                      'jpg', 'jpeg', 'gif', 'png' , 'ppt', 'pptx', 'rtf'
+                       'jpg', 'jpeg', 'gif', 'png', 'ppt', 'pptx', 'rtf',
                       ]
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
@@ -209,7 +209,7 @@ LOGOUT_URL = "/logout/"
 FORMAT_MODULE_PATH = "ocd.formats"
 DATE_FORMAT_OCSHORTDATE = "M j"
 DATE_FORMAT_OCSHORTTIME = "H:i"
-CRISPY_TEMPLATE_PACK = "jquery-mobile"
+CRISPY_TEMPLATE_PACK = "bootstrap3"
 
 DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,

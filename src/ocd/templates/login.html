@@ -13,11 +13,13 @@
 
 {% block content %}
 
-    <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+    <form role="form" method="post" action="{% url 'django.contrib.auth.views.login' %}">
         {% csrf_token %}
         {{ form|crispy }}
 
-        <input data-theme="a" type="submit" value="{% trans "Login" %}" />
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        	<input type="submit" class="btn btn-oc btn-block" value="{% trans "Login" %}" />
+    	</div>
         <input type="hidden" name="next" value="{{ next }}" />
     </form>
 

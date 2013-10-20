@@ -1,11 +1,8 @@
 {% load i18n %}
 {% load opencommunity %}
 
-<li class="issue" data-issue="{{i.id}}">
+<li class="issue oc_li" data-issue="{{i.id}}">
     {% if cperms.community.editagenda_community %}
-    <div class="timer" data-url="{% url 'issue_set_length' community.id i.id %}">
-        <span data-strict="{{i.length_in_minutes|minutes_strict}}">{{i.length_in_minutes|minutes|default:'--:--'}}</span>
-    </div>
     <div class="grab"></div>
     {% endif %}
     <a href="{{i.get_absolute_url}}">
@@ -25,6 +22,11 @@
         {{i.title}}
     </a>
     {% if cperms.community.editagenda_community %}
+    <div class="timer" data-url="{% url 'issue_set_length' community.id i.id %}">
+        <span data-strict="{{i.length_in_minutes|minutes_strict}}">{{i.length_in_minutes|minutes|default:'--:--'}}</span>
+    </div>
+    <div class="icon-plus-minus agenda_plus_minus">
         <a href="#" class="addremove"></a>
+    </div>
     {% endif %}
 </li>

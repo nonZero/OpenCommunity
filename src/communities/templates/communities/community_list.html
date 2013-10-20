@@ -48,7 +48,7 @@
           </h2>
 
           {% if user.memberships.count %}
-                <ul class="community_home" data-role="listview">
+                <ul class="community_home nav nav-pills nav-stacked">
                     {% for m in user.memberships.all %}
                       {% include 'communities/_community.html' with c=m.community role=m.get_default_group_name_display %}
                     {% endfor %}
@@ -56,14 +56,14 @@
 
           {% endif %}
 
-        {% else %}
+    {% else %}
 
-        <div class="ctr">
+        <p class="text-center">
             {% trans "Plesae login to view your communities" %}
-            <a href="{% url 'login' %}" data-role="button" data-inline="true" data-theme="a">
+            <a href="{% url 'login' %}" class="btn btn-oc">
                 {% trans "Login" %}
             </a>
-        </div>
+        </p>
 
     {% endif %}
 
@@ -73,7 +73,7 @@
           {% trans "All Communities" %}
       </h2>
 
-        <ul class="community_home" data-role="listview">
+        <ul class="community_home nav nav-pills nav-stacked">
             {% for c in object_list %}
                 {% include 'communities/_community.html' %}
             {% endfor %}
@@ -82,11 +82,11 @@
     {% endif %}
     
     {% if version %}
-        <p class="version">{% trans "Version" %}: 
+        <p class="version text-center">{% trans "Version" %}: 
             <span dir="ltr">{{ version }}</span>
         </p>
     {% else %}
-        <p class="version">DEVELOPMENT SERVER</p>
+        <p class="version text-center">DEVELOPMENT SERVER</p>
     {% endif %}
 
 {% endblock %}
