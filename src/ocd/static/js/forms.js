@@ -2,7 +2,6 @@
 
 $(function() {
 
-
     $("body").on('click', 'a', function() {
 
         if ($(this).data('rel') != 'form') {
@@ -11,85 +10,81 @@ $(function() {
 
         var url = $(this).attr('href');
 
-        $.get(url, function(resp) {
-            var p = $(resp.trim()).html5inputs().appendTo("#mypopups")
-                .popup({dismissible: false})
-                .trigger('create')
-                .popup('open')
-                .on("popupafterclose", function(event, ui) {
-                    $(this).popup('destroy');
-                    p.find('textarea.wysiwyg').each(function() {
-                        $(this).tinymce().remove();
-                    });
-                    p.detach();
-                 });
-
-            wysiwygize(p.find('textarea.wysiwyg'));
-
-            var form = p.find('form');
-
-            form.ajaxForm({
-
-                url: url,
-
-                beforeSubmit: function() {
-                    form.find('input[type="submit"]').prop('disabled', true);
-                },
-
-                success: function(resp) {
-                    if (resp) {
-                        if (resp == '-') {
-                            window.history.back();
-                        } else {
-                            window.location.href = resp;
-                        }
-                    } else {
-                        window.location.reload();
-                    }
-                },
-
-                error: function(resp) {
-                    if (resp.status == 403) {
-                        var newEl = $(resp.responseText.trim()).html5inputs();
-                        form.html(newEl.find('form').html()).trigger('create');
-                    } else {
-                        alert('Server Error! please try again or reload the page.');
-                        form.find('input[type="submit"]').prop('disabled', false);
-                    }
-                }
-
+        $('#modal-form').modal({
+            remote : url
+        }).one('hidden.bs.modal', function() {
+            $(this).find('.htmlarea textarea').each(function() {
+                $(this).tinymce().remove();
             });
-
-            p.find('.close-dialog').click(function(ev) {
-                p.popup('close');
-                return false;
-            });
-
-
+            $(this).removeData('bs.modal').empty();
         });
+
 
         return false;
     });
 });
 
-$.fn["html5inputs"] = function() {
-    return this.each(function() {
-        $(this).find('.dateinput').attr('type','date');
-        $(this).find('.timeinput').attr('type','time');
-        $(this).find('.datetimeinput').attr('type','datetime-local');
-        $(this).find('.crequired input,.crequired select,.crequired textarea').attr('required','required');
-    });
-};
-
 function wysiwygize(x) {
+
     x.tinymce({
-           script_url: tmce_url,
-           directionality : 'rtl',
-           language : 'he_IL',
-           menubar: false,
-           toolbar_items_size: 'small',
-           content_css : "/static/m/tinymce.css",
-           toolbar: "numlist bullist | alignjustify alignright aligncenter alignleft | underline italic bold",
+        script_url : tmce_url,
+        directionality : 'rtl',
+        language : 'he_IL',
+        menubar : false,
+        toolbar_items_size : 'small',
+        content_css : "/static/m/tinymce.css",
+        toolbar : "numlist bullist | alignjustify alignright aligncenter alignleft | underline italic bold",
     });
 }
+
+function initForm(modal) {
+
+    var url = modal.data('bs.modal').options.remote;
+
+    var form = modal.find('form');
+
+    wysiwygize(form.find('.htmlarea textarea'));
+
+    form.ajaxForm({
+
+        url : url,
+
+        beforeSubmit : function() {
+            form.find('input[type="submit"]').prop('disabled', true);
+        },
+
+        success : function(resp) {
+            if (resp) {
+                if (resp == '-') {
+                    window.history.back();
+                } else {
+                    window.location.href = resp;
+                }
+            } else {
+                window.location.reload();
+            }
+        },
+
+        error : function(resp) {
+            if (resp.status == 403) {
+                var newEl = $(resp.responseText.trim());
+                form.html(newEl.find('form').html());
+            } else {
+                alert('Server Error! please try again or reload the page.');
+                form.find('input[type="submit"]').prop('disabled', false);
+            }
+        }
+    });
+
+}
+
+//
+// $.fn["html5inputs"] = function() {
+// return this.each(function() {
+// $(this).find('.dateinput').attr('type','date');
+// $(this).find('.timeinput').attr('type','time');
+// $(this).find('.datetimeinput').attr('type','datetime-local');
+// $(this).find('.crequired input,.crequired select,.crequired textarea').attr('required','required');
+// });
+// };
 

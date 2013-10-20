@@ -154,7 +154,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
 
     'django_nose',
-    'crispy_forms',
+    'floppyforms',
     'south',
     'django_extensions',
     'debug_toolbar',

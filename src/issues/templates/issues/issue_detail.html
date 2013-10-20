@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load humanize %}
-{% load crispy_forms_tags %}
 
 
 {% block extra-page-id %}
@@ -123,7 +122,7 @@ id="issue-detail"
 		          <h4 class="modal-title">{% trans "Add Proposal" %}</h4>
 		        </div>
 		        <div class="modal-body">
-		        	{% crispy proposal_form %}
+		        	{{proposal_form}}
 		        </div>
 		      </div>
 		    </div>
@@ -139,7 +138,7 @@ id="issue-detail"
                 {% endfor %}
                 {% if cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
                     <li class="rich_editor">
-                        {% crispy form %}
+                        {{form}}
                     </li>
                 {% endif %}
             </ul>

@@ -1,6 +1,5 @@
 {% extends "dialog.html" %}
 {% load i18n %}
-{% load crispy_forms_tags %}
 
 {% block page_header %}
     {% if object.upcoming_meeting_started %}
@@ -8,8 +7,4 @@
     {% else %}
       {% trans "Publish" %}
     {% endif %}
-{% endblock %}
-
-{% block content %}
-    {% crispy form %}
 {% endblock %}

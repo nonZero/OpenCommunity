@@ -1,9 +1,10 @@
 from communities.models import Community, SendToOption
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
-from django import forms
 from django.utils.translation import ugettext_lazy as _
+from ocd.formfields import HTMLArea, DateTimeLocalInput
 from users.models import OCUser
+import floppyforms as forms
 
 
 class EditUpcomingMeetingForm(forms.ModelForm):
@@ -18,12 +19,12 @@ class EditUpcomingMeetingForm(forms.ModelForm):
                    'upcoming_meeting_comments',
                    )
 
-    def __init__(self, *args, **kwargs):
-        self.helper = FormHelper()
-
-        self.helper.add_input(Submit('submit', _('Save')))
-
-        super(EditUpcomingMeetingForm, self).__init__(*args, **kwargs)
+        widgets = {
+            'upcoming_meeting_title': forms.TextInput,
+            'upcoming_meeting_scheduled_at': DateTimeLocalInput,
+            'upcoming_meeting_location': forms.TextInput,
+            'upcoming_meeting_comments': HTMLArea,
+        }
 
 
 class PublishUpcomingMeetingForm(forms.ModelForm):
@@ -37,13 +38,6 @@ class PublishUpcomingMeetingForm(forms.ModelForm):
 
         fields = ()
 
-    def __init__(self, *args, **kwargs):
-        self.helper = FormHelper()
-        attrs={'data-rel':'back'}
-        self.helper.add_input(Submit('submit', _('Publish'), **attrs))
-
-        super(PublishUpcomingMeetingForm, self).__init__(*args, **kwargs)
-
 
 class EditUpcomingMeetingSummaryForm(forms.ModelForm):
 
@@ -54,12 +48,6 @@ class EditUpcomingMeetingSummaryForm(forms.ModelForm):
                    'upcoming_meeting_summary',
                    )
 
-    def __init__(self, *args, **kwargs):
-        self.helper = FormHelper()
-
-        self.helper.add_input(Submit('submit', _('Save')))
-
-        super(EditUpcomingMeetingSummaryForm, self).__init__(*args, **kwargs)
 
 
 class StartMeetingForm(forms.ModelForm):
@@ -71,21 +59,18 @@ class StartMeetingForm(forms.ModelForm):
                   'upcoming_meeting_started',
                   )
 
-    def __init__(self, *args, **kwargs):
-        self.helper = FormHelper()
-        attrs={'data-rel':'back'}
-        self.helper.add_input(Submit('submit', _('Save'), **attrs))
-
-        super(StartMeetingForm, self).__init__(*args, **kwargs)
+        widgets = {
+            'upcoming_meeting_started': forms.CheckboxInput,
+        }
 
 
 class UpcomingMeetingParticipantsForm(forms.ModelForm):
 
-    upcoming_meeting_participants = forms.ModelMultipleChoiceField(label=_(
-                                         "Participants in upcoming meeting"),
-                                       required=False,
-                                       queryset=OCUser.objects.all(),
-                                       widget=forms.CheckboxSelectMultiple)
+#     upcoming_meeting_participants = forms.ModelMultipleChoiceField(label=_(
+#                                          "Participants in upcoming meeting"),
+#                                        required=False,
+#                                        queryset=OCUser.objects.all(),
+#                                        widget=forms.CheckboxSelectMultiple)
 
     class Meta:
         model = Community
@@ -95,12 +80,12 @@ class UpcomingMeetingParticipantsForm(forms.ModelForm):
                    'upcoming_meeting_guests',
                    )
 
+        widgets = {
+            'upcoming_meeting_participants': forms.CheckboxSelectMultiple,
+            'upcoming_meeting_guests': forms.Textarea,
+        }
+
     def __init__(self, *args, **kwargs):
-        self.helper = FormHelper()
-
-        self.helper.add_input(Submit('submit', _('Save')))
-
         super(UpcomingMeetingParticipantsForm, self).__init__(*args, **kwargs)
-
         self.fields['upcoming_meeting_participants'].queryset = self.instance.get_members()
 
