@@ -1,25 +1,35 @@
 {% load i18n %}
-{% load crispy_forms_tags %}
 
-<div class="form-popup" data-role="popup" data-overlay-theme="a" data-theme="c" class="ui-corner-all">
+<div class="modal-dialog">
+    <form method="post">
 
-    <div data-role="header" data-theme="a" class="ui-bar-a ui-corner-top ui-header dialog-header">
-        <a href="#" class="close-dialog push" data-inline="true"
-        data-role="button" data-icon="delete"
-        data-iconpos="notext" >{% trans "Close" %}</a>
-        <h1 class="ui-title ui-corner-top">
-            {% block page_header %}Page Title{% endblock %}
-        </h1>
-    </div>
+        <div class="modal-content">
 
-    <div data-role="content" class="dialog-content">
-        {% block content %}
-            {% crispy form %}
-        {% endblock %}
-    </div>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title"> {% block page_header %}Page Title{% endblock %} </h4>
+            </div>
 
-
+            <div class="modal-body">
+                {% block content %}
+                {{form}}
+                {% endblock %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+                <input type="submit" class="btn btn-primary" value="{% trans "Save" %}">
+            </div>
+        </div>
+    </form>
 </div>
 
+{% block page_scripts %}
+{% endblock %}
+
 {% block scripts %}
+    <script>
+        initForm($('#modal-form'));
+    </script>
 {% endblock %}

@@ -1,10 +1,11 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
-from django import forms
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from issues import models
 from issues.models import ProposalType
+import floppyforms as forms
+from ocd.formfields import HTMLArea
 
 
 class BaseIssueForm(forms.ModelForm):
@@ -15,12 +16,15 @@ class BaseIssueForm(forms.ModelForm):
                    'abstract',
                    )
 
+        widgets = {
+            'title': forms.TextInput,
+            'abstract': HTMLArea,
+        }
+
 
 class CreateIssueForm(BaseIssueForm):
 
     def __init__(self, *args, **kwargs):
-        self.helper = FormHelper()
-        self.helper.form_tag = False
 
         super(CreateIssueForm, self).__init__(*args, **kwargs)
 
@@ -89,8 +93,6 @@ class AddAttachmentForm(AddAttachmentBaseForm):
         super(AddAttachmentForm, self).__init__(*args, **kwargs)
 
 
-
-
 class CreateProposalBaseForm(forms.ModelForm):
 
     class Meta:
@@ -102,6 +104,13 @@ class CreateProposalBaseForm(forms.ModelForm):
                    'assigned_to',
                    'due_by',
                    )
+        widgets = {
+            'type': forms.Select,
+            'title': forms.TextInput,
+            'content': HTMLArea,
+            'assigned_to': forms.TextInput,
+            'due_by': forms.DateInput,
+        }
 
 
 class CreateProposalForm(CreateProposalBaseForm):

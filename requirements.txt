@@ -2,7 +2,7 @@
 Django==1.5.1
 
 # django apps
-django-crispy-forms==1.2.3
+django-floppyforms==1.1
 South==0.7.6
 
 # general libs
