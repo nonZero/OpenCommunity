@@ -6,7 +6,7 @@ import os.path
 PROJ_DIR = os.path.dirname(__file__)
 
 env.user = "oc"
-env.port = 9000
+env.gunicorn_port = 9000
 env.code_dir = '~/OpenCommunity/'
 env.venv_command = '. bin/activate'
 env.log_dir = '/var/log/opencommunity/'
@@ -22,8 +22,10 @@ def virtualenv(path):
 
 @task
 def qa_old():
+    env.user = "udi"
     env.hosts = ['oc-dev.modelarity.com']
     env.log_dir = '%slogs/' % env.code_dir
+    env.pidfile = '/home/udi/OpenCommunity/run/masterpid'
 
 
 def qa():
@@ -41,7 +43,7 @@ def qa():
 
 @task
 def udi():
-    env.port = 9010
+    env.gunicorn_port = 9010
     env.user = 'udi'
     env.github_user = 'nonZero'
     qa()
@@ -49,7 +51,7 @@ def udi():
 
 @task
 def amir():
-    env.port = 9011
+    env.gunicorn_port = 9011
     env.user = 'amir'
     env.github_user = 'amir99'
     qa()
@@ -57,7 +59,7 @@ def amir():
 
 @task
 def yaniv():
-    env.port = 9012
+    env.gunicorn_port = 9012
     env.user = 'yaniv'
     env.github_user = 'yaniv14'
     qa()
@@ -97,7 +99,7 @@ def deploy():
         run("cd src && python manage.py collectstatic --noinput")
         run("git log -n 1 --format=\"%ai %h\" > static/version.txt")
         run("git log -n 1 > static/version-full.txt")
-        run("cd src && kill -HUP `cat %s`" % env.pidfile)
+        run("cd src && sudo kill -HUP `cat %s`" % env.pidfile)
 
 
 @task
@@ -170,7 +172,7 @@ def project_setup():
                          'host': env.host,
                          'redirect_host': env.redirect_host,
                          'dir': env.code_dir,
-                         'port': env.port,
+                         'port': env.gunicorn_port,
                          })
         nginx_conf1 = '/etc/nginx/sites-available/%s.conf' % env.ocuser
         nginx_conf2 = '/etc/nginx/sites-enabled/%s.conf' % env.ocuser
@@ -184,7 +186,7 @@ def project_setup():
                         env.code_dir + 'server.sh',
                         {
                          'venv': env.venv_dir,
-                         'port': env.port,
+                         'port': env.gunicorn_port,
                          'pidfile': env.pidfile,
                          }, mode=0777)
 
