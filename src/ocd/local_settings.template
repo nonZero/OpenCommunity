@@ -1,10 +1,11 @@
 _user = '{{ocuser}}'
 _host = '{{host}}'
+
 ALLOWED_HOSTS = [_host]
 HOST_URL = "http://%s" % _host
 FROM_EMAIL = "noreply@%s" % _host
 DEFAULT_FROM_EMAIL = FROM_EMAIL
-EMAIL_SUBJECT_PREFIX = '[%s] ' % ocuser.upper()
+EMAIL_SUBJECT_PREFIX = '[%s] ' % _user.upper()
 
 ADMINS = (
     ('{{user}}', '{{user}}@loclahost'),
@@ -17,11 +18,11 @@ QA_SERVER = True
 DATABASES = {
     'default': {
         # engines: '.postgresql_psycopg2', '.mysql', '.sqlite3' or '.oracle'.
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', 
-        'NAME': '{{ocuser}}',
-        'USER': '{{ocuser}}',
-        'PASSWORD': '{{ocuser}}',
-        'HOST': '',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': _user,
+        'USER': _user,
+        'PASSWORD': _user,
+        'HOST': 'localhost',
         'PORT': '',
     }
 }
