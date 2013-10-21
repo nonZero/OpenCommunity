@@ -3,7 +3,8 @@ from fabric.api import *
 from fabric.contrib.files import upload_template
 import os.path
 
-PROJ_DIR = os.path.dirname(__file__)
+PROJ_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+CONF_DIR = os.path.abspath(os.path.join(PROJ_DIR, 'conf'))
 
 env.user = "oc"
 env.gunicorn_port = 9000
@@ -30,7 +31,7 @@ def qa_old():
 
 def qa():
     env.host = '%s.qa.opencommunity.org.il' % env.user
-    env.redirect_host ='www.%s' % env.host
+    env.redirect_host = 'www.%s' % env.host
     env.hosts = ['qa.opencommunity.org.il']
     env.ocuser = "oc_" + env.user
     env.code_dir = '/home/%s/OpenCommunity/' % env.user
@@ -68,7 +69,7 @@ def yaniv():
 @task
 def prod():
     env.hosts = ['oc@ny1.opencommunity.org.il']
-    env.redirect_host ='opencommunity.org.il'
+    env.redirect_host = 'opencommunity.org.il'
     env.venv_command = '. ~/.virtualenvs/oc/bin/activate'
 
 
@@ -151,29 +152,28 @@ def create_ocuser_and_db():
 
 @task
 def project_setup():
-    run("git clone %s %s" % (env.clone_url, env.code_dir))
+    # run("git clone %s %s" % (env.clone_url, env.code_dir))
     with cd(env.code_dir):
-        run("virtualenv venv --prompt='(%s) '" % env.ocuser)
+        # run("virtualenv venv --prompt='(%s) '" % env.ocuser)
 
-        upload_template(os.path.join(PROJ_DIR, 'src', 'ocd',
-                                     'local_settings.template'),
+        upload_template('ocd/local_settings.template',
                         env.code_dir + 'src/ocd/local_settings.py',
-                        {'ocuser': env.ocuser, 'host': env.host})
-        run('mkdir uploads')
-        run('sudo chown %s uploads') % env.ocuser
-        run('mkdir %s') % env.log_dir
+                        {'ocuser': env.ocuser, 'host': env.host},
+                        use_jinja=True)
+        run('mkdir -p uploads')
+        run('sudo chown %s uploads' % env.ocuser)
+        run('mkdir -p %s' % env.log_dir)
 
         # nginx
 
-        upload_template(os.path.join(PROJ_DIR, 'conf',
-                                     'nginx.conf.template'),
+        upload_template('nginx.conf.template',
                         env.code_dir + 'conf/nginx.conf',
                         {
                          'host': env.host,
                          'redirect_host': env.redirect_host,
                          'dir': env.code_dir,
                          'port': env.gunicorn_port,
-                         })
+                         }, use_jinja=True, template_dir=CONF_DIR)
         nginx_conf1 = '/etc/nginx/sites-available/%s.conf' % env.ocuser
         nginx_conf2 = '/etc/nginx/sites-enabled/%s.conf' % env.ocuser
         run('sudo ln -s conf/nginx.conf %s' % nginx_conf1)
@@ -182,22 +182,22 @@ def project_setup():
 
         # gunicorn
 
-        upload_template(os.path.join(PROJ_DIR, 'server.sh.template'),
+        upload_template('server.sh.template',
                         env.code_dir + 'server.sh',
                         {
                          'venv': env.venv_dir,
                          'port': env.gunicorn_port,
                          'pidfile': env.pidfile,
-                         }, mode=0777)
+                         }, mode=0777, use_jinja=True, template_dir=PROJ_DIR)
 
         # supervisord
-        upload_template(os.path.join(PROJ_DIR, 'conf', 'supervisor.conf.template'),
+        upload_template('supervisor.conf.template',
                         env.code_dir + 'conf/supervisor.conf',
                         {
                          'dir': env.code_dir,
                          'ocuser': env.ocuser,
                          'logdir': env.log_dir,
-                         }, mode=0777)
+                         }, mode=0777, use_jinja=True, template_dir=CONF_DIR)
 
         run('sudo ln -s conf/supervisor.conf /etc/supervisor/conf.d/%s.conf'
             % env.ocuser)

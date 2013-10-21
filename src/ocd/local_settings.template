@@ -1,5 +1,5 @@
-_user = '{ocuser}'
-_host = '{host}'
+_user = '{{ocuser}}'
+_host = '{{host}}'
 ALLOWED_HOSTS = [_host]
 HOST_URL = "http://%s" % _host
 FROM_EMAIL = "noreply@%s" % _host
@@ -7,7 +7,7 @@ DEFAULT_FROM_EMAIL = FROM_EMAIL
 EMAIL_SUBJECT_PREFIX = '[%s] ' % ocuser.upper()
 
 ADMINS = (
-    ('{user}', '{user}@loclahost'),
+    ('{{user}}', '{{user}}@loclahost'),
 )
 
 MANAGERS = ADMINS

@@ -1,6 +1,6 @@
-[program:{ocuser}]
-directory = {dir}
-user = {ocuser}
-command = {dir}server.sh
-stdout_logfile = {logdir}/opencommunity.log
-stderr_logfile = {logdir}/opencommunity.log
+[program:{{ocuser}}]
+directory = {{dir}}
+user = {{ocuser}}
+command = {{dir}}server.sh
+stdout_logfile = {{logdir}}/opencommunity.log
+stderr_logfile = {{logdir}}/opencommunity.log
