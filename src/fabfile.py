@@ -144,7 +144,7 @@ def server_setup():
 
 @task
 def create_ocuser_and_db():
-    run("sudo adduser %s --gecos '' --disabled-password")
+    run("sudo adduser %s --gecos '' --disabled-password" % env.ocuser)
     run("sudo -iu postgres createuser %s -S -D -R" % env.ocuser)
     run("sudo -iu postgres createdb %s -O %s" % (env.ocuser, env.ocuser))
 
