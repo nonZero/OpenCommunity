@@ -1,12 +1,13 @@
 from contextlib import contextmanager
 from fabric.api import *
-from fabric.contrib.files import upload_template
+from fabric.contrib.files import upload_template, uncomment
 import os.path
 
-PROJ_DIR = os.path.dirname(__file__)
+PROJ_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+CONF_DIR = os.path.abspath(os.path.join(PROJ_DIR, 'conf'))
 
 env.user = "oc"
-env.port = 9000
+env.gunicorn_port = 9000
 env.code_dir = '~/OpenCommunity/'
 env.venv_command = '. bin/activate'
 env.log_dir = '/var/log/opencommunity/'
@@ -22,13 +23,15 @@ def virtualenv(path):
 
 @task
 def qa_old():
+    env.user = "udi"
     env.hosts = ['oc-dev.modelarity.com']
     env.log_dir = '%slogs/' % env.code_dir
+    env.pidfile = '/home/udi/OpenCommunity/run/masterpid'
 
 
 def qa():
-    env.host = '%s.qa.opencommunity.org.il' % env.user
-    env.redirect_host ='www.%s' % env.host
+    env.vhost = '%s.qa.opencommunity.org.il' % env.user
+    env.redirect_host = 'www.%s' % env.vhost
     env.hosts = ['qa.opencommunity.org.il']
     env.ocuser = "oc_" + env.user
     env.code_dir = '/home/%s/OpenCommunity/' % env.user
@@ -41,7 +44,7 @@ def qa():
 
 @task
 def udi():
-    env.port = 9010
+    env.gunicorn_port = 9010
     env.user = 'udi'
     env.github_user = 'nonZero'
     qa()
@@ -49,7 +52,7 @@ def udi():
 
 @task
 def amir():
-    env.port = 9011
+    env.gunicorn_port = 9011
     env.user = 'amir'
     env.github_user = 'amir99'
     qa()
@@ -57,7 +60,7 @@ def amir():
 
 @task
 def yaniv():
-    env.port = 9012
+    env.gunicorn_port = 9012
     env.user = 'yaniv'
     env.github_user = 'yaniv14'
     qa()
@@ -66,7 +69,7 @@ def yaniv():
 @task
 def prod():
     env.hosts = ['oc@ny1.opencommunity.org.il']
-    env.redirect_host ='opencommunity.org.il'
+    env.redirect_host = 'opencommunity.org.il'
     env.venv_command = '. ~/.virtualenvs/oc/bin/activate'
 
 
@@ -88,16 +91,18 @@ def freeze():
 
 
 @task
-def deploy():
+def deploy(restart=True):
     with virtualenv(env.code_dir):
         run("git pull")
         run("pip install -r requirements.txt")
         run("pip install -r deploy-requirements.txt")
-        run("cd src && python manage.py migrate --merge")
+        run("cd src && python manage.py syncdb --noinput")
+        run("cd src && python manage.py migrate --merge --noinput")
         run("cd src && python manage.py collectstatic --noinput")
         run("git log -n 1 --format=\"%ai %h\" > static/version.txt")
         run("git log -n 1 > static/version-full.txt")
-        run("cd src && kill -HUP `cat %s`" % env.pidfile)
+        if restart:
+            run("cd src && sudo kill -HUP `cat %s`" % env.pidfile)
 
 
 @task
@@ -142,69 +147,113 @@ def server_setup():
 
 @task
 def create_ocuser_and_db():
-    run("sudo adduser %s --gecos '' --disabled-password")
+    run("sudo adduser %s --gecos '' --disabled-password" % env.ocuser)
     run("sudo -iu postgres createuser %s -S -D -R" % env.ocuser)
     run("sudo -iu postgres createdb %s -O %s" % (env.ocuser, env.ocuser))
+    run("sudo -iu postgres psql -c \"alter user %s with password '%s';\"" % (env.ocuser, env.ocuser))
 
 
 @task
-def project_setup():
+def clone_project():
     run("git clone %s %s" % (env.clone_url, env.code_dir))
     with cd(env.code_dir):
         run("virtualenv venv --prompt='(%s) '" % env.ocuser)
 
-        upload_template(os.path.join(PROJ_DIR, 'src', 'ocd',
-                                     'local_settings.template'),
+
+@task
+def create_local_settings():
+    with cd(env.code_dir):
+        upload_template('ocd/local_settings.template',
                         env.code_dir + 'src/ocd/local_settings.py',
-                        {'ocuser': env.ocuser, 'host': env.host})
-        run('mkdir uploads')
-        run('sudo chown %s uploads') % env.ocuser
-        run('mkdir %s') % env.log_dir
+                        {'ocuser': env.ocuser, 'host': env.vhost},
+                        use_jinja=True)
 
-        # nginx
 
-        upload_template(os.path.join(PROJ_DIR, 'conf',
-                                     'nginx.conf.template'),
+@task
+def nginx_setup():
+    with cd(env.code_dir):
+
+        upload_template('nginx.conf.template',
                         env.code_dir + 'conf/nginx.conf',
                         {
-                         'host': env.host,
+                         'host': env.vhost,
                          'redirect_host': env.redirect_host,
                          'dir': env.code_dir,
-                         'port': env.port,
-                         })
+                         'port': env.gunicorn_port,
+                         }, use_jinja=True, template_dir=CONF_DIR)
         nginx_conf1 = '/etc/nginx/sites-available/%s.conf' % env.ocuser
         nginx_conf2 = '/etc/nginx/sites-enabled/%s.conf' % env.ocuser
-        run('sudo ln -s conf/nginx.conf %s' % nginx_conf1)
-        run('sudo ln -s %s %s' % (nginx_conf1, nginx_conf2))
+
+#       FIXME
+#       uncomment('/etc/nginx/nginx.conf',
+#                 'server_names_hash_bucket_size\s+64',
+#                 use_sudo=True)
+
+        run('sudo ln -fs %sconf/nginx.conf %s' % (env.code_dir, nginx_conf1))
+        run('sudo ln -fs %s %s' % (nginx_conf1, nginx_conf2))
         run('sudo service nginx configtest')
+        run('sudo service nginx start')
+        run('sudo service nginx reload')
 
-        # gunicorn
 
-        upload_template(os.path.join(PROJ_DIR, 'server.sh.template'),
+@task
+def gunicorn_setup():
+    with cd(env.code_dir):
+        upload_template('server.sh.template',
                         env.code_dir + 'server.sh',
                         {
                          'venv': env.venv_dir,
-                         'port': env.port,
+                         'port': env.gunicorn_port,
                          'pidfile': env.pidfile,
-                         }, mode=0777)
+                         }, mode=0777, use_jinja=True, template_dir=PROJ_DIR)
 
-        # supervisord
-        upload_template(os.path.join(PROJ_DIR, 'conf', 'supervisor.conf.template'),
+
+@task
+def supervisor_setup():
+    with cd(env.code_dir):
+        upload_template('supervisor.conf.template',
                         env.code_dir + 'conf/supervisor.conf',
                         {
                          'dir': env.code_dir,
                          'ocuser': env.ocuser,
                          'logdir': env.log_dir,
-                         }, mode=0777)
+                         }, mode=0777, use_jinja=True, template_dir=CONF_DIR)
 
-        run('sudo ln -s conf/supervisor.conf /etc/supervisor/conf.d/%s.conf'
-            % env.ocuser)
+        run('sudo ln -fs %sconf/supervisor.conf /etc/supervisor/conf.d/%s.conf'
+            % (env.code_dir, env.ocuser))
+        run("sudo supervisorctl reread")
+        run("sudo supervisorctl update")
+        run("sudo supervisorctl start %s" % env.ocuser)
 
-    deploy()
-    very_hard_reload()
+
+@task
+def project_setup():
+    with cd(env.code_dir):
+        run('mkdir -p uploads')
+        run('sudo chown %s uploads' % env.ocuser)
+        run('mkdir -p %s' % env.log_dir)
+    create_local_settings()
+    deploy(restart=False)
+    gunicorn_setup()
+    supervisor_setup()
+    nginx_setup()
+
+
+@task
+def initial_project_setup():
+    create_ocuser_and_db()
+    clone_project()
+    project_setup()
 
 
 @task
 def createsuperuser():
     with virtualenv(env.code_dir):
         run("cd src && python manage.py createsuperuser")
+
+
+@task
+def supervisor_status():
+    run("sudo supervisorctl status")
+
+
