@@ -40,4 +40,5 @@ li[data-accepted="1"] img {
 
 .issue_attachments ul {
     margin: 4px 0;
+    list-style-type: none;
 }
