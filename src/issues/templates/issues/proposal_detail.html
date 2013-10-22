@@ -68,7 +68,7 @@
 
         <br />
 
-       {% if cperms.issues.add_proposal or not proposal.is_open %}
+       {% if cperms.issues.view_proposal_in_discussion or not proposal.is_open %}
             {% if object.status == object.statuses.ACCEPTED %}
                     <div class="accepted">
                         {% trans "Proposal accepted" %}!

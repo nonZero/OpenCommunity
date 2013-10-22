@@ -92,7 +92,7 @@
 
 {% block content %}
     {% if cperms.communities.viewupcoming_community %}
-        {% if cperms.issues.add_proposal or object.upcoming_meeting_is_published %}
+        {% if cperms.communities.viewupcoming_draft or object.upcoming_meeting_is_published %}
 
             {% if object.upcoming_meeting_started %}
                 <p class="sub-title">

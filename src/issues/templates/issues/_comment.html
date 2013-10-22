@@ -1,8 +1,7 @@
 {% load i18n %}
 
 {% if c.active or cperms.issues.editclosed_issuecomment or cperms.issues.editopen_issuecomment and c.is_open  %}
-    {% if c.meeting or cperms.issues.add_proposal %}
-    {# only board and above can see comments from "current" meeting #}
+    {% if c.meeting or cperms.issues.view_proposal_in_discussion %}
     <li{% if not c.active %} class="deleted"{% endif %}>
     
         {% if cperms.issues.editclosed_issuecomment or cperms.issues.editopen_issuecomment and c.is_open  %}
