@@ -1,6 +1,5 @@
 {% extends "dialog.html" %}
 {% load i18n %}
-{% load crispy_forms_tags %}
 
 {% block extra-page-id %}
 	id="create-proposal"
@@ -17,7 +16,7 @@
 
 {% block content %}
 
-    {% crispy form %}
+    {{ form }}
 
 <script>
 	function refreshProposalForm() {

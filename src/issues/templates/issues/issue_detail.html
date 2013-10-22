@@ -2,169 +2,163 @@
 {% load i18n %}
 {% load humanize %}
 
-
 {% block extra-page-id %}
 id="issue-detail"
 {% endblock %}
 
-
 {% block page_header %}
-    {% trans "Issue" %}
+{% trans "Issue" %}
 {% endblock %}
 
-
 {% block pagemenu %}
-	{% if cperms.issues.editclosed_issue or not object.is_archived %}
-	    {% if cperms.issues.editopen_issue or object.created_by == user %}
-            <a class="list-group-item" data-rel="form" href="{{object.get_edit_url}}">{% trans "Edit" %}</a>
-            <a class="list-group-item" data-rel="form" href="{{object.get_delete_url}}">{% trans "Delete" %}</a>
-	    {% endif %}
-	{% endif %}
+{% if cperms.issues.editclosed_issue or not object.is_archived %}
+{% if cperms.issues.editopen_issue or object.created_by == user %}
+<a class="list-group-item" data-rel="form" href="{{object.get_edit_url}}">{% trans "Edit" %}</a>
+{% if cperms.issues.editopen_issue %}
+<a id="add-attachment" data-rel="form" class="list-group-item" href="{% url 'add_attachment' community.id object.id %}"> {% trans 'Add attachment' %} </a>
+{% endif %}
+<a class="list-group-item" data-rel="form" href="{{object.get_delete_url}}">{% trans "Delete" %}</a>
+{% endif %}
+{% endif %}
 {% endblock %}
 
 {% block content %}
 
-    {% if object.is_archived %}
+{% if object.is_archived %}
 
-        <h2 class="text-center">
-            --{% trans "Closed" %}--
-        </h2>
+<h2 class="text-center"> --{% trans "Closed" %}-- </h2>
 
-    {% else %}
+{% else %}
 
-        {% if object.is_upcoming %}
-            <h2 class="text-center">
-                --{% trans "In upcoming meeting" %}--
-            </h2>
-        {% endif %}
+{% if object.is_upcoming %}
+<h2 class="text-center"> --{% trans "In upcoming meeting" %}-- </h2>
+{% endif %}
 
-    {% endif %}
+{% endif %}
 
-    <table class="table table-condensed issue-detail-table">
-        <tr>
-            <td class="icon" rowspan="2"></td>
-            <td class="title">{{object.title}}</td>
-        </tr>
-        <tr>
-            <td class="name">{{ object.created_by}} ({{ object.created_at}})</td>
-        </tr>
-    </table>
+<table class="table table-condensed issue-table">
+	<tr>
+		<td class="icon" rowspan="2"></td>
+		<td class="title">{{object.title}}</td>
+	</tr>
+	<tr>
+		<td class="name">{{ object.created_by}} ({{ object.created_at}})</td>
+	</tr>
+</table>
 
-    {% if object.abstract %}
+{% if object.abstract %}
 
-        <div class="oc_detail_top">
-            <p>
-                {{object.abstract|safe}}
-            </p>
-    {% endif %}
+<div class="oc_detail_top">
+	<p>
+		{{object.abstract|safe}}
+	</p>
+	{% endif %}
 
-    {% if object.content %}
+	{% if object.content %}
 
-        <h4>{% trans "Content" %}</h4>
-            <p>
-                {{object.content|safe}}
-            </p>
+	<h4>{% trans "Content" %}</h4>
+	<p>
+		{{object.content|safe}}
+	</p>
 
-    {% endif %}
+	{% endif %}
 
+	<div class="issue_attachments">
+		{% if object.attachments.count %}
 
-    <div class="issue_attachments">
-        {% if object.attachments.count %}
+		<h4>{% trans "Attachments" %}</h4>
+		<ul>
+			{% for att in object.attachments.all %}
+			<li>
+				<a href="{{ att.get_absolute_url }}" class="file_ext {{ att.extension }}">{{att.title}}</a>
+				{% if cperms.issues.editopen_issue %}
+				<a id="remove-attachment" href="{% url 'attachment_delete' community.id object.id att.id %}" data-rel="form"><img src="{{ STATIC_URL }}images/icon-remove.gif"/></a>
+			</li>
+			{% endif %}
+			{% endfor %}
+		</ul>
+		{% endif %}
+	</div>
+</div>
 
-            <h4>{% trans "Attachments" %}</h4>
-            <ul>
-                {% for att in object.attachments.all %}
-                    <li><a href="{{ att.get_absolute_url }}">{{ att.title }}</a>
-                    {% if cperms.issues.editopen_issue %}
-                        <a id="remove-attachment" href="{% url 'attachment_delete' community.id object.id att.id %}" data-rel="form"><img src="{{ STATIC_URL }}images/icon-remove.gif"/></a></li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        {% endif %}
+{% if object.proposals.active.count %}
+<div class="issue_proposal">
 
-        {% if cperms.issues.editopen_issue %}
-            <a id="add-attachment" data-rel="form" href="{% url 'add_attachment' community.id object.id %}">
-            	{% trans 'Add attachment' %}
-        	</a>
-        {% endif %}
-    </div>
-        </div>
+	{% if object.proposals.closed %}
+	<h2>{% trans "Past Proposals" %}</h2>
 
+	{% for proposal in object.proposals.closed %}
+	{% include 'issues/_proposal.html' %}
+	{% endfor %}
+	{% endif %}
 
-    {% if object.proposals.active.count %}
-        <div class="issue_proposal">
+	<h2>{% trans "Proposals" %}</h2>
 
-            <h2>{% trans "Past Proposals" %}</h2>
+	{% for proposal in object.proposals.open %}
+	{% include 'issues/_proposal.html' %}
+	{% endfor %}
 
-            {% for proposal in object.proposals.closed %}
-                {% include 'issues/_proposal.html' %}
-            {% endfor %}
+</div>
+{% endif %}
 
-            <h2>{% trans "Proposals" %}</h2>
+{% if cperms.issues.add_proposal and not object.is_archived %}
+<div class="narrow clear">
+	<a data-toggle="modal" href="#addProposalModal" class="btn btn-oc btn-lg btn-block">{% trans "Add Proposal" %}</a>
+	<!--<a class="btn btn-oc btn-lg btn-block" data-rel="form" href="{% url "proposal_create" community.id object.id %}">{% trans "Add Proposal" %}</a>-->
+</div>
+<div class="modal fade" id="addProposalModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title">{% trans "Add Proposal" %}</h4>
+			</div>
+			<div class="modal-body">
+				{{proposal_form}}
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
 
-            {% for proposal in object.proposals.open %}
-                {% include 'issues/_proposal.html' %}
-            {% endfor %}
+{% if object.comments.count or cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
+<div class="issuecomments">
+	<h2>{% trans "Summary" %}</h2>
+	<ul id="comments">
+		{% for c in object.comments.all %}
+		{% include "issues/_comment.html" %}
+		{% endfor %}
+		{% if cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
+		<li class="rich_editor">
+			{{ form }}
+		</li>
+		{% endif %}
+	</ul>
+</div>
+{% endif %}
 
-        </div>
-    {% endif %}
-
-    {% if cperms.issues.add_proposal and not object.is_archived %}
-        <div class="narrow clear">
-            <a data-toggle="modal" href="#addProposalModal" class="btn btn-oc btn-lg btn-block">{% trans "Add Proposal" %}</a>
-            <!--<a class="btn btn-oc btn-lg btn-block" data-rel="form" href="{% url "proposal_create" community.id object.id %}">{% trans "Add Proposal" %}</a>-->
-        </div>
-        <div class="modal fade" id="addProposalModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		    <div class="modal-dialog">
-		      <div class="modal-content">
-		        <div class="modal-header">
-		          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		          <h4 class="modal-title">{% trans "Add Proposal" %}</h4>
-		        </div>
-		        <div class="modal-body">
-		        	{{proposal_form}}
-		        </div>
-		      </div>
-		    </div>
-		  </div>
-    {% endif %}
-
-    {% if object.comments.count or cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
-        <div class="issuecomments">
-            <h2>{% trans "Summary" %}</h2>
-            <ul id="comments">
-                {% for c in object.comments.all %}
-                    {% include "issues/_comment.html" %}
-                {% endfor %}
-                {% if cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
-                    <li class="rich_editor">
-                        {{form}}
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
-    {% endif %}
-
-    {% if cperms.meetings.add_meeting and object.community.upcoming_meeting_started and object.status == object.statuses.IN_UPCOMING_MEETING %}
-        <br/>
-        <form id="issue-complete" method="post" action="{% url 'issue_complete' community.id issue.id %}">
-            {% csrf_token %}
-            <input name="enable" type="hidden" value="{{object.completed|yesno:'0,1'}}"/>
-            <div class="narrow">
-                <button>
-                    {% if object.completed %}{% trans "Undo complete discussion" %}{% else %}{% trans "Complete discussion" %}{% endif %}
-                </button>
-            </div>
-        </form>
-        <br/>
-    {% endif %}
+{% if cperms.meetings.add_meeting and object.community.upcoming_meeting_started and object.status == object.statuses.IN_UPCOMING_MEETING %}
+<br/>
+<form id="issue-complete" method="post" action="{% url 'issue_complete' community.id issue.id %}">
+	{% csrf_token %}
+	<input name="enable" type="hidden" value="{{object.completed|yesno:'0,1'}}"/>
+	<div class="narrow">
+		<button class="btn btn-oc btn-block btn-lg">
+			{% if object.completed %}{% trans "Undo complete discussion" %}{% else %}{% trans "Complete discussion" %}{% endif %}
+		</button>
+	</div>
+</form>
+<br/>
+{% endif %}
 
 {% endblock %}
 
 {% block extrahead %}
-    <link rel="stylesheet" href="{{STATIC_URL}}css/issue.css"/>
+<link rel="stylesheet" href="{{STATIC_URL}}css/issue.css"/>
 {% endblock %}
 
 {% block scripts %}
-    <script src="{{STATIC_URL}}js/issue.js"></script>
+<script src="{{STATIC_URL}}js/issue.js"></script>
 {% endblock %}

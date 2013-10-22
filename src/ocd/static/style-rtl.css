@@ -92,7 +92,8 @@ a {
 /* Navbar */
 
 nav.oc_navbar {
-	background-image: url('images/title_bg.png');
+	/*background-image: url('images/title_bg.png');*/
+	background: #428bca;
 	margin-bottom: 0;
 }
 .navbar-default .navbar-brand {
@@ -119,9 +120,9 @@ p.user_nav {
 .navbar-collapse {
 	max-height: 800px;
 }
-.navbar-nav {
+/*.navbar-nav {
 	width: 100%;
-}
+}*/
 .navbar-header {
 	float: none;
 	margin: 0 auto;
@@ -165,6 +166,8 @@ p.user_nav {
 }
 #agenda li.issue.oc_li a {
 	margin: 0 40px 0 100px;
+	padding-right: 0;
+	padding-left: 0;
 }
 #available li.issue.oc_li a {
 	margin-left: 41px;
@@ -179,7 +182,6 @@ p.user_nav {
 }
 #agenda .completed {
 	position: relative;
-	top: 3px;
 }
 #available .completed {
     display: none;
@@ -218,7 +220,28 @@ p.user_nav {
 	top: 0;
 	left: 0;
 }
-
+.title_w_right_icon {
+	display: block;
+	padding-right: 55px;
+	line-height: 29px;
+	background-color: #448698;
+	background-position: right;
+	background-repeat: no-repeat;
+	font-size: 15px;
+	font-weight: bold;
+	color: #fff;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+} 
+.title_w_right_icon:hover {
+	text-decoration: none;
+	color: #fff;
+} 
+#issue-list .form-horizontal .control-label {
+	font-size: 18px;
+	padding-top: 5px;
+}
 /* Page header, Details, description, location */
 
 .page_title {
@@ -249,7 +272,7 @@ table.meeting-table {
 	border: 1px solid #ceced0;
 	margin-bottom: 15px;
 }
-table.issue-detail-table {
+table.issue-table {
 	width: 100%;
 	border-collapse: collapse;
 	margin-bottom: 2px;
@@ -260,6 +283,86 @@ table.issue-detail-table {
     text-decoration: none;
 	padding: 5px 0;
 }
+#meeting-detail .meeting-table thead tr th {
+	vertical-align: middle;
+}
+.meeting-table tbody tr td.sub_count {
+	background-color: #cacccd;
+	padding: 0;
+}
+#meeting-detail .meeting-table tbody {
+	background: #fff;
+} 
+#meeting-detail .meeting-table tbody tr td a {
+	text-decoration: none;
+	font-size: 15px;
+	color: #6c6c6e;
+	overflow: hidden;
+	word-break: break-word;
+	display: block;
+}
+.meeting-table tbody tr.table_divider {
+	border-bottom: 1px solid #ceced0;
+}
+.meeting-table tbody tr.table_divider td {
+	padding-bottom: 10px;
+}
+.meeting-table tbody tr:last-child.table_divider {
+	border-bottom: 0;
+}
+#meeting-detail table.meeting-table tbody tr td {
+	border-top: 0;
+}
+.meeting-header {
+	height: 60px;
+	background: #064556;
+}
+.meeting-header-title {
+	padding-top: 4px;
+	padding-bottom: 4px;
+	border-left: 1px dashed #8f9698;
+}
+.meeting-header-users {
+	padding-top: 17px;
+	padding-bottom: 17px;
+}
+.show-participants {
+	display: block;
+	line-height: 25px;
+	padding-right: 45px;
+	background: url('images/users.png') no-repeat right center;
+}
+.users {
+	color: #fff;
+	font-size: 24px;
+}
+.select-meeting {
+	display: block;
+	line-height: 25px;
+	padding-right: 45px;
+	background: url('images/date-grid-icon.png') no-repeat right center;
+}
+.show-participants:hover,
+.select-meeting:hover {
+	text-decoration: none;
+}
+.select-meeting p {
+	margin: 0;
+	font-size: 18px;
+	color: #fff;
+}
+.summary {
+	padding: 15px;
+}
+.summary p {
+	margin: 0;
+}
+.meeting-table tbody tr td.sub_count.num2,
+.meeting-table tbody tr td.sub_count.num4,
+.meeting-table tbody tr td.sub_count.num6,
+.meeting-table tbody tr td.sub_count.num8 {
+	background-color: #dcddde;
+}
 .meeting-table thead tr th.head_title {
 	font-size: 18px;
 	padding-left: 30px;
@@ -267,19 +370,30 @@ table.issue-detail-table {
 	background: url(images/arrow-left.png) #448698 no-repeat 10px 50%;
 	word-break: break-word;
 }
-.issue-detail-table tr td.title {
+.issue-table tr td.title {
 	font-size: 24px;
 	padding: 10px 5px 5px 5px;
 	line-height: 1;
 	font-weight: bold;
 	word-break: break-word;
 }
-table.issue-detail-table tr td {
+.issue-table tbody tr td.issue_title {
+	padding: 0 10px 0 35px;
+	word-break: break-word;
+	min-height: 50px;
+	vertical-align: middle;
+}
+.issue-table tbody tr td.issue_title a {
+	color: #fff;
+	font-size: 18px;
+	display: block;
+}
+table.issue-table tr td {
 	border-top: 0;
-	background: #448698;
+	background-color: #448698;
 	color: #fff;
 }
-.issue-detail-table tr td.name {
+.issue-table tr td.name {
 	font-size: 15px;
 	padding: 0 10px 5px 10px;
 }
@@ -307,10 +421,9 @@ table.issue-detail-table tr td {
 	overflow: hidden;
 }
 .meeting-table thead tr th a {
-    font-weight: normal !important;
-    color: #fff !important;
-    text-decoration: none !important;
-    display: block;
+    color: #fff;
+    text-decoration: none;
+/*    display: block;*/
     max-height: 2.6em;
 	overflow: hidden;
 }
@@ -323,14 +436,27 @@ table.issue-detail-table tr td {
 .meeting-table thead tr th.count a {
     width: 38px;
 }
-.issue-detail-table tr td.icon {
+.issue-table tr td.icon {
     font-size: 30px;
     background: url(images/issue-icon.png) no-repeat center #3d3c3c;
     width: 45px;
 	text-align: center;
 }
+table.issue-table tr td.issue_date {
+	min-width: 60px;
+	padding-top: 14px;
+	padding-bottom: 14px;
+	background: #3d3c3c;
+	text-align: center;
+	font-size: 16px;
+	vertical-align: middle;
+}
+#issue-list table.issue-table {
+	border-spacing: 0 2px;
+	border-collapse: separate;
+}
 
-/* Proposal page table */
+/* Proposal page table & more */
 
 ul.prop-table {
 	display: table;
@@ -341,14 +467,20 @@ ul.prop-table {
 	background: #ffffff;
 	list-style-type: none
 }
+ul.prop-table a {
+	display: block;
+}
 ul:last-child.prop-table {
 	margin-bottom: 15px;
 }
 ul.proposals li.drag-icon {
 	display: table-cell;
 	width: 40px;
-	margin: 0;
-	padding: 0;
+}
+.wide-icon {
+	display: table-cell;
+	width: 48px;
+	background-color: #e3e3e3;
 }
 ul:nth-child(even).proposals li.drag-icon {
 	background-color: #cacccd;
@@ -381,7 +513,44 @@ ul.proposals li.prop-content p {
 	white-space: normal;
 	word-break: break-word;
 }
+.proposal {
+	position: relative;
+}
+.proposal-info {
+	padding: 15px;
+	border: 1px solid #d8e0df;
+	background: #fff;
+}
+.proposal-info p {
+	word-break: break-word;
+	margin: 10px 0;
+}
+.unaccept {
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin: 7px;
+}
+#proposal-detail .accepted {
+	position: relative;
+	background: url(images/accepted.png) no-repeat right center #b8d29a;
+	border: 1px solid #d8e0df;
+	padding: 17px 50px;
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
 
+#proposal-detail .rejected {
+    position: relative;
+    background: url(images/proposal-rejected.png) no-repeat #d2af7d;
+    background-position: 99% 50%;
+    border: 1px solid #e8d8df;
+	padding: 17px 50px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
 /* Issue detail comments */
 
 #comments {
@@ -403,7 +572,21 @@ ul.proposals li.prop-content p {
 .comment-inner p.content {
 	font-size: 15px;
 }
-
+#comments li.rich_editor {
+	background: transparent;
+	padding: 10px 0 0 0;
+}
+.issue_attachments ul {
+	list-style-type: none;
+	padding-right: 0;
+}
+ul#invitations {
+	list-style-type: none;
+}
+form.delete-invitation {
+	display: inline;
+	margin-left: 15px;
+}
 /* Images & Icons */
 
 .check_box {
@@ -435,14 +618,42 @@ ul.proposals li.prop-content p {
 	background: url(images/task.png) no-repeat;
 }
 .general-icon {
-	background: url(images/general-icon.png) no-repeat center;
+	background-image: url(images/general-icon.png);
+	background-repeat: no-repeat;
+	background-position: center;
 }
 .task-icon {
-	background: url(images/task-icon.png) no-repeat center;
+	background-image: url(images/task-icon.png);
+	background-repeat: no-repeat;
+	background-position: center;
 }
 .rule-icon {
-	background: url(images/rule-icon.png) no-repeat center;
+	background-image: url(images/rule-icon.png);
+	background-repeat: no-repeat;
+	background-position: center;
 }
+.prop_back_icon {
+	background-image: url('images/prop-back.png');
+}
+.file_ext {
+	padding-right: 30px;
+	background-size: 22px 20px;
+	background-position: right;
+	background-repeat: no-repeat;
+}
+.pdf {background-image: url('images/icons/pdf.gif');}
+.txt {background-image: url('images/icons/txt.gif');}
+.doc {background-image: url('images/icons/doc.gif');}
+.docx {background-image: url('images/icons/docx.gif');}
+.xls {background-image: url('images/icons/xl.gif');}
+.xlsx {background-image: url('images/icons/xls.gif');}
+.csv {background-image: url('images/icons/csv.gif');}
+.jpg, .jpeg {background-image: url('images/icons/jpg.gif');}
+.gif {background-image: url('images/icons/gif.gif');}
+.png {background-image: url('images/icons/png.gif');}
+.ppt {background-image: url('images/icons/ppt.gif');}
+.pptx {background-image: url('images/icons/pptx.gif');}
+.rtf {background-image: url('images/icons/rtf.gif');}
 
 /* WYSIWYG top bar */
 

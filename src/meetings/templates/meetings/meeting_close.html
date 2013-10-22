@@ -1,6 +1,5 @@
 {% extends "dialog.html" %}
 {% load i18n %}
-{% load crispy_forms_tags %}
 
 {% block page_header %}
     {% trans "Close meeting" %}</a>
@@ -20,7 +19,7 @@
             </div>
         {% endif %}
 
-        {% crispy form %}
+        {{ form }}
 
     {% endwith %}
 

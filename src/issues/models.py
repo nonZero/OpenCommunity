@@ -188,6 +188,10 @@ class IssueAttachment(UIDMixin):
     class Meta:
         ordering = ('created_at',)
 
+    def extension(self):
+        name, extension = os.path.splitext(self.file.name)
+        return extension[1:5]
+    
     @models.permalink
     def get_absolute_url(self):
         return "attachment_download", (

@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load url from future %}
 {% load i18n %}
-{% load crispy_forms_tags %}
 
 {% block extra-page-id %}
 	id="login-page"
@@ -15,7 +14,7 @@
 
     <form role="form" method="post" action="{% url 'django.contrib.auth.views.login' %}">
         {% csrf_token %}
-        {{ form|crispy }}
+        {{ form }}
 
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         	<input type="submit" class="btn btn-oc btn-block" value="{% trans "Login" %}" />

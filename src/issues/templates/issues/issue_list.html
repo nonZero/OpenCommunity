@@ -11,27 +11,35 @@
 {% endblock %}
 
 {% block pagemenu %}
-    <a href="{% url "issue_create" community.id %}" class="list-group-item">
+    <a href="{% url "issue_create" community.id %}" class="list-group-item" data-rel="form">
         {% trans "Add" %}
     </a>
 {% endblock %}
 
 {% block content %}
 
-    <span class="search">{% trans "Search" %}:</span>
-    <ul class="content_in" data-role="listview" data-filter="true" data-filter-placeholder="">
+    <form class="form-horizontal" role="search">
+	<div class="form-group">
+	    <label class="col-lg-1 control-label">{% trans "Search" %}:</label>
+	    <div class="col-lg-11 input-group">
+	      <input type="text" class="form-control" placeholder="">
+	      <span class="input-group-btn">
+	        <button class="btn btn-default" type="button">{% trans "Search" %}</button>
+	      </span>
+	    </div>
+	</div>
+    </form>
+		<table class="table table-condensed issue-table">
         {% for object in object_list %}
-			<table class="table table-condensed issue-table">
 				<tr>
 					<td class="issue_date">{{ object.created_at|ocshortdate }}</td>
-					<td class="issue_title">
+					<td class="issue_title left_arrow">
 						<a href="{{ object.get_absolute_url }}">
 						{{ object.title }}</a>
 					</td>
 				</tr>
-			</table>
         {% endfor %}
-    </ul>
+		</table>
 
 {% endblock %}
 

@@ -38,21 +38,16 @@
         </nav>
         <div class="container">
             <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h1 class="text-center">
-                        {% block page_header %}Page Title{% endblock %}
-                    </h1>
-                    {% if messages %}
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                                {{ message }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-3">
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                            {{ message }}
+                        </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="collapse navbar-collapse navbar-ex1-collapse">
                         <ul class="nav navbar-nav">
                             <div class="list-group">
@@ -65,7 +60,10 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-10 col-md-9 col-sm-9">
+                <div class="col-lg-9 col-md-9 col-sm-9">
+                    <h1 class="text-center">
+                        {% block page_header %}Page Title{% endblock %}
+                    </h1>
                     {% block content %}
                     {% endblock %}
                 </div>

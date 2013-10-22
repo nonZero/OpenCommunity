@@ -1,6 +1,5 @@
 {% extends "dialog.html" %}
 {% load i18n %}
-{% load crispy_forms_tags %}
 
 {% block extra-page-id %}
 	id="add-attachment"
@@ -14,7 +13,7 @@
 {% endblock %}
 
 {% block content %}
-
-    {% crispy form %}
+	{% csrf_token %}
+    {{ form }}
 
 {% endblock %}

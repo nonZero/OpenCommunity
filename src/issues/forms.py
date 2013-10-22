@@ -1,5 +1,3 @@
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from issues import models
@@ -52,9 +50,9 @@ class CreateIssueForm(BaseIssueForm):
 
 class UpdateIssueForm(BaseIssueForm):
     def __init__(self, *args, **kwargs):
-        self.helper = FormHelper()
-
-        self.helper.add_input(Submit('submit', _('Update')))
+#         self.helper = FormHelper()
+# 
+#         self.helper.add_input(Submit('submit', _('Update')))
 
         super(UpdateIssueForm, self).__init__(*args, **kwargs)
         self.helper.form_tag = True
@@ -86,9 +84,9 @@ class AddAttachmentForm(AddAttachmentBaseForm):
     submit_button_text = _('Upload')
 
     def __init__(self, *args, **kwargs):
-        self.helper = FormHelper()
-
-        self.helper.add_input(Submit('submit', self.submit_button_text))
+#         self.helper = FormHelper()
+# 
+#         self.helper.add_input(Submit('submit', self.submit_button_text))
 
         super(AddAttachmentForm, self).__init__(*args, **kwargs)
 
@@ -118,9 +116,9 @@ class CreateProposalForm(CreateProposalBaseForm):
     submit_button_text = _('Create')
 
     def __init__(self, *args, **kwargs):
-        self.helper = FormHelper()
-
-        self.helper.add_input(Submit('submit', self.submit_button_text))
+#         self.helper = FormHelper()
+# 
+#         self.helper.add_input(Submit('submit', self.submit_button_text))
 
         super(CreateProposalForm, self).__init__(*args, **kwargs)
         self.fields['type'].initial = ProposalType.ADMIN
@@ -152,11 +150,11 @@ class CreateIssueCommentForm(forms.ModelForm):
                    )
 
     def __init__(self, *args, **kwargs):
-        self.helper = FormHelper()
-        if self.form_id:
-            self.helper.form_id = self.form_id
+#         self.helper = FormHelper()
+#         if self.form_id:
+#             self.helper.form_id = self.form_id
 
-        self.helper.add_input(Submit('submit', self.submit_label))
+#         self.helper.add_input(Submit('submit', self.submit_label))
 
         super(CreateIssueCommentForm, self).__init__(*args, **kwargs)
 

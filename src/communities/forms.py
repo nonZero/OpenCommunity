@@ -1,6 +1,4 @@
 from communities.models import Community, SendToOption
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
 from django.utils.translation import ugettext_lazy as _
 from ocd.formfields import HTMLArea, DateTimeLocalInput
 from users.models import OCUser

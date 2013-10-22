@@ -114,31 +114,20 @@
             {% if object.upcoming_meeting_started and cperms.community.editupcoming_community %}
 
                 <h2>{% trans "Summary" %}</h2>
-                <div class="ui-grid-solo">
-                    <div class="ui-block-a">
-                        <div class="ui-bar ui-bar-c">
-                            <p>
-                                <div class="push">
-                                    <a data-rel="form" data-role="button" data-theme="a"
-                                    data-inline="true"
-                                    href="{% url "upcoming_edit_summary" community.id %}" class="btn">
-                                        {% trans "Edit" %}
-                                    </a>
-                                </div>
-                                {% if object.upcoming_meeting_summary %}
-                                    {{object.upcoming_meeting_summary|safe}}
-                                {% endif %}
-                            </p>
-                        </div>
+                    <div class="push">
+                        <a data-rel="form" href="{% url "upcoming_edit_summary" community.id %}" class="btn btn-oc">
+                            {% trans "Edit" %}
+                        </a>
                     </div>
-                </div>
+                    {% if object.upcoming_meeting_summary %}
+                        {{object.upcoming_meeting_summary|safe}}
+                    {% endif %}
 
             {% endif %}
 
             {% if object.upcoming_meeting_started and cperms.meetings.add_meeting %}
                 <div class="narrow">
-                    <a data-rel="form" data-role="button" data-theme="a"
-                    href="{% url "upcoming_close" community.id %}" class="btn">
+                    <a href="{% url "upcoming_close" community.id %}" class="btn btn-oc btn-block btn-lg">
                         {% trans "Close Meeting" %}
                     </a>
                 </div>

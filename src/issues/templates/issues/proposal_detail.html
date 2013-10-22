@@ -3,117 +3,125 @@
 {% load humanize %}
 
 {% block extra-page-id %}
-    id="proposal-detail"
+id="proposal-detail"
 {% endblock %}
 
 {% block page_header %}
-    {% trans "Proposal" %}
+{% trans "Proposal" %}
 {% endblock %}
 
-{% block header-start %}
-    <a href="#proposalpanel" data-icon="bars" data-iconpos="notext" data-rel="panel"></a>
-{% endblock %}
-
-{% block startpanel %}
-    <div data-role="panel" id="proposalpanel">
-        <ul data-role="listview">
-            {% if cperms.issues.editclosed_proposal or object.is_open %}
-                {% if cperms.issues.editopen_proposal or object.created_by == user %}
-                    <li><a data-rel="form" href="{{object.get_edit_url}}">{% trans "Edit" %}</a></li>
-                    <li><a data-rel="form" href="{{object.get_delete_url}}">{% trans "Delete" %}</a></li>
-                {% endif %}
-            {% endif %}
-            {% if object.is_task and cperms.issues.edittask_proposal %}
-                {% if cperms.issues.editclosed_proposal or object.is_open %}
-                    <li><a data-rel="form" href="{{object.get_edit_task_url}}">{% trans "Reassign task" %}</a></li>
-                {% endif %}
-            {% endif %}
-        </ul>
-    </div>
+{% block pagemenu %}
+{% if cperms.issues.editclosed_proposal or object.is_open %}
+{% if cperms.issues.editopen_proposal or object.created_by == user %}
+	<a class="list-group-item" href="{{object.get_edit_url}}" data-rel="form">{% trans "Edit" %}</a>
+	<a class="list-group-item" href="{{object.get_delete_url}}" data-rel="form">{% trans "Delete" %}</a>
+{% endif %}
+{% endif %}
+{% if object.is_task and cperms.issues.edittask_proposal %}
+{% if cperms.issues.editclosed_proposal or object.is_open %}
+<a class="list-group-item" href="{{object.get_edit_task_url}}" data-rel="form">{% trans "Reassign task" %}</a>
+{% endif %}
+{% endif %}
 {% endblock %}
 
 {% block content %}
 
+<div class="proposal" data-id="{{object.id}}" data-accepted="{{object.status}}">
 
-    <div class="proposal" data-id="{{object.id}}"
-         data-accepted="{{object.status}}">
+	<a class="title_w_right_icon prop_back_icon" href="{{object.issue.get_absolute_url}}"> {{object.issue}} </a>
 
-        <a class="prop-issue-title" href="{{object.issue.get_absolute_url}}">
-            <div class="prop-issue">{{object.issue}}</div>
-        </a>
+	<ul class="prop-table proposals">
+		<li class="wide-icon {% if object.type == 1 %}task-icon{% endif %}{% if object.type == 2 %}rule-icon{% endif %}{% if object.type == 3 %}general-icon{% endif %}"></li>
+		<li class="prop-title">
+			<h2>{{object.title}} ({{object.get_status_display}}{% if object.decided_at_meeting %} {{object.decided_at_meeting}}{% endif %})</h2>
+		</li>
+		<li class="prop-content">
+			{% if object.type == 1 %}
+				<p class="assign">
+					{% if object.assigned_to %}
+						<b>{% trans "Assigned to" %}:</b> {{ object.assigned_to }}&nbsp;
+					{% if object.assigned_to and object.due_by %}{% endif %}
+					{% endif %}
+					{% if object.due_by %}
+						<b>{% trans "Due by" %}:</b> {{ object.due_by }}
+					{% endif %}
+				</p>
+			{% endif %}
+			<p>
+				<b>{% trans "By:" %}</b> {{ object.created_by}}. {{ object.created_at}} {# ({{ object.created_at|naturaltime}}) #}
+			</p>
+		</li>
+	</ul>
 
-        <div class="ui-grid-solo prop-subject">
-            <div class="prop-type">
-                <img src="{{STATIC_URL}}m/images/{% if object.type == 1 %}task-icon{% endif %}{% if object.type == 2 %}rule-icon{% endif %}{% if object.type == 3 %}general-icon{% endif %}.png"/>
-            </div>
-            <div class="prop-info">
-                <h4 class="abstract abstract-title">
-                  {{object.title}} ({{object.get_status_display}}{% if object.decided_at_meeting %} {{object.decided_at_meeting}}{% endif %})
-                </h4>
-                <h4 class="abstract assigned_to">
-                {% if object.type == 1 %}
-                    {% if object.assigned_to %} 
-                        <p style="margin: 0; line-height: 14px;"><b>{% trans "Assigned to" %}:</b> {{ object.assigned_to }}</p>
-                        {% if object.assigned_to and object.due_by %}{% endif %}
-                    {% endif %}
-                    {% if object.due_by %}
-                        <p style="margin: 0; line-height: 14px;"><b>{% trans "Due by" %}:</b> {{ object.due_by }}</p>
-                    {% endif %}
-                {% endif %}
-                <p><b>{% trans "By:" %}</b> {{ object.created_by}}. {{ object.created_at}} {# ({{ object.created_at|naturaltime}}) #}</p>
-                </h4>
+	<br />
+	{% if cperms.issues.add_proposal or not proposal.is_open %}
+	{% if object.status == object.statuses.ACCEPTED %}
+	<div class="accepted">
+		{% trans "Proposal accepted" %}!
+		{% if object.decided_at_meeting %} (<a href="{{ object.decided_at_meeting.get_absolute_url }}"> {{ object.decided_at_meeting.get_title_or_date }} </a>)
+		{% endif %}
 
-            </div>
-        </div>
+		{% if object.can_vote and cperms.issues.acceptopen_proposal %}
+		<a href="#" class="unaccept btn btn-oc btn-lg">{% trans "Cancel approval" %}</a>
+		{% endif %}
+	</div>
+	{% elif object.status == object.statuses.REJECTED %}
+	<div class="rejected">
+		{% trans "Proposal rejected" %}!
+		{% if object.decided_at_meeting %} (<a href="{{ object.decided_at_meeting.get_absolute_url }}"> {{ object.decided_at_meeting.get_title_or_date }} </a>)
+		{% endif %}
 
-        <br />
-        
-        {% if object.abstract %}
-            <div data-role="collapsible" data-collapsed="false"
-                data-theme="c" data-content-theme="d" data-mini="true">
-                <h4>{% trans "Abstract" %}</h4>
-                <p>{{object.abstract|safe}}</p>
-            </div>
-        {% endif %}
+		{% if object.can_vote and cperms.issues.acceptopen_proposal %}
+		<a href="#" class="unaccept btn btn-oc btn-lg">{% trans "Cancel approval" %}</a>
+		{% endif %}
+	</div>
+	{% endif %}
+	{% endif %}
 
-        {% if object.content %}
-            <div class="proposal-info">
-                {# <h4>{% trans "Content" %}</h4> #}
-                {{object.content|safe}}
-            </div>
-        {% endif %}
+	{% if object.abstract %}
+	<div>
+		<h4>{% trans "Abstract" %}</h4>
+		<p>
+			{{object.abstract|safe}}
+		</p>
+	</div>
+	{% endif %}
 
-        {% if object.can_vote and cperms.issues.acceptopen_proposal %}
-            <form method="post">
+	{% if object.content %}
+	<div class="proposal-info">
+		{# <h4>{% trans "Content" %}</h4> #}
+		{{object.content|safe}}
+	</div>
+	{% endif %}
 
-                {% csrf_token %}
+	{% if object.can_vote and cperms.issues.acceptopen_proposal %}
+	<form id="proposal-form" method="post">
 
-                <div class="narrow accept-buttons">
+		{% csrf_token %}
 
-                    {% if object.status != object.statuses.ACCEPTED %}
-                      <button data-role="button" name="accepted" value="{{object.statuses.ACCEPTED}}" data-theme="a">{% trans "Accept proposal" %}</button>
-                    {% endif %}
+		<div class="narrow accept-buttons text-center">
+			{% if object.status != object.statuses.ACCEPTED %}
+			<button class="btn btn-oc btn-lg" name="accepted" value="{{object.statuses.ACCEPTED}}">
+				{% trans "Accept proposal" %}
+			</button>
+			{% endif %}
+			{% if object.status != object.statuses.REJECTED %}
+			<button class="btn btn-oc btn-lg" name="accepted" value="{{object.statuses.REJECTED}}">
+				{% trans "Reject proposal" %}
+			</button>
+			{% endif %}
+		</div>
+	</form>
 
-                    {% if object.status != object.statuses.REJECTED %}
-                        <button data-role="button" name="accepted" value="{{object.statuses.REJECTED}}" data-theme="a">{% trans "Reject proposal" %}</button>
-                    {% endif %}
+	{% endif %}
 
-                    {% if object.status != object.statuses.IN_DISCUSSION %}
-                        <button data-role="button" name="accepted" value="{{object.statuses.IN_DISCUSSION}}" data-theme="a">{% trans "Cancel approval" %}</button>
-                    {% endif %}
-
-                </div>
-            </form>
-
-        {% endif %}
-
-    </div>
+</div>
 {% endblock %}
 
-
 {% block extrahead %}
-    <link rel="stylesheet" href="{{STATIC_URL}}css/proposal.css"/>
+<link rel="stylesheet" href="{{STATIC_URL}}css/proposal.css"/>
 {% endblock %}
 
 {% block scripts %}
+	<script src="{{STATIC_URL}}js/proposal.js"></script>
 {% endblock %}

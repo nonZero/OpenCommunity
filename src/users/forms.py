@@ -1,10 +1,12 @@
-from django import forms
-from django.forms.models import ModelForm
-from users.models import Invitation, OCUser
+#from django import forms
+#from django.forms.models import ModelForm
 from django.utils.translation import ugettext_lazy as _
+from ocd.formfields import HTMLArea
+from users.models import Invitation, OCUser
+import floppyforms as forms
 
 
-class InvitationForm(ModelForm):
+class InvitationForm(forms.ModelForm):
 
     class Meta:
         model = Invitation
@@ -15,11 +17,17 @@ class InvitationForm(ModelForm):
                   'message',
                   )
 
+        widgets = {
+            'default_group_name': forms.Select,
+            'email': forms.EmailInput,
+            'message': HTMLArea,
+        }
+
     def clean_email(self):
         return self.cleaned_data.get("email").lower()
 
 
-class QuickSignupForm(ModelForm):
+class QuickSignupForm(forms.ModelForm):
 
     password1 = forms.CharField(label=_('Password'), widget=forms.PasswordInput)
     password2 = forms.CharField(label=_('Password confirmation'), widget=forms.PasswordInput)
