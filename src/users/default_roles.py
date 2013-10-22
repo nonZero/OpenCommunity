@@ -83,7 +83,7 @@ class DefaultGroups(object):
     permissions = {}
 
     permissions[MEMBER] = frozenset(DefaultRoles.permissions[DefaultRoles.OBSERVER])
-    permissions[BOARD] = frozenset(DefaultRoles.permissions[DefaultRoles.PROPOSER])
+    permissions[BOARD] = frozenset(DefaultRoles.permissions[DefaultRoles.PARTICIPANT])
     permissions[SECRETARY] = frozenset(DefaultRoles.permissions[DefaultRoles.OPERATOR])
     permissions[CHAIRMAN] = frozenset(DefaultRoles.permissions[DefaultRoles.DECIDER] +
                                 DefaultRoles.permissions[DefaultRoles.EDITOR])
