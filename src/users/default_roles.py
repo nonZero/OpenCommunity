@@ -30,13 +30,12 @@ class DefaultRoles(object):
                           ]
 
     permissions[PARTICIPANT] = permissions[OBSERVER] + [
-                            'issues.viewextended_proposal',
+                            'issues.view_proposal_in_discussion',
                           ]
      
-    permissions[PROPOSER] = permissions[OBSERVER] + [
+    permissions[PROPOSER] = permissions[PARTICIPANT] + [
                            'issues.add_proposal',
-                           'communities.viewupcoming_community',
-                           'meetings.view_draft',
+                           'communities.viewupcoming_draft',
                           ]
 
     permissions[CONTRIBUTOR] = permissions[PROPOSER] + [
