@@ -71,28 +71,23 @@
         <br />
 
        {% if cperms.issues.add_proposal or not proposal.is_open %}
-            {% if object.status == object.statuses.ACCEPTED %}
-                    <div class="accepted">
-                        {% trans "Proposal accepted" %}!
-                        {% if object.decided_at_meeting %} (<a href="{{ object.decided_at_meeting.get_absolute_url }}">
+            {% if object.status == object.statuses.ACCEPTED or object.status == object.statuses.REJECTED %}
+                    <div class="{{object.get_status_class}}">
+                    	{% if object.status == object.statuses.ACCEPTED %}
+	                        {% trans "Proposal accepted" %}!
+                        {% endif %}
+
+                        {% if object.status == object.statuses.REJECTED %}
+	                        {% trans "Proposal rejected" %}!
+                        {% endif %}
+                        
+    	                {% if object.decided_at_meeting %} (<a href="{{ object.decided_at_meeting.get_absolute_url }}">
                             {{ object.decided_at_meeting.get_title_or_date }}
                             </a>)
                         {% endif %}
 
                         {% if object.can_vote and cperms.issues.acceptopen_proposal %}
-                            <a href="#" data-role="button" class="unaccept" data-theme="a">{% trans "Cancel approval" %}</a>
-                        {% endif %}
-                    </div>
-            {% elif object.status == object.statuses.REJECTED %}
-                    <div class="rejected">
-                        {% trans "Proposal rejected" %}!
-                        {% if object.decided_at_meeting %} (<a href="{{ object.decided_at_meeting.get_absolute_url }}">
-                            {{ object.decided_at_meeting.get_title_or_date }}
-                            </a>)
-                        {% endif %}
-
-                        {% if object.can_vote and cperms.issues.acceptopen_proposal %}
-                            <a href="#" data-role="button" class="unaccept" data-theme="a">{% trans "Cancel approval" %}</a>
+			                <a href="#" data-role="button" class="unaccept" data-value="{{object.statuses.IN_DISCUSSION}}" data-theme="a">{% trans "Cancel approval" %}</a>
                         {% endif %}
                     </div>
             {% endif %}
@@ -114,20 +109,14 @@
         {% endif %}
 
         {% if object.can_vote and cperms.issues.acceptopen_proposal %}
-            <form id="proposal-form" method="post">
-
-                {% csrf_token %}
-
-                <div class="narrow accept-buttons">
-                    {% if object.status != object.statuses.ACCEPTED %}
-                        <button data-role="button" name="accepted" value="{{object.statuses.ACCEPTED}}" data-theme="a">{% trans "Accept proposal" %}</button>
-                    {% endif %}
-                    {% if object.status != object.statuses.REJECTED %}
-                        <button data-role="button" name="accepted" value="{{object.statuses.REJECTED}}" data-theme="a">{% trans "Reject proposal" %}</button>
-                    {% endif %}
-                </div>                  
-            </form>
-
+            <div class="narrow accept-buttons">
+                {% if object.status != object.statuses.ACCEPTED %}
+                    <button data-role="button" class="proposal-action" name="accepted" value="{{object.statuses.ACCEPTED}}" data-theme="a">{% trans "Accept proposal" %}</button>
+                {% endif %}
+                {% if object.status != object.statuses.REJECTED %}
+                    <button data-role="button" class="proposal-action" name="accepted" value="{{object.statuses.REJECTED}}" data-theme="a">{% trans "Reject proposal" %}</button>
+                {% endif %}
+            </div>                  
         {% endif %}
 
     </div>
