@@ -6,6 +6,7 @@ class DefaultRoles(object):
 
     VIEWER = 'viewer'
     OBSERVER = 'observer'
+    PARTICIPANT = 'participant'
     PROPOSER = 'proposer'
     CONTRIBUTOR = 'contributor'
     EDITOR = 'editor'
@@ -28,9 +29,14 @@ class DefaultRoles(object):
                            'communities.viewupcoming_community',
                           ]
 
+    permissions[PARTICIPANT] = permissions[OBSERVER] + [
+                            'issues.viewextended_proposal',
+                          ]
+     
     permissions[PROPOSER] = permissions[OBSERVER] + [
                            'issues.add_proposal',
                            'communities.viewupcoming_community',
+                           'meetings.view_draft',
                           ]
 
     permissions[CONTRIBUTOR] = permissions[PROPOSER] + [

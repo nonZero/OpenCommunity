@@ -120,9 +120,9 @@
                                 {% trans "Rejected Proposals" %}
                             </h4>
                             <ul>
-                                {% for n in ai.rejected_proposals.all %}
+                                {% for n in a.rejected_proposals.all %}
                                     <li style="padding:2px 0">
-                                        <a href="{{base_url}}{{p.get_absolute_url}}">
+                                        <a href="{{base_url}}{{n.get_absolute_url}}">
                                             {{n.title}}
                                         </a>
                                     </li>

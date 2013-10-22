@@ -91,7 +91,10 @@
                                     {% for p in i.active_proposals.all %}
                                         <li style="padding:2px 0">
 	                                        <a href="{{base_url}}{{p.get_absolute_url}}">
-	                                            {{ p.get_type_display}}: {{p.title}}
+                                                {% if p.type != 3 %}
+                                                    {{ p.get_type_display }}:
+                                                {% endif %}
+	                                             {{p.title}}
 	                                        </a>
 	                                        {% if p.assigned_to %}
 	                                            &nbsp;

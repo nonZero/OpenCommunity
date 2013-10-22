@@ -47,9 +47,7 @@
                 <img src="{{STATIC_URL}}m/images/{% if object.type == 1 %}task-icon{% endif %}{% if object.type == 2 %}rule-icon{% endif %}{% if object.type == 3 %}general-icon{% endif %}.png"/>
             </div>
             <div class="prop-info">
-                <h4 class="abstract abstract-title">
-                  {{object.title}} 
-                </h4>
+                <h4 class="abstract abstract-title">{{object.title}}</h4>
                 <h4 class="abstract assigned_to">
                 {% if object.type == 1 %}
                     {% if object.assigned_to %} 

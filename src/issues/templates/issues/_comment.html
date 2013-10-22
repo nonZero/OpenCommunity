@@ -31,13 +31,10 @@
             <i>
                 {% if c.meeting %}
                     <b>
-                        <a href="{{c.meeting.get_absolute_url}}">
-                            {{c.meeting.get_title_or_date}}
-                        </a>
+                        <a href="{{c.meeting.get_absolute_url}}">{{c.meeting.get_title_or_date}}:</a>
                     </b>
                 {% endif %}
-
-                {{c.created_by}} {% trans "at" %} {{c.created_at}}
+                {{c.created_by}} ({% trans "at" %} {{c.created_at}})
             </i>
             <blockquote>
                 {{c.content|safe}}

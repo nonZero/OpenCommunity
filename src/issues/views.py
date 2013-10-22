@@ -215,6 +215,7 @@ class AttachmentDeleteView(DeleteView, AjaxFormView):
 
     def delete(self, request, *args, **kwargs):
         o = self.get_object()
+        o.file.delete(save=False)
         o.delete()
         return HttpResponse("")
 
