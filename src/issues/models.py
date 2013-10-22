@@ -189,40 +189,40 @@ class IssueAttachment(UIDMixin):
                                    verbose_name=_("Created by"),
                                    related_name="files_created")
 
-    def get_icon_filename(self):
+    def get_icon_class(self):
         file_icon_map = {
-            'doc': 'docx.gif',
-            'docx': 'docx.gif',
-            'rtf': 'docx.gif',
-            'jpg': 'jpg.gif',
-            'jpeg': 'jpg.gif',
-            'gif': 'jpg.gif',
-            'png': 'jpg.gif',
-            'tiff': 'jpg.gif',
-            'xls': 'xls.gif',
-            'xlsx': 'xls.gif',
-            'csv': 'xls.gif',
-            'pdf': 'pdf.gif',
-            'ppt': 'pptx.gif',
-            'pptx': 'pptx.gif',
-            'm4a': 'vid.gif',
-            'wma': 'vid.gif',
-            'mp4': 'vid.gif',
-            'mov': 'vid.gif',
-            'avi': 'vid.gif',
-            'wmv': 'vid.gif',
-            'aac': 'snd.gif',
-            'fla': 'snd.gif',
-            'wav': 'snd.gif',
-            'mp3': 'snd.gif',
-            'flac': 'snd.gif',
-            'txt': 'txt.gif',
+            'doc': 'docx',
+            'docx': 'docx',
+            'rtf': 'docx',
+            'jpg': 'jpg',
+            'jpeg': 'jpg',
+            'gif': 'jpg',
+            'png': 'jpg',
+            'tiff': 'jpg',
+            'xls': 'xls',
+            'xlsx': 'xls',
+            'csv': 'xls',
+            'pdf': 'pdf',
+            'ppt': 'pptx',
+            'pptx': 'pptx',
+            'm4a': 'vid',
+            'wma': 'vid',
+            'mp4': 'vid',
+            'mov': 'vid',
+            'avi': 'vid',
+            'wmv': 'vid',
+            'aac': 'snd',
+            'fla': 'snd',
+            'wav': 'snd',
+            'mp3': 'snd',
+            'flac': 'snd',
+            'txt': 'txt',
         }
         ext = os.path.splitext(self.file.name)[1][1:]
         try:
             icon = file_icon_map[ext]
         except KeyError:
-            icon = 'file.png'
+            icon = 'file'
         return icon    
         
     class Meta:
