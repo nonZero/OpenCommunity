@@ -9,22 +9,6 @@
     {% trans "Open Community" %}
 {% endblock %}
 
-{% block pagemenu %}
-    {% if user.id %}
-    {% if user.is_staff %}
-        <a href="{% url 'admin:index' %}" class="btn btn-oc">
-        	<span class="glyphicon glyphicon-log-out"></span> <span class="hidden-xs">{% trans "Admin" %}</span>
-    	</a>
-    {% endif %}
-        <a href="#" class="btn btn-oc">
-        	{{user.display_name}}
-        </a>
-        <a href="{% url 'logout' %}" class="btn btn-oc">
-        	<span class="glyphicon glyphicon-log-out"></span> <span class="hidden-xs">{% trans "Log out" %}</span>
-    	</a>
-    {% endif %}
-{% endblock %}
-
 
 {% block content %}
 
