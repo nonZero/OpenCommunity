@@ -306,11 +306,7 @@ class ProposalDetailView(ProposalMixin, DetailView):
                      ]:
             return HttpResponseBadRequest("Bad value for accepted POST parameter")
 
-        if request.POST.get('unaccept', None):
-            p.status = p.statuses.IN_DISCUSSION
-        else:    
-            p.status = v
-        print p.status
+        p.status = v
         p.save()
 
         return redirect(p.issue)

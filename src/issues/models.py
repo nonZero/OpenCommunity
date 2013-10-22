@@ -377,3 +377,9 @@ class Proposal(UIDMixin):
         return ("proposal_delete", (str(self.issue.community.pk), str(self.issue.pk),
                                 str(self.pk)))
 
+    def get_status_class(self):
+        if self.status == self.statuses.ACCEPTED:
+            return "accepted"
+        if self.status == self.statuses.REJECTED:
+            return "rejected"
+        return ""
