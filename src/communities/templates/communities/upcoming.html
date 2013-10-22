@@ -17,41 +17,44 @@
 
 {% block pagemenu %}
 {% if cperms.community.editagenda_community %}
-    <a class="list-group-item" data-rel="form" href="{% url "issue_create_upcoming" community.id %}">{% trans "Create Issue" %}</a>
+    <a class="btn btn-oc" data-rel="form" href="{% url "issue_create_upcoming" community.id %}">
+    	<span class="glyphicon glyphicon-plus"></span> <span class="hidden-xs">{% trans "Create Issue" %}</span></a>
 {% endif %}
 
 {% if cperms.community.editupcoming_community %}
-    <a class="list-group-item" data-rel="form"
-        href="{% url "upcoming_edit" community.id %}">
-        {% trans "Edit" %}
+    <a class="btn btn-oc" data-rel="form"
+        href="{% url "upcoming_edit" community.id %}"><span class="glyphicon glyphicon-pencil"></span> 
+        <span class="hidden-xs">{% trans "Edit" %}</span>
     </a>
 {% endif %}
 
 {% if cperms.community.editparticipants_community and community.upcoming_meeting_started %}
-    <a class="list-group-item" data-rel="form"
-        href="{% url "upcoming_edit_participants" community.id  %}">
-        {% trans "Select Participants" %}
+    <a class="btn btn-oc" data-rel="form"
+        href="{% url "upcoming_edit_participants" community.id  %}"><span class="glyphicon glyphicon-user"></span> 
+        <span class="hidden-xs">{% trans "Select Participants" %}</span>
     </a>
 {% endif %}
 
 {% if cperms.community.editagenda_community %}
-    <a class="list-group-item" data-rel="form" 
-    href="{% url "upcoming_publish" community.id  %}">
+    <a class="btn btn-oc" data-rel="form" 
+    href="{% url "upcoming_publish" community.id  %}"><span class="glyphicon glyphicon-list"></span> 
         {% if object.upcoming_meeting_started %}
-          {% trans "Summary Draft" %}
+          <span class="hidden-xs">{% trans "Summary Draft" %}</span>
         {% else %}
-          {% trans "Publish Agenda" %}
+          <span class="hidden-xs">{% trans "Publish Agenda" %}</span>
         {% endif %}
     </a>
 {% endif %}
 
 {% if cperms.community.editupcoming_community %}
-    <a class="list-group-item" data-rel="form" 
+    <a class="btn btn-oc" data-rel="form" 
     href="{% url "upcoming_start" community.id  %}">
         {% if object.upcoming_meeting_started %}
-            {% trans "Undo Start Meeting" %}
+        	<span class="glyphicon glyphicon-thumbs-down"></span> 
+            <span class="hidden-xs">{% trans "Undo Start Meeting" %}</span>
         {% else %}
-            {% trans "Start Meeting" %}
+        	<span class="glyphicon glyphicon-thumbs-up"></span> 
+            <span class="hidden-xs">{% trans "Start Meeting" %}</span>
         {% endif %}
     </a>
 {% endif %}

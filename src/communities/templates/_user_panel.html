@@ -1,20 +1,13 @@
 {% load i18n %}
 
-{% if user.is_authenticated %}
-    <a class="list-group-item active disable" href="#">
-        {{user.display_name}}{% else %}{% trans "Open Community" %}
-    </a>
-{% endif %}
-
 {% if user.is_staff %}
-    <a class="list-group-item" href="{% url 'admin:index' %}">{% trans "Admin" %}</a>
+    <li><a href="{% url 'admin:index' %}">{% trans "Admin" %}</a></li>
 {% endif %}
 
-<a class="list-group-item" href="{% url 'home' %}">{% trans "All Communities" %}</a>
-
+<li><a href="{% url 'home' %}">{% trans "All Communities" %}</a></li>
 {% if user.is_authenticated %}
-    <br/>
-    <a class="list-group-item" href="{% url 'logout' %}">{% trans "Log out" %}</a>
+<li role="presentation" class="divider"></li>
+    <li><a href="{% url 'logout' %}">{% trans "Log out" %}</a></li>
 {% else %}
-    <a class="list-group-item" href="{% url 'login' %}">{% trans "Login" %}</a>
+    <li><a href="{% url 'login' %}">{% trans "Login" %}</a></li>
 {% endif %}

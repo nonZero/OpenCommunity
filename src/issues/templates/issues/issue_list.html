@@ -11,8 +11,8 @@
 {% endblock %}
 
 {% block pagemenu %}
-    <a href="{% url "issue_create" community.id %}" class="list-group-item" data-rel="form">
-        {% trans "Add" %}
+    <a href="{% url "issue_create" community.id %}" class="btn btn-oc" data-rel="form">
+        <span class="glyphicon glyphicon-plus"></span> <span class="hidden-xs">{% trans "Add" %}</span>
     </a>
 {% endblock %}
 

@@ -16,7 +16,7 @@
         {% csrf_token %}
         {{ form }}
 
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="narrow">
         	<input type="submit" class="btn btn-oc btn-block" value="{% trans "Login" %}" />
     	</div>
         <input type="hidden" name="next" value="{{ next }}" />

@@ -10,12 +10,8 @@
     {% with community.issues_ready_to_close as issues %}
 
         {% if not issues %}
-            <div class="ui-grid-solo">
-                <div class="ui-block-a">
-                    <div class="ui-bar ui-bar-e">
-                        {% trans "No decisions were made in this meeting."%}
-                    </div>
-                </div>
+            <div>
+                {% trans "No decisions were made in this meeting."%}
             </div>
         {% endif %}
 

@@ -13,13 +13,19 @@ id="proposal-detail"
 {% block pagemenu %}
 {% if cperms.issues.editclosed_proposal or object.is_open %}
 {% if cperms.issues.editopen_proposal or object.created_by == user %}
-	<a class="list-group-item" href="{{object.get_edit_url}}" data-rel="form">{% trans "Edit" %}</a>
-	<a class="list-group-item" href="{{object.get_delete_url}}" data-rel="form">{% trans "Delete" %}</a>
+	<a class="btn btn-oc" href="{{object.get_edit_url}}" data-rel="form">
+		<span class="glyphicon glyphicon-pencil"></span> <span class="hidden-xs">{% trans "Edit" %}</span>
+	</a>
+	<a class="btn btn-oc" href="{{object.get_delete_url}}" data-rel="form">
+		<span class="glyphicon glyphicon-remove"></span> <span class="hidden-xs">{% trans "Delete" %}</span>
+	</a>
 {% endif %}
 {% endif %}
 {% if object.is_task and cperms.issues.edittask_proposal %}
 {% if cperms.issues.editclosed_proposal or object.is_open %}
-<a class="list-group-item" href="{{object.get_edit_task_url}}" data-rel="form">{% trans "Reassign task" %}</a>
+<a class="btn btn-oc" href="{{object.get_edit_task_url}}" data-rel="form">
+	<span class="glyphicon glyphicon-repeat"></span> <span class="hidden-xs">{% trans "Reassign task" %}</span>
+</a>
 {% endif %}
 {% endif %}
 {% endblock %}

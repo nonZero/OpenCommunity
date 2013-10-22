@@ -13,7 +13,7 @@
 
     {% if object_list %}
 
-        <ul data-role="listview">
+        <ul>
             {% for object in object_list %}
                 <li>
                     <a href="{{ object.get_absolute_url }}">
@@ -31,12 +31,8 @@
 
     {% else %}
 
-        <div class="ui-grid-solo">
-            <div class="ui-block-a">
-                <div class="ui-bar ui-bar-e">
-                    {% trans "This community did not conduct any meeting yet." %}
-                </div>
-            </div>
+        <div>
+            {% trans "This community did not conduct any meeting yet." %}
         </div>
 
     {% endif %}

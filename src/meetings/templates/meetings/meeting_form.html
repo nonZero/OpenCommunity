@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% load crispy_forms_tags %}
 
 {% block breadcrumb %}
   <li><a href="../../..">{% trans "Communities" %}</a> <span class="divider">/</span></li>
@@ -11,6 +10,6 @@
 
 {% block content %}
 
-    {% crispy form %}
+    {{ form }}
 
 {% endblock %}
