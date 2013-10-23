@@ -108,7 +108,7 @@
                                             <b>{% trans "Due by" %}</b>: {{p.due_by}}
                                         {% endif %}
                                         {% if p.content %}
-                                            <div>
+                                            <div class="proposal_content">
                                                 {{p.content|safe}}
                                             </div>
                                         {% endif %}
@@ -120,9 +120,9 @@
                                 {% trans "Rejected Proposals" %}
                             </h4>
                             <ul>
-                                {% for n in ai.rejected_proposals.all %}
+                                {% for n in a.rejected_proposals.all %}
                                     <li style="padding:2px 0">
-                                        <a href="{{base_url}}{{p.get_absolute_url}}">
+                                        <a href="{{base_url}}{{n.get_absolute_url}}">
                                             {{n.title}}
                                         </a>
                                     </li>
@@ -145,3 +145,7 @@
     </div>
 
 </div>
+
+<style>
+    .proposal_content p { margin: 0.2em 0;}
+</style>

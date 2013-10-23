@@ -112,7 +112,8 @@ class Community(UIDMixin):
                                   ).order_by('order_in_upcoming_meeting')
 
     def available_issues(self):
-        return self.upcoming_issues(False)
+        return self.issues.filter(active=True, status=issues_models.IssueStatus.OPEN
+                                  ).order_by('created_at')
 
     def issues_ready_to_close(self):
         return self.upcoming_issues().filter(

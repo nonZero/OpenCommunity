@@ -189,6 +189,42 @@ class IssueAttachment(UIDMixin):
                                    verbose_name=_("Created by"),
                                    related_name="files_created")
 
+    def get_icon_class(self):
+        file_icon_map = {
+            'doc': 'docx',
+            'docx': 'docx',
+            'rtf': 'docx',
+            'jpg': 'jpg',
+            'jpeg': 'jpg',
+            'gif': 'jpg',
+            'png': 'jpg',
+            'tiff': 'jpg',
+            'xls': 'xls',
+            'xlsx': 'xls',
+            'csv': 'xls',
+            'pdf': 'pdf',
+            'ppt': 'pptx',
+            'pptx': 'pptx',
+            'm4a': 'vid',
+            'wma': 'vid',
+            'mp4': 'vid',
+            'mov': 'vid',
+            'avi': 'vid',
+            'wmv': 'vid',
+            'aac': 'snd',
+            'fla': 'snd',
+            'wav': 'snd',
+            'mp3': 'snd',
+            'flac': 'snd',
+            'txt': 'txt',
+        }
+        ext = os.path.splitext(self.file.name)[1][1:]
+        try:
+            icon = file_icon_map[ext]
+        except KeyError:
+            icon = 'file'
+        return icon    
+        
     class Meta:
         ordering = ('created_at',)
 

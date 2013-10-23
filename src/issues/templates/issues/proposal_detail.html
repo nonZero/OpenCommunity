@@ -47,9 +47,7 @@
                 <img src="{{STATIC_URL}}m/images/{% if object.type == 1 %}task-icon{% endif %}{% if object.type == 2 %}rule-icon{% endif %}{% if object.type == 3 %}general-icon{% endif %}.png"/>
             </div>
             <div class="prop-info">
-                <h4 class="abstract abstract-title">
-                  {{object.title}} 
-                </h4>
+                <h4 class="abstract abstract-title">{{object.title}}</h4>
                 <h4 class="abstract assigned_to">
                 {% if object.type == 1 %}
                     {% if object.assigned_to %} 
@@ -70,10 +68,11 @@
 
         <br />
 
-       {% if cperms.issues.add_proposal or not proposal.is_open %}
+
+       {% if cperms.issues.view_proposal_in_discussion or not proposal.is_open %}
             {% if object.status == object.statuses.ACCEPTED or object.status == object.statuses.REJECTED %}
                     <div class="{{object.get_status_class}}">
-                    	{% if object.status == object.statuses.ACCEPTED %}
+                    	  {% if object.status == object.statuses.ACCEPTED %}
 	                        {% trans "Proposal accepted" %}!
                         {% endif %}
 

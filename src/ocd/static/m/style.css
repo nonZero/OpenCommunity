@@ -1240,6 +1240,28 @@ span.edit-comment push:focus {
 #issue-detail .form-popup.ui-body-c .ui-header {
 	background: #448698;
 }
+
+.file_ext {
+        padding-right: 30px;
+        background-size: 22px 20px;
+        background-position: right;
+        background-repeat: no-repeat;
+}
+.pdf {background-image: url('images/icons/pdf.gif');}
+.txt {background-image: url('images/icons/txt.gif');}
+.doc {background-image: url('images/icons/doc.gif');}
+.docx {background-image: url('images/icons/docx.gif');}
+.xls {background-image: url('images/icons/xl.gif');}
+.xlsx {background-image: url('images/icons/xls.gif');}
+.csv {background-image: url('images/icons/csv.gif');}
+.jpg, .jpeg {background-image: url('images/icons/jpg.gif');}
+.gif {background-image: url('images/icons/gif.gif');}
+.png {background-image: url('images/icons/png.gif');}
+.ppt {background-image: url('images/icons/ppt.gif');}
+.pptx {background-image: url('images/icons/pptx.gif');}
+.rtf {background-image: url('images/icons/rtf.gif');}
+
+
 #issue-detail .ui-bar-a a.close-dialog.ui-shadow,
 #issue-list .ui-bar-a a.close-dialog.ui-shadow {
 	-moz-box-shadow: 0 0 0;
