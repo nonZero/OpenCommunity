@@ -18,41 +18,7 @@
     </head>
 
     <body {% block extra-page-id %}{% endblock %}>
-
-        <nav class="navbar navbar-default oc_navbar" role="navigation">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle oc_menu oc_user_menu" data-toggle="collapse" data-target=".user-panel">
-                    <span class="sr-only">Toggle navigation</span>
-                </button>
-                <button type="button" class="navbar-toggle oc_menu" data-toggle="collapse" data-target=".community-panel">
-                    <span class="sr-only">Toggle navigation</span>
-                </button>
-                <a class="navbar-brand text-center" href="#">
-                    {% if community %}
-                        {{community}}
-                    {% else %}
-                        {% trans "Open Community" %}
-                    {% endif %}
-                </a>
-            </div>
-			<div class="navbar-collapse collapse community-panel col-sm-5 col-sm-offset-1 col-md-offset-2 col-lg-offset-3">
-				<ul class="nav navbar-nav navbar-left">
-					{% include '_community_panel.html' %}
-			    </ul>
-			</div>
-			<div class="navbar-collapse collapse user-panel col-sm-2 col-md-offset-1 col-lg-offset-2">
-		        {% if user.is_authenticated %}
-                <ul class="nav navbar-nav navbar-right">
-			      <li class="dropdown">
-			        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% if user.display_name %}{{user.display_name}}{% else %}{% trans "Open Community" %}{% endif %} <b class="caret"></b></a>
-			        <ul class="dropdown-menu">
-						{% include '_user_panel.html' %}
-			        </ul>
-			      </li>
-			    </ul>
-				{% endif %}
-			</div>
-        </nav>
+		{% include '_navbar.html' %}
         <div class="container">
             <div class="row">
                 {% if messages %}

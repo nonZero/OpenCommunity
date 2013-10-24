@@ -3,19 +3,22 @@
 function refreshProposalForm() {
 
     // prevent html5 required field
-    $('#id_title').prop('disabled', $('#id_type').val() == '');
+    $('#id_proposal-title').prop('disabled', $('#id_proposal-type').val() == '');
 
     // hide task related fields
-    var els = $('#div_id_title,#div_id_content');
-    if ($('#id_type').val() == '') {
+    var els = $('#id_proposal-title').parent().parent();
+    var els1 = $('#id_proposal-content').parent().parent().parent();
+    if ($('#id_proposal-type').val() == '') {
         els.hide();
+        els1.hide();
     } else {
         els.show();
+        els1.show();
     }
 
     // hide task related fields
-    var els = $('#div_id_assigned_to,#div_id_due_by');
-    if ($('#id_type').val() == '1') {
+    var els = $('#id_proposal-assigned_to,#id_proposal-due_by').parent().parent();
+    if ($('#id_proposal-type').val() == '1') {
         els.show();
     } else {
         els.hide();
@@ -24,5 +27,5 @@ function refreshProposalForm() {
 }
 
 $(function() {
-    $('body').on('change', '#id_type', refreshProposalForm )
+    $('body').on('change', '#id_proposal-type', refreshProposalForm )
 });

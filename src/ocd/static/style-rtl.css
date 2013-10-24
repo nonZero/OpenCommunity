@@ -59,6 +59,9 @@ a {
 	background-color: #194e5c;
 	border-color: #fff;
 }
+.unaccept.btn-oc {
+	border-color: transparent;
+}
 .btn-oc:hover {
 	opacity: 0.9;
 }
@@ -113,42 +116,22 @@ nav.oc_navbar {
 .oc_user_menu {
 	background: url('images/user_action.png') no-repeat;
 }
-.navbar-default .navbar-toggle.oc_menu:hover, .navbar-default .navbar-toggle.oc_menu:focus {
+.navbar-default .navbar-toggle.oc_menu:hover,
+.navbar-default .navbar-toggle.oc_menu:focus {
 	background-color: transparent;
 }
 .navbar-default .navbar-nav > li > a,
 .navbar-default p.navbar-text {
 	color: #fff;
 }
-.navbar-default.oc_navbar .navbar-brand:hover, .navbar-default.oc_navbar .navbar-brand:focus {
+.navbar-default.oc_navbar .navbar-brand:hover,
+.navbar-default.oc_navbar .navbar-brand:focus {
 	color: #fff;
-}
-nav.oc_navbar .navbar-collapse {
-	background-color: #333;
 }
 p.user_nav {
 	width: 100%;
 	margin: 10px 15px;
 }
-.navbar-default.oc_navbar .navbar-nav > li > a:hover, .navbar-default.oc_navbar .navbar-nav > li > a:focus {
-	color: #fff;
-}
-.navbar-default.oc_navbar .navbar-nav > .open > a,
-.navbar-default.oc_navbar .navbar-nav > .open > a:hover,
-.navbar-default.oc_navbar .navbar-nav > .open > a:focus {
-	color: #333;
-	background-color: #fff;
-}
-/*.navbar-collapse {
-	max-height: 800px;
-}*/
-/*.navbar-nav {
-	width: 100%;
-}*/
-/*.navbar-header {
-	float: none;
-	margin: 0 auto;
-}*/
 #login-page ul .list-group,
 #login-page button.navbar-toggle,
 #community-list ul .list-group,
