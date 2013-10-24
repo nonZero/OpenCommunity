@@ -13,7 +13,7 @@ id="issue-detail"
 {% block pagemenu %}
 {% if cperms.issues.editclosed_issue or not object.is_archived %}
 {% if cperms.issues.editopen_issue or object.created_by == user %}
-<a class="btn btn-oc" data-rel="form" href="{{object.get_edit_url}}">
+<a data-rel="form" class="btn btn-oc" href="{{object.get_edit_url}}">
 	<span class="glyphicon glyphicon-pencil"></span> <span class="hidden-xs">{% trans "Edit" %}</span>
 </a>
 {% if cperms.issues.editopen_issue %}

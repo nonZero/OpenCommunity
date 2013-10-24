@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% load crispy_forms_tags %}
 
 {% block extra-page-id %}
     id="login-page"
@@ -20,20 +19,16 @@
         </h2>
 
         {% if user.email != object.email %}
-            <div class="ui-grid-solo">
-                <div class="ui-block-a">
-                    <div class="ui-bar ui-bar-e">
-                        <p>
-                            {% blocktrans with i=object.email u=user.email %}Warning! The invitation was sent to {{i}}, but you are joining as {{u}}!{% endblocktrans %}
-                        </p>
-                    </div>
-                </div>
+            <div>
+                <p>
+                    {% blocktrans with i=object.email u=user.email %}Warning! The invitation was sent to {{i}}, but you are joining as {{u}}!{% endblocktrans %}
+                </p>
             </div>
         {% endif %}
 
         <form method="post">
             {% csrf_token %}
-            <button name="join" value="1" data-role="button" data-theme="a">{% trans "Join this community as" %} {{user.email}}</button>
+            <button name="join" value="1">{% trans "Join this community as" %} {{user.email}}</button>
         </form>
 
         <p>
@@ -67,8 +62,8 @@
                 <div data-role="fieldcontain" class="control-group">
                     <label >{% trans "email" %}: {{object.email}}</label>
                 </div>
-                {{form|crispy}}
-                <button name="signup" data-role="button" data-theme="a" value="1">{% trans "Join Open Community" %}</button>
+                {{form}}
+                <button name="signup" class="btn btn-oc" value="1">{% trans "Join Open Community" %}</button>
             </form>
         {% endif %}
 

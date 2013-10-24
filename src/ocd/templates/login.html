@@ -14,8 +14,9 @@
 
     <form role="form" method="post" action="{% url 'django.contrib.auth.views.login' %}">
         {% csrf_token %}
+        <div class="form-group">
         {{ form }}
-
+		</div>
         <div class="narrow">
         	<input type="submit" class="btn btn-oc btn-block" value="{% trans "Login" %}" />
     	</div>
@@ -29,6 +30,8 @@
 <script>
     $(function() {
         $('#id_username').attr('type','email');
+        $('#id_username').addClass('form-control');
+        $('#id_password').addClass('form-control');
     });
 </script>
 

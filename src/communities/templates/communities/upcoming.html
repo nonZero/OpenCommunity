@@ -130,7 +130,7 @@
 
             {% if object.upcoming_meeting_started and cperms.meetings.add_meeting %}
                 <div class="narrow">
-                    <a href="{% url "upcoming_close" community.id %}" class="btn btn-oc btn-block btn-lg">
+                    <a href="{% url "upcoming_close" community.id %}" data-rel="form" class="btn btn-oc btn-block btn-lg">
                         {% trans "Close Meeting" %}
                     </a>
                 </div>

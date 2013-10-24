@@ -55,7 +55,7 @@ class UpdateIssueForm(BaseIssueForm):
 #         self.helper.add_input(Submit('submit', _('Update')))
 
         super(UpdateIssueForm, self).__init__(*args, **kwargs)
-        self.helper.form_tag = True
+#        self.helper.form_tag = True
 
 
 class AddAttachmentBaseForm(forms.ModelForm):
@@ -148,7 +148,10 @@ class CreateIssueCommentForm(forms.ModelForm):
         fields = (
                    'content',
                    )
-
+        widgets = {
+                    'content': HTMLArea,
+                }
+    
     def __init__(self, *args, **kwargs):
 #         self.helper = FormHelper()
 #         if self.form_id:

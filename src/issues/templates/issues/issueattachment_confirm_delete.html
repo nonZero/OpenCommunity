@@ -1,6 +1,5 @@
 {% extends "dialog.html" %}
 {% load i18n %}
-{% load crispy_forms_tags %}
 
 {% block page_header %}
     {% trans "Delete Attachment" %}
@@ -10,6 +9,6 @@
     <form method="post">
         {% csrf_token %}
         {% trans "Are you sure?" %}
-        <button>{% trans "Delete" %}</button>
+        <button class="btn btn-danger">{% trans "Delete" %}</button>
     </form>
 {% endblock %}
