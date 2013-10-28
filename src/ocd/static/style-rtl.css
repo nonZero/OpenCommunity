@@ -513,7 +513,7 @@ table.issue-table tr td {
 	text-align: center;
 }
 table.issue-table tr td.issue_date {
-	min-width: 60px;
+	width: 60px;
 	padding-top: 14px;
 	padding-bottom: 14px;
 	background: #3d3c3c;
@@ -807,6 +807,7 @@ span.glyphicon span {
 	}
 	span.glyphicon span {
 		display: inline;
+		font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	}
 }
 
