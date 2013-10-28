@@ -18,31 +18,31 @@
 {% block pagemenu %}
 {% if cperms.community.editagenda_community %}
     <a class="btn btn-oc" data-rel="form" href="{% url "issue_create_upcoming" community.id %}">
-    	<span class="glyphicon glyphicon-plus"></span> <span class="hidden-xs">{% trans "Create Issue" %}</span></a>
+    	<span class="glyphicon glyphicon-plus"> <span>{% trans "Create Issue" %}</span></span></a>
 {% endif %}
 
 {% if cperms.community.editupcoming_community %}
     <a class="btn btn-oc" data-rel="form"
-        href="{% url "upcoming_edit" community.id %}"><span class="glyphicon glyphicon-pencil"></span> 
-        <span class="hidden-xs">{% trans "Edit" %}</span>
+        href="{% url "upcoming_edit" community.id %}"><span class="glyphicon glyphicon-pencil"> 
+        <span>{% trans "Edit" %}</span></span>
     </a>
 {% endif %}
 
 {% if cperms.community.editparticipants_community and community.upcoming_meeting_started %}
     <a class="btn btn-oc" data-rel="form"
-        href="{% url "upcoming_edit_participants" community.id  %}"><span class="glyphicon glyphicon-user"></span> 
-        <span class="hidden-xs">{% trans "Select Participants" %}</span>
+        href="{% url "upcoming_edit_participants" community.id  %}"><span class="glyphicon glyphicon-user"> 
+        <span>{% trans "Select Participants" %}</span></span>
     </a>
 {% endif %}
 
 {% if cperms.community.editagenda_community %}
     <a class="btn btn-oc" data-rel="form" 
-    href="{% url "upcoming_publish" community.id  %}"><span class="glyphicon glyphicon-list"></span> 
+    href="{% url "upcoming_publish" community.id  %}"><span class="glyphicon glyphicon-list"> 
         {% if object.upcoming_meeting_started %}
-          <span class="hidden-xs">{% trans "Summary Draft" %}</span>
+          <span>{% trans "Summary Draft" %}</span>
         {% else %}
-          <span class="hidden-xs">{% trans "Publish Agenda" %}</span>
-        {% endif %}
+          <span>{% trans "Publish Agenda" %}</span>
+        {% endif %}</span>
     </a>
 {% endif %}
 
@@ -50,11 +50,11 @@
     <a class="btn btn-oc" data-rel="form" 
     href="{% url "upcoming_start" community.id  %}">
         {% if object.upcoming_meeting_started %}
-        	<span class="glyphicon glyphicon-thumbs-down"></span> 
-            <span class="hidden-xs">{% trans "Undo Start Meeting" %}</span>
+        	<span class="glyphicon glyphicon-thumbs-down"> 
+            <span>{% trans "Undo Start Meeting" %}</span></span>
         {% else %}
-        	<span class="glyphicon glyphicon-thumbs-up"></span> 
-            <span class="hidden-xs">{% trans "Start Meeting" %}</span>
+        	<span class="glyphicon glyphicon-thumbs-up"> 
+            <span>{% trans "Start Meeting" %}</span></span>
         {% endif %}
     </a>
 {% endif %}
@@ -88,15 +88,15 @@
             {% endif %}
 
             <div class="oc_detail_top">
-                <dl class="dl-horizontal">
-                    <dt>{% trans "Location" %}:</dt>
-                    <dd>{{object.upcoming_meeting_location|default:_("Not set yet")}}</dd>
-                    <dt>{% trans "Scheduled at" %}:</dt>
-                    <dd>{{object.upcoming_meeting_scheduled_at|default:_("Not set yet")}}</dd>
-                    {% if object.upcoming_meeting_comments %}
-                        <dt>{{object.upcoming_meeting_comments|safe}}</dt>
-                    {% endif %}
-                </dl>
+                <h5>
+                	{% trans "Location" %}: <span>{{object.upcoming_meeting_location|default:_("Not set yet")}}</span>
+                </h5>
+                <h5>
+                	{% trans "Scheduled at" %}: <span>{{object.upcoming_meeting_scheduled_at|default:_("Not set yet")}}
+	                {% if object.upcoming_meeting_comments %}
+                    {{object.upcoming_meeting_comments|safe}}
+                	{% endif %}</span>
+                </h5>
             </div>
 
             <div id="agenda-container" class="agenda-list">
@@ -154,7 +154,7 @@
 
         {% else %}
 
-            <div class="notice">
+            <div class="notice text-center">
                 {% trans "Agenda not yet published" %}.
             </div>
 

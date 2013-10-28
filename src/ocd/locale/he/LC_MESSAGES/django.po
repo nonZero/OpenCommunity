@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-09 11:57+0300\n"
+"POT-Creation-Date: 2013-10-27 15:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,43 +17,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: .\base_models.py:12
+msgid "HTML content"
+msgstr ""
+
 #: .\templates\404.html.py:6
 msgid "Page not found"
 msgstr "דף לא נמצא"
 
-#: .\templates\_navbar.html.py:12 .\templates\base.html.py:8
-#: .\templates\base.html.py:38
+#: .\templates\_navbar.html.py:11 .\templates\_navbar.html.py:21
+#: .\templates\base.html.py:8
 msgid "Open Community"
 msgstr "קהילה פתוחה"
 
-#: .\templates\_navbar.html.py:19
-msgid "Issues"
-msgstr "נושאים לדיון"
-
-#: .\templates\_navbar.html.py:22
-msgid "Upcoming Meeting"
-msgstr "הפגישה הקרובה"
-
-#: .\templates\_navbar.html.py:25
-msgid "History"
-msgstr "היסטוריה"
-
-#: .\templates\_navbar.html.py:38
-msgid "Log Out"
-msgstr "יציאה"
-
-#: .\templates\_navbar.html.py:42 .\templates\login.html.py:11
-#: .\templates\login.html.py:20
+#: .\templates\_navbar.html.py:28 .\templates\login.html.py:10
+#: .\templates\login.html.py:21
 msgid "Login"
 msgstr "כניסה"
 
-#: .\templates\base.html.py:72
+#: .\templates\base.html.py:49
 msgid "Attention"
 msgstr "שים לב"
 
-#: .\templates\base.html.py:79 .\templates\dialog.html.py:9
+#: .\templates\base.html.py:56 .\templates\dialog.html.py:21
 msgid "Close"
 msgstr "סגור"
+
+#: .\templates\dialog.html.py:22
+msgid "Save"
+msgstr ""
 
 #: .\templates\admin\base_site.html.py:5
 msgid "Open Community admin"
@@ -66,6 +58,18 @@ msgstr "קהילה פתוחה: פאנל ניהול"
 #: .\templates\admin\base_site.html.py:12
 msgid "Home"
 msgstr "בית"
+
+#~ msgid "Issues"
+#~ msgstr "נושאים לדיון"
+
+#~ msgid "Upcoming Meeting"
+#~ msgstr "הפגישה הקרובה"
+
+#~ msgid "History"
+#~ msgstr "היסטוריה"
+
+#~ msgid "Log Out"
+#~ msgstr "יציאה"
 
 #~ msgid "Create Issue"
 #~ msgstr "צור נושא לדיון"

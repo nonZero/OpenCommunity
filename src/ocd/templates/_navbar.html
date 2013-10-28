@@ -15,15 +15,19 @@
 		<ul class="nav navbar-nav">
 			{% include '_community_panel.html' %}
 		</ul>
-		{% if user.is_authenticated %}
 		<ul class="nav navbar-nav navbar-right">
+		{% if user.is_authenticated %}
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">{% if user.display_name %}{{user.display_name}}{% else %}{% trans "Open Community" %}{% endif %} <b class="caret"></b></a>
 				<ul class="dropdown-menu">
 					{% include '_user_panel.html' %}
 				</ul>
 			</li>
-		</ul>
+		{% else %}
+			<li id="login_navbar">
+            	<a href="{% url 'login' %}">{% trans "Login" %}</a>
+			</li>
 		{% endif %}
+		</ul>
 	</div>
 </nav>

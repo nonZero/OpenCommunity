@@ -14,17 +14,17 @@ id="proposal-detail"
 {% if cperms.issues.editclosed_proposal or object.is_open %}
 {% if cperms.issues.editopen_proposal or object.created_by == user %}
 	<a class="btn btn-oc" href="{{object.get_edit_url}}" data-rel="form">
-		<span class="glyphicon glyphicon-pencil"></span> <span class="hidden-xs">{% trans "Edit" %}</span>
+		<span class="glyphicon glyphicon-pencil"> <span>{% trans "Edit" %}</span></span>
 	</a>
 	<a class="btn btn-oc" href="{{object.get_delete_url}}" data-rel="form">
-		<span class="glyphicon glyphicon-remove"></span> <span class="hidden-xs">{% trans "Delete" %}</span>
+		<span class="glyphicon glyphicon-remove"> <span>{% trans "Delete" %}</span></span>
 	</a>
 {% endif %}
 {% endif %}
 {% if object.is_task and cperms.issues.edittask_proposal %}
 {% if cperms.issues.editclosed_proposal or object.is_open %}
 <a class="btn btn-oc" href="{{object.get_edit_task_url}}" data-rel="form">
-	<span class="glyphicon glyphicon-repeat"></span> <span class="hidden-xs">{% trans "Reassign task" %}</span>
+	<span class="glyphicon glyphicon-repeat"> <span>{% trans "Reassign task" %}</span></span>
 </a>
 {% endif %}
 {% endif %}
@@ -105,14 +105,14 @@ id="proposal-detail"
 
 		{% csrf_token %}
 
-		<div class="narrow accept-buttons text-center">
+		<div class="narrow accept_reject_btns accept-buttons text-center">
 			{% if object.status != object.statuses.ACCEPTED %}
-			<button class="btn btn-oc btn-lg" name="accepted" value="{{object.statuses.ACCEPTED}}">
+			<button class="btn btn-accept btn-lg" name="accepted" value="{{object.statuses.ACCEPTED}}">
 				{% trans "Accept proposal" %}
 			</button>
 			{% endif %}
 			{% if object.status != object.statuses.REJECTED %}
-			<button class="btn btn-oc btn-lg" name="accepted" value="{{object.statuses.REJECTED}}">
+			<button class="btn btn-reject btn-lg" name="accepted" value="{{object.statuses.REJECTED}}">
 				{% trans "Reject proposal" %}
 			</button>
 			{% endif %}

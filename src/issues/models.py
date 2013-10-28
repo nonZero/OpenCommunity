@@ -89,6 +89,10 @@ class Issue(UIDMixin):
         return self.status in IssueStatus.IS_UPCOMING
 
     @property
+    def is_current(self):
+        return self.status in IssueStatus.IS_UPCOMING and self.community.upcoming_meeting_started
+        
+    @property
     def is_archived(self):
         return self.status == IssueStatus.ARCHIVED
 
@@ -185,13 +189,45 @@ class IssueAttachment(UIDMixin):
                                    verbose_name=_("Created by"),
                                    related_name="files_created")
 
+    def get_icon_class(self):
+        file_icon_map = {
+            'doc': 'docx',
+            'docx': 'docx',
+            'rtf': 'docx',
+            'jpg': 'jpg',
+            'jpeg': 'jpg',
+            'gif': 'jpg',
+            'png': 'jpg',
+            'tiff': 'jpg',
+            'xls': 'xls',
+            'xlsx': 'xls',
+            'csv': 'xls',
+            'pdf': 'pdf',
+            'ppt': 'pptx',
+            'pptx': 'pptx',
+            'm4a': 'vid',
+            'wma': 'vid',
+            'mp4': 'vid',
+            'mov': 'vid',
+            'avi': 'vid',
+            'wmv': 'vid',
+            'aac': 'snd',
+            'fla': 'snd',
+            'wav': 'snd',
+            'mp3': 'snd',
+            'flac': 'snd',
+            'txt': 'txt',
+        }
+        ext = os.path.splitext(self.file.name)[1][1:]
+        try:
+            icon = file_icon_map[ext]
+        except KeyError:
+            icon = 'file'
+        return icon    
+  
     class Meta:
         ordering = ('created_at',)
 
-    def extension(self):
-        name, extension = os.path.splitext(self.file.name)
-        return extension[1:5]
-    
     @models.permalink
     def get_absolute_url(self):
         return "attachment_download", (
@@ -341,3 +377,10 @@ class Proposal(UIDMixin):
         return ("proposal_delete", (str(self.issue.community.pk), str(self.issue.pk),
                                 str(self.pk)))
 
+
+    def get_status_class(self):
+        if self.status == self.statuses.ACCEPTED:
+            return "accepted"
+        if self.status == self.statuses.REJECTED:
+            return "rejected"
+        return ""

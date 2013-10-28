@@ -11,9 +11,11 @@
 {% endblock %}
 
 {% block pagemenu %}
+	{% if user.id and cperms.issues.add_issue %}
     <a href="{% url "issue_create" community.id %}" class="btn btn-oc" data-rel="form">
-        <span class="glyphicon glyphicon-plus"></span> <span class="hidden-xs">{% trans "Add" %}</span>
+        <span class="glyphicon glyphicon-plus"> <span>{% trans "Add" %}</span></span>
     </a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

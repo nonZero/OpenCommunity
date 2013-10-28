@@ -34,8 +34,15 @@ h2 {
 	font-size: 18px;
 	margin-top: 10px;
 }
+.oc_detail_top h5 span {
+	font-weight: normal;
+}
 .loader {
     display:none;
+}
+.loader img {
+    width: 20px;
+    height: 20px;
 }
 .loading .loader {
     display:inline;
@@ -46,6 +53,25 @@ a {
 .clear {
 	clear: both;
 }
+/* Forms */
+
+.modal-content {
+	background: url('images/background.jpg') repeat;
+}
+.modal-header {
+	background-image: url('images/title_bg.png');
+}
+.modal-title {
+	color: #fff;
+}
+.modal-header .close {
+	color: #fff;
+	opacity: 1;
+}
+#upcoming-meeting .field-send_to ul {
+	list-style-type: none;
+}
+
 /* General buttons */
 
 .btn-oc,
@@ -59,15 +85,46 @@ a {
 	background-color: #194e5c;
 	border-color: #fff;
 }
-.unaccept.btn-oc {
-	border-color: transparent;
-}
 .btn-oc:hover {
 	opacity: 0.9;
+}
+.btn-accept,
+.btn-accept:hover,
+.btn-accept:active {
+	color: #333;
+}
+.btn-accept {
+	color: #333;
+	font-weight: bold;	
+	background-color: #c3dc9b;
+	border-color: #d8e0df;
+}
+.btn-accept:hover {
+	opacity: 0.9;
+}
+.btn-reject,
+.btn-reject:hover,
+.btn-reject:active {
+	color: #333;
+}
+.btn-reject {
+	color: #333;
+	font-weight: bold;
+	background-color: #dbae82;
+	border-color: #e8d8df;
+}
+.btn-reject:hover {
+	opacity: 0.9;
+}
+.unaccept.btn-oc {
+	border-color: transparent;
 }
 .narrow {
     max-width: 265px;
     margin: 1.5em auto;
+}
+.accept_reject_btns {
+    max-width: 300px;
 }
 .edit-comment button {
 	background: url(images/comment_edit_pencil.png) no-repeat;
@@ -96,8 +153,8 @@ a {
 /* Navbar */
 
 nav.oc_navbar {
-	/*background-image: url('images/title_bg.png');*/
-	background: #428bca;
+	background-image: url('images/title_bg.png');
+/*	background: #428bca;*/
 /*	margin-bottom: 0;*/
 }
 .navbar-default .navbar-brand {
@@ -106,6 +163,12 @@ nav.oc_navbar {
 	color: #fff;
 /*	width: 60%;
 	margin-right: 20%;*/
+}
+.navbar-default .navbar-collapse {
+	background-image: -webkit-linear-gradient( top, #fcfcfc, #e7e7e8 );
+}
+.navbar-default .navbar-nav > li > a {
+	color: #333333;
 }
 .oc_menu {
 	border: 0;
@@ -119,10 +182,6 @@ nav.oc_navbar {
 .navbar-default .navbar-toggle.oc_menu:hover,
 .navbar-default .navbar-toggle.oc_menu:focus {
 	background-color: transparent;
-}
-.navbar-default .navbar-nav > li > a,
-.navbar-default p.navbar-text {
-	color: #fff;
 }
 .navbar-default.oc_navbar .navbar-brand:hover,
 .navbar-default.oc_navbar .navbar-brand:focus {
@@ -151,7 +210,10 @@ p.user_nav {
 	width: 100%;
 	margin-right: 0;
 }
-
+/* Hide login button from community list page */
+#community-list #login_navbar {
+	display: none;
+}
 /* List */
 
 .oc_li {
@@ -393,6 +455,9 @@ table.issue-table {
 	font-size: 18px;
 	display: block;
 }
+.issue-table tbody tr td.issue_title a:hover {
+	text-decoration: none;
+}
 table.issue-table tr td {
 	border-top: 0;
 	background-color: #448698;
@@ -545,7 +610,6 @@ ul.proposals li.prop-content p {
 	font-weight: bold;
 	margin-bottom: 20px;
 }
-
 #proposal-detail .rejected {
     position: relative;
     background: url(images/proposal-rejected.png) no-repeat #d2af7d;
@@ -556,6 +620,22 @@ ul.proposals li.prop-content p {
     font-weight: bold;
     margin-bottom: 20px;
 }
+#proposal-detail .accepted a:hover,
+#proposal-detail .rejected a:hover {
+	text-decoration: none;
+}
+
+/* Messages */
+
+.notice {
+    font-weight: bold;
+    font-size: larger;
+    margin: 1em 2em;
+    background: #FFF3A5;
+    border: 2px solid #777;
+    padding: 1em 2em;
+}
+
 /* Issue detail comments */
 
 #comments {
@@ -584,6 +664,9 @@ ul.proposals li.prop-content p {
 .issue_attachments ul {
 	list-style-type: none;
 	padding-right: 0;
+}
+.issue_attachments a:hover.file_ext {
+	text-decoration: none;
 }
 ul#invitations {
 	list-style-type: none;
@@ -648,17 +731,16 @@ form.delete-invitation {
 }
 .pdf {background-image: url('images/icons/pdf.gif');}
 .txt {background-image: url('images/icons/txt.gif');}
-.doc {background-image: url('images/icons/doc.gif');}
-.docx {background-image: url('images/icons/docx.gif');}
+.docx {background-image: url('images/icons/doc.gif');}
 .xls {background-image: url('images/icons/xl.gif');}
-.xlsx {background-image: url('images/icons/xls.gif');}
-.csv {background-image: url('images/icons/csv.gif');}
-.jpg, .jpeg {background-image: url('images/icons/jpg.gif');}
-.gif {background-image: url('images/icons/gif.gif');}
-.png {background-image: url('images/icons/png.gif');}
-.ppt {background-image: url('images/icons/ppt.gif');}
-.pptx {background-image: url('images/icons/pptx.gif');}
-.rtf {background-image: url('images/icons/rtf.gif');}
+.jpg {background-image: url('images/icons/jpg.gif');}
+.pptx {background-image: url('images/icons/ppt.gif');}
+.vid {background-image: url('images/icons/vid.gif');}
+.snd {background-image: url('images/icons/snd.gif');}
+
+span.glyphicon span {
+	display: none;
+}
 
 /* WYSIWYG top bar */
 
@@ -715,6 +797,16 @@ form.delete-invitation {
 	.navbar-default .navbar-brand {
 		width: 100%;
 		margin-right: 0;
+	}
+	.navbar-default .navbar-collapse {
+		background-image: url('images/title_bg.png');
+	}
+	.navbar-default .navbar-nav > li > a,
+	.navbar-default p.navbar-text {
+		color: #fff;
+	}
+	span.glyphicon span {
+		display: inline;
 	}
 }
 

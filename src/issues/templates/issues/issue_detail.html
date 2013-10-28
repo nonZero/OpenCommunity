@@ -13,16 +13,16 @@ id="issue-detail"
 {% block pagemenu %}
 {% if cperms.issues.editclosed_issue or not object.is_archived %}
 {% if cperms.issues.editopen_issue or object.created_by == user %}
-<a data-rel="form" class="btn btn-oc" href="{{object.get_edit_url}}">
-	<span class="glyphicon glyphicon-pencil"></span> <span class="hidden-xs">{% trans "Edit" %}</span>
+<a data-rel="form" class="btn btn-oc" href="{{object.get_edit_url}}" data-toggle="tooltip" title='{% trans "Edit" %}'>
+	<span class="glyphicon glyphicon-pencil"> <span>{% trans "Edit" %}</span></span>
 </a>
 {% if cperms.issues.editopen_issue %}
-<a id="add-attachment" data-rel="form" class="btn btn-oc" href="{% url 'add_attachment' community.id object.id %}">
-	<span class="glyphicon glyphicon-file"></span> <span class="hidden-xs">{% trans 'Add attachment' %}</span>
+<a id="add-attachment" data-rel="form" class="btn btn-oc" href="{% url 'add_attachment' community.id object.id %}" data-toggle="tooltip" title='{% trans "Add attachment" %}'>
+	<span class="glyphicon glyphicon-file"> <span>{% trans 'Add attachment' %}</span></span>
 </a>
 {% endif %}
-<a class="btn btn-oc" data-rel="form" href="{{object.get_delete_url}}">
-	<span class="glyphicon glyphicon-remove"></span> <span class="hidden-xs">{% trans "Delete" %}</span>
+<a class="btn btn-oc" data-rel="form" href="{{object.get_delete_url}}" data-toggle="tooltip" title='{% trans "Delete" %}'>
+	<span class="glyphicon glyphicon-remove"> <span>{% trans "Delete" %}</span></span>
 </a>
 {% endif %}
 {% endif %}
@@ -76,7 +76,7 @@ id="issue-detail"
 		<ul>
 			{% for att in object.attachments.all %}
 			<li>
-				<a href="{{ att.get_absolute_url }}" class="file_ext {{ att.extension }}">{{att.title}}</a>
+				<a href="{{ att.get_absolute_url }}" class="file_ext {{ att.get_icon_class }}">{{att.title}}</a>
 				{% if cperms.issues.editopen_issue %}
 				<a id="remove-attachment" href="{% url 'attachment_delete' community.id object.id att.id %}" data-rel="form"><img src="{{ STATIC_URL }}images/icon-remove.gif"/></a>
 			</li>
@@ -109,23 +109,7 @@ id="issue-detail"
 
 {% if cperms.issues.add_proposal and not object.is_archived %}
 <div class="narrow clear">
-	<a data-toggle="modal" href="#addProposalModal" class="btn btn-oc btn-lg btn-block">{% trans "Add Proposal" %}</a>
-	<!--<a class="btn btn-oc btn-lg btn-block" data-rel="form" href="{% url "proposal_create" community.id object.id %}">{% trans "Add Proposal" %}</a>-->
-</div>
-<div class="modal fade" id="addProposalModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-					&times;
-				</button>
-				<h4 class="modal-title">{% trans "Add Proposal" %}</h4>
-			</div>
-			<div class="modal-body">
-				{{proposal_form}}
-			</div>
-		</div>
-	</div>
+	<a class="btn btn-oc btn-lg btn-block" data-rel="form" href="{% url "proposal_create" community.id object.id %}">{% trans "Add Proposal" %}</a>
 </div>
 {% endif %}
 
@@ -138,7 +122,13 @@ id="issue-detail"
 		{% endfor %}
 		{% if cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
 		<li class="rich_editor">
-			{{ form }}
+		    <form id="add-comment" method="post">
+		        {% csrf_token %}
+				{{form}}
+			    <div class="save-comment narrow">
+			        <button class="btn btn-oc btn-lg btn-block">{% trans "Save" %}</button>
+			    </div>
+		    </form>
 		</li>
 		{% endif %}
 	</ul>

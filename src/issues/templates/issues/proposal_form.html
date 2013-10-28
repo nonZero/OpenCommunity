@@ -25,11 +25,14 @@
 		$('#id_proposal-type').val() == '';
 
 		// hide task related fields
-		var els = $('#div_id_proposal-assigned_to,#div_id_proposal-due_by');
+		var els = $('#id_proposal-assigned_to').parent().parent();
+		var els1 = $('#id_proposal-due_by').parent().parent();
 		if ($('#id_proposal-type').val() == '1') {
 			els.show();
+			els1.show();
 		} else {
 			els.hide();
+			els1.hide();
 		}
 
 	}
@@ -49,6 +52,7 @@
 
 	}
 	refreshProposalEditForm();
+	refreshProposalForm();
 	$(function() {
 		$('body').on('change', '#id_proposal-type', refreshProposalForm);
 	}); 

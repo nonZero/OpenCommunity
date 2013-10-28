@@ -11,9 +11,11 @@ function refreshProposalForm() {
     if ($('#id_proposal-type').val() == '') {
         els.hide();
         els1.hide();
+        $('#id_proposal-title,#id_proposal-type').removeAttr('required');
     } else {
         els.show();
         els1.show();
+        $('#id_proposal-title,#id_proposal-type').prop('required',true);
     }
 
     // hide task related fields
