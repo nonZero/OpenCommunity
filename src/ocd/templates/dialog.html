@@ -17,10 +17,12 @@
                 {{form}}
                 {% endblock %}
             </div>
+            {% block nofooter %}
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
-                <input type="submit" class="btn btn-oc" value="{% trans "Save" %}">
+                <input type="submit" class="btn btn-oc" value="{% block btn_text %}{% trans "Save" %}{% endblock %}">
             </div>
+            {% endblock %}
         </div>
     </form>
 </div>
@@ -31,5 +33,6 @@
 {% block scripts %}
     <script>
         initForm($('#modal-form'));
+	    $('textarea').wysihtml5();
     </script>
 {% endblock %}

@@ -14,7 +14,7 @@ $(function() {
             remote : url
         }).one('hidden.bs.modal', function() {
             $(this).find('.htmlarea textarea').each(function() {
-                $(this).tinymce().remove();
+                //$(this).tinymce().remove();
             });
             $(this).removeData('bs.modal').empty();
         });
@@ -24,26 +24,24 @@ $(function() {
     });
 });
 
-function wysiwygize(x) {
-
-    x.tinymce({
-        script_url : tmce_url,
-        directionality : 'rtl',
-        language : 'he_IL',
-        menubar : false,
-        toolbar_items_size : 'small',
-        content_css : "/static/m/tinymce.css",
-        toolbar : "numlist bullist | alignjustify alignright aligncenter alignleft | underline italic bold",
-    });
-}
+// function wysiwygize(x) {
+// 
+    // x.tinymce({
+        // script_url : tmce_url,
+        // directionality : 'rtl',
+        // language : 'he_IL',
+        // menubar : false,
+        // toolbar_items_size : 'small',
+        // content_css : "/static/m/tinymce.css",
+        // toolbar : "numlist bullist | alignjustify alignright aligncenter alignleft | underline italic bold",
+    // });
+// }
 
 function initForm(modal) {
 
     var url = modal.data('bs.modal').options.remote;
 
     var form = modal.find('form');
-
-    wysiwygize(form.find('.htmlarea textarea'));
 
     form.ajaxForm({
 
