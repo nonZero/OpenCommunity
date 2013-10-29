@@ -14,15 +14,15 @@ id="issue-detail"
 {% if cperms.issues.editclosed_issue or not object.is_archived %}
 {% if cperms.issues.editopen_issue or object.created_by == user %}
 <a data-rel="form" class="btn btn-oc" href="{{object.get_edit_url}}" data-toggle="tooltip" title='{% trans "Edit" %}'>
-	<span class="glyphicon glyphicon-pencil"> <span>{% trans "Edit" %}</span></span>
+	 <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span>
 </a>
 {% if cperms.issues.editopen_issue %}
 <a id="add-attachment" data-rel="form" class="btn btn-oc" href="{% url 'add_attachment' community.id object.id %}" data-toggle="tooltip" title='{% trans "Add attachment" %}'>
-	<span class="glyphicon glyphicon-file"> <span>{% trans 'Add attachment' %}</span></span>
+	<i class="fa fa-paperclip"></i> <span>{% trans 'Add attachment' %}</span>
 </a>
 {% endif %}
 <a class="btn btn-oc" data-rel="form" href="{{object.get_delete_url}}" data-toggle="tooltip" title='{% trans "Delete" %}'>
-	<span class="glyphicon glyphicon-remove"> <span>{% trans "Delete" %}</span></span>
+	<i class="fa fa-trash-o"></i> <span>{% trans "Delete" %}</span>
 </a>
 {% endif %}
 {% endif %}

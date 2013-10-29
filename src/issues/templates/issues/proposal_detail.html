@@ -14,10 +14,10 @@ id="proposal-detail"
 {% if cperms.issues.editclosed_proposal or object.is_open %}
 {% if cperms.issues.editopen_proposal or object.created_by == user %}
 	<a class="btn btn-oc" href="{{object.get_edit_url}}" data-rel="form">
-		<span class="glyphicon glyphicon-pencil"> <span>{% trans "Edit" %}</span></span>
+		<i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span>
 	</a>
 	<a class="btn btn-oc" href="{{object.get_delete_url}}" data-rel="form">
-		<span class="glyphicon glyphicon-remove"> <span>{% trans "Delete" %}</span></span>
+		<i class="fa fa-trash-o"></i> <span>{% trans "Delete" %}</span>
 	</a>
 {% endif %}
 {% endif %}

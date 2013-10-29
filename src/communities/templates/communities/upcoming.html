@@ -18,31 +18,31 @@
 {% block pagemenu %}
 {% if cperms.community.editagenda_community %}
     <a class="btn btn-oc" data-rel="form" href="{% url "issue_create_upcoming" community.id %}">
-    	<span class="glyphicon glyphicon-plus"> <span>{% trans "Create Issue" %}</span></span></a>
+    	<i class="fa fa-plus"></i> <span>{% trans "Create Issue" %}</span></a>
 {% endif %}
 
 {% if cperms.community.editupcoming_community %}
     <a class="btn btn-oc" data-rel="form"
-        href="{% url "upcoming_edit" community.id %}"><span class="glyphicon glyphicon-pencil"> 
-        <span>{% trans "Edit" %}</span></span>
+        href="{% url "upcoming_edit" community.id %}"> 
+        <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span>
     </a>
 {% endif %}
 
 {% if cperms.community.editparticipants_community and community.upcoming_meeting_started %}
     <a class="btn btn-oc" data-rel="form"
-        href="{% url "upcoming_edit_participants" community.id  %}"><span class="glyphicon glyphicon-user"> 
-        <span>{% trans "Select Participants" %}</span></span>
+        href="{% url "upcoming_edit_participants" community.id  %}"> 
+        <i class="fa fa-group"></i> <span>{% trans "Select Participants" %}</span>
     </a>
 {% endif %}
 
 {% if cperms.community.editagenda_community %}
     <a class="btn btn-oc" data-rel="form" 
-    href="{% url "upcoming_publish" community.id  %}"><span class="glyphicon glyphicon-list"> 
+    href="{% url "upcoming_publish" community.id  %}"> 
         {% if object.upcoming_meeting_started %}
-          <span>{% trans "Summary Draft" %}</span>
+          <i class="fa fa-envelope-o"></i> <span>{% trans "Summary Draft" %}</span>
         {% else %}
-          <span>{% trans "Publish Agenda" %}</span>
-        {% endif %}</span>
+          <i class="fa fa-envelope-o"></i> <span>{% trans "Publish Agenda" %}</span>
+        {% endif %}
     </a>
 {% endif %}
 
@@ -50,11 +50,9 @@
     <a class="btn btn-oc" data-rel="form" 
     href="{% url "upcoming_start" community.id  %}">
         {% if object.upcoming_meeting_started %}
-        	<span class="glyphicon glyphicon-thumbs-down"> 
-            <span>{% trans "Undo Start Meeting" %}</span></span>
+            <i class="fa fa-undo"></i> <span>{% trans "Undo Start Meeting" %}</span>
         {% else %}
-        	<span class="glyphicon glyphicon-thumbs-up"> 
-            <span>{% trans "Start Meeting" %}</span></span>
+			<i class="fa fa-play-circle"></i> <span>{% trans "Start Meeting" %}</span>
         {% endif %}
     </a>
 {% endif %}

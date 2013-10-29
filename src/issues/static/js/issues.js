@@ -28,6 +28,15 @@ function refreshProposalForm() {
 
 }
 
+function searchIssues(term) {
+	$(".issue-table tr").each(function() {
+		$(this).toggle(!term || $(this).text().indexOf(term) > 0);
+	});
+}
+
 $(function() {
-    $('body').on('change', '#id_proposal-type', refreshProposalForm )
+    $('body').on('change', '#id_proposal-type', refreshProposalForm);
+    $('input.issue-search').bind('input', function() {
+    	searchIssues($(this).val().trim());
+    });
 });

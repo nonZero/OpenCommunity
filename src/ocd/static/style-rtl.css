@@ -60,6 +60,7 @@ a {
 }
 .modal-header {
 	background-image: url('images/title_bg.png');
+	border-radius: 6px 6px 0 0;
 }
 .modal-title {
 	color: #fff;
@@ -71,7 +72,14 @@ a {
 #upcoming-meeting .field-send_to ul {
 	list-style-type: none;
 }
-
+.input-group input.form-control.issue-search {
+	border-radius: 15px;
+	padding-left: 40px;
+	background-image: url('images/search.png');
+	background-repeat: no-repeat;
+	background-position: 10px;
+	font-size: 18px;
+}
 /* General buttons */
 
 .btn-oc,
@@ -122,6 +130,13 @@ a {
 .narrow {
     max-width: 265px;
     margin: 1.5em auto;
+}
+.one_action_icon {
+    max-width: 200px;
+    margin: 0 auto;
+}
+.btn-group-justified {
+	margin-bottom: 10px;
 }
 .accept_reject_btns {
     max-width: 300px;
@@ -724,21 +739,21 @@ form.delete-invitation {
 	background-image: url('images/prop-back.png');
 }
 .file_ext {
-	padding-right: 30px;
-	background-size: 22px 20px;
+	padding-right: 25px;
+	background-size: 18px 18px;
 	background-position: right;
 	background-repeat: no-repeat;
 }
-.pdf {background-image: url('images/icons/pdf.gif');}
-.txt {background-image: url('images/icons/txt.gif');}
-.docx {background-image: url('images/icons/doc.gif');}
-.xls {background-image: url('images/icons/xl.gif');}
-.jpg {background-image: url('images/icons/jpg.gif');}
-.pptx {background-image: url('images/icons/ppt.gif');}
-.vid {background-image: url('images/icons/vid.gif');}
-.snd {background-image: url('images/icons/snd.gif');}
+.pdf {background-image: url('images/icons/pdf.png');}
+.txt {background-image: url('images/icons/simple-text.png');}
+.docx {background-image: url('images/icons/word.png');}
+.xls {background-image: url('images/icons/excel.png');}
+.jpg {background-image: url('images/icons/jpeg.png');}
+.pptx {background-image: url('images/icons/ppt.png');}
+.vid {background-image: url('images/icons/video.png');}
+.snd {background-image: url('images/icons/audio.png');}
 
-span.glyphicon span {
+i.fa + span {
 	display: none;
 }
 
@@ -805,9 +820,8 @@ span.glyphicon span {
 	.navbar-default p.navbar-text {
 		color: #fff;
 	}
-	span.glyphicon span {
+	i.fa + span {
 		display: inline;
-		font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	}
 }
 

@@ -3,7 +3,7 @@
 <li class="list-group-item">
     <form class="delete-invitation push" method="post" action="{% url 'delete_invitation' object.community.id object.id %}" role="form">
         {% csrf_token %}
-        <button class="btn btn-oc btn-sm">{% trans "Delete" %}</button>
+        <button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> {% trans "Delete" %}</button>
     </form>
     {{ object.email }}
     ({{ object.get_default_group_name_display }})

@@ -3,45 +3,36 @@
 {% load opencommunity %}
 
 {% block extra-page-id %}
-	id="issue-list"
+id="issue-list"
 {% endblock %}
 
 {% block page_header %}
-    {% trans "Issues" %}
+{% trans "Issues" %}
 {% endblock %}
 
 {% block pagemenu %}
-	{% if user.id and cperms.issues.add_issue %}
-    <a href="{% url "issue_create" community.id %}" class="btn btn-oc" data-rel="form">
-        <span class="glyphicon glyphicon-plus"> <span>{% trans "Add" %}</span></span>
-    </a>
-    {% endif %}
+{% if user.id and cperms.issues.add_issue %}
+<div class="one_action_icon">
+	<a href="{% url "issue_create" community.id %}" class="btn btn-oc" data-rel="form"> <i class="fa fa-plus"></i> {% trans "Add" %} </a>
+</div>
+{% endif %}
 {% endblock %}
 
 {% block content %}
-
-    <form class="form-horizontal" role="search">
-	<div class="form-group">
-	    <label class="col-lg-1 control-label">{% trans "Search" %}:</label>
-	    <div class="col-lg-11 input-group">
-	      <input type="text" class="form-control" placeholder="">
-	      <span class="input-group-btn">
-	        <button class="btn btn-default" type="button">{% trans "Search" %}</button>
-	      </span>
-	    </div>
+<div class="row">
+	<h2 class="col-xs-3 col-sm-1">{% trans "Search" %}:</h2>
+	<div class="col-xs-9 col-sm-11 input-group">
+		<input type="text" class="form-control issue-search" placeholder="{% trans "Search in agenda list" %}">
 	</div>
-    </form>
-		<table class="table table-condensed issue-table">
-        {% for object in object_list %}
-				<tr>
-					<td class="issue_date">{{ object.created_at|ocshortdate }}</td>
-					<td class="issue_title left_arrow">
-						<a href="{{ object.get_absolute_url }}">
-						{{ object.title }}</a>
-					</td>
-				</tr>
-        {% endfor %}
-		</table>
+</div>
+<table class="table table-condensed issue-table">
+	{% for object in object_list %}
+	<tr>
+		<td class="issue_date">{{ object.created_at|ocshortdate }}</td>
+		<td class="issue_title left_arrow"><a href="{{ object.get_absolute_url }}"> {{ object.title }}</a></td>
+	</tr>
+	{% endfor %}
+</table>
 
 {% endblock %}
 
@@ -49,5 +40,5 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="{{STATIC_URL}}js/issues.js"></script>
+<script src="{{STATIC_URL}}js/issues.js"></script>
 {% endblock %}
