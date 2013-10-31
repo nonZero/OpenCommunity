@@ -1247,19 +1247,19 @@ span.edit-comment push:focus {
         background-position: right;
         background-repeat: no-repeat;
 }
-.pdf {background-image: url('images/icons/pdf.gif');}
-.txt {background-image: url('images/icons/txt.gif');}
-.doc {background-image: url('images/icons/doc.gif');}
-.docx {background-image: url('images/icons/docx.gif');}
-.xls {background-image: url('images/icons/xl.gif');}
-.xlsx {background-image: url('images/icons/xls.gif');}
-.csv {background-image: url('images/icons/csv.gif');}
-.jpg, .jpeg {background-image: url('images/icons/jpg.gif');}
-.gif {background-image: url('images/icons/gif.gif');}
-.png {background-image: url('images/icons/png.gif');}
-.ppt {background-image: url('images/icons/ppt.gif');}
-.pptx {background-image: url('images/icons/pptx.gif');}
-.rtf {background-image: url('images/icons/rtf.gif');}
+.pdf {background-image: url('images/icons/pdf.png');}
+.txt {background-image: url('images/icons/txt.png');}
+.doc {background-image: url('images/icons/doc.png');}
+.docx {background-image: url('images/icons/doc.png');}
+.xls {background-image: url('images/icons/xl.png');}
+.xlsx {background-image: url('images/icons/xl.png');}
+.csv {background-image: url('images/icons/xl.png');}
+.jpg, .jpeg {background-image: url('images/icons/img.png');}
+.gif {background-image: url('images/icons/img.png');}
+.png {background-image: url('images/icons/img.png');}
+.ppt {background-image: url('images/icons/ppt.png');}
+.pptx {background-image: url('images/icons/ppt.png');}
+.rtf {background-image: url('images/icons/doc.png');}
 
 
 #issue-detail .ui-bar-a a.close-dialog.ui-shadow,

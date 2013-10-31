@@ -69,20 +69,36 @@
                         </a>
                     </h3>
 
-                    {% if a.comments.count %}
+                    {% if a.comments.count or a.issue.attachments.count %}
                       <h4 style="margin:0; background: #eee; padding: 2px">
                           {% trans "Discussion Summary" %}
                       </h4>
-                      {% for c in a.comments.all %}
-                        <p style="padding:0; margin: 3px;">
-                            {{c.content|safe}}
-                            {% comment %}
-                              <i style="font-size: smaller">
-                                   ({{c.created_by}} {% trans "at" %} {{c.created_at}})
-                              </i>
-                            {% endcomment %}
-                        </p>
-                      {% endfor %}
+
+                      {% if a.issue.attachments.count %}
+                         <div class="issue_attachments">
+                         <ul>
+                         {% for att in a.issue.attachments.all %}
+                            <li>
+                                <a href="{{ att.get_absolute_url }}" class="file_ext {{ att.get_icon_class }}">{{att.title}}</a>
+                            </li>
+                         {% endfor %}
+                         </ul>
+                         </div>
+                      {% endif %}
+
+                      {% if a.comments.count %}
+                        {% for c in a.comments.all %}
+                            <p style="padding:0; margin: 3px;">
+                                {{c.content|safe}}
+                                {% comment %}
+                                <i style="font-size: smaller">
+                                    ({{c.created_by}} {% trans "at" %} {{c.created_at}})
+                                </i>
+                                {% endcomment %}
+                            </p>
+                        {% endfor %}
+                      {% endif %}
+                      
                     {% endif %}
 
                     {% if a.proposals %}
@@ -147,4 +163,29 @@
 
 <style>
     .proposal_content p { margin: 0.2em 0;}
+    .issue_attachments ul {
+        margin: 4px 0;
+        list-style-type: none;
+    }
+    .file_ext {
+        padding-right: 30px;
+        background-size: 22px 20px;
+        background-position: right;
+        background-repeat: no-repeat;
+    }
+    
+    .pdf {background-image: url('{{ STATIC_URL }}/m/images/icons/pdf.gif');}
+    .pdf {background-image: url('{{ STATIC_URL }}/m/images/icons/pdf.png');}
+    .txt {background-image: url('{{ STATIC_URL }}/m/images/icons/txt.png');}
+    .doc {background-image: url('{{ STATIC_URL }}/m/images/icons/doc.png');}
+    .docx {background-image: url('{{ STATIC_URL }}/m/images/icons/doc.png');}
+    .xls {background-image: url('{{ STATIC_URL }}/m/images/icons/xl.png');}
+    .xlsx {background-image: url('{{ STATIC_URL }}/m/images/icons/xl.png');}
+    .csv {background-image: url('{{ STATIC_URL }}/m/images/icons/xl.png');}
+    .jpg, .jpeg {background-image: url('{{ STATIC_URL }}/m/images/icons/img.png');}
+    .gif {background-image: url('{{ STATIC_URL }}/m/images/icons/img.png');}
+    .png {background-image: url('{{ STATIC_URL }}/m/images/icons/img.png');}
+    .ppt {background-image: url('{{ STATIC_URL }}/m/images/icons/ppt.png');}
+    .pptx {background-image: url('{{ STATIC_URL }}/m/images/icons/ppt.png');}
+    .rtf {background-image: url('{{ STATIC_URL }}/m/images/icons/doc.png');}
 </style>
