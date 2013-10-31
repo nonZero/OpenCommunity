@@ -76,6 +76,7 @@
 
                       {% if a.issue.attachments.count %}
                          <div class="issue_attachments">
+                         <p>{% trans 'Related files' %}:</p>
                          <ul>
                          {% for att in a.issue.attachments.all %}
                             <li>
@@ -162,7 +163,7 @@
 </div>
 
 <style>
-    .proposal_content p { margin: 0.2em 0;}
+    .proposal_content p, .issue_attachments p { margin: 0.2em 0;}
     .issue_attachments ul {
         margin: 4px 0;
         list-style-type: none;
