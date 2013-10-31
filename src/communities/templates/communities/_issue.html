@@ -24,7 +24,7 @@
         {% endif %}
         {{i.title}}
     </a>
-    {% if cperms.community.editagenda_community %}
+    {% if cperms.community.editagenda_community and not i.changed_in_current %}
         <a href="#" class="addremove"></a>
     {% endif %}
 </li>

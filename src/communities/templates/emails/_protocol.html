@@ -84,9 +84,9 @@
                         </p>
                       {% endfor %}
                     {% endif %}
-                   
-                    {% with proposals=a.accepted_proposals %}
-                        {% if proposals %}
+
+                    {% if a.proposals %}
+                        {% if a.accepted_proposals %}  
                             <h4 style="margin:0; background: #eee; padding: 2px">
                                 {% trans "Accepted Proposals" %}
                             </h4>
@@ -115,7 +115,8 @@
                                     </li>
                                 {% endfor %}
                             </ul>
-                            {% if a.rejected_proposals %}
+                        {% endif %}
+                        {% if a.rejected_proposals %}
                             <h4 style="margin:0; background: #eee; padding: 2px">
                                 {% trans "Rejected Proposals" %}
                             </h4>
@@ -128,15 +129,13 @@
                                     </li>
                                 {% endfor %}
                             </ul>
-                            {% endif %}
-                        {% else %}
-                            <p>
-                                <b>{% trans "No Accepted Proposals" %}</b>
-                            </p>
-    
                         {% endif %}
-                    {% endwith %}
-    
+                    {% else %}
+                        <p>
+                            <b>{% trans "No Accepted Proposals" %}</b>
+                        </p>
+
+                    {% endif %}
                 </article>
     
             {% endfor %}

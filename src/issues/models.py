@@ -91,6 +91,16 @@ class Issue(UIDMixin):
     @property
     def is_current(self):
         return self.status in IssueStatus.IS_UPCOMING and self.community.upcoming_meeting_started
+
+    def changed_in_current(self):
+        decided_at_current = self.proposals.filter(active=True,
+                              decided_at_meeting=None,
+                              status__in=[
+                                  ProposalStatus.ACCEPTED,
+                                  ProposalStatus.REJECTED
+                              ])
+        return decided_at_current or self.new_comments()
+
         
     @property
     def is_archived(self):
