@@ -80,7 +80,7 @@
                          <ul>
                          {% for att in a.issue.attachments.all %}
                             <li>
-                                <img src="{{ STATIC_URL }}/m/images/icons/{{ att.get_icon_class }}.png" />
+                                <img src="{{base_url}}{{ STATIC_URL }}/m/images/icons/{{ att.get_icon_class }}.png" />
                                 <a href="{{base_url}}{{ att.get_absolute_url }}" class="file_ext">{{att.title}}</a>
                             </li>
                          {% endfor %}
