@@ -53,6 +53,10 @@ a {
 .clear {
 	clear: both;
 }
+p > a {
+	word-break: break-word;
+}
+
 /* Forms */
 
 .modal-content {
@@ -755,6 +759,27 @@ form.delete-invitation {
 
 i.fa + span {
 	display: none;
+}
+
+/* Pie Chart */
+
+.piechart {
+	margin: 10px 0;
+	background: #fff;
+	height: 100%;
+}
+.for {
+	color: green;
+}
+.against {
+	color: red;
+}
+.dnp {
+	color: yellow;
+}
+.chart_divider {
+	height: 10px;
+	border-top: 1px dotted;
 }
 
 /* WYSIWYG top bar */

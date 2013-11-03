@@ -40,3 +40,4 @@ src/dummysmtp.cmd
 src/run.cmd
 src/trans1st.cmd
 src/trans2nd.cmd
+src/ocd/static/Chart.js/

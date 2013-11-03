@@ -10,6 +10,11 @@
     <form method="post">
         {% csrf_token %}
         {% trans "Are you sure?" %}
-        <button class="btn btn-danger">{% trans "Delete" %}</button>
     </form>
+{% endblock %}
+{% block nofooter %}
+<div class="modal-footer">
+    <button type="button" class="btn btn-success" data-dismiss="modal">{% trans "No" %}</button>
+    <input type="submit" class="btn btn-danger" value="{% block btn_text %}{% trans "Yes" %}{% endblock %}">
+</div>
 {% endblock %}

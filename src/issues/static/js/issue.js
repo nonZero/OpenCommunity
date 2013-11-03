@@ -47,7 +47,7 @@ $(function() {
         li.find('.comment-inner').hide().after(el);
         $.get(btn.data('url'), function(data) {
             el.html(data).find('button').button();
-            wysiwygize(el.find('textarea'));
+            //wysiwygize(el.find('textarea'));
         })
     });
 
@@ -56,7 +56,7 @@ $(function() {
         var btn = $(this);
         var li = btn.closest('li'); 
         li.removeClass('editing');
-        li.find('textarea').tinymce().remove();
+        //li.find('textarea').tinymce().remove();
         li.find('.comment-inner').show();
         li.find('.edit-issue-form').parent().remove();
     });
@@ -70,7 +70,7 @@ $(function() {
             return false;
         }
         btn.button('disable');
-        form.find('textarea').tinymce().remove();
+        //form.find('textarea').tinymce().remove();
         form.ajaxSubmit(function(data) {
                             if (!data) {
                                 btn.button('enable');
@@ -90,6 +90,6 @@ $(function() {
         }
     });
 
-    wysiwygize($('#id_content'));
+    //wysiwygize($('#id_content'));
 
 });

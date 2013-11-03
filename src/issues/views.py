@@ -306,6 +306,7 @@ class ProposalDetailView(ProposalMixin, DetailView):
                      p.statuses.IN_DISCUSSION
                      ]:
             return HttpResponseBadRequest("Bad value for accepted POST parameter")
+
         p.status = v
         p.save()
 

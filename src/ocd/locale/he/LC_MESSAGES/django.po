@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-27 15:45+0200\n"
+"POT-Creation-Date: 2013-11-03 14:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,15 +35,15 @@ msgstr "קהילה פתוחה"
 msgid "Login"
 msgstr "כניסה"
 
-#: .\templates\base.html.py:49
+#: .\templates\base.html.py:51
 msgid "Attention"
 msgstr "שים לב"
 
-#: .\templates\base.html.py:56 .\templates\dialog.html.py:21
+#: .\templates\base.html.py:58 .\templates\dialog.html.py:22
 msgid "Close"
 msgstr "סגור"
 
-#: .\templates\dialog.html.py:22
+#: .\templates\dialog.html.py:23
 msgid "Save"
 msgstr ""
 

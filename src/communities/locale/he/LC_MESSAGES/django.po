@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-27 15:45+0200\n"
+"POT-Creation-Date: 2013-11-03 14:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,7 +53,7 @@ msgstr "לוגו קהילה"
 msgid "Community Identifier"
 msgstr "מזהה קהילה"
 
-#: .\models.py:51 .\templates\communities\upcoming.html.py:72
+#: .\models.py:51 .\templates\communities\upcoming.html.py:70
 msgid "Meeting started"
 msgstr "הפגישה התחילה"
 
@@ -172,7 +172,7 @@ msgid "Plesae login to view your communities"
 msgstr "בכדי לצפות בקהילות שלך, עליך להכנס למערכת"
 
 #: .\templates\communities\community_list.html.py:56
-#: .\templates\communities\upcoming.html.py:81
+#: .\templates\communities\upcoming.html.py:79
 #: .\templates\emails\agenda.html.py:33
 #: .\templates\emails\agenda_title.txt.py:1
 msgid "Version"
@@ -195,6 +195,7 @@ msgid "Summary Draft"
 msgstr "טיוטת סיכום"
 
 #: .\templates\communities\publish_upcoming.html.py:8
+#: .\templates\communities\publish_upcoming.html.py:13
 msgid "Publish"
 msgstr "פרסם"
 
@@ -207,7 +208,7 @@ msgid "Create Issue"
 msgstr ""
 
 #: .\templates\communities\upcoming.html.py:27
-#: .\templates\communities\upcoming.html.py:122
+#: .\templates\communities\upcoming.html.py:120
 #: .\templates\communities\upcoming_form.html.py:5
 msgid "Edit"
 msgstr "עריכה"
@@ -216,58 +217,58 @@ msgstr "עריכה"
 msgid "Publish Agenda"
 msgstr "פרסם סדר יום"
 
-#: .\templates\communities\upcoming.html.py:54
+#: .\templates\communities\upcoming.html.py:53
 msgid "Undo Start Meeting"
 msgstr "בטל התחלת פגישה"
 
-#: .\templates\communities\upcoming.html.py:57
+#: .\templates\communities\upcoming.html.py:55
 msgid "Start Meeting"
 msgstr "התחל פגישה"
 
-#: .\templates\communities\upcoming.html.py:78
+#: .\templates\communities\upcoming.html.py:76
 msgid "Published"
 msgstr "פורסם"
 
-#: .\templates\communities\upcoming.html.py:85
+#: .\templates\communities\upcoming.html.py:83
 #: .\templates\emails\agenda.html.py:35
 msgid "Draft"
 msgstr "טיוטה"
 
-#: .\templates\communities\upcoming.html.py:92
+#: .\templates\communities\upcoming.html.py:90
 #: .\templates\emails\agenda.html.py:50
 msgid "Location"
 msgstr "מיקום"
 
+#: .\templates\communities\upcoming.html.py:90
 #: .\templates\communities\upcoming.html.py:93
-#: .\templates\communities\upcoming.html.py:95
 #: .\templates\emails\agenda.html.py:48 .\templates\emails\agenda.html.py:51
 msgid "Not set yet"
 msgstr "טרם נקבע"
 
-#: .\templates\communities\upcoming.html.py:94
+#: .\templates\communities\upcoming.html.py:93
 #: .\templates\emails\agenda.html.py:47
 msgid "Scheduled at"
 msgstr "מועד"
 
-#: .\templates\communities\upcoming.html.py:105
+#: .\templates\communities\upcoming.html.py:103
 msgid "Agenda items"
 msgstr "נושאים על סדר היום"
 
-#: .\templates\communities\upcoming.html.py:119
+#: .\templates\communities\upcoming.html.py:117
 #: .\templates\emails\protocol.html.py:3 .\templates\emails\protocol.txt.py:1
 #: .\templates\emails\protocol_title.txt.py:1
 msgid "Summary"
 msgstr "סיכום הפגישה"
 
-#: .\templates\communities\upcoming.html.py:134
+#: .\templates\communities\upcoming.html.py:132
 msgid "Close Meeting"
 msgstr "סגור פגישה"
 
-#: .\templates\communities\upcoming.html.py:143
+#: .\templates\communities\upcoming.html.py:141
 msgid "Available Issues"
 msgstr "נושאים נוספים"
 
-#: .\templates\communities\upcoming.html.py:158
+#: .\templates\communities\upcoming.html.py:156
 msgid "Agenda not yet published"
 msgstr "טרם פורסם סדר היום לפגישה הקרובה"
 

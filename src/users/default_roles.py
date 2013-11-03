@@ -6,6 +6,7 @@ class DefaultRoles(object):
 
     VIEWER = 'viewer'
     OBSERVER = 'observer'
+    PARTICIPANT = 'participant'
     PROPOSER = 'proposer'
     CONTRIBUTOR = 'contributor'
     EDITOR = 'editor'
@@ -28,9 +29,13 @@ class DefaultRoles(object):
                            'communities.viewupcoming_community',
                           ]
 
-    permissions[PROPOSER] = permissions[OBSERVER] + [
-                           'issues.add_proposal',
-                           'communities.viewupcoming_community',
+    permissions[PARTICIPANT] = permissions[OBSERVER] + [
+                            'issues.view_proposal_in_discussion',
+                            'communities.viewupcoming_draft',
+                          ]
+     
+    permissions[PROPOSER] = permissions[PARTICIPANT] + [
+                           'issues.add_proposal',                          
                           ]
 
     permissions[CONTRIBUTOR] = permissions[PROPOSER] + [
@@ -78,10 +83,10 @@ class DefaultGroups(object):
     permissions = {}
 
     permissions[MEMBER] = frozenset(DefaultRoles.permissions[DefaultRoles.OBSERVER])
-    permissions[BOARD] = frozenset(DefaultRoles.permissions[DefaultRoles.PROPOSER])
+    permissions[BOARD] = frozenset(DefaultRoles.permissions[DefaultRoles.PARTICIPANT])
     permissions[SECRETARY] = frozenset(DefaultRoles.permissions[DefaultRoles.OPERATOR])
     permissions[CHAIRMAN] = frozenset(DefaultRoles.permissions[DefaultRoles.DECIDER] +
-                                DefaultRoles.permissions[DefaultRoles.MANAGER])
+                                DefaultRoles.permissions[DefaultRoles.EDITOR])
     CHOICES = (
                 (MEMBER, _("member")),
                 (BOARD, _("board")),
