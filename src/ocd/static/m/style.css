@@ -1250,16 +1250,11 @@ span.edit-comment push:focus {
 .pdf {background-image: url('images/icons/pdf.png');}
 .txt {background-image: url('images/icons/txt.png');}
 .doc {background-image: url('images/icons/doc.png');}
-.docx {background-image: url('images/icons/doc.png');}
-.xls {background-image: url('images/icons/xl.png');}
-.xlsx {background-image: url('images/icons/xl.png');}
-.csv {background-image: url('images/icons/xl.png');}
-.jpg, .jpeg {background-image: url('images/icons/img.png');}
-.gif {background-image: url('images/icons/img.png');}
-.png {background-image: url('images/icons/img.png');}
+.xl {background-image: url('images/icons/xl.png');}
+.img {background-image: url('images/icons/img.png');}
 .ppt {background-image: url('images/icons/ppt.png');}
-.pptx {background-image: url('images/icons/ppt.png');}
-.rtf {background-image: url('images/icons/doc.png');}
+.snd {background-image: url('images/icons/snd.png');}
+.vid {background-image: url('images/icons/vid.png');}
 
 
 #issue-detail .ui-bar-a a.close-dialog.ui-shadow,
