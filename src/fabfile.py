@@ -71,6 +71,7 @@ def prod():
     env.hosts = ['oc@ny1.opencommunity.org.il']
     env.redirect_host = 'opencommunity.org.il'
     env.venv_command = '. ~/.virtualenvs/oc/bin/activate'
+    env.pidfile = '/home/oc/OpenCommunity/src/masterpid'
 
 
 @task
