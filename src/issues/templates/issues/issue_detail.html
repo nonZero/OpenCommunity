@@ -109,7 +109,7 @@ id="issue-detail"
                     <ul>
                         {% for att in object.attachments.all %}
                             <li>
-                                <a href="{{ att.get_absolute_url }}" class="file_ext {{ att.get_icon_class }}">{{att.title}}</a>
+                                <a href="{{ att.get_absolute_url }}" class="file_ext {{ att.get_icon }}">{{att.title}}</a>
                            
                                 {% if cperms.issues.editopen_issue %}
                                     <a id="remove-attachment" href="{% url 'attachment_delete' community.id object.id att.id %}" data-rel="form"><img src="{{ STATIC_URL }}images/icon-remove.gif"/></a>
