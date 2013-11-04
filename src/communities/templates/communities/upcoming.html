@@ -129,21 +129,19 @@
                 </p>
             </div>
             
-            {% if object.upcoming_issues %}
-                <div id="agenda-container" class="agenda-list">
-                    <h4>
-                        {% trans "Agenda items" %}
-                        <span class="loader">
-                            <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/>
-                        </span>
-                    </h4>
-                    <ul id="agenda" data-role="listview" data-split-icon="minus" data-count-theme="a">
-                            {% for i in object.upcoming_issues %}
-                                {% include "communities/_issue.html" %}
-                            {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
+            <div id="agenda-container" class="agenda-list">
+                <h4>
+                    {% trans "Agenda items" %}
+                    <span class="loader">
+                        <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/>
+                    </span>
+                </h4>
+                <ul id="agenda" data-role="listview" data-split-icon="minus" data-count-theme="a">
+                        {% for i in object.upcoming_issues %}
+                            {% include "communities/_issue.html" %}
+                        {% endfor %}
+                </ul>
+            </div>
             
             {% if object.upcoming_meeting_started and cperms.community.editupcoming_community %}
 
@@ -179,19 +177,17 @@
             {% endif %}
 
             {% if cperms.community.editagenda_community %}
-                {% if object.available_issues %}
-                    <div id="available-agenda" class="agenda-list">
+                
+                <div id="available-agenda" class="agenda-list">         
+                    <h4>{% trans "Available Issues" %}</h4>
 
-                        <h4>{% trans "Available Issues" %}</h4>
-
-                        <ul id="available" data-role="listview" data-split-icon="plus">
-                            {% for i in object.available_issues %}
-                                {% include "communities/_issue.html" %}
-                            {% endfor %}
-                        </ul>
-
-                    </div>
-                {% endif %}
+                    <ul id="available" data-role="listview" data-split-icon="plus">
+                        {% for i in object.available_issues %}
+                            {% include "communities/_issue.html" %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                
             {% endif %}
 
         {% else %}

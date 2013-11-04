@@ -89,9 +89,7 @@ class Community(UIDMixin):
                                          null=True, blank=True)
     board_name = models.CharField(_("Board Name"), max_length=200,
                                   null=True, blank=True)
-
-    has_issue_votes = models.BooleanField(_("Has votes to approve issues"), default=False)
-    
+ 
     class Meta:
         verbose_name = _("Community")
         verbose_name_plural = _("Communities")

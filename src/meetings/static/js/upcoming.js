@@ -31,6 +31,7 @@ $(function() {
         $(this).find('.ui-icon-minus').removeClass('ui-icon-minus').addClass('ui-icon-plus');
         var el = $(this).parent();
         el.addClass('loading');
+        //console.log(el)
         $("#available").append(el);
         toggleIssue(el, 1);
     }).sortable({
