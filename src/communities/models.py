@@ -148,6 +148,7 @@ class Community(UIDMixin):
               'community': self,
               'LANGUAGE_CODE': settings.LANGUAGE_CODE,
               'MEDIA_URL': settings.MEDIA_URL,
+              'STATIC_URL': settings.STATIC_URL,
              })
 
         subject = render_to_string("emails/%s_title.txt" % template, d).strip()
