@@ -25,8 +25,11 @@
     <div class="timer" data-url="{% url 'issue_set_length' community.id i.id %}">
         <span data-strict="{{i.length_in_minutes|minutes_strict}}">{{i.length_in_minutes|minutes|default:'--:--'}}</span>
     </div>
+    
+    {% if i.changed_in_current %}
     <div class="icon-plus-minus agenda_plus_minus">
         <a href="#" class="addremove"></a>
     </div>
+    {% endif %}
     {% endif %}
 </li>

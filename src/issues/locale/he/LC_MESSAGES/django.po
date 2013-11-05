@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-03 14:07+0200\n"
+"POT-Creation-Date: 2013-11-05 09:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,7 +29,7 @@ msgstr "העלה קובץ"
 msgid "Create"
 msgstr "צור חדש"
 
-#: .\forms.py:128 .\forms.py:167 .\templates\issues\issue_detail.html.py:144
+#: .\forms.py:128 .\forms.py:167 .\templates\issues\issue_detail.html.py:129
 #: .\templates\issues\issuecomment_form.html.py:6
 msgid "Save"
 msgstr "שמירה"
@@ -232,6 +232,26 @@ msgstr "גרסא"
 msgid "Last edited by"
 msgstr "נערך לאחרונה על ידי"
 
+#: .\templates\issues\_piechart.html.py:5
+msgid "For"
+msgstr "בעד"
+
+#: .\templates\issues\_piechart.html.py:7
+msgid "Against"
+msgstr "נגד"
+
+#: .\templates\issues\_piechart.html.py:9
+msgid "DNP"
+msgstr "נמנע"
+
+#: .\templates\issues\_piechart.html.py:12
+msgid "Voted"
+msgstr "הצביעו"
+
+#: .\templates\issues\_piechart.html.py:13
+msgid "Out of"
+msgstr "מתוך"
+
 #: .\templates\issues\issue_confirm_delete.html.py:5
 #: .\templates\issues\issue_detail.html.py:24
 #: .\templates\issues\issue_detail.html.py:25
@@ -292,35 +312,19 @@ msgstr "קבצים מצורפים"
 msgid "Past Proposals"
 msgstr "החלטות קודמות"
 
-#: .\templates\issues\issue_detail.html.py:107
-msgid "For"
-msgstr "בעד"
-
-#: .\templates\issues\issue_detail.html.py:108
-msgid "Against"
-msgstr "נגד"
-
-#: .\templates\issues\issue_detail.html.py:109
-msgid "DNP"
-msgstr "נמנע"
-
-#: .\templates\issues\issue_detail.html.py:110
-msgid "Voted"
-msgstr "הצביעו"
-
-#: .\templates\issues\issue_detail.html.py:127
+#: .\templates\issues\issue_detail.html.py:112
 msgid "Add Proposal"
 msgstr "הוסף הצעה"
 
-#: .\templates\issues\issue_detail.html.py:133
+#: .\templates\issues\issue_detail.html.py:118
 msgid "Summary"
 msgstr "סיכום"
 
-#: .\templates\issues\issue_detail.html.py:160
+#: .\templates\issues\issue_detail.html.py:145
 msgid "Undo complete discussion"
 msgstr "החזר נושא לדיון"
 
-#: .\templates\issues\issue_detail.html.py:160
+#: .\templates\issues\issue_detail.html.py:145
 msgid "Complete discussion"
 msgstr "הדיון הושלם"
 

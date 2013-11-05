@@ -59,7 +59,8 @@ class Issue(UIDMixin):
     class Meta:
         verbose_name = _("Issue")
         verbose_name_plural = _("Issues")
-
+        ordering = ['order_in_upcoming_meeting', 'title']
+        
     def __unicode__(self):
         return self.title
 
@@ -91,8 +92,17 @@ class Issue(UIDMixin):
     @property
     def is_current(self):
         return self.status in IssueStatus.IS_UPCOMING and self.community.upcoming_meeting_started
-        
-    @property
+    
+    def changed_in_current(self):
+        decided_at_current = self.proposals.filter(active=True,
+                              decided_at_meeting=None,
+                              status__in=[
+                                  ProposalStatus.ACCEPTED,
+                                  ProposalStatus.REJECTED
+                              ])
+        return decided_at_current or self.new_comments()
+                                                           
+    @property 
     def is_archived(self):
         return self.status == IssueStatus.ARCHIVED
 
@@ -191,20 +201,20 @@ class IssueAttachment(UIDMixin):
 
     def get_icon_class(self):
         file_icon_map = {
-            'doc': 'docx',
-            'docx': 'docx',
-            'rtf': 'docx',
-            'jpg': 'jpg',
-            'jpeg': 'jpg',
-            'gif': 'jpg',
-            'png': 'jpg',
-            'tiff': 'jpg',
-            'xls': 'xls',
-            'xlsx': 'xls',
-            'csv': 'xls',
+            'doc': 'doc',
+            'docx': 'doc',
+            'rtf': 'doc',
+            'jpg': 'img',
+            'jpeg': 'img',
+            'gif': 'img',
+            'png': 'img',
+            'tiff': 'img',
+            'xls': 'xl',
+            'xlsx': 'xl',
+            'csv': 'xl',
             'pdf': 'pdf',
-            'ppt': 'pptx',
-            'pptx': 'pptx',
+            'ppt': 'ppt',
+            'pptx': 'ppt',
             'm4a': 'vid',
             'wma': 'vid',
             'mp4': 'vid',

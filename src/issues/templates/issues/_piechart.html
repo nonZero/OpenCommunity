@@ -1,0 +1,63 @@
+{% load i18n %}
+<div class="row piechart">
+	<div class="col-xs-6">
+		<p>
+			<span class="for glyphicon glyphicon-stop"></span><span> {% trans "For" %}: {{x}}</span>
+			<br>
+			<span class="against glyphicon glyphicon-stop"></span><span> {% trans "Against" %}: {{y}}</span>
+			<br>
+			<!-- <span class="dnp glyphicon glyphicon-stop"></span><span> {% trans "DNP" %}: {{z}}</span>
+			<br> -->
+			<div class="chart_divider"></div>
+			<span>{% trans "Voted" %}: {{x|add:y}} ({% widthratio x|add:y x|add:y|add:z 100 %}%)</span>
+			<span>{% trans "Out of" %}: {{x|add:y|add:z}}</span>
+		</p>
+	</div>
+	<div class="col-xs-6">
+		<span class="glyphicon glyphicon-circle-arrow-right" style="vertical-align: sub"></span>
+		{{ proposal.created_at|date:"SHORT_DATE_FORMAT" }}
+		<span class="glyphicon glyphicon-circle-arrow-left" style="vertical-align: sub"></span>
+		<br>
+		<canvas id="proposal{{proposal.id}}Chart" height="100px" width="100px"></canvas>
+	</div>
+</div>
+
+<script>
+	var pieData = [
+	{ value : {{x}}, color : "green" },
+	{ value : {{y}}, color : "red" },
+	{ value : {{z}}, color : "yellow"}
+	];
+
+	var actions = {
+		//Boolean - Whether we should show a stroke on each segment
+		segmentShowStroke : true,
+
+		//String - The colour of each segment stroke
+		segmentStrokeColor : "#fff",
+
+		//Number - The width of each segment stroke
+		segmentStrokeWidth : 2,
+
+		//Boolean - Whether we should animate the chart
+		animation : false,
+
+		//Number - Amount of animation steps
+		animationSteps : 100,
+
+		//String - Animation easing effect
+		animationEasing : "easeOutBounce",
+
+		//Boolean - Whether we animate the rotation of the Pie
+		animateRotate : false,
+
+		//Boolean - Whether we animate scaling the Pie from the centre
+		animateScale : false,
+
+		//Function - Will fire on animation completion.
+		onAnimationComplete : null
+	}; 
+
+	var prop_id = {{ proposal.id }};
+
+</script>

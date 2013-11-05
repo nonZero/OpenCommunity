@@ -76,7 +76,7 @@ p > a {
 #upcoming-meeting .field-send_to ul {
 	list-style-type: none;
 }
-.input-group input.form-control.issue-search {
+.form-group input.form-control.issue-search {
 	border-radius: 15px;
 	padding-left: 40px;
 	background-image: url('images/search.png');
@@ -750,10 +750,10 @@ form.delete-invitation {
 }
 .pdf {background-image: url('images/icons/pdf.png');}
 .txt {background-image: url('images/icons/simple-text.png');}
-.docx {background-image: url('images/icons/word.png');}
-.xls {background-image: url('images/icons/excel.png');}
-.jpg {background-image: url('images/icons/jpeg.png');}
-.pptx {background-image: url('images/icons/ppt.png');}
+.doc {background-image: url('images/icons/word.png');}
+.xl {background-image: url('images/icons/excel.png');}
+.img {background-image: url('images/icons/jpeg.png');}
+.ppt {background-image: url('images/icons/ppt.png');}
 .vid {background-image: url('images/icons/video.png');}
 .snd {background-image: url('images/icons/audio.png');}
 

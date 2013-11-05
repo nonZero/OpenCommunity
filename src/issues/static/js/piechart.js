@@ -3,13 +3,13 @@
 $(function() {
 
 	var pieData = [{
-		value : 30,
+		value : {{x}},
 		color : "red"
 	}, {
-		value : 50,
+		value : {{y}},
 		color : "green"
 	}, {
-		value : 200,
+		value : {{z}},
 		color : "yellow"
 	}];
 
