@@ -94,6 +94,18 @@ ul.errorlist li {
 	background-position: 10px;
 	font-size: 18px;
 }
+.field-upcoming_meeting_participants ul {
+	list-style-type: none;
+}
+.field-upcoming_meeting_participants p.help-block {
+	display: none;
+}
+#upcoming-meeting .modal-content .field-held_at #id_held_at_0,
+#upcoming-meeting .modal-content .field-held_at #id_held_at_1 {
+	width: 45%;
+	display: inline-block;
+}
+
 /* General buttons */
 
 .btn-oc,

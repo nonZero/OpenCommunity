@@ -79,7 +79,7 @@ id="issue-detail"
 
                 <div class="issue_attachments">
 
-                    <h4>{% trans "Attachments" %}</h4>
+                    <!-- <h4>{% trans "Attachments" %}</h4> -->
 
                     <ul>
                         {% for att in object.attachments.all %}
@@ -171,5 +171,5 @@ id="issue-detail"
 {% block scripts %}
 <script src="{{STATIC_URL}}js/issue.js"></script>
 <script src="{{STATIC_URL}}js/Chart.js"></script>
-<!-- <script src="{{STATIC_URL}}js/piechart.js"></script> -->
+<script src="{{STATIC_URL}}js/piechart.js"></script>
 {% endblock %}

@@ -1,8 +1,8 @@
 from communities.models import SendToOption
-from django import forms
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from meetings.models import Meeting
+import floppyforms as forms
 
 
 class CloseMeetingForm(forms.ModelForm):
@@ -23,6 +23,10 @@ class CloseMeetingForm(forms.ModelForm):
         fields = (
                   'held_at',
                   )
+
+        widgets = {
+            'held_at': forms.SplitDateTimeWidget,
+        }
 
     def __init__(self, *args, **kwargs):
 #         self.helper = FormHelper()
