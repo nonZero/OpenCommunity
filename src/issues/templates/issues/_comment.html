@@ -25,16 +25,16 @@
         {% endif %}
 
         <div class="comment-inner">
-            {% if c.meeting %}
-                <p>
-                    <a href="{{c.meeting.get_absolute_url}}">
-                        {{c.meeting}}
-                    </a>
-                </p>
-            {% endif %}
-            <i>
-                {{c.created_by}} ({% trans "at" %} {{c.created_at}})
-            </i>
+            <p>
+                {% if c.meeting %}
+                    <a href="{{c.meeting.get_absolute_url}}">{{c.meeting.get_title_or_date}}:</a>
+                {% endif %}
+
+                <i>
+                    {{c.created_by}} ({% trans "at" %} {{c.created_at}})
+                </i>
+            </p>
+
             <p class="content">
                 {{c.content|safe}}
             </p>

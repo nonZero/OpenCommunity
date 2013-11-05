@@ -26,7 +26,7 @@ function initForm(modal) {
     var url = modal.data('bs.modal').options.remote;
 
     var form = modal.find('form');
-    form.find('.htmlarea textarea').wysihtml5();
+    form.find('.htmlarea textarea').wysihtml5({locale: "he-IL"});
 
     form.ajaxForm({
 
