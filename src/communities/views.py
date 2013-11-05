@@ -62,7 +62,8 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
         if 'issue' in request.POST:
 
             issue = self.get_object().issues.get(id=int(request.POST.get('issue')))
-
+            if issue.changed_in_current():
+                return HttpResponseBadRequest("can't remove this issue")
             add_to_meeting = request.POST['set'] == "0"
             issue.status = IssueStatus.IN_UPCOMING_MEETING if add_to_meeting \
                             else IssueStatus.OPEN

@@ -8,13 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-03 14:07+0200\n"
+"POT-Creation-Date: 2013-11-05 09:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: .\forms.py:30
@@ -53,7 +54,7 @@ msgstr "לוגו קהילה"
 msgid "Community Identifier"
 msgstr "מזהה קהילה"
 
-#: .\models.py:51 .\templates\communities\upcoming.html.py:70
+#: .\models.py:51 .\templates\communities\upcoming.html.py:69
 msgid "Meeting started"
 msgstr "הפגישה התחילה"
 
@@ -113,18 +114,18 @@ msgstr "קהילה"
 msgid "Communities"
 msgstr "קהילות"
 
-#: .\models.py:128
+#: .\models.py:132
 msgid "Board"
 msgstr "ועד"
 
-#: .\views.py:153
+#: .\views.py:154
 #, python-format
 msgid "Sending to %d users"
 msgstr "שולח ל-%d משתמשים"
 
 #: .\templates\_community_bar.html.py:5 .\templates\_community_panel.html.py:4
 msgid "Issues"
-msgstr "נושאים לדיון"
+msgstr "נושאים"
 
 #: .\templates\_community_bar.html.py:8 .\templates\_community_panel.html.py:8
 #: .\templates\communities\upcoming.html.py:10
@@ -172,7 +173,7 @@ msgid "Plesae login to view your communities"
 msgstr "בכדי לצפות בקהילות שלך, עליך להכנס למערכת"
 
 #: .\templates\communities\community_list.html.py:56
-#: .\templates\communities\upcoming.html.py:79
+#: .\templates\communities\upcoming.html.py:78
 #: .\templates\emails\agenda.html.py:33
 #: .\templates\emails\agenda_title.txt.py:1
 msgid "Version"
@@ -205,10 +206,10 @@ msgstr "אישור"
 
 #: .\templates\communities\upcoming.html.py:21
 msgid "Create Issue"
-msgstr ""
+msgstr "צור נושא"
 
 #: .\templates\communities\upcoming.html.py:27
-#: .\templates\communities\upcoming.html.py:120
+#: .\templates\communities\upcoming.html.py:123
 #: .\templates\communities\upcoming_form.html.py:5
 msgid "Edit"
 msgstr "עריכה"
@@ -225,54 +226,55 @@ msgstr "בטל התחלת פגישה"
 msgid "Start Meeting"
 msgstr "התחל פגישה"
 
-#: .\templates\communities\upcoming.html.py:76
+#: .\templates\communities\upcoming.html.py:75
 msgid "Published"
 msgstr "פורסם"
 
-#: .\templates\communities\upcoming.html.py:83
+#: .\templates\communities\upcoming.html.py:82
 #: .\templates\emails\agenda.html.py:35
 msgid "Draft"
 msgstr "טיוטה"
 
-#: .\templates\communities\upcoming.html.py:90
+#: .\templates\communities\upcoming.html.py:89
 #: .\templates\emails\agenda.html.py:50
 msgid "Location"
 msgstr "מיקום"
 
-#: .\templates\communities\upcoming.html.py:90
-#: .\templates\communities\upcoming.html.py:93
+#: .\templates\communities\upcoming.html.py:89
+#: .\templates\communities\upcoming.html.py:92
 #: .\templates\emails\agenda.html.py:48 .\templates\emails\agenda.html.py:51
 msgid "Not set yet"
 msgstr "טרם נקבע"
 
-#: .\templates\communities\upcoming.html.py:93
+#: .\templates\communities\upcoming.html.py:92
 #: .\templates\emails\agenda.html.py:47
 msgid "Scheduled at"
 msgstr "מועד"
 
-#: .\templates\communities\upcoming.html.py:103
+#: .\templates\communities\upcoming.html.py:106
 msgid "Agenda items"
-msgstr "נושאים על סדר היום"
+msgstr "נושאים לסדר היום"
 
-#: .\templates\communities\upcoming.html.py:117
+#: .\templates\communities\upcoming.html.py:120
 #: .\templates\emails\protocol.html.py:3 .\templates\emails\protocol.txt.py:1
 #: .\templates\emails\protocol_title.txt.py:1
 msgid "Summary"
 msgstr "סיכום הפגישה"
 
-#: .\templates\communities\upcoming.html.py:132
+#: .\templates\communities\upcoming.html.py:135
 msgid "Close Meeting"
 msgstr "סגור פגישה"
 
-#: .\templates\communities\upcoming.html.py:141
+#: .\templates\communities\upcoming.html.py:145
+#: .\templates\communities\upcoming.html.py:149
 msgid "Available Issues"
 msgstr "נושאים נוספים"
 
-#: .\templates\communities\upcoming.html.py:156
+#: .\templates\communities\upcoming.html.py:164
 msgid "Agenda not yet published"
 msgstr "טרם פורסם סדר היום לפגישה הקרובה"
 
-#: .\templates\emails\_protocol.html.py:29
+#: .\templates\emails\_protocol.html.py:27
 #: .\templates\emails\agenda.html.py:40 .\templates\emails\agenda.txt.py:3
 #: .\templates\emails\protocol.txt.py:3
 #: .\templates\emails\protocol_draft.txt.py:3
@@ -295,23 +297,30 @@ msgstr "נושאים והחלטות"
 msgid "Discussion Summary"
 msgstr "סיכום הדיון"
 
-#: .\templates\emails\_protocol.html.py:93
-#: .\templates\emails\agenda.html.py:88
-msgid "Proposals"
-msgstr "הצעות החלטה"
+#: .\templates\emails\_protocol.html.py:79
+msgid "Related files"
+msgstr "קבצים קשורים"
 
-#: .\templates\emails\_protocol.html.py:104
-#: .\templates\emails\agenda.html.py:98
+#: .\templates\emails\_protocol.html.py:110
+msgid "Accepted Proposals"
+msgstr "החלטות שהתקבלו"
+
+#: .\templates\emails\_protocol.html.py:127
+#: .\templates\emails\agenda.html.py:105
 msgid "Assigned to"
 msgstr "אחראי"
 
-#: .\templates\emails\_protocol.html.py:108
-#: .\templates\emails\agenda.html.py:102
+#: .\templates\emails\_protocol.html.py:131
+#: .\templates\emails\agenda.html.py:109
 msgid "Due by"
 msgstr "יעד"
 
-#: .\templates\emails\_protocol.html.py:120
-msgid "No Decided Proposals"
+#: .\templates\emails\_protocol.html.py:144
+msgid "Rejected Proposals"
+msgstr "הצעות החלטה שנדחו"
+
+#: .\templates\emails\_protocol.html.py:158
+msgid "No Accepted Proposals"
 msgstr "לא התקבלו החלטות"
 
 #: .\templates\emails\agenda.html.py:32
@@ -330,6 +339,10 @@ msgstr "הנושאים שיועלו לדיון"
 msgid "click links for more details"
 msgstr "למידע נוסף יש ללחוץ על הקישורים"
 
+#: .\templates\emails\agenda.html.py:88
+msgid "Proposals"
+msgstr "הצעות"
+
 #: .\templates\emails\agenda_title.txt.py:1
 msgid "Upcoming Agenda For"
 msgstr "סדר יום לפגישת ועד שתתקיים ב"
@@ -345,14 +358,14 @@ msgstr "טויטת סיכום פגישה"
 #~ msgid "Save"
 #~ msgstr "שמירה"
 
+#~ msgid "Has votes to approve issues"
+#~ msgstr "הצבעות מקדימות"
+
+#~ msgid "No Decided Proposals"
+#~ msgstr "לא התקבלו החלטות"
+
 #~ msgid "Send Summary Draft"
 #~ msgstr "שלח טיוטת סיכום"
-
-#~ msgid "Accepted Proposals"
-#~ msgstr "החלטות שהתקבלו"
-
-#~ msgid "Rejected Proposals"
-#~ msgstr "הצעות החלטה שנדחו"
 
 #~ msgid "Current version"
 #~ msgstr "גירסה נוכחית"

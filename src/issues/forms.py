@@ -67,7 +67,6 @@ class AddAttachmentBaseForm(forms.ModelForm):
                    )
 
     def clean_file(self):
-
         file_obj = self.cleaned_data['file']
 
         if len(file_obj.name.split('.')) == 1:
@@ -78,17 +77,17 @@ class AddAttachmentBaseForm(forms.ModelForm):
 
         return file_obj
 
+    def clean_title(self):
+        title = self.cleaned_data['title']
+
+        if len(title.strip()) == 0:
+            raise forms.ValidationError(_("Title cannot be empty"))
+
+        return title
 
 
 class AddAttachmentForm(AddAttachmentBaseForm):
     submit_button_text = _('Upload')
-
-    def __init__(self, *args, **kwargs):
-#         self.helper = FormHelper()
-# 
-#         self.helper.add_input(Submit('submit', self.submit_button_text))
-
-        super(AddAttachmentForm, self).__init__(*args, **kwargs)
 
 
 class CreateProposalBaseForm(forms.ModelForm):

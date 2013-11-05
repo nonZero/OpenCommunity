@@ -1,7 +1,7 @@
 {% load i18n %}
 
 {% if c.active or cperms.issues.editclosed_issuecomment or cperms.issues.editopen_issuecomment and c.is_open  %}
-    
+    {% if c.meeting or cperms.issues.view_proposal_in_discussion %}
     <li{% if not c.active %} class="deleted"{% endif %}>
     
         {% if cperms.issues.editclosed_issuecomment or cperms.issues.editopen_issuecomment and c.is_open  %}
@@ -33,7 +33,7 @@
                 </p>
             {% endif %}
             <i>
-                {{c.created_by}} {% trans "at" %} {{c.created_at}}
+                {{c.created_by}} ({% trans "at" %} {{c.created_at}})
             </i>
             <p class="content">
                 {{c.content|safe}}
@@ -45,9 +45,11 @@
                     {% trans "Last edited by" %} {{c.last_edited_by}} {% trans "at" %} {{c.last_edited_at}}
                 </i>
             {% endif %}
-    
+
         </div>
-    
+
     </li>
 
+    {% endif %}
+    
 {% endif %}

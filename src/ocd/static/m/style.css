@@ -291,6 +291,10 @@ table.meeting-table tr.table_divider td p {
 	margin: 0;
 }
 
+.meeting-table p.assign span {
+    padding-left: 5px;
+}
+
 .ui-btn-up-b .agenda_list {
     display: inline-block;
     font-weight: normal;
@@ -823,7 +827,7 @@ table.issue-table {
 }
 
 .issue_date {
-	width: 43px;
+	width: 49px;
 	padding: 10px;
 	font-weight: normal;
 	color: #ffffff;
@@ -1014,13 +1018,29 @@ p.sub-title {
 }
 #proposal-detail .accepted {
 	position: relative;
-	background: url(images/accepted.png) no-repeat right center #f0f187;
+	background: url(images/accepted.png) no-repeat right center #b8d29a;
 	border: 1px solid #d8e0df;
 	padding: 20px 48px 20px 10px;
 	font-size: 18px;
 	font-weight: bold;
 	margin-bottom: 20px;
 }
+
+#proposal-detail .rejected {
+   position: relative;
+   background: url(images/proposal-rejected.png) no-repeat #d2af7d;
+   background-position: 99% 50%;
+   border: 1px solid #e8d8df;
+   padding: 20px 48px 20px 10px;
+   font-size: 18px;
+   font-weight: bold;
+   margin-bottom: 20px;
+}
+
+#proposal-detail .accepted a.ui-link {
+    font-size: 14px;
+}
+
 #upcoming-meeting .meeting-info p span {
 	font-size: 12pt;
 }
@@ -1220,6 +1240,28 @@ span.edit-comment push:focus {
 #issue-detail .form-popup.ui-body-c .ui-header {
 	background: #448698;
 }
+
+.file_ext {
+        padding-right: 30px;
+        background-size: 22px 20px;
+        background-position: right;
+        background-repeat: no-repeat;
+}
+.pdf {background-image: url('images/icons/pdf.png');}
+.txt {background-image: url('images/icons/txt.png');}
+.doc {background-image: url('images/icons/doc.png');}
+.docx {background-image: url('images/icons/doc.png');}
+.xls {background-image: url('images/icons/xl.png');}
+.xlsx {background-image: url('images/icons/xl.png');}
+.csv {background-image: url('images/icons/xl.png');}
+.jpg, .jpeg {background-image: url('images/icons/img.png');}
+.gif {background-image: url('images/icons/img.png');}
+.png {background-image: url('images/icons/img.png');}
+.ppt {background-image: url('images/icons/ppt.png');}
+.pptx {background-image: url('images/icons/ppt.png');}
+.rtf {background-image: url('images/icons/doc.png');}
+
+
 #issue-detail .ui-bar-a a.close-dialog.ui-shadow,
 #issue-list .ui-bar-a a.close-dialog.ui-shadow {
 	-moz-box-shadow: 0 0 0;
@@ -1566,6 +1608,7 @@ span.edit-comment push:focus {
 }
 #issue-detail .issue_proposal ul.proposals li.prop-content p.assign {
 }
+
 .clear {clear: both;}
 .nohal {
 	position: absolute;

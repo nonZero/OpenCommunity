@@ -49,6 +49,10 @@ function initForm(modal) {
 
         beforeSubmit : function() {
             form.find('input[type="submit"]').prop('disabled', true);
+                    if(form.find('input[type="file"]').length > 0) {                        
+                        $('input#id_file').parent().find('span.loader').remove()
+                        $('input#id_file').parent().append($('span.loader:first').clone().show())
+                    }
         },
 
         success : function(resp) {

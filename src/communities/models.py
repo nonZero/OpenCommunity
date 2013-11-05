@@ -89,7 +89,7 @@ class Community(UIDMixin):
                                          null=True, blank=True)
     board_name = models.CharField(_("Board Name"), max_length=200,
                                   null=True, blank=True)
-
+ 
     class Meta:
         verbose_name = _("Community")
         verbose_name_plural = _("Communities")
@@ -255,7 +255,17 @@ class Community(UIDMixin):
                         issue.proposals.filter(decided_at_meeting=None,
                                                active=True)
                             .exclude(status=ProposalStatus.IN_DISCUSSION),
-
+                            
+                    'accepted_proposals':
+                        issue.proposals.filter(decided_at_meeting=None,
+                                               active=True,
+                                               status=ProposalStatus.ACCEPTED),
+                                               
+                    'rejected_proposals':
+                        issue.proposals.filter(decided_at_meeting=None,
+                                               active=True,
+                                               status=ProposalStatus.REJECTED),
+                                               
                     'comments':
                         issue.comments.filter(meeting=None, active=True),
                     }
