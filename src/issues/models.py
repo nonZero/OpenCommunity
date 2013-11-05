@@ -59,6 +59,7 @@ class Issue(UIDMixin):
     class Meta:
         verbose_name = _("Issue")
         verbose_name_plural = _("Issues")
+        ordering = ['order_in_upcoming_meeting', 'title']
 
     def __unicode__(self):
         return self.title
@@ -199,22 +200,22 @@ class IssueAttachment(UIDMixin):
                                    verbose_name=_("Created by"),
                                    related_name="files_created")
 
-    def get_icon_class(self):
+    def get_icon(self):
         file_icon_map = {
-            'doc': 'docx',
-            'docx': 'docx',
-            'rtf': 'docx',
-            'jpg': 'jpg',
-            'jpeg': 'jpg',
-            'gif': 'jpg',
-            'png': 'jpg',
-            'tiff': 'jpg',
-            'xls': 'xls',
-            'xlsx': 'xls',
-            'csv': 'xls',
+            'doc': 'doc',
+            'docx': 'doc',
+            'rtf': 'doc',
+            'jpg': 'img',
+            'jpeg': 'img',
+            'gif': 'img',
+            'png': 'img',
+            'tiff': 'img',
+            'xls': 'xl',
+            'xlsx': 'xl',
+            'csv': 'xl',
             'pdf': 'pdf',
-            'ppt': 'pptx',
-            'pptx': 'pptx',
+            'ppt': 'ppt',
+            'pptx': 'ppt',
             'm4a': 'vid',
             'wma': 'vid',
             'mp4': 'vid',
