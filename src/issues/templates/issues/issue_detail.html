@@ -113,6 +113,7 @@ id="issue-detail"
                 <h2>{% trans "Proposals" %}</h2>
                 {% for proposal in object.proposals.open %}                
                     {% include 'issues/_proposal.html' %}
+                    {% include 'issues/_piechart.html' %}
                 {% endfor %}
             {% endif %}
 </div>
@@ -170,5 +171,5 @@ id="issue-detail"
 {% block scripts %}
 <script src="{{STATIC_URL}}js/issue.js"></script>
 <script src="{{STATIC_URL}}js/Chart.js"></script>
-<script src="{{STATIC_URL}}js/piechart.js"></script>
+<!-- <script src="{{STATIC_URL}}js/piechart.js"></script> -->
 {% endblock %}

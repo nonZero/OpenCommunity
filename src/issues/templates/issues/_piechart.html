@@ -18,7 +18,7 @@
 		{{ proposal.created_at|date:"SHORT_DATE_FORMAT" }}
 		<span class="glyphicon glyphicon-circle-arrow-left" style="vertical-align: sub"></span>
 		<br>
-		<canvas id="proposal{{proposal.id}}Chart" height="100px" width="100px"></canvas>
+		<canvas id="proposal{{ proposal.id }}Chart" height="100px" width="100px"></canvas>
 	</div>
 </div>
 
@@ -56,8 +56,12 @@
 
 		//Function - Will fire on animation completion.
 		onAnimationComplete : null
-	}; 
-
+	};
+	
 	var prop_id = {{ proposal.id }};
-
+</script>
+<script>
+	$(function () {
+		var myPie = new Chart($("#proposal" + prop_id + "Chart").get(0).getContext("2d")).Pie(pieData, actions);
+	});
 </script>

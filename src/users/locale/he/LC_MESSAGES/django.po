@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-05 10:03+0200\n"
+"POT-Creation-Date: 2013-11-05 13:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,11 +46,11 @@ msgstr "יושב ראש"
 
 #: .\forms.py:33
 msgid "Password confirmation"
-msgstr ""
+msgstr "אימות סיסמא"
 
 #: .\forms.py:47
 msgid "Passwords don't match"
-msgstr ""
+msgstr "סיסמא לא תואמת"
 
 #: .\models.py:66
 msgid "email address"
@@ -284,9 +284,5 @@ msgstr "אין חברים בקהילה"
 msgid "Invite"
 msgstr "הזמן"
 
-#~ msgid ""
-#~ "Please enter a correct %(username)s and password. Note that both fields "
-#~ "may be case-sensitive."
-#~ msgstr ""
-#~ "יש להזין %(username)s וסיסמא  תקינים.  בשני השדות יכולים להיות הבדלים בין "
-#~ "אותיות קטנות וגדולות."
+msgid "Please enter a correct %(username)s and password. Note that both fields may be case-sensitive."
+msgstr "יש להזין %(username)s וסיסמא  תקינים.  בשני השדות יכולים להיות הבדלים בין אותיות קטנות וגדולות."
