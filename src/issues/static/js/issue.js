@@ -1,6 +1,9 @@
 "use strict";
 
+
 $(function() {
+
+    $('.htmlarea textarea').wysihtml5({locale: "he-IL"});
 
     // Comments
 
@@ -13,14 +16,14 @@ $(function() {
         },
         success: function(data) {
             var el = $(data.trim());
-            $("#add-comment").closest('li').before(el).parent().listview('refresh');
-            el.find('button').button();
+            $("#add-comment").closest('li').before(el);
             $("#add-comment").get(0).reset();
         }
     });
 
     // Delete and undelete comment form
     $('#comments').on('click', '.delete-comment button', function() {
+        console.log('1');
         var btn = $(this);
         var form = btn.closest('form');
         var extra = {};
@@ -46,8 +49,7 @@ $(function() {
         var el = $("<div>Loading...</div>");
         li.find('.comment-inner').hide().after(el);
         $.get(btn.data('url'), function(data) {
-            el.html(data).find('button').button();
-            //wysiwygize(el.find('textarea'));
+            el.html(data).find('.htmlarea textarea').wysihtml5({locale: "he-IL"});
         })
     });
 
@@ -56,7 +58,6 @@ $(function() {
         var btn = $(this);
         var li = btn.closest('li'); 
         li.removeClass('editing');
-        //li.find('textarea').tinymce().remove();
         li.find('.comment-inner').show();
         li.find('.edit-issue-form').parent().remove();
     });
@@ -69,17 +70,12 @@ $(function() {
             ev.preventDefault();
             return false;
         }
-        btn.button('disable');
-        //form.find('textarea').tinymce().remove();
         form.ajaxSubmit(function(data) {
                             if (!data) {
-                                btn.button('enable');
                                 return;
                             }
                             var new_li = $(data.trim());
-                            new_li.find('button').button();
                             form.closest('li').replaceWith(new_li);
-                            $("#comments").listview('refresh');
                         });
         return false;
     });
@@ -90,6 +86,5 @@ $(function() {
         }
     });
 
-    //wysiwygize($('#id_content'));
 
 });

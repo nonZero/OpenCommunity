@@ -60,7 +60,7 @@ class Issue(UIDMixin):
         verbose_name = _("Issue")
         verbose_name_plural = _("Issues")
         ordering = ['order_in_upcoming_meeting', 'title']
-        
+
     def __unicode__(self):
         return self.title
 
@@ -92,7 +92,7 @@ class Issue(UIDMixin):
     @property
     def is_current(self):
         return self.status in IssueStatus.IS_UPCOMING and self.community.upcoming_meeting_started
-    
+
     def changed_in_current(self):
         decided_at_current = self.proposals.filter(active=True,
                               decided_at_meeting=None,
@@ -101,8 +101,9 @@ class Issue(UIDMixin):
                                   ProposalStatus.REJECTED
                               ])
         return decided_at_current or self.new_comments()
-                                                           
-    @property 
+
+        
+    @property
     def is_archived(self):
         return self.status == IssueStatus.ARCHIVED
 
@@ -199,7 +200,7 @@ class IssueAttachment(UIDMixin):
                                    verbose_name=_("Created by"),
                                    related_name="files_created")
 
-    def get_icon_class(self):
+    def get_icon(self):
         file_icon_map = {
             'doc': 'doc',
             'docx': 'doc',
@@ -234,7 +235,7 @@ class IssueAttachment(UIDMixin):
         except KeyError:
             icon = 'file'
         return icon    
-  
+        
     class Meta:
         ordering = ('created_at',)
 
@@ -387,10 +388,10 @@ class Proposal(UIDMixin):
         return ("proposal_delete", (str(self.issue.community.pk), str(self.issue.pk),
                                 str(self.pk)))
 
-
     def get_status_class(self):
         if self.status == self.statuses.ACCEPTED:
             return "accepted"
         if self.status == self.statuses.REJECTED:
             return "rejected"
+        return ""
         return ""

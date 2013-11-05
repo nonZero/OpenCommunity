@@ -4,39 +4,39 @@
     style="font-family: Arial, Helvetica, sans-serif{% if LANGUAGE_CODE == 'he' %};direction:rtl{% endif %}">
 
     <div style="border: 1px solid black">
-
-        {% if community.logo %}
-            <div style="width: 100%">
-                <center>
-                <img src="{{base_url}}{{MEDIA_URL}}{{ community.logo }}"/>
-                </center>
-            </div>
-        {% endif %}
-
+    
+    	{% if community.logo %}
+    	<div style="width: 100%">
+    		<center>
+    		<img src="{{base_url}}{{MEDIA_URL}}{{ community.logo }}"/>
+    		</center>
+    	</div>
+    	{% endif %}
         <h1 style="margin:0 0 1em 0; text-align: center; padding: 4px">
             {{community}}{% if community.official_identifier %} {{ community.official_identifier }}{% endif %}
-        </h1>
-
+        </h1> 
         <h1 style="margin:0; background: #ddd;padding: 4px">
             {% if title %}
               {{title}} -
             {% endif %}
             {{title_type}}
         </h1>
-
+    
         <div style="padding:3px 6px">
             <p>
                 <a href="{{base_url}}{{url}}">{% trans "View online" %}</a>
             </p>
-
+            
+            
             {% if summary %}
               {{summary|safe}}
             {% endif %}
-
+    
+    
             {% if participants or guests %}
             <div style="border: solid 1px #ccc; margin: 4px 0;padding: 0"> 
                 <h2 style="margin:0; background: #ddd;padding: 4px">{% trans "Participants" %}</h2>
-
+    
                 <div style="margin:0; padding: 4px">
                     {% for u in participants %}
                         {{ u }}{% if not forloop.last %},{% endif %}
@@ -53,51 +53,69 @@
             </div>
             {% endif %}
         </div>
-
+    
         <h2 style="margin:12px 0 0 0; background:#eee; padding:6px 3px 3px">
             {% trans "Issues & Decisions" %}
         </h2>
-
+    
         <div style="padding:12px 6px">
-
+    
             {% for a in agenda %}
                 <article style="border: solid 1px #ccc; margin-top: 12px;">
-
+    
                     <h3 style="margin:0; background: #ddd;padding: 4px">
                         <a href="{{base_url}}{{a.issue.get_absolute_url}}">
                             {{a.issue.title}}
                         </a>
                     </h3>
 
-                    {% if a.comments.count %}
+                    {% if a.comments.count or a.issue.attachments.count %}
                       <h4 style="margin:0; background: #eee; padding: 2px">
                           {% trans "Discussion Summary" %}
                       </h4>
 
-                      {% for c in a.comments.all %}
-                        <p style="padding:0; margin: 3px;">
-                            {{c.content|safe}}
-                            {% comment %}
-                              <i style="font-size: smaller">
-                                   ({{c.created_by}} {% trans "at" %} {{c.created_at}})
-                              </i>
-                            {% endcomment %}
-                        </p>
-                      {% endfor %}
+                      {% if a.issue.attachments.count %}
+                         <div class="issue_attachments">
+                         <p>{% trans 'Related files' %}:</p>
+                         <ul>
+                         {% for att in a.issue.attachments.all %}
+                            <li>                      
+                                <a href="{{base_url}}{{ att.get_absolute_url }}" class="file_ext"><img height="16" src="{{base_url}}{{ STATIC_URL }}/m/images/icons/{{ att.get_icon }}.png" /> {{att.title}}</a>
+                            </li>
+                         {% endfor %}
+                         </ul>
+                         </div>
+                      {% endif %}
+
+                      {% if a.comments.count %}
+                        {% for c in a.comments.all %}
+                            <p style="padding:0; margin: 3px;">
+                                {{c.content|safe}}
+                                {% comment %}
+                                <i style="font-size: smaller">
+                                    ({{c.created_by}} {% trans "at" %} {{c.created_at}})
+                                </i>
+                                {% endcomment %}
+                            </p>
+                        {% endfor %}
+                      {% endif %}
+                      
                     {% endif %}
 
-                    {% with proposals=a.proposals %}
-                        {% if proposals.count %}
+                    {% if a.proposals %}
+                        {% if a.accepted_proposals %}  
                             <h4 style="margin:0; background: #eee; padding: 2px">
-                                {% trans "Proposals" %}
+                                {% trans "Accepted Proposals" %}
                             </h4>
                             <ul>
-                                {% for p in proposals %}
+                                {% for p in a.accepted_proposals.all %}
                                     <li style="padding:2px 0">
                                         <a href="{{base_url}}{{p.get_absolute_url}}">
-                                            {% if p.type != 3 %}{{ p.get_type_display}}: {% endif %}{{p.title}}
+                                            {% if p.type != 3 %}
+                                                {{ p.get_type_display }}:
+                                            {% endif %}
+                                            {{p.title}}
                                         </a>
-                                        <b>{{ p.get_status_display }}</b>
                                         {% if p.assigned_to %}
                                             &nbsp;
                                             <b>{% trans "Assigned to" %}</b>: {{p.assigned_to}}
@@ -107,25 +125,54 @@
                                             <b>{% trans "Due by" %}</b>: {{p.due_by}}
                                         {% endif %}
                                         {% if p.content %}
-                                            <div>
+                                            <div class="proposal_content">
                                                 {{p.content|safe}}
                                             </div>
                                         {% endif %}
                                     </li>
                                 {% endfor %}
                             </ul>
-                        {% else %}
-                            <p>
-                                <b>{% trans "No Decided Proposals" %}</b>
-                            </p>
                         {% endif %}
-                    {% endwith %}
+                        {% if a.rejected_proposals %}
+                            <h4 style="margin:0; background: #eee; padding: 2px">
+                                {% trans "Rejected Proposals" %}
+                            </h4>
+                            <ul>
+                                {% for n in a.rejected_proposals.all %}
+                                    <li style="padding:2px 0">
+                                        <a href="{{base_url}}{{n.get_absolute_url}}">
+                                            {{n.title}}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% else %}
+                        <p>
+                            <b>{% trans "No Accepted Proposals" %}</b>
+                        </p>
 
+                    {% endif %}
                 </article>
-
+    
             {% endfor %}
-
+    
         </div>
     </div>
 
 </div>
+
+<style>
+    .proposal_content p, .issue_attachments p { margin: 0.2em 0;}
+    .issue_attachments ul {
+        margin: 4px 0;
+        list-style-type: none;
+    }
+    .file_ext {
+        padding-right: 30px;
+        background-size: 22px 20px;
+        background-position: right;
+        background-repeat: no-repeat;
+    }
+    
+</style>

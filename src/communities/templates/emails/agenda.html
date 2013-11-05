@@ -91,7 +91,10 @@
                                     {% for p in i.active_proposals.all %}
                                         <li style="padding:2px 0">
 	                                        <a href="{{base_url}}{{p.get_absolute_url}}">
-	                                            {% if p.type != 3 %}{{ p.get_type_display}}: {% endif %}{{p.title}}
+                                                {% if p.type != 3 %}
+                                                    {{ p.get_type_display }}:
+                                                {% endif %}
+	                                             {{p.title}}
 	                                        </a>
 	                                        {% if p.assigned_to %}
 	                                            &nbsp;
@@ -102,7 +105,7 @@
 	                                            <b>{% trans "Due by" %}</b>: {{p.due_by}}
 	                                        {% endif %}
 	                                        {% if p.content %}
-	                                            <div>
+	                                            <div class="proposal_content">
 	                                                {{p.content|safe}}
 	                                            </div>
 	                                        {% endif %}
@@ -124,3 +127,7 @@
 {% endblock %}
 
 </div>
+
+<style>
+    .proposal_content p { margin: 0.2em 0;}
+</style>

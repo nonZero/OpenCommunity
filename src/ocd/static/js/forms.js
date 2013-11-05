@@ -13,35 +13,20 @@ $(function() {
         $('#modal-form').modal({
             remote : url
         }).one('hidden.bs.modal', function() {
-            $(this).find('.htmlarea textarea').each(function() {
-                //$(this).tinymce().remove();
-            });
             $(this).removeData('bs.modal').empty();
         });
 
-
         return false;
     });
-});
 
-// function wysiwygize(x) {
-// 
-    // x.tinymce({
-        // script_url : tmce_url,
-        // directionality : 'rtl',
-        // language : 'he_IL',
-        // menubar : false,
-        // toolbar_items_size : 'small',
-        // content_css : "/static/m/tinymce.css",
-        // toolbar : "numlist bullist | alignjustify alignright aligncenter alignleft | underline italic bold",
-    // });
-// }
+});
 
 function initForm(modal) {
 
     var url = modal.data('bs.modal').options.remote;
 
     var form = modal.find('form');
+    form.find('.htmlarea textarea').wysihtml5({locale: "he-IL"});
 
     form.ajaxForm({
 
@@ -49,6 +34,10 @@ function initForm(modal) {
 
         beforeSubmit : function() {
             form.find('input[type="submit"]').prop('disabled', true);
+            if (form.find('input[type="file"]').length > 0) {
+                $('input#id_file').parent().find('span.loader').remove();
+                $('input#id_file').parent().append($('span.loader:first').clone().show());
+            }
         },
 
         success : function(resp) {
@@ -75,14 +64,3 @@ function initForm(modal) {
     });
 
 }
-
-//
-// $.fn["html5inputs"] = function() {
-// return this.each(function() {
-// $(this).find('.dateinput').attr('type','date');
-// $(this).find('.timeinput').attr('type','time');
-// $(this).find('.datetimeinput').attr('type','datetime-local');
-// $(this).find('.crequired input,.crequired select,.crequired textarea').attr('required','required');
-// });
-// };
-

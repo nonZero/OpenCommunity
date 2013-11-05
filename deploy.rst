@@ -24,6 +24,8 @@ For best luck, uncomment the following line in `/etc/nginx/nginx.conf`::
 
     server_names_hash_bucket_size 64;
 
+In the same file(/etc/nginx/nginx.conf) add the following line inside the server definition:
+client_max_body_size 20M;
 
 Le'ts install a send-only mail server as well::
 

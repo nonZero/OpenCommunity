@@ -9,8 +9,8 @@
 			<!-- <span class="dnp glyphicon glyphicon-stop"></span><span> {% trans "DNP" %}: {{z}}</span>
 			<br> -->
 			<div class="chart_divider"></div>
-			<span>{% trans "Voted" %}: {{x|add:y}} ({% widthratio x|add:y x|add:y|add:z 100 %}%)</span>
-			<span>{% trans "Out of" %}: {{x|add:y|add:z}}</span>
+			<span>{% trans "Voted" %}: {{x|add:y}} ({% widthratio x|add:y x|add:y|add:z 100 %}%)</span><br>
+			<span>{% trans "Out of" %}: {{x|add:y|add:z}} {% trans "members" %}</span>
 		</p>
 	</div>
 	<div class="col-xs-6">
