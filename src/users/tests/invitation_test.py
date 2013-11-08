@@ -1,4 +1,3 @@
-from communities.models import  SendToOption
 from django.core import mail
 from django.test import TestCase
 from users.default_roles import DefaultGroups
@@ -6,7 +5,6 @@ from users.models import Invitation, Membership, OCUser
 from communities.tests.common import createSampleCommunity
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext  as _
-from django.test.utils import override_settings
 
 class InvitationTest(TestCase):
     def setUp(self):
@@ -23,8 +21,15 @@ class InvitationTest(TestCase):
 
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn(self.community.name, mail.outbox[0].subject)  
+        self.assertIn(i.get_absolute_url(),mail.outbox[0].body)
        
 class InvitationViewTest(TestCase):
+    
+    def setUp(self):        
+        (self.community,self.members,self.chairmen) = createSampleCommunity()
+        
+    def tearDown(self):
+        mail.outbox = []    
 
     def post_invite(self,data= None):
         if not data:
@@ -36,13 +41,7 @@ class InvitationViewTest(TestCase):
                           data)
     def login_chairmen(self):
         self.client.login(username=self.chairmen[0].email,password="password")
-    
-    def setUp(self):        
-        (self.community,self.members,self.chairmen) = createSampleCommunity()
-        
-    def tearDown(self):
-        mail.outbox = []    
-         
+                 
     def test_view(self):
         self.login_chairmen()
         response = self.post_invite({"email":"sample@email.com",
