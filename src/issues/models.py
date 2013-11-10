@@ -266,7 +266,7 @@ class ProposalVoteValue(object):
 class ProposalVote(models.Model):
     proposal = models.ForeignKey("Proposal", verbose_name=_("Proposal"))
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"))
-    value = models.PositiveIntegerField(choices=ProposalVoteValue.CHOICES, verbose_name=_("Vote"))
+    value = models.SmallIntegerField(choices=ProposalVoteValue.CHOICES, verbose_name=_("Vote"))
 
     class Meta:
         unique_together = (("proposal", "user"),)
