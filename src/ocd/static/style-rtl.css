@@ -57,6 +57,16 @@ p > a {
 	word-break: break-word;
 }
 
+/* Errors */
+
+ul.errorlist {
+	list-style-type: none;
+	padding: 0;
+}
+ul.errorlist li {
+	color: red;
+}
+
 /* Forms */
 
 .modal-content {
@@ -76,7 +86,7 @@ p > a {
 #upcoming-meeting .field-send_to ul {
 	list-style-type: none;
 }
-.input-group input.form-control.issue-search {
+.form-group input.form-control.issue-search {
 	border-radius: 15px;
 	padding-left: 40px;
 	background-image: url('images/search.png');
@@ -84,6 +94,18 @@ p > a {
 	background-position: 10px;
 	font-size: 18px;
 }
+.field-upcoming_meeting_participants ul {
+	list-style-type: none;
+}
+.field-upcoming_meeting_participants p.help-block {
+	display: none;
+}
+#upcoming-meeting .modal-content .field-held_at #id_held_at_0,
+#upcoming-meeting .modal-content .field-held_at #id_held_at_1 {
+	width: 45%;
+	display: inline-block;
+}
+
 /* General buttons */
 
 .btn-oc,
@@ -150,6 +172,9 @@ p > a {
 }
 .delete-comment button {
 	background: url(images/comment_delete_trash.png) no-repeat center;
+}
+.delete-comment .undelete-btn button {
+	background: url(images/comment_undelete.png) no-repeat center;
 }
 .cancel-edit-comment button {
 	background: url(images/comment_delete_action.png) no-repeat center;
@@ -297,6 +322,12 @@ p.user_nav {
 }
 #available .icon-plus-minus {
 	background: url('images/plus_action.png') no-repeat 50% 50%;
+}
+.tick {
+	background: url('images/tick.png') no-repeat 50% 50%;
+}
+.cog {
+	background: url('images/cog.png') no-repeat 50% 50%;
 }
 .agenda_plus_minus {
 	position: absolute;
@@ -750,10 +781,10 @@ form.delete-invitation {
 }
 .pdf {background-image: url('images/icons/pdf.png');}
 .txt {background-image: url('images/icons/simple-text.png');}
-.docx {background-image: url('images/icons/word.png');}
-.xls {background-image: url('images/icons/excel.png');}
-.jpg {background-image: url('images/icons/jpeg.png');}
-.pptx {background-image: url('images/icons/ppt.png');}
+.doc {background-image: url('images/icons/word.png');}
+.xl {background-image: url('images/icons/excel.png');}
+.img {background-image: url('images/icons/jpeg.png');}
+.ppt {background-image: url('images/icons/ppt.png');}
 .vid {background-image: url('images/icons/video.png');}
 .snd {background-image: url('images/icons/audio.png');}
 

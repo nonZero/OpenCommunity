@@ -21,13 +21,13 @@ id="proposal-detail"
     </a>
 {% endif %}
 {% endif %}
-{% if object.is_task and cperms.issues.edittask_proposal %}
+<!-- {% if object.is_task and cperms.issues.edittask_proposal %}
 {% if cperms.issues.editclosed_proposal or object.is_open %}
 <a class="btn btn-oc" href="{{object.get_edit_task_url}}" data-rel="form">
-    <span class="glyphicon glyphicon-repeat"> <span>{% trans "Reassign task" %}</span></span>
+    <i class="fa fa-undo"></i> <span>{% trans "Reassign task" %}</span>
 </a>
 {% endif %}
-{% endif %}
+{% endif %} -->
 {% endblock %}
 
 {% block content %}

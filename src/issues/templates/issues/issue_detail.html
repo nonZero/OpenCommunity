@@ -79,7 +79,7 @@ id="issue-detail"
 
                 <div class="issue_attachments">
 
-                    <h4>{% trans "Attachments" %}</h4>
+                    <!-- <h4>{% trans "Attachments" %}</h4> -->
 
                     <ul>
                         {% for att in object.attachments.all %}
@@ -113,6 +113,7 @@ id="issue-detail"
                 <h2>{% trans "Proposals" %}</h2>
                 {% for proposal in object.proposals.open %}                
                     {% include 'issues/_proposal.html' %}
+                    {% include 'issues/_piechart.html' %}
                 {% endfor %}
             {% endif %}
 </div>

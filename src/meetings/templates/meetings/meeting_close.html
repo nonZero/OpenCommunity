@@ -20,3 +20,10 @@
     {% endwith %}
 
 {% endblock %}
+
+{% block nofooter %}
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Cancel" %}</button>
+    <input type="submit" class="btn btn-oc" value="{% trans "Close meeting" %}">
+</div>
+{% endblock %}

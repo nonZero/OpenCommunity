@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-05 09:55+0200\n"
+"POT-Creation-Date: 2013-11-05 13:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -114,7 +114,7 @@ msgstr "קהילה"
 msgid "Communities"
 msgstr "קהילות"
 
-#: .\models.py:132
+#: .\models.py:128
 msgid "Board"
 msgstr "ועד"
 
@@ -209,7 +209,7 @@ msgid "Create Issue"
 msgstr "צור נושא"
 
 #: .\templates\communities\upcoming.html.py:27
-#: .\templates\communities\upcoming.html.py:123
+#: .\templates\communities\upcoming.html.py:118
 #: .\templates\communities\upcoming_form.html.py:5
 msgid "Edit"
 msgstr "עריכה"
@@ -251,26 +251,25 @@ msgstr "טרם נקבע"
 msgid "Scheduled at"
 msgstr "מועד"
 
-#: .\templates\communities\upcoming.html.py:106
+#: .\templates\communities\upcoming.html.py:101
 msgid "Agenda items"
 msgstr "נושאים לסדר היום"
 
-#: .\templates\communities\upcoming.html.py:120
+#: .\templates\communities\upcoming.html.py:115
 #: .\templates\emails\protocol.html.py:3 .\templates\emails\protocol.txt.py:1
 #: .\templates\emails\protocol_title.txt.py:1
 msgid "Summary"
 msgstr "סיכום הפגישה"
 
-#: .\templates\communities\upcoming.html.py:135
+#: .\templates\communities\upcoming.html.py:130
 msgid "Close Meeting"
 msgstr "סגור פגישה"
 
-#: .\templates\communities\upcoming.html.py:145
-#: .\templates\communities\upcoming.html.py:149
+#: .\templates\communities\upcoming.html.py:138
 msgid "Available Issues"
 msgstr "נושאים נוספים"
 
-#: .\templates\communities\upcoming.html.py:164
+#: .\templates\communities\upcoming.html.py:152
 msgid "Agenda not yet published"
 msgstr "טרם פורסם סדר היום לפגישה הקרובה"
 
@@ -301,25 +300,25 @@ msgstr "סיכום הדיון"
 msgid "Related files"
 msgstr "קבצים קשורים"
 
-#: .\templates\emails\_protocol.html.py:110
+#: .\templates\emails\_protocol.html.py:109
 msgid "Accepted Proposals"
 msgstr "החלטות שהתקבלו"
 
-#: .\templates\emails\_protocol.html.py:127
-#: .\templates\emails\agenda.html.py:105
+#: .\templates\emails\_protocol.html.py:122
+#: .\templates\emails\agenda.html.py:101
 msgid "Assigned to"
 msgstr "אחראי"
 
-#: .\templates\emails\_protocol.html.py:131
-#: .\templates\emails\agenda.html.py:109
+#: .\templates\emails\_protocol.html.py:126
+#: .\templates\emails\agenda.html.py:105
 msgid "Due by"
 msgstr "יעד"
 
-#: .\templates\emails\_protocol.html.py:144
+#: .\templates\emails\_protocol.html.py:139
 msgid "Rejected Proposals"
 msgstr "הצעות החלטה שנדחו"
 
-#: .\templates\emails\_protocol.html.py:158
+#: .\templates\emails\_protocol.html.py:153
 msgid "No Accepted Proposals"
 msgstr "לא התקבלו החלטות"
 

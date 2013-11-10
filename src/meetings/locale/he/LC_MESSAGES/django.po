@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-05 10:34+0200\n"
+"POT-Creation-Date: 2013-11-05 13:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Send to"
 msgstr "שלח אל"
 
-#: .\models.py:11 .\models.py:72 .\models.py:101 .\models.py:126
+#: .\models.py:11 .\models.py:72 .\models.py:97 .\models.py:122
 msgid "Meeting"
 msgstr "פגישה"
 
@@ -78,9 +78,7 @@ msgstr "מקום"
 msgid "Comments"
 msgstr "הערות"
 
-#: .\models.py:59 .\templates\meetings\meeting_detail.html.py:25
-#: .\templates\meetings\meeting_detail.html.py:92
-#: .\templates\meetings\meeting_detail.html.py:110
+#: .\models.py:59 .\templates\meetings\meeting_detail.html.py:24
 msgid "Summary"
 msgstr "סיכום הפגישה"
 
@@ -88,7 +86,7 @@ msgstr "סיכום הפגישה"
 msgid "Agenda items"
 msgstr "סדר יום"
 
-#: .\models.py:65 .\templates\meetings\meeting_detail.html.py:200
+#: .\models.py:65 .\templates\meetings\meeting_detail.html.py:124
 msgid "Participants"
 msgstr "משתתפים"
 
@@ -100,32 +98,32 @@ msgstr "אורחים"
 msgid "Enter each guest in a separate line"
 msgstr "רשום כל אורח בשורה נפקדת"
 
-#: .\models.py:73 .\templates\meetings\meeting_detail.html.py:180
+#: .\models.py:73 .\templates\meetings\meeting_detail.html.py:104
 #: .\templates\meetings\meeting_list.html.py:9
 msgid "Meetings"
 msgstr "פגישות"
 
-#: .\models.py:107 .\models.py:127
+#: .\models.py:103 .\models.py:123
 msgid "Name"
 msgstr "שם"
 
-#: .\models.py:108
+#: .\models.py:104
 msgid "Group"
 msgstr "קבוצה"
 
-#: .\models.py:113
+#: .\models.py:109
 msgid "Meeting Participant"
 msgstr "משתתף בפגישה"
 
-#: .\models.py:114
+#: .\models.py:110
 msgid "Meeting Participants"
 msgstr "משתתפים בפגישה"
 
-#: .\models.py:130
+#: .\models.py:126
 msgid "Meeting External Participant"
 msgstr "משתתף חיצוני"
 
-#: .\models.py:131
+#: .\models.py:127
 msgid "Meeting External Participants"
 msgstr "משתתפים חיצוניים"
 
@@ -146,22 +144,21 @@ msgstr "בפגישה זו לא התקבלו החלטות"
 msgid "Meetings history"
 msgstr "הסטוריית ישיבות"
 
-#: .\templates\meetings\meeting_detail.html.py:72
-#: .\templates\meetings\meeting_detail.html.py:157
-msgid "Undecided"
-msgstr "הדיון לא הושלם"
-
-#: .\templates\meetings\meeting_detail.html.py:140
+#: .\templates\meetings\meeting_detail.html.py:69
 msgid "Assigned to"
 msgstr "אחראי"
 
-#: .\templates\meetings\meeting_detail.html.py:143
+#: .\templates\meetings\meeting_detail.html.py:72
 msgid "Due by"
 msgstr "יעד"
 
-#: .\templates\meetings\meeting_detail.html.py:156
+#: .\templates\meetings\meeting_detail.html.py:84
 msgid "Closed without descisions"
 msgstr "הדיון נסגר ללא החלטות"
+
+#: .\templates\meetings\meeting_detail.html.py:85
+msgid "Undecided"
+msgstr "הדיון לא הושלם"
 
 #: .\templates\meetings\meeting_form.html.py:5
 msgid "Communities"

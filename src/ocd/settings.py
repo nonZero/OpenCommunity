@@ -33,9 +33,6 @@ DATABASES = {
     }
 }
 
-if 'test' in sys.argv:
-    DATABASES['default'] = {'ENGINE': 'django.db.backends.sqlite3'}
-
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = []
@@ -60,6 +57,10 @@ USE_I18N = True
 # calendars according to the current locale.
 USE_L10N = True
 
+if 'test' in sys.argv:
+    DATABASES['default'] = {'ENGINE': 'django.db.backends.sqlite3'}
+    TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+    LANGUAGE_CODE ='en'
 LOCALE_PATHS = (
     ABSDIR('src/ocd/locale'),
 )
@@ -155,9 +156,9 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.humanize',
 
-    'django_nose',
     'floppyforms',
     'south',
+    'django_nose',
     'django_extensions',
     'debug_toolbar',
 

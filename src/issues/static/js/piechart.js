@@ -3,13 +3,13 @@
 $(function() {
 
 	var pieData = [{
-		value : 30,
-		color : "red"
-	}, {
-		value : 50,
+		value : Math.floor((Math.random() * 50) + 1),
 		color : "green"
 	}, {
-		value : 200,
+		value : Math.floor((Math.random() * 50) + 1),
+		color : "red"
+	}, {
+		value : Math.floor((Math.random() * 50) + 1),
 		color : "yellow"
 	}];
 
@@ -42,6 +42,5 @@ $(function() {
 		onAnimationComplete : null
 	};
 
-	var myPie = new Chart($("#proposalChart").get(0).getContext("2d")).Pie(pieData, actions);
-
-});
+	var myPie = new Chart($("#proposal"+ prop_id + "Chart").get(0).getContext("2d")).Pie(pieData, actions);
+}); 
