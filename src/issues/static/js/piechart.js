@@ -42,6 +42,6 @@ $(function() {
 		onAnimationComplete : null
 	};
 
-	var myPie = new Chart($("#proposalChart").get(0).getContext("2d")).Pie(pieData, actions);
+	// var myPie = new Chart($("#proposalChart").get(0).getContext("2d")).Pie(pieData, actions);
 
 });

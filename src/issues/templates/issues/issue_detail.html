@@ -96,9 +96,10 @@ id="issue-detail"
 <div class="issue_proposal">
             {% if object.proposals.closed %}
                 <h4>{% trans "Decisions" %}</h4>
-    <h2>{% trans "Past Proposals" %}</h2>
+                <h2>{% trans "Past Proposals" %}</h2>
                 {% for proposal in object.proposals.closed %}                
                     {% include 'issues/_proposal.html' %}
+                    {% include 'issues/_proposal_vote_results.html'%}
                 {% endfor %}
             {% endif %}
             
@@ -106,23 +107,9 @@ id="issue-detail"
                 <h2>{% trans "Proposals" %}</h2>
                 {% for proposal in object.proposals.open %}                
                     {% include 'issues/_proposal.html' %}
-                        <div class="row piechart">
-                                <div class="col-xs-6">
-                                    <p>
-                                        <span class="for glyphicon glyphicon-stop"></span><span> {% trans "For" %}: 50</span><br>
-                                        <span class="against glyphicon glyphicon-stop"></span><span> {% trans "Against" %}: 30</span><br>
-                                        <span class="dnp glyphicon glyphicon-stop"></span><span> {% trans "DNP" %}: 200</span><br>
-                                        <div class="chart_divider"></div>
-                                        <span class="glyphicon glyphicon-user"></span><span> 180/300 (60%)</span>
-                                    </p>
-                                </div>
-                                <div class="col-xs-6">
-                                    <span class="glyphicon glyphicon-circle-arrow-right" style="vertical-align: sub"></span>
-                                    {{ proposal.created_at|date:"SHORT_DATE_FORMAT" }}
-                                    <span class="glyphicon glyphicon-circle-arrow-left" style="vertical-align: sub"></span><br>
-                                    <canvas id="proposalChart" height="100px" width="100px"></canvas>
-                                </div>
-                            </div>
+                    {% if proposal.can_straw_vote and cperms.issues.vote %}
+                        {% include 'issues/_vote.html' %}
+                    {% endif %}
                 {% endfor %}
             {% endif %}
 </div>
@@ -180,5 +167,8 @@ id="issue-detail"
 {% block scripts %}
 <script src="{{STATIC_URL}}js/issue.js"></script>
 <script src="{{STATIC_URL}}js/Chart.js"></script>
+<script src="{{STATIC_URL}}js/proposal.js"></script>
 <script src="{{STATIC_URL}}js/piechart.js"></script>
+
+
 {% endblock %}

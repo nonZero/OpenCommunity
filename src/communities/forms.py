@@ -14,6 +14,7 @@ class EditUpcomingMeetingForm(forms.ModelForm):
                    'upcoming_meeting_title',
                    'upcoming_meeting_scheduled_at',
                    'upcoming_meeting_location',
+                   'voting_ends_at',
                    'upcoming_meeting_comments',
                    )
 
@@ -21,6 +22,7 @@ class EditUpcomingMeetingForm(forms.ModelForm):
             'upcoming_meeting_title': forms.TextInput,
             'upcoming_meeting_scheduled_at': DateTimeLocalInput,
             'upcoming_meeting_location': forms.TextInput,
+            'voting_ends_at': DateTimeLocalInput,
             'upcoming_meeting_comments': HTMLArea,
         }
 

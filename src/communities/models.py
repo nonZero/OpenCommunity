@@ -38,7 +38,7 @@ class SendToOption(object):
                (ALL_MEMBERS, _("All Members")),
               )
 
-
+              
 class Community(UIDMixin):
 
     name = models.CharField(max_length=200, verbose_name=_("Name"))
@@ -89,7 +89,26 @@ class Community(UIDMixin):
                                          null=True, blank=True)
     board_name = models.CharField(_("Board Name"), max_length=200,
                                   null=True, blank=True)
- 
+                                  
+    straw_voting_enabled = models.BooleanField(_("Straw voting enabled"),
+                                        default=False)
+
+    voting_ends_at = models.DateTimeField(_("Voting ends at"),
+                                null=True, blank=True)
+
+    referendum_started = models.BooleanField(_("Referendum started"),
+                                            default=False)
+
+    referendum_started_at = models.DateTimeField(_("Referendum started at"),
+                                    null=True, blank=True)
+
+    referendum_ends_at = models.DateTimeField(_("Referendum ends at"),
+                                    null=True, blank=True)
+                                    
+    default_quorum = models.PositiveSmallIntegerField(_("Default quorum"),
+                                    null=True, blank=True)
+
+
     class Meta:
         verbose_name = _("Community")
         verbose_name_plural = _("Communities")

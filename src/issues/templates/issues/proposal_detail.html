@@ -1,6 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
-{% load humanize %}
+{% load i18n humanize %}
 
 {% block extra-page-id %}
 id="proposal-detail"
@@ -97,6 +96,13 @@ id="proposal-detail"
     </div>
     {% endif %}
 
+    {% if object.can_straw_vote and cperms.issues.vote %}
+        {% with proposal=object %}
+        {% include 'issues/_vote.html' %}
+        {% endwith %}
+    {% endif %}
+
+    
     {% if object.can_vote and cperms.issues.acceptopen_proposal %}
     <form id="proposal-form" method="post">
         {% csrf_token %}

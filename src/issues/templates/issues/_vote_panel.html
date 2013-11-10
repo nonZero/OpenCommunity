@@ -1,0 +1,13 @@
+{% load i18n  %}
+<div class="narrow vote-btns text-center">
+    <a class="btn btn-primary btn-lg vote-action"
+        href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}"
+        id="vote-pro">
+        {% trans "Pro" %}
+    </a>
+    <a class="btn btn-primary btn-lg vote-action"
+       href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}"
+       id="vote-con">
+        {% trans "Con" %}
+    </a>
+</div>

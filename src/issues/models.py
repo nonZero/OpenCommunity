@@ -6,9 +6,12 @@ from django.utils.text import get_valid_filename
 from django.utils.translation import ugettext, ugettext_lazy as _
 from ocd.base_models import HTMLField, UIDMixin, UIDManager
 from ocd.validation import enhance_html
-
-import os.path
 from ocd.storages import uploads_storage
+
+from datetime import datetime, timedelta
+import os.path
+
+
 
 
 class IssueStatus(object):
@@ -270,6 +273,7 @@ class ProposalVote(models.Model):
         verbose_name = _("Proposal Vote")
         verbose_name_plural = _("Proposal Votes")
 
+
     def __unicode__(self):
         return "%s - %s" % (self.proposal.issue.title, self.user.display_name)
 
@@ -284,8 +288,7 @@ class ProposalType(object):
                 (RULE, ugettext("Rule")),
                 (ADMIN, ugettext("General")),
                )
-
-
+     
 class ProposalManager(UIDManager):
 
     def active(self):
@@ -365,6 +368,17 @@ class Proposal(UIDMixin):
         return self.is_open and self.issue.is_upcoming and \
                    self.issue.community.upcoming_meeting_started
 
+    @property
+    def can_straw_vote(self):
+        
+        diff = self.issue.community.voting_ends_at - timezone.now()
+        return self.issue.community.straw_voting_enabled and \
+               self.issue.is_upcoming and \
+               self.issue.community.upcoming_meeting_is_published and \
+               self.status == ProposalStatus.IN_DISCUSSION and \
+               diff.total_seconds() > 0 
+
+        
     def is_task(self):
         return self.type == ProposalType.TASK
 
@@ -394,4 +408,13 @@ class Proposal(UIDMixin):
         if self.status == self.statuses.REJECTED:
             return "rejected"
         return ""
-        return ""
+   
+
+class VoteResult(models.Model):
+    proposal = models.ForeignKey(Proposal, related_name="results",
+                                 verbose_name=_("Proposal"))
+    meeting = models.ForeignKey('meetings.Meeting', verbose_name=_("Meeting"))
+    votes_pro = models.PositiveIntegerField(_("Votes pro"))
+    votes_con = models.PositiveIntegerField(_("Votes con"))
+    community_members = models.PositiveIntegerField(_("Community members"))
+        

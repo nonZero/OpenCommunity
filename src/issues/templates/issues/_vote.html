@@ -1,0 +1,7 @@
+{% load voting_tags %}
+
+{% if not user|voted_on:proposal.id %}
+    {% include "issues/_vote_panel.html" %}
+{% else %}
+    {% include "issues/_vote_reset_panel.html" %}
+{% endif %}

@@ -94,6 +94,11 @@
                     {{object.upcoming_meeting_comments|safe}}
                 	{% endif %}</span>
                 </h5>
+                {% if object.straw_voting_enabled %}
+                    <h5>
+                        {% trans "Voting ends at" %}: <span>{{ object.voting_ends_at|default:_("Not set yet") }}</span>
+                    </h5>
+                {% endif %} 
             </div>
             
             <div id="agenda-container" class="agenda-list">
