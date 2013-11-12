@@ -4,7 +4,7 @@ from django.db.models.query_utils import Q
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from issues.models import ProposalStatus, IssueStatus
+from issues.models import ProposalStatus, IssueStatus, VoteResult
 from meetings.models import MeetingParticipant
 from ocd.base_models import HTMLField, UIDMixin
 from ocd.email import send_mails
@@ -201,12 +201,12 @@ class Community(UIDMixin):
             return
         
         un_summed_proposals = issues_models.Proposal.objects.filter(
-                        votes_pro=None,
+                        # votes_pro=None,
                         issue__status=IssueStatus.IN_UPCOMING_MEETING,
                         issue__community_id=self.id)
         if un_summed_proposals.count() == 0:
             return
-        member_count = community.get_members().count()
+        member_count = self.get_members().count()
         for prop in un_summed_proposals:
             prop.do_votes_summation(member_count)
 
@@ -237,6 +237,7 @@ class Community(UIDMixin):
             self.upcoming_meeting_is_published = False
             self.upcoming_meeting_published_at = None
             self.upcoming_meeting_guests = None
+            self.voting_ends_at = None
             self.save()
 
             for i, issue in enumerate(self.upcoming_issues()):
@@ -251,6 +252,15 @@ class Community(UIDMixin):
                     p.decided_at_meeting = m
                     p.save()
 
+                for p in issue.proposals.all():
+                    if p.votes_pro is not None:
+                        VoteResult.objects.create(
+                            proposal=p,
+                            meeting=m,
+                            votes_pro=p.votes_pro,
+                            votes_con=p.votes_con,
+                            community_members=p.community_members)
+                            
                 for c in issue.comments.filter(active=True, meeting=None):
                     c.meeting = m
                     c.save()
