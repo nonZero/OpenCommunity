@@ -20,44 +20,47 @@
     </head>
 
     <body {% block extra-page-id %}{% endblock %}>
-		{% include '_navbar.html' %}
-        <div class="container">
-            <div class="row">
-                {% if messages %}
-                <div class="col-xs-12">
-                <ul class="messages">
-                    {% for message in messages %}
-                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                            {{ message }}
-                        </li>
-                    {% endfor %}
-                </ul>
-               </div>
-                {% endif %}
-                <div class="col-xs-12">
-                    <h1 class="text-center">
-                        {% block page_header %}Page Title{% endblock %}
-                    </h1>
-                    <div class="btn-group btn-group-justified">
-                        {% block pagemenu %}{% endblock %}
+        <div class="notmodal">
+            {% include '_navbar.html' %}
+            <div class="container">
+                <div class="row">
+                    {% if messages %}
+                    <div class="col-xs-12">
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                                {{ message }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                   </div>
+                    {% endif %}
+                    <div class="col-xs-12">
+                        <h1 class="text-center">
+                            {% block page_header %}Page Title{% endblock %}
+                        </h1>
+                        <div class="btn-group btn-group-justified">
+                            {% block pagemenu %}{% endblock %}
+                        </div>
+                        {% block content %}
+                        {% endblock %}
                     </div>
-                    {% block content %}
-                    {% endblock %}
                 </div>
             </div>
-		</div>
+    
             <div data-role="popup" id="popup" data-dismissible="true" style="display:none">
                 <div data-role="header" data-theme="a" class="ui-bar-a ui-corner-top ui-header">
                     <h3>{% trans "Attention" %}</h3>
                 </div>
                 <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
-
+    
                     <div id="popup-content"></div>
-
+    
                     <a href="#" data-role="button" data-rel="back"
                     data-theme="c">{% trans "Close" %}</a>
                 </div>
             </div>
+        </div>
 
         <div class="modal" id="modal-form">
         </div>
@@ -73,7 +76,7 @@
         <script src="{{STATIC_URL}}bootstrap-wysihtml5/wysihtml5-0.4.0pre.js"></script>
         <script src="{{STATIC_URL}}bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
         {% if LANGUAGE_CODE == 'he' %}
-        	<script src="{{STATIC_URL}}bootstrap-wysihtml5/locales/bootstrap-wysihtml5.he-IL.js"></script>
+            <script src="{{STATIC_URL}}bootstrap-wysihtml5/locales/bootstrap-wysihtml5.he-IL.js"></script>
         {% endif %}
         {% block scripts %}
 

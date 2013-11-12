@@ -982,3 +982,22 @@ i.fa + span {
 @media (min-width: 1200px) {
 
 }
+
+@media (max-width: 767px) {
+    .ios-chrome.modal-open {
+        margin: 0;
+    }
+    .ios-chrome.modal-open .notmodal {
+        display:none;
+    }
+    .ios-chrome .modal {
+        position:inherit;
+        padding: 0;
+    }
+    .ios-chrome .modal-dialog {
+        padding: 0;
+    }
+    .ios-chrome .modal-backdrop {
+        display:none;
+    }
+}
