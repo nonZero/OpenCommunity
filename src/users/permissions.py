@@ -40,7 +40,7 @@ def has_community_perm(user, community, perm):
 
     if user.is_active and user.is_superuser:
         return True
-
+  
     return perm in get_community_permissions(user, community)
 
 

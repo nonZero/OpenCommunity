@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-10 22:33+0200\n"
+"POT-Creation-Date: 2013-11-12 23:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\forms.py:16
+#: .\forms.py:17
 msgid "Send to"
 msgstr "שלח אל"
 
@@ -143,7 +143,7 @@ msgstr "בפגישה זו לא התקבלו החלטות"
 
 #: .\templates\meetings\meeting_close.html.py:26
 msgid "Cancel"
-msgstr ""
+msgstr "ביטול"
 
 #: .\templates\meetings\meeting_detail.html.py:11
 msgid "Meetings history"

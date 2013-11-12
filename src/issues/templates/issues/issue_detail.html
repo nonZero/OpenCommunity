@@ -99,6 +99,7 @@ id="issue-detail"
         </div>
     {% endif %}
 
+{% with can_straw_vote=object.can_straw_vote %}
 {% if object.proposals.active.count %}
 <div class="issue_proposal">
             {% if object.proposals.closed %}
@@ -114,7 +115,7 @@ id="issue-detail"
                 	<a href="{{proposal.get_absolute_url}}">                
                     {% include 'issues/_proposal.html' %}
                     </a>
-                    {% if proposal.can_straw_vote and cperms.issues.vote %}
+                    {% if can_straw_vote and not proposal.decided and cperms.issues.vote %}
                     <div class="issue_proposal_vote">
                     	{% include 'issues/_vote.html' %}
                 	</div>
@@ -126,6 +127,7 @@ id="issue-detail"
             {% endif %}
 </div>
 {% endif %}
+{% endwith %}
 
 {% if cperms.issues.add_proposal and not object.is_archived %}
 <div class="narrow clear">

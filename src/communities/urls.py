@@ -25,6 +25,9 @@ urlpatterns = patterns('',
         views.EditUpcomingMeetingParticipantsView.as_view(),
         name="upcoming_edit_participants"),
 
+    # FOR TESTING ONLY!
+    url(r'^upcoming/sum_votes/$', views.sum_votes, name="sum_votes"),
+        
     url(r'^protocol-preview/$',
         views.ProtocolDraftPreviewView.as_view(),
         name='preview_ongoing_protocol'),

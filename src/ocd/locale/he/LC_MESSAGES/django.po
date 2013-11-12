@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-10 22:33+0200\n"
+"POT-Creation-Date: 2013-11-12 23:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: .\base_models.py:12
 msgid "HTML content"
-msgstr ""
+msgstr "תוכן HTML"
 
 #: .\templates\404.html.py:6
 msgid "Page not found"
@@ -35,17 +35,17 @@ msgstr "קהילה פתוחה"
 msgid "Login"
 msgstr "כניסה"
 
-#: .\templates\base.html.py:51
+#: .\templates\base.html.py:53
 msgid "Attention"
 msgstr "שים לב"
 
-#: .\templates\base.html.py:58 .\templates\dialog.html.py:22
+#: .\templates\base.html.py:60 .\templates\dialog.html.py:22
 msgid "Close"
 msgstr "סגור"
 
 #: .\templates\dialog.html.py:23
 msgid "Save"
-msgstr ""
+msgstr "שמור"
 
 #: .\templates\admin\base_site.html.py:5
 msgid "Open Community admin"

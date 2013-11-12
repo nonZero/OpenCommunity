@@ -15,7 +15,6 @@ from oc_util.templatetags.opencommunity import minutes
 from ocd.base_views import CommunityMixin, AjaxFormView, json_response
 from ocd.validation import enhance_html
 import mimetypes
-import random
 
 
 class IssueMixin(CommunityMixin):
@@ -47,9 +46,6 @@ class IssueDetailView(IssueMixin, DetailView):
         d = super(IssueDetailView, self).get_context_data(**kwargs)
         d['form'] = forms.CreateIssueCommentForm()
         d['proposal_form'] = forms.CreateProposalForm()
-#         d['x'] = random.randint(1, 50)
-#         d['y'] = random.randint(1, 50)
-#         d['z'] = random.randint(1, 50)
         return d
 
     required_permission_for_post = 'issues.add_issuecomment'
@@ -359,7 +355,6 @@ class ProposalDeleteView(AjaxFormView, ProposalMixin, DeleteView):
         o.save()
         return HttpResponse("-")
 
-
 class ProposalVoteView(ProposalMixin, View):
     
     required_permission_for_post = 'issues.vote'
@@ -392,7 +387,6 @@ class ProposalVoteView(ProposalMixin, View):
                 'html': render_to_string('issues/_vote_panel.html',
                                          {
                                              'proposal': proposal,
-                                             'community': self.community,
                                          })
             })
             
