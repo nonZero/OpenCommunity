@@ -194,6 +194,24 @@ class Community(UIDMixin):
 
         return len(recipient_list)
 
+        
+    def sum_vote_results(self, only_when_over=True):
+        time_till_close = self.voting_ends_at - timezone.now()
+        if only_when_over and time_till_close.total_seconds() > 0:
+            return
+        
+        un_summed_proposals = issues_models.Proposal.objects.filter(
+                        votes_pro=None,
+                        issue__status=IssueStatus.IN_UPCOMING_MEETING,
+                        issue__community_id=self.id)
+        if un_summed_proposals.count() == 0:
+            return
+        member_count = community.get_members().count()
+        for prop in un_summed_proposals:
+            prop.do_votes_summation(member_count)
+
+
+            
     def close_meeting(self, m, user):
 
         with transaction.commit_on_success():

@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models, transaction
+from django.db.models import Sum
 from django.utils import timezone
 from django.utils.text import get_valid_filename
 
@@ -110,7 +111,16 @@ class Issue(UIDMixin):
     def is_archived(self):
         return self.status == IssueStatus.ARCHIVED
 
+    @property
+    def can_straw_vote(self):
+        time_till_close = self.community.voting_ends_at - timezone.now()
+        return self.community.straw_voting_enabled and \
+               self.is_upcoming and \
+               self.community.upcoming_meeting_is_published and \
+               self.proposals.open().count() > 0 and \
+               time_till_close.total_seconds() > 0
 
+        
 class IssueComment(UIDMixin):
     issue = models.ForeignKey(Issue, related_name="comments")
     active = models.BooleanField(default=True)
@@ -346,7 +356,10 @@ class Proposal(UIDMixin):
                                    verbose_name=_("Votes"), blank=True,
                                    related_name="proposals",
                                    through="ProposalVote")
-
+    votes_pro = models.PositiveIntegerField(_("Votes pro"), null=True, blank=True)
+    votes_con = models.PositiveIntegerField(_("Votes con"), null=True, blank=True)
+    community_members = models.PositiveIntegerField(_("Community members"),
+                                                    null=True, blank=True)
     objects = ProposalManager()
 
     class Meta:
@@ -361,22 +374,34 @@ class Proposal(UIDMixin):
         return self.decided_at_meeting is None
 
     @property
+    def decided(self):
+        return self.status != ProposalStatus.IN_DISCUSSION
+        
+    @property
     def can_vote(self):
         """ Returns True if the proposal, issue and meeting are open """
-        print "xyz", self.id, self.is_open, self.issue.is_upcoming, \
-                   self.issue.community.upcoming_meeting_started
         return self.is_open and self.issue.is_upcoming and \
                    self.issue.community.upcoming_meeting_started
 
     @property
     def can_straw_vote(self):
-        
-        diff = self.issue.community.voting_ends_at - timezone.now()
-        return self.issue.community.straw_voting_enabled and \
-               self.issue.is_upcoming and \
-               self.issue.community.upcoming_meeting_is_published and \
-               self.status == ProposalStatus.IN_DISCUSSION and \
-               diff.total_seconds() > 0 
+        return self.status == ProposalStatus.IN_DISCUSSION and \
+               self.issue.can_straw_vote
+
+
+    def do_votes_summation(self, members_count):
+        pro = 0
+        con = 0
+        for v in ProposalVote.objects.filter(proposal=self):
+            if v.value == ProposalVoteValue.PRO:
+                pro += 1
+            elif v.value == ProposalVoteValue.CON:
+                con += 1
+
+        self.votes_pro = pro
+        self.votes_con = con
+        self.community_members = members_count
+        self.save()
 
         
     def is_task(self):
@@ -417,4 +442,6 @@ class VoteResult(models.Model):
     votes_pro = models.PositiveIntegerField(_("Votes pro"))
     votes_con = models.PositiveIntegerField(_("Votes con"))
     community_members = models.PositiveIntegerField(_("Community members"))
-        
+
+    class Meta:
+        unique_together = (('proposal', 'meeting'),)

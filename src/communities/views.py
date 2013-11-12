@@ -190,3 +190,9 @@ class ProtocolDraftPreviewView(CommunityModelMixin, DetailView):
     required_permission = 'meetings.add_meeting'
 
     template_name = "emails/protocol_draft.html"
+
+    
+def sum_votes(request, pk):
+    c = models.Community.objects.get(pk=pk)
+    c.sum_vote_results(only_when_over=False)
+    return HttpResponse('-')

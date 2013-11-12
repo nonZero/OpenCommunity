@@ -1,6 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
-{% load humanize %}
+{% load i18n humanize %}
 
 {% block extra-page-id %}
 id="issue-detail"
@@ -92,6 +91,8 @@ id="issue-detail"
     {% endif %}
 </div>
     {% endif %}
+
+{% with can_straw_vote=object.can_straw_vote %}
 {% if object.proposals.active.count %}
 <div class="issue_proposal">
             {% if object.proposals.closed %}
@@ -107,13 +108,14 @@ id="issue-detail"
                 <h2>{% trans "Proposals" %}</h2>
                 {% for proposal in object.proposals.open %}                
                     {% include 'issues/_proposal.html' %}
-                    {% if proposal.can_straw_vote and cperms.issues.vote %}
+                    {% if can_straw_vote and not proposal.decided and cperms.issues.vote %}
                         {% include 'issues/_vote.html' %}
                     {% endif %}
                 {% endfor %}
             {% endif %}
 </div>
 {% endif %}
+{% endwith %}
 
 {% if cperms.issues.add_proposal and not object.is_archived %}
 <div class="narrow clear">

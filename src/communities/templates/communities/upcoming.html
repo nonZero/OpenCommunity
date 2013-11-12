@@ -57,6 +57,10 @@
     </a>
 {% endif %}
 
+{% if user.is_superuser and object.straw_voting_enabled %}
+    <a class="btn btn-oc" id="summation"
+        href="{% url "sum_votes" community.id  %}">סגור הצבעה</a>
+{% endif %}
 {% endblock %}
 
 
