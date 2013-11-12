@@ -102,7 +102,7 @@ class Issue(UIDMixin):
                               ])
         return decided_at_current or self.new_comments()
 
-        
+
     @property
     def is_archived(self):
         return self.status == IssueStatus.ARCHIVED
@@ -124,7 +124,7 @@ class IssueComment(UIDMixin):
     last_edited_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_("Last Edited at"))
     last_edited_by = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                   verbose_name=_("Created by"),
+                                   verbose_name=_("Last edited by"),
                                    related_name="issue_comments_last_edited",
                                    null=True, blank=True)
     content = HTMLField(verbose_name=_("Comment"))
