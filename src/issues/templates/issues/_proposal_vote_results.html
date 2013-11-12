@@ -2,13 +2,13 @@
 <div class="row piechart">
 	<div class="col-xs-6">
 		<p>
-			<span class="for glyphicon glyphicon-stop"></span><span> <span>{% trans "For" %}</span>: {{ res.pro }}</span>
+			<span class="for glyphicon glyphicon-stop"></span><span> <span>{% trans "For" %}</span>: {{ proposal.votes_pro|default_if_none:0 }}</span>
 			<br>
-			<span class="against glyphicon glyphicon-stop"></span><span> <span>{% trans "Against" %}</span>: {{ res.con }}</span>
+			<span class="against glyphicon glyphicon-stop"></span><span> <span>{% trans "Against" %}</span>: {{ proposal.votes_con|default_if_none:0 }}</span>
 			<br>
 			<div class="chart_divider"></div>
-			<span>{% trans "Voted" %}: {{res.pro|add:res.con}} ({{ res.percentage }} %)</span><br>
-			<span>{% trans "Out of" %}: {{res.total}} {% trans "members" %}</span>
+			<span>{% trans "Voted" %}: {{ proposal.votes_pro|default_if_none:0|add:proposal.votes_con|default_if_none:0 }} (Some %)</span><br>
+			<span>{% trans "Out of" %}: {{ proposal.community_members|default_if_none:0 }} {% trans "members" %}</span>
 		</p>
 	</div>
 	<div class="col-xs-6 text-center">

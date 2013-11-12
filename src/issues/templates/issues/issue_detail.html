@@ -184,10 +184,8 @@ id="issue-detail"
 <script src="{{STATIC_URL}}js/proposal.js"></script>
 <script src="{{STATIC_URL}}js/_piechart.js"></script>
 {% for proposal in object.proposals.open %}
-{% with res=proposal.votes_summary %}
 <script>
-	createChart({{ res.pro }}, {{ res.con }}, {{ res.total }}, {{ proposal.id }});
+	createChart({{ proposal.votes_pro }}, {{ proposal.votes_con }}, {{ proposal.community_members }}, {{ proposal.id }});
 </script>
-{% endwith %}
 {% endfor %}
 {% endblock %}

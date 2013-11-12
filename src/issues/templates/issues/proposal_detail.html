@@ -134,9 +134,7 @@ id="proposal-detail"
 <script src="{{STATIC_URL}}js/proposal.js"></script>
 <script src="{{STATIC_URL}}js/Chart.js"></script>
 <script src="{{STATIC_URL}}js/_piechart.js"></script>
-{% with res=object.votes_summary %}
 <script>
-	createChart({{ res.pro }}, {{ res.con }}, {{ res.total }}, {{ proposal.id }});
+	createChart({{ proposal.votes_pro }}, {{ proposal.votes_con }}, {{ proposal.community_members }}, {{ proposal.id }});
 </script>
-{% endwith %}
 {% endblock %}

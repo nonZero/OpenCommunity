@@ -936,11 +936,30 @@ i.fa + span {
 }
 
 /* Responsive */
+
+/* Extra small devices (smartphone, up to 767px) */
 @media (max-width: 767px) {
 	.modal-dialog {
 		padding: 0;
 	}
+    .ios-chrome.modal-open {
+        margin: 0;
+    }
+    .ios-chrome.modal-open .notmodal {
+        display:none;
+    }
+    .ios-chrome .modal {
+        position:inherit;
+        padding: 0;
+    }
+    .ios-chrome .modal-dialog {
+        padding: 0;
+    }
+    .ios-chrome .modal-backdrop {
+        display:none;
+    }
 }
+
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {
 	p.user_nav {
@@ -981,23 +1000,4 @@ i.fa + span {
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
 
-}
-
-@media (max-width: 767px) {
-    .ios-chrome.modal-open {
-        margin: 0;
-    }
-    .ios-chrome.modal-open .notmodal {
-        display:none;
-    }
-    .ios-chrome .modal {
-        position:inherit;
-        padding: 0;
-    }
-    .ios-chrome .modal-dialog {
-        padding: 0;
-    }
-    .ios-chrome .modal-backdrop {
-        display:none;
-    }
 }
