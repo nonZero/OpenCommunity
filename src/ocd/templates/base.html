@@ -59,22 +59,13 @@
                 </div>
             </div>
 
-        <div class="modal fade" id="modal-form">
+        <div class="modal" id="modal-form">
         </div>
 
         {% block dialogs %}
         {% endblock %}
 
         <script src="{{ STATIC_URL }}jquery-1.9.1.min.js"></script>
-        <script>
-        	$(function() {
-	        	$('.btn-group-justified a').tooltip({
-					html : 'true',
-					placement : 'top',
-					container: 'body'
-				});
-			});
-        </script>
         <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
         <script src="{{ STATIC_URL }}js/csrf.js"></script>
         <script src="{{ STATIC_URL }}js/jquery.form.js"></script>

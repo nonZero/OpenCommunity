@@ -47,20 +47,22 @@
 {% endif %}
 
 {% if cperms.community.editupcoming_community %}
-    <a class="btn btn-oc" data-rel="form" 
-    href="{% url "upcoming_start" community.id  %}">
-        {% if object.upcoming_meeting_started %}
-            <i class="fa fa-undo"></i> <span>{% trans "Undo Start Meeting" %}</span>
-        {% else %}
-			<i class="fa fa-play-circle"></i> <span>{% trans "Start Meeting" %}</span>
-        {% endif %}
-    </a>
+	<form class="btn btn-oc" method="post" action="{% url "upcoming_start" community.id  %}">
+		{% csrf_token %}
+		<input type="hidden" name="upcoming_meeting_started" value="{{object.upcoming_meeting_started|yesno:'0,1'}}" id="id_upcoming_meeting_started">
+	    {% if object.upcoming_meeting_started %}
+		    <button class="btn-oc" style="border: 0; outline: none;"><i class="fa fa-undo"></i> <span>{% trans "Undo Start Meeting" %}</span></button>
+	    {% else %}
+		    <button class="btn-oc" style="border: 0; outline: none;"><i class="fa fa-play-circle"></i> <span>{% trans "Start Meeting" %}</span></button>
+	    {% endif %}
+	</form>
 {% endif %}
 
 {% endblock %}
 
 
 {% block content %}
+
     {% if cperms.communities.viewupcoming_community %}
         {% if cperms.communities.viewupcoming_draft or object.upcoming_meeting_is_published %}
 
@@ -94,6 +96,11 @@
                     {{object.upcoming_meeting_comments|safe}}
                 	{% endif %}</span>
                 </h5>
+                {% if object.straw_voting_enabled %}
+					<h5>
+						{% trans "Voting ends at" %}: <span>{{ object.voting_ends_at|default:_("Not set yet") }}</span>
+					</h5>
+                {% endif %}                 
             </div>
             
             <div id="agenda-container" class="agenda-list">
@@ -113,14 +120,16 @@
             {% if object.upcoming_meeting_started and cperms.community.editupcoming_community %}
 
                 <h2>{% trans "Summary" %}</h2>
+                    {% if object.upcoming_meeting_summary %}
+                    <div class="summary_box">
+                        {{object.upcoming_meeting_summary|safe}}
+                    </div>
+                    {% endif %}
                     <div class="push">
                         <a data-rel="form" href="{% url "upcoming_edit_summary" community.id %}" class="btn btn-oc">
                             {% trans "Edit" %}
                         </a>
                     </div>
-                    {% if object.upcoming_meeting_summary %}
-                        {{object.upcoming_meeting_summary|safe}}
-                    {% endif %}
 
             {% endif %}
 

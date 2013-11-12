@@ -55,4 +55,6 @@ urlpatterns = patterns('',
     url(r'^edit-comment/(?P<pk>\d+)/$',
         views.IssueCommentEditView.as_view(), name="edit_issue_comment"),
 
+    url(r'^vote/(?P<pk>\d+)/$',
+        views.ProposalVoteView.as_view(), name="vote_on_proposal"),
 )

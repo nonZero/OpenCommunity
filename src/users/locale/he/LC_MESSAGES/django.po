@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-05 13:53+0200\n"
+"POT-Creation-Date: 2013-11-10 22:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,19 +28,19 @@ msgid ""
 "form</a>."
 msgstr ""
 
-#: .\default_roles.py:91
+#: .\default_roles.py:95
 msgid "member"
 msgstr "חבר"
 
-#: .\default_roles.py:92
+#: .\default_roles.py:96
 msgid "board"
 msgstr "ועד"
 
-#: .\default_roles.py:93
+#: .\default_roles.py:97
 msgid "secretary"
 msgstr "מזכיר"
 
-#: .\default_roles.py:94
+#: .\default_roles.py:98
 msgid "chairman"
 msgstr "יושב ראש"
 
@@ -284,5 +284,9 @@ msgstr "אין חברים בקהילה"
 msgid "Invite"
 msgstr "הזמן"
 
-msgid "Please enter a correct %(username)s and password. Note that both fields may be case-sensitive."
-msgstr "יש להזין %(username)s וסיסמא  תקינים.  בשני השדות יכולים להיות הבדלים בין אותיות קטנות וגדולות."
+#~ msgid ""
+#~ "Please enter a correct %(username)s and password. Note that both fields "
+#~ "may be case-sensitive."
+#~ msgstr ""
+#~ "יש להזין %(username)s וסיסמא  תקינים.  בשני השדות יכולים להיות הבדלים בין "
+#~ "אותיות קטנות וגדולות."

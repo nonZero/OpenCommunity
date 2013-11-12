@@ -32,7 +32,11 @@ li[data-accepted="1"] img {
 }
 
 #add-comment label {
-    display: block;
+	display: none;
+    /*display: block;
+    background: #666;
+	padding: 5px;
+	color: #fff;*/
 }
 
 #add-comment textarea {

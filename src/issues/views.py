@@ -5,10 +5,12 @@ from django.views.generic import ListView
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.template.loader import render_to_string
 from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
     UpdateIssueForm, EditProposalTaskForm, AddAttachmentForm
-from issues.models import ProposalType, Issue, IssueStatus
+from issues.models import ProposalType, Issue, IssueStatus, Proposal, \
+    ProposalVote, ProposalVoteValue
 from oc_util.templatetags.opencommunity import minutes
 from ocd.base_views import CommunityMixin, AjaxFormView, json_response
 from ocd.validation import enhance_html
@@ -45,9 +47,9 @@ class IssueDetailView(IssueMixin, DetailView):
         d = super(IssueDetailView, self).get_context_data(**kwargs)
         d['form'] = forms.CreateIssueCommentForm()
         d['proposal_form'] = forms.CreateProposalForm()
-        d['x'] = random.randint(1, 50)
-        d['y'] = random.randint(1, 50)
-        d['z'] = random.randint(1, 50)
+#         d['x'] = random.randint(1, 50)
+#         d['y'] = random.randint(1, 50)
+#         d['z'] = random.randint(1, 50)
         return d
 
     required_permission_for_post = 'issues.add_issuecomment'
@@ -356,3 +358,57 @@ class ProposalDeleteView(AjaxFormView, ProposalMixin, DeleteView):
         o.active = False
         o.save()
         return HttpResponse("-")
+
+
+class ProposalVoteView(ProposalMixin, View):
+    
+    required_permission_for_post = 'issues.vote'
+
+    def post(self, request, *args, **kwargs):
+        voter_id = request.user.id
+        """
+        voter_id = int(request.POST.get('uid', '0'))
+        if voter_id != request.user.id:
+            return HttpResponseBadRequest('no permission for action')
+        pid = int(request.POST['pid'])
+        """
+        pid = int(kwargs['pk'])
+        proposal = get_object_or_404(Proposal, id=pid)
+        val = request.POST['val']
+        
+   
+        value = ''
+        if val == 'pro':
+            value = ProposalVoteValue.PRO
+        elif val == 'con':
+            value = ProposalVoteValue.CON
+        elif val == 'reset':
+            vote = get_object_or_404(ProposalVote,
+                                     proposal_id=pid, user_id=voter_id)
+            
+            vote.delete()
+            return json_response({
+                'result': 'ok',
+                'html': render_to_string('issues/_vote_panel.html',
+                                         {
+                                             'proposal': proposal,
+                                             'community': self.community,
+                                         })
+            })
+            
+        else:
+            return HttpResponseBadRequest('vote value not valid')
+
+        ProposalVote.objects.create(
+            proposal_id=pid,
+            user_id=voter_id,
+            value=value)
+            
+        return json_response({
+            'result': 'ok',
+            'html': render_to_string('issues/_vote_reset_panel.html',
+                                        {
+                                             'proposal': proposal,
+                                             'community': self.community,
+                                         })
+        })

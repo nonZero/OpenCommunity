@@ -6,9 +6,10 @@ from django.utils.text import get_valid_filename
 from django.utils.translation import ugettext, ugettext_lazy as _
 from ocd.base_models import HTMLField, UIDMixin, UIDManager
 from ocd.validation import enhance_html
-
-import os.path
 from ocd.storages import uploads_storage
+
+from datetime import datetime, timedelta
+import os.path
 
 
 class IssueStatus(object):
@@ -263,7 +264,7 @@ class ProposalVoteValue(object):
 class ProposalVote(models.Model):
     proposal = models.ForeignKey("Proposal", verbose_name=_("Proposal"))
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"))
-    value = models.PositiveIntegerField(choices=ProposalVoteValue.CHOICES, verbose_name=_("Vote"))
+    value = models.SmallIntegerField(choices=ProposalVoteValue.CHOICES, verbose_name=_("Vote"))
 
     class Meta:
         unique_together = (("proposal", "user"),)
@@ -365,6 +366,16 @@ class Proposal(UIDMixin):
         return self.is_open and self.issue.is_upcoming and \
                    self.issue.community.upcoming_meeting_started
 
+    @property
+    def can_straw_vote(self):
+        
+        diff = self.issue.community.voting_ends_at - timezone.now()
+        return self.issue.community.straw_voting_enabled and \
+               self.issue.is_upcoming and \
+               self.issue.community.upcoming_meeting_is_published and \
+               self.status == ProposalStatus.IN_DISCUSSION and \
+               diff.total_seconds() > 0
+
     def is_task(self):
         return self.type == ProposalType.TASK
 
@@ -394,4 +405,23 @@ class Proposal(UIDMixin):
         if self.status == self.statuses.REJECTED:
             return "rejected"
         return ""
-        return ""
+
+    def votes_summary(self):
+        total = 10
+        pro = 0
+        con = 0
+        for v in ProposalVote.objects.filter(proposal=self):
+            if v.value == ProposalVoteValue.PRO:
+                pro += 1
+            elif v.value == ProposalVoteValue.CON:
+                con += 1
+        percentage = ((pro+con)*100) / total 
+        return {'pro': pro, 'con': con, 'total': total, 'percentage': percentage}
+
+class VoteResult(models.Model):
+    proposal = models.ForeignKey(Proposal, related_name="results",
+                                 verbose_name=_("Proposal"))
+    meeting = models.ForeignKey('meetings.Meeting', verbose_name=_("Meeting"))
+    votes_pro = models.PositiveIntegerField(_("Votes pro"))
+    votes_con = models.PositiveIntegerField(_("Votes con"))
+    community_members = models.PositiveIntegerField(_("Community members"))

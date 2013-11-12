@@ -1,6 +1,6 @@
 from communities.models import Community, SendToOption
 from django.utils.translation import ugettext_lazy as _
-from ocd.formfields import HTMLArea, DateTimeLocalInput
+from ocd.formfields import HTMLArea, DateTimeLocalInput, OCSplitDateTime
 from users.models import OCUser
 import floppyforms as forms
 
@@ -14,13 +14,15 @@ class EditUpcomingMeetingForm(forms.ModelForm):
                    'upcoming_meeting_title',
                    'upcoming_meeting_scheduled_at',
                    'upcoming_meeting_location',
+                   'voting_ends_at',
                    'upcoming_meeting_comments',
                    )
 
         widgets = {
             'upcoming_meeting_title': forms.TextInput,
-            'upcoming_meeting_scheduled_at': DateTimeLocalInput,
+            'upcoming_meeting_scheduled_at': OCSplitDateTime,
             'upcoming_meeting_location': forms.TextInput,
+            'voting_ends_at': OCSplitDateTime,
             'upcoming_meeting_comments': HTMLArea,
         }
 
@@ -45,6 +47,10 @@ class EditUpcomingMeetingSummaryForm(forms.ModelForm):
         fields = (
                    'upcoming_meeting_summary',
                    )
+
+        widgets = {
+            'upcoming_meeting_summary': HTMLArea,
+        }
 
 
 

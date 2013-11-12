@@ -7,7 +7,7 @@
     data-id="{{proposal.id}}"
     data-accepted="{{proposal.status}}"></li>
     <li class="prop-title">
-        <a href="{{proposal.get_absolute_url}}"> {{proposal.title}} </a>
+        {{proposal.title}}
     </li>
     <li class="prop-content">
         {% if proposal.type == 1 %}
@@ -23,10 +23,15 @@
         {{proposal.content|safe}}
     </li>
 
-    {% if cperms.issues.view_proposal_in_discussion or not proposal.is_open %}
-        <li class="check_box {% if proposal.status == proposal.statuses.ACCEPTED %}checked{% endif %}{% if proposal.status == proposal.statuses.REJECTED %}rejected{% endif %}">
-    {% else %}
-        <li class="check_box">
+	{# for testing only #}
+	{% if 8 > 6 %}
+        <li class="check_box_vote">
+	{% else %}
+	    {% if cperms.issues.view_proposal_in_discussion or not proposal.is_open %}
+	        <li class="check_box {% if proposal.status == proposal.statuses.ACCEPTED %}checked{% endif %}{% if proposal.status == proposal.statuses.REJECTED %}rejected{% endif %}">
+	    {% else %}
+	        <li class="check_box">
+	    {% endif %}
     {% endif %}
     </li>
 </ul>

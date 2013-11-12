@@ -43,6 +43,7 @@ $(function() {
 
     //  - start edit
     $('#comments').on('click', '.edit-comment button', function() {
+        $('li.rich_editor').hide();
         var btn = $(this);
         var li = btn.closest('li'); 
         li.addClass('editing');
@@ -50,11 +51,12 @@ $(function() {
         li.find('.comment-inner').hide().after(el);
         $.get(btn.data('url'), function(data) {
             el.html(data).find('.htmlarea textarea').wysihtml5({locale: "he-IL"});
-        })
+        });
     });
 
     // - cancel edit
     $('#comments').on('click', '.cancel-edit-comment button', function() {
+        $('li.rich_editor').show();
         var btn = $(this);
         var li = btn.closest('li'); 
         li.removeClass('editing');
@@ -64,6 +66,7 @@ $(function() {
 
     // - save edits
     $('#comments').on('click', '.save-comment button', function(ev) {
+        $('li.rich_editor').show();
         var btn = $(this);
         var form = btn.closest('form');
         if (!form.find('textarea').val()) {

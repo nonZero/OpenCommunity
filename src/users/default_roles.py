@@ -27,11 +27,13 @@ class DefaultRoles(object):
                            'issues.viewopen_issue',
                            'issues.viewopen_proposal',
                            'communities.viewupcoming_community',
+                           'issues.vote',
                           ]
 
     permissions[PARTICIPANT] = permissions[OBSERVER] + [
                             'issues.view_proposal_in_discussion',
                             'communities.viewupcoming_draft',
+                            'issues.view_referendum_results',
                           ]
      
     permissions[PROPOSER] = permissions[PARTICIPANT] + [
@@ -55,6 +57,7 @@ class DefaultRoles(object):
                            'community.editparticipants_community',
                            'community.editsummary_community', # ???
                            'community.invite_member',
+                           'issues.move_to_referendum',
                           ]
 
     permissions[DECIDER] = permissions[OPERATOR] + [
@@ -62,6 +65,7 @@ class DefaultRoles(object):
                            'community.editagenda_community',
                            'issues.acceptopen_proposal',
                            'meetings.add_meeting',  # == Close Meeting
+                           'issues.edit_referendum',
                           ]
 
     permissions[MANAGER] = permissions[DECIDER] + [

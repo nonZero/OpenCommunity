@@ -1,12 +1,13 @@
 {% load i18n %}
 {% load opencommunity %}
+{% load voting_tags %}
 
 <li class="issue oc_li" data-issue="{{i.id}}">
     {% if cperms.community.editagenda_community %}
 	    <div class="grab"></div>
     {% endif %}
     <a href="{{i.get_absolute_url}}">
-        {{i.title}}
+        {{i.title}} <b>({% user_votes_on_issue %})</b>
     </a>
     {% if cperms.community.editagenda_community and not i.changed_in_current %}
 	    <div class="timer" data-url="{% url 'issue_set_length' community.id i.id %}">

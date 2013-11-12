@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-05 13:52+0200\n"
+"POT-Creation-Date: 2013-11-10 22:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -78,7 +78,7 @@ msgstr "מקום"
 msgid "Comments"
 msgstr "הערות"
 
-#: .\models.py:59 .\templates\meetings\meeting_detail.html.py:24
+#: .\models.py:59 .\templates\meetings\meeting_detail.html.py:23
 msgid "Summary"
 msgstr "סיכום הפגישה"
 
@@ -86,7 +86,7 @@ msgstr "סיכום הפגישה"
 msgid "Agenda items"
 msgstr "סדר יום"
 
-#: .\models.py:65 .\templates\meetings\meeting_detail.html.py:124
+#: .\models.py:65 .\templates\meetings\meeting_detail.html.py:122
 msgid "Participants"
 msgstr "משתתפים"
 
@@ -98,7 +98,7 @@ msgstr "אורחים"
 msgid "Enter each guest in a separate line"
 msgstr "רשום כל אורח בשורה נפקדת"
 
-#: .\models.py:73 .\templates\meetings\meeting_detail.html.py:104
+#: .\models.py:73 .\templates\meetings\meeting_detail.html.py:102
 #: .\templates\meetings\meeting_list.html.py:9
 msgid "Meetings"
 msgstr "פגישות"
@@ -133,6 +133,7 @@ msgid "Sending to %d users"
 msgstr "שולח ל-%d משתמשים"
 
 #: .\templates\meetings\meeting_close.html.py:5
+#: .\templates\meetings\meeting_close.html.py:27
 msgid "Close meeting"
 msgstr "סגור פגישה"
 
@@ -140,23 +141,27 @@ msgstr "סגור פגישה"
 msgid "No decisions were made in this meeting."
 msgstr "בפגישה זו לא התקבלו החלטות"
 
+#: .\templates\meetings\meeting_close.html.py:26
+msgid "Cancel"
+msgstr ""
+
 #: .\templates\meetings\meeting_detail.html.py:11
 msgid "Meetings history"
 msgstr "הסטוריית ישיבות"
 
-#: .\templates\meetings\meeting_detail.html.py:69
+#: .\templates\meetings\meeting_detail.html.py:68
 msgid "Assigned to"
 msgstr "אחראי"
 
-#: .\templates\meetings\meeting_detail.html.py:72
+#: .\templates\meetings\meeting_detail.html.py:71
 msgid "Due by"
 msgstr "יעד"
 
-#: .\templates\meetings\meeting_detail.html.py:84
+#: .\templates\meetings\meeting_detail.html.py:83
 msgid "Closed without descisions"
 msgstr "הדיון נסגר ללא החלטות"
 
-#: .\templates\meetings\meeting_detail.html.py:85
+#: .\templates\meetings\meeting_detail.html.py:84
 msgid "Undecided"
 msgstr "הדיון לא הושלם"
 
