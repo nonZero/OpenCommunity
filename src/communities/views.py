@@ -194,6 +194,9 @@ class ProtocolDraftPreviewView(CommunityModelMixin, DetailView):
 
     
 def sum_votes(request, pk):
+    if not request.user.is_superuser:
+        return HttpResponse('--')
+        
     c = models.Community.objects.get(pk=pk)
     c.sum_vote_results(only_when_over=False)
     return HttpResponse('-')

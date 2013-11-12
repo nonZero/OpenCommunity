@@ -16,7 +16,7 @@ def voted_on(u, proposal_id):
 def user_votes_on_issue(context):
     issue = context['i']
     user_id = context['user'].id
-    proposals = Proposal.objects.active().filter(issue_id=issue.id)
+    proposals = Proposal.objects.open().filter(issue_id=issue.id)
     votes_cnt = ProposalVote.objects.filter(
         proposal__in=proposals,
         user_id=user_id).count()
