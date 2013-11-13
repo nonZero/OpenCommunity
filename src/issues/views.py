@@ -387,6 +387,7 @@ class ProposalVoteView(ProposalMixin, View):
                 'html': render_to_string('issues/_vote_panel.html',
                                          {
                                              'proposal': proposal,
+                                             'community': self.community,
                                          })
             })
             

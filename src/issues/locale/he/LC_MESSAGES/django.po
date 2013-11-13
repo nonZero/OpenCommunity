@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-12 23:11+0200\n"
+"POT-Creation-Date: 2013-11-13 18:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -128,17 +128,14 @@ msgstr "נושא לדיון"
 msgid "Issues"
 msgstr "נושאים לדיון"
 
-#: .\models.py:130 .\models.py:191 .\models.py:212 .\models.py:334
+#: .\models.py:130 .\models.py:139 .\models.py:191 .\models.py:212
+#: .\models.py:334
 msgid "Created by"
 msgstr "נוצר על ידי"
 
 #: .\models.py:137
 msgid "Last Edited at"
 msgstr "עריכה אחרונה"
-
-#: .\models.py:139 .\templates\issues\_comment.html.py:45
-msgid "Last edited by"
-msgstr "נערך לאחרונה על ידי"
 
 #: .\models.py:142
 msgid "Comment"
@@ -164,7 +161,7 @@ msgstr "נמנע"
 msgid "Pro"
 msgstr "בעד"
 
-#: .\models.py:276 .\models.py:365 .\models.py:431
+#: .\models.py:276 .\models.py:365 .\models.py:438
 #: .\templates\issues\proposal_detail.html.py:9
 msgid "Proposal"
 msgstr "הצעת החלטה"
@@ -235,19 +232,19 @@ msgstr "יעד"
 msgid "Votes"
 msgstr "הצבעות"
 
-#: .\models.py:358 .\models.py:433
+#: .\models.py:358 .\models.py:440
 msgid "Votes pro"
 msgstr "הצבעות בעד"
 
-#: .\models.py:359 .\models.py:434
+#: .\models.py:359 .\models.py:441
 msgid "Votes con"
 msgstr "הצבעות נגד"
 
-#: .\models.py:360 .\models.py:435
+#: .\models.py:360 .\models.py:442
 msgid "Community members"
 msgstr "חברי קהילה"
 
-#: .\models.py:432
+#: .\models.py:439
 msgid "Meeting"
 msgstr "פגישה"
 
@@ -260,31 +257,26 @@ msgstr "ב"
 msgid "version"
 msgstr "גרסא"
 
-#: .\templates\issues\_piechart.html.py:5
+#: .\templates\issues\_comment.html.py:45
+msgid "Last edited by"
+msgstr "נערך לאחרונה על ידי"
+
 #: .\templates\issues\_proposal_vote_results.html.py:5
 msgid "For"
 msgstr "בעד"
 
-#: .\templates\issues\_piechart.html.py:7
 #: .\templates\issues\_proposal_vote_results.html.py:7
 msgid "Against"
 msgstr "נגד"
 
-#: .\templates\issues\_piechart.html.py:9
-msgid "DNP"
-msgstr "לא הצביעו"
-
-#: .\templates\issues\_piechart.html.py:12
 #: .\templates\issues\_proposal_vote_results.html.py:10
 msgid "Voted"
 msgstr "הצביעו"
 
-#: .\templates\issues\_piechart.html.py:13
 #: .\templates\issues\_proposal_vote_results.html.py:11
 msgid "Out of"
 msgstr "מתוך"
 
-#: .\templates\issues\_piechart.html.py:13
 #: .\templates\issues\_proposal_vote_results.html.py:11
 msgid "members"
 msgstr "חברים"
@@ -428,6 +420,9 @@ msgstr "קבל את ההחלטה"
 #: .\templates\issues\proposal_detail.html.py:119
 msgid "Reject proposal"
 msgstr "דחה הצעה"
+
+#~ msgid "DNP"
+#~ msgstr "לא הצביעו"
 
 #~ msgid "Decisions"
 #~ msgstr "החלטות"

@@ -136,7 +136,7 @@ class IssueComment(UIDMixin):
     last_edited_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name=_("Last Edited at"))
     last_edited_by = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                   verbose_name=_("Last edited by"),
+                                   verbose_name=_("Created by"),
                                    related_name="issue_comments_last_edited",
                                    null=True, blank=True)
     content = HTMLField(verbose_name=_("Comment"))
@@ -384,10 +384,18 @@ class Proposal(UIDMixin):
 
     @property
     def can_straw_vote(self):
-        if v.value == ProposalVoteValue.PRO:
-            pro += 1
-        elif v.value == ProposalVoteValue.CON:
-            con += 1
+        return self.status == ProposalStatus.IN_DISCUSSION and \
+               self.issue.can_straw_vote
+
+
+    def do_votes_summation(self, members_count):
+        pro = 0
+        con = 0
+        for v in ProposalVote.objects.filter(proposal=self):
+            if v.value == ProposalVoteValue.PRO:
+                pro += 1
+            elif v.value == ProposalVoteValue.CON:
+                con += 1
 
         self.votes_pro = pro
         self.votes_con = con
@@ -424,7 +432,6 @@ class Proposal(UIDMixin):
         if self.status == self.statuses.REJECTED:
             return "rejected"
         return ""
-        return ""
 
 class VoteResult(models.Model):
     proposal = models.ForeignKey(Proposal, related_name="results",
@@ -433,3 +440,6 @@ class VoteResult(models.Model):
     votes_pro = models.PositiveIntegerField(_("Votes pro"))
     votes_con = models.PositiveIntegerField(_("Votes con"))
     community_members = models.PositiveIntegerField(_("Community members"))
+
+    class Meta:
+        unique_together = (('proposal', 'meeting'),)
