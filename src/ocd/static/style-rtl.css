@@ -636,11 +636,14 @@ ul.prop-table {
 	padding: 0;
 	border: 1px solid #d8e0df;
 	background: #ffffff;
-	list-style-type: none
+	list-style-type: none;
 }
-ul.prop-table a {
+#issue-detail ul.prop-table {
+	cursor: pointer;
+}
+/*ul.prop-table a {
 	display: block;
-}
+}*/
 ul:last-child.prop-table {
 	margin-bottom: 15px;
 }
@@ -899,6 +902,9 @@ i.fa + span {
 	height: 35px;
 	margin-top: 10px;	
 	margin-bottom: 10px;
+}
+.issue_proposal_vote {
+	height: 55px;
 }
 
 /* WYSIWYG top bar */

@@ -112,9 +112,7 @@ id="issue-detail"
             {% if object.proposals.open %}
                 <h2>{% trans "Proposals" %}</h2>
                 {% for proposal in object.proposals.open %}
-                	<a href="{{proposal.get_absolute_url}}">                
                     {% include 'issues/_proposal.html' %}
-                    </a>
                     {% if can_straw_vote and not proposal.decided and cperms.issues.vote %}
                     <div class="issue_proposal_vote">
                     	{% include 'issues/_vote.html' %}
@@ -188,4 +186,11 @@ id="issue-detail"
 	createChart({{ proposal.votes_pro }}, {{ proposal.votes_con }}, {{ proposal.community_members }}, {{ proposal.id }});
 </script>
 {% endfor %}
+<script>
+	$(function() {
+		$('ul.prop-table.proposals').on('click', function() {
+			window.location=$(this).find('a').attr('href');
+		});
+	});
+</script>
 {% endblock %}

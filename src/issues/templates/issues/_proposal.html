@@ -1,5 +1,6 @@
 {% load i18n %}
 <ul class="prop-table proposals{% if proposal.is_open %} open{% endif %}">
+    <a href="{{proposal.get_absolute_url}}" style="display: none;"></a>
     <li class="drag-icon
     {% if proposal.type == 1 %}task-icon{% endif %}
     {% if proposal.type == 2 %}rule-icon{% endif %}
@@ -7,7 +8,7 @@
     data-id="{{proposal.id}}"
     data-accepted="{{proposal.status}}"></li>
     <li class="prop-title">
-        {{proposal.title}}
+    	{{proposal.title}}
     </li>
     <li class="prop-content">
         {% if proposal.type == 1 %}

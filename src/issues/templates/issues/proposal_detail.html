@@ -38,7 +38,7 @@ id="proposal-detail"
     <ul class="prop-table proposals">
         <li class="wide-icon {% if object.type == 1 %}task-icon{% endif %}{% if object.type == 2 %}rule-icon{% endif %}{% if object.type == 3 %}general-icon{% endif %}"></li>
         <li class="prop-title">
-            <h2>{{object.title}} ({{object.get_status_display}}{% if object.decided_at_meeting %} {{object.decided_at_meeting}}{% endif %})</h2>
+            <h2>{{object.title}} <!-- ({{object.get_status_display}}{% if object.decided_at_meeting %} {{object.decided_at_meeting}}{% endif %}) --></h2>
         </li>
         <li class="prop-content">
             {% if object.type == 1 %}
