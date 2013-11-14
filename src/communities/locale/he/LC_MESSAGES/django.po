@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-13 18:43+0200\n"
+"POT-Creation-Date: 2013-11-14 22:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -110,10 +110,9 @@ msgstr "שם הועד"
 msgid "Straw voting enabled"
 msgstr "אפשר הצבעת קש"
 
-#: .\models.py:96 .\templates\communities\upcoming.html.py:86
-#: .\templates\emails\agenda.html.py:54
-msgid "Voting ends at"
-msgstr "הצבעה מסתיימת ב"
+#: .\models.py:96
+msgid "Straw Vote ends at"
+msgstr "הצבעת שבשבת עד"
 
 #: .\models.py:99
 msgid "Referendum started"
@@ -252,8 +251,8 @@ msgid "Start Meeting"
 msgstr "התחל פגישה"
 
 #: .\templates\communities\upcoming.html.py:56
-msgid "Close vote"
-msgstr "סגור הצבעה"
+msgid "Sum vote"
+msgstr "סכם הצבעות"
 
 #: .\templates\communities\upcoming.html.py:70
 msgid "Published"
@@ -281,6 +280,11 @@ msgstr "טרם נקבע"
 #: .\templates\emails\agenda.html.py:47
 msgid "Scheduled at"
 msgstr "מועד"
+
+#: .\templates\communities\upcoming.html.py:86
+#: .\templates\emails\agenda.html.py:54
+msgid "Voting ends at"
+msgstr "הצבעה מסתיימת ב"
 
 #: .\templates\communities\upcoming.html.py:92
 msgid "Agenda items"
@@ -384,6 +388,9 @@ msgstr "סדר יום לפגישת הועד הקרובה"
 #: .\templates\emails\protocol_draft_title.txt.py:1
 msgid "Meeting Summary Draft"
 msgstr "טויטת סיכום פגישה"
+
+#~ msgid "Close vote"
+#~ msgstr "סגור הצבעה"
 
 #~ msgid "Save"
 #~ msgstr "שמירה"

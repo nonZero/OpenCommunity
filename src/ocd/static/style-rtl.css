@@ -211,9 +211,9 @@ ul.errorlist li {
 .delete-comment .undelete-btn button {
 	background: url(images/comment_undelete.png) no-repeat center;
 }
-.cancel-edit-comment button {
+/*.cancel-edit-comment button {
 	background: url(images/comment_delete_action.png) no-repeat center;
-}
+}*/
 .btn-comment, .btn-comment:hover, .btn-comment:focus, .btn-comment:active {
 	border-color: transparent;
 }
@@ -794,6 +794,7 @@ form.delete-invitation {
 .check_box_vote {
 	display: table-cell;
 	width: 40px;
+	vertical-align: middle;
 	border-right: 1px solid #d8e0df;
 }
 .check_box.checked {
@@ -863,7 +864,7 @@ i.fa + span {
 	padding-top: 10px;
 }
 .piechart span {
-	font-size: 1.3em;
+	font-size: 1.1em;
 	vertical-align: top;
 }
 .piechart span span {
@@ -883,7 +884,7 @@ i.fa + span {
 .chart_divider {
 	height: 1px;
 	border-top: 1px dotted;
-	margin: 7px 0;
+	margin: 15px 0;
 }
 
 /* Votes */
@@ -905,6 +906,12 @@ i.fa + span {
 }
 .issue_proposal_vote {
 	height: 55px;
+}
+.proposal_count {
+	color: green;
+}
+.votes_count {
+	color: red;
 }
 
 /* WYSIWYG top bar */

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load humanize %}
+{% load voting_tags %}
 
 {% block extra-page-id %}
 id="issue-detail"
@@ -118,9 +119,6 @@ id="issue-detail"
                     	{% include 'issues/_vote.html' %}
                 	</div>
                 	{% endif %}
-                	{% with res=proposal.votes_summary %}
-                		{% include 'issues/_proposal_vote_results.html' %}
-					{% endwith %}
                 {% endfor %}
             {% endif %}
 </div>
@@ -133,7 +131,7 @@ id="issue-detail"
 </div>
 {% endif %}
 
-{% if object.comments.count or cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
+{% if object.comments.active or cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
 <div class="issuecomments">
     <h2>{% trans "Summary" %}</h2>
     <ul id="comments">
@@ -183,7 +181,12 @@ id="issue-detail"
 <script src="{{STATIC_URL}}js/_piechart.js"></script>
 {% for proposal in object.proposals.open %}
 <script>
-	createChart({{ proposal.votes_pro }}, {{ proposal.votes_con }}, {{ proposal.community_members }}, {{ proposal.id }});
+	createChart(
+		{{ proposal.votes_pro }},
+		{{ proposal.votes_con }},
+		{{ proposal.community_members|subtract:proposal.votes_con|subtract:proposal.votes_pro }},
+		{{ proposal.id }}
+		);
 </script>
 {% endfor %}
 <script>

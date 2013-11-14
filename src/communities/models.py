@@ -93,7 +93,7 @@ class Community(UIDMixin):
     straw_voting_enabled = models.BooleanField(_("Straw voting enabled"),
                                         default=False)
 
-    voting_ends_at = models.DateTimeField(_("Voting ends at"),
+    voting_ends_at = models.DateTimeField(_("Straw Vote ends at"),
                                 null=True, blank=True)
 
     referendum_started = models.BooleanField(_("Referendum started"),

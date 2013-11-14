@@ -1,14 +1,15 @@
 {% load i18n %}
+{% load voting_tags %}
 <div class="row piechart">
 	<div class="col-xs-6">
 		<p>
-			<span class="for glyphicon glyphicon-stop"></span><span> <span>{% trans "For" %}</span>: {{ proposal.votes_pro|default_if_none:0 }}</span>
+			<span class="for glyphicon glyphicon-stop"></span><span> <span>{% trans "For" %}</span>: {{ proposal.votes_pro }}</span>
 			<br>
-			<span class="against glyphicon glyphicon-stop"></span><span> <span>{% trans "Against" %}</span>: {{ proposal.votes_con|default_if_none:0 }}</span>
+			<span class="against glyphicon glyphicon-stop"></span><span> <span>{% trans "Against" %}</span>: {{ proposal.votes_con }}</span>
 			<br>
 			<div class="chart_divider"></div>
-			<span>{% trans "Voted" %}: {{ proposal.votes_pro|default_if_none:0|add:proposal.votes_con|default_if_none:0 }} (Some %)</span><br>
-			<span>{% trans "Out of" %}: {{ proposal.community_members|default_if_none:0 }} {% trans "members" %}</span>
+			<span>{% trans "Voted" %}: {{ proposal.votes_pro|add:proposal.votes_con }} ({{ proposal|vote_percentage }} %)</span><br>
+			<span>{% trans "Out of" %}: {{ proposal.community_members }} {% trans "members" %}</span>
 		</p>
 	</div>
 	<div class="col-xs-6 text-center">

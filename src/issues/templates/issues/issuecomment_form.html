@@ -3,6 +3,9 @@
     {% csrf_token %}
     {{form.content}}{{form.content.errors}}
     <div class="save-comment narrow">
-        <button class="btn btn-oc btn-lg btn-block">{% trans "Save" %}</button>
+        <button class="btn btn-oc btn-lg">{% trans "Save" %}</button>
+        <span class="cancel-edit-comment">
+            <button class="btn btn-default btn-lg">{% trans "Cencel edit" %}</button>
+        </span>
     </div>
 </form>
