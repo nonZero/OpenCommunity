@@ -182,9 +182,9 @@ id="issue-detail"
 {% for proposal in object.proposals.open %}
 <script>
 	createChart(
-		{{ proposal.votes_pro }},
-		{{ proposal.votes_con }},
-		{{ proposal.community_members|subtract:proposal.votes_con|subtract:proposal.votes_pro }},
+		{{ proposal.votes_pro|default_if_none:0 }},
+		{{ proposal.votes_con|default_if_none:0 }},
+		{{ proposal.community_members|subtract:proposal.votes_con|default_if_none:0|subtract:proposal.votes_pro|default_if_none:0 }},
 		{{ proposal.id }}
 		);
 </script>
