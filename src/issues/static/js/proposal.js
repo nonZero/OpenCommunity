@@ -25,7 +25,7 @@ $(function() {
 			val : vote_value
 		}, function(data) {
 			if (data['result'] == 'ok') {
-				var btn_div = elem.closest('div');
+				var btn_div = elem.closest('div.vote-btns');
 				btn_div.replaceWith(data['html']);
 			}
 		});
