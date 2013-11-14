@@ -21,8 +21,16 @@ $(function() {
 	}
 
 	function do_vote(vote_url, vote_value, elem) {
-    }
-    
+		$.post(vote_url, {
+			val : vote_value
+		}, function(data) {
+			if (data['result'] == 'ok') {
+				var btn_div = elem.closest('div');
+				btn_div.replaceWith(data['html']);
+			}
+		});
+	}
+
 
 	$(".proposal-action").click(function(event) {
 		event.preventDefault();
@@ -39,7 +47,10 @@ $(function() {
 	});
 
 	$(".container").on("click", "a[id|='vote']", function() {
-    })
-
-    
-}); 
+		event.preventDefault();
+		var vote_value = $(this).attr('id').substr(5);
+		//console.log(' <============== ' + vote_value)
+		var target = $(this).attr('href');
+		do_vote(target, vote_value, $(this));
+	});
+});
