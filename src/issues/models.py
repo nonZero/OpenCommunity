@@ -120,6 +120,7 @@ class Issue(UIDMixin):
                self.proposals.open().count() > 0 and \
                time_till_close.total_seconds() > 0
 
+
         
 class IssueComment(UIDMixin):
     issue = models.ForeignKey(Issue, related_name="comments")
@@ -388,7 +389,7 @@ class Proposal(UIDMixin):
         return self.status == ProposalStatus.IN_DISCUSSION and \
                self.issue.can_straw_vote
 
-
+        
     def do_votes_summation(self, members_count):
         pro = 0
         con = 0

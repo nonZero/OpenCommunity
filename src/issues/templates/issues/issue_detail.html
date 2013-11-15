@@ -94,13 +94,13 @@ id="issue-detail"
 
 {% with can_straw_vote=object.can_straw_vote %}
 {% if object.proposals.active.count %}
+{% csrf_token %}
 <div class="issue_proposal">
             {% if object.proposals.closed %}
                 <h4>{% trans "Decisions" %}</h4>
                 <h2>{% trans "Past Proposals" %}</h2>
                 {% for proposal in object.proposals.closed %}                
                     {% include 'issues/_proposal.html' %}
-                    {% include 'issues/_proposal_vote_results.html'%}
                 {% endfor %}
             {% endif %}
             

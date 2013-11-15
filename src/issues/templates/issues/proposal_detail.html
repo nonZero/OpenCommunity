@@ -98,7 +98,7 @@ id="proposal-detail"
 
     {% if object.can_straw_vote and cperms.issues.vote %}
         {% with proposal=object %}
-        {% include 'issues/_vote.html' %}
+        {% include 'issues/_vote.html' %}        
         {% endwith %}
     {% endif %}
 

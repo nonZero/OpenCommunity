@@ -194,6 +194,12 @@ class Community(UIDMixin):
 
         return len(recipient_list)
 
+
+    @property
+    def straw_vote_ended(self):
+        time_till_close = self.voting_ends_at - timezone.now()
+        return time_till_close.total_seconds() < 0
+
         
     def sum_vote_results(self, only_when_over=True):
         time_till_close = self.voting_ends_at - timezone.now()

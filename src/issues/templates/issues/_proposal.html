@@ -23,10 +23,17 @@
         {{proposal.content|safe}}
     </li>
 
-    {% if cperms.issues.view_proposal_in_discussion or not proposal.is_open %}
-        <li class="check_box {% if proposal.status == proposal.statuses.ACCEPTED %}checked{% endif %}{% if proposal.status == proposal.statuses.REJECTED %}rejected{% endif %}">
+    {% if proposal.decided %}
+        {% if cperms.issues.view_proposal_in_discussion or not proposal.is_open %}
+            <li class="check_box {% if proposal.status == proposal.statuses.ACCEPTED %}checked{% endif %}{% if proposal.status == proposal.statuses.REJECTED %}rejected{% endif %}"></li>
+        {% else %}
+            <li class="check_box"></li>
+        {% endif %}
     {% else %}
-        <li class="check_box">
+        <li class="check_box"></li>
+        {% if community.straw_voting_enabled and community.straw_vote_ended %}
+            {% include 'issues/_proposal_vote_results.html'%}
+        {% endif %}
     {% endif %}
-    </li>
 </ul>
+
