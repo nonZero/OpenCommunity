@@ -101,7 +101,9 @@ id="proposal-detail"
         {% if object.can_straw_vote and cperms.issues.vote %}
             {% include 'issues/_vote.html' %}
         {% endif %}
-		 {% include 'issues/_proposal_vote_results.html' %}
+        {% if community.straw_voting_enabled and not proposal.decided and community.straw_vote_ended %}
+            {% include 'issues/_proposal_vote_results.html' %}
+        {% endif %}
 	{% endwith %}
 
     {% if object.can_vote and cperms.issues.acceptopen_proposal %}
