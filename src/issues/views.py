@@ -289,7 +289,7 @@ class ProposalMixin(IssueMixin):
 
 
 class ProposalDetailView(ProposalMixin, DetailView):
-
+    
     def get_required_permission(self):
         o = self.get_object()
         return 'issues.viewclosed_proposal' if o.decided_at_meeting else 'issues.viewopen_proposal'
@@ -355,7 +355,6 @@ class ProposalDeleteView(AjaxFormView, ProposalMixin, DeleteView):
         o.save()
         return HttpResponse("-")
 
-        
 class ProposalVoteView(ProposalMixin, View):
     
     required_permission_for_post = 'issues.vote'
@@ -388,7 +387,7 @@ class ProposalVoteView(ProposalMixin, View):
                 'html': render_to_string('issues/_vote_panel.html',
                                          {
                                              'proposal': proposal,
-                                             'community': self.community,   
+                                             'community': self.community,
                                          })
             })
             

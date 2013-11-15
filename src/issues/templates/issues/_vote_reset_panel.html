@@ -1,7 +1,7 @@
 {% load i18n  %}
-<div>
+<div class="change_vote text-center vote-btns">
     <span>{% trans "You have voted on this proposal" %}!</span>
-    <a class="btn btn-primary btn-lg vote-action"
+    <a class="btn btn-warning vote-action"
        href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}"
        id="vote-reset">
         {% trans "Change your vote" %}

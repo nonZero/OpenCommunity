@@ -1,16 +1,15 @@
 "use strict";
 
-$(function() {
-
+function createChart(pro, con, total, id) {
 	var pieData = [{
-		value : 30,
-		color : "red"
+		value : pro,
+		color : "#a4cb53"
 	}, {
-		value : 50,
-		color : "green"
+		value : con,
+		color : "#d95e59"
 	}, {
-		value : 200,
-		color : "yellow"
+		value : total,
+		color : "#e9eaeb"
 	}];
 
 	var actions = {
@@ -42,6 +41,6 @@ $(function() {
 		onAnimationComplete : null
 	};
 
-	// var myPie = new Chart($("#proposalChart").get(0).getContext("2d")).Pie(pieData, actions);
+	var myPie = new Chart($("#proposal" + id + "Chart").get(0).getContext("2d")).Pie(pieData, actions);
 
-});
+};

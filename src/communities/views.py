@@ -5,16 +5,17 @@ from communities.forms import EditUpcomingMeetingForm, \
 from communities.models import SendToOption
 from django.conf import settings
 from django.contrib import messages
+from django.core.urlresolvers import reverse_lazy
 from django.db.models.aggregates import Max
 from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
+from issues.models import IssueStatus
 from ocd.base_views import ProtectedMixin, AjaxFormView
 import datetime
 import json
-from issues.models import IssueStatus
 
 
 class CommunityList(ListView):
@@ -163,7 +164,7 @@ class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):
         return resp
 
 
-class StartMeetingView(AjaxFormView, CommunityModelMixin, UpdateView):
+class StartMeetingView(CommunityModelMixin, UpdateView):
 
     reload_on_success = True
 
@@ -171,7 +172,7 @@ class StartMeetingView(AjaxFormView, CommunityModelMixin, UpdateView):
 
     form_class = StartMeetingForm
 
-    template_name = "communities/start_meeting.html"
+    #template_name = "communities/start_meeting.html"
 
 
 class EditUpcomingSummaryView(AjaxFormView, CommunityModelMixin, UpdateView):

@@ -1,0 +1,9 @@
+{% load voting_tags %}
+<script>
+	createChart(
+		{{ object.votes_pro }},
+		{{ object.votes_con }},
+		{{ object.community_members|subtract:object.votes_con|subtract:object.votes_pro }},
+		{{ object.id }}
+		);
+</script>

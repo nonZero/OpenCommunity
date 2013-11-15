@@ -20,14 +20,14 @@ id="issue-list"
 
 {% block content %}
 <div class="row">
-	<h2 class="col-xs-3 col-sm-1">{% trans "Search" %}:</h2>
-	<div class="col-xs-9 col-sm-11 input-group">
+	<!-- <h2 class="col-xs-3 col-sm-1">{% trans "Search" %}:</h2> -->
+	<div class="col-xs-12 form-group">
 		<input type="text" class="form-control issue-search" placeholder="{% trans "Search in agenda list" %}">
 	</div>
 </div>
 <table class="table table-condensed issue-table">
 	{% for object in object_list %}
-	<tr>
+	<tr class="issue-list">
 		<td class="issue_date">{{ object.created_at|ocshortdate }}</td>
 		<td class="issue_title left_arrow"><a href="{{ object.get_absolute_url }}"> {{ object.title }}</a></td>
 	</tr>
@@ -41,4 +41,11 @@ id="issue-list"
 
 {% block scripts %}
 <script src="{{STATIC_URL}}js/issues.js"></script>
+<script>
+	$(function() {
+		$('tr.issue-list').on('click', function() {
+			window.location=$(this).find('a').attr('href');
+		});
+	});
+</script>
 {% endblock %}

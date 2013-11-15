@@ -9,7 +9,6 @@ $(function() {
         }
 
         var url = $(this).attr('href');
-
         $('#modal-form').modal({
             remote : url
         }).one('hidden.bs.modal', function() {
@@ -18,6 +17,11 @@ $(function() {
 
         return false;
     });
+
+    if(navigator.userAgent.match('CriOS')) {
+        $('body').addClass('ios-chrome');
+    }
+
 
 });
 

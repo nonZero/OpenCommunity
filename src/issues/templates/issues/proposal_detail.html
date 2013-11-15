@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n humanize %}
+{% load i18n humanize voting_tags %}
 
 {% block extra-page-id %}
 id="proposal-detail"
@@ -20,13 +20,13 @@ id="proposal-detail"
     </a>
 {% endif %}
 {% endif %}
-{% if object.is_task and cperms.issues.edittask_proposal %}
+<!-- {% if object.is_task and cperms.issues.edittask_proposal %}
 {% if cperms.issues.editclosed_proposal or object.is_open %}
 <a class="btn btn-oc" href="{{object.get_edit_task_url}}" data-rel="form">
-    <span class="glyphicon glyphicon-repeat"> <span>{% trans "Reassign task" %}</span></span>
+    <i class="fa fa-undo"></i> <span>{% trans "Reassign task" %}</span>
 </a>
 {% endif %}
-{% endif %}
+{% endif %} -->
 {% endblock %}
 
 {% block content %}
@@ -38,7 +38,7 @@ id="proposal-detail"
     <ul class="prop-table proposals">
         <li class="wide-icon {% if object.type == 1 %}task-icon{% endif %}{% if object.type == 2 %}rule-icon{% endif %}{% if object.type == 3 %}general-icon{% endif %}"></li>
         <li class="prop-title">
-            <h2>{{object.title}} ({{object.get_status_display}}{% if object.decided_at_meeting %} {{object.decided_at_meeting}}{% endif %})</h2>
+            <h2>{{object.title}} <!-- ({{object.get_status_display}}{% if object.decided_at_meeting %} {{object.decided_at_meeting}}{% endif %}) --></h2>
         </li>
         <li class="prop-content">
             {% if object.type == 1 %}
@@ -96,13 +96,14 @@ id="proposal-detail"
     </div>
     {% endif %}
 
-    {% if object.can_straw_vote and cperms.issues.vote %}
-        {% with proposal=object %}
-        {% include 'issues/_vote.html' %}        
-        {% endwith %}
-    {% endif %}
 
-    
+    {% with proposal=object %}
+        {% if object.can_straw_vote and cperms.issues.vote %}
+            {% include 'issues/_vote.html' %}
+        {% endif %}
+		 {% include 'issues/_proposal_vote_results.html' %}
+	{% endwith %}
+
     {% if object.can_vote and cperms.issues.acceptopen_proposal %}
     <form id="proposal-form" method="post">
         {% csrf_token %}
@@ -129,5 +130,15 @@ id="proposal-detail"
 {% endblock %}
 
 {% block scripts %}
-    <script src="{{STATIC_URL}}js/proposal.js"></script>
+<script src="{{STATIC_URL}}js/proposal.js"></script>
+<script src="{{STATIC_URL}}js/Chart.js"></script>
+<script src="{{STATIC_URL}}js/_piechart.js"></script>
+<script>
+createChart(
+	{{ object.votes_pro }},
+	{{ object.votes_con }},
+	{{ object.community_members|subtract:object.votes_con|subtract:object.votes_pro }},
+	{{ object.id }}
+);
+</script>
 {% endblock %}

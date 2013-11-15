@@ -2,7 +2,8 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.core.urlresolvers import reverse
 from django.db.utils import IntegrityError
-from django.http.response import HttpResponse, HttpResponseForbidden
+from django.http.response import HttpResponse, HttpResponseForbidden,\
+    HttpResponseBadRequest
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.detail import DetailView
@@ -41,18 +42,18 @@ class MembershipList(MembershipMixin, ListView):
         form = InvitationForm(request.POST)
 
         if not form.is_valid():
-            return HttpResponseForbidden(
+            return HttpResponseBadRequest(
                                  _("Form error. Please supply a valid email."))
 
         # somewhat of a privacy problem next line. should probably fail silently
         if Membership.objects.filter(community=self.community,
                                  user__email=form.instance.email).exists():
-            return HttpResponseForbidden(
+            return HttpResponseBadRequest(
                          _("This user already a member of this community."))
 
         if Invitation.objects.filter(community=self.community,
                                  email=form.instance.email).exists():
-            return HttpResponseForbidden(
+            return HttpResponseBadRequest(
                          _("This user is already invited to this community."))
 
         form.instance.community = self.community

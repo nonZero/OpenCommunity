@@ -14,7 +14,6 @@ import os.path
 
 
 
-
 class IssueStatus(object):
 
     OPEN = 1
@@ -106,7 +105,7 @@ class Issue(UIDMixin):
                               ])
         return decided_at_current or self.new_comments()
 
-        
+
     @property
     def is_archived(self):
         return self.status == IssueStatus.ARCHIVED
@@ -434,7 +433,6 @@ class Proposal(UIDMixin):
         if self.status == self.statuses.REJECTED:
             return "rejected"
         return ""
-   
 
 class VoteResult(models.Model):
     proposal = models.ForeignKey(Proposal, related_name="results",

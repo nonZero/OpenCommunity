@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-05 10:03+0200\n"
+"POT-Creation-Date: 2013-11-14 22:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,29 +28,29 @@ msgid ""
 "form</a>."
 msgstr ""
 
-#: .\default_roles.py:91
+#: .\default_roles.py:95
 msgid "member"
 msgstr "חבר"
 
-#: .\default_roles.py:92
+#: .\default_roles.py:96
 msgid "board"
 msgstr "ועד"
 
-#: .\default_roles.py:93
+#: .\default_roles.py:97
 msgid "secretary"
 msgstr "מזכיר"
 
-#: .\default_roles.py:94
+#: .\default_roles.py:98
 msgid "chairman"
 msgstr "יושב ראש"
 
 #: .\forms.py:33
 msgid "Password confirmation"
-msgstr ""
+msgstr "אימות סיסמא"
 
 #: .\forms.py:47
 msgid "Passwords don't match"
-msgstr ""
+msgstr "סיסמא לא תואמת"
 
 #: .\models.py:66
 msgid "email address"
@@ -168,19 +168,19 @@ msgstr ""
 msgid "Invitation to %s"
 msgstr "הזמנה לקהילה %s"
 
-#: .\views.py:45
+#: .\views.py:46 .\tests\invitation_test.py:78
 msgid "Form error. Please supply a valid email."
 msgstr "יש בעיה בטופס. אנא בדוק את כתובת האימייל"
 
-#: .\views.py:51
+#: .\views.py:52 .\tests\invitation_test.py:97
 msgid "This user already a member of this community."
 msgstr "משתמש זה כבר חבר בקהילה"
 
-#: .\views.py:56
+#: .\views.py:57 .\tests\invitation_test.py:87
 msgid "This user is already invited to this community."
 msgstr "משתמש זה כבר הוזמן לקהילה"
 
-#: .\views.py:141
+#: .\views.py:142
 msgid "Oops. Something went wrong. Please try again."
 msgstr "אופס. משהו השתבש. אנה נסה שוב."
 

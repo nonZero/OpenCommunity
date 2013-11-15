@@ -1,5 +1,7 @@
 {% extends "base.html" %}
-{% load i18n humanize %}
+{% load i18n %}
+{% load humanize %}
+{% load voting_tags %}
 
 {% block extra-page-id %}
 id="issue-detail"
@@ -12,15 +14,15 @@ id="issue-detail"
 {% block pagemenu %}
     {% if cperms.issues.editclosed_issue or not object.is_archived %}
         {% if cperms.issues.editopen_issue or object.created_by == user %}
-            <a data-rel="form" class="btn btn-oc" href="{{object.get_edit_url}}" data-toggle="tooltip" title='{% trans "Edit" %}'>
+            <a data-rel="form" class="btn btn-oc" href="{{object.get_edit_url}}" title='{% trans "Edit" %}'>
                  <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span>
             </a>
             {% if cperms.issues.editopen_issue %}
-                <a id="add-attachment" data-rel="form" class="btn btn-oc" href="{% url 'add_attachment' community.id object.id %}" data-toggle="tooltip" title='{% trans "Add attachment" %}'>
+                <a id="add-attachment" data-rel="form" class="btn btn-oc" href="{% url 'add_attachment' community.id object.id %}" title='{% trans "Add attachment" %}'>
                     <i class="fa fa-paperclip"></i> <span>{% trans 'Add attachment' %}</span>
                 </a>
             {% endif %}
-            <a class="btn btn-oc" data-rel="form" href="{{object.get_delete_url}}" data-toggle="tooltip" title='{% trans "Delete" %}'>
+            <a class="btn btn-oc" data-rel="form" href="{{object.get_delete_url}}" title='{% trans "Delete" %}'>
                 <i class="fa fa-trash-o"></i> <span>{% trans "Delete" %}</span>
             </a>
         {% endif %}
@@ -56,9 +58,10 @@ id="issue-detail"
     <span class="loader">
         <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/>
     </span>
-<div class="oc_detail_top">
-    {% if object.abstract or object.attachments.count %}
-        <div class="proposal-info no-margin">
+
+    {% if object.abstract or object.content or object.attachments.count %}
+        <div class="oc_detail_top">
+
             {% if object.abstract %}
                 <p>
                     {{object.abstract|safe}}
@@ -66,30 +69,35 @@ id="issue-detail"
             {% endif %}
 
             {% if object.content %}
-    <h4>{% trans "Content" %}</h4>
-    <p>
-        {{object.content|safe}}
-    </p>
-    {% endif %}
+                <h4>{% trans "Content" %}</h4>
 
-    {% if object.attachments.count %}
-    <div class="issue_attachments">
-        <h4>{% trans "Attachments" %}</h4>
-        <ul>
-            {% for att in object.attachments.all %}
-            <li>
-                                <a href="{{ att.get_absolute_url }}" class="file_ext {{ att.get_icon }}">{{att.title}}</a>
-                           
-                {% if cperms.issues.editopen_issue %}
-                <a id="remove-attachment" href="{% url 'attachment_delete' community.id object.id att.id %}" data-rel="form"><img src="{{ STATIC_URL }}images/icon-remove.gif"/></a>
-            </li>
+                <p>
+                    {{object.content|safe}}
+                </p>
             {% endif %}
-                             </li>
-            {% endfor %}
-        </ul>
-    </div>
-    {% endif %}
-</div>
+
+            {% if object.attachments.count %}
+
+                <div class="issue_attachments">
+
+                    <!-- <h4>{% trans "Attachments" %}</h4> -->
+
+                    <ul>
+                        {% for att in object.attachments.all %}
+                            <li>
+                                <a href="{{ att.get_absolute_url }}" class="file_ext {{ att.get_icon }}">{{att.title}}</a>
+
+                                {% if cperms.issues.editopen_issue %}
+                                    <a id="remove-attachment" href="{% url 'attachment_delete' community.id object.id att.id %}" data-rel="form"><img src="{{ STATIC_URL }}images/icon-remove.gif"/></a>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                </div>
+
+            {% endif %}
+        </div>
     {% endif %}
 
 {% with can_straw_vote=object.can_straw_vote %}
@@ -97,20 +105,21 @@ id="issue-detail"
 {% csrf_token %}
 <div class="issue_proposal">
             {% if object.proposals.closed %}
-                <h4>{% trans "Decisions" %}</h4>
-                <h2>{% trans "Past Proposals" %}</h2>
-                {% for proposal in object.proposals.closed %}                
+    			<h2>{% trans "Past Proposals" %}</h2>
+                {% for proposal in object.proposals.closed %}
                     {% include 'issues/_proposal.html' %}
                 {% endfor %}
             {% endif %}
             
             {% if object.proposals.open %}
                 <h2>{% trans "Proposals" %}</h2>
-                {% for proposal in object.proposals.open %}                
+                {% for proposal in object.proposals.open %}
                     {% include 'issues/_proposal.html' %}
                     {% if can_straw_vote and not proposal.decided and cperms.issues.vote %}
-                        {% include 'issues/_vote.html' %}
-                    {% endif %}
+                    <div class="issue_proposal_vote">
+                    	{% include 'issues/_vote.html' %}
+                	</div>
+                	{% endif %}
                 {% endfor %}
             {% endif %}
 </div>
@@ -123,7 +132,7 @@ id="issue-detail"
 </div>
 {% endif %}
 
-{% if object.comments.count or cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
+{% if object.comments.active or cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
 <div class="issuecomments">
     <h2>{% trans "Summary" %}</h2>
     <ul id="comments">
@@ -170,7 +179,22 @@ id="issue-detail"
 <script src="{{STATIC_URL}}js/issue.js"></script>
 <script src="{{STATIC_URL}}js/Chart.js"></script>
 <script src="{{STATIC_URL}}js/proposal.js"></script>
-<script src="{{STATIC_URL}}js/piechart.js"></script>
-
-
+<script src="{{STATIC_URL}}js/_piechart.js"></script>
+{% for proposal in object.proposals.open %}
+<script>
+	createChart(
+		{{ proposal.votes_pro|default_if_none:0 }},
+		{{ proposal.votes_con|default_if_none:0 }},
+		{{ proposal.community_members|subtract:proposal.votes_con|default_if_none:0|subtract:proposal.votes_pro|default_if_none:0 }},
+		{{ proposal.id }}
+		);
+</script>
+{% endfor %}
+<script>
+	$(function() {
+		$('ul.prop-table.proposals').on('click', function() {
+			window.location=$(this).find('a').attr('href');
+		});
+	});
+</script>
 {% endblock %}
