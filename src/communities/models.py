@@ -324,5 +324,4 @@ class Community(UIDMixin):
                         issue.comments.filter(meeting=None, active=True),
                     }
 
-        return [as_agenda_item(x) for x in
-                self.issues.filter(status__in=IssueStatus.IS_UPCOMING)]
+        return [as_agenda_item(x) for x in self.upcoming_issues()]

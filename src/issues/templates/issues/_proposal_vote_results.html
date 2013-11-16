@@ -1,5 +1,7 @@
 {% load i18n %}
 {% load voting_tags %}
+
+{% if proposal.community_members %}
 <div class="row piechart">
 	<div class="col-xs-6">
 		<p>
@@ -20,3 +22,4 @@
 		<canvas id="proposal{{ proposal.id }}Chart" height="100px" width="100px"></canvas>
 	</div>
 </div>
+{% endif %}
