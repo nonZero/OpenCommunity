@@ -41,11 +41,11 @@
 			<input type="hidden" name="upcoming_meeting_started" value="{{object.upcoming_meeting_started|yesno:'0,1'}}" id="id_upcoming_meeting_started">
 			{% if object.upcoming_meeting_started %}
 				<button class="btn-oc" style="border: 0; outline: none;">
-					<i class="fa fa-undo"></i><span>{% trans "Undo Start Meeting" %}</span>
+					<i class="fa fa-undo"></i> <span>{% trans "Undo Start Meeting" %}</span>
 				</button>
 			{% else %}
 				<button class="btn-oc" style="border: 0; outline: none;">
-					<i class="fa fa-play-circle"></i><span>{% trans "Start Meeting" %}</span>
+					<i class="fa fa-play-circle"></i> <span>{% trans "Start Meeting" %}</span>
 				</button>
 			{% endif %}
 		</form>

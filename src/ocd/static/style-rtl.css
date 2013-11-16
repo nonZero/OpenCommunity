@@ -891,21 +891,35 @@ i.fa + span {
 
 .change_vote {
 	background: #fff3a5;
-	padding: 10px 40px;
+	padding: 10px 20px;
 	color: #666;
 	font-size: 16px;
 	font-weight: bold;
 }
-.change_vote span {
-	margin-left: 30px;
+.issue_proposal_vote .change_vote {
+	margin-top: -10px;
 }
 .prop_votes {
 	height: 35px;
-	margin-top: 10px;	
 	margin-bottom: 10px;
+}
+#proposal-detail .prop_votes {
+	margin-top: 10px;
 }
 .issue_proposal_vote {
 	height: 55px;
+	background: #fff;
+	border-right: 1px solid #d8e0df;
+	border-left: 1px solid #d8e0df;
+	border-bottom: 1px solid #d8e0df;
+	margin-bottom: 20px;
+	padding: 10px 0;
+}
+.change_vote~.issue_proposal_vote {
+	padding-top: 0;
+}
+.issue_proposal_vote:last-child {
+	margin-bottom: 0;
 }
 .proposal_count {
 	color: green;
@@ -1002,6 +1016,12 @@ i.fa + span {
 	}
 	i.fa + span {
 		display: inline;
+	}
+	.change_vote {
+		padding: 10px 40px;
+	}
+	.change_vote span {
+		margin-left: 30px;
 	}
 }
 
