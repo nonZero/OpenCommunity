@@ -928,33 +928,9 @@ i.fa + span {
 	color: red;
 }
 
-/* WYSIWYG top bar */
+/* WYSIHTML5 Editor */
 
-.mce-container.mce-panel.mce-first.mce-stack-layout-item {
-	background: #3d3c3c;
-	padding: 5px;
-}
-.mce-container.mce-panel.mce-first.mce-stack-layout-item .mce-widget {
-	box-shadow: none;
-}
 
-.mce-statusbar {
-	display: none !important;
-}
-.mce-btn-group {
-	margin: 0 10px !important;
-}
-.mce-btn {
-	border: 0 !important;
-	background: transparent !important;
-	-webkit-box-shadow: 0 0 0 !important;
-	-moz-box-shadow: 0 0 0 !important;
-	box-shadow: 0 0 0 !important;
-}
-.mce-btn-small .mce-ico {
-	color: #f5f5f5 !important;
-	text-shadow: none !important;
-}
 
 /* Footer */
 
@@ -963,6 +939,13 @@ i.fa + span {
 }
 
 /* Responsive */
+
+/* Extra small devices, mostly for patches (smartphone, up to 480px) */
+@media (max-width: 480px) {
+	ul.wysihtml5-toolbar > li:last-child {
+		display:none
+		}
+}		
 
 /* Extra small devices (smartphone, up to 767px) */
 @media (max-width: 767px) {

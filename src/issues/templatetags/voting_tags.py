@@ -18,7 +18,7 @@ def vote_percentage(proposal):
         return 'undefined'
     votes = proposal.votes_pro + proposal.votes_con
     print votes ,proposal.community_members
-    percentage = (float(votes) / float(proposal.community_members)) * 100.0  
+    percentage = (100 / proposal.community_members) * votes  
     return str(percentage)
 
     
