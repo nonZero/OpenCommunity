@@ -58,3 +58,4 @@ class UIDMixin(models.Model):
 
     class Meta:
         abstract = True
+
