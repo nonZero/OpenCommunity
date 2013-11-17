@@ -3,19 +3,24 @@
   <component name="FacetManager">
     <facet type="django" name="Django">
       <configuration>
-        <option name="rootFolder" value="$MODULE_DIR$/Scripts" />
+        <option name="rootFolder" value="$MODULE_DIR$" />
         <option name="settingsModule" value="" />
-        <option name="manageScript" value="" />
+        <option name="manageScript" value="manage.py" />
       </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Python 2.7.5 virtualenv at C:\Users\Admin\OpenCommunity\OpenCommunity" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
+    <option name="TEMPLATE_FOLDERS">
+      <list>
+        <option value="$MODULE_DIR$/ocd/templates" />
+      </list>
+    </option>
   </component>
 </module>
 

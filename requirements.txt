@@ -6,14 +6,12 @@ django-floppyforms==1.1
 South==0.7.6
 
 # general libs
-pillow==2.1.0
 bleach==1.2.2
 
 # dev stuff
 django-extensions==1.1.1
 django-debug-toolbar==0.9.4
 django-nose==1.1
-ipython
 
 # fabric
 # fabric-virtualenv
