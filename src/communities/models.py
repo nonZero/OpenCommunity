@@ -202,6 +202,8 @@ class Community(UIDMixin):
 
         
     def sum_vote_results(self, only_when_over=True):
+        if not self.voting_ends_at:
+            return
         time_till_close = self.voting_ends_at - timezone.now()
         if only_when_over and time_till_close.total_seconds() > 0:
             return
