@@ -101,3 +101,4 @@ class AjaxFormView(object):
         resp = super(AjaxFormView, self).form_invalid(form)
         resp.status_code = 403
         return resp
+

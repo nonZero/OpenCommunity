@@ -354,6 +354,10 @@ msgstr "סדר יום לפגישת הועד הקרובה"
 msgid "Meeting Summary Draft"
 msgstr "טויטת סיכום פגישה"
 
+#: .\templates\communities\upcoming.html:32
+#: .\templates\communities\contact_us.html:5
+msgid "Contact us"
+msgstr "צור קשר"
 #~ msgid "Save"
 #~ msgstr "שמירה"
 
