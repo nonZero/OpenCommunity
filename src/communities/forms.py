@@ -25,6 +25,18 @@ class EditUpcomingMeetingForm(forms.ModelForm):
             'voting_ends_at': OCSplitDateTime,
             'upcoming_meeting_comments': HTMLArea,
         }
+        
+        
+    def save(self):
+        c = super(EditUpcomingMeetingForm, self).save()
+        if not c.voting_ends_at:
+            meeting_at = c.upcoming_meeting_scheduled_at
+            if meeting_at:
+                vote_ends_at = meeting_at.replace(hour=0, minute=0, second=0)
+                c.voting_ends_at = vote_ends_at
+                c.save()
+        return c
+
 
 
 class PublishUpcomingMeetingForm(forms.ModelForm):

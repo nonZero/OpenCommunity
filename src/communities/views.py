@@ -5,9 +5,10 @@ from communities.forms import EditUpcomingMeetingForm, \
 from communities.models import SendToOption
 from django.conf import settings
 from django.contrib import messages
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.db.models.aggregates import Max
-from django.http.response import HttpResponse, HttpResponseBadRequest
+from django.http.response import HttpResponse, HttpResponseBadRequest, \
+    HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
@@ -111,7 +112,8 @@ class EditUpcomingMeetingView(AjaxFormView, CommunityModelMixin, UpdateView):
             del form.fields['voting_ends_at']
 
         return form
-
+        
+        
 class EditUpcomingMeetingParticipantsView(AjaxFormView, CommunityModelMixin, UpdateView):
 
     reload_on_success = True
@@ -199,4 +201,6 @@ def sum_votes(request, pk):
         
     c = models.Community.objects.get(pk=pk)
     c.sum_vote_results(only_when_over=False)
-    return HttpResponse('-')
+    c.voting_ends_at = datetime.datetime.now()
+    c.save()
+    return HttpResponseRedirect(reverse('community', kwargs={'pk': pk}))

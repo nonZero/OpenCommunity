@@ -132,7 +132,7 @@ id="issue-detail"
 </div>
 {% endif %}
 
-{% if object.comments.active or cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
+{% if object.active_comments.count or cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
 <div class="issuecomments">
     <h2>{% trans "Summary" %}</h2>
     <ul id="comments">
