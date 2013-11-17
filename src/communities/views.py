@@ -201,4 +201,6 @@ def sum_votes(request, pk):
         
     c = models.Community.objects.get(pk=pk)
     c.sum_vote_results(only_when_over=False)
+    c.voting_ends_at = datetime.datetime.now()
+    c.save()
     return HttpResponseRedirect(reverse('community', kwargs={'pk': pk}))
