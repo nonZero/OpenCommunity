@@ -88,4 +88,4 @@ class UpcomingMeetingParticipantsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UpcomingMeetingParticipantsForm, self).__init__(*args, **kwargs)
         self.fields['upcoming_meeting_participants'].queryset = self.instance.get_members()
-
+#test
