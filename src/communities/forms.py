@@ -1,7 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from communities.models import Community, SendToOption
+from communities.models import Community, SendToOption, ContactUs
 from django.utils.translation import ugettext_lazy as _
 from ocd.formfields import HTMLArea, DateTimeLocalInput
 from users.models import OCUser
+from issues.models import Issue
 import floppyforms as forms
 
 
@@ -88,4 +92,27 @@ class UpcomingMeetingParticipantsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UpcomingMeetingParticipantsForm, self).__init__(*args, **kwargs)
         self.fields['upcoming_meeting_participants'].queryset = self.instance.get_members()
-#test
+
+class ContactUsForm(forms.ModelForm):
+    class Meta:
+        model = ContactUs
+        exclude = ('time',)
+        #widgets = {
+        #    'message': forms.Textarea(attrs={'cols': 80, 'rows': 20}),
+        #    }
+    contactName = forms.CharField(max_length=50,)
+    contactName.required = True
+    contactName.label = u'שם'
+    community = forms.ModelChoiceField(queryset=Community.objects.all())
+    community.required = False
+    community.label = u'קהילה'
+    issue = forms.ModelChoiceField(queryset=Issue.objects.all())
+    issue.required = False
+    issue.label = u'נושא'
+    email = forms.EmailField()
+    email.required = True
+    email.label = u'דואר אלקטרוני'
+    phone = forms.CharField(max_length=50,required=False,label=u'טלפון')
+    message = forms.CharField(widget=forms.Textarea)
+    message.required = True
+    message.label = u'מסר'
