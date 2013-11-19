@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+from django.utils.translation import ugettext as _
 from communities.models import Community, SendToOption
 from communities.models import Community, SendToOption, ContactUs
 from django.utils.translation import ugettext_lazy as _
@@ -102,17 +101,17 @@ class ContactUsForm(forms.ModelForm):
         #    }
     contactName = forms.CharField(max_length=50,)
     contactName.required = True
-    contactName.label = u'שם'
+    contactName.label = _('name')
     community = forms.ModelChoiceField(queryset=Community.objects.all())
     community.required = False
-    community.label = u'קהילה'
+    community.label = _('community')
     issue = forms.ModelChoiceField(queryset=Issue.objects.all())
     issue.required = False
-    issue.label = u'נושא'
+    issue.label = _('issue')
     email = forms.EmailField()
     email.required = True
-    email.label = u'דואר אלקטרוני'
-    phone = forms.CharField(max_length=50,required=False,label=u'טלפון')
+    email.label = _('email')
+    phone = forms.CharField(max_length=50,required=False,label=_('phone'))
     message = forms.CharField(widget=forms.Textarea)
     message.required = True
-    message.label = u'מסר'
+    message.label = _('message')

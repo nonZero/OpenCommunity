@@ -29,7 +29,7 @@
 {% endif %}
         <a class="btn btn-oc" data-rel="form"
            href="{% url "contact_us" community.id %}">
-            <i class="fa fa-edit"></i> <span>צור קשר</span>
+            <i class="fa fa-edit"></i> <span>{%trans "Contact us"%}</span>
     </a>
 {% if cperms.community.editparticipants_community and community.upcoming_meeting_started %}
     <a class="btn btn-oc" data-rel="form"
