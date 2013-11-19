@@ -31,6 +31,12 @@ id="proposal-detail"
 
 {% block content %}
 
+{% if object.can_straw_vote and not user.id %}
+<div class="text-center" style="margin-bottom: 10px;">
+	<a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-default">{% trans "Login to vote" %}</a>
+</div>
+{% endif %}
+
 <div class="proposal" data-id="{{object.id}}" data-accepted="{{object.status}}">
 
     <a class="title_w_right_icon prop_back_icon" href="{{object.issue.get_absolute_url}}"> {{object.issue}} </a>

@@ -705,6 +705,9 @@ ul.proposals li.prop-content p {
 	border: 1px solid #d8e0df;
 	background: #fff;
 }
+#proposal-detail .proposal-info {
+	margin-top: 15px;
+}
 .proposal-info p {
 	word-break: break-word;
 	margin: 10px 0;

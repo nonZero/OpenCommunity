@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-19 13:57+0200\n"
+"POT-Creation-Date: 2013-11-19 15:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -90,11 +90,11 @@ msgstr "אנא הכנס את הסיסמא החדשה פעמיים, בכדי לו
 msgid "New password:"
 msgstr "סיסמא חדשה:"
 
-#: .\templates\registration\password_reset_confirm.html.py:22
+#: .\templates\registration\password_reset_confirm.html.py:23
 msgid "Confirm password:"
 msgstr "אימות סיסמא:"
 
-#: .\templates\registration\password_reset_confirm.html.py:25
+#: .\templates\registration\password_reset_confirm.html.py:26
 msgid "Change my password"
 msgstr "שנה את הסיסמא שלי"
 
@@ -141,7 +141,9 @@ msgstr "תודה שהשתמשת באתר שלנו!"
 msgid ""
 "Forgotten your password? Enter your email address below, and we'll email "
 "instructions for setting a new one."
-msgstr "שכחת סיסמא? הכנס את כתובת המייל שלך למטה, ונשלח לך מייל עם הסבר כיצד להגדיר סיסמא חדשה."
+msgstr ""
+"שכחת סיסמא? הכנס את כתובת המייל שלך למטה, ונשלח לך מייל עם הסבר כיצד להגדיר "
+"סיסמא חדשה."
 
 #: .\templates\registration\password_reset_form.html.py:15
 msgid "Email address:"
