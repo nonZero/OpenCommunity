@@ -429,3 +429,9 @@ msgstr "טויטת סיכום פגישה"
 
 #~ msgid "Contact us"
 #~ msgstr "צור קשר"
+
+#~ msgid "phone"
+#~ msgstr "טלפון"
+
+#~ msgid "message"
+#~ msgstr "מסר"
