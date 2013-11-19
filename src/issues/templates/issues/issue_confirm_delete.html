@@ -15,10 +15,10 @@
 {% block nofooter %}
 <div class="modal-footer">
 <div class="col-xs-5 col-xs-offset-1 col-sm-3 col-sm-offset-3">
-    <button type="button" class="btn btn-success btn-block" data-dismiss="modal">{% trans "No" %}</button>
+    <button type="button" class="btn btn-default btn-block" data-dismiss="modal">{% trans "No" %}</button>
 </div>
 <div class="col-xs-5 col-sm-3">
-    <input type="submit" class="btn btn-danger btn-block" value="{% block btn_text %}{% trans "Yes" %}{% endblock %}">
+    <button type="submit" class="btn btn-danger btn-block"><i class="fa fa-trash-o"></i> {% block btn_text %}{% trans "Yes" %}{% endblock %}</button>
 </div>
 </div>
 {% endblock %}

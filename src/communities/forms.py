@@ -2,6 +2,7 @@ from communities.models import Community, SendToOption
 from django.utils.translation import ugettext_lazy as _
 from ocd.formfields import HTMLArea, DateTimeLocalInput, OCSplitDateTime
 from users.models import OCUser
+import floppyforms
 import floppyforms as forms
 
 
@@ -104,4 +105,5 @@ class UpcomingMeetingParticipantsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UpcomingMeetingParticipantsForm, self).__init__(*args, **kwargs)
         self.fields['upcoming_meeting_participants'].queryset = self.instance.get_members()
-
+        self.fields['upcoming_meeting_guests'].widget.attrs['rows'] = 4
+        

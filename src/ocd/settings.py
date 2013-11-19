@@ -1,6 +1,5 @@
 import os.path
 import sys
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
@@ -217,17 +216,6 @@ DATE_FORMAT_OCSHORTTIME = "H:i"
 DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,
 }
-
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'django.core.context_processors.tz',
-    'django.core.context_processors.request',
-    'django.contrib.messages.context_processors.messages',
-)
 
 version_file = os.path.join(STATIC_ROOT, 'version.txt')
 if os.path.exists(version_file):

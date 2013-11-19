@@ -57,15 +57,6 @@ p > a {
 	word-break: break-word;
 }
 
-.wysiwyg-text-align-left {
-    text-align: left;
-}
-.wysiwyg-text-align-right {
-    text-align: right;
-}
-.wysiwyg-text-align-center {
-    text-align: center;
-}
 /* Errors */
 
 ul.errorlist {
@@ -78,6 +69,9 @@ ul.errorlist li {
 
 /* Forms */
 
+.modal-body {
+	padding: 20px 20px 10px 20px;
+}
 .modal-content {
 	background: url('images/background.jpg') repeat;
 }
@@ -91,6 +85,12 @@ ul.errorlist li {
 .modal-header .close {
 	color: #fff;
 	opacity: 1;
+}
+.modal-footer {
+	margin-top: 0;
+}
+.form-group {
+	margin-bottom: 10px;
 }
 #upcoming-meeting .field-send_to ul {
 	list-style-type: none;
@@ -723,6 +723,7 @@ ul.proposals li.prop-content p {
 	font-size: 18px;
 	font-weight: bold;
 	margin-bottom: 20px;
+	margin-top: 20px;
 }
 #proposal-detail .rejected {
     position: relative;
@@ -872,6 +873,7 @@ i.fa + span {
 	margin: 10px 0;
 	background: #fff;
 	padding-top: 10px;
+	border: 1px solid #d8e0df;
 }
 .piechart span {
 	font-size: 1.1em;
@@ -940,7 +942,15 @@ i.fa + span {
 
 /* WYSIHTML5 Editor */
 
-
+.wysiwyg-text-align-left {
+    text-align: left;
+}
+.wysiwyg-text-align-right {
+    text-align: right;
+}
+.wysiwyg-text-align-center {
+    text-align: center;
+}
 
 /* Footer */
 

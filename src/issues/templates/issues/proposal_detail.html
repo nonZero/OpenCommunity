@@ -58,7 +58,6 @@ id="proposal-detail"
         </li>
     </ul>
 
-    <br />
     {% if cperms.issues.view_proposal_in_discussion or not proposal.is_open %}
         {% if object.status == object.statuses.ACCEPTED or object.status == object.statuses.REJECTED %}
             <div class="{{object.get_status_class}}">
@@ -89,14 +88,6 @@ id="proposal-detail"
         </div>
     {% endif %}
 
-    {% if object.content %}
-    <div class="proposal-info">
-        {# <h4>{% trans "Content" %}</h4> #}
-        {{object.content|safe}}
-    </div>
-    {% endif %}
-
-
     {% with proposal=object %}
         {% if object.can_straw_vote and cperms.issues.vote and user.id %}
             {% include 'issues/_vote.html' %}
@@ -105,6 +96,13 @@ id="proposal-detail"
             {% include 'issues/_proposal_vote_results.html' %}
         {% endif %}
 	{% endwith %}
+
+    {% if object.content %}
+    <div class="proposal-info">
+        {# <h4>{% trans "Content" %}</h4> #}
+        {{object.content|safe}}
+    </div>
+    {% endif %}
 
     {% if object.can_vote and cperms.issues.acceptopen_proposal %}
     <form id="proposal-form" method="post">
