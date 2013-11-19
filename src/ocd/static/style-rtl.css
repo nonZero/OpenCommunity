@@ -664,6 +664,7 @@ ul:nth-child(odd).proposals li.drag-icon {
 }
 ul.proposals li.prop-title {
 	padding: .7em 15px 0 15px;
+	word-break: break-word;
 }
 a ul.proposals li.prop-title {
 	color: #6c6c6e;
@@ -746,7 +747,7 @@ ul.proposals li.prop-content p {
 	padding: 0;
 	margin-bottom: 1px;
 }
-#comments li {
+#comments > li {
 	padding: 5px;
 	background: #fff;
 	list-style-type: none;
@@ -780,8 +781,8 @@ ul#invitations {
 	list-style-type: none;
 }
 form.delete-invitation {
-	display: inline;
-	margin-left: 15px;
+/*	display: inline;*/
+	margin-right: 10px;
 }
 /* Images & Icons */
 
@@ -945,6 +946,9 @@ i.fa + span {
 	ul.wysihtml5-toolbar > li:last-child {
 		display:none
 		}
+	.mobile_line_break {
+		display: block;
+	}
 }		
 
 /* Extra small devices (smartphone, up to 767px) */
@@ -1005,6 +1009,9 @@ i.fa + span {
 	}
 	.change_vote span {
 		margin-left: 30px;
+	}
+	.mobile_line_break {
+		display: inline;
 	}
 }
 

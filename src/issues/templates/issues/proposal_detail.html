@@ -70,7 +70,7 @@ id="proposal-detail"
                     {% trans "Proposal rejected" %}!
                 {% endif %}
                 
-                {% if object.decided_at_meeting %} (<a href="{{ object.decided_at_meeting.get_absolute_url }}"> {{ object.decided_at_meeting.get_title_or_date }} </a>)
+                {% if object.decided_at_meeting %} <a href="{{ object.decided_at_meeting.get_absolute_url }}" class="mobile_line_break">({{ object.decided_at_meeting.get_title_or_date }})</a>
                 {% endif %}
         
                 {% if object.can_vote and cperms.issues.acceptopen_proposal %}
