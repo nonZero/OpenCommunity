@@ -4,6 +4,10 @@ import floppyforms as forms
 
 class HTMLArea(forms.Textarea):
     template_name = 'floppyforms/htmlarea.html'
+    def get_context(self, name, value, attrs):
+        ctx = super(HTMLArea, self).get_context(name, value, attrs)
+        ctx['attrs']['rows'] = 4
+        return ctx
 
 
 class DateTimeLocalInput(forms.DateTimeInput):

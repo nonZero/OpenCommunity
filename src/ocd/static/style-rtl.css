@@ -69,6 +69,9 @@ ul.errorlist li {
 
 /* Forms */
 
+.modal-body {
+	padding: 20px 20px 10px 20px;
+}
 .modal-content {
 	background: url('images/background.jpg') repeat;
 }
@@ -82,6 +85,12 @@ ul.errorlist li {
 .modal-header .close {
 	color: #fff;
 	opacity: 1;
+}
+.modal-footer {
+	margin-top: 0;
+}
+.form-group {
+	margin-bottom: 10px;
 }
 #upcoming-meeting .field-send_to ul {
 	list-style-type: none;
@@ -664,6 +673,7 @@ ul:nth-child(odd).proposals li.drag-icon {
 }
 ul.proposals li.prop-title {
 	padding: .7em 15px 0 15px;
+	word-break: break-word;
 }
 a ul.proposals li.prop-title {
 	color: #6c6c6e;
@@ -695,6 +705,9 @@ ul.proposals li.prop-content p {
 	border: 1px solid #d8e0df;
 	background: #fff;
 }
+#proposal-detail .proposal-info {
+	margin-top: 15px;
+}
 .proposal-info p {
 	word-break: break-word;
 	margin: 10px 0;
@@ -713,6 +726,7 @@ ul.proposals li.prop-content p {
 	font-size: 18px;
 	font-weight: bold;
 	margin-bottom: 20px;
+	margin-top: 20px;
 }
 #proposal-detail .rejected {
     position: relative;
@@ -746,7 +760,7 @@ ul.proposals li.prop-content p {
 	padding: 0;
 	margin-bottom: 1px;
 }
-#comments li {
+#comments > li {
 	padding: 5px;
 	background: #fff;
 	list-style-type: none;
@@ -780,8 +794,8 @@ ul#invitations {
 	list-style-type: none;
 }
 form.delete-invitation {
-	display: inline;
-	margin-left: 15px;
+/*	display: inline;*/
+	margin-right: 10px;
 }
 /* Images & Icons */
 
@@ -862,6 +876,7 @@ i.fa + span {
 	margin: 10px 0;
 	background: #fff;
 	padding-top: 10px;
+	border: 1px solid #d8e0df;
 }
 .piechart span {
 	font-size: 1.1em;
@@ -898,21 +913,35 @@ i.fa + span {
 
 .change_vote {
 	background: #fff3a5;
-	padding: 10px 40px;
+	padding: 10px 20px;
 	color: #666;
 	font-size: 16px;
 	font-weight: bold;
 }
-.change_vote span {
-	margin-left: 30px;
+.issue_proposal_vote .change_vote {
+	margin-top: -10px;
 }
 .prop_votes {
 	height: 35px;
-	margin-top: 10px;	
 	margin-bottom: 10px;
+}
+#proposal-detail .prop_votes {
+	margin-top: 10px;
 }
 .issue_proposal_vote {
 	height: 55px;
+	background: #fff;
+	border-right: 1px solid #d8e0df;
+	border-left: 1px solid #d8e0df;
+	border-bottom: 1px solid #d8e0df;
+	margin-bottom: 20px;
+	padding: 10px 0;
+}
+.change_vote~.issue_proposal_vote {
+	padding-top: 0;
+}
+.issue_proposal_vote:last-child {
+	margin-bottom: 0;
 }
 .proposal_count {
 	color: green;
@@ -921,32 +950,16 @@ i.fa + span {
 	color: red;
 }
 
-/* WYSIWYG top bar */
+/* WYSIHTML5 Editor */
 
-.mce-container.mce-panel.mce-first.mce-stack-layout-item {
-	background: #3d3c3c;
-	padding: 5px;
+.wysiwyg-text-align-left {
+    text-align: left;
 }
-.mce-container.mce-panel.mce-first.mce-stack-layout-item .mce-widget {
-	box-shadow: none;
+.wysiwyg-text-align-right {
+    text-align: right;
 }
-
-.mce-statusbar {
-	display: none !important;
-}
-.mce-btn-group {
-	margin: 0 10px !important;
-}
-.mce-btn {
-	border: 0 !important;
-	background: transparent !important;
-	-webkit-box-shadow: 0 0 0 !important;
-	-moz-box-shadow: 0 0 0 !important;
-	box-shadow: 0 0 0 !important;
-}
-.mce-btn-small .mce-ico {
-	color: #f5f5f5 !important;
-	text-shadow: none !important;
+.wysiwyg-text-align-center {
+    text-align: center;
 }
 
 /* Footer */
@@ -956,6 +969,16 @@ i.fa + span {
 }
 
 /* Responsive */
+
+/* Extra small devices, mostly for patches (smartphone, up to 480px) */
+@media (max-width: 480px) {
+	ul.wysihtml5-toolbar > li:last-child {
+		display:none
+		}
+	.mobile_line_break {
+		display: block;
+	}
+}		
 
 /* Extra small devices (smartphone, up to 767px) */
 @media (max-width: 767px) {
@@ -1008,6 +1031,15 @@ i.fa + span {
 		color: #fff;
 	}
 	i.fa + span {
+		display: inline;
+	}
+	.change_vote {
+		padding: 10px 40px;
+	}
+	.change_vote span {
+		margin-left: 30px;
+	}
+	.mobile_line_break {
 		display: inline;
 	}
 }

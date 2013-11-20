@@ -30,7 +30,15 @@ function initForm(modal) {
     var url = modal.data('bs.modal').options.remote;
 
     var form = modal.find('form');
-    form.find('.htmlarea textarea').wysihtml5({locale: "he-IL"});
+
+	form.find('.htmlarea textarea').wysihtml5({
+		locale : "he-IL"
+	}).css({
+		'width' : '100%',
+		'border-top-right-radius' : '0',
+		'border-top-left-radius' : '0',
+		'border-top' : '0'
+	}); 
 
     form.ajaxForm({
 

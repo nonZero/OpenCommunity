@@ -31,6 +31,12 @@ id="proposal-detail"
 
 {% block content %}
 
+{% if object.can_straw_vote and not user.id %}
+<div class="text-center" style="margin-bottom: 10px;">
+	<a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-default">{% trans "Login to vote" %}</a>
+</div>
+{% endif %}
+
 <div class="proposal" data-id="{{object.id}}" data-accepted="{{object.status}}">
 
     <a class="title_w_right_icon prop_back_icon" href="{{object.issue.get_absolute_url}}"> {{object.issue}} </a>
@@ -58,7 +64,6 @@ id="proposal-detail"
         </li>
     </ul>
 
-    <br />
     {% if cperms.issues.view_proposal_in_discussion or not proposal.is_open %}
         {% if object.status == object.statuses.ACCEPTED or object.status == object.statuses.REJECTED %}
             <div class="{{object.get_status_class}}">
@@ -70,7 +75,7 @@ id="proposal-detail"
                     {% trans "Proposal rejected" %}!
                 {% endif %}
                 
-                {% if object.decided_at_meeting %} (<a href="{{ object.decided_at_meeting.get_absolute_url }}"> {{ object.decided_at_meeting.get_title_or_date }} </a>)
+                {% if object.decided_at_meeting %} <a href="{{ object.decided_at_meeting.get_absolute_url }}" class="mobile_line_break">({{ object.decided_at_meeting.get_title_or_date }})</a>
                 {% endif %}
         
                 {% if object.can_vote and cperms.issues.acceptopen_proposal %}
@@ -89,14 +94,6 @@ id="proposal-detail"
         </div>
     {% endif %}
 
-    {% if object.content %}
-    <div class="proposal-info">
-        {# <h4>{% trans "Content" %}</h4> #}
-        {{object.content|safe}}
-    </div>
-    {% endif %}
-
-
     {% with proposal=object %}
         {% if proposal.can_straw_vote and cperms.issues.vote and user.memberships %}
             {% include 'issues/_vote.html' %}
@@ -107,6 +104,13 @@ id="proposal-detail"
             </div>
         {% endif %}
 	{% endwith %}
+
+    {% if object.content %}
+    <div class="proposal-info">
+        {# <h4>{% trans "Content" %}</h4> #}
+        {{object.content|safe}}
+    </div>
+    {% endif %}
 
     {% if object.can_vote and cperms.issues.acceptopen_proposal %}
     <form id="proposal-form" method="post">

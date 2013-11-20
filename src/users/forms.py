@@ -1,5 +1,6 @@
 #from django import forms
 #from django.forms.models import ModelForm
+from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.utils.translation import ugettext_lazy as _
 from ocd.formfields import HTMLArea
 from users.models import Invitation, OCUser
@@ -55,3 +56,28 @@ class QuickSignupForm(forms.ModelForm):
             user.save()
         return user
 
+
+class OCPasswordResetForm(PasswordResetForm):
+
+    class Meta:
+        fields = (
+                  'email',
+                  )
+
+    def __init__(self, *args, **kwargs):
+        super(OCPasswordResetForm, self).__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs['class'] = u'form-control'
+        
+class OCPasswordResetConfirmForm(SetPasswordForm):
+
+    class Meta:
+        fields = (
+                  'new_password1',
+                  'new_password2',
+                  )
+
+    def __init__(self, *args, **kwargs):
+        super(OCPasswordResetConfirmForm, self).__init__(*args, **kwargs)
+        self.fields['new_password1'].widget.attrs['class'] = u'form-control'
+        self.fields['new_password2'].widget.attrs['class'] = u'form-control'
+        

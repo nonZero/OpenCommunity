@@ -387,6 +387,11 @@ class Proposal(UIDMixin):
                    self.issue.community.upcoming_meeting_started
 
     @property
+    def has_votes(self):
+        """ Returns True if the proposal has any vote """
+        return self.votes_con or self.votes_pro
+
+    @property
     def can_straw_vote(self):
         return self.status == ProposalStatus.IN_DISCUSSION and \
                self.issue.can_straw_vote
