@@ -867,6 +867,13 @@ i.fa + span {
 	font-size: 1.1em;
 	vertical-align: top;
 }
+
+.piechart a {
+   font-size: 1.1em;
+   vertical-align: top;
+   color: #000;
+}
+
 .piechart span span {
 	font-size: 1em;
 	width: 35px;

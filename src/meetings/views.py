@@ -55,7 +55,7 @@ class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
         d = super(MeetingCreateView, self).get_initial()
         dt = self.community.upcoming_meeting_scheduled_at
         if not dt or dt > timezone.now():
-            dt = timezone.now()
+            dt = timezone.now().replace(second=0)
         d["held_at"] = dt
         return d
 

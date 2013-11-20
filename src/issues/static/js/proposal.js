@@ -1,10 +1,10 @@
 "use strict";
+
 $(function() {
 
 	// disclaimer: this code is ugly.
-
-	var sent = false;
-
+	 var sent = false;
+        
 	function setProposalStatus(id, value) {
 		if (sent) {
 			return;
@@ -46,11 +46,29 @@ $(function() {
 		return false;
 	});
 
-	$(".container").on("click", "a[id|='vote']", function() {
+	$(".container").on("click", "a[id|='vote']", function(event) {
 		event.preventDefault();
 		var vote_value = $(this).attr('id').substr(5);
-		//console.log(' <============== ' + vote_value)
 		var target = $(this).attr('href');
 		do_vote(target, vote_value, $(this));
 	});
-});
+
+
+
+   $(".container").on("click", "a[id^='results']", function(event) {
+      event.preventDefault();      
+      var target = $(this).attr('href');
+      var id = $('.piechart').data('prop-id')  
+      $.get(target, function(data) {
+          $('div.piechart').replaceWith(data)
+          var pro = $('.piechart').data('pro')
+          var con = $('.piechart').data('con')
+          var total = $('.piechart').data('total')
+          createChart(pro, con, total - (pro + con), id);
+
+      })
+ 
+   });
+
+    
+})

@@ -10,7 +10,7 @@ from django.db.models.aggregates import Max
 from django.http.response import HttpResponse, HttpResponseBadRequest, \
     HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import ListView
+from django.views.generic import View, ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from issues.models import IssueStatus
@@ -195,12 +195,13 @@ class ProtocolDraftPreviewView(CommunityModelMixin, DetailView):
     template_name = "emails/protocol_draft.html"
 
     
-def sum_votes(request, pk):
-    if not request.user.is_superuser:
-        return HttpResponse('--')
-        
-    c = models.Community.objects.get(pk=pk)
-    c.sum_vote_results(only_when_over=False)
-    c.voting_ends_at = datetime.datetime.now()
-    c.save()
-    return HttpResponseRedirect(reverse('community', kwargs={'pk': pk}))
+class SumVotesView(View):
+    required_permission = 'meetings.add_meeting'
+    
+    def get(self, request, pk):
+
+        c = models.Community.objects.get(pk=pk)
+        c.sum_vote_results(only_when_over=False)
+        c.voting_ends_at = datetime.datetime.now().replace(second=0)
+        c.save()
+        return HttpResponseRedirect(reverse('community', kwargs={'pk': pk}))

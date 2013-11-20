@@ -72,7 +72,7 @@ class AddAttachmentBaseForm(forms.ModelForm):
         if len(file_obj.name.split('.')) == 1:
             raise forms.ValidationError(_("File type is not allowed!"))
 
-        if file_obj.name.split('.')[-1] not in settings.UPLOAD_ALLOWED_EXTS:
+        if file_obj.name.split('.')[-1].lower() not in settings.UPLOAD_ALLOWED_EXTS:
             raise forms.ValidationError(_("File type is not allowed!"))
 
         return file_obj

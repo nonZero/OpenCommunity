@@ -197,8 +197,20 @@ class Community(UIDMixin):
 
     @property
     def straw_vote_ended(self):
+        if not self.voting_ends_at:
+            return False
         time_till_close = self.voting_ends_at - timezone.now()
         return time_till_close.total_seconds() < 0
+
+    @property
+    def has_straw_votes(self):
+        if not self.straw_voting_enabled or self.straw_vote_ended:
+            return False
+        for i in self.upcoming_issues():
+            if i.proposals.open().count():
+                return True
+        return False
+        
 
         
     def sum_vote_results(self, only_when_over=True):
@@ -300,6 +312,14 @@ class Community(UIDMixin):
 
         return m
 
+        
+    def draft_meeting(self):
+        return {
+            'id': '',
+            'held_at': self.upcoming_meeting_scheduled_at,
+        }
+
+      
     def draft_agenda(self):
         """ prepares a fake agenda item list for 'protocol_draft' template. """
 

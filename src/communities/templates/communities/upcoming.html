@@ -51,7 +51,7 @@
 		</form>
 	{% endif %}
 
-	{% if user.is_superuser and object.straw_voting_enabled %}
+	{% if cperms.issues.acceptopen_proposal and object.straw_voting_enabled %}
 		<a class="btn btn-oc" id="summation"
 		href="{% url "sum_votes" community.id  %}"> <i class="fa fa-bar-chart-o"></i> <span>{% trans "Sum vote" %}</span></a>
 	{% endif %}

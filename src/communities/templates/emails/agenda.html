@@ -37,7 +37,11 @@
                 </i>
             </p>
             <p>
-                <a href="{{base_url}}{{community.get_absolute_url}}">{% trans "View online" %}</a>
+                {% if community.has_straw_votes %}
+                    <a href="{{base_url}}{{community.get_absolute_url}}">{% trans "Enter site and vote on proposals" %}</a>
+                {% else %}
+                    <a href="{{base_url}}{{community.get_absolute_url}}">{% trans "View online" %}</a>
+                {% endif %}
             </p>
 
             <div style="border: solid 1px #ccc; margin: 4px 0;padding: 0"> 

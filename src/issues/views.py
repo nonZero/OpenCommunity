@@ -1,20 +1,25 @@
 from django.db.models.aggregates import Max
-from django.http.response import HttpResponse, HttpResponseBadRequest
+from django.http.response import HttpResponse, HttpResponseBadRequest, \
+    HttpResponseNotFound
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic import ListView
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.template.loader import render_to_string
+from django.template import RequestContext
+
 from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
     UpdateIssueForm, EditProposalTaskForm, AddAttachmentForm
 from issues.models import ProposalType, Issue, IssueStatus, Proposal, \
-    ProposalVote, ProposalVoteValue
+    ProposalVote, ProposalVoteValue, VoteResult
+from meetings.models import Meeting
 from oc_util.templatetags.opencommunity import minutes
 from ocd.base_views import CommunityMixin, AjaxFormView, json_response
 from ocd.validation import enhance_html
 import mimetypes
+import json
 
 
 class IssueMixin(CommunityMixin):
@@ -298,6 +303,30 @@ class ProposalDetailView(ProposalMixin, DetailView):
         o = self.get_object()
         return 'issues.acceptclosed_proposal' if o.decided_at_meeting else 'issues.acceptopen_proposal'
 
+    
+    def get_context_data(self, **kwargs):
+        """add meeting for the latest straw voting result
+           add 'previous_res' var if found previous registered results for this meeting
+        """
+        context = super(ProposalDetailView, self).get_context_data(**kwargs)
+        o = self.get_object()
+        context['res'] = o.get_straw_results()
+        
+        results = VoteResult.objects.filter(proposal=o) \
+                                    .order_by('-meeting__held_at')
+                                    
+        if o.issue.is_upcoming and self.community.straw_vote_ended:
+            context['meeting'] = self.community.draft_meeting()
+        else:
+            if results.count():
+                context['meeting'] = results[0].meeting
+            else:
+                context['meeting'] = None
+
+        
+        return context
+
+        
     def post(self, request, *args, **kwargs):
         """ Used to change a proposal status (accept/reject) """
         p = self.get_object()
@@ -314,7 +343,7 @@ class ProposalDetailView(ProposalMixin, DetailView):
 
         return redirect(p.issue)
 
-
+       
 class ProposalEditView(AjaxFormView, ProposalMixin, UpdateView):
     form_class = EditProposalForm
 
@@ -355,20 +384,40 @@ class ProposalDeleteView(AjaxFormView, ProposalMixin, DeleteView):
         o.save()
         return HttpResponse("-")
 
-class ProposalVoteView(ProposalMixin, View):
+        
+class VoteResultsView(CommunityMixin, DetailView):
+    model = models.Proposal
     
-    required_permission_for_post = 'issues.vote'
+    def get(self, request, *args, **kwargs):
+        meeting = None
+        meeting_id = request.GET.get('meeting_id', None)
+        p = self.get_object()
+        if meeting_id:
+            meeting = get_object_or_404(Meeting, id=int(meeting_id))
+            res = p.get_straw_results(meeting.id)
+        else:
+            meeting = self.community.draft_meeting()
+            res = p.get_straw_results()
+            
+        panel = render_to_string('issues/_proposal_vote_results.html',
+                                RequestContext(request, {
+                                        'meeting': meeting,
+                                        'res': res,
+                                        'proposal': p,
+                                        }))
+        return HttpResponse(panel)
+            
 
+        
+class ProposalVoteView(CommunityMixin, DetailView):
+    required_permission_for_post = 'issues.vote'
+    model = models.Proposal
+    
     def post(self, request, *args, **kwargs):
         voter_id = request.user.id
-        """
-        voter_id = int(request.POST.get('uid', '0'))
-        if voter_id != request.user.id:
-            return HttpResponseBadRequest('no permission for action')
-        pid = int(request.POST['pid'])
-        """
-        pid = int(kwargs['pk'])
-        proposal = get_object_or_404(Proposal, id=pid)
+        proposal = self.get_object()
+        pid = proposal.id
+        
         val = request.POST['val']
         
    

@@ -98,11 +98,13 @@ id="proposal-detail"
 
 
     {% with proposal=object %}
-        {% if object.can_straw_vote and cperms.issues.vote and user.id %}
+        {% if proposal.can_straw_vote and cperms.issues.vote and user.memberships %}
             {% include 'issues/_vote.html' %}
         {% endif %}
-        {% if community.straw_voting_enabled and not proposal.decided and community.straw_vote_ended %}
-            {% include 'issues/_proposal_vote_results.html' %}
+        {% if object.community_members and not proposal.decided %}
+            <div id="results_container">
+                {% include 'issues/_proposal_vote_results.html' %}
+            </div>
         {% endif %}
 	{% endwith %}
 
@@ -132,18 +134,19 @@ id="proposal-detail"
 {% endblock %}
 
 {% block scripts %}
-<script src="{{STATIC_URL}}js/proposal.js"></script>
-{% if object.community_members %}
+{% if object.community_members and not object.decided %}
     <script src="{{STATIC_URL}}js/Chart.js"></script>
     <script src="{{STATIC_URL}}js/_piechart.js"></script>
     <script>
-    createChart(
-    {{ object.votes_pro }},
-    {{ object.votes_con }},
-    {{ object.community_members|subtract:object.votes_con|subtract:object.votes_pro }},
-    {{ object.id }}
-    );
+        createChart(
+        {{ object.votes_pro }},
+        {{ object.votes_con }},
+        {{ object.community_members|subtract:object.votes_con|subtract:object.votes_pro }},
+        {{ object.id }}
+        );
     </script>
-{% endif %}    
+{% endif %}
+
+<script src="{{STATIC_URL}}js/proposal.js"></script>
 
 {% endblock %}

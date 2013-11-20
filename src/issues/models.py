@@ -245,9 +245,9 @@ class IssueAttachment(UIDMixin):
             'flac': 'snd',
             'txt': 'txt',
         }
-        ext = os.path.splitext(self.file.name)[1][1:]
+        ext = os.path.splitext(self.file.name)[1][1:] or ''
         try:
-            icon = file_icon_map[ext]
+            icon = file_icon_map[ext.lower()]
         except KeyError:
             icon = 'file'
         return icon    
@@ -390,8 +390,33 @@ class Proposal(UIDMixin):
     def can_straw_vote(self):
         return self.status == ProposalStatus.IN_DISCUSSION and \
                self.issue.can_straw_vote
+                
+    @property
+    def can_show_straw_votes(self):
+        return not self.issue.is_upcoming or \
+              self.issue.community.straw_vote_ended
 
         
+    def get_straw_results(self, meeting_id=None):
+        """ get straw voting results registered for the given meeting """
+        if meeting_id:
+            try:
+                res = VoteResult.objects.get(proposal=self, meeting_id=meeting_id)
+            except VoteResult.DoesNotExist:
+                return None
+            return res
+        else:
+            if self.issue.is_upcoming and self.issue.community.straw_vote_ended:
+                return self
+            else:
+                try:
+                    res = VoteResult.objects.filter(proposal=self) \
+                            .latest('meeting__held_at')
+                    return res
+                except VoteResult.DoesNotExist:
+                    return None
+
+                    
     def do_votes_summation(self, members_count):
         pro = 0
         con = 0
@@ -437,6 +462,7 @@ class Proposal(UIDMixin):
             return "rejected"
         return ""
 
+        
 class VoteResult(models.Model):
     proposal = models.ForeignKey(Proposal, related_name="results",
                                  verbose_name=_("Proposal"))
