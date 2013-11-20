@@ -222,6 +222,7 @@ class Community(UIDMixin):
         
         un_summed_proposals = issues_models.Proposal.objects.filter(
                         # votes_pro=None,
+                        status=ProposalStatus.IN_DISCUSSION,
                         issue__status=IssueStatus.IN_UPCOMING_MEETING,
                         issue__community_id=self.id)
         if un_summed_proposals.count() == 0:
