@@ -21,7 +21,8 @@ def vote_percentage(proposal):
     votes = proposal.votes_pro + proposal.votes_con
     print votes ,proposal.community_members
     percentage = (float(votes) / float(proposal.community_members)) * 100.0
-    return round(int(percentage), 1)
+    return str(round(percentage, 1))[:1]
+    #return round(percentage, 1)
 
     
 @register.simple_tag(takes_context=True)
