@@ -34,6 +34,9 @@ h2 {
 	font-size: 18px;
 	margin-top: 10px;
 }
+.modal-body h3 {
+	font-size: 18px;
+}
 .oc_detail_top h5 span {
 	font-weight: normal;
 }
@@ -906,7 +909,12 @@ i.fa + span {
 .chart_divider {
 	height: 1px;
 	border-top: 1px dotted;
-	margin: 15px 0;
+	margin-bottom: 10px;
+}
+.chart_datetime {
+	border-bottom: 1px solid #d8e0df;
+	padding-bottom: 10px;
+	margin-bottom: 10px;	
 }
 
 /* Votes */

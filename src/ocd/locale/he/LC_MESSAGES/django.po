@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-19 15:33+0200\n"
+"POT-Creation-Date: 2013-11-22 08:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,41 +75,45 @@ msgstr "סיסמא חדשה הוגדרה. כעת ניתן להכנס למערכ�
 msgid "Log in"
 msgstr "כניסה"
 
-#: .\templates\registration\password_reset_confirm.html.py:4
+#: .\templates\registration\password_reset_confirm.html.py:10
 #: .\templates\registration\password_reset_form.html.py:4
 msgid "Password reset"
 msgstr "איפוס סיסמא"
 
-#: .\templates\registration\password_reset_confirm.html.py:11
+#: .\templates\registration\password_reset_confirm.html.py:13
 msgid ""
 "Please enter your new password twice so we can verify you typed it in "
 "correctly."
 msgstr "אנא הכנס את הסיסמא החדשה פעמיים, בכדי לוודא שאין שגיאות."
 
-#: .\templates\registration\password_reset_confirm.html.py:18
+#: .\templates\registration\password_reset_confirm.html.py:20
 msgid "New password:"
 msgstr "סיסמא חדשה:"
 
-#: .\templates\registration\password_reset_confirm.html.py:23
+#: .\templates\registration\password_reset_confirm.html.py:25
 msgid "Confirm password:"
 msgstr "אימות סיסמא:"
 
-#: .\templates\registration\password_reset_confirm.html.py:26
+#: .\templates\registration\password_reset_confirm.html.py:28
 msgid "Change my password"
 msgstr "שנה את הסיסמא שלי"
 
-#: .\templates\registration\password_reset_confirm.html.py:31
+#: .\templates\registration\password_reset_confirm.html.py:33
 msgid "Password reset unsuccessful"
 msgstr "איפוס סיסמא ניכשל"
 
-#: .\templates\registration\password_reset_confirm.html.py:34
+#: .\templates\registration\password_reset_confirm.html.py:36
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used.  Please request a new password reset."
 msgstr "קישור לא תקין לאיפוס סיסמא, כנראה בגלל שימוש בעבר, אנא בקש קישור חדש."
 
+#: .\templates\registration\password_reset_confirm.html.py:39
+msgid "Reset password"
+msgstr "אפס סיסמא"
+
 #: .\templates\registration\password_reset_done.html.py:4
-#: .\templates\registration\password_reset_done.html.py:8
+#: .\templates\registration\password_reset_done.html.py:6
 msgid "Password reset successful"
 msgstr "איפוס סיסמא הצליח"
 
