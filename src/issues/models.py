@@ -91,6 +91,10 @@ class Issue(UIDMixin):
     def has_closed_parts(self):
         """ Should be able to be viewed """
 
+    def decided(self):
+        return self.status != ProposalStatus.IN_DISCUSSION
+
+
     @property
     def is_upcoming(self):
         return self.status in IssueStatus.IS_UPCOMING
@@ -309,7 +313,7 @@ class ProposalManager(UIDManager):
 
     def open(self):
         return self.get_query_set().filter(active=True,
-                                           decided_at_meeting_id=None)
+                                           decided_at_meeting_id=None).order_by("-created_at")
 
     def closed(self):
         return self.get_query_set().filter(active=True).exclude(

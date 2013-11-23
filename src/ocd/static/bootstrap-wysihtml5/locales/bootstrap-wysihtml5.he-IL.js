@@ -20,8 +20,8 @@
               justifycenter: "מרכז"
         },
         lists: {
-              unordered: "רשימה לא מסודרת",
-              ordered: "רשימה מסודרת"
+              unordered: "רשימה",
+              ordered: "רשימה ממוספרת"
         },
         link: {
               insert: "הכנס קישור",

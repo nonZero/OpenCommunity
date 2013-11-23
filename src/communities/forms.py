@@ -27,7 +27,13 @@ class EditUpcomingMeetingForm(forms.ModelForm):
             'upcoming_meeting_comments': HTMLArea,
         }
         
-        
+    def __init__(self, *args, **kwargs):
+        super(EditUpcomingMeetingForm, self).__init__(*args, **kwargs)
+        self.fields['upcoming_meeting_title'].label = _('Title')
+        self.fields['upcoming_meeting_scheduled_at'].label = _('Scheduled at')
+        self.fields['upcoming_meeting_location'].label = _('Location')
+        self.fields['upcoming_meeting_comments'].label = _('Background')
+                
     def save(self):
         c = super(EditUpcomingMeetingForm, self).save()
         if not c.voting_ends_at:

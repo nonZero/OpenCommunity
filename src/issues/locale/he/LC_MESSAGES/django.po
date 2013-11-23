@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-19 15:33+0200\n"
+"POT-Creation-Date: 2013-11-22 08:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -161,7 +161,7 @@ msgstr "נמנע"
 msgid "Pro"
 msgstr "בעד"
 
-#: .\models.py:280 .\models.py:369 .\models.py:447
+#: .\models.py:280 .\models.py:369 .\models.py:473
 #: .\templates\issues\proposal_detail.html.py:9
 msgid "Proposal"
 msgstr "הצעת החלטה"
@@ -232,19 +232,19 @@ msgstr "יעד"
 msgid "Votes"
 msgstr "הצבעות"
 
-#: .\models.py:362 .\models.py:449
+#: .\models.py:362 .\models.py:475
 msgid "Votes pro"
 msgstr "הצבעות בעד"
 
-#: .\models.py:363 .\models.py:450
+#: .\models.py:363 .\models.py:476
 msgid "Votes con"
 msgstr "הצבעות נגד"
 
-#: .\models.py:364 .\models.py:451
+#: .\models.py:364 .\models.py:477
 msgid "Community members"
 msgstr "חברי קהילה"
 
-#: .\models.py:448
+#: .\models.py:474
 msgid "Meeting"
 msgstr "פגישה"
 
@@ -321,7 +321,7 @@ msgid "Create Issue"
 msgstr "נושא חדש"
 
 #: .\templates\issues\issue_create_form.html.py:15
-#: .\templates\issues\proposal_form.html.py:10
+#: .\templates\issues\proposal_form.html.py:12
 msgid "New Proposal"
 msgstr "הצעת החלטה חדשה"
 
@@ -422,13 +422,17 @@ msgstr "בטל"
 msgid "Abstract"
 msgstr "תקציר"
 
-#: .\templates\issues\proposal_detail.html.py:119
+#: .\templates\issues\proposal_detail.html.py:121
 msgid "Accept proposal"
 msgstr "קבל את ההחלטה"
 
-#: .\templates\issues\proposal_detail.html.py:124
+#: .\templates\issues\proposal_detail.html.py:126
 msgid "Reject proposal"
 msgstr "דחה הצעה"
+
+#: .\templates\issues\proposal_form.html.py:10
+msgid "Edit Proposal"
+msgstr "עריכת הצעת החלטה"
 
 #~ msgid "DNP"
 #~ msgstr "לא הצביעו"

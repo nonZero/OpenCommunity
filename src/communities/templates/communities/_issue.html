@@ -20,7 +20,7 @@
 	    {% if object.upcoming_meeting_started %}
 		    <div class="agenda_plus_minus  
 	        {% if i.completed %}tick{% else %}
-	            {% if i.new_comments.count %}cog{% endif %}
+	            {% if i.new_comments.count or i.decided %}cog{% endif %}
 	        {% endif %}">
 	    	</div>
 	    {% endif %}

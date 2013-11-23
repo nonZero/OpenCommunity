@@ -21,7 +21,7 @@ def vote_percentage(proposal):
     votes = proposal.votes_pro + proposal.votes_con
     print votes ,proposal.community_members
     percentage = (float(votes) / float(proposal.community_members)) * 100.0
-    return int(percentage)
+    return round(percentage, 1)
 
     
 @register.simple_tag(takes_context=True)
@@ -35,14 +35,6 @@ def user_votes_on_issue(context):
     # return "<span class='votes_count'>{0}</span>/<span class='proposal_count'>{1}</span>".format(votes_cnt, proposals.count())
     return "{0}/{1}".format(votes_cnt, proposals.count())
 
-@register.filter
-def vote_percentage(results):
-    if results.votes_pro is None:
-        return 'undefined'
-    votes = results.votes_pro + results.votes_con
-    # print votes ,results['total']
-    percentage = (float(votes) / float(results.community_members)) * 100.0
-    return str(percentage)
         
 @register.filter
 def prev_straw_results_link(proposal, meeting_id=None):
