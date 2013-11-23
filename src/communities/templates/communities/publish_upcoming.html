@@ -9,6 +9,24 @@
     {% endif %}
 {% endblock %}
 
-{% block btn_text %}
-	{% trans "Publish" %}
+{% block nofooter %}
+<div class="modal-footer">
+	<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#protocolPreview">
+		{% trans "Preview protocol" %}
+	</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+    <input type="submit" class="btn btn-oc" value="{% trans "Publish" %}">
+	<div id="protocolPreview" class="collapse"></div>
+</div>
+{% endblock %}
+
+{% block page_scripts %}
+<script>
+	$.ajax({
+		url : "/{{ object.id }}/upcoming/publish/preview/",
+		success : function(result) {
+			$("#protocolPreview").html(result);
+		}
+	}); 
+</script>
 {% endblock %}

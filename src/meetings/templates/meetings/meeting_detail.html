@@ -27,12 +27,17 @@ id="meeting-detail"
         </p>
         </a>
     </div>
-    <div class="col-xs-4 meeting-header-users">
+    <div class="col-xs-2 meeting-header-users">
         <a data-toggle="modal" href="#participants" class="show-participants">
         <div class="users">
             {{total_participants}}
         </div>
         </a>
+	</div>
+    <div class="col-xs-2 meeting-header-users">
+        <button class="btn btn-sm btn-oc" data-toggle="modal" data-target="#meetingProtocol">
+			<i class="fa fa-envelope-o"></i>
+		</button>
     </div>
 </div>
 
@@ -142,8 +147,31 @@ id="meeting-detail"
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="meetingProtocol" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">{% trans "Meeting protocol" %}</h4>
+      </div>
+      <div id="meeting-protocol-preview" class="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
+<script>
+	$.ajax({
+		url : "protocol/",
+		success : function(result) {
+			$("#meeting-protocol-preview").html(result);
+		}
+	}); 
+</script>
 
 {% endblock %}
