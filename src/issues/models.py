@@ -318,7 +318,7 @@ class ProposalManager(UIDManager):
 
     def open(self):
         return self.get_query_set().filter(active=True,
-                                           decided_at_meeting_id=None).order_by("-created_at")
+                                           decided_at_meeting_id=None).order_by("created_at")
 
     def closed(self):
         return self.get_query_set().filter(active=True).exclude(

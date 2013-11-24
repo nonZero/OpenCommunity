@@ -746,6 +746,13 @@ ul.proposals li.prop-content p {
 	text-decoration: none;
 }
 
+/* Protocol & Agenda ajax preview */
+
+#protocolPreview {
+	text-align: right;
+	padding-top: 20px;
+}
+
 /* Messages */
 
 .notice {
@@ -890,6 +897,7 @@ i.fa + span {
    font-size: 1.1em;
    vertical-align: top;
    color: #000;
+   text-decoration: none;
 }
 
 .piechart span span {

@@ -1,8 +1,6 @@
 from communities.models import Community, SendToOption
 from django.utils.translation import ugettext_lazy as _
-from ocd.formfields import HTMLArea, DateTimeLocalInput, OCSplitDateTime
-from users.models import OCUser
-import floppyforms
+from ocd.formfields import HTMLArea, OCSplitDateTime
 import floppyforms as forms
 
 
@@ -13,8 +11,8 @@ class EditUpcomingMeetingForm(forms.ModelForm):
 
         fields = (
                    'upcoming_meeting_title',
-                   'upcoming_meeting_scheduled_at',
                    'upcoming_meeting_location',
+                   'upcoming_meeting_scheduled_at',
                    'voting_ends_at',
                    'upcoming_meeting_comments',
                    )

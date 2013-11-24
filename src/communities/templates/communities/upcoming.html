@@ -65,10 +65,19 @@
 		{% if object.upcoming_meeting_started %}
 			<h2 class="text-center"> --{% trans "Meeting started" %}-- </h2>
 		{% else %}
-
 			{% if object.upcoming_meeting_is_published %}
-				<h2 class="text-center"> --{% trans "Published" %}-- </h2>
-				<h2 class="text-center"> ({% trans "Version" %} {{object.upcoming_meeting_version}} - {{object.upcoming_meeting_published_at}}) </h2>
+				{% if object.straw_voting_enabled %}
+					{% if object.straw_vote_ended %}
+						<h2 class="text-center"> --{% trans "Straw Vote Ended" %}-- </h2>
+						<h2 class="text-center"> ({% trans "Version" %} {{object.upcoming_meeting_version}} - {{object.upcoming_meeting_published_at}}) </h2>
+					{% else %}
+						<h2 class="text-center"> --{% trans "Active Straw Vote" %}-- </h2>
+						<h2 class="text-center"> ({% trans "Version" %} {{object.upcoming_meeting_version}} - {{object.upcoming_meeting_published_at}}) </h2>
+					{% endif %}
+				{% else %}
+					<h2 class="text-center"> --{% trans "Published" %}-- </h2>
+					<h2 class="text-center"> ({% trans "Version" %} {{object.upcoming_meeting_version}} - {{object.upcoming_meeting_published_at}}) </h2>
+				{% endif %}
 			{% else %}
 				<h2 class="text-center"> --{% trans "Draft" %}-- </h2>
 			{% endif %}
@@ -80,7 +89,7 @@
 			</h5>
 			{% if object.straw_voting_enabled %}
 				<h5>
-					{% trans "Voting ends at" %}: <span>{{ object.voting_ends_at|default:_("Not set yet") }}</span>
+					{% if object.straw_vote_ended %}{% trans "Voting ended at" %}{% else %}{% trans "Voting ends at" %}{% endif %}: <span>{{ object.voting_ends_at|default:_("Not set yet") }}</span>
 				</h5>
 			{% endif %}
 			{% if object.upcoming_meeting_comments %}

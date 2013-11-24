@@ -35,7 +35,7 @@ id="proposal-detail"
 
 {% if object.can_straw_vote and not user.id %}
 <div class="text-center" style="margin-bottom: 10px;">
-	<a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-default">{% trans "Login to vote" %}</a>
+	<a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-warning">{% trans "Login to vote" %}</a>
 </div>
 {% endif %}
 
