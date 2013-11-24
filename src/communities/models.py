@@ -202,6 +202,7 @@ class Community(UIDMixin):
         time_till_close = self.voting_ends_at - timezone.now()
         return time_till_close.total_seconds() < 0
 
+        
     @property
     def has_straw_votes(self):
         if not self.straw_voting_enabled or self.straw_vote_ended:
@@ -211,7 +212,6 @@ class Community(UIDMixin):
                 return True
         return False
         
-
         
     def sum_vote_results(self, only_when_over=True):
         if not self.voting_ends_at:
