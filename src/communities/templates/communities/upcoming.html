@@ -65,12 +65,15 @@
 		{% if object.upcoming_meeting_started %}
 			<h2 class="text-center"> --{% trans "Meeting started" %}-- </h2>
 		{% else %}
-
-			{% if object.upcoming_meeting_is_published %}
-				<h2 class="text-center"> --{% trans "Published" %}-- </h2>
-				<h2 class="text-center"> ({% trans "Version" %} {{object.upcoming_meeting_version}} - {{object.upcoming_meeting_published_at}}) </h2>
+			{% if not object.straw_vote_ended %}<!-- Need to redo permission -->
+				<h2 class="text-center"> --{% trans "In Straw Vote" %}-- </h2>
 			{% else %}
-				<h2 class="text-center"> --{% trans "Draft" %}-- </h2>
+				{% if object.upcoming_meeting_is_published %}
+					<h2 class="text-center"> --{% trans "Published" %}-- </h2>
+					<h2 class="text-center"> ({% trans "Version" %} {{object.upcoming_meeting_version}} - {{object.upcoming_meeting_published_at}}) </h2>
+				{% else %}
+					<h2 class="text-center"> --{% trans "Draft" %}-- </h2>
+				{% endif %}
 			{% endif %}
 		{% endif %}
 
