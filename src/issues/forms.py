@@ -66,6 +66,10 @@ class AddAttachmentBaseForm(forms.ModelForm):
                    'file',
                    )
 
+        widgets = {
+            'title': forms.TextInput,
+            }
+
     def clean_file(self):
         file_obj = self.cleaned_data['file']
 
@@ -77,6 +81,7 @@ class AddAttachmentBaseForm(forms.ModelForm):
 
         return file_obj
 
+    
     def clean_title(self):
         title = self.cleaned_data['title']
 

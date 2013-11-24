@@ -100,7 +100,7 @@ id="proposal-detail"
         {% if proposal.can_straw_vote and cperms.issues.vote and user.memberships.count %}
             {% include 'issues/_vote.html' %}
         {% endif %}
-        {% if object.community_members and not proposal.decided %}
+        {% if proposal.can_show_straw_votes %}
             <div id="results_container">
                 {% include 'issues/_proposal_vote_results.html' %}
             </div>
@@ -140,7 +140,7 @@ id="proposal-detail"
 {% endblock %}
 
 {% block scripts %}
-{% if object.community_members and not object.decided %}
+{% if object.community_members %}
     <script src="{{STATIC_URL}}js/Chart.js"></script>
     <script src="{{STATIC_URL}}js/_piechart.js"></script>
     <script>

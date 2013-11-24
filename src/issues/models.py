@@ -119,17 +119,17 @@ class Issue(UIDMixin):
 
     @property
     def can_straw_vote(self):
-        vote_time_ok = True
+
+        # test date/time limit
         if self.community.voting_ends_at:
             time_till_close = self.community.voting_ends_at - timezone.now()
             if time_till_close.total_seconds() <= 0:
-                vote_time_ok = False
+                return False
                 
         return self.community.straw_voting_enabled and \
                self.is_upcoming and \
                self.community.upcoming_meeting_is_published and \
-               self.proposals.open().count() > 0 and \
-               vote_time_ok
+               self.proposals.open().count() > 0
 
 
         
@@ -407,8 +407,10 @@ class Proposal(UIDMixin):
                 
     @property
     def can_show_straw_votes(self):
-        return not self.issue.is_upcoming or \
-              self.issue.community.straw_vote_ended
+        print self.has_votes, not self.issue.is_upcoming ,self.issue.community.straw_vote_ended
+        return self.has_votes and \
+               (not self.issue.is_upcoming or \
+                self.issue.community.straw_vote_ended)
 
         
     def get_straw_results(self, meeting_id=None):

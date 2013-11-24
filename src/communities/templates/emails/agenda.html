@@ -97,6 +97,7 @@
                                 </h4>
                                 <ul>
                                     {% for p in i.active_proposals.all %}
+                                        {% if not p.decided %}
                                         <li style="padding:2px 0">
 	                                        <a href="{{base_url}}{{p.get_absolute_url}}">
                                                 {% if p.type != 3 %}
@@ -118,6 +119,7 @@
 	                                            </div>
 	                                        {% endif %}
                                         </li>
+                                        {% endif %}
                                     {% endfor %}
                                 </ul>
                             {% endif %}

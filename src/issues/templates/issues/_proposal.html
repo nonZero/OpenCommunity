@@ -31,7 +31,7 @@
             <li class="check_box">
         {% endif %}
     {% else %}
-        {% if community.straw_voting_enabled and community.straw_vote_ended and proposal.has_votes %}
+        {% if not proposal.decided and proposal.can_show_straw_votes %}
             <li class="check_box_vote">
             <canvas id="proposal{{ proposal.id }}Chart" height="40px" width="40px"></canvas>
         {% else %}
