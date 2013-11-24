@@ -119,12 +119,17 @@ class Issue(UIDMixin):
 
     @property
     def can_straw_vote(self):
-        time_till_close = self.community.voting_ends_at - timezone.now()
+        vote_time_ok = True
+        if self.community.voting_ends_at:
+            time_till_close = self.community.voting_ends_at - timezone.now()
+            if time_till_close.total_seconds() <= 0:
+                vote_time_ok = False
+                
         return self.community.straw_voting_enabled and \
                self.is_upcoming and \
                self.community.upcoming_meeting_is_published and \
                self.proposals.open().count() > 0 and \
-               time_till_close.total_seconds() > 0
+               vote_time_ok
 
 
         
@@ -453,12 +458,24 @@ class Proposal(UIDMixin):
     def get_edit_url(self):
         return ("proposal_edit", (str(self.issue.community.pk), str(self.issue.pk),
                                 str(self.pk)))
-
+                                
+    """
+    @models.permalink
+    def get_edit_url(self):
+        if not self.is_task():
+            return ("proposal_edit", (str(self.issue.community.pk), str(self.issue.pk),
+                                str(self.pk)))
+        else:
+            return ("proposal_edit_task", (str(self.issue.community.pk), str(self.issue.pk),
+                                str(self.pk)))
+    """
+    
     @models.permalink
     def get_edit_task_url(self):
         return ("proposal_edit_task", (str(self.issue.community.pk), str(self.issue.pk),
                                 str(self.pk)))
-
+    
+    
     @models.permalink
     def get_delete_url(self):
         return ("proposal_delete", (str(self.issue.community.pk), str(self.issue.pk),

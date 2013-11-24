@@ -12,9 +12,11 @@ id="proposal-detail"
 {% block pagemenu %}
 {% if cperms.issues.editclosed_proposal or object.is_open %}
 {% if cperms.issues.editopen_proposal or object.created_by == user %}
-    <a class="btn btn-oc" href="{{object.get_edit_url}}" data-rel="form">
-        <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span>
-    </a>
+    {% if not object.is_task or cperms.issues.edittask_proposal %}
+        <a class="btn btn-oc" href="{{object.get_edit_url}}" data-rel="form">
+            <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span>
+        </a>
+    {% endif %}
     <a class="btn btn-oc" href="{{object.get_delete_url}}" data-rel="form">
         <i class="fa fa-trash-o"></i> <span>{% trans "Delete" %}</span>
     </a>
@@ -95,7 +97,7 @@ id="proposal-detail"
     {% endif %}
 
     {% with proposal=object %}
-        {% if proposal.can_straw_vote and cperms.issues.vote and user.memberships %}
+        {% if proposal.can_straw_vote and cperms.issues.vote and user.memberships.count %}
             {% include 'issues/_vote.html' %}
         {% endif %}
         {% if object.community_members and not proposal.decided %}

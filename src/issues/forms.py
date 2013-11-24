@@ -115,10 +115,6 @@ class CreateProposalForm(CreateProposalBaseForm):
     submit_button_text = _('Create')
 
     def __init__(self, *args, **kwargs):
-#         self.helper = FormHelper()
-# 
-#         self.helper.add_input(Submit('submit', self.submit_button_text))
-
         super(CreateProposalForm, self).__init__(*args, **kwargs)
         self.fields['type'].initial = ProposalType.ADMIN
 

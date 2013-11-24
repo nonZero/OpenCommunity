@@ -176,7 +176,15 @@ class StartMeetingView(CommunityModelMixin, UpdateView):
 
     #template_name = "communities/start_meeting.html"
 
-
+    def form_valid(self, form):
+        resp = super(StartMeetingView, self).form_valid(form)
+        c = self.object
+        if c.straw_voting_enabled and not c.voting_ends_at:
+            c.voting_ends_at = datetime.datetime.now().replace(second=0)
+            c.save()
+        return resp
+        
+            
 class EditUpcomingSummaryView(AjaxFormView, CommunityModelMixin, UpdateView):
 
     reload_on_success = True
