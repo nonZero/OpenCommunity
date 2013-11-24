@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-24 18:18+0200\n"
+"POT-Creation-Date: 2013-11-25 01:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -133,7 +133,7 @@ msgid "Sending to %d users"
 msgstr "שולח ל-%d משתמשים"
 
 #: .\templates\meetings\meeting_close.html.py:5
-#: .\templates\meetings\meeting_close.html.py:27
+#: .\templates\meetings\meeting_close.html.py:30
 msgid "Close meeting"
 msgstr "סגור פגישה"
 
@@ -141,7 +141,12 @@ msgstr "סגור פגישה"
 msgid "No decisions were made in this meeting."
 msgstr "בפגישה זו לא התקבלו החלטות"
 
-#: .\templates\meetings\meeting_close.html.py:26
+#: .\templates\meetings\meeting_close.html.py:27
+#, fuzzy
+msgid "Preview protocol"
+msgstr "פרוטוקול הפגישה"
+
+#: .\templates\meetings\meeting_close.html.py:29
 msgid "Cancel"
 msgstr "ביטול"
 

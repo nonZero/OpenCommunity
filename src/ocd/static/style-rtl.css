@@ -740,6 +740,7 @@ ul.proposals li.prop-content p {
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 20px;
+	margin-top: 20px;
 }
 #proposal-detail .accepted a:hover,
 #proposal-detail .rejected a:hover {
@@ -964,6 +965,10 @@ i.fa + span {
 }
 .votes_count {
 	color: red;
+}
+.vote-badge {
+	color: #448698;
+	background: #fff;
 }
 
 /* WYSIHTML5 Editor */

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-24 18:18+0200\n"
+"POT-Creation-Date: 2013-11-25 01:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -275,7 +275,7 @@ msgstr "פרסם סדר יום"
 
 #: .\templates\communities\upcoming.html.py:44
 msgid "Undo Start Meeting"
-msgstr "בטל התחלת פגישה"
+msgstr "עצור פגישה"
 
 #: .\templates\communities\upcoming.html.py:48
 msgid "Start Meeting"
@@ -322,6 +322,10 @@ msgstr "הצבעה מסתיימת ב"
 #: .\templates\communities\upcoming.html.py:103
 msgid "Agenda items"
 msgstr "נושאים לסדר היום"
+
+#: .\templates\communities\upcoming.html.py:103
+msgid "Votes/Total proposals"
+msgstr "כמה הצבעתי / סך הצעות"
 
 #: .\templates\communities\upcoming.html.py:113
 #: .\templates\emails\protocol.html.py:3 .\templates\emails\protocol.txt.py:1
@@ -377,12 +381,12 @@ msgid "Accepted Proposals"
 msgstr "החלטות שהתקבלו"
 
 #: .\templates\emails\_protocol.html.py:122
-#: .\templates\emails\agenda.html.py:109
+#: .\templates\emails\agenda.html.py:110
 msgid "Assigned to"
 msgstr "אחראי"
 
 #: .\templates\emails\_protocol.html.py:126
-#: .\templates\emails\agenda.html.py:113
+#: .\templates\emails\agenda.html.py:114
 msgid "Due by"
 msgstr "יעד"
 
