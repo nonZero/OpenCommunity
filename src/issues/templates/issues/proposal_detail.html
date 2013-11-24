@@ -140,7 +140,7 @@ id="proposal-detail"
 {% endblock %}
 
 {% block scripts %}
-{% if object.community_members %}
+{% if object.can_show_straw_votes %}
     <script src="{{STATIC_URL}}js/Chart.js"></script>
     <script src="{{STATIC_URL}}js/_piechart.js"></script>
     <script>

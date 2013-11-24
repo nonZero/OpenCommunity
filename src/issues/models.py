@@ -407,7 +407,6 @@ class Proposal(UIDMixin):
                 
     @property
     def can_show_straw_votes(self):
-        print self.has_votes, not self.issue.is_upcoming ,self.issue.community.straw_vote_ended
         return self.has_votes and \
                (not self.issue.is_upcoming or \
                 self.issue.community.straw_vote_ended)
