@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load humanize %}
-{% load voting_tags %}
+{% load voting_tags community_tags %}
 
 {% block extra-page-id %}
 id="issue-detail"
@@ -120,7 +120,7 @@ id="issue-detail"
                 <h2>{% trans "Proposals" %}</h2>
                 {% for proposal in object.proposals.open %}
                     {% include 'issues/_proposal.html' %}
-                    {% if can_straw_vote and not proposal.decided and cperms.issues.vote and user.memberships.count %}
+                    {% if can_straw_vote and not proposal.decided and cperms.issues.vote and user|member_of:community %}
                     <div class="issue_proposal_vote">
                     	{% include 'issues/_vote.html' %}
                 	  </div>

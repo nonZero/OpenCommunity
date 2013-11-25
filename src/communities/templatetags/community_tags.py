@@ -5,6 +5,8 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 from datetime import datetime, time
 from django.utils import timezone
 
+from users.models import Membership
+
 register = template.Library()
 
 @register.filter
@@ -20,3 +22,12 @@ def display_upcoming_time(community):
 
     else:
         return when
+
+        
+@register.filter
+def member_of(u, community):
+    res = Membership.objects.filter(user=u)
+    for membership in res:
+        if membership.community == community:
+            return True
+    return False
