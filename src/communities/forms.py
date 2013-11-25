@@ -35,8 +35,18 @@ class EditUpcomingMeetingForm(forms.ModelForm):
 
         
     def clean(self):
-        voting_ends_at = self.cleaned_data['voting_ends_at']
-        meeting_time = self.cleaned_data['upcoming_meeting_scheduled_at']
+        """prevent voting end time from illegal values (past time,
+            time after meeting schedule)
+        """
+        try:
+            voting_ends_at = self.cleaned_data['voting_ends_at']
+        except KeyError:
+            voting_ends_at = None
+        try:
+            meeting_time = self.cleaned_data['upcoming_meeting_scheduled_at']
+        except KeyError:
+            meeting_time = None
+
         if voting_ends_at:
             if voting_ends_at <= timezone.now():
                 raise forms.ValidationError(_("End voting time cannot be set to the past"))
