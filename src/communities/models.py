@@ -198,7 +198,10 @@ class Community(UIDMixin):
     @property
     def straw_vote_ended(self):
         if not self.voting_ends_at:
-            return True
+            if self.upcoming_meeting_is_published:
+                return False
+            else:
+                return True
         time_till_close = self.voting_ends_at - timezone.now()
         return time_till_close.total_seconds() < 0
 

@@ -38,7 +38,7 @@ msgstr "רקע"
 
 #: forms.py:41
 msgid "End voting time cannot be set to the past"
-msgstr "על מועד סיום הצבעה להיקבע לזמן עתידי"
+msgstr "מועד הסיום צריך להיות בין היום ובין מועד הפגישה"
 
 #: forms.py:43
 msgid "End voting time cannot be set to after the meeting time"
