@@ -19,7 +19,6 @@ def display_upcoming_time(community):
     t = when.timetz()
     if t.hour == 0 and t.minute == 0:
         return when.date()
-
     else:
         return when
 

@@ -315,7 +315,9 @@ class ProposalDetailView(ProposalMixin, DetailView):
         results = VoteResult.objects.filter(proposal=o) \
                                     .order_by('-meeting__held_at')
                                     
-        if o.issue.is_upcoming and self.community.straw_vote_ended:
+        if o.issue.is_upcoming and \
+           self.community.upcoming_meeting_is_published and \
+           self.community.straw_vote_ended:
             context['meeting'] = self.community.draft_meeting()
         else:
             if results.count():

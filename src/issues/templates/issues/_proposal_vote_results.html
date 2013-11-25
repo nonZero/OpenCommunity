@@ -1,5 +1,5 @@
 {% load i18n %}
-{% load voting_tags %}
+{% load voting_tags community_tags %}
 
 {% if res.community_members %}
 <div class="row piechart" data-prop-id="{{ proposal.id }}" data-pro="{{ res.votes_pro }}" data-con="{{ res.votes_con }}" data-total="{{ res.community_members }}" >
