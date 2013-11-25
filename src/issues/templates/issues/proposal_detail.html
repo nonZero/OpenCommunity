@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n humanize voting_tags %}
+{% load i18n humanize voting_tags community_tags %}
 
 {% block extra-page-id %}
 id="proposal-detail"
@@ -96,8 +96,8 @@ id="proposal-detail"
         </div>
     {% endif %}
 
-    {% with proposal=object %}
-        {% if proposal.can_straw_vote and cperms.issues.vote and user|member_of:community %}
+    {% with proposal=object c=proposal.issue.community %}
+        {% if proposal.can_straw_vote and cperms.issues.vote and user|member_of:c %}
             {% include 'issues/_vote.html' %}
         {% endif %}
         {% if proposal.can_show_straw_votes %}
