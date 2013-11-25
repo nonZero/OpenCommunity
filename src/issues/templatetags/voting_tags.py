@@ -66,9 +66,10 @@ def prev_straw_results_link(proposal, meeting_id=None):
 
     
 @register.filter
-def next_straw_results_link(proposal, meeting_id):   
+def next_straw_results_link(proposal, meeting_id):
+    c = proposal.issue.community
     link_args = {
-        'community_id': proposal.issue.community_id,
+        'community_id': c.id,
         'pk': proposal.id,
         }
     url = reverse('vote_results_panel', kwargs=link_args)
@@ -80,9 +81,9 @@ def next_straw_results_link(proposal, meeting_id):
         if next_res.count():
             return '{0}?meeting_id={1}&dir=next'.format( \
                      url, next_res[0].meeting_id)
-        elif proposal.can_show_straw_votes:
+        elif proposal.can_show_straw_votes and \
+             c.upcoming_meeting_is_published:
             return '{0}?meeting_id=&dir=next'.format(url)
-            
     else:
         pass
     return ''

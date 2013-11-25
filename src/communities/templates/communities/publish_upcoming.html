@@ -27,8 +27,8 @@
 {% block page_scripts %}
 {% if object.upcoming_meeting_started %}
 <script>
-	$.ajax({
-		url : "/{{ object.id }}/upcoming/publish/preview/",
+	$.ajax({		
+		url : "/{{ object.id }}/protocol-preview/",
 		success : function(result) {
 			$("#protocolPreview").html(result);
 		}
@@ -37,7 +37,7 @@
 {% else %}
 <script>
 	$.ajax({
-		url : "/{{ object.id }}/protocol-preview/",
+		url : "/{{ object.id }}/upcoming/publish/preview/",
 		success : function(result) {
 			$("#protocolPreview").html(result);
 		}

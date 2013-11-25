@@ -282,7 +282,7 @@ class Community(UIDMixin):
                             votes_con=p.votes_con,
                             community_members=p.community_members)
                             
-                for c in issue.comments.filter(active=True, meeting=None):
+                for c in issue.comments.filter(meeting=None):
                     c.meeting = m
                     c.save()
 

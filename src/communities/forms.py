@@ -2,6 +2,7 @@ from communities.models import Community, SendToOption
 from django.utils.translation import ugettext_lazy as _
 from ocd.formfields import HTMLArea, OCSplitDateTime
 import floppyforms as forms
+from django.utils import timezone
 
 
 class EditUpcomingMeetingForm(forms.ModelForm):
@@ -31,7 +32,18 @@ class EditUpcomingMeetingForm(forms.ModelForm):
         self.fields['upcoming_meeting_scheduled_at'].label = _('Scheduled at')
         self.fields['upcoming_meeting_location'].label = _('Location')
         self.fields['upcoming_meeting_comments'].label = _('Background')
-                
+
+        
+    def clean(self):
+        voting_ends_at = self.cleaned_data['voting_ends_at']
+        meeting_time = self.cleaned_data['upcoming_meeting_scheduled_at']
+        if voting_ends_at <= timezone.now():
+            raise forms.ValidationError(_("End voting time cannot be set to the past"))
+        if voting_ends_at > meeting_time:
+            raise forms.ValidationError(_("End voting time cannot be set to after the meeting time"))
+        return self.cleaned_data
+
+            
     def save(self):
         c = super(EditUpcomingMeetingForm, self).save()
         if not c.voting_ends_at:
