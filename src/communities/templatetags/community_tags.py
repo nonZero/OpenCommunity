@@ -11,13 +11,12 @@ register = template.Library()
 def display_upcoming_time(community):
     """ display only date if hour information if not set (remains at default '00:00)
     """
-    when = timezone.localtime(community.upcoming_meeting_scheduled_at)
-    if not when:
+    if not community.upcoming_meeting_scheduled_at:
         return _("Not set yet")
-    else:
-        t = when.timetz()
-        if t.hour == 0 and t.minute == 0:
-            return when.date()
+    when = timezone.localtime(community.upcoming_meeting_scheduled_at)
+    t = when.timetz()
+    if t.hour == 0 and t.minute == 0:
+        return when.date()
 
-        else:
-            return when
+    else:
+        return when
