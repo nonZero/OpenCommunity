@@ -279,7 +279,7 @@ msgstr "פרסם סדר יום"
 
 #: templates/communities/upcoming.html:44
 msgid "Undo Start Meeting"
-msgstr "בטל התחלת פגישה"
+msgstr "עצור פגישה"
 
 #: templates/communities/upcoming.html:48
 msgid "Start Meeting"
@@ -324,8 +324,14 @@ msgstr "הצבעה מסתיימת ב"
 msgid "Agenda items"
 msgstr "נושאים לסדר היום"
 
-#: templates/communities/upcoming.html:113 templates/emails/protocol.html:3
-#: templates/emails/protocol.txt:1 templates/emails/protocol_title.txt:1
+
+#: .\templates\communities\upcoming.html.py:103
+msgid "Votes/Total proposals"
+msgstr "כמה הצבעתי / סך הצעות"
+
+#: .\templates\communities\upcoming.html.py:113
+#: .\templates\emails\protocol.html.py:3 .\templates\emails\protocol.txt.py:1
+#: .\templates\emails\protocol_title.txt.py:1
 msgid "Summary"
 msgstr "סיכום הפגישה"
 
@@ -375,11 +381,15 @@ msgstr "קבצים קשורים"
 msgid "Accepted Proposals"
 msgstr "החלטות שהתקבלו"
 
-#: templates/emails/_protocol.html:122 templates/emails/agenda.html:110
+
+#: .\templates\emails\_protocol.html.py:122
+#: .\templates\emails\agenda.html.py:110
 msgid "Assigned to"
 msgstr "אחראי"
 
-#: templates/emails/_protocol.html:126 templates/emails/agenda.html:114
+#: .\templates\emails\_protocol.html.py:126
+#: .\templates\emails\agenda.html.py:114
+
 msgid "Due by"
 msgstr "יעד"
 

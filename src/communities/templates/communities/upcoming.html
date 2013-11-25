@@ -83,6 +83,12 @@
 			{% endif %}
 		{% endif %}
 
+		{% if object.straw_voting_enabled and not user.id %}
+		<div class="text-center" style="margin-bottom: 10px;">
+			<a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-warning">{% trans "Login to vote" %}</a>
+		</div>
+		{% endif %}
+
 		<div class="oc_detail_top">
 			<h5> {% trans "Location" %}: <span>{{object.upcoming_meeting_location|default:_("Not set yet")}}</span></h5>
 			<h5> {% trans "Scheduled at" %}: <span>{{object.upcoming_meeting_scheduled_at|default:_("Not set yet")}}</span>
@@ -100,7 +106,7 @@
 		</div>
 
 		<div id="agenda-container" class="agenda-list">
-			<h2> {% trans "Agenda items" %} <span class="loader"> <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/> </span></h2>
+			<h2> {% trans "Agenda items" %} - <span class="badge vote-badge">{% trans "Votes/Total proposals" %}</span> <span class="loader"> <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/> </span></h2>
 			<ul id="agenda" class="nav nav-pills nav-stacked">
 				{% for i in object.upcoming_issues %}
 					{% include "communities/_issue.html" %}
