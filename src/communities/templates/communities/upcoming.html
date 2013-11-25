@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% load opencommunity %}
+{% load opencommunity community_tags %}
 
 {% block extra-page-id %}
 	id="upcoming-meeting"
@@ -91,8 +91,8 @@
 
 		<div class="oc_detail_top">
 			<h5> {% trans "Location" %}: <span>{{object.upcoming_meeting_location|default:_("Not set yet")}}</span></h5>
-			<h5> {% trans "Scheduled at" %}: <span>{{object.upcoming_meeting_scheduled_at|default:_("Not set yet")}}</span>
-			</h5>
+        <h5> {% trans "Scheduled at" %}: <span>{{ object|display_upcoming_time }}</span></h5>
+			
 			{% if object.straw_voting_enabled %}
 				<h5>
 					{% if object.straw_vote_ended %}{% trans "Voting ended at" %}{% else %}{% trans "Voting ends at" %}{% endif %}: <span>{{ object.voting_ends_at|default:_("Not set yet") }}</span>

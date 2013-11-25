@@ -81,8 +81,9 @@ def next_straw_results_link(proposal, meeting_id):
         if next_res.count():
             return '{0}?meeting_id={1}&dir=next'.format( \
                      url, next_res[0].meeting_id)
-        elif proposal.can_show_straw_votes and \
-             c.upcoming_meeting_is_published:
+        elif proposal.has_votes and \
+             proposal.issue.is_upcoming and \
+             c.straw_vote_ended:
             return '{0}?meeting_id=&dir=next'.format(url)
     else:
         pass
