@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block page_header %}
-	{% trans "Upcoming Meeting" %}
+	{% trans "Agenda" %}
 	{% if object.upcoming_meeting_title and cperms.communities.viewupcoming_community %}
 		{% if cperms.community.editagenda_community or object.upcoming_meeting_is_published %}
 			- {{object.upcoming_meeting_title}}
@@ -51,10 +51,10 @@
 		</form>
 	{% endif %}
 
-	{% if cperms.issues.acceptopen_proposal and object.straw_voting_enabled %}
+	<!-- {% if cperms.issues.acceptopen_proposal and object.straw_voting_enabled %}
 		<a class="btn btn-oc" id="summation"
 		href="{% url "sum_votes" community.id  %}"> <i class="fa fa-bar-chart-o"></i> <span>{% trans "Sum vote" %}</span></a>
-	{% endif %}
+	{% endif %} -->
 {% endblock %}
 
 {% block content %}
@@ -93,14 +93,14 @@
 			<h5> {% trans "Location" %}: <span>{{object.upcoming_meeting_location|default:_("Not set yet")}}</span></h5>
         <h5> {% trans "Scheduled at" %}: <span>{{ object|display_upcoming_time }}</span></h5>
 			
-			{% if object.straw_voting_enabled %}
+			<!-- {% if object.straw_voting_enabled %}
 				<h5>
 					{% if object.straw_vote_ended %}{% trans "Voting ended at" %}{% else %}{% trans "Voting ends at" %}{% endif %}: <span>{{ object.voting_ends_at|default:_("Not set yet") }}</span>
 				</h5>
-			{% endif %}
+			{% endif %} -->
 			{% if object.upcoming_meeting_comments %}
 				<h5>
-					{% trans "Background" %}: <span>{{object.upcoming_meeting_comments|safe}}</span>
+					<span>{{object.upcoming_meeting_comments|safe}}</span>
 				</h5>
 			{% endif %}
 		</div>

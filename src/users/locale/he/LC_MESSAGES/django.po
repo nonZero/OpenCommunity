@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-25 01:16+0200\n"
+"POT-Creation-Date: 2013-11-26 13:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\admin.py:42 .\forms.py:33
+#: .\admin.py:42 .\forms.py:36
 msgid "Password"
 msgstr "סיסמא"
 
@@ -44,11 +44,18 @@ msgstr "מזכיר"
 msgid "chairman"
 msgstr "יושב ראש"
 
-#: .\forms.py:34
+#: .\forms.py:10
+#, python-format
+msgid ""
+"Please enter a correct %(username)s and password. Note that both fields may "
+"be case-sensitive."
+msgstr "אנא הכנס %(username)s וסיסמא תיקניים. שים לב לאותיות קטנות וגדולות."
+
+#: .\forms.py:37
 msgid "Password confirmation"
 msgstr "אימות סיסמא"
 
-#: .\forms.py:48
+#: .\forms.py:51
 msgid "Passwords don't match"
 msgstr "סיסמא לא תואמת"
 
@@ -283,10 +290,3 @@ msgstr "אין חברים בקהילה"
 #: .\templates\users\membership_list.html.py:46
 msgid "Invite"
 msgstr "הזמן"
-
-#~ msgid ""
-#~ "Please enter a correct %(username)s and password. Note that both fields "
-#~ "may be case-sensitive."
-#~ msgstr ""
-#~ "יש להזין %(username)s וסיסמא  תקינים.  בשני השדות יכולים להיות הבדלים בין "
-#~ "אותיות קטנות וגדולות."

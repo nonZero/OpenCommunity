@@ -114,7 +114,7 @@ class CreateProposalBaseForm(forms.ModelForm):
             'due_by': forms.DateInput,
         }
 
-
+        
 class CreateProposalForm(CreateProposalBaseForm):
 
     submit_button_text = _('Create')

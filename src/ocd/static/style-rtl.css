@@ -59,6 +59,9 @@ a {
 p > a {
 	word-break: break-word;
 }
+.container {
+	margin-bottom: 30px;
+}
 
 /* Errors */
 
@@ -710,6 +713,7 @@ ul.proposals li.prop-content p {
 }
 #proposal-detail .proposal-info {
 	margin-top: 15px;
+	clear: both;
 }
 .proposal-info p {
 	word-break: break-word;
@@ -781,7 +785,7 @@ ul.proposals li.prop-content p {
 	background: transparent;
 }
 #comments li.editing div {
-	padding-left: 26px;
+	/*padding-left: 26px;*/
 }
 .comment-inner {
 	color: #6c6c6e;
@@ -981,6 +985,20 @@ i.fa + span {
 }
 .wysiwyg-text-align-center {
     text-align: center;
+}
+.oc_detail_top ol,
+.oc_detail_top ul,
+#proposal-detail .proposal .proposal-info ol,
+#proposal-detail .proposal .proposal-info ul,
+.summary_box ol,
+.summary_box ul {
+	margin-bottom: 0;
+}
+.oc_detail_top p,
+#comments .comment-inner p.content,
+#comments .comment-inner ol,
+#comments .comment-inner ul {
+	margin-bottom: 5px;
 }
 
 /* Footer */

@@ -39,7 +39,7 @@ id="issue-detail"
 
 {% if object.is_upcoming %}
     {% if community.upcoming_meeting_is_published or cperms.communities.viewupcoming_draft %}
-		<h2 class="text-center"> --{% trans "In upcoming meeting" %}-- </h2>
+		<h2 class="text-center"> --{% trans "In agenda" %}-- </h2>
     {% endif %}
 {% endif %}
 

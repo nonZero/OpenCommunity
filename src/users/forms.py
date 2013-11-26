@@ -7,6 +7,9 @@ from users.models import Invitation, OCUser
 import floppyforms as forms
 
 
+LOGIN_ERROR = _("Please enter a correct %(username)s and password. "
+                           "Note that both fields may be case-sensitive.")
+
 class InvitationForm(forms.ModelForm):
 
     class Meta:
@@ -80,4 +83,3 @@ class OCPasswordResetConfirmForm(SetPasswordForm):
         super(OCPasswordResetConfirmForm, self).__init__(*args, **kwargs)
         self.fields['new_password1'].widget.attrs['class'] = u'form-control'
         self.fields['new_password2'].widget.attrs['class'] = u'form-control'
-        
