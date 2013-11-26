@@ -9,36 +9,48 @@ $(function() {
         }
 
         var url = $(this).attr('href');
-        $('#modal-form').modal({
-            remote : url
-        }).one('hidden.bs.modal', function() {
-            $(this).removeData('bs.modal').empty();
+        var modal = $('#modal-form');
+
+        var origin = $(this);
+
+        $.get(url, function(html) {
+            modal.html(html);
+            initForm(modal, url, origin);
+            modal.modal({}).one('hidden.bs.modal', function() {
+                $(this).removeData('bs.modal').empty();
+            });
+        }).fail(function() {
+            alert('Server Error, pleae reload page.');
         });
 
         return false;
     });
 
-    if(navigator.userAgent.match('CriOS')) {
+    if (navigator.userAgent.match('CriOS')) {
         $('body').addClass('ios-chrome');
     }
 
-
 });
 
-function initForm(modal) {
-
-    var url = modal.data('bs.modal').options.remote;
+/**
+ * Initializes an ajax form to allow refreshing on error and redirecting,
+ * reloading, going back or calling a custom callback function on success.
+ *
+ * @param {jQuery} modal
+ * @param {jQuery} origin optional. The original link clicked to
+ */
+function initForm(modal, url, origin) {
 
     var form = modal.find('form');
 
-	form.find('.htmlarea textarea').wysihtml5({
-		locale : "he-IL"
-	}).css({
-		'width' : '100%',
-		'border-top-right-radius' : '0',
-		'border-top-left-radius' : '0',
-		'border-top' : '0'
-	}); 
+    form.find('.htmlarea textarea').wysihtml5({
+        locale : "he-IL"
+    }).css({
+        'width' : '100%',
+        'border-top-right-radius' : '0',
+        'border-top-left-radius' : '0',
+        'border-top' : '0'
+    }); 
 
     form.ajaxForm({
 
@@ -54,6 +66,21 @@ function initForm(modal) {
 
         success : function(resp) {
             if (resp) {
+
+                var appendTo = $(origin).data('append-to');
+                if (appendTo) {
+                    $(appendTo).append(resp);
+                    $(modal).modal('hide');
+                    return;
+                }
+
+                var replace = $(origin).data('replace');
+                if (replace) {
+                    $(replace).html(resp);
+                    $(modal).modal('hide');
+                    return;
+                }
+
                 if (resp == '-') {
                     window.history.back();
                 } else {

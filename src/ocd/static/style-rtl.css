@@ -644,6 +644,10 @@ table.issue-table tr td.issue_date {
 
 /* Proposal page table & more */
 
+.open-proposals h2:last-child {
+    display:none;
+}
+
 ul.prop-table {
 	display: table;
 	width: 100%;
