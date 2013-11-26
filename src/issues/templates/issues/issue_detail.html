@@ -105,35 +105,47 @@ id="issue-detail"
         </div>
     {% endif %}
 
-{% with can_straw_vote=object.can_straw_vote %}
-{% if object.proposals.active.count %}
-{% csrf_token %}
-<div class="issue_proposal">
+    {% with can_straw_vote=object.can_straw_vote %}
+
+        {% csrf_token %}
+
+        <div class="issue_proposal">
+
             {% if object.proposals.closed %}
+
                 <h2>{% trans "Past Proposals" %}</h2>
+
                 {% for proposal in object.proposals.closed %}
                     {% include 'issues/_proposal.html' %}
                 {% endfor %}
+
             {% endif %}
 
-            {% if object.proposals.open %}
-                <h2>{% trans "Proposals" %}</h2>
+
+            <div class="open-proposals">
+                <h2>
+                    {% trans "Proposals" %}
+                </h2>
+
                 {% for proposal in object.proposals.open %}
+
                     {% include 'issues/_proposal.html' %}
+
                     {% if can_straw_vote and not proposal.decided and cperms.issues.vote and user|member_of:community %}
-                    <div class="issue_proposal_vote">
-                        {% include 'issues/_vote.html' %}
-                    </div>
+                        <div class="issue_proposal_vote">
+                            {% include 'issues/_vote.html' %}
+                        </div>
                     {% endif %}
+
                 {% endfor %}
-            {% endif %}
-</div>
-{% endif %}
-{% endwith %}
+            </div>
+        </div>
+
+    {% endwith %}
 
 {% if cperms.issues.add_proposal and not object.is_archived %}
 <div class="narrow clear">
-    <a class="btn btn-oc btn-lg btn-block" data-rel="form" data-append-to=".issue_proposal" href="{% url "proposal_create" community.id object.id %}">{% trans "Add Proposal" %}</a>
+    <a class="btn btn-oc btn-lg btn-block" data-rel="form" data-append-to=".open-proposals" href="{% url "proposal_create" community.id object.id %}">{% trans "Add Proposal" %}</a>
 </div>
 {% endif %}
 
