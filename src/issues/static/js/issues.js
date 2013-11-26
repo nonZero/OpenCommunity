@@ -7,7 +7,7 @@ function refreshProposalForm() {
 
     // hide task related fields
     var els = $('#id_proposal-title').parent().parent();
-    var els1 = $('#id_proposal-content').parent().parent().parent();
+    var els1 = $('#id_proposal-content').parent().parent().parent().parent();
     if ($('#id_proposal-type').val() == '') {
         els.hide();
         els1.hide();

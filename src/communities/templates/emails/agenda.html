@@ -1,5 +1,5 @@
 {% load i18n %}
-{% load opencommunity %}
+{% load opencommunity community_tags %}
 <div{% if LANGUAGE_CODE == 'he' %} dir="rtl"{% endif %}
     style="font-family: Arial, Helvetica, sans-serif{% if LANGUAGE_CODE == 'he' %};direction:rtl{% endif %}"
 >
@@ -37,7 +37,11 @@
                 </i>
             </p>
             <p>
-                <a href="{{base_url}}{{community.get_absolute_url}}">{% trans "View online" %}</a>
+                {% if community.has_straw_votes %}
+                    <a href="{{base_url}}{{community.get_absolute_url}}">{% trans "Enter site and vote on proposals" %}</a>
+                {% else %}
+                    <a href="{{base_url}}{{community.get_absolute_url}}">{% trans "View online" %}</a>
+                {% endif %}
             </p>
 
             <div style="border: solid 1px #ccc; margin: 4px 0;padding: 0"> 
@@ -45,7 +49,7 @@
 
                 <div style="margin:0; padding: 4px">
                         <b>{% trans "Scheduled at" %}:</b>
-                        {{community.upcoming_meeting_scheduled_at|default:_("Not set yet")}}
+                        {{community|display_upcoming_time}}
                         <br/>
                         <b>{% trans "Location" %}:</b>
                         {{community.upcoming_meeting_location|default:_("Not set yet")}}
@@ -71,7 +75,7 @@
                 {% for i in community.upcoming_issues %}
                     <article style="border: solid 1px #ccc; margin-top: 12px;">
         
-                        <h3 style="margin:0; background: #ddd;padding: 4px">
+                        <h3 style="margin:0; background: #ddd;padding: 4px; font-size: 20px;">
                             <a href="{{base_url}}{{i.get_absolute_url}}">
                                 {{i.title}}
                             </a>
@@ -93,6 +97,7 @@
                                 </h4>
                                 <ul>
                                     {% for p in i.active_proposals.all %}
+                                        {% if not p.decided %}
                                         <li style="padding:2px 0">
 	                                        <a href="{{base_url}}{{p.get_absolute_url}}">
                                                 {% if p.type != 3 %}
@@ -114,6 +119,7 @@
 	                                            </div>
 	                                        {% endif %}
                                         </li>
+                                        {% endif %}
                                     {% endfor %}
                                 </ul>
                             {% endif %}

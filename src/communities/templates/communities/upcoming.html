@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% load opencommunity %}
+{% load opencommunity community_tags %}
 
 {% block extra-page-id %}
 	id="upcoming-meeting"
@@ -51,7 +51,7 @@
 		</form>
 	{% endif %}
 
-	{% if user.is_superuser and object.straw_voting_enabled %}
+	{% if cperms.issues.acceptopen_proposal and object.straw_voting_enabled %}
 		<a class="btn btn-oc" id="summation"
 		href="{% url "sum_votes" community.id  %}"> <i class="fa fa-bar-chart-o"></i> <span>{% trans "Sum vote" %}</span></a>
 	{% endif %}
@@ -65,31 +65,48 @@
 		{% if object.upcoming_meeting_started %}
 			<h2 class="text-center"> --{% trans "Meeting started" %}-- </h2>
 		{% else %}
-
 			{% if object.upcoming_meeting_is_published %}
-				<h2 class="text-center"> --{% trans "Published" %}-- </h2>
-				<h2 class="text-center"> ({% trans "Version" %} {{object.upcoming_meeting_version}} - {{object.upcoming_meeting_published_at}}) </h2>
+				{% if object.straw_voting_enabled %}
+					{% if object.straw_vote_ended %}
+						<h2 class="text-center"> --{% trans "Straw Vote Ended" %}-- </h2>
+						<h2 class="text-center"> ({% trans "Version" %} {{object.upcoming_meeting_version}} - {{object.upcoming_meeting_published_at}}) </h2>
+					{% else %}
+						<h2 class="text-center"> --{% trans "Active Straw Vote" %}-- </h2>
+						<h2 class="text-center"> ({% trans "Version" %} {{object.upcoming_meeting_version}} - {{object.upcoming_meeting_published_at}}) </h2>
+					{% endif %}
+				{% else %}
+					<h2 class="text-center"> --{% trans "Published" %}-- </h2>
+					<h2 class="text-center"> ({% trans "Version" %} {{object.upcoming_meeting_version}} - {{object.upcoming_meeting_published_at}}) </h2>
+				{% endif %}
 			{% else %}
 				<h2 class="text-center"> --{% trans "Draft" %}-- </h2>
 			{% endif %}
 		{% endif %}
 
+		{% if object.straw_voting_enabled and not object.straw_vote_ended and not user.id %}
+		<div class="text-center" style="margin-bottom: 10px;">
+			<a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-warning">{% trans "Login to vote" %}</a>
+		</div>
+		{% endif %}
+
 		<div class="oc_detail_top">
 			<h5> {% trans "Location" %}: <span>{{object.upcoming_meeting_location|default:_("Not set yet")}}</span></h5>
-			<h5> {% trans "Scheduled at" %}: <span>{{object.upcoming_meeting_scheduled_at|default:_("Not set yet")}}
-				{% if object.upcoming_meeting_comments %}
-					{{object.upcoming_meeting_comments|safe}}
-				{% endif %}</span>
-			</h5>
+        <h5> {% trans "Scheduled at" %}: <span>{{ object|display_upcoming_time }}</span></h5>
+			
 			{% if object.straw_voting_enabled %}
 				<h5>
-					{% trans "Voting ends at" %}: <span>{{ object.voting_ends_at|default:_("Not set yet") }}</span>
+					{% if object.straw_vote_ended %}{% trans "Voting ended at" %}{% else %}{% trans "Voting ends at" %}{% endif %}: <span>{{ object.voting_ends_at|default:_("Not set yet") }}</span>
+				</h5>
+			{% endif %}
+			{% if object.upcoming_meeting_comments %}
+				<h5>
+					{% trans "Background" %}: <span>{{object.upcoming_meeting_comments|safe}}</span>
 				</h5>
 			{% endif %}
 		</div>
 
 		<div id="agenda-container" class="agenda-list">
-			<h2> {% trans "Agenda items" %} <span class="loader"> <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/> </span></h2>
+			<h2> {% trans "Agenda items" %} - <span class="badge vote-badge">{% trans "Votes/Total proposals" %}</span> <span class="loader"> <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/> </span></h2>
 			<ul id="agenda" class="nav nav-pills nav-stacked">
 				{% for i in object.upcoming_issues %}
 					{% include "communities/_issue.html" %}

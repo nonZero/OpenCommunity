@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-14 22:48+0200\n"
+"POT-Creation-Date: 2013-11-25 01:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\admin.py:42 .\forms.py:32
+#: .\admin.py:42 .\forms.py:33
 msgid "Password"
 msgstr "סיסמא"
 
@@ -44,11 +44,11 @@ msgstr "מזכיר"
 msgid "chairman"
 msgstr "יושב ראש"
 
-#: .\forms.py:33
+#: .\forms.py:34
 msgid "Password confirmation"
 msgstr "אימות סיסמא"
 
-#: .\forms.py:47
+#: .\forms.py:48
 msgid "Passwords don't match"
 msgstr "סיסמא לא תואמת"
 

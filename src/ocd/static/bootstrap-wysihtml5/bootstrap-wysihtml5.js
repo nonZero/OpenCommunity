@@ -35,7 +35,7 @@
             var size = (options && options.size) ? ' btn-'+options.size : '';
             return "<li>" +
               "<div class='btn-group'>" +
-                "<a class='btn btn-default btn-sm" + size + "' data-wysihtml5-command='bold' title='" + locale.emphasis.blod + "' tabindex='-1'><i class='fa fa-bold'></i></a>" +
+                "<a class='btn btn-default btn-sm" + size + "' data-wysihtml5-command='bold' title='" + locale.emphasis.bold + "' tabindex='-1'><i class='fa fa-bold'></i></a>" +
                 "<a class='btn btn-default btn-sm" + size + "' data-wysihtml5-command='italic' title='" + locale.emphasis.italic + "' tabindex='-1'><i class='fa fa-italic'></i></a>" +
                 "<a class='btn btn-default btn-sm" + size + "' data-wysihtml5-command='underline' title='" + locale.emphasis.underline + "' tabindex='-1'><i class='fa fa-underline'></i></a>" +
               "</div>" +

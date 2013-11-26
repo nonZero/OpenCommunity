@@ -66,17 +66,22 @@ class AddAttachmentBaseForm(forms.ModelForm):
                    'file',
                    )
 
+        widgets = {
+            'title': forms.TextInput,
+            }
+
     def clean_file(self):
         file_obj = self.cleaned_data['file']
 
         if len(file_obj.name.split('.')) == 1:
             raise forms.ValidationError(_("File type is not allowed!"))
 
-        if file_obj.name.split('.')[-1] not in settings.UPLOAD_ALLOWED_EXTS:
+        if file_obj.name.split('.')[-1].lower() not in settings.UPLOAD_ALLOWED_EXTS:
             raise forms.ValidationError(_("File type is not allowed!"))
 
         return file_obj
 
+    
     def clean_title(self):
         title = self.cleaned_data['title']
 
@@ -115,10 +120,6 @@ class CreateProposalForm(CreateProposalBaseForm):
     submit_button_text = _('Create')
 
     def __init__(self, *args, **kwargs):
-#         self.helper = FormHelper()
-# 
-#         self.helper.add_input(Submit('submit', self.submit_button_text))
-
         super(CreateProposalForm, self).__init__(*args, **kwargs)
         self.fields['type'].initial = ProposalType.ADMIN
 

@@ -5004,6 +5004,11 @@ a.thumbnail:focus {
   font-weight: bold;
 }
 
+.alert-error {
+    color: red;
+    font-size: 16px;
+}
+
 .alert > p,
 .alert > ul {
   margin-bottom: 0;

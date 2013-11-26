@@ -6,7 +6,9 @@
 {% endblock %}
 
 {% block page_header %}
-    {% if form.instance %}
+    {% if form.instance.id %}
+        {% trans "Edit Proposal" %}
+    {% else %}
         {% trans "New Proposal" %}
     {% endif %}
 {% endblock %}
@@ -19,6 +21,7 @@
     {{ form }}
 
 <script>
+
 	function refreshProposalForm() {
 
 		// prevent html5 required field
@@ -37,25 +40,27 @@
 
 	}
 
+
 	function refreshProposalEditForm() {
 
 		// prevent html5 required field
 		$('#id_type').val() == '';
-
 		// hide task related fields
-		var els = $('#div_id_assigned_to,#div_id_due_by');
 		if ($('#id_type').val() == '1') {
-			els.show();
+			$('#id_assigned_to').closest('.form-group').show()
+         $('#id_due_by').closest('.form-group').show()
 		} else {
-			els.hide();
+         $('#id_assigned_to').closest('.form-group').hide()
+			$('#id_due_by').closest('.form-group').hide()
 		}
 
 	}
+	
 	refreshProposalEditForm();
 	refreshProposalForm();
 	$(function() {
 		$('body').on('change', '#id_proposal-type', refreshProposalForm);
-	}); 
+	});
 	$(function() {
 		$('body').on('change', '#id_type', refreshProposalEditForm);
 	}); 

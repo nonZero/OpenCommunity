@@ -21,7 +21,7 @@
             {% endif %}
             {{title_type}}
         </h1>
-    
+
         <div style="padding:3px 6px">
             <p>
                 <a href="{{base_url}}{{url}}">{% trans "View online" %}</a>
@@ -63,7 +63,7 @@
             {% for a in agenda %}
                 <article style="border: solid 1px #ccc; margin-top: 12px;">
     
-                    <h3 style="margin:0; background: #ddd;padding: 4px">
+                    <h3 style="margin:0; background: #ddd;padding: 4px; font-size: 20px;">
                         <a href="{{base_url}}{{a.issue.get_absolute_url}}">
                             {{a.issue.title}}
                         </a>
@@ -80,7 +80,7 @@
                          <ul>
                          {% for att in a.issue.attachments.all %}
                             <li>                      
-                                <a href="{{base_url}}{{ att.get_absolute_url }}" class="file_ext"><img height="16" src="{{base_url}}{{ STATIC_URL }}/m/images/icons/{{ att.get_icon }}.png" /> {{att.title}}</a>
+                                <a href="{{base_url}}{{ att.get_absolute_url }}" class="file_ext"><img height="16" src="{{base_url}}{{ STATIC_URL }}images/icons/{{ att.get_icon }}.png" /> {{att.title}}</a>
                             </li>
                          {% endfor %}
                          </ul>

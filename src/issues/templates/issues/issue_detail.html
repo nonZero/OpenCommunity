@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load humanize %}
-{% load voting_tags %}
+{% load voting_tags community_tags %}
 
 {% block extra-page-id %}
 id="issue-detail"
@@ -38,11 +38,16 @@ id="issue-detail"
 {% else %}
 
 {% if object.is_upcoming %}
-            {% if community.upcoming_meeting_is_published or cperms.communities.viewupcoming_draft %}
-<h2 class="text-center"> --{% trans "In upcoming meeting" %}-- </h2>
-            {% endif %}
-        {% endif %}
+    {% if community.upcoming_meeting_is_published or cperms.communities.viewupcoming_draft %}
+		<h2 class="text-center"> --{% trans "In upcoming meeting" %}-- </h2>
+    {% endif %}
+{% endif %}
 
+{% endif %}
+{% if object.can_straw_vote and not user.id %}
+<div class="text-center" style="margin-bottom: 10px;">
+	<a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-warning">{% trans "Login to vote" %}</a>
+</div>
 {% endif %}
 
 <table class="table table-condensed issue-table">
@@ -115,7 +120,7 @@ id="issue-detail"
                 <h2>{% trans "Proposals" %}</h2>
                 {% for proposal in object.proposals.open %}
                     {% include 'issues/_proposal.html' %}
-                    {% if can_straw_vote and not proposal.decided and cperms.issues.vote and user.id %}
+                    {% if can_straw_vote and not proposal.decided and cperms.issues.vote and user|member_of:community %}
                     <div class="issue_proposal_vote">
                         {% include 'issues/_vote.html' %}
                     </div>

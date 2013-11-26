@@ -34,6 +34,9 @@ h2 {
 	font-size: 18px;
 	margin-top: 10px;
 }
+.modal-body h3 {
+	font-size: 18px;
+}
 .oc_detail_top h5 span {
 	font-weight: normal;
 }
@@ -57,15 +60,6 @@ p > a {
 	word-break: break-word;
 }
 
-.wysiwyg-text-align-left {
-    text-align: left;
-}
-.wysiwyg-text-align-right {
-    text-align: right;
-}
-.wysiwyg-text-align-center {
-    text-align: center;
-}
 /* Errors */
 
 ul.errorlist {
@@ -78,6 +72,9 @@ ul.errorlist li {
 
 /* Forms */
 
+.modal-body {
+	padding: 20px 20px 10px 20px;
+}
 .modal-content {
 	background: url('images/background.jpg') repeat;
 }
@@ -91,6 +88,12 @@ ul.errorlist li {
 .modal-header .close {
 	color: #fff;
 	opacity: 1;
+}
+.modal-footer {
+	margin-top: 0;
+}
+.form-group {
+	margin-bottom: 10px;
 }
 #upcoming-meeting .field-send_to ul {
 	list-style-type: none;
@@ -673,6 +676,7 @@ ul:nth-child(odd).proposals li.drag-icon {
 }
 ul.proposals li.prop-title {
 	padding: .7em 15px 0 15px;
+	word-break: break-word;
 }
 a ul.proposals li.prop-title {
 	color: #6c6c6e;
@@ -704,6 +708,9 @@ ul.proposals li.prop-content p {
 	border: 1px solid #d8e0df;
 	background: #fff;
 }
+#proposal-detail .proposal-info {
+	margin-top: 15px;
+}
 .proposal-info p {
 	word-break: break-word;
 	margin: 10px 0;
@@ -722,6 +729,7 @@ ul.proposals li.prop-content p {
 	font-size: 18px;
 	font-weight: bold;
 	margin-bottom: 20px;
+	margin-top: 20px;
 }
 #proposal-detail .rejected {
     position: relative;
@@ -732,10 +740,18 @@ ul.proposals li.prop-content p {
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 20px;
+	margin-top: 20px;
 }
 #proposal-detail .accepted a:hover,
 #proposal-detail .rejected a:hover {
 	text-decoration: none;
+}
+
+/* Protocol & Agenda ajax preview */
+
+#protocolPreview {
+	text-align: right;
+	padding-top: 20px;
 }
 
 /* Messages */
@@ -755,7 +771,7 @@ ul.proposals li.prop-content p {
 	padding: 0;
 	margin-bottom: 1px;
 }
-#comments li {
+#comments > li {
 	padding: 5px;
 	background: #fff;
 	list-style-type: none;
@@ -789,8 +805,8 @@ ul#invitations {
 	list-style-type: none;
 }
 form.delete-invitation {
-	display: inline;
-	margin-left: 15px;
+/*	display: inline;*/
+	margin-right: 10px;
 }
 /* Images & Icons */
 
@@ -871,11 +887,20 @@ i.fa + span {
 	margin: 10px 0;
 	background: #fff;
 	padding-top: 10px;
+	border: 1px solid #d8e0df;
 }
 .piechart span {
 	font-size: 1.1em;
 	vertical-align: top;
 }
+
+.piechart a {
+   font-size: 1.1em;
+   vertical-align: top;
+   color: #000;
+   text-decoration: none;
+}
+
 .piechart span span {
 	font-size: 1em;
 	width: 35px;
@@ -893,7 +918,12 @@ i.fa + span {
 .chart_divider {
 	height: 1px;
 	border-top: 1px dotted;
-	margin: 15px 0;
+	margin-bottom: 10px;
+}
+.chart_datetime {
+	border-bottom: 1px solid #d8e0df;
+	padding-bottom: 10px;
+	margin-bottom: 10px;	
 }
 
 /* Votes */
@@ -936,10 +966,22 @@ i.fa + span {
 .votes_count {
 	color: red;
 }
+.vote-badge {
+	color: #448698;
+	background: #fff;
+}
 
 /* WYSIHTML5 Editor */
 
-
+.wysiwyg-text-align-left {
+    text-align: left;
+}
+.wysiwyg-text-align-right {
+    text-align: right;
+}
+.wysiwyg-text-align-center {
+    text-align: center;
+}
 
 /* Footer */
 
@@ -954,6 +996,9 @@ i.fa + span {
 	ul.wysihtml5-toolbar > li:last-child {
 		display:none
 		}
+	.mobile_line_break {
+		display: block;
+	}
 }		
 
 /* Extra small devices (smartphone, up to 767px) */
@@ -1014,6 +1059,9 @@ i.fa + span {
 	}
 	.change_vote span {
 		margin-left: 30px;
+	}
+	.mobile_line_break {
+		display: inline;
 	}
 }
 

@@ -1,8 +1,8 @@
 from communities.models import Community, SendToOption
 from django.utils.translation import ugettext_lazy as _
-from ocd.formfields import HTMLArea, DateTimeLocalInput, OCSplitDateTime
-from users.models import OCUser
+from ocd.formfields import HTMLArea, OCSplitDateTime
 import floppyforms as forms
+from django.utils import timezone
 
 
 class EditUpcomingMeetingForm(forms.ModelForm):
@@ -12,8 +12,8 @@ class EditUpcomingMeetingForm(forms.ModelForm):
 
         fields = (
                    'upcoming_meeting_title',
-                   'upcoming_meeting_scheduled_at',
                    'upcoming_meeting_location',
+                   'upcoming_meeting_scheduled_at',
                    'voting_ends_at',
                    'upcoming_meeting_comments',
                    )
@@ -26,7 +26,35 @@ class EditUpcomingMeetingForm(forms.ModelForm):
             'upcoming_meeting_comments': HTMLArea,
         }
         
+    def __init__(self, *args, **kwargs):
+        super(EditUpcomingMeetingForm, self).__init__(*args, **kwargs)
+        self.fields['upcoming_meeting_title'].label = _('Title')
+        self.fields['upcoming_meeting_scheduled_at'].label = _('Scheduled at')
+        self.fields['upcoming_meeting_location'].label = _('Location')
+        self.fields['upcoming_meeting_comments'].label = _('Background')
+
         
+    def clean(self):
+        """prevent voting end time from illegal values (past time,
+            time after meeting schedule)
+        """
+        try:
+            voting_ends_at = self.cleaned_data['voting_ends_at']
+        except KeyError:
+            voting_ends_at = None
+        try:
+            meeting_time = self.cleaned_data['upcoming_meeting_scheduled_at']
+        except KeyError:
+            meeting_time = None
+
+        if voting_ends_at:
+            if voting_ends_at <= timezone.now():
+                raise forms.ValidationError(_("End voting time cannot be set to the past"))
+            if meeting_time and voting_ends_at > meeting_time:
+                raise forms.ValidationError(_("End voting time cannot be set to after the meeting time"))
+        return self.cleaned_data
+
+            
     def save(self):
         c = super(EditUpcomingMeetingForm, self).save()
         if not c.voting_ends_at:
@@ -104,4 +132,5 @@ class UpcomingMeetingParticipantsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UpcomingMeetingParticipantsForm, self).__init__(*args, **kwargs)
         self.fields['upcoming_meeting_participants'].queryset = self.instance.get_members()
-
+        self.fields['upcoming_meeting_guests'].widget.attrs['rows'] = 4
+        

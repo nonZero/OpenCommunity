@@ -26,7 +26,7 @@ urlpatterns = patterns('',
         name="upcoming_edit_participants"),
 
     # FOR TESTING ONLY!
-    url(r'^upcoming/sum_votes/$', views.sum_votes, name="sum_votes"),
+    url(r'^upcoming/sum_votes/$', views.SumVotesView.as_view(), name="sum_votes"),
         
     url(r'^protocol-preview/$',
         views.ProtocolDraftPreviewView.as_view(),
