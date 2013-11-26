@@ -16,7 +16,6 @@ from meetings.models import Meeting
 from oc_util.templatetags.opencommunity import minutes
 from ocd.base_views import CommunityMixin, AjaxFormView, json_response
 from ocd.validation import enhance_html
-from users.permissions import get_community_perms
 import mimetypes
 
 
@@ -328,9 +327,7 @@ class ProposalDetailView(ProposalMixin, DetailView):
             else:
                 context['meeting'] = None
 
-
         return context
-
 
     def post(self, request, *args, **kwargs):
         """ Used to change a proposal status (accept/reject) """
@@ -413,7 +410,6 @@ class VoteResultsView(CommunityMixin, DetailView):
         return HttpResponse(panel)
 
 
-
 class ProposalVoteView(CommunityMixin, DetailView):
     required_permission_for_post = 'issues.vote'
     model = models.Proposal
@@ -424,7 +420,6 @@ class ProposalVoteView(CommunityMixin, DetailView):
         pid = proposal.id
 
         val = request.POST['val']
-
 
         value = ''
         if val == 'pro':
