@@ -105,21 +105,21 @@ id="issue-detail"
 {% csrf_token %}
 <div class="issue_proposal">
             {% if object.proposals.closed %}
-    			<h2>{% trans "Past Proposals" %}</h2>
+                <h2>{% trans "Past Proposals" %}</h2>
                 {% for proposal in object.proposals.closed %}
                     {% include 'issues/_proposal.html' %}
                 {% endfor %}
             {% endif %}
-            
+
             {% if object.proposals.open %}
                 <h2>{% trans "Proposals" %}</h2>
                 {% for proposal in object.proposals.open %}
                     {% include 'issues/_proposal.html' %}
                     {% if can_straw_vote and not proposal.decided and cperms.issues.vote and user.id %}
                     <div class="issue_proposal_vote">
-                    	{% include 'issues/_vote.html' %}
-                	</div>
-                	{% endif %}
+                        {% include 'issues/_vote.html' %}
+                    </div>
+                    {% endif %}
                 {% endfor %}
             {% endif %}
 </div>
@@ -128,7 +128,7 @@ id="issue-detail"
 
 {% if cperms.issues.add_proposal and not object.is_archived %}
 <div class="narrow clear">
-    <a class="btn btn-oc btn-lg btn-block" data-rel="form" href="{% url "proposal_create" community.id object.id %}">{% trans "Add Proposal" %}</a>
+    <a class="btn btn-oc btn-lg btn-block" data-rel="form" data-append-to=".issue_proposal" href="{% url "proposal_create" community.id object.id %}">{% trans "Add Proposal" %}</a>
 </div>
 {% endif %}
 
@@ -182,19 +182,19 @@ id="issue-detail"
 <script src="{{STATIC_URL}}js/_piechart.js"></script>
 {% for proposal in object.proposals.open %}
 <script>
-	createChart(
-		{{ proposal.votes_pro|default_if_none:0 }},
-		{{ proposal.votes_con|default_if_none:0 }},
-		{{ proposal.community_members|subtract:proposal.votes_con|default_if_none:0|subtract:proposal.votes_pro|default_if_none:0 }},
-		{{ proposal.id }}
-		);
+    createChart(
+        {{ proposal.votes_pro|default_if_none:0 }},
+        {{ proposal.votes_con|default_if_none:0 }},
+        {{ proposal.community_members|subtract:proposal.votes_con|default_if_none:0|subtract:proposal.votes_pro|default_if_none:0 }},
+        {{ proposal.id }}
+        );
 </script>
 {% endfor %}
 <script>
-	$(function() {
-		$('ul.prop-table.proposals').on('click', function() {
-			window.location=$(this).find('a').attr('href');
-		});
-	});
+    $(function() {
+        $('ul.prop-table.proposals').on('click', function() {
+            window.location=$(this).find('a').attr('href');
+        });
+    });
 </script>
 {% endblock %}

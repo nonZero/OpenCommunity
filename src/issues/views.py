@@ -1,11 +1,11 @@
 from django.db.models.aggregates import Max
 from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render, redirect
+from django.template.loader import render_to_string
 from django.views.generic import ListView
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.template.loader import render_to_string
 from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
     UpdateIssueForm, EditProposalTaskForm, AddAttachmentForm
@@ -14,6 +14,7 @@ from issues.models import ProposalType, Issue, IssueStatus, Proposal, \
 from oc_util.templatetags.opencommunity import minutes
 from ocd.base_views import CommunityMixin, AjaxFormView, json_response
 from ocd.validation import enhance_html
+from users.permissions import get_community_perms
 import mimetypes
 
 
@@ -265,7 +266,12 @@ class ProposalCreateView(AjaxFormView, IssueMixin, CreateView):
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         form.instance.issue = self.issue
-        return super(ProposalCreateView, self).form_valid(form)
+        self.object = form.save()
+        cperms = get_community_perms(self.request.user, self.community)
+        return render(self.request, 'issues/_proposal.html',
+                                    {'proposal': self.object,
+                                     'cperms': cperms,
+                                     'community': self.community})
 
     def get_success_url(self):
         return self.issue.get_absolute_url()
@@ -289,7 +295,7 @@ class ProposalMixin(IssueMixin):
 
 
 class ProposalDetailView(ProposalMixin, DetailView):
-    
+
     def get_required_permission(self):
         o = self.get_object()
         return 'issues.viewclosed_proposal' if o.decided_at_meeting else 'issues.viewopen_proposal'
@@ -356,7 +362,7 @@ class ProposalDeleteView(AjaxFormView, ProposalMixin, DeleteView):
         return HttpResponse("-")
 
 class ProposalVoteView(ProposalMixin, View):
-    
+
     required_permission_for_post = 'issues.vote'
 
     def post(self, request, *args, **kwargs):
@@ -370,8 +376,8 @@ class ProposalVoteView(ProposalMixin, View):
         pid = int(kwargs['pk'])
         proposal = get_object_or_404(Proposal, id=pid)
         val = request.POST['val']
-        
-   
+
+
         value = ''
         if val == 'pro':
             value = ProposalVoteValue.PRO
@@ -380,7 +386,7 @@ class ProposalVoteView(ProposalMixin, View):
         elif val == 'reset':
             vote = get_object_or_404(ProposalVote,
                                      proposal_id=pid, user_id=voter_id)
-            
+
             vote.delete()
             return json_response({
                 'result': 'ok',
@@ -390,7 +396,7 @@ class ProposalVoteView(ProposalMixin, View):
                                              'community': self.community,
                                          })
             })
-            
+
         else:
             return HttpResponseBadRequest('vote value not valid')
 
@@ -398,7 +404,7 @@ class ProposalVoteView(ProposalMixin, View):
             proposal_id=pid,
             user_id=voter_id,
             value=value)
-            
+
         return json_response({
             'result': 'ok',
             'html': render_to_string('issues/_vote_reset_panel.html',
