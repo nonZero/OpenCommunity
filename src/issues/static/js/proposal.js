@@ -55,7 +55,7 @@ $(function() {
 
     window.onbeforeunload = function() {
         if ($('#id_content').val()) {
-            return "Comment unsaved. Are you sure?";
+            return gettext("Comment unsaved.");
         }
     };
 
