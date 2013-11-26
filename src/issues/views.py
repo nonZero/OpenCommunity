@@ -1,26 +1,23 @@
 from django.db.models.aggregates import Max
-from django.http.response import HttpResponse, HttpResponseBadRequest, \
-    HttpResponseNotFound
+from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render, redirect
+from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.views.generic import ListView
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.template import RequestContext
-
 from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
     UpdateIssueForm, EditProposalTaskForm, AddAttachmentForm
-from issues.models import ProposalType, Issue, IssueStatus, Proposal, \
-    ProposalVote, ProposalVoteValue, VoteResult
+from issues.models import ProposalType, Issue, IssueStatus, ProposalVote, \
+    ProposalVoteValue, VoteResult
 from meetings.models import Meeting
 from oc_util.templatetags.opencommunity import minutes
 from ocd.base_views import CommunityMixin, AjaxFormView, json_response
 from ocd.validation import enhance_html
 from users.permissions import get_community_perms
 import mimetypes
-import json
 
 
 class IssueMixin(CommunityMixin):
@@ -139,11 +136,14 @@ class IssueCreateView(AjaxFormView, IssueMixin, CreateView):
 
 class IssueEditView(AjaxFormView, IssueMixin, UpdateView):
 
-    reload_on_success = True
-
     required_permission = 'issues.editopen_issue'
 
     form_class = UpdateIssueForm
+
+    def form_valid(self, form):
+        self.object = form.save()
+        self.template_name = 'issues/_issue_title.html'
+        return self.render_to_response(self.get_context_data())
 
 
 class IssueCompleteView(IssueMixin, SingleObjectMixin, View):

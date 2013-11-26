@@ -74,6 +74,13 @@ function initForm(modal, url, origin) {
                     return;
                 }
 
+                var replace = $(origin).data('replace');
+                if (replace) {
+                    $(replace).html(resp);
+                    $(modal).modal('hide');
+                    return;
+                }
+
                 if (resp == '-') {
                     window.history.back();
                 } else {
