@@ -142,8 +142,8 @@ class IssueEditView(AjaxFormView, IssueMixin, UpdateView):
 
     def form_valid(self, form):
         self.object = form.save()
-        self.template_name = 'issues/_issue_title.html'
-        return self.render_to_response(self.get_context_data())
+        return render(self.request, 'issues/_issue_title.html',
+                      self.get_context_data())
 
 
 class IssueCompleteView(IssueMixin, SingleObjectMixin, View):
@@ -272,11 +272,8 @@ class ProposalCreateView(AjaxFormView, IssueMixin, CreateView):
         form.instance.created_by = self.request.user
         form.instance.issue = self.issue
         self.object = form.save()
-        cperms = get_community_perms(self.request.user, self.community)
         return render(self.request, 'issues/_proposal.html',
-                                    {'proposal': self.object,
-                                     'cperms': cperms,
-                                     'community': self.community})
+                                  self.get_context_data(proposal=self.object))
 
     def get_success_url(self):
         return self.issue.get_absolute_url()
@@ -309,7 +306,7 @@ class ProposalDetailView(ProposalMixin, DetailView):
         o = self.get_object()
         return 'issues.acceptclosed_proposal' if o.decided_at_meeting else 'issues.acceptopen_proposal'
 
-    
+
     def get_context_data(self, **kwargs):
         """add meeting for the latest straw voting result
            add 'previous_res' var if found previous registered results for this meeting
@@ -317,10 +314,10 @@ class ProposalDetailView(ProposalMixin, DetailView):
         context = super(ProposalDetailView, self).get_context_data(**kwargs)
         o = self.get_object()
         context['res'] = o.get_straw_results()
-        
+
         results = VoteResult.objects.filter(proposal=o) \
                                     .order_by('-meeting__held_at')
-                                    
+
         if o.issue.is_upcoming and \
            self.community.upcoming_meeting_is_published and \
            self.community.straw_vote_ended:
@@ -331,10 +328,10 @@ class ProposalDetailView(ProposalMixin, DetailView):
             else:
                 context['meeting'] = None
 
-        
+
         return context
 
-        
+
     def post(self, request, *args, **kwargs):
         """ Used to change a proposal status (accept/reject) """
         p = self.get_object()
@@ -351,7 +348,7 @@ class ProposalDetailView(ProposalMixin, DetailView):
 
         return redirect(p.issue)
 
-       
+
 class ProposalEditView(AjaxFormView, ProposalMixin, UpdateView):
     form_class = EditProposalForm
 
@@ -392,10 +389,10 @@ class ProposalDeleteView(AjaxFormView, ProposalMixin, DeleteView):
         o.save()
         return HttpResponse("-")
 
-        
+
 class VoteResultsView(CommunityMixin, DetailView):
     model = models.Proposal
-    
+
     def get(self, request, *args, **kwargs):
         meeting = None
         meeting_id = request.GET.get('meeting_id', None)
@@ -406,7 +403,7 @@ class VoteResultsView(CommunityMixin, DetailView):
         else:
             meeting = self.community.draft_meeting()
             res = p.get_straw_results()
-            
+
         panel = render_to_string('issues/_proposal_vote_results.html',
                                 RequestContext(request, {
                                         'meeting': meeting,
@@ -414,18 +411,18 @@ class VoteResultsView(CommunityMixin, DetailView):
                                         'proposal': p,
                                         }))
         return HttpResponse(panel)
-            
 
-        
+
+
 class ProposalVoteView(CommunityMixin, DetailView):
     required_permission_for_post = 'issues.vote'
     model = models.Proposal
-    
+
     def post(self, request, *args, **kwargs):
         voter_id = request.user.id
         proposal = self.get_object()
         pid = proposal.id
-        
+
         val = request.POST['val']
 
 
