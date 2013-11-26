@@ -8542,6 +8542,11 @@ wysihtml5.views.View = Base.extend(
       }, 0);
     });
 
+    // --------- input event ---------
+    dom.observe(element, "input", function(event) {
+        that.parent.fire("input");
+    });
+
     // --------- neword event ---------
     dom.observe(element, "keyup", function(event) {
       var keyCode = event.keyCode;

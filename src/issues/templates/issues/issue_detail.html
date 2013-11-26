@@ -112,7 +112,7 @@ id="issue-detail"
                 {% csrf_token %}
                 {{form}}
                 <div class="narrow">
-                    <button class="btn btn-oc btn-lg btn-block">{% trans "Save" %}</button>
+                    <button class="add-comment-btn btn btn-oc btn-lg btn-block" disabled="1">{% trans "Save" %}</button>
                 </div>
             </form>
         </li>
@@ -128,7 +128,7 @@ id="issue-detail"
     {% csrf_token %}
     <input name="enable" type="hidden" value="{{object.completed|yesno:'0,1'}}"/>
     <div class="narrow">
-        <button class="btn btn-oc btn-block btn-lg">
+        <button class="close-issue-btn btn btn-oc btn-block btn-lg">
             {% if object.completed %}{% trans "Undo complete discussion" %}{% else %}{% trans "Complete discussion" %}{% endif %}
         </button>
     </div>

@@ -3,7 +3,17 @@
 
 $(function() {
 
-    $('.htmlarea textarea').wysihtml5({locale: "he-IL"});
+    function refreshButtons(commentEmpty) {
+        $('.add-comment-btn').prop('disabled', commentEmpty);
+        $('.close-issue-btn').prop('disabled', !commentEmpty);
+    }
+
+    var editor = $('.htmlarea textarea').wysihtml5({
+        locale: "he-IL",
+    }).data('wysihtml5').editor;
+    editor.on('input',  function() {
+        refreshButtons(editor.getValue().trim() == '');
+    });
 
     // Comments
 
@@ -18,6 +28,7 @@ $(function() {
             var el = $(data.trim());
             $("#add-comment").closest('li').before(el);
             $("#add-comment").get(0).reset();
+            refreshButtons(true);
         }
     });
 
