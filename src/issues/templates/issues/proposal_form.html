@@ -56,14 +56,25 @@
 
 	}
 	
-	refreshProposalEditForm();
-	refreshProposalForm();
+
 	$(function() {
-		$('body').on('change', '#id_proposal-type', refreshProposalForm);
-	});
-	$(function() {
+      refreshProposalEditForm();
+      refreshProposalForm();
+      {% verbatim %}
+      var tpl = '<p>{{#board}}<strong>{{/board}}{{user__display_name}}{{#board}}</strong>{{/board}}</p>'
+      var tpl1 = '<p><strong>-- {{value}} --</strong></p>'
+      {% endverbatim %}
+      $('body').on('change', '#id_proposal-type', refreshProposalForm);
 		$('body').on('change', '#id_type', refreshProposalEditForm);
-	}); 
+		$('#id_assigned_to').typeahead({
+            
+            remote: '{% url "ac_user" community_id=community.id %}?q=%QUERY',
+            valueKey: 'user__display_name',
+            engine: Hogan,
+            template: tpl
+          }).css('background-color', '#fff');
+
+	});
 </script>
 
 {% endblock %}

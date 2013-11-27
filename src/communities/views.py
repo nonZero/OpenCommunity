@@ -179,7 +179,7 @@ class StartMeetingView(CommunityModelMixin, UpdateView):
     def form_valid(self, form):
         resp = super(StartMeetingView, self).form_valid(form)
         c = self.object
-        if c.straw_voting_enabled and not c.voting_ends_at:
+        if c.straw_voting_enabled:
             c.voting_ends_at = datetime.datetime.now().replace(second=0)
             c.save()
         return resp
