@@ -182,6 +182,7 @@ class StartMeetingView(CommunityModelMixin, UpdateView):
         if c.straw_voting_enabled:
             c.voting_ends_at = datetime.datetime.now().replace(second=0)
             c.save()
+            c.sum_vote_results()
         return resp
         
             
