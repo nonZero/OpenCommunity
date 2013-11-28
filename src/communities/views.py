@@ -10,6 +10,7 @@ from django.db.models.aggregates import Max
 from django.http.response import HttpResponse, HttpResponseBadRequest, \
     HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 from django.views.generic import View, ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
@@ -179,9 +180,10 @@ class StartMeetingView(CommunityModelMixin, UpdateView):
     def form_valid(self, form):
         resp = super(StartMeetingView, self).form_valid(form)
         c = self.object
-        if c.straw_voting_enabled and not c.voting_ends_at:
-            c.voting_ends_at = datetime.datetime.now().replace(second=0)
+        if c.straw_voting_enabled:
+            c.voting_ends_at = timezone.now().replace(second=0)
             c.save()
+            c.sum_vote_results()
         return resp
         
             

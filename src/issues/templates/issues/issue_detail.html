@@ -9,6 +9,15 @@ id="issue-detail"
 
 {% block page_header %}
 {% trans "Issue" %}
+<!-- <label class="switch-light well col-xs-6 col-sm-2" onclick="">
+	<input type="checkbox">
+	<span data-toggle="collapse" data-target=".past_proposals" style="font-size: 16px">
+		<span>{% trans "Current" %}</span>
+		<span>{% trans "Full view" %}</span>
+	</span>
+	<a class="btn btn-oc"></a>
+</label> -->
+<!-- <button type="button" class="btn btn-danger" data-toggle="collapse" data-target=".past_proposals">{% trans "GO" %}</button> -->
 {% endblock %}
 
 {% block pagemenu %}
@@ -30,6 +39,13 @@ id="issue-detail"
 {% endblock %}
 
 {% block content %}
+
+{% if object.proposals.closed %}
+<span id="comment-switch" class="label label-default" data-toggle="collapse" data-target=".past_proposals">
+	<span id="full-view">{% trans "Full view" %} </span>/
+	<span id="current" class="comment-switch-active"> {% trans "Current" %}</span>
+</span>
+{% endif %}
 
 {% if object.is_archived %}
 
@@ -62,13 +78,12 @@ id="issue-detail"
         <div class="issue_proposal">
 
             {% if object.proposals.closed %}
-
-                <h2>{% trans "Past Proposals" %}</h2>
-
+                <h2>{% trans "Past Proposals" %} - ({{ object.proposals.closed.count }})</h2>
+			<div class="collapse past_proposals">
                 {% for proposal in object.proposals.closed %}
                     {% include 'issues/_proposal.html' %}
                 {% endfor %}
-
+			</div>
             {% endif %}
 
 
@@ -104,6 +119,7 @@ id="issue-detail"
     <h2>{% trans "Summary" %}</h2>
     <ul id="comments">
         {% for c in object.comments.all %}
+        {% if not c.meeting %}{% ifchanged %}<h2>{% trans "Past comments" %}</h2>{% endifchanged %}{% endif %}
         {% include "issues/_comment.html" %}
         {% endfor %}
         {% if cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
@@ -147,6 +163,8 @@ id="issue-detail"
 <script src="{{STATIC_URL}}js/Chart.js"></script>
 <script src="{{STATIC_URL}}js/proposal.js"></script>
 <script src="{{STATIC_URL}}js/_piechart.js"></script>
+<script src="{{STATIC_URL}}bootstrap/js/typeahead.min.js"></script>
+<script src="http://twitter.github.com/hogan.js/builds/2.0.0/hogan-2.0.0.js"></script>
 {% for proposal in object.proposals.open %}
 <script>
     createChart(
@@ -165,4 +183,19 @@ id="issue-detail"
     });
 </script>
 <script src="{% url 'jsi18n' %}"></script>
+{% if object.proposals.closed %}
+<script>
+	$(function() {
+		$('#comment-switch').click(function() {
+			if ($('span#current').hasClass('comment-switch-active')) {
+				$('span#current').removeClass('comment-switch-active');
+				$('span#full-view').addClass('comment-switch-active');
+			} else {
+				$('span#current').addClass('comment-switch-active');
+				$('span#full-view').removeClass('comment-switch-active');
+			}
+		});
+	}); 
+</script>
+{% endif %}
 {% endblock %}

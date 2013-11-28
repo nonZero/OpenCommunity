@@ -28,6 +28,43 @@ function refreshProposalForm() {
 
 }
 
+
+function refreshProposalFormNew() {
+
+	$("ul#issue-proposal-type li").on('click', function() {
+		$(this).addClass('active').siblings().removeClass('active');
+
+		var els = $('#id_proposal-title').parent().parent();
+		var els1 = $('#id_proposal-content').parent().parent().parent().parent();
+		var els2 = $('#id_proposal-assigned_to,#id_proposal-due_by').parent().parent();
+
+		if ($(this).index() == 0) {
+			$('#id_proposal-type').val('');
+			els.hide();
+			els1.hide();
+			$('#id_proposal-title,#id_proposal-type').removeAttr('required');
+		} else {
+			if ($(this).index() == 2) {
+				$('#id_proposal-type').val(2);
+			}
+			if ($(this).index() == 3) {
+				$('#id_proposal-type').val(3);
+			}
+			els.show();
+			els1.show();
+			$('#id_proposal-title,#id_proposal-type').prop('required', true);
+		}
+
+		if ($(this).index() == 1) {
+			$('#id_proposal-type').val(1);
+			els2.show();
+		} else {
+			els2.hide();
+		}
+	});
+
+}
+
 function searchIssues(term) {
 	$(".issue-table tr").each(function() {
 		$(this).toggle(!term || $(this).text().indexOf(term) > 0);

@@ -13,10 +13,19 @@
     {% csrf_token %}
     {{form}}
     <h3>{% trans "New Proposal" %}</h3>
+    <ul id="issue-proposal-type" class="nav nav-tabs">
+		<li class="active"><a href="#">{% trans "None" %}</a></li>
+		<li><a href="#">{% trans "Task" %}</a></li>
+		<li><a href="#">{% trans "Rule" %}</a></li>
+		<li><a href="#">{% trans "General" %}</a></li>
+	</ul>
     {{form.new_proposal}}
 
+<script>
+	$('#id_proposal-type').closest('.form-group').hide();
+</script>
     <script>
-        refreshProposalForm();
+        refreshProposalFormNew();
     </script>
 
 {% endblock %}

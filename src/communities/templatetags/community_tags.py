@@ -30,3 +30,34 @@ def member_of(u, community):
         if membership.community == community:
             return True
     return False
+
+
+@register.filter
+def upcoming_status(community):
+    from django.template.defaultfilters import date as _date
+    
+    rows = ['', '']
+    if community.upcoming_meeting_started:
+        rows[0] = _("Meeting started")
+    else:
+        ver = _("Version")
+        publish_time = timezone.localtime(
+                community.upcoming_meeting_published_at)
+                                
+        meeting_version = u'{0} {1} - {2}'.format(ver,
+                            community.upcoming_meeting_version,
+                            _date(publish_time, 'd F Y, H:i'))
+        if community.upcoming_meeting_is_published:
+            if community.straw_voting_enabled:
+                if community.straw_vote_ended:
+                    rows[0] = _("Straw Vote Ended")
+                else:
+                    rows[0] = _("Active Straw Vote")
+                rows[1] = meeting_version
+            else:
+                rows[0] = _("Published")
+                rows[1] = meeting_version
+        else:
+            rows[0] = _("Draft")
+
+    return rows
