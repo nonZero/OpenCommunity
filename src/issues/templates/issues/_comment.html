@@ -2,7 +2,10 @@
 
 {% if c.active or cperms.issues.editclosed_issuecomment or cperms.issues.editopen_issuecomment and c.is_open  %}
     {% if c.meeting or cperms.issues.view_proposal_in_discussion %}
-    <li{% if not c.active %} class="deleted"{% endif %}>
+    <li
+    {% if not c.meeting %} class="past_proposals collapse{% if not c.active %} deleted{% endif %}">
+    {% elif not c.active %} class="deleted">
+    {% else %}>{% endif %}
     
         {% if cperms.issues.editclosed_issuecomment or cperms.issues.editopen_issuecomment and c.is_open  %}
             <form class="delete-comment pull-right" method="post" action="{{c.get_delete_url}}">

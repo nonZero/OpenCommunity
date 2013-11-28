@@ -2,9 +2,9 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from issues import models
 from issues.models import ProposalType
+from ocd.formfields import HTMLArea
 from users.models import OCUser
 import floppyforms as forms
-from ocd.formfields import HTMLArea
 
 
 class BaseIssueForm(forms.ModelForm):
@@ -27,7 +27,7 @@ class CreateIssueForm(BaseIssueForm):
 
         super(CreateIssueForm, self).__init__(*args, **kwargs)
 
-        initial = {'type': ProposalType.ADMIN}
+        initial = {'type': None}
 
         self.new_proposal = CreateProposalBaseForm(prefix='proposal',
                                    data=self.data if self.is_bound else None,
@@ -117,6 +117,7 @@ class CreateProposalBaseForm(forms.ModelForm):
             'due_by': forms.DateInput,
         }
 
+        
     def save(self):
         proposal = super(CreateProposalBaseForm, self).save()
         user_name = proposal.assigned_to

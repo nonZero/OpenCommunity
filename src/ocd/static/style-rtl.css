@@ -125,6 +125,14 @@ ul.errorlist li {
 	width: 49%;
 	display: inline-block;
 }
+#issue-proposal-type {
+	margin-bottom: 10px;
+}
+#issue-proposal-type.nav-tabs > li.active > a,
+#issue-proposal-type.nav-tabs > li.active > a:hover,
+#issue-proposal-type.nav-tabs > li.active > a:focus {
+	border-bottom-color: #dddddd;
+}
 
 /* General buttons */
 
@@ -816,6 +824,16 @@ form.delete-invitation {
 /*	display: inline;*/
 	margin-right: 10px;
 }
+.comment-switch-active {
+	text-decoration: underline;
+}
+#comment-switch {
+	position: absolute;
+	left: 15px;
+	cursor: pointer;
+	font-size: 12px;
+}
+
 /* Images & Icons */
 
 .check_box {
