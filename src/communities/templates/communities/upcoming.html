@@ -92,7 +92,7 @@
 		</div>
 
 		<div id="agenda-container" class="agenda-list">
-			<h2> {% trans "Agenda items" %}{% if i.can_straw_vote and cperms.issues.vote and user.id %} - <span class="badge vote-badge">{% trans "Votes/Total proposals" %}</span>{% endif %} <span class="loader"> <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/> </span></h2>
+			<h2> {% trans "Agenda items" %}{% if object.has_straw_votes and cperms.issues.vote and user.id %} - <span class="badge vote-badge">{% trans "Votes/Total proposals" %}</span>{% endif %} <span class="loader"> <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/> </span></h2>
 			<ul id="agenda" class="nav nav-pills nav-stacked">
 				{% for i in object.upcoming_issues %}
 					{% include "communities/_issue.html" %}
