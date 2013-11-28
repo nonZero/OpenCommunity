@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-25 01:16+0200\n"
+"POT-Creation-Date: 2013-11-26 13:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -63,7 +63,7 @@ msgstr "הוספה"
 msgid "Open"
 msgstr "הצעה פתוחה"
 
-#: .\models.py:26 .\templates\issues\issue_detail.html.py:42
+#: .\models.py:26
 msgid "In upcoming meeting"
 msgstr "בפגישה הקרובה"
 
@@ -340,6 +340,10 @@ msgstr "צרף קובץ"
 #: .\templates\issues\issue_detail.html.py:36
 msgid "Closed"
 msgstr "סגור"
+
+#: .\templates\issues\issue_detail.html.py:42
+msgid "In agenda"
+msgstr "בסדר יום"
 
 #: .\templates\issues\issue_detail.html.py:49
 #: .\templates\issues\proposal_detail.html.py:38

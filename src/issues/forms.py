@@ -117,7 +117,6 @@ class CreateProposalBaseForm(forms.ModelForm):
             'due_by': forms.DateInput,
         }
 
-        
     def save(self):
         proposal = super(CreateProposalBaseForm, self).save()
         user_name = proposal.assigned_to
@@ -129,8 +128,7 @@ class CreateProposalBaseForm(forms.ModelForm):
             pass
         
         return proposal    
-        
-    
+
 class CreateProposalForm(CreateProposalBaseForm):
 
     submit_button_text = _('Create')

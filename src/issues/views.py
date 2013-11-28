@@ -1,25 +1,22 @@
 from django.db.models.aggregates import Max
-from django.http.response import HttpResponse, HttpResponseBadRequest, \
-    HttpResponseNotFound
+from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render, redirect
+from django.template import RequestContext
+from django.template.loader import render_to_string
 from django.views.generic import ListView
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.template.loader import render_to_string
-from django.template import RequestContext
-
 from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
     UpdateIssueForm, EditProposalTaskForm, AddAttachmentForm
-from issues.models import ProposalType, Issue, IssueStatus, Proposal, \
-    ProposalVote, ProposalVoteValue, VoteResult
+from issues.models import ProposalType, Issue, IssueStatus, ProposalVote, \
+    ProposalVoteValue, VoteResult
 from meetings.models import Meeting
 from oc_util.templatetags.opencommunity import minutes
 from ocd.base_views import CommunityMixin, AjaxFormView, json_response
 from ocd.validation import enhance_html
 import mimetypes
-import json
 
 
 class IssueMixin(CommunityMixin):
@@ -138,11 +135,14 @@ class IssueCreateView(AjaxFormView, IssueMixin, CreateView):
 
 class IssueEditView(AjaxFormView, IssueMixin, UpdateView):
 
-    reload_on_success = True
-
     required_permission = 'issues.editopen_issue'
 
     form_class = UpdateIssueForm
+
+    def form_valid(self, form):
+        self.object = form.save()
+        return render(self.request, 'issues/_issue_title.html',
+                      self.get_context_data())
 
 
 class IssueCompleteView(IssueMixin, SingleObjectMixin, View):
@@ -270,7 +270,9 @@ class ProposalCreateView(AjaxFormView, IssueMixin, CreateView):
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         form.instance.issue = self.issue
-        return super(ProposalCreateView, self).form_valid(form)
+        self.object = form.save()
+        return render(self.request, 'issues/_proposal.html',
+                                  self.get_context_data(proposal=self.object))
 
     def get_success_url(self):
         return self.issue.get_absolute_url()
@@ -294,7 +296,7 @@ class ProposalMixin(IssueMixin):
 
 
 class ProposalDetailView(ProposalMixin, DetailView):
-    
+
     def get_required_permission(self):
         o = self.get_object()
         return 'issues.viewclosed_proposal' if o.decided_at_meeting else 'issues.viewopen_proposal'
@@ -303,7 +305,7 @@ class ProposalDetailView(ProposalMixin, DetailView):
         o = self.get_object()
         return 'issues.acceptclosed_proposal' if o.decided_at_meeting else 'issues.acceptopen_proposal'
 
-    
+
     def get_context_data(self, **kwargs):
         """add meeting for the latest straw voting result
            add 'previous_res' var if found previous registered results for this meeting
@@ -311,10 +313,10 @@ class ProposalDetailView(ProposalMixin, DetailView):
         context = super(ProposalDetailView, self).get_context_data(**kwargs)
         o = self.get_object()
         context['res'] = o.get_straw_results()
-        
+
         results = VoteResult.objects.filter(proposal=o) \
                                     .order_by('-meeting__held_at')
-                                    
+
         if o.issue.is_upcoming and \
            self.community.upcoming_meeting_is_published and \
            self.community.straw_vote_ended:
@@ -325,10 +327,8 @@ class ProposalDetailView(ProposalMixin, DetailView):
             else:
                 context['meeting'] = None
 
-        
         return context
 
-        
     def post(self, request, *args, **kwargs):
         """ Used to change a proposal status (accept/reject) """
         p = self.get_object()
@@ -345,7 +345,7 @@ class ProposalDetailView(ProposalMixin, DetailView):
 
         return redirect(p.issue)
 
-       
+
 class ProposalEditView(AjaxFormView, ProposalMixin, UpdateView):
     form_class = EditProposalForm
 
@@ -386,10 +386,10 @@ class ProposalDeleteView(AjaxFormView, ProposalMixin, DeleteView):
         o.save()
         return HttpResponse("-")
 
-        
+
 class VoteResultsView(CommunityMixin, DetailView):
     model = models.Proposal
-    
+
     def get(self, request, *args, **kwargs):
         meeting = None
         meeting_id = request.GET.get('meeting_id', None)
@@ -400,7 +400,7 @@ class VoteResultsView(CommunityMixin, DetailView):
         else:
             meeting = self.community.draft_meeting()
             res = p.get_straw_results()
-            
+
         panel = render_to_string('issues/_proposal_vote_results.html',
                                 RequestContext(request, {
                                         'meeting': meeting,
@@ -408,21 +408,19 @@ class VoteResultsView(CommunityMixin, DetailView):
                                         'proposal': p,
                                         }))
         return HttpResponse(panel)
-            
 
-        
+
 class ProposalVoteView(CommunityMixin, DetailView):
     required_permission_for_post = 'issues.vote'
     model = models.Proposal
-    
+
     def post(self, request, *args, **kwargs):
         voter_id = request.user.id
         proposal = self.get_object()
         pid = proposal.id
-        
+
         val = request.POST['val']
-        
-   
+
         value = ''
         if val == 'pro':
             value = ProposalVoteValue.PRO
@@ -431,7 +429,7 @@ class ProposalVoteView(CommunityMixin, DetailView):
         elif val == 'reset':
             vote = get_object_or_404(ProposalVote,
                                      proposal_id=pid, user_id=voter_id)
-            
+
             vote.delete()
             return json_response({
                 'result': 'ok',
@@ -441,7 +439,7 @@ class ProposalVoteView(CommunityMixin, DetailView):
                                              'community': self.community,
                                          })
             })
-            
+
         else:
             return HttpResponseBadRequest('vote value not valid')
 
@@ -449,7 +447,7 @@ class ProposalVoteView(CommunityMixin, DetailView):
             proposal_id=pid,
             user_id=voter_id,
             value=value)
-            
+
         return json_response({
             'result': 'ok',
             'html': render_to_string('issues/_vote_reset_panel.html',

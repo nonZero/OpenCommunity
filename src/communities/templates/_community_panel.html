@@ -5,7 +5,7 @@
 {% endif %}
 
 {% if cperms.communities.viewupcoming_community %}
-    <li><a {% if pill == 'upcoming' %}class="active"{% endif %} href="{% url 'community' community.id %}">{% trans "Upcoming Meeting" %}</a></li>
+    <li><a {% if pill == 'upcoming' %}class="active"{% endif %} href="{% url 'community' community.id %}">{% trans "Agenda" %}</a></li>
 {% endif %}
 
 {% if cperms.meetings.view_meeting and community.meetings.count %}

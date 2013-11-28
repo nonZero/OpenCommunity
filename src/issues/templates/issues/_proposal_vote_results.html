@@ -22,7 +22,7 @@
 			<span class="against glyphicon glyphicon-stop"></span><span> <span>{% trans "Against" %}</span>: {{ res.votes_con }}</span>
 			<br>
 			<div class="chart_divider"></div>
-			<span>{% trans "Voted" %}: {{ res.votes_pro|add:res.votes_con }} ({{ res|vote_percentage }}%)</span><br>
+			<span>{% trans "Voted" %}: {{ res.votes_pro|add:res.votes_con }} ({{ res|vote_percentage|floatformat:"0" }}%)</span><br>
 			<span>{% trans "Out of" %}: {{ res.community_members }} {% trans "members" %}</span>
 		</p>
 	</div>

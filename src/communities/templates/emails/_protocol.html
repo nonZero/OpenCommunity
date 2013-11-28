@@ -27,9 +27,25 @@
                 <a href="{{base_url}}{{url}}">{% trans "View online" %}</a>
             </p>
             
-            
+            {% if location %}
+            <h2 style="margin:12px 0 0 0; background:#eee; padding:6px 3px 3px">
+            	{% trans "Location" %}
+        	</h2>
+        	<p>{{ location }}</p>
+        	{% endif %}
+        	
+        	{% if scheduled_at %}
+        	<h2 style="margin:12px 0 0 0; background:#eee; padding:6px 3px 3px">
+            	{% trans "Scheduled at" %}
+        	</h2>
+        	<p>{{ scheduled_at }}</p>
+        	{% endif %}
+
             {% if summary %}
-              {{summary|safe}}
+        	<h2 style="margin:12px 0 0 0; background:#eee; padding:6px 3px 3px">
+            	{% trans "Summary" %}
+        	</h2>
+			<p>{{summary|safe}}</p>
             {% endif %}
     
     
