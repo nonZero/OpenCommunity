@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from ocd.formfields import HTMLArea, OCSplitDateTime
 import floppyforms as forms
 from django.utils import timezone
-from datetime import datetime
+from datetime import datetime, date, time
 
 class EditUpcomingMeetingForm(forms.ModelForm):
 
@@ -59,7 +59,7 @@ class EditUpcomingMeetingForm(forms.ModelForm):
             
     def save(self):
         c = super(EditUpcomingMeetingForm, self).save()
-        c.voting_ends_at = datetime(2050, 1, 1)
+        c.voting_ends_at = datetime.combine(date(2050, 1, 1), time(12, 0, 0))
         c.save()
         return c
 
