@@ -140,8 +140,11 @@ class CreateProposalForm(CreateProposalBaseForm):
 
 class EditProposalForm(CreateProposalForm):
     submit_button_text = _('Save')
+    def __init__(self, *args, **kwargs):
+        super(EditProposalForm, self).__init__(*args, **kwargs)
+        self.fields['type'].initial = self.instance.type
 
-
+        
 class EditProposalTaskForm(EditProposalForm):
 
     class Meta:

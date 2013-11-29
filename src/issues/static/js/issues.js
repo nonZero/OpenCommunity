@@ -79,7 +79,6 @@ function init_proposal_tabs(with_issue) {
             proposal_controls.prop('required', true);
         }
     });
-    $("ul#proposal-type li")[0].click()
 }
 
 function init_user_autocomplete(ac_url) {

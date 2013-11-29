@@ -18,12 +18,12 @@
 
 {% block content %}
     <ul id="proposal-type" class="nav nav-tabs">
-      <li class="active"><a href="#">{% trans "General" %}</a></li>
+      <li><a href="#">{% trans "General" %}</a></li>
       <li><a href="#">{% trans "Rule" %}</a></li>
       <li><a href="#">{% trans "Task" %}</a></li>
    </ul>
     {{ form }}
-
+    
 <script>
 
 	function refreshProposalForm() {
@@ -62,10 +62,17 @@
 	
 
     $(function() {
-        //refreshProposalEditForm();
-        //refreshProposalForm();
+        /* a map between proposal type, to order of appearance (tab index) */
+        var type_idx_map = {
+            1: 2,
+            2: 1,
+            3: 0
+        }
         $('#id_type').closest('.form-group').hide();
         init_proposal_tabs(false);
+        var sel_idx = type_idx_map[{{ object.type }}]
+        
+        $("ul#proposal-type li")[sel_idx].click()
         //$('body').on('change', '#id_proposal-type', refreshProposalForm);
         // $('body').on('change', '#id_type', refreshProposalEditForm);
         var ac_url = '{% url "ac_user" community_id=community.id %}';
