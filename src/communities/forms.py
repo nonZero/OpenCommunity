@@ -59,7 +59,7 @@ class EditUpcomingMeetingForm(forms.ModelForm):
             
     def save(self):
         c = super(EditUpcomingMeetingForm, self).save()
-        c.voting_ends_at = datetime.combine(date(2050, 1, 1), time(12, 0, 0))
+        c.voting_ends_at = datetime.combine(date(2025, 1, 1), time(12, 0, 0))
         c.save()
         return c
 
