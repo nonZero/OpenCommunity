@@ -68,13 +68,15 @@
             2: 1,
             3: 0
         }
-        $('#id_type').closest('.form-group').hide();
-        init_proposal_tabs(false);
-        var sel_idx = type_idx_map[{{ object.type }}]
+        var type_select = $('#id_proposal-type');
+        type_select.closest('.form-group').hide();
         
+        var sel_idx = 0;
+        {% if object %}
+            sel_idx = type_idx_map[{{ object.type }}]
+        {% endif %}
+        init_proposal_tabs(false);
         $("ul#proposal-type li")[sel_idx].click()
-        //$('body').on('change', '#id_proposal-type', refreshProposalForm);
-        // $('body').on('change', '#id_type', refreshProposalEditForm);
         var ac_url = '{% url "ac_user" community_id=community.id %}';
         init_user_autocomplete(ac_url);
 	});

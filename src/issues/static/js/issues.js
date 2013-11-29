@@ -42,16 +42,10 @@ function init_proposal_tabs(with_issue) {
     
     $("ul#proposal-type li").on('click', function() {
         $(this).addClass('active').siblings().removeClass('active');
-        if(with_issue) {
-            var type_select = $('#id_proposal-type')
-            var proposal_controls = $('#id_proposal-content,#id_proposal-title').closest('.form-group');
-            var task_controls = $('#id_proposal-assigned_to,#id_proposal-due_by').closest('.form-group');
-        }
-        else {
-            var type_select = $('#id_type')
-            var proposal_controls = $('#id_content,#id_title').closest('.form-group');
-            var task_controls = $('#id_assigned_to,#id_due_by').closest('.form-group');
-        }
+        var type_select = $('#id_proposal-type')
+        var proposal_controls = $('#id_proposal-content,#id_proposal-title').closest('.form-group');
+        var task_controls = $('#id_proposal-assigned_to,#id_proposal-due_by').closest('.form-group');
+
         var selected_idx = $(this).index();
         if(!with_issue) {
             selected_idx += 1;

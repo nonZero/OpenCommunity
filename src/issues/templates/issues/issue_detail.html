@@ -165,31 +165,28 @@ id="issue-detail"
 <script src="{{STATIC_URL}}js/_piechart.js"></script>
 <script src="{{STATIC_URL}}bootstrap/js/typeahead.min.js"></script>
 <script src="http://twitter.github.com/hogan.js/builds/2.0.0/hogan-2.0.0.js"></script>
-
-<script>
-    {% for proposal in object.proposals.open %}
-    {% if proposal.can_show_straw_votes %}
-        createChart(
-            {{ proposal.votes_pro|default_if_none:0 }},
-            {{ proposal.votes_con|default_if_none:0 }},
-            {{ proposal.community_members|subtract:proposal.votes_con|default_if_none:0|subtract:proposal.votes_pro|default_if_none:0 }},
-            {{ proposal.id }}
-            );
-    {% endif %}
-    {% endfor %}
-</script>
+<script src="{{STATIC_URL}}js/issues.js"></script>
+<script src="{% url 'jsi18n' %}"></script>
 
 <script>
     $(function() {
+        {% for proposal in object.proposals.open %}
+        {% if proposal.can_show_straw_votes %}
+            createChart(
+                {{ proposal.votes_pro|default_if_none:0 }},
+                {{ proposal.votes_con|default_if_none:0 }},
+                {{ proposal.community_members|subtract:proposal.votes_con|default_if_none:0|subtract:proposal.votes_pro|default_if_none:0 }},
+                {{ proposal.id }}
+                );
+        {% endif %}
+        {% endfor %}
+        
         $('ul.prop-table.proposals').on('click', function() {
             window.location=$(this).find('a').attr('href');
         });
-    });
-</script>
-<script src="{% url 'jsi18n' %}"></script>
-{% if object.proposals.closed %}
-<script>
-	$(function() {
+
+    {% if object.proposals.closed %}
+
 		$('#comment-switch').click(function() {
 			if ($('span#current').hasClass('comment-switch-active')) {
 				$('span#current').removeClass('comment-switch-active');
@@ -199,7 +196,8 @@ id="issue-detail"
 				$('span#full-view').removeClass('comment-switch-active');
 			}
 		});
+   {% endif %}
 	}); 
 </script>
-{% endif %}
+
 {% endblock %}
