@@ -511,14 +511,29 @@ table.issue-table {
 	border-left: 1px dashed #8f9698;
 }
 .meeting-header-users {
-	padding-top: 17px;
-	padding-bottom: 17px;
+	padding-top: 14px;
+	padding-bottom: 14px;
+	border-left: 1px dashed #8f9698;
+	height: 100%;
+}
+.meeting-header-users:last-child {
+	border-left: 0;
 }
 .show-participants {
 	display: block;
-	line-height: 25px;
+	line-height: 32px;
 	padding-right: 45px;
-	background: url('images/users.png') no-repeat right center;
+	background-image: url('images/users.png');
+	background-repeat: no-repeat;
+	background-size: 32px 32px;
+	background-position: right center;
+	height: 100%;
+}
+.show-protocol {
+	display: block;
+	line-height: 32px;
+	height: 100%;
+	text-align: center;
 }
 .users {
 	color: #fff;
@@ -1038,6 +1053,13 @@ i.fa + span {
 		}
 	.mobile_line_break {
 		display: block;
+	}
+	.show-participants {
+		padding-right: 0;
+		background-position: center;
+	}
+	.meeting-header-users {
+		padding: 14px 0;
 	}
 }		
 
