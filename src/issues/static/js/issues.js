@@ -28,41 +28,71 @@ function refreshProposalForm() {
 
 }
 
+/* use tabs instead of drop down for proposal type */
+function init_proposal_tabs(with_issue) {
+    var TYPE_NONE = 0;
+    var TYPE_TASK = 1;
+    var TYPE_RULE = 2;
+    var TYPE_ADMIN = 3;
+    
+    var IDX_NONE = 0;
+    var IDX_ADMIN = 1;
+    var IDX_RULE = 2;
+    var IDX_TASK = 3;
+    
+    $("ul#proposal-type li").on('click', function() {
+        $(this).addClass('active').siblings().removeClass('active');
+        if(with_issue) {
+            var type_select = $('#id_proposal-type')
+            var proposal_controls = $('#id_proposal-content,#id_proposal-title').closest('.form-group');
+            var task_controls = $('#id_proposal-assigned_to,#id_proposal-due_by').closest('.form-group');
+        }
+        else {
+            var type_select = $('#id_type')
+            var proposal_controls = $('#id_content,#id_title').closest('.form-group');
+            var task_controls = $('#id_assigned_to,#id_due_by').closest('.form-group');
+        }
+        var selected_idx = $(this).index();
+        if(!with_issue) {
+            selected_idx += 1;
+        }
+        if (selected_idx == IDX_NONE) {
+            type_select.val('');
+            proposal_controls.hide();
+            task_controls.hide();
+            $("[id^='id_proposal']").prop('required', false);
+        }
+        else {
+            proposal_controls.show();
+            if (selected_idx == IDX_ADMIN) {
+                type_select.val(TYPE_ADMIN);
+                task_controls.hide();
+            }
+            else if (selected_idx == IDX_RULE) {
+                type_select.val(TYPE_RULE);
+                task_controls.hide();
+            }
+            else if (selected_idx == IDX_TASK) {
+                type_select.val(TYPE_TASK);
+                task_controls.show();
+            }
+            proposal_controls.prop('required', true);
+        }
+    });
+    $("ul#proposal-type li")[0].click()
+}
 
-function refreshProposalFormNew() {
-
-	$("ul#issue-proposal-type li").on('click', function() {
-		$(this).addClass('active').siblings().removeClass('active');
-
-		var els = $('#id_proposal-title').parent().parent();
-		var els1 = $('#id_proposal-content').parent().parent().parent().parent();
-		var els2 = $('#id_proposal-assigned_to,#id_proposal-due_by').parent().parent();
-
-		if ($(this).index() == 0) {
-			$('#id_proposal-type').val('');
-			els.hide();
-			els1.hide();
-			$('#id_proposal-title,#id_proposal-type').removeAttr('required');
-		} else {
-			if ($(this).index() == 2) {
-				$('#id_proposal-type').val(2);
-			}
-			if ($(this).index() == 3) {
-				$('#id_proposal-type').val(3);
-			}
-			els.show();
-			els1.show();
-			$('#id_proposal-title,#id_proposal-type').prop('required', true);
-		}
-
-		if ($(this).index() == 1) {
-			$('#id_proposal-type').val(1);
-			els2.show();
-		} else {
-			els2.hide();
-		}
-	});
-
+function init_user_autocomplete(ac_url) {
+    //{% verbatim %}
+    var tpl = '<p>{{#board}}<strong>{{/board}}{{user__display_name}}{{#board}}</strong>{{/board}}</p>'
+    var tpl1 = '<p><strong>-- {{value}} --</strong></p>'
+    //{% endverbatim %}
+    $("[id$='assigned_to']").typeahead({
+        remote: ac_url + '?q=%QUERY',
+        valueKey: 'user__display_name',
+        engine: Hogan,
+        template: tpl
+    }).css('background-color', '#fff');
 }
 
 function searchIssues(term) {
@@ -70,10 +100,3 @@ function searchIssues(term) {
 		$(this).toggle(!term || $(this).text().indexOf(term) > 0);
 	});
 }
-
-$(function() {
-    $('body').on('change', '#id_proposal-type', refreshProposalForm);
-    $('input.issue-search').bind('input', function() {
-    	searchIssues($(this).val().trim());
-    });
-});

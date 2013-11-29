@@ -30,8 +30,7 @@ class CreateIssueForm(BaseIssueForm):
         initial = {'type': None}
 
         self.new_proposal = CreateProposalBaseForm(prefix='proposal',
-                                   data=self.data if self.is_bound else None,
-                                   initial=initial)
+                                   data=self.data if self.is_bound else None)
         self.new_proposal.fields['type'].required = False
 
     def is_valid(self):

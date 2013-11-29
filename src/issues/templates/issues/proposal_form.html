@@ -17,7 +17,11 @@
 {% endblock %}
 
 {% block content %}
-
+    <ul id="proposal-type" class="nav nav-tabs">
+      <li class="active"><a href="#">{% trans "General" %}</a></li>
+      <li><a href="#">{% trans "Rule" %}</a></li>
+      <li><a href="#">{% trans "Task" %}</a></li>
+   </ul>
     {{ form }}
 
 <script>
@@ -57,23 +61,15 @@
 	}
 	
 
-	$(function() {
-      refreshProposalEditForm();
-      refreshProposalForm();
-      {% verbatim %}
-      var tpl = '<p>{{#board}}<strong>{{/board}}{{user__display_name}}{{#board}}</strong>{{/board}}</p>'
-      var tpl1 = '<p><strong>-- {{value}} --</strong></p>'
-      {% endverbatim %}
-      $('body').on('change', '#id_proposal-type', refreshProposalForm);
-		$('body').on('change', '#id_type', refreshProposalEditForm);
-		$('#id_assigned_to').typeahead({
-            
-            remote: '{% url "ac_user" community_id=community.id %}?q=%QUERY',
-            valueKey: 'user__display_name',
-            engine: Hogan,
-            template: tpl
-          }).css('background-color', '#fff');
-
+    $(function() {
+        //refreshProposalEditForm();
+        //refreshProposalForm();
+        $('#id_type').closest('.form-group').hide();
+        init_proposal_tabs(false);
+        //$('body').on('change', '#id_proposal-type', refreshProposalForm);
+        // $('body').on('change', '#id_type', refreshProposalEditForm);
+        var ac_url = '{% url "ac_user" community_id=community.id %}';
+        init_user_autocomplete(ac_url);
 	});
 </script>
 
