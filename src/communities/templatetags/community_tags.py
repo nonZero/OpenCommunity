@@ -41,9 +41,12 @@ def upcoming_status(community):
         rows[0] = _("Meeting started")
     else:
         ver = _("Version")
-        publish_time = timezone.localtime(
-                community.upcoming_meeting_published_at)
-                                
+        if community.upcoming_meeting_published_at:
+            publish_time = timezone.localtime(
+                    community.upcoming_meeting_published_at)
+        else:
+            publish_time = ''
+            
         meeting_version = u'{0} {1} - {2}'.format(ver,
                             community.upcoming_meeting_version,
                             _date(publish_time, 'd F Y, H:i'))
