@@ -80,8 +80,8 @@ id="issue-detail"
         <div class="issue_proposal">
 
             {% if object.proposals.closed %}
-                <h2>{% trans "Past Proposals" %} - ({{ object.proposals.closed.count }})</h2>
 			<div class="collapse past_proposals">
+                <h2>{% trans "Past Proposals" %} - ({{ object.proposals.closed.count }})</h2>
                 {% for proposal in object.proposals.closed %}
                     {% include 'issues/_proposal.html' %}
                 {% endfor %}
@@ -118,12 +118,21 @@ id="issue-detail"
 
 {% if object.active_comments.count or cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
 <div class="issuecomments">
-    <h2>{% trans "Summary" %}</h2>
     <ul id="comments">
-        {% for c in object.comments.all %}
-        {% if not c.meeting %}{% ifchanged %}<h2>{% trans "Past comments" %}</h2>{% endifchanged %}{% endif %}
-        {% include "issues/_comment.html" %}
-        {% endfor %}
+    	{% if object.historical_comments %}
+    	<div class="historic_comments past_proposals collapse">
+	    	<h2>{% trans "Past comments" %}</h2>
+	        {% for c in object.historical_comments %}
+	        {% include "issues/_comment.html" %}
+	        {% endfor %}
+		</div>
+		{% endif %}
+		<div class="new_comments">
+		    <h2>{% trans "Summary" %}</h2>
+	        {% for c in object.new_comments %}
+	        {% include "issues/_comment.html" %}
+	        {% endfor %}
+       </div>
         {% if cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
         <li class="rich_editor">
             <form id="add-comment" method="post">
