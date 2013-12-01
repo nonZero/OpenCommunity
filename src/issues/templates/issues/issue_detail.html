@@ -41,9 +41,11 @@ id="issue-detail"
 {% block content %}
 
 {% if object.proposals.closed %}
-<span id="comment-switch" class="label label-default" data-toggle="collapse" data-target=".past_proposals">
-	<span id="full-view">{% trans "Full view" %} </span>/
-	<span id="current" class="comment-switch-active"> {% trans "Current" %}</span>
+<span class="history_toggle label label-default">{% trans "History" %}:
+	<span id="comment-switch" data-toggle="collapse" data-target=".past_proposals">
+		<span id="full-view"> {% trans "Show" %} </span>/
+		<span id="current" class="comment-switch-active"> {% trans "Hide" %}</span>
+	</span>
 </span>
 {% endif %}
 

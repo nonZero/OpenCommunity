@@ -27,27 +27,24 @@
                 <a href="{{base_url}}{{url}}">{% trans "View online" %}</a>
             </p>
             
-            {% if location %}
-            <h2 style="margin:12px 0 0 0; background:#eee; padding:6px 3px 3px">
-            	{% trans "Location" %}
-        	</h2>
-        	<p>{{ location }}</p>
-        	{% endif %}
-        	
-        	{% if scheduled_at %}
-        	<h2 style="margin:12px 0 0 0; background:#eee; padding:6px 3px 3px">
-            	{% trans "Scheduled at" %}
-        	</h2>
-        	<p>{{ scheduled_at }}</p>
-        	{% endif %}
+            <div style="border: solid 1px #ccc; margin: 4px 0;padding: 0"> 
+                <h2 style="margin:0; background: #ddd;padding: 4px">{% trans "Meeting Details" %}</h2>
 
-            {% if summary %}
-        	<h2 style="margin:12px 0 0 0; background:#eee; padding:6px 3px 3px">
-            	{% trans "Summary" %}
-        	</h2>
-			<p>{{summary|safe}}</p>
-            {% endif %}
-    
+                <div style="margin:0; padding: 4px">
+                    <b>{% trans "Scheduled at" %}:</b>
+                    {{ scheduled_at|default:_("Not set yet") }}
+                    <br/>
+                    <b>{% trans "Location" %}:</b>
+                    {{ location|default:_("Not set yet") }}
+                    {% if summary %}
+                        <br/>
+                        <b>{% trans "Summary" %}:</b>    
+                        <div>
+                            {{summary|safe}}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
     
             {% if participants or guests %}
             <div style="border: solid 1px #ccc; margin: 4px 0;padding: 0"> 

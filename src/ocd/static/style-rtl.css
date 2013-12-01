@@ -847,11 +847,13 @@ form.delete-invitation {
 .comment-switch-active {
 	text-decoration: underline;
 }
-#comment-switch {
+.history_toggle {
 	position: absolute;
-	left: 15px;
+	right: 15px;
+	font-size: 14px;
+}
+#comment-switch {
 	cursor: pointer;
-	font-size: 12px;
 }
 
 /* Images & Icons */
