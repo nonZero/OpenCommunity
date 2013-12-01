@@ -707,6 +707,7 @@ ul:nth-child(odd).proposals li.drag-icon {
 ul.proposals li.prop-title {
 	padding: .7em 15px 0 15px;
 	word-break: break-word;
+	font-weight: bold;
 }
 a ul.proposals li.prop-title {
 	color: #6c6c6e;
@@ -802,6 +803,8 @@ ul.proposals li.prop-content p {
 	padding: 0;
 	margin-bottom: 1px;
 }
+#comments .historic_comments > li,
+#comments .new_comments > li,
 #comments > li {
 	padding: 5px;
 	background: #fff;
