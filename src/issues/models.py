@@ -88,6 +88,9 @@ class Issue(UIDMixin):
     def new_comments(self):
         return self.comments.filter(active=True, meeting_id=None)
 
+    def historical_comments(self):
+        return self.comments.filter(active=True).exclude(meeting_id=None)
+
     def has_closed_parts(self):
         """ Should be able to be viewed """
 

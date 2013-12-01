@@ -53,10 +53,6 @@
                         <br/>
                         <b>{% trans "Location" %}:</b>
                         {{community.upcoming_meeting_location|default:_("Not set yet")}}
-                        {% if community.straw_voting_enabled %}
-                            <br/>
-                            <b>{% trans "Voting ends at" %}:</b> {{ community.voting_ends_at|default:_("Not set yet") }}    
-                        {% endif %} 
                         {% if community.upcoming_meeting_comments %}
                             <div>
                                 {{community.upcoming_meeting_comments|safe}}
