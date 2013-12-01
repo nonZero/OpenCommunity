@@ -43,7 +43,7 @@ id="issue-detail"
 {% if object.proposals.closed %}
 <span class="history_toggle label label-default">{% trans "History" %}:
 	<span id="comment-switch" data-toggle="collapse" data-target=".past_proposals">
-		<span id="full-view"> {% trans "Show" %} </span>/
+		<span id="full-view"> {% trans "Show" %}</span> /
 		<span id="current" class="comment-switch-active"> {% trans "Hide" %}</span>
 	</span>
 </span>
@@ -80,8 +80,8 @@ id="issue-detail"
         <div class="issue_proposal">
 
             {% if object.proposals.closed %}
+            <h2>({{ object.proposals.closed.count }}) {% trans "Past Proposals" %} <i class="fa fa-chevron-down"></i></h2>
 			<div class="collapse past_proposals">
-                <h2>{% trans "Past Proposals" %} - ({{ object.proposals.closed.count }})</h2>
                 {% for proposal in object.proposals.closed %}
                     {% include 'issues/_proposal.html' %}
                 {% endfor %}
@@ -120,8 +120,8 @@ id="issue-detail"
 <div class="issuecomments">
     <ul id="comments">
     	{% if object.historical_comments %}
+    	<h2>({{ object.historical_comments.count }}) {% trans "Past comments" %} <i class="fa fa-chevron-down"></i></h2>
     	<div class="historic_comments past_proposals collapse">
-	    	<h2>{% trans "Past comments" %}</h2>
 	        {% for c in object.historical_comments %}
 	        {% include "issues/_comment.html" %}
 	        {% endfor %}
