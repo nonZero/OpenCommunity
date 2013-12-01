@@ -119,12 +119,14 @@ id="issue-detail"
 {% if object.active_comments.count or cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
 <div class="issuecomments">
     <ul id="comments">
+    	{% if object.historical_comments %}
     	<div class="historic_comments past_proposals collapse">
 	    	<h2>{% trans "Past comments" %}</h2>
 	        {% for c in object.historical_comments %}
 	        {% include "issues/_comment.html" %}
 	        {% endfor %}
 		</div>
+		{% endif %}
 		<div class="new_comments">
 		    <h2>{% trans "Summary" %}</h2>
 	        {% for c in object.new_comments %}
