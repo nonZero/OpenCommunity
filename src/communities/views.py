@@ -109,9 +109,6 @@ class EditUpcomingMeetingView(AjaxFormView, CommunityModelMixin, UpdateView):
     def get_form(self, form_class):
         form = super(EditUpcomingMeetingView, self).get_form(form_class)
         c = self.get_object()
-        if not c.straw_voting_enabled:
-            del form.fields['voting_ends_at']
-
         return form
         
         

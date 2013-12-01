@@ -519,6 +519,11 @@ table.issue-table {
 .meeting-header-users:last-child {
 	border-left: 0;
 }
+.emp {
+    font-weight: 900;
+    font-size: 110%;
+    color: #000;
+}
 .show-participants {
 	display: block;
 	line-height: 32px;

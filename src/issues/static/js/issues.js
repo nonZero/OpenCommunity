@@ -77,15 +77,17 @@ function init_proposal_tabs(with_issue) {
 
 function init_user_autocomplete(ac_url) {
     //{% verbatim %}
-    var tpl = '<p>{{#board}}<strong>{{/board}}{{user__display_name}}{{#board}}</strong>{{/board}}</p>'
-    var tpl1 = '<p><strong>-- {{value}} --</strong></p>'
+    var tpl = '<p {{#board}}class="emp"{{/board}}>{{value}}</p>'
     //{% endverbatim %}
-    $("[id$='assigned_to']").typeahead({
-        remote: ac_url + '?q=%QUERY',
-        valueKey: 'user__display_name',
-        engine: Hogan,
-        template: tpl
-    }).css('background-color', '#fff');
+    console.log(ac_url)
+    $("[id$='assigned_to']").typeahead(
+        {         
+            prefetch: ac_url,
+            remote: ac_url + '?q=%QUERY',
+            engine: Hogan,
+            template: tpl
+        }
+    ).css('background-color', '#fff');
 }
 
 function searchIssues(term) {

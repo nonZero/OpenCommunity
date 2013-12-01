@@ -156,12 +156,25 @@ class AutocompleteMemberName(MembershipMixin, ListView):
         if q:
             members = members.filter(
                             user__is_active=True,
-                            user__display_name__istartswith=q) 
+                            user__display_name__istartswith=q)
+        else:
+            members = members.filter(user__is_active=True)
+            if members.count() > 75:
+                return None
 
         return members
 
         
     def get(self, request, *args, **kwargs):
+        
+        def _cmp_func(a, b):
+            res = cmp(a['board'], b['board']) * -1
+            if res == 0:
+                return cmp(a['value'], b['value'])
+            else:
+                return res
+
+                
         members = self.get_queryset()
         if not members:
             return HttpResponse(json.dumps({}))
@@ -171,8 +184,17 @@ class AutocompleteMemberName(MembershipMixin, ListView):
                                             'default_group_name'))
             for m in members:
                 m['tokens'] = [m['user__display_name'],]
+                m['value'] = m['user__display_name']
                 m['board'] = m['default_group_name'] != 'member'
                  
-            members.sort(None, key=lambda(x):x['board'], reverse=True)
+            members.sort(_cmp_func)
             context = self.get_context_data(object_list=members)
-            return HttpResponse(json.dumps(members), {'content_type': 'application/json'})          
+            return HttpResponse(json.dumps(members), {'content_type': 'application/json'})
+
+
+class AutocompletePrefetchMember(AutocompleteMemberName):
+    def get_queryset(self):
+        members = super(AutocompleteMemberName, self).get_queryset()
+        return members.filter(user__is_active=True)
+
+        
