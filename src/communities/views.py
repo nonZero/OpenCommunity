@@ -131,6 +131,7 @@ class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):
     form_class = PublishUpcomingMeetingForm
     template_name = "communities/publish_upcoming.html"
 
+    
     def get_form(self, form_class):
         form = super(PublishUpcomingView, self).get_form(form_class)
         c = self.get_object()
@@ -157,8 +158,10 @@ class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):
             c.save()
 
         template = 'protocol_draft' if c.upcoming_meeting_started else 'agenda'
-
-        total = c.send_mail(template, self.request.user, form.cleaned_data['send_to'])
+        tpl_data = {
+            'meeting_time': datetime.datetime.now().replace(second=0)
+        }
+        total = c.send_mail(template, self.request.user, form.cleaned_data['send_to'], tpl_data)
         messages.info(self.request, _("Sending to %d users") % total)
 
         return resp
@@ -200,6 +203,11 @@ class ProtocolDraftPreviewView(CommunityModelMixin, DetailView):
     required_permission = 'meetings.add_meeting'
 
     template_name = "emails/protocol_draft.html"
+
+    def get_context_data(self, **kwargs):
+        d = super(ProtocolDraftPreviewView, self).get_context_data(**kwargs)
+        d['meeting_time'] = datetime.datetime.now().replace(second=0)
+        return d
 
     
 class SumVotesView(View):
