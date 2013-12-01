@@ -173,7 +173,7 @@ class Community(UIDMixin):
 
         message = render_to_string("emails/%s.txt" % template, d)
         html_message = render_to_string("emails/%s.html" % template, d)
-        from_email = "%s <%s>" % (self.name, sender.email)
+        from_email = "%s <%s>" % (sender.display_name, sender.email)
 
         recipient_list = set([sender.email])
 

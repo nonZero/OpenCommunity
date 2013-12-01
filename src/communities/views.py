@@ -181,9 +181,13 @@ class StartMeetingView(CommunityModelMixin, UpdateView):
         resp = super(StartMeetingView, self).form_valid(form)
         c = self.object
         if c.straw_voting_enabled:
-            c.voting_ends_at = timezone.now().replace(second=0)
-            c.save()
-            c.sum_vote_results()
+            if form.cleaned_data['upcoming_meeting_started']:
+                c.voting_ends_at = timezone.now().replace(second=0)
+                c.save()
+                c.sum_vote_results()
+            else:
+                c.voting_ends_at = timezone.now() + datetime.timedelta(days=4000)
+                c.save()
         return resp
         
             
