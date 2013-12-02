@@ -40,7 +40,7 @@ id="issue-detail"
 
 {% block content %}
 
-{% if object.proposals.closed %}
+{% if object.proposals.closed or object.historical_comments %}
 <span class="history_toggle label label-default">{% trans "History" %}:
 	<span id="comment-switch" data-toggle="collapse" data-target=".past_proposals">
 		<span id="full-view"> {% trans "Show" %}</span> /
