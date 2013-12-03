@@ -85,9 +85,7 @@
 				</h5>
 			{% endif %} -->
 			{% if object.upcoming_meeting_comments %}
-				<h5>
-					<span>{{object.upcoming_meeting_comments|safe}}</span>
-				</h5>
+			    {{object.upcoming_meeting_comments|userhtml}}
 			{% endif %}
 		</div>
 
@@ -105,7 +103,7 @@
 			<h2>{% trans "Summary" %}</h2>
 			{% if object.upcoming_meeting_summary %}
 				<div class="summary_box">
-					{{object.upcoming_meeting_summary|safe}}
+					{{object.upcoming_meeting_summary|userhtml}}
 				</div>
 			{% endif %}
 			<div class="push">

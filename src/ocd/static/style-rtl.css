@@ -826,7 +826,7 @@ ul.proposals li.prop-content p {
 	color: #6c6c6e;
 	font-size: 14px;
 }
-.comment-inner p.content {
+.comment-inner .userhtml {
 	font-size: 15px;
 }
 #comments li.rich_editor {
@@ -1042,7 +1042,7 @@ i.fa + span {
 	margin-bottom: 0;
 }
 .oc_detail_top p,
-#comments .comment-inner p.content,
+#comments .comment-inner .userhtml,
 #comments .comment-inner ol,
 #comments .comment-inner ul {
 	margin-bottom: 5px;

@@ -1,4 +1,6 @@
 {% load i18n %}
+{% load opencommunity %}
+
 <ul class="prop-table proposals{% if proposal.is_open %} open{% endif %}">
     <a href="{{proposal.get_absolute_url}}" style="display: none;"></a>
     <li class="drag-icon
@@ -21,7 +23,7 @@
             {% endif %}
         </p>
         {% endif %}
-        {{proposal.content|safe}}
+        {{proposal.content|userhtml}}
     </li>
     
     {% if proposal.decided %}

@@ -1,6 +1,19 @@
 "use strict";
 
+// TODO: refactor all file.
+
 $(function() {
+
+
+    $('body').on('click', 'ul.prop-table.proposals', function() {
+        window.location = $(this).find('a').attr('href');
+    });
+
+    // Force links in user content to open in a new window
+    $('body').on('click', '.userhtml a', function(event) {
+        window.open($(this).prop('href'));
+        return false;
+    });
 
     $("body").on('click', 'a', function() {
 
@@ -50,7 +63,7 @@ function initForm(modal, url, origin) {
         'border-top-right-radius' : '0',
         'border-top-left-radius' : '0',
         'border-top' : '0'
-    }); 
+    });
 
     form.ajaxForm({
 

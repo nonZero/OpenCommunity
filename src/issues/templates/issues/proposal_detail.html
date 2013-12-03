@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n humanize voting_tags community_tags %}
+{% load i18n humanize voting_tags community_tags opencommunity %}
 
 {% block extra-page-id %}
 id="proposal-detail"
@@ -87,15 +87,6 @@ id="proposal-detail"
         {% endif %}
     {% endif %}
 
-    {% if object.abstract %}
-        <div>
-            <h4>{% trans "Abstract" %}</h4>
-            <p>
-                {{object.abstract|safe}}
-            </p>
-        </div>
-    {% endif %}
-
     {% with proposal=object c=proposal.issue.community %}
         {% if proposal.can_straw_vote and cperms.issues.vote and user|member_of:c %}
             {% include 'issues/_vote.html' %}
@@ -109,8 +100,7 @@ id="proposal-detail"
 
     {% if object.content %}
     <div class="proposal-info">
-        {# <h4>{% trans "Content" %}</h4> #}
-        {{object.content|safe}}
+        {{object.content|userhtml}}
     </div>
     {% endif %}
 

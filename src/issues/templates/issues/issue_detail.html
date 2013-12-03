@@ -192,10 +192,7 @@ id="issue-detail"
                 );
         {% endif %}
         {% endfor %}
-        
-        $('ul.prop-table.proposals').on('click', function() {
-            window.location=$(this).find('a').attr('href');
-        });
+
 
     {% if object.proposals.closed %}
 

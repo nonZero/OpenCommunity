@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load opencommunity %}
 
 <table class="table table-condensed issue-table">
     <tr>
@@ -18,17 +19,12 @@
     <div class="oc_detail_top">
 
         {% if object.abstract %}
-            <p>
-                {{object.abstract|safe}}
-            </p>
+            {{object.abstract|userhtml}}
         {% endif %}
 
         {% if object.content %}
             <h4>{% trans "Content" %}</h4>
-
-            <p>
-                {{object.content|safe}}
-            </p>
+            {{object.content|userhtml}}
         {% endif %}
 
         {% if object.attachments.count %}
