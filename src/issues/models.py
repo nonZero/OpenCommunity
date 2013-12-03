@@ -94,10 +94,6 @@ class Issue(UIDMixin):
     def has_closed_parts(self):
         """ Should be able to be viewed """
 
-    def decided(self):
-        return self.status != ProposalStatus.IN_DISCUSSION
-
-
     @property
     def is_upcoming(self):
         return self.status in IssueStatus.IS_UPCOMING
