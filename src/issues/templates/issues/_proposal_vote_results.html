@@ -8,7 +8,7 @@
             {% if prev_link %}
                 <a href="{{ prev_link }}" class="glyphicon glyphicon-circle-arrow-right" id="results_prev"  style="vertical-align: sub"></a>
             {% endif %}
-            {% if meeting.held_at %}{{ meeting.held_at }}{% else %}{{ community.voting_ends_at }}{% endif %}
+            {% if meeting.held_at %}{{ meeting.held_at }}{% else %}{{ community|display_upcoming_time }}{% endif %}
             {% if next_link %}
                 <a href="{{ next_link }}" class="glyphicon glyphicon-circle-arrow-left" id="results_next"  style="vertical-align: sub"></a>
             {% endif %}
