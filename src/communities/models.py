@@ -197,11 +197,10 @@ class Community(UIDMixin):
 
     @property
     def straw_vote_ended(self):
+        if not self.upcoming_meeting_is_published:
+            return True
         if not self.voting_ends_at:
-            if self.upcoming_meeting_is_published:
-                return False
-            else:
-                return True
+            return False
         time_till_close = self.voting_ends_at - timezone.now()
         return time_till_close.total_seconds() < 0
 
@@ -318,9 +317,14 @@ class Community(UIDMixin):
 
         
     def draft_meeting(self):
+        if self.upcoming_meeting_scheduled_at:
+            held_at = self.upcoming_meeting_scheduled_at.date()
+        else:
+            held_at = None
+            
         return {
             'id': '',
-            'held_at': self.upcoming_meeting_scheduled_at,
+            'held_at': held_at,
         }
 
       
