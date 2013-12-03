@@ -1,6 +1,5 @@
 "use strict";
 
-
 $(function() {
 
     function refreshButtons(commentEmpty) {
@@ -8,12 +7,15 @@ $(function() {
         $('.close-issue-btn').prop('disabled', !commentEmpty);
     }
 
-    var editor = $('.htmlarea textarea').wysihtml5({
-        locale: "he-IL",
-    }).data('wysihtml5').editor;
-    editor.on('input',  function() {
-        refreshButtons(editor.getValue().trim() == '');
-    });
+    if ($('.htmlarea textarea').length) {
+        var editor = $('.htmlarea textarea').wysihtml5({
+            locale: "he-IL",
+        }).data('wysihtml5').editor;
+
+        editor.on('input',  function() {
+            refreshButtons(editor.getValue().trim() == '');
+        });
+    }
 
     // Comments
 
@@ -99,6 +101,5 @@ $(function() {
             history.back();
         }
     });
-
 
 });

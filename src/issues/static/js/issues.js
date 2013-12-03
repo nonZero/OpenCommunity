@@ -15,7 +15,7 @@ function refreshProposalForm() {
     } else {
         els.show();
         els1.show();
-        $('#id_proposal-title,#id_proposal-type').prop('required',true);
+        $('#id_proposal-title,#id_proposal-type').prop('required', true);
     }
 
     // hide task related fields
@@ -34,20 +34,20 @@ function init_proposal_tabs(with_issue) {
     var TYPE_TASK = 1;
     var TYPE_RULE = 2;
     var TYPE_ADMIN = 3;
-    
+
     var IDX_NONE = 0;
     var IDX_ADMIN = 1;
     var IDX_RULE = 2;
     var IDX_TASK = 3;
-    
+
     $("ul#proposal-type li").on('click', function() {
         $(this).addClass('active').siblings().removeClass('active');
-        var type_select = $('#id_proposal-type')
+        var type_select = $('#id_proposal-type');
         var proposal_controls = $('#id_proposal-content,#id_proposal-title').closest('.form-group');
         var task_controls = $('#id_proposal-assigned_to,#id_proposal-due_by').closest('.form-group');
 
         var selected_idx = $(this).index();
-        if(!with_issue) {
+        if (!with_issue) {
             selected_idx += 1;
         }
         if (selected_idx == IDX_NONE) {
@@ -55,18 +55,15 @@ function init_proposal_tabs(with_issue) {
             proposal_controls.hide();
             task_controls.hide();
             $("[id^='id_proposal']").prop('required', false);
-        }
-        else {
+        } else {
             proposal_controls.show();
             if (selected_idx == IDX_ADMIN) {
                 type_select.val(TYPE_ADMIN);
                 task_controls.hide();
-            }
-            else if (selected_idx == IDX_RULE) {
+            } else if (selected_idx == IDX_RULE) {
                 type_select.val(TYPE_RULE);
                 task_controls.hide();
-            }
-            else if (selected_idx == IDX_TASK) {
+            } else if (selected_idx == IDX_TASK) {
                 type_select.val(TYPE_TASK);
                 task_controls.show();
             }
@@ -76,22 +73,18 @@ function init_proposal_tabs(with_issue) {
 }
 
 function init_user_autocomplete(ac_url) {
-    //{% verbatim %}
-    var tpl = '<p {{#board}}class="emp"{{/board}}>{{value}}</p>'
-    //{% endverbatim %}
-    console.log(ac_url)
-    $("[id$='assigned_to']").typeahead(
-        {         
-            prefetch: ac_url,
-            remote: ac_url + '?q=%QUERY',
-            engine: Hogan,
-            template: tpl
-        }
-    ).css('background-color', '#fff');
+    var tpl = '<p {{#board}}class="emp"{{/board}}>{{value}}</p>';
+
+    $("[id$='assigned_to']").typeahead({
+        prefetch : ac_url,
+        remote : ac_url + '?q=%QUERY',
+        engine : Hogan,
+        template : tpl
+    }).css('background-color', '#fff');
 }
 
 function searchIssues(term) {
-	$(".issue-table tr").each(function() {
-		$(this).toggle(!term || $(this).text().indexOf(term) > 0);
-	});
+    $(".issue-table tr").each(function() {
+        $(this).toggle(!term || $(this).text().indexOf(term) > 0);
+    });
 }
