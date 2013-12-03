@@ -355,7 +355,11 @@ class ProposalEditView(AjaxFormView, ProposalMixin, UpdateView):
         o = self.get_object()
         return 'issues.editclosed_proposal' if o.decided_at_meeting else 'issues.edittask_proposal'
 
-
+    def get_form_kwargs(self):
+        d = super(ProposalEditView, self).get_form_kwargs()
+        d['prefix'] = 'proposal'
+        return d
+        
 class ProposalEditTaskView(ProposalMixin, UpdateView):
     form_class = EditProposalTaskForm
 

@@ -59,6 +59,9 @@ a {
 p > a {
 	word-break: break-word;
 }
+.container {
+	margin-bottom: 30px;
+}
 
 /* Errors */
 
@@ -121,6 +124,14 @@ ul.errorlist li {
 .oc-dt-split input {
 	width: 49%;
 	display: inline-block;
+}
+#issue-proposal-type {
+	margin-bottom: 10px;
+}
+#issue-proposal-type.nav-tabs > li.active > a,
+#issue-proposal-type.nav-tabs > li.active > a:hover,
+#issue-proposal-type.nav-tabs > li.active > a:focus {
+	border-bottom-color: #dddddd;
 }
 
 /* General buttons */
@@ -500,14 +511,34 @@ table.issue-table {
 	border-left: 1px dashed #8f9698;
 }
 .meeting-header-users {
-	padding-top: 17px;
-	padding-bottom: 17px;
+	padding-top: 14px;
+	padding-bottom: 14px;
+	border-left: 1px dashed #8f9698;
+	height: 100%;
+}
+.meeting-header-users:last-child {
+	border-left: 0;
+}
+.emp {
+    font-weight: 900;
+    font-size: 110%;
+    color: #000;
 }
 .show-participants {
 	display: block;
-	line-height: 25px;
+	line-height: 32px;
 	padding-right: 45px;
-	background: url('images/users.png') no-repeat right center;
+	background-image: url('images/users.png');
+	background-repeat: no-repeat;
+	background-size: 32px 32px;
+	background-position: right center;
+	height: 100%;
+}
+.show-protocol {
+	display: block;
+	line-height: 32px;
+	height: 100%;
+	text-align: center;
 }
 .users {
 	color: #fff;
@@ -681,6 +712,7 @@ ul:nth-child(odd).proposals li.drag-icon {
 ul.proposals li.prop-title {
 	padding: .7em 15px 0 15px;
 	word-break: break-word;
+	font-weight: bold;
 }
 a ul.proposals li.prop-title {
 	color: #6c6c6e;
@@ -714,6 +746,7 @@ ul.proposals li.prop-content p {
 }
 #proposal-detail .proposal-info {
 	margin-top: 15px;
+	clear: both;
 }
 .proposal-info p {
 	word-break: break-word;
@@ -775,6 +808,8 @@ ul.proposals li.prop-content p {
 	padding: 0;
 	margin-bottom: 1px;
 }
+#comments .historic_comments > li,
+#comments .new_comments > li,
 #comments > li {
 	padding: 5px;
 	background: #fff;
@@ -785,7 +820,7 @@ ul.proposals li.prop-content p {
 	background: transparent;
 }
 #comments li.editing div {
-	padding-left: 26px;
+	/*padding-left: 26px;*/
 }
 .comment-inner {
 	color: #6c6c6e;
@@ -812,6 +847,18 @@ form.delete-invitation {
 /*	display: inline;*/
 	margin-right: 10px;
 }
+.comment-switch-active {
+	text-decoration: underline;
+}
+.history_toggle {
+	position: absolute;
+	right: 15px;
+	font-size: 14px;
+}
+#comment-switch {
+	cursor: pointer;
+}
+
 /* Images & Icons */
 
 .check_box {
@@ -986,6 +1033,20 @@ i.fa + span {
 .wysiwyg-text-align-center {
     text-align: center;
 }
+.oc_detail_top ol,
+.oc_detail_top ul,
+#proposal-detail .proposal .proposal-info ol,
+#proposal-detail .proposal .proposal-info ul,
+.summary_box ol,
+.summary_box ul {
+	margin-bottom: 0;
+}
+.oc_detail_top p,
+#comments .comment-inner p.content,
+#comments .comment-inner ol,
+#comments .comment-inner ul {
+	margin-bottom: 5px;
+}
 
 /* Footer */
 
@@ -1002,6 +1063,13 @@ i.fa + span {
 		}
 	.mobile_line_break {
 		display: block;
+	}
+	.show-participants {
+		padding-right: 0;
+		background-position: center;
+	}
+	.meeting-header-users {
+		padding: 14px 0;
 	}
 }		
 

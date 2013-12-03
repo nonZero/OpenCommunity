@@ -88,6 +88,9 @@ class Issue(UIDMixin):
     def new_comments(self):
         return self.comments.filter(active=True, meeting_id=None)
 
+    def historical_comments(self):
+        return self.comments.filter(active=True).exclude(meeting_id=None)
+
     def has_closed_parts(self):
         """ Should be able to be viewed """
 
@@ -434,16 +437,13 @@ class Proposal(UIDMixin):
 
                     
     def do_votes_summation(self, members_count):
-        pro = 0
-        con = 0
-        for v in ProposalVote.objects.filter(proposal=self):
-            if v.value == ProposalVoteValue.PRO:
-                pro += 1
-            elif v.value == ProposalVoteValue.CON:
-                con += 1
 
-        self.votes_pro = pro
-        self.votes_con = con
+        pro_votes = ProposalVote.objects.filter(proposal=self,
+                    value = ProposalVoteValue.PRO).count()
+        con_votes = ProposalVote.objects.filter(proposal=self,
+                    value = ProposalVoteValue.CON).count()
+        self.votes_pro = pro_votes
+        self.votes_con = con_votes
         self.community_members = members_count
         self.save()
 

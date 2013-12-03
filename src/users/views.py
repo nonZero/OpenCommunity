@@ -8,12 +8,14 @@ from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView
-from django.views.generic.list import ListView
+from django.views.generic.list import BaseListView, ListView
+from django.template import RequestContext
+
 from ocd.base_views import CommunityMixin
 from users import models
 from users.forms import InvitationForm, QuickSignupForm
 from users.models import Invitation, OCUser, Membership
-
+import json
 
 class MembershipMixin(CommunityMixin):
 
@@ -141,3 +143,58 @@ class AcceptInvitationView(DetailView):
         messages.warning(request,
                   _("Oops. Something went wrong. Please try again."))
         return self.get(request, *args, **kwargs)
+
+
+        
+class AutocompleteMemberName(MembershipMixin, ListView):
+
+    required_permission = 'issues.editopen_issue'
+    
+    def get_queryset(self):
+        members = super(AutocompleteMemberName, self).get_queryset()
+        q = self.request.GET.get('q', '')
+        if q:
+            members = members.filter(
+                            user__is_active=True,
+                            user__display_name__istartswith=q)
+        else:
+            members = members.filter(user__is_active=True)
+            if members.count() > 75:
+                return None
+
+        return members
+
+        
+    def get(self, request, *args, **kwargs):
+        
+        def _cmp_func(a, b):
+            res = cmp(a['board'], b['board']) * -1
+            if res == 0:
+                return cmp(a['value'], b['value'])
+            else:
+                return res
+
+                
+        members = self.get_queryset()
+        if not members:
+            return HttpResponse(json.dumps({}))
+        else:
+            
+            members = list(members.values('user__display_name',
+                                            'default_group_name'))
+            for m in members:
+                m['tokens'] = [m['user__display_name'],]
+                m['value'] = m['user__display_name']
+                m['board'] = m['default_group_name'] != 'member'
+                 
+            members.sort(_cmp_func)
+            context = self.get_context_data(object_list=members)
+            return HttpResponse(json.dumps(members), {'content_type': 'application/json'})
+
+
+class AutocompletePrefetchMember(AutocompleteMemberName):
+    def get_queryset(self):
+        members = super(AutocompleteMemberName, self).get_queryset()
+        return members.filter(user__is_active=True)
+
+        

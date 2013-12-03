@@ -14,7 +14,7 @@ id="meeting-detail"
 {% block content %}
 
 <div class="meeting-header">
-    <div class="col-xs-8 meeting-header-title">
+    <div class="col-xs-8 col-sm-9 meeting-header-title">
         <a data-toggle="modal" href="#meetings" class="select-meeting">
         <p>
             {% if object.title %}
@@ -27,22 +27,20 @@ id="meeting-detail"
         </p>
         </a>
     </div>
-    <div class="col-xs-4 meeting-header-users">
+    <div class="col-xs-2 meeting-header-users">
         <a data-toggle="modal" href="#participants" class="show-participants">
         <div class="users">
-            {{total_participants}}
+            <span class="hidden-xs">{{total_participants}}</span>
         </div>
         </a>
 	</div>
-	<!-- Waiting for design (1/3)
 		
-    <div class="col-xs-2 meeting-header-users">
-        <button class="btn btn-sm btn-oc" data-toggle="modal" data-target="#meetingProtocol">
-			<i class="fa fa-envelope-o"></i>
-		</button>
+    <div class="col-xs-2 col-sm-1 meeting-header-users">
+        <a data-toggle="modal" href="#meetingProtocol" class="show-protocol">
+        	<img src="{{STATIC_URL}}images/agenda.png" width="32" height="32" />
+        </a>
     </div>
     
-   ------------------------>
 </div>
 
 {% if object.summary %}
@@ -152,7 +150,6 @@ id="meeting-detail"
     </div>
 </div>
 
-<!-- Waiting for design (2/3)
 <div class="modal fade" id="meetingProtocol" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -167,11 +164,9 @@ id="meeting-detail"
     </div>
   </div>
 </div>
---------------------------->
 {% endblock %}
 
 {% block scripts %}
-<!-- Waiting for design (3/3) 
 <script>
 	$.ajax({
 		url : "protocol/",
@@ -180,5 +175,4 @@ id="meeting-detail"
 		}
 	}); 
 </script>
----------------------------->
 {% endblock %}

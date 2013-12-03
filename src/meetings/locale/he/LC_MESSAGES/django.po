@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-25 01:16+0200\n"
+"POT-Creation-Date: 2013-12-01 21:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,7 +86,7 @@ msgstr "סיכום הפגישה"
 msgid "Agenda items"
 msgstr "סדר יום"
 
-#: .\models.py:65 .\templates\meetings\meeting_detail.html.py:131
+#: .\models.py:65 .\templates\meetings\meeting_detail.html.py:129
 msgid "Participants"
 msgstr "משתתפים"
 
@@ -98,7 +98,7 @@ msgstr "אורחים"
 msgid "Enter each guest in a separate line"
 msgstr "רשום כל אורח בשורה נפקדת"
 
-#: .\models.py:73 .\templates\meetings\meeting_detail.html.py:111
+#: .\models.py:73 .\templates\meetings\meeting_detail.html.py:109
 #: .\templates\meetings\meeting_list.html.py:9
 msgid "Meetings"
 msgstr "פגישות"
@@ -142,7 +142,6 @@ msgid "No decisions were made in this meeting."
 msgstr "בפגישה זו לא התקבלו החלטות"
 
 #: .\templates\meetings\meeting_close.html.py:27
-#, fuzzy
 msgid "Preview protocol"
 msgstr "פרוטוקול הפגישה"
 
@@ -154,27 +153,27 @@ msgstr "ביטול"
 msgid "Meetings history"
 msgstr "הסטוריית ישיבות"
 
-#: .\templates\meetings\meeting_detail.html.py:77
+#: .\templates\meetings\meeting_detail.html.py:75
 msgid "Assigned to"
 msgstr "אחראי"
 
-#: .\templates\meetings\meeting_detail.html.py:80
+#: .\templates\meetings\meeting_detail.html.py:78
 msgid "Due by"
 msgstr "יעד"
 
-#: .\templates\meetings\meeting_detail.html.py:92
+#: .\templates\meetings\meeting_detail.html.py:90
 msgid "Closed without descisions"
 msgstr "הדיון נסגר ללא החלטות"
 
-#: .\templates\meetings\meeting_detail.html.py:93
+#: .\templates\meetings\meeting_detail.html.py:91
 msgid "Undecided"
 msgstr "הדיון לא הושלם"
 
-#: .\templates\meetings\meeting_detail.html.py:161
+#: .\templates\meetings\meeting_detail.html.py:158
 msgid "Meeting protocol"
 msgstr "פרוטוקול הפגישה"
 
-#: .\templates\meetings\meeting_detail.html.py:165
+#: .\templates\meetings\meeting_detail.html.py:162
 msgid "Close"
 msgstr "סגור"
 

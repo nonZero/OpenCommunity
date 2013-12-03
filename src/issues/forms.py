@@ -2,8 +2,9 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from issues import models
 from issues.models import ProposalType
-import floppyforms as forms
 from ocd.formfields import HTMLArea
+from users.models import OCUser
+import floppyforms as forms
 
 
 class BaseIssueForm(forms.ModelForm):
@@ -26,11 +27,10 @@ class CreateIssueForm(BaseIssueForm):
 
         super(CreateIssueForm, self).__init__(*args, **kwargs)
 
-        initial = {'type': ProposalType.ADMIN}
+        initial = {'type': None}
 
         self.new_proposal = CreateProposalBaseForm(prefix='proposal',
-                                   data=self.data if self.is_bound else None,
-                                   initial=initial)
+                                   data=self.data if self.is_bound else None)
         self.new_proposal.fields['type'].required = False
 
     def is_valid(self):
@@ -110,10 +110,24 @@ class CreateProposalBaseForm(forms.ModelForm):
             'type': forms.Select,
             'title': forms.TextInput,
             'content': HTMLArea,
-            'assigned_to': forms.TextInput,
+            'assigned_to': forms.TextInput(attrs={
+                    'autocomplete':'off',                   
+                    }),
             'due_by': forms.DateInput,
         }
 
+        
+    def save(self):
+        proposal = super(CreateProposalBaseForm, self).save()
+        user_name = proposal.assigned_to
+        try:
+            u = OCUser.objects.get(display_name=user_name)
+            proposal.assigned_to_user = u
+            proposal.save()
+        except OCUser.DoesNotExist:
+            pass
+        
+        return proposal    
 
 class CreateProposalForm(CreateProposalBaseForm):
 
@@ -126,8 +140,11 @@ class CreateProposalForm(CreateProposalBaseForm):
 
 class EditProposalForm(CreateProposalForm):
     submit_button_text = _('Save')
+    def __init__(self, *args, **kwargs):
+        super(EditProposalForm, self).__init__(*args, **kwargs)
+        self.fields['type'].initial = self.instance.type
 
-
+        
 class EditProposalTaskForm(EditProposalForm):
 
     class Meta:

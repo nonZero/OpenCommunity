@@ -10,6 +10,7 @@ from django.db.models.aggregates import Max
 from django.http.response import HttpResponse, HttpResponseBadRequest, \
     HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 from django.views.generic import View, ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
@@ -108,9 +109,6 @@ class EditUpcomingMeetingView(AjaxFormView, CommunityModelMixin, UpdateView):
     def get_form(self, form_class):
         form = super(EditUpcomingMeetingView, self).get_form(form_class)
         c = self.get_object()
-        if not c.straw_voting_enabled:
-            del form.fields['voting_ends_at']
-
         return form
         
         
@@ -133,6 +131,7 @@ class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):
     form_class = PublishUpcomingMeetingForm
     template_name = "communities/publish_upcoming.html"
 
+    
     def get_form(self, form_class):
         form = super(PublishUpcomingView, self).get_form(form_class)
         c = self.get_object()
@@ -159,8 +158,10 @@ class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):
             c.save()
 
         template = 'protocol_draft' if c.upcoming_meeting_started else 'agenda'
-
-        total = c.send_mail(template, self.request.user, form.cleaned_data['send_to'])
+        tpl_data = {
+            'meeting_time': datetime.datetime.now().replace(second=0)
+        }
+        total = c.send_mail(template, self.request.user, form.cleaned_data['send_to'], tpl_data)
         messages.info(self.request, _("Sending to %d users") % total)
 
         return resp
@@ -179,9 +180,14 @@ class StartMeetingView(CommunityModelMixin, UpdateView):
     def form_valid(self, form):
         resp = super(StartMeetingView, self).form_valid(form)
         c = self.object
-        if c.straw_voting_enabled and not c.voting_ends_at:
-            c.voting_ends_at = datetime.datetime.now().replace(second=0)
-            c.save()
+        if c.straw_voting_enabled:
+            if form.cleaned_data['upcoming_meeting_started']:
+                c.voting_ends_at = timezone.now().replace(second=0)
+                c.save()
+                c.sum_vote_results()
+            else:
+                c.voting_ends_at = timezone.now() + datetime.timedelta(days=4000)
+                c.save()
         return resp
         
             
@@ -201,6 +207,11 @@ class ProtocolDraftPreviewView(CommunityModelMixin, DetailView):
     required_permission = 'meetings.add_meeting'
 
     template_name = "emails/protocol_draft.html"
+
+    def get_context_data(self, **kwargs):
+        d = super(ProtocolDraftPreviewView, self).get_context_data(**kwargs)
+        d['meeting_time'] = datetime.datetime.now().replace(second=0)
+        return d
 
     
 class SumVotesView(View):
