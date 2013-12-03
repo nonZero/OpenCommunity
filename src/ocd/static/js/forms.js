@@ -45,6 +45,18 @@ $(function() {
 
 });
 
+function enhanceHtml(form) {
+    form.find('.htmlarea textarea').wysihtml5({
+        locale : "he-IL"
+    }).css({
+        'width' : '100%',
+        'border-top-right-radius' : '0',
+        'border-top-left-radius' : '0',
+        'border-top' : '0'
+    });
+}
+
+
 /**
  * Initializes an ajax form to allow refreshing on error and redirecting,
  * reloading, going back or calling a custom callback function on success.
@@ -56,14 +68,7 @@ function initForm(modal, url, origin) {
 
     var form = modal.find('form');
 
-    form.find('.htmlarea textarea').wysihtml5({
-        locale : "he-IL"
-    }).css({
-        'width' : '100%',
-        'border-top-right-radius' : '0',
-        'border-top-left-radius' : '0',
-        'border-top' : '0'
-    });
+    enhanceHtml(form);
 
     form.ajaxForm({
 
@@ -108,6 +113,7 @@ function initForm(modal, url, origin) {
             if (resp.status == 403) {
                 var newEl = $(resp.responseText.trim());
                 form.html(newEl.find('form').html());
+                enhanceHtml(form);
             } else {
                 alert('Server Error! please try again or reload the page.');
                 form.find('input[type="submit"]').prop('disabled', false);
