@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load humanize %}
-{% load voting_tags community_tags %}
+{% load voting_tags community_tags opencommunity %}
 
 {% block extra-page-id %}
 id="issue-detail"
@@ -9,15 +9,6 @@ id="issue-detail"
 
 {% block page_header %}
 {% trans "Issue" %}
-<!-- <label class="switch-light well col-xs-6 col-sm-2" onclick="">
-	<input type="checkbox">
-	<span data-toggle="collapse" data-target=".past_proposals" style="font-size: 16px">
-		<span>{% trans "Current" %}</span>
-		<span>{% trans "Full view" %}</span>
-	</span>
-	<a class="btn btn-oc"></a>
-</label> -->
-<!-- <button type="button" class="btn btn-danger" data-toggle="collapse" data-target=".past_proposals">{% trans "GO" %}</button> -->
 {% endblock %}
 
 {% block pagemenu %}
@@ -40,14 +31,6 @@ id="issue-detail"
 
 {% block content %}
 
-{% if object.proposals.closed or object.historical_comments %}
-<span class="history_toggle label label-default">{% trans "History" %}:
-	<span id="comment-switch" data-toggle="collapse" data-target=".past_proposals">
-		<span id="full-view"> {% trans "Show" %}</span> /
-		<span id="current" class="comment-switch-active"> {% trans "Hide" %}</span>
-	</span>
-</span>
-{% endif %}
 
 {% if object.is_archived %}
 
@@ -57,14 +40,14 @@ id="issue-detail"
 
 {% if object.is_upcoming %}
     {% if community.upcoming_meeting_is_published or cperms.communities.viewupcoming_draft %}
-		<h2 class="text-center"> --{% trans "In agenda" %}-- </h2>
+        <h2 class="text-center"> --{% trans "In agenda" %}-- </h2>
     {% endif %}
 {% endif %}
 
 {% endif %}
 {% if object.can_straw_vote and not user.id %}
 <div class="text-center" style="margin-bottom: 10px;">
-	<a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-warning">{% trans "Login to vote" %}</a>
+    <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-warning">{% trans "Login to vote" %}</a>
 </div>
 {% endif %}
 
@@ -77,17 +60,69 @@ id="issue-detail"
 
         {% csrf_token %}
 
+        {% for ai in object.agenda_items.all %}
+            <section class="agendaitem" id="agendaitem-{{ai.id}}">
+
+                <h2 data-toggle="collapse"
+                    data-target="#agendaitem-{{ai.id}} .agendaitem-details">
+                    {{ai.meeting}}
+                    {% if ai.proposals.count %}
+                          <b>({{ ai.proposals.count }} {% trans "Decisions" %})</b>
+                    {% endif %}
+                    <i class="fa fa-chevron-down"></i>
+                </h2>
+
+                <div class="agendaitem-details collapse">
+
+                    {% if ai.background or ai.proposals.count or ai.comments.count %}
+
+                        {% if ai.background %}
+                            <div class="oc_detail_top">
+                                {{ai.background|userhtml}}
+                            </div>
+                        {% endif %}
+
+                        {% if ai.proposals.count %}
+                            <div class="past_proposals">
+                                {% for proposal in ai.proposals %}
+                                    {% include 'issues/_proposal.html' %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        {% if ai.comments.count %}
+                          <ul class="comments">
+                              <div class="historic_comments past_proposals">
+                                  {% for c in ai.comments %}
+                                      {% include "issues/_comment.html" %}
+                                  {% endfor %}
+                              </div>
+                          </ul>
+                        {% endif %}
+
+                    {% else %}
+                        {% trans "No decision or summary" %}
+                    {% endif %}
+
+
+                </div>
+            </section>
+        {% endfor %}
+
         <div class="issue_proposal">
 
-            {% if object.proposals.closed %}
-            <h2>({{ object.proposals.closed.count }}) {% trans "Past Proposals" %} <i class="fa fa-chevron-down"></i></h2>
-			<div class="collapse past_proposals">
-                {% for proposal in object.proposals.closed %}
-                    {% include 'issues/_proposal.html' %}
-                {% endfor %}
-			</div>
-            {% endif %}
+            <div id="issue-abstract">
+                {% include 'issues/_issue-abstract.html' %}
+            </div>
 
+            {% if cperms.issues.editclosed_issue or not object.is_archived %}
+                {% if cperms.issues.editopen_issue or object.created_by == user %}
+                    <a data-rel="form" data-replace="#issue-abstract" class="btn btn-oc"
+                    href="{% url 'issue_edit_abstract' object.community.id object.id %}" title='{% trans "Edit Abstract" %}'>
+                         <i class="fa fa-edit"></i> <span>{% trans "Edit Abstract" %}</span>
+                    </a>
+                {% endif %}
+            {% endif %}
 
             <div class="open-proposals">
                 <h2>
@@ -118,21 +153,11 @@ id="issue-detail"
 
 {% if object.active_comments.count or cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
 <div class="issuecomments">
-    <ul id="comments">
-    	{% if object.historical_comments %}
-    	<h2>({{ object.historical_comments.count }}) {% trans "Past comments" %} <i class="fa fa-chevron-down"></i></h2>
-    	<div class="historic_comments past_proposals collapse">
-	        {% for c in object.historical_comments %}
-	        {% include "issues/_comment.html" %}
-	        {% endfor %}
-		</div>
-		{% endif %}
-		<div class="new_comments">
-		    <h2>{% trans "Summary" %}</h2>
-	        {% for c in object.new_comments %}
-	        {% include "issues/_comment.html" %}
-	        {% endfor %}
-       </div>
+    <ul id="comments" class="comments">
+        <h2>{% trans "Summary" %}</h2>
+        {% for c in object.new_comments %}
+            {% include "issues/_comment.html" %}
+        {% endfor %}
         {% if cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
         <li class="rich_editor">
             <form id="add-comment" method="post">
@@ -192,21 +217,7 @@ id="issue-detail"
                 );
         {% endif %}
         {% endfor %}
-
-
-    {% if object.proposals.closed %}
-
-		$('#comment-switch').click(function() {
-			if ($('span#current').hasClass('comment-switch-active')) {
-				$('span#current').removeClass('comment-switch-active');
-				$('span#full-view').addClass('comment-switch-active');
-			} else {
-				$('span#current').addClass('comment-switch-active');
-				$('span#full-view').removeClass('comment-switch-active');
-			}
-		});
-   {% endif %}
-	}); 
+    });
 </script>
 
 {% endblock %}

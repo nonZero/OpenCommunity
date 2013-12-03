@@ -48,14 +48,28 @@ class CreateIssueForm(BaseIssueForm):
         return o
 
 
-class UpdateIssueForm(BaseIssueForm):
-    def __init__(self, *args, **kwargs):
-#         self.helper = FormHelper()
-# 
-#         self.helper.add_input(Submit('submit', _('Update')))
+class UpdateIssueForm(forms.ModelForm):
+    class Meta:
+        model = models.Issue
+        fields = (
+                   'title',
+                   )
 
-        super(UpdateIssueForm, self).__init__(*args, **kwargs)
-#        self.helper.form_tag = True
+        widgets = {
+            'title': forms.TextInput,
+        }
+
+
+class UpdateIssueAbstractForm(forms.ModelForm):
+    class Meta:
+        model = models.Issue
+        fields = (
+                   'abstract',
+                   )
+
+        widgets = {
+            'abstract': HTMLArea,
+        }
 
 
 class AddAttachmentBaseForm(forms.ModelForm):

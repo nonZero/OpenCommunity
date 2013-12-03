@@ -14,6 +14,9 @@ urlpatterns = patterns('',
     url(r'^(?P<pk>\d+)/edit/$', views.IssueEditView.as_view(),
                                 name="issue_edit"),
 
+    url(r'^(?P<pk>\d+)/edit-abstract/$', views.IssueEditAbstractView.as_view(),
+                                name="issue_edit_abstract"),
+
     url(r'^(?P<pk>\d+)/set-length/$', views.IssueSetLengthView.as_view(),
                                 name="issue_set_length"),
 
