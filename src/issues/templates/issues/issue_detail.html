@@ -149,18 +149,20 @@ id="issue-detail"
 {% endif %}
 
     
-{% if cperms.meetings.add_meeting and object.community.upcoming_meeting_started and object.status == object.statuses.IN_UPCOMING_MEETING %}
-<br/>
-<form id="issue-complete" method="post" action="{% url 'issue_complete' community.id issue.id %}">
-    {% csrf_token %}
-    <input name="enable" type="hidden" value="{{object.completed|yesno:'0,1'}}"/>
-    <div class="narrow">
-        <button class="close-issue-btn btn btn-oc btn-block btn-lg">
-            {% if object.completed %}{% trans "Undo complete discussion" %}{% else %}{% trans "Complete discussion" %}{% endif %}
-        </button>
-    </div>
-</form>
-<br/>
+{% if cperms.meetings.add_meeting %}
+    {% if object.status == object.statuses.IN_UPCOMING_MEETING and object.community.upcoming_meeting_started or object.completed %}
+    <br/>
+        <form id="issue-complete" method="post" action="{% url 'issue_complete' community.id issue.id %}">
+            {% csrf_token %}
+            <input name="enable" type="hidden" value="{{object.completed|yesno:'0,1'}}"/>
+            <div class="narrow">
+                <button class="close-issue-btn btn btn-oc btn-block btn-lg">
+                        {% if object.completed %}{% trans "Undo complete discussion" %}{% else %}{% trans "Complete discussion" %}{% endif %}
+                </button>
+            </div>
+        </form>
+    <br/>
+    {% endif %}
 {% endif %}
 
 {% endblock %}

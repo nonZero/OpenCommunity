@@ -152,6 +152,8 @@ class IssueCompleteView(IssueMixin, SingleObjectMixin, View):
     def post(self, request, *args, **kwargs):
         o = self.get_object()
         o.completed = request.POST.get('enable') == '1'
+        if not o.completed:
+            o.status = o.statuses.OPEN
         o.save()
         return HttpResponse("-")
 
