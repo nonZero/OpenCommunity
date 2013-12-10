@@ -237,6 +237,13 @@ class Community(UIDMixin):
 
             
     def close_meeting(self, m, user):
+        """
+        Creates a :model:`meetings.Meeting` instance, with corresponding
+        :model:`meetings.AgenddItem`s.
+
+        Optionally changes statuses for :model:`issues.Issue`s and
+        :model:`issues.Proposal`s.
+        """
 
         with transaction.commit_on_success():
             m.community = self
@@ -291,9 +298,11 @@ class Community(UIDMixin):
 
                 meetings_models.AgendaItem.objects.create(
                                               meeting=m, issue=issue, order=i,
+                                              background=issue.abstract,
                                               closed=issue.completed)
 
                 issue.is_published = True
+                issue.abstract = None
 
                 if issue.completed:
                     issue.status = issue.statuses.ARCHIVED
