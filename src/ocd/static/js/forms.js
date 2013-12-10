@@ -4,9 +4,12 @@
 
 $(function() {
 
-
+    // make the whole proposal area clickable (link needed only in an issue page)
     $('body').on('click', 'ul.prop-table.proposals', function() {
-        window.location = $(this).find('a').attr('href');
+        var proposal_link = $(this).find('a');
+        if(proposal_link.length) {
+            window.location = proposal_link.attr('href');
+        }   
     });
 
     // Force links in user content to open in a new window
@@ -29,7 +32,7 @@ $(function() {
         $.get(url, function(html) {
             modal.html(html);
             initForm(modal, url, origin);
-            modal.modal({}).one('hidden.bs.modal', function() {
+            modal.modal({backdrop: 'static'}).one('hidden.bs.modal', function() {
                 $(this).removeData('bs.modal').empty();
             });
         }).fail(function() {
