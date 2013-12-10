@@ -9,7 +9,8 @@ from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
-    UpdateIssueForm, EditProposalTaskForm, AddAttachmentForm
+    UpdateIssueForm, EditProposalTaskForm, AddAttachmentForm,\
+    UpdateIssueAbstractForm
 from issues.models import ProposalType, Issue, IssueStatus, ProposalVote, \
     ProposalVoteValue, VoteResult
 from meetings.models import Meeting
@@ -142,6 +143,18 @@ class IssueEditView(AjaxFormView, IssueMixin, UpdateView):
     def form_valid(self, form):
         self.object = form.save()
         return render(self.request, 'issues/_issue_title.html',
+                      self.get_context_data())
+
+
+class IssueEditAbstractView(AjaxFormView, IssueMixin, UpdateView):
+
+    required_permission = 'issues.editopen_issue'
+
+    form_class = UpdateIssueAbstractForm
+
+    def form_valid(self, form):
+        self.object = form.save()
+        return render(self.request, 'issues/_issue-abstract.html',
                       self.get_context_data())
 
 

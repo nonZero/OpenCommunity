@@ -64,7 +64,7 @@ class IssueAdmin(admin.ModelAdmin):
     comment_count.short_description = _("Comments")
 
     def meeting_count(self, instance):
-        return instance.agendaitem_set.count()
+        return instance.agenda_items.count()
     meeting_count.short_description = _("Meetings")
 
 
