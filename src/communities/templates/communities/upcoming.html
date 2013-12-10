@@ -13,6 +13,31 @@
 	<div class="pull-left">
 		<h1>{{ object.upcoming_meeting_title }}</h1>
 	</div>
+  {% with status=object|upcoming_status %}
+      <div class="pull-right">
+      <h5>- {{ status.0 }} -</h5>
+      {% if status.1 %}
+          <h5>({{ status.1 }}) </h5>
+      {% endif %}
+      </div>
+  {% endwith %}
+
+{% if cperms.communities.viewupcoming_community %}
+	{% if cperms.communities.viewupcoming_draft or object.upcoming_meeting_is_published %}
+
+		{% if object.straw_voting_enabled and not object.straw_vote_ended and not user.id %}
+		<div class="text-center" style="margin-bottom: 10px;">
+			<a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-warning">{% trans "Login to vote" %}</a>
+		</div>
+		{% endif %}
+
+		<div class="oc_detail_top row clear" style="margin-right: -5px;margin-left: -5px;border:0;background: none;">
+			<div class="pull-left">
+        		<h5><span class="glyphicon glyphicon-calendar"></span> {{ object|display_upcoming_time }}&nbsp;&nbsp;</h5>
+        	</div>
+			<div class="pull-left">
+				<h5><span class="glyphicon glyphicon-map-marker"></span> {{object.upcoming_meeting_location|default:_("Not set yet")}}</h5>
+			</div>
 	<div class="pull-right">
 		<div class="btn-group">
 		  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -54,31 +79,7 @@
 		  </ul>
 		</div>
 	</div>
-{% if cperms.communities.viewupcoming_community %}
-	{% if cperms.communities.viewupcoming_draft or object.upcoming_meeting_is_published %}
-
-		{% if object.straw_voting_enabled and not object.straw_vote_ended and not user.id %}
-		<div class="text-center" style="margin-bottom: 10px;">
-			<a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-warning">{% trans "Login to vote" %}</a>
-		</div>
-		{% endif %}
-
-		<div class="oc_detail_top row clear" style="margin-right: -5px;margin-left: -5px;border:0;background: none;">
-			<div class="col-xs-12 col-sm-4">
-        		<h5><span class="glyphicon glyphicon-calendar"></span> {{ object|display_upcoming_time }}</h5>
-        	</div>
-			<div class="col-xs-6 col-sm-4">
-				<h5><span class="glyphicon glyphicon-map-marker"></span> {{object.upcoming_meeting_location|default:_("Not set yet")}}</h5>
-			</div>
 			
-	      {% with status=object|upcoming_status %}
-	          <div class="col-xs-6 col-sm-4">
-	          <h5><span class="glyphicon glyphicon-info-sign"></span> {{ status.0 }} </h5>
-	          {% if status.1 %}
-	              <h5>({{ status.1 }}) </h5>
-	          {% endif %}
-	          </div>
-	      {% endwith %}
 			<h5 style="clear: both;border-top: 1px solid;padding-top: 10px;">
 			{% if object.upcoming_meeting_comments %}
 			    {{object.upcoming_meeting_comments|userhtml}}

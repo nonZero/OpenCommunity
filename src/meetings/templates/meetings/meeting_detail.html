@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "communities/base_meeting.html" %}
 {% load i18n %}
 {% load humanize %}
 {% load letter_tag %}
@@ -12,7 +12,7 @@ id="meeting-detail"
 {% trans "Meetings history" %}
 {% endblock %}
 
-{% block content %}
+{% block meeting %}
 
 <div class="meeting-header">
     <div class="col-xs-8 col-sm-9 meeting-header-title">
