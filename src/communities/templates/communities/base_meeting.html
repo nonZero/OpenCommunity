@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load opencommunity community_tags %}
+
+{% block extra-page-id %}
+	id="upcoming-meeting"
+{% endblock %}
+
+{% block page_header %}
+{% endblock %}
+
+{% block pagemenu %}
+{% endblock %}
+
+{% block content %}
+
+<div class="meeting_right_column col-sm-3 hidden-xs">
+	<ul class="meetings_list">
+		<li class="active_meeting"><a href="#">{{ community.upcoming_meeting_title }}</a></li>
+		{% for i in community.meetings.all %}
+		<li><a href="#">{{ i }}</a></li>
+		{% endfor %}
+	</ul>
+</div>
+
+<div class="meeting_left_column col-sm-9 col-xs-12">
+{% block meeting %}
+{% endblock %}
+</div>
+
+{% endblock %}
+
+{% block extrahead %}
+<link rel="stylesheet" href="{{STATIC_URL}}bootstrap/css/typeahead.js-bootstrap.css"/>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{STATIC_URL}}jquery-ui/js/jquery-ui-1.10.2.custom.js"></script>
+<script src="{{STATIC_URL}}js/jquery.ui.touch-punch.js"></script>
+<script src="{{STATIC_URL}}js/upcoming.js"></script>
+<script src="{{ STATIC_URL }}bootstrap/js/typeahead.min.js"></script>
+<script src="{{ STATIC_URL }}js/hogan-2.0.0.js"></script>
+<script src="{{STATIC_URL}}js/issues.js"></script>
+
+<script>
+    $(function() {
+        $('input.issue-search').bind('input', function() {
+            searchIssues($(this).val().trim());
+        });
+    })
+</script>
+
+{% endblock %}

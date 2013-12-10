@@ -6,9 +6,9 @@ id="proposal-detail"
 {% endblock %}
 
 {% block page_header %}
-{% trans "Proposal" %}
 {% endblock %}
 
+{% comment %}
 {% block pagemenu %}
 {% if cperms.issues.editclosed_proposal or object.is_open %}
 {% if cperms.issues.editopen_proposal or object.created_by == user %}
@@ -30,9 +30,43 @@ id="proposal-detail"
 {% endif %}
 {% endif %} -->
 {% endblock %}
+{% endcomment %}
 
 {% block content %}
 
+<div class="meeting_header">
+	<a class="three_dot_sentence level1" href="{{object.issue.community.get_upcoming_absolute_url}}">{% trans "Agenda" %} - {{object.issue.community.upcoming_meeting_title}}</a>
+</div>
+
+<div class="issue_header">
+	<div class="issue_header_inner">
+		<a class="three_dot_sentence level2" href="{{object.issue.get_absolute_url}}">{% trans "Issue" %} - {{ object.issue.title }}</a>
+	</div>
+</div>
+
+<div class="proposal_main">
+<div class="proposal_right_column col-sm-3 hidden-xs">
+	<ul class="issues_list">
+        {% if object.issue.proposals.closed %}
+        <a data-toggle="collapse" href=".past_proposals">
+          <h5><i class="fa fa-chevron-down"></i> {% trans "Past Proposals" %} ({{ object.issue.proposals.closed.count }})</h5>
+        </a>
+		<div class="collapse past_proposals">
+            {% for proposal in object.issue.proposals.closed %}
+                <li><a href="{{ proposal.get_absolute_url }}">{{ proposal }}</a></li>
+            {% endfor %}
+		</div>
+        {% endif %}
+
+        <h5>{% trans "Proposals" %}</h5>
+		{% for i in object.issue.proposals.open %}
+		<li><a href="{{ i.get_absolute_url }}">{{ i }}</a></li>
+		{% endfor %}
+	</ul>
+</div>
+
+<div class="proposal_left_column col-sm-9 col-xs-12">
+<div class="proposal_left_column_inner">
 {% if object.can_straw_vote and not user.id %}
 <div class="text-center" style="margin-bottom: 10px;">
 	<a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-warning">{% trans "Login to vote" %}</a>
@@ -41,7 +75,7 @@ id="proposal-detail"
 
 <div class="proposal" data-id="{{object.id}}" data-accepted="{{object.status}}">
 
-    <a class="title_w_right_icon prop_back_icon" href="{{object.issue.get_absolute_url}}"> {{object.issue}} </a>
+    <!-- <a class="title_w_right_icon prop_back_icon" href="{{object.issue.get_absolute_url}}"> {{object.issue}} </a> -->
 
     <ul class="prop-table proposals">
         <li class="wide-icon {% if object.type == 1 %}task-icon{% endif %}{% if object.type == 2 %}rule-icon{% endif %}{% if object.type == 3 %}general-icon{% endif %}"></li>
@@ -121,7 +155,9 @@ id="proposal-detail"
         </div>
     </form>
     {% endif %}
-
+</div>
+</div>
+</div>
 </div>
 {% endblock %}
 

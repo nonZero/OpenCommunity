@@ -1,0 +1,125 @@
+.meeting_header {
+	border-left: 1px solid #ceced0;
+	border-right: 1px solid #ceced0;
+	border-top: 1px solid #ceced0;
+	background-color: #FFFFFF;
+	width: 96%;
+	padding: 5px;
+}
+
+.issue_header {
+	border-left: 1px solid #ceced0;
+	border-right: 1px solid #ceced0;
+	background-color: #FFFFFF;
+	width: 98%;
+}
+
+.issue_header_inner {
+	padding: 5px;
+	margin-right: 2%;
+	border-top: 1px solid #ceced0;
+	border-right: 1px solid #ceced0;
+	background-color: #FBFCEC;
+	width: 98%;
+}
+
+.issue_main {
+	display: -webkit-box;
+	padding: 0 2% 0 0;
+	border-right: 1px solid #ceced0;
+	border-bottom: 1px solid #ceced0;
+	background: #FFFFFF;
+}
+
+.meeting_left_column {
+	border: 1px solid #ceced0;
+	padding: 5px;
+	background-color: #FFFFFF;
+}
+
+.issue_left_column {
+	border-left: 1px solid #ceced0;
+	border-right: 1px solid #ceced0;
+	border-top: 1px solid #ceced0;
+	padding: 0 2% 0 0;
+	background-color: #FBFCEC;
+}
+
+.issue_left_column_inner {
+	padding: 5px;
+}
+
+.issue_right_column {
+	padding: 0;
+}
+
+.proposal_main {
+	display: -webkit-box;
+	padding: 0 2% 0 0;
+	border-right: 1px solid #ceced0;
+	border-bottom: 1px solid #ceced0;
+	background: #FFFFFF;
+}
+
+.proposal_left_column {
+	border-right: 1px solid #ceced0;
+	border-left: 1px solid #ceced0;
+	padding: 0 2% 0 0;
+	background-color: #FBFCEC;
+}
+
+.proposal_left_column_inner {
+	border-top: 1px solid #ceced0;
+	border-bottom: 1px solid #ceced0;
+	background-color: #F2F3E1;
+	padding: 5px;
+}
+
+.meeting_right_column,
+.proposal_right_column {
+	padding: 0;
+}
+
+.active_meeting {
+	background: #fff;
+	border-radius: 40% 0 0 40%;
+}
+
+.three_dot_sentence {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	display: block;
+}
+
+.meetings_list,
+.issue_right_column ul,
+.proposal_right_column ul {
+	list-style-type: none;
+	padding: 5px;
+}
+
+.issues_list li,
+.meetings_list li {
+	line-height: 20px;
+	padding: 10px;
+	word-break: break-word;
+}
+
+@media (min-width: 768px) {
+	.proposal_right_column {
+		background: #FBFCEC;
+		border-right: 1px solid #ceced0;
+	}
+	.proposal_left_column {
+		border-right: 0;
+	}
+	.level1 {
+		font-size: 16px;
+		color: #333;
+	}
+	.level2 {
+		font-size: 18px;
+		color: #333;
+	}
+}

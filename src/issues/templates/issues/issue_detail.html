@@ -8,18 +8,10 @@ id="issue-detail"
 {% endblock %}
 
 {% block page_header %}
-{% trans "Issue" %}
-<!-- <label class="switch-light well col-xs-6 col-sm-2" onclick="">
-	<input type="checkbox">
-	<span data-toggle="collapse" data-target=".past_proposals" style="font-size: 16px">
-		<span>{% trans "Current" %}</span>
-		<span>{% trans "Full view" %}</span>
-	</span>
-	<a class="btn btn-oc"></a>
-</label> -->
-<!-- <button type="button" class="btn btn-danger" data-toggle="collapse" data-target=".past_proposals">{% trans "GO" %}</button> -->
+<!-- {% trans "Issue" %} -->
 {% endblock %}
 
+{% comment %}
 {% block pagemenu %}
     {% if cperms.issues.editclosed_issue or not object.is_archived %}
         {% if cperms.issues.editopen_issue or object.created_by == user %}
@@ -37,8 +29,25 @@ id="issue-detail"
         {% endif %}
     {% endif %}
 {% endblock %}
+{% endcomment %}
 
 {% block content %}
+<div class="meeting_header">
+	<a class="three_dot_sentence level1" href="{{object.community.get_upcoming_absolute_url}}">{% trans "Agenda" %} - {{object.community.upcoming_meeting_title}}</a>
+</div>
+
+<div class="issue_main">
+<div class="issue_right_column col-sm-3 hidden-xs">
+	<ul class="issues_list">
+		{% for i in object.community.upcoming_issues %}
+		<li><a href="{{ i.get_absolute_url }}">{{ i }}</a></li>
+		{% endfor %}
+	</ul>
+</div>
+
+<div class="issue_left_column col-sm-9 col-xs-12">
+<div class="issue_left_column_inner">
+
 
 {% if object.proposals.closed or object.historical_comments %}
 <span class="history_toggle label label-default">{% trans "History" %}:
@@ -162,6 +171,9 @@ id="issue-detail"
 </form>
 <br/>
 {% endif %}
+</div>
+</div>
+</div>
 
 {% endblock %}
 
