@@ -8,48 +8,49 @@
 id="meeting-detail"
 {% endblock %}
 
+{% comment %}
 {% block page_header %}
 {% trans "Meetings history" %}
+{% endblock %}
+{% endcomment %}
+
+{% block page_header %}
+<a href="#meetings" data-toggle="modal" class="visible-xs" style="color: #6C6C6E;">{% trans "Meetings" %}</a>
 {% endblock %}
 
 {% block meeting %}
 
-<div class="meeting-header">
-    <div class="col-xs-8 col-sm-9 meeting-header-title">
-        <a data-toggle="modal" href="#meetings" class="select-meeting">
-        <p>
+    <div class="col-xs-12">
+		<h1>
             {% if object.title %}
             <span>{{object.title}}</span>
             {% else %}
             {% trans "Summary" %}
             {% endif %}
-            <br />
-            <span style="font-size: 14px;">{{object.held_at|date:"d/m/Y H:i"}}</span>
-        </p>
-        </a>
-    </div>
-    <div class="col-xs-2 meeting-header-users">
-        <a data-toggle="modal" href="#participants" class="show-participants">
-        <div class="users">
-            <span class="hidden-xs">{{total_participants}}</span>
-        </div>
-        </a>
+		</h1>
 	</div>
+	<div class="oc_detail_top row clear" style="margin-right: -5px;margin-left: -5px;border:0;background: none;">
+		<div class="pull-left">
+    		<h5><span class="glyphicon glyphicon-calendar"></span> {{object.held_at|date:"d/m/Y H:i"}}&nbsp;&nbsp;</h5>
+    	</div>
+		{% if object.location %}
+		<div class="pull-left">
+			<h5><span class="glyphicon glyphicon-map-marker"></span> {{object.location}}</h5>
+		</div>
+		{% endif %}
+		<div class="pull-left">
+			<h5><a data-toggle="modal" href="#participants"><span class="glyphicon glyphicon-user"></span> {{total_participants}}</a></h5>
+		</div>
+		<div class="pull-left">
+			<h5><a data-toggle="modal" href="#meetingProtocol"><span class="glyphicon glyphicon-list-alt"></span> {% trans "Preview protocol" %}</a></h5>
+		</div>
 		
-    <div class="col-xs-2 col-sm-1 meeting-header-users">
-        <a data-toggle="modal" href="#meetingProtocol" class="show-protocol">
-        	<img src="{{STATIC_URL}}images/agenda.png" width="32" height="32" />
-        </a>
-    </div>
-    
-</div>
-
-{% if object.summary %}
-<div class="oc_detail_top summary clear">
-    {{object.summary|userhtml}}
-</div>
-{% endif %}
-<br>
+		<h5 style="clear: both;border-top: 1px solid;padding-top: 10px;">
+		{% if object.summary %}
+		    {{object.summary|userhtml}}
+		{% endif %}
+		</h5>
+	</div>
 
 <div class="table-inner">
     {% for a in object.agenda.all %}

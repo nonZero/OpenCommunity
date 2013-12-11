@@ -77,20 +77,25 @@ id="issue-detail"
     {% with can_straw_vote=object.can_straw_vote %}
 
         {% csrf_token %}
-
+		<div class="historical_tabs">
+        <ul class="nav nav-tabs">
+        	<li><a href="#agendaitem-current" data-toggle="tab">{{object.community.upcoming_meeting_title}}</a></li>
         {% for ai in object.agenda_items.all %}
-            <section class="agendaitem" id="agendaitem-{{ai.id}}">
+		  <li><a href="#agendaitem-{{ai.id}}" data-toggle="tab">{{ai.meeting}}</a></li>
+		{% endfor %}
+		</ul>
 
-                <h2 data-toggle="collapse"
-                    data-target="#agendaitem-{{ai.id}} .agendaitem-details">
-                    {{ai.meeting}}
+		<div class="tab-content">
+        {% for ai in object.agenda_items.all %}
+            <div class="tab-pane" id="agendaitem-{{ai.id}}">
+
+                <h2>{{ai.meeting}}
                     {% if ai.proposals.count %}
                           <b>({{ ai.proposals.count }} {% trans "Decisions" %})</b>
                     {% endif %}
-                    <i class="fa fa-chevron-down"></i>
                 </h2>
 
-                <div class="agendaitem-details collapse">
+                <div class="agendaitem-details">
 
                     {% if ai.background or ai.proposals.count or ai.comments.count %}
 
@@ -124,9 +129,11 @@ id="issue-detail"
 
 
                 </div>
-            </section>
+            </div>
         {% endfor %}
-
+       </div>
+		</div>
+		
         <div class="issue_proposal">
 
             <div id="issue-abstract">

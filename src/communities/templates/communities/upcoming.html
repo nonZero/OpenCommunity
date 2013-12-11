@@ -7,43 +7,25 @@
 {% endblock %}
 
 {% block page_header %}
+<a href="#meetings" data-toggle="modal" class="visible-xs" style="color: #6C6C6E;">{% trans "Meetings" %}</a>
 {% endblock %}
 
 {% block meeting %}
-	<div class="pull-left">
-		<h1>{{ object.upcoming_meeting_title }}</h1>
-	</div>
-  {% with status=object|upcoming_status %}
-      <div class="pull-right">
+	<div class="row">
+  <div class="pull-right col-xs-6 col-sm-4 text-right">
+	  {% with status=object|upcoming_status %}
       <h5>- {{ status.0 }} -</h5>
       {% if status.1 %}
-          <h5>({{ status.1 }}) </h5>
+          <!-- <h5>({{ status.1 }}) </h5> -->
       {% endif %}
-      </div>
-  {% endwith %}
-
-{% if cperms.communities.viewupcoming_community %}
-	{% if cperms.communities.viewupcoming_draft or object.upcoming_meeting_is_published %}
-
-		{% if object.straw_voting_enabled and not object.straw_vote_ended and not user.id %}
-		<div class="text-center" style="margin-bottom: 10px;">
-			<a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-warning">{% trans "Login to vote" %}</a>
-		</div>
-		{% endif %}
-
-		<div class="oc_detail_top row clear" style="margin-right: -5px;margin-left: -5px;border:0;background: none;">
-			<div class="pull-left">
-        		<h5><span class="glyphicon glyphicon-calendar"></span> {{ object|display_upcoming_time }}&nbsp;&nbsp;</h5>
-        	</div>
-			<div class="pull-left">
-				<h5><span class="glyphicon glyphicon-map-marker"></span> {{object.upcoming_meeting_location|default:_("Not set yet")}}</h5>
-			</div>
-	<div class="pull-right">
+	  {% endwith %}
+	{% if cperms.communities.viewupcoming_community %}
+		{% if cperms.communities.viewupcoming_draft or object.upcoming_meeting_is_published %}
 		<div class="btn-group">
 		  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 		    {% trans "Actions" %} <span class="caret"></span>
 		  </button>
-		  <ul class="dropdown-menu" role="menu">
+		  <ul class="dropdown-menu text-left" role="menu">
 			{% if cperms.community.editupcoming_community %}
 				<li><a data-rel="form"
 				href="{% url "upcoming_edit" community.id %}"> <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span> </li></a>
@@ -60,25 +42,56 @@
 			{% endif %}
 		
 			{% if cperms.community.editupcoming_community %}
+				<li>
 				<form method="post" action="{% url "upcoming_start" community.id  %}">
 					{% csrf_token %}
 					<input type="hidden" name="upcoming_meeting_started" value="{{object.upcoming_meeting_started|yesno:'0,1'}}" id="id_upcoming_meeting_started">
-					<li>
 					{% if object.upcoming_meeting_started %}
-						<button style="border: 0; outline: none;">
+						<button style="border: 0; outline: none;background: 0;padding: 0;">
 							<i class="fa fa-undo"></i> <span>{% trans "Undo Start Meeting" %}</span>
 						</button>
 					{% else %}
-						<button style="border: 0; outline: none;">
+						<button style="border: 0; outline: none;background: 0;padding: 0;">
 							<i class="fa fa-play-circle"></i> <span>{% trans "Start Meeting" %}</span>
 						</button>
 					{% endif %}
-					</li>
 				</form>
+				</li>
 			{% endif %}
 		  </ul>
 		</div>
+		{% endif %}
+		{% endif %}
+  </div>
+
+	<div class="pull-left col-xs-6 col-sm-8">
+		<h1>
+		{% if object.upcoming_meeting_title and cperms.communities.viewupcoming_community %}
+        {% if cperms.community.editagenda_community or object.upcoming_meeting_is_published %}
+            {{object.upcoming_meeting_title}}
+        {% endif %}
+        {% else %}
+        	{% trans "Upcoming Meeting" %}
+    	{% endif %}
+		</h1>
 	</div>
+</div>
+{% if cperms.communities.viewupcoming_community %}
+	{% if cperms.communities.viewupcoming_draft or object.upcoming_meeting_is_published %}
+
+		{% if object.straw_voting_enabled and not object.straw_vote_ended and not user.id %}
+		<div class="text-center" style="margin-bottom: 10px;">
+			<a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-warning">{% trans "Login to vote" %}</a>
+		</div>
+		{% endif %}
+
+		<div class="oc_detail_top row clear" style="margin-right: -5px;margin-left: -5px;border:0;background: none;">
+			<div class="pull-left">
+        		<h5><span class="glyphicon glyphicon-calendar"></span> {{ object|display_upcoming_time }}&nbsp;&nbsp;</h5>
+        	</div>
+			<div class="pull-left">
+				<h5><span class="glyphicon glyphicon-map-marker"></span> {{object.upcoming_meeting_location|default:_("Not set yet")}}</h5>
+			</div>
 			
 			<h5 style="clear: both;border-top: 1px solid;padding-top: 10px;">
 			{% if object.upcoming_meeting_comments %}
@@ -144,4 +157,25 @@
 	{% endif %}
 
 {% endif %}
+
+<div class="modal fade" id="meetings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">{% trans "Meetings" %}</h4>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group">
+                    {% for m in object.meetings.all %}
+                    <a class="list-group-item" href="{{m.get_absolute_url}}">{{m}}</a>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

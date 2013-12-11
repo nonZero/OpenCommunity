@@ -26,7 +26,7 @@ h6,
 	color: #6C6C6E;
 }
 h1 {
-	font-size: 30px;
+	font-size: 24px;
 	padding: 5px 0;
 	margin: 0;
 }
@@ -1027,6 +1027,11 @@ i.fa + span {
 .vote-badge {
 	color: #448698;
 	background: #fff;
+}
+.no-vote-badge {
+	background: transparent;
+	color: #fff;
+	border: 1px solid;
 }
 
 /* WYSIHTML5 Editor */

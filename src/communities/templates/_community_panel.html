@@ -5,12 +5,14 @@
 {% endif %}
 
 {% if cperms.communities.viewupcoming_community %}
-    <li><a {% if pill == 'upcoming' %}class="active"{% endif %} href="{% url 'community' community.id %}">{% trans "Agenda" %}</a></li>
+    <li><a {% if pill == 'upcoming' %}class="active"{% endif %} href="{% url 'community' community.id %}">{% trans "Meetings" %}</a></li>
 {% endif %}
 
+{% comment %}
 {% if cperms.meetings.view_meeting and community.meetings.count %}
     <li><a href="{% url 'history' community.id %}">{% trans "History" %}</a></li>
 {% endif %}
+{% endcomment %}
 
 {% if cperms.community.invite_member %}
     <li><a href="{% url 'members' community.id %}">{% trans "Members" %}</a></li>

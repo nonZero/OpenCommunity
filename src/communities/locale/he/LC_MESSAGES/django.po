@@ -432,11 +432,11 @@ msgstr "טויטת סיכום פגישה"
 
 #: .\templatetags\community_tags.py:56
 msgid "Straw Vote Ended"
-msgstr "הצבעת שבשבת נסגרה"
+msgstr "הצבעה נסגרה"
 
 #: .\templatetags\community_tags.py:58
 msgid "Active Straw Vote"
-msgstr "הצבעת שבשבת פעילה"
+msgstr "הצבעה פעילה"
 
 #: .\templatetags\community_tags.py:61
 msgid "Published"
