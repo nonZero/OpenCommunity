@@ -87,6 +87,13 @@
 	border-top: 1px solid #ceced0;
 }
 
+.active_issue {
+	background: #FBFCEC;
+	border-bottom: 1px solid #ceced0;
+	border-right: 1px solid #ceced0;
+	border-top: 1px solid #ceced0;
+}
+
 .three_dot_sentence {
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -132,7 +139,7 @@
 	border: 4px solid red;
 }
 .nav-tabs > li {
-	max-width: 210px;
+	max-width: 110px;
 }
 .nav-tabs > li > a {
 	white-space: nowrap;
@@ -145,6 +152,9 @@
 #meeting-detail .oc_detail_top.row.clear h5 a {
 	font-weight: bold;
 	color: #6C6C6E;
+}
+#issue-abstract .oc_detail_top {
+	padding: 15px;
 }
 
 /* TODO Without CSS */

@@ -579,7 +579,7 @@ table.issue-table {
 	word-break: break-word;
 }
 .issue-table tr td.title {
-	font-size: 24px;
+	font-size: 16px;
 	padding: 10px 5px 5px 5px;
 	line-height: 1;
 	font-weight: bold;
@@ -648,7 +648,7 @@ table.issue-table tr td {
     width: 38px;
 }
 .issue-table tr td.icon {
-    font-size: 30px;
+    /*font-size: 30px;*/
     background: url(images/issue-icon.png) no-repeat center #3d3c3c;
     width: 45px;
 	text-align: center;
