@@ -13,7 +13,7 @@ id="issue-detail"
 
 {% block content %}
 <div class="meeting_header">
-	<a class="three_dot_sentence level1" href="{{object.community.get_upcoming_absolute_url}}">{% trans "Agenda" %} - {{object.community.upcoming_meeting_title}}</a>
+	<a class="three_dot_sentence level1" href="{{object.agenda_items.meeting.get_absolute_url}}">{% trans "Agenda" %} - {{object.community.upcoming_meeting_title}}</a>
 </div>
 
 <div class="issue_main">
@@ -34,6 +34,7 @@ id="issue-detail"
 
 			{% csrf_token %}
 			<ul class="nav nav-tabs responsive">
+				
 				<li class="active">
 					<a href="#agendaitem-current" data-toggle="tab">{% trans "Next" %}</a>
 				</li>
@@ -51,14 +52,13 @@ id="issue-detail"
 
 			<div class="tab-content responsive">
 				<div class="tab-pane active" id="agendaitem-current">
-					<div class="row">
-					<div class="col-xs-9">
+					<div class="col-xs-3 pull-right">
 					{% if object.is_archived %}
-						<h2 class="text-center"> --{% trans "Closed" %}-- </h2>
+						<h5 class="text-right"> --{% trans "Closed" %}-- </h5>
 					{% else %}
 						{% if object.is_upcoming %}
 							{% if community.upcoming_meeting_is_published or cperms.communities.viewupcoming_draft %}
-								<h2 class="text-center"> --{% trans "In agenda" %}-- </h2>
+								<h5 class="text-right"> --{% trans "In agenda" %}-- </h5>
 							{% endif %}
 						{% endif %}
 					{% endif %}
@@ -67,10 +67,9 @@ id="issue-detail"
 							<a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-warning">{% trans "Login to vote" %}</a>
 						</div>
 					{% endif %}
-					</div>
 					{% if cperms.issues.editclosed_issue or not object.is_archived %}
 						{% if cperms.issues.editopen_issue or object.created_by == user %}
-						<div class="btn-group col-xs-3">
+						<div class="btn-group pull-right">
 						  <button type="button" class="btn btn-default dropdown-toggle pull-right" data-toggle="dropdown">
 						    {% trans "Actions" %} <span class="caret"></span>
 						  </button>
@@ -91,9 +90,9 @@ id="issue-detail"
 						</div>
 						{% if cperms.issues.editclosed_issue or not object.is_archived %}
 							{% if cperms.issues.editopen_issue or object.created_by == user %}
-								<a data-rel="form" data-replace="#issue-abstract" class="btn btn-oc"
+								<a data-rel="form" data-replace="#issue-abstract" class="btn btn-default"
 								href="{% url 'issue_edit_abstract' object.community.id object.id %}" title='{% trans "Edit Abstract" %}'> <i class="fa fa-edit"></i> <span>{% trans "Edit Abstract" %}</span> </a>
-								<a id="add-attachment" data-rel="form" class="btn btn-oc" href="{% url 'add_attachment' community.id object.id %}" title='{% trans "Add attachment" %}'> <i class="fa fa-paperclip"></i> <span>{% trans 'Add attachment' %}</span> </a>
+								<a id="add-attachment" data-rel="form" class="btn btn-default" href="{% url 'add_attachment' community.id object.id %}" title='{% trans "Add attachment" %}'> <i class="fa fa-paperclip"></i> <span>{% trans 'Add attachment' %}</span> </a>
 							{% endif %}
 						{% endif %}
 						<div class="open-proposals">
@@ -158,11 +157,11 @@ id="issue-detail"
 
 				<div class="tab-pane" id="agendaitem-all">
 					{% if object.is_archived %}
-						<h2 class="text-center"> --{% trans "Closed" %}-- </h2>
+						<h5 class="text-right"> --{% trans "Closed" %}-- </h5>
 					{% else %}
 						{% if object.is_upcoming %}
 							{% if community.upcoming_meeting_is_published or cperms.communities.viewupcoming_draft %}
-								<h2 class="text-center"> --{% trans "In agenda" %}-- </h2>
+								<h5 class="text-right"> --{% trans "In agenda" %}-- </h5>
 							{% endif %}
 						{% endif %}
 					{% endif %}
@@ -173,10 +172,14 @@ id="issue-detail"
 						<div id="issue-abstract">
 							{% include 'issues/_issue-abstract.html' %}
 						{% for ai in object.agenda_items.all %}
+							{% if ai.background or ai.attachments.count %}
 							{% if ai.background %}
 								<h2> {% trans "Background" %} </h2>
+							{% endif %}
 								<div class="oc_detail_top">
-									{{ai.background|userhtml}}
+									{% if ai.background %}
+										{{ai.background|userhtml}}
+									{% endif %}
 							        {% if ai.attachments.count %}
 									    <div class="issue_attachments">
 									        <ul>
@@ -192,7 +195,6 @@ id="issue-detail"
 									        </ul>
 									    </div>
 									{% endif %}
-
 								</div>
 							{% endif %}
 						{% endfor %}
@@ -242,11 +244,11 @@ id="issue-detail"
 				{% for ai in object.agenda_items.all %}
 				<div class="tab-pane" id="agendaitem-{{ai.id}}">
 					{% if object.is_archived %}
-						<h2 class="text-center"> --{% trans "Closed" %}-- </h2>
+						<h5 class="text-right"> --{% trans "Closed" %}-- </h5>
 					{% else %}
 						{% if object.is_upcoming %}
 							{% if community.upcoming_meeting_is_published or cperms.communities.viewupcoming_draft %}
-								<h2 class="text-center"> --{% trans "In agenda" %}-- </h2>
+								<h5 class="text-right"> --{% trans "In agenda" %}-- </h5>
 							{% endif %}
 						{% endif %}
 					{% endif %}

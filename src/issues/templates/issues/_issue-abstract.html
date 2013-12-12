@@ -1,9 +1,13 @@
 {% load i18n opencommunity %}
 
+{% if object.abstract or object.attachments.count %}
 {% if object.abstract %}
     <h2>{% trans "Background for next meeting" %}</h2>
+{% endif %}
     <div class="oc_detail_top">
-        {{object.abstract|userhtml}}
+    	{% if object.abstract %}
+        	{{object.abstract|userhtml}}
+    	{% endif %}
         {% if object.attachments.count %}
 	    <div class="issue_attachments">
 	        <ul>

@@ -10,18 +10,6 @@ id="proposal-detail"
 
 {% comment %}
 {% block pagemenu %}
-{% if cperms.issues.editclosed_proposal or object.is_open %}
-{% if cperms.issues.editopen_proposal or object.created_by == user %}
-    {% if not object.is_task or cperms.issues.edittask_proposal %}
-        <a class="btn btn-oc" href="{{object.get_edit_url}}" data-rel="form">
-            <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span>
-        </a>
-    {% endif %}
-    <a class="btn btn-oc" href="{{object.get_delete_url}}" data-rel="form">
-        <i class="fa fa-trash-o"></i> <span>{% trans "Delete" %}</span>
-    </a>
-{% endif %}
-{% endif %}
 <!-- {% if object.is_task and cperms.issues.edittask_proposal %}
 {% if cperms.issues.editclosed_proposal or object.is_open %}
 <a class="btn btn-oc" href="{{object.get_edit_task_url}}" data-rel="form">
@@ -48,19 +36,15 @@ id="proposal-detail"
 <div class="proposal_right_column col-sm-3 hidden-xs">
 	<ul class="issues_list">
         {% if object.issue.proposals.closed %}
-        <a data-toggle="collapse" href=".past_proposals">
-          <h5><i class="fa fa-chevron-down"></i> {% trans "Past Proposals" %} ({{ object.issue.proposals.closed.count }})</h5>
-        </a>
-		<div class="collapse past_proposals">
+          <h5>{% trans "Decisions" %}</h5>
             {% for proposal in object.issue.proposals.closed %}
-                <li><a href="{{ proposal.get_absolute_url }}">{{ proposal }}</a></li>
+                <li{% if object == proposal %} class="active_proposal"{% endif %}><a href="{{ proposal.get_absolute_url }}">{{ proposal }}</a></li>
             {% endfor %}
-		</div>
         {% endif %}
 
         <h5>{% trans "Proposals" %}</h5>
 		{% for i in object.issue.proposals.open %}
-		<li><a href="{{ i.get_absolute_url }}">{{ i }}</a></li>
+		<li{% if object == i %} class="active_proposal"{% endif %}><a href="{{ i.get_absolute_url }}">{{ i }}</a></li>
 		{% endfor %}
 	</ul>
 </div>
@@ -75,30 +59,55 @@ id="proposal-detail"
 
 <div class="proposal" data-id="{{object.id}}" data-accepted="{{object.status}}">
 
-    <!-- <a class="title_w_right_icon prop_back_icon" href="{{object.issue.get_absolute_url}}"> {{object.issue}} </a> -->
+{% if cperms.issues.editclosed_proposal or object.is_open %}
+{% if cperms.issues.editopen_proposal or object.created_by == user %}
+	<div class="pull-right col-xs-6 col-sm-4 text-right">
+		<div class="btn-group">
+			<button type="button" class="btn btn-default dropdown-toggle pull-right" data-toggle="dropdown">
+				{% trans "Actions" %} <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu text-left" role="menu">
+				{% if not object.is_task or cperms.issues.edittask_proposal %}
+				<li>
+					<a href="{{object.get_edit_url}}" data-rel="form"> <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span> </a>
+				</li>
+				{% endif %}
+				<li>
+					<a href="{{object.get_delete_url}}" data-rel="form"> <i class="fa fa-trash-o"></i> <span>{% trans "Delete" %}</span> </a>
+				</li>
+			</ul>
+		</div>
+	</div>
+{% endif %}
+{% endif %}
 
-    <ul class="prop-table proposals">
-        <li class="wide-icon {% if object.type == 1 %}task-icon{% endif %}{% if object.type == 2 %}rule-icon{% endif %}{% if object.type == 3 %}general-icon{% endif %}"></li>
-        <li class="prop-title">
-            <h2>{{object.title}} <!-- ({{object.get_status_display}}{% if object.decided_at_meeting %} {{object.decided_at_meeting}}{% endif %}) --></h2>
-        </li>
-        <li class="prop-content">
-            {% if object.type == 1 %}
-                <p class="assign">
-                    {% if object.assigned_to %}
-                        <b>{% trans "Assigned to" %}:</b> {{ object.assigned_to }}&nbsp;
-                    {% if object.assigned_to and object.due_by %}{% endif %}
-                    {% endif %}
-                    {% if object.due_by %}
-                        <b>{% trans "Due by" %}:</b> {{ object.due_by }}
-                    {% endif %}
-                </p>
+    <div class="pull-left col-xs-6 col-sm-8">
+        <h1>{{object.title}}</h1>
+    </div>
+	<div class="oc_detail_top row clear" style="margin-right: -5px;margin-left: -5px;border:0;background: none;">
+        {% if object.type == 1 %}
+            {% if object.assigned_to %}
+    			<div class="pull-left">
+	        		<h5><span class="glyphicon glyphicon-user"></span> {% trans "Assigned to" %}: {{ object.assigned_to }}&nbsp;&nbsp;</h5>
+	        	</div>
+            {% if object.assigned_to and object.due_by %}{% endif %}
             {% endif %}
-            <p>
-                <b>{% trans "By:" %}</b> {{ object.created_by}}. {{ object.created_at}} {# ({{ object.created_at|naturaltime}}) #}
-            </p>
-        </li>
-    </ul>
+            {% if object.due_by %}
+    			<div class="pull-left">
+                    <h5><span class="glyphicon glyphicon-calendar"></span> {% trans "Due by" %}: {{ object.due_by }}&nbsp;&nbsp;</h5>
+	        	</div>
+            {% endif %}
+        {% endif %}
+		<div class="pull-left">
+            <h5><span class="glyphicon glyphicon-user"></span> {% trans "By:" %} {{ object.created_by}}. {{ object.created_at}}</h5>
+    	</div>
+		<h5 style="clear: both;border-top: 1px solid;padding-top: 10px;">
+		    {% if object.content %}
+		        {{object.content|userhtml}}
+		    {% endif %}
+		</h5>
+	</div>
+</div>
 
     {% if cperms.issues.view_proposal_in_discussion or not proposal.is_open %}
         {% if object.status == object.statuses.ACCEPTED or object.status == object.statuses.REJECTED %}
@@ -131,12 +140,6 @@ id="proposal-detail"
             </div>
         {% endif %}
 	{% endwith %}
-
-    {% if object.content %}
-    <div class="proposal-info">
-        {{object.content|userhtml}}
-    </div>
-    {% endif %}
 
     {% if object.can_vote and cperms.issues.acceptopen_proposal %}
     <form id="proposal-form" method="post">

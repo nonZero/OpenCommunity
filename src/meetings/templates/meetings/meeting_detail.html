@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load humanize %}
 {% load letter_tag %}
-{% load opencommunity %}
+{% load opencommunity community_tags %}
 
 {% block extra-page-id %}
 id="meeting-detail"
@@ -15,11 +15,38 @@ id="meeting-detail"
 {% endcomment %}
 
 {% block page_header %}
-<a href="#meetings" data-toggle="modal" class="visible-xs" style="color: #6C6C6E;">{% trans "Meetings" %}</a>
+<span class="show_meetings visible-xs" style="cursor: pointer;">{% trans "All Meetings" %}</span>
 {% endblock %}
 
 {% block meeting %}
-
+	<div class="small_meetings" style="display: none;">
+		<table class="table">
+        <thead>
+          <tr>
+            <th>{% trans "Meeting title" %}</th>
+            <th>{% trans "Meeting date" %}</th>
+            <th>{% trans "Meeting location" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+    	{% if community.upcoming_meeting_scheduled_at %}
+          <tr class="active">
+            <td><a href="{{community.get_absolute_url}}">{% trans "Upcoming Meeting" %}</a></td>
+            <td>{{ community|display_upcoming_time }}</td>
+            <td>{{ community.upcoming_meeting_location|default:_("Not set yet") }}</td>
+          </tr>
+      	{% endif %}
+		{% for m in object.community.meetings.all %}
+          <tr>
+            <td><a href="{{m.get_absolute_url}}">{{ m.title|default_if_none:_("No title") }}</a></td>
+            <td>{{ m.held_at }}</td>
+            <td>{{ m.location|default_if_none:_("Unknown") }}</td>
+          </tr>
+		{% endfor %}
+        </tbody>
+      </table>
+	</div>
+	<div class="main_meeting_content">
     <div class="col-xs-12">
 		<h1>
             {% if object.title %}
@@ -31,18 +58,18 @@ id="meeting-detail"
 	</div>
 	<div class="oc_detail_top row clear" style="margin-right: -5px;margin-left: -5px;border:0;background: none;">
 		<div class="pull-left">
-    		<h5><span class="glyphicon glyphicon-calendar"></span> {{object.held_at|date:"d/m/Y H:i"}}&nbsp;&nbsp;</h5>
+    		<h5><i class="fa fa-calendar"></i> {{object.held_at|date:"d/m/Y H:i"}}&nbsp;&nbsp;</h5>
     	</div>
 		{% if object.location %}
 		<div class="pull-left">
-			<h5><span class="glyphicon glyphicon-map-marker"></span> {{object.location}}</h5>
+			<h5><i class="fa fa-map-marker"></i> {{object.location}}</h5>
 		</div>
 		{% endif %}
 		<div class="pull-left">
-			<h5><a data-toggle="modal" href="#participants"><span class="glyphicon glyphicon-user"></span> {{total_participants}}</a></h5>
+			<h5><a data-toggle="modal" href="#participants"><i class="fa fa-users"></i> {% trans "Participants" %}: {{total_participants}}</a></h5>
 		</div>
 		<div class="pull-left">
-			<h5><a data-toggle="modal" href="#meetingProtocol"><span class="glyphicon glyphicon-list-alt"></span> {% trans "Preview protocol" %}</a></h5>
+			<h5><a data-toggle="modal" href="#meetingProtocol"><i class="fa fa-list-alt"></i> {% trans "Protocol" %}</a></h5>
 		</div>
 		
 		<h5 style="clear: both;border-top: 1px solid;padding-top: 10px;">
@@ -101,25 +128,6 @@ id="meeting-detail"
 {% endblock %}
 
 {% block dialogs %}
-<div class="modal fade" id="meetings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;
-                </button>
-                <h4 class="modal-title">{% trans "Meetings" %}</h4>
-            </div>
-            <div class="modal-body">
-                <ul class="list-group">
-                    {% for m in community.meetings.all %}
-                    <a class="list-group-item" href="{{m.get_absolute_url}}">{{m}}</a>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="modal fade" id="participants" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -166,6 +174,7 @@ id="meeting-detail"
     </div>
   </div>
 </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
@@ -177,4 +186,12 @@ id="meeting-detail"
 		}
 	}); 
 </script>
+<script>
+	$(function() {
+		$('.show_meetings').on('click', function() {
+			$(".main_meeting_content, .small_meetings").toggle();
+		});
+	});
+</script>
+
 {% endblock %}

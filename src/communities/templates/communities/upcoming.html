@@ -7,11 +7,39 @@
 {% endblock %}
 
 {% block page_header %}
-<a href="#meetings" data-toggle="modal" class="visible-xs" style="color: #6C6C6E;">{% trans "Meetings" %}</a>
+<span class="show_meetings visible-xs" style="cursor: pointer;">{% trans "All Meetings" %}</span>
 {% endblock %}
 
 {% block meeting %}
-	<div class="row">
+	<div class="small_meetings" style="display: none;">
+		<table class="table">
+        <thead>
+          <tr>
+            <th>{% trans "Meeting title" %}</th>
+            <th>{% trans "Meeting date" %}</th>
+            <th>{% trans "Meeting location" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+    	{% if object.upcoming_meeting_scheduled_at %}
+          <tr class="active">
+            <td><a href="{{object.get_absolute_url}}">{% trans "Upcoming Meeting" %}</a></td>
+            <td>{{ object|display_upcoming_time }}</td>
+            <td>{{ object.upcoming_meeting_location|default:_("Not set yet") }}</td>
+          </tr>
+      	{% endif %}
+		{% for m in object.meetings.all %}
+          <tr>
+            <td><a href="{{m.get_absolute_url}}">{{ m.title|default_if_none:_("No title") }}</a></td>
+            <td>{{ m.held_at }}</td>
+            <td>{{ m.location|default_if_none:_("Unknown") }}</td>
+          </tr>
+		{% endfor %}
+        </tbody>
+      </table>
+	</div>
+<div class="main_meeting_content">
+<div class="row">
   <div class="pull-right col-xs-6 col-sm-4 text-right">
 	  {% with status=object|upcoming_status %}
       <h5>- {{ status.0 }} -</h5>
@@ -157,25 +185,15 @@
 	{% endif %}
 
 {% endif %}
-
-<div class="modal fade" id="meetings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;
-                </button>
-                <h4 class="modal-title">{% trans "Meetings" %}</h4>
-            </div>
-            <div class="modal-body">
-                <ul class="list-group">
-                    {% for m in object.meetings.all %}
-                    <a class="list-group-item" href="{{m.get_absolute_url}}">{{m}}</a>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-    </div>
 </div>
+{% endblock %}
 
+{% block scripts %}
+<script>
+	$(function() {
+		$('.show_meetings').on('click', function() {
+			$(".main_meeting_content, .small_meetings").toggle();
+		});
+	});
+</script>
 {% endblock %}
