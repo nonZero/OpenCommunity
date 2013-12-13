@@ -12,7 +12,7 @@ id="issue-detail"
 {% endblock %}
 
 {% block content %}
-<div class="meeting_header">
+<div class="meeting_header" style="padding-bottom: 37px;">
 	<a class="three_dot_sentence level1" href="{{object.agenda_items.meeting.get_absolute_url}}">{% trans "Agenda" %} - {{object.community.upcoming_meeting_title}}</a>
 </div>
 
@@ -33,7 +33,7 @@ id="issue-detail"
 			{% with can_straw_vote=object.can_straw_vote %}
 
 			{% csrf_token %}
-			<ul class="nav nav-tabs responsive">
+			<ul class="nav nav-tabs responsive" style="margin-top: -37px;">
 				
 				<li class="active">
 					<a href="#agendaitem-current" data-toggle="tab">{% trans "Next" %}</a>
@@ -44,9 +44,11 @@ id="issue-detail"
 				</li>
 				{% endif %}
 				{% for ai in object.agenda_items.all %}
+				{% if ai.background or ai.proposals.count or ai.comments.count %}
 				<li>
 					<a href="#agendaitem-{{ai.id}}" data-toggle="tab">{{ai.meeting.get_title_or_shortdate}}</a>
 				</li>
+				{% endif %}
 				{% endfor %}
 			</ul>
 
@@ -199,6 +201,16 @@ id="issue-detail"
 							{% endif %}
 						{% endfor %}
 						</div>
+						{% for ai in object.agenda_items.all %}
+						{% if ai.proposals.count %}
+							<div class="past_proposals">
+								{% if forloop.first %}<h2> {% trans "Decisions" %} </h2>{% endif %}
+								{% for proposal in ai.proposals|dictsortreversed:"created_at" %}
+									{% include 'issues/_proposal.html' %}
+								{% endfor %}
+							</div>
+						{% endif %}
+						{% endfor %}
 						<div class="open-proposals">
 							<h2> {% trans "Proposals" %} </h2>
 							{% for proposal in object.proposals.open %}
@@ -210,16 +222,6 @@ id="issue-detail"
 								{% endif %}
 							{% endfor %}
 						</div>
-						{% for ai in object.agenda_items.all %}
-						{% if ai.proposals.count %}
-							<div class="past_proposals">
-								<h2> {% trans "Decisions" %} </h2>
-								{% for proposal in ai.proposals %}
-									{% include 'issues/_proposal.html' %}
-								{% endfor %}
-							</div>
-						{% endif %}
-						{% endfor %}
 					</div>
 					{% if object.active_comments.count or cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
 					<div class="issuecomments">
@@ -242,6 +244,7 @@ id="issue-detail"
 				</div>
 
 				{% for ai in object.agenda_items.all %}
+				{% if ai.background or ai.proposals.count or ai.comments.count %}
 				<div class="tab-pane" id="agendaitem-{{ai.id}}">
 					{% if object.is_archived %}
 						<h5 class="text-right"> --{% trans "Closed" %}-- </h5>
@@ -308,6 +311,7 @@ id="issue-detail"
 						{% endif %}
 					</div>
 				</div>
+				{% endif %}
 				{% endfor %}
 			</div>
 			{% endwith %}
