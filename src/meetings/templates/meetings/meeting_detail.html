@@ -86,7 +86,7 @@ id="meeting-detail"
         <thead>
             <tr>
                 <th class="count"><a href="{{ a.issue.get_absolute_url }}">{{ forloop.counter }}</a></th>
-                <th class="head_title"><a href="{{ a.issue.get_absolute_url }}">{{ a.issue.title }}</a></th>
+                <th class="head_title"><a href="{{ a.issue.get_absolute_url }}?m_id={{object.id}}">{{ a.issue.title }}</a></th>
             </tr>
         </thead>
         <tbody>

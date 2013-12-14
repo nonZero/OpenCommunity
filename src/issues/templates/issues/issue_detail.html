@@ -13,17 +13,29 @@ id="issue-detail"
 
 {% block content %}
 <div class="meeting_header" style="padding-bottom: 37px;">
-	<a class="three_dot_sentence level1" href="{{object.agenda_items.meeting.get_absolute_url}}">{% trans "Agenda" %} - {{object.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}</a>
+	{% if meeting %}
+		<a class="three_dot_sentence level1" href="{{meeting.get_absolute_url}}">{{ meeting.get_title_or_shortdate }}</a>
+	{% else %}
+		<a class="three_dot_sentence level1" href="{{object.community.get_upcoming_absolute_url}}">{% trans "Agenda" %} - {{object.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}</a>
+	{% endif %}
 </div>
 
 <div class="issue_main">
 	<div class="issue_right_column col-sm-3 hidden-xs">
 		<ul class="issues_list">
-			{% for i in object.community.upcoming_issues %}
-			<li{% if object == i %} class="active_issue"{% endif %}>
-				<a href="{{ i.get_absolute_url }}">{{ i }}</a>
-			</li>
-			{% endfor %}
+			{% if meeting %}
+				{% for i in meeting.agenda_items.all %}
+				<li{% if object == i %} class="active_issue"{% endif %}>
+					<a href="{{ i.get_absolute_url }}?m_id={{meeting.id}}">{{ i }}</a>
+				</li>
+				{% endfor %}
+			{% else %}
+				{% for i in object.community.upcoming_issues %}
+				<li{% if object == i %} class="active_issue"{% endif %}>
+					<a href="{{ i.get_absolute_url }}">{{ i }}</a>
+				</li>
+				{% endfor %}
+			{% endif %}
 		</ul>
 	</div>
 
@@ -55,35 +67,13 @@ id="issue-detail"
 			<div class="tab-content">
 				<div class="tab-pane active" id="agendaitem-current">
 					<div class="col-xs-3 pull-right">
-					{% if object.is_archived %}
-						<h5 class="text-right"> --{% trans "Closed" %}-- </h5>
-					{% else %}
-						{% if object.is_upcoming %}
-							{% if community.upcoming_meeting_is_published or cperms.communities.viewupcoming_draft %}
-								<h5 class="text-right"> --{% trans "In agenda" %}-- </h5>
-							{% endif %}
-						{% endif %}
-					{% endif %}
 					{% if object.can_straw_vote and not user.id %}
 						<div class="text-center" style="margin-bottom: 10px;">
 							<a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-warning">{% trans "Login to vote" %}</a>
 						</div>
 					{% endif %}
-					{% if cperms.issues.editclosed_issue or not object.is_archived %}
-						{% if cperms.issues.editopen_issue or object.created_by == user %}
-						<div class="btn-group pull-right">
-						  <button type="button" class="btn btn-default dropdown-toggle pull-right" data-toggle="dropdown">
-						    {% trans "Actions" %} <span class="caret"></span>
-						  </button>
-						  <ul class="dropdown-menu text-left" role="menu">
-							<li><a data-rel="form" data-replace=".issue-top" href="{{object.get_edit_url}}" title='{% trans "Edit" %}'> <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span> </a></li>
-							<li><a data-rel="form" href="{{object.get_delete_url}}" title='{% trans "Delete" %}'> <i class="fa fa-trash-o"></i> <span>{% trans "Delete" %}</span> </a></li>
-						  </ul>
-						</div>
-						{% endif %}
-					{% endif %}
 					</div>
-					<div class="issue-top">
+					<div class="issue-top clear" style="padding-top: 20px;">
 						{% include "issues/_issue_title.html" %}
 					</div>
 					<div class="issue_proposal">

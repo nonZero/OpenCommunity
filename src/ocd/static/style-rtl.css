@@ -935,15 +935,15 @@ form.delete-invitation {
 .vid {background-image: url('images/icons/video.png');}
 .snd {background-image: url('images/icons/audio.png');}
 
-i.fa + span {
+/*i.fa + span {
 	display: none;
-}
+}*/
 
 /* Pie Chart */
 
 .piechart {
 	margin: 10px 0;
-	background: #fff;
+	/*background: #fff;*/
 	padding-top: 10px;
 	border: 1px solid #d8e0df;
 }

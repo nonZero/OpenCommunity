@@ -46,9 +46,15 @@ class IssueDetailView(IssueMixin, DetailView):
             'issues.viewopen_issue'
 
     def get_context_data(self, **kwargs):
+       
         d = super(IssueDetailView, self).get_context_data(**kwargs)
+        m_id = self.request.GET.get('m_id', None)
         d['form'] = forms.CreateIssueCommentForm()
         d['proposal_form'] = forms.CreateProposalForm()
+        if m_id:
+            d['meeting'] = get_object_or_404(Meeting, id=m_id)
+        else:
+            d['meeting'] = None
         return d
 
     required_permission_for_post = 'issues.add_issuecomment'

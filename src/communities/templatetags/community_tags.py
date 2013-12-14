@@ -38,7 +38,7 @@ def upcoming_status(community):
     
     rows = ['', '']
     if community.upcoming_meeting_started:
-        rows[0] = _("Meeting started")
+        rows[0] = _("Started")
     else:
         ver = _("Version")
         if community.upcoming_meeting_published_at:

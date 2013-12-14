@@ -5,6 +5,30 @@
     <tr>
         <td class="icon" rowspan="2"></td>
         <td class="title">{{object.title}}</td>
+        <td style="width: 95px;" rowspan="2">
+			{% if object.is_archived %}
+				--{% trans "Closed" %}--
+			{% else %}
+				{% if object.is_upcoming %}
+					{% if community.upcoming_meeting_is_published or cperms.communities.viewupcoming_draft %}
+						--{% trans "In agenda" %}--
+					{% endif %}
+				{% endif %}
+			{% endif %}
+			{% if cperms.issues.editclosed_issue or not object.is_archived %}
+				{% if cperms.issues.editopen_issue or object.created_by == user %}
+				<div class="btn-group pull-right">
+				  <button type="button" class="btn btn-default dropdown-toggle pull-right" data-toggle="dropdown">
+				    {% trans "Actions" %} <span class="caret"></span>
+				  </button>
+				  <ul class="dropdown-menu text-left" role="menu">
+					<li><a data-rel="form" data-replace=".issue-top" href="{{object.get_edit_url}}" title='{% trans "Edit" %}'> <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span> </a></li>
+					<li><a data-rel="form" href="{{object.get_delete_url}}" title='{% trans "Delete" %}'> <i class="fa fa-trash-o"></i> <span>{% trans "Delete" %}</span> </a></li>
+				  </ul>
+				</div>
+				{% endif %}
+			{% endif %}
+        </td>
     </tr>
     <tr>
         <td class="name">{{ object.created_by}} ({{ object.created_at}})</td>

@@ -37,6 +37,10 @@
 	background-color: #FFFFFF;
 }
 
+.paper_bg {
+	background: transparent;
+}
+
 .issue_left_column {
 	border-left: 1px solid #ceced0;
 	border-right: 1px solid #ceced0;
@@ -62,15 +66,15 @@
 }
 
 .proposal_left_column {
-	border-right: 1px solid #ceced0;
 	border-left: 1px solid #ceced0;
+	border-right: 1px solid #ceced0;
+	border-top: 0;
 	padding: 0 2% 0 0;
-	background-color: #FBFCEC;
+	background: #FBFCEC;
 }
 
 .proposal_left_column_inner {
 	border-top: 1px solid #ceced0;
-	border-bottom: 1px solid #ceced0;
 	border-right: 1px solid #ceced0;
 	background-color: #F2F3E1;
 	padding: 5px;
@@ -196,6 +200,7 @@
 	}
 	.proposal_left_column_inner {
 		border-right: 0;
+		border-top: 0;
 	}
 	.level1 {
 		font-size: 16px;
@@ -210,11 +215,16 @@
 	}
 	.proposal_left_column {
 		padding: 0;
+		border-top: 1px solid #ceced0;
+		background-color: #F2F3E1;
 	}
 	.small_meetings {
 		display: none !important;
 	}
 	.main_meeting_content {
 		display: block !important;
+	}
+	.paper_bg {
+		background: #FFFFFF;
 	}
 }
