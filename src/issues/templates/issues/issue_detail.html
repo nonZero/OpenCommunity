@@ -13,7 +13,7 @@ id="issue-detail"
 
 {% block content %}
 <div class="meeting_header" style="padding-bottom: 37px;">
-	<a class="three_dot_sentence level1" href="{{object.agenda_items.meeting.get_absolute_url}}">{% trans "Agenda" %} - {{object.community.upcoming_meeting_title}}</a>
+	<a class="three_dot_sentence level1" href="{{object.agenda_items.meeting.get_absolute_url}}">{% trans "Agenda" %} - {{object.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}</a>
 </div>
 
 <div class="issue_main">
@@ -52,7 +52,7 @@ id="issue-detail"
 				{% endfor %}
 			</ul>
 
-			<div class="tab-content responsive">
+			<div class="tab-content">
 				<div class="tab-pane active" id="agendaitem-current">
 					<div class="col-xs-3 pull-right">
 					{% if object.is_archived %}

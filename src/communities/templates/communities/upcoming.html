@@ -59,11 +59,6 @@
 				href="{% url "upcoming_edit" community.id %}"> <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span> </li></a>
 			{% endif %}
 		
-			{% if cperms.community.editparticipants_community and community.upcoming_meeting_started %}
-				<li><a data-rel="form"
-				href="{% url "upcoming_edit_participants" community.id  %}"> <i class="fa fa-group"></i> <span>{% trans "Select Participants" %}</span> </li></a>
-			{% endif %}
-		
 			{% if cperms.community.editagenda_community %}
 				<li><a data-rel="form"
 				href="{% url "upcoming_publish" community.id  %}"> {% if object.upcoming_meeting_started %} <i class="fa fa-envelope-o"></i> <span>{% trans "Summary Draft" %}</span> {% else %} <i class="fa fa-envelope-o"></i> <span>{% trans "Publish Agenda" %}</span> {% endif %} </li></a>
@@ -118,8 +113,13 @@
         		<h5><span class="glyphicon glyphicon-calendar"></span> {{ object|display_upcoming_time }}&nbsp;&nbsp;</h5>
         	</div>
 			<div class="pull-left">
-				<h5><span class="glyphicon glyphicon-map-marker"></span> {{object.upcoming_meeting_location|default:_("Not set yet")}}</h5>
+				<h5><span class="glyphicon glyphicon-map-marker"></span> {{object.upcoming_meeting_location|default:_("Not set yet")}}&nbsp;&nbsp;</h5>
 			</div>
+			{% if cperms.community.editparticipants_community and community.upcoming_meeting_started %}
+			<div class="pull-left">
+				<h5><a data-rel="form" href="{% url "upcoming_edit_participants" community.id  %}" style="color: #6C6C6E;position: relative;top: 1px;text-decoration: none;"> <i class="fa fa-group"></i> {{object.upcoming_meeting_participants.count}}</a></h5>
+			</div>
+			{% endif %}
 			
 			<h5 style="clear: both;border-top: 1px solid;padding-top: 10px;">
 			{% if object.upcoming_meeting_comments %}
@@ -144,15 +144,17 @@
 
 		{% if object.upcoming_meeting_started and cperms.community.editupcoming_community %}
 		
-			<h2>{% trans "Summary" %}</h2>
+			<h2 class="pull-left">{% trans "Summary" %}</h2>
+			<div class="push">
+				<a data-rel="form" href="{% url "upcoming_edit_summary" community.id %}" class="clear" style="padding: 9px;display: inline-block;">
+					<img src="{{ STATIC_URL }}images/comment_edit_pencil.png" />
+				</a>
+			</div>
 			{% if object.upcoming_meeting_summary %}
-				<div class="summary_box">
+				<div class="summary_box clear">
 					{{object.upcoming_meeting_summary|userhtml}}
 				</div>
 			{% endif %}
-			<div class="push">
-				<a data-rel="form" href="{% url "upcoming_edit_summary" community.id %}" class="btn btn-oc"> {% trans "Edit" %} </a>
-			</div>
 		
 		{% endif %}
 
