@@ -12,6 +12,7 @@ from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, 
     UpdateIssueForm, EditProposalTaskForm, AddAttachmentForm
 from issues.models import ProposalType, Issue, IssueStatus, ProposalVote, \
     ProposalVoteValue, VoteResult
+from issues.stubs.order_issues import save_vote, get_vote
 from meetings.models import Meeting
 from oc_util.templatetags.opencommunity import minutes
 from ocd.base_views import CommunityMixin, AjaxFormView, json_response
@@ -36,6 +37,20 @@ class IssueList(IssueMixin, ListView):
         return super(IssueList, self).get_queryset().exclude(
               status=IssueStatus.ARCHIVED).order_by('-created_at')
 
+    def get_context_data(self, **kwargs):
+        d = super(IssueList, self).get_context_data(**kwargs)
+        print self.get_queryset()
+        available_ids = set([x.id for x in self.get_queryset()])
+        ranked_ids = get_vote()
+        non_ranked_ids = available_ids - set(ranked_ids)
+        print available_ids, ranked_ids, non_ranked_ids
+        d['non_ranked_issues'] = models.Issue.objects.filter(id__in=non_ranked_ids)
+        d['ranked_issues'] = models.Issue.objects.filter(id__in=ranked_ids)
+        return d
+
+    def post(self, request, *args, **kwargs):
+        print '[][][][][][][]'
+        return json_response({'res': 'ok', })
 
 class IssueDetailView(IssueMixin, DetailView):
 
