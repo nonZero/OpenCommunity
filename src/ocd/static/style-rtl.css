@@ -26,7 +26,7 @@ h6,
 	color: #6C6C6E;
 }
 h1 {
-	font-size: 30px;
+	font-size: 24px;
 	padding: 5px 0;
 	margin: 0;
 }
@@ -579,7 +579,7 @@ table.issue-table {
 	word-break: break-word;
 }
 .issue-table tr td.title {
-	font-size: 24px;
+	font-size: 16px;
 	padding: 10px 5px 5px 5px;
 	line-height: 1;
 	font-weight: bold;
@@ -648,7 +648,7 @@ table.issue-table tr td {
     width: 38px;
 }
 .issue-table tr td.icon {
-    font-size: 30px;
+    /*font-size: 30px;*/
     background: url(images/issue-icon.png) no-repeat center #3d3c3c;
     width: 45px;
 	text-align: center;
@@ -672,7 +672,15 @@ table.issue-table tr td.issue_date {
 
 /* Proposal page table & more */
 
-.open-proposals h2:last-child {
+.agendaitem {
+    border: 1px solid #ccc;
+    margin-bottom: 6px;
+    background: #f0f0f0;
+    padding: 0 6px;
+}
+
+.open-proposals h2:last-child,
+.comments h2:last-child {
     display:none;
 }
 
@@ -804,22 +812,21 @@ ul.proposals li.prop-content p {
 
 /* Issue detail comments */
 
-#comments {
+.comments {
 	padding: 0;
 	margin-bottom: 1px;
 }
-#comments .historic_comments > li,
-#comments .new_comments > li,
-#comments > li {
+.comments .historic_comments > li,
+.comments > li {
 	padding: 5px;
 	background: #fff;
 	list-style-type: none;
 	margin-bottom: 1px;
 }
-#comments li.editing {
+.comments li.editing {
 	background: transparent;
 }
-#comments li.editing div {
+.comments li.editing div {
 	/*padding-left: 26px;*/
 }
 .comment-inner {
@@ -829,7 +836,7 @@ ul.proposals li.prop-content p {
 .comment-inner .userhtml {
 	font-size: 15px;
 }
-#comments li.rich_editor {
+.comments li.rich_editor {
 	background: transparent;
 	padding: 10px 0 0 0;
 }
@@ -928,15 +935,15 @@ form.delete-invitation {
 .vid {background-image: url('images/icons/video.png');}
 .snd {background-image: url('images/icons/audio.png');}
 
-i.fa + span {
+/*i.fa + span {
 	display: none;
-}
+}*/
 
 /* Pie Chart */
 
 .piechart {
 	margin: 10px 0;
-	background: #fff;
+	/*background: #fff;*/
 	padding-top: 10px;
 	border: 1px solid #d8e0df;
 }
@@ -1021,6 +1028,11 @@ i.fa + span {
 	color: #448698;
 	background: #fff;
 }
+.no-vote-badge {
+	background: transparent;
+	color: #fff;
+	border: 1px solid;
+}
 
 /* WYSIHTML5 Editor */
 
@@ -1042,9 +1054,9 @@ i.fa + span {
 	margin-bottom: 0;
 }
 .oc_detail_top p,
-#comments .comment-inner .userhtml,
-#comments .comment-inner ol,
-#comments .comment-inner ul {
+.comments .comment-inner .userhtml,
+.comments .comment-inner ol,
+.comments .comment-inner ul {
 	margin-bottom: 5px;
 }
 

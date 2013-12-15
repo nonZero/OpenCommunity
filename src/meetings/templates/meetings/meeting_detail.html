@@ -1,55 +1,83 @@
-{% extends "base.html" %}
+{% extends "communities/base_meeting.html" %}
 {% load i18n %}
 {% load humanize %}
 {% load letter_tag %}
-{% load opencommunity %}
+{% load opencommunity community_tags %}
 
 {% block extra-page-id %}
 id="meeting-detail"
 {% endblock %}
 
+{% comment %}
 {% block page_header %}
 {% trans "Meetings history" %}
 {% endblock %}
+{% endcomment %}
 
-{% block content %}
+{% block page_header %}
+<span class="show_meetings visible-xs" style="cursor: pointer;">{% trans "All Meetings" %}</span>
+{% endblock %}
 
-<div class="meeting-header">
-    <div class="col-xs-8 col-sm-9 meeting-header-title">
-        <a data-toggle="modal" href="#meetings" class="select-meeting">
-        <p>
+{% block meeting %}
+	<div class="small_meetings" style="display: none;">
+		<table class="table">
+        <thead>
+          <tr>
+            <th>{% trans "Meeting title" %}</th>
+            <th>{% trans "Meeting date" %}</th>
+            <th>{% trans "Meeting location" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+    	{% if community.upcoming_meeting_scheduled_at %}
+          <tr class="active">
+            <td><a href="{{community.get_upcoming_absolute_url}}">{% trans "Upcoming Meeting" %}</a></td>
+            <td>{{ community|display_upcoming_time }}</td>
+            <td>{{ community.upcoming_meeting_location|default:_("Not set yet") }}</td>
+          </tr>
+      	{% endif %}
+		{% for m in object.community.meetings.all %}
+          <tr>
+            <td><a href="{{m.get_absolute_url}}">{{ m.title|default_if_none:_("No title") }}</a></td>
+            <td>{{ m.held_at }}</td>
+            <td>{{ m.location|default_if_none:_("Unknown") }}</td>
+          </tr>
+		{% endfor %}
+        </tbody>
+      </table>
+	</div>
+	<div class="main_meeting_content">
+    <div class="col-xs-12">
+		<h1>
             {% if object.title %}
             <span>{{object.title}}</span>
             {% else %}
             {% trans "Summary" %}
             {% endif %}
-            <br />
-            <span style="font-size: 14px;">{{object.held_at|date:"d/m/Y H:i"}}</span>
-        </p>
-        </a>
-    </div>
-    <div class="col-xs-2 meeting-header-users">
-        <a data-toggle="modal" href="#participants" class="show-participants">
-        <div class="users">
-            <span class="hidden-xs">{{total_participants}}</span>
-        </div>
-        </a>
+		</h1>
 	</div>
+	<div class="oc_detail_top row clear" style="margin-right: -5px;margin-left: -5px;border:0;background: none;">
+		<div class="pull-left">
+    		<h5><i class="fa fa-calendar"></i> {{object.held_at|date:"d/m/Y H:i"}}&nbsp;&nbsp;</h5>
+    	</div>
+		{% if object.location %}
+		<div class="pull-left">
+			<h5><i class="fa fa-map-marker"></i> {{object.location}}</h5>
+		</div>
+		{% endif %}
+		<div class="pull-left">
+			<h5><a data-toggle="modal" href="#participants"><i class="fa fa-users"></i> {% trans "Participants" %}: {{total_participants}}</a></h5>
+		</div>
+		<div class="pull-left">
+			<h5><a data-toggle="modal" href="#meetingProtocol"><i class="fa fa-list-alt"></i> {% trans "Protocol" %}</a></h5>
+		</div>
 		
-    <div class="col-xs-2 col-sm-1 meeting-header-users">
-        <a data-toggle="modal" href="#meetingProtocol" class="show-protocol">
-        	<img src="{{STATIC_URL}}images/agenda.png" width="32" height="32" />
-        </a>
-    </div>
-    
-</div>
-
-{% if object.summary %}
-<div class="oc_detail_top summary clear">
-    {{object.summary|userhtml}}
-</div>
-{% endif %}
-<br>
+		<h5 style="clear: both;border-top: 1px solid;padding-top: 10px;">
+		{% if object.summary %}
+		    {{object.summary|userhtml}}
+		{% endif %}
+		</h5>
+	</div>
 
 <div class="table-inner">
     {% for a in object.agenda.all %}
@@ -57,8 +85,8 @@ id="meeting-detail"
     <table class="table table-condensed meeting-table">
         <thead>
             <tr>
-                <th class="count"><a href="{{ a.issue.get_absolute_url }}">{{ forloop.counter }}</a></th>
-                <th class="head_title"><a href="{{ a.issue.get_absolute_url }}">{{ a.issue.title }}</a></th>
+                <th class="count"><a href="{{ a.issue.get_absolute_url }}?m_id={{object.id}}">{{ forloop.counter }}</a></th>
+                <th class="head_title"><a href="{{ a.issue.get_absolute_url }}?m_id={{object.id}}">{{ a.issue.title }}</a></th>
             </tr>
         </thead>
         <tbody>
@@ -66,10 +94,10 @@ id="meeting-detail"
                 {% for p in a.accepted_proposals %}
             <tr>
                 <td class="sub_count num{{ forloop.counter }} {% if p.type == 1 %}task-icon{% endif %}{% if p.type == 2 %}rule-icon{% endif %}{% if p.type == 3 %}general-icon{% endif %}" rowspan="2"></td>
-                <td class="body_title"><a href="{{p.get_absolute_url}}"><b>{{p.title}}</b></a></td>
+                <td class="body_title"><a href="{{p.get_absolute_url}}?m_id={{object.id}}"><b>{{p.title}}</b></a></td>
             </tr>
             <tr class="table_divider">
-                    <td><a href="{{p.get_absolute_url}}">
+                    <td><a href="{{p.get_absolute_url}}?m_id={{object.id}}">
                             {% if p.type == 1 %}
                                 <p class="assign">
                                     {% if p.assigned_to %}
@@ -100,25 +128,6 @@ id="meeting-detail"
 {% endblock %}
 
 {% block dialogs %}
-<div class="modal fade" id="meetings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;
-                </button>
-                <h4 class="modal-title">{% trans "Meetings" %}</h4>
-            </div>
-            <div class="modal-body">
-                <ul class="list-group">
-                    {% for m in community.meetings.all %}
-                    <a class="list-group-item" href="{{m.get_absolute_url}}">{{m}}</a>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="modal fade" id="participants" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -165,6 +174,7 @@ id="meeting-detail"
     </div>
   </div>
 </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
@@ -176,4 +186,12 @@ id="meeting-detail"
 		}
 	}); 
 </script>
+<script>
+	$(function() {
+		$('.show_meetings').on('click', function() {
+			$(".main_meeting_content, .small_meetings").toggle();
+		});
+	});
+</script>
+
 {% endblock %}

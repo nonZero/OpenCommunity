@@ -1,0 +1,237 @@
+.meeting_header {
+	border-left: 1px solid #ceced0;
+	border-right: 1px solid #ceced0;
+	border-top: 1px solid #ceced0;
+	background-color: #FFFFFF;
+	width: 96%;
+	padding: 5px;
+}
+
+.issue_header {
+	border-left: 1px solid #ceced0;
+	border-right: 1px solid #ceced0;
+	background-color: #FFFFFF;
+	width: 98%;
+}
+
+.issue_header_inner {
+	padding: 5px;
+	margin-right: 2%;
+	border-top: 1px solid #ceced0;
+	border-right: 1px solid #ceced0;
+	background-color: #FBFCEC;
+	width: 98%;
+}
+
+.issue_main {
+	display: -webkit-box;
+	padding: 0 2% 0 0;
+	border-right: 1px solid #ceced0;
+	border-bottom: 1px solid #ceced0;
+	background: #FFFFFF;
+}
+
+.meeting_left_column {
+	border: 1px solid #ceced0;
+	padding: 10px;
+	background-color: #FFFFFF;
+}
+
+.paper_bg {
+	background: transparent;
+}
+
+.issue_left_column {
+	border-left: 1px solid #ceced0;
+	border-right: 1px solid #ceced0;
+	border-top: 1px solid #ceced0;
+	padding: 0 2%;
+	background-color: #FBFCEC;
+}
+
+.issue_left_column_inner {
+	padding: 5px;
+}
+
+.issue_right_column {
+	padding: 0;
+}
+
+.proposal_main {
+	display: -webkit-box;
+	padding: 0 2% 0 0;
+	border-right: 1px solid #ceced0;
+	border-bottom: 1px solid #ceced0;
+	background: #FFFFFF;
+}
+
+.proposal_left_column {
+	border-left: 1px solid #ceced0;
+	border-right: 1px solid #ceced0;
+	border-top: 0;
+	padding: 0 2% 0 0;
+	background: #FBFCEC;
+}
+
+.proposal_left_column_inner {
+	border-top: 1px solid #ceced0;
+	border-right: 1px solid #ceced0;
+	background-color: #F2F3E1;
+	padding: 5px;
+}
+
+.meeting_right_column,
+.proposal_right_column {
+	padding: 0;
+}
+
+.active_meeting {
+	background: #fff;
+	border-bottom: 1px solid #ceced0;
+	border-right: 1px solid #ceced0;
+	border-top: 1px solid #ceced0;
+}
+
+.active_issue {
+	background: #FBFCEC;
+	border-bottom: 1px solid #ceced0;
+	border-right: 1px solid #ceced0;
+	border-top: 1px solid #ceced0;
+}
+
+.active_proposal {
+	background: #F2F3E1;
+	border-bottom: 1px solid #ceced0;
+	border-right: 1px solid #ceced0;
+	border-top: 1px solid #ceced0;
+}
+
+.three_dot_sentence {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	display: block;
+}
+
+.meetings_list,
+.issue_right_column ul,
+.proposal_right_column ul {
+	list-style-type: none;
+	padding: 5px 5px 5px 0;
+}
+
+.issues_list li,
+.meetings_list li {
+	line-height: 20px;
+	padding: 10px;
+	word-break: break-word;
+}
+.meetings_list li a,
+.issues_list li a {
+	color: #6C6C6E;
+}
+.meetings_list li a:hover,
+.issues_list li a:hover {
+	color: #6C6C6E;
+}
+.dropdown-menu > li > form {
+	display: block;
+	padding: 3px 20px;
+	clear: both;
+	font-weight: normal;
+	line-height: 1.428571429;
+	color: #333333;
+	white-space: nowrap;
+}
+.dropdown-menu > li > form:hover, .dropdown-menu > li > form:focus {
+	color: #ffffff;
+	text-decoration: none;
+	background-color: #428bca;
+}
+.historical_tabs {
+	padding: 10px;
+	border: 4px solid red;
+}
+.nav-tabs > li {
+	max-width: 110px;
+}
+.nav-tabs > li > a {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.issue_left_column_inner .nav > li > a {
+	padding: 5px 15px;
+	color: #6C6C6E;
+}
+.issue_left_column_inner .nav-tabs > li.active > a,
+.issue_left_column_inner .nav-tabs > li.active > a:hover,
+.issue_left_column_inner .nav-tabs > li.active > a:focus {
+	background-color: #FBFCEC;
+}
+.level1 {
+	font-size: 16px;
+	color: #333;
+}
+.level2 {
+	font-size: 18px;
+	color: #333;
+}
+
+#meeting-detail .oc_detail_top.row.clear h5 {
+	padding-left: 15px;
+}
+#meeting-detail .oc_detail_top.row.clear h5 a {
+	font-weight: bold;
+	color: #6C6C6E;
+}
+#issue-abstract .oc_detail_top {
+	padding: 15px;
+}
+#issue-detail .nav-tabs > li {
+	background: #eeeeee;
+	margin: 0 1px;
+}
+
+/* TODO Without CSS */
+
+#issue-list nav.oc_navbar ul li:nth-child(1) a {
+	text-decoration: underline;
+} 
+#meeting-detail nav.oc_navbar ul li:nth-child(2) a,
+#issue-detail nav.oc_navbar ul li:nth-child(2) a,
+#proposal-detail nav.oc_navbar ul li:nth-child(2) a,
+#upcoming-meeting nav.oc_navbar ul li:nth-child(2) a {
+	text-decoration: underline;
+} 
+#members-list nav.oc_navbar ul li:nth-child(3) a {
+	text-decoration: underline;
+} 
+
+@media (min-width: 768px) {
+	.proposal_right_column {
+		background: #FBFCEC;
+		border-right: 1px solid #ceced0;
+	}
+	.proposal_left_column_inner {
+		border-right: 0;
+		border-top: 0;
+	}
+	.meeting_left_column {
+		padding: 30px;
+	}
+	.proposal_left_column {
+		padding: 0;
+		border-top: 1px solid #ceced0;
+		background-color: #F2F3E1;
+	}
+	.small_meetings {
+		display: none !important;
+	}
+	.main_meeting_content {
+		display: block !important;
+	}
+	.paper_bg {
+		background: #FFFFFF;
+	}
+}

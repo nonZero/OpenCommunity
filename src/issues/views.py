@@ -9,7 +9,8 @@ from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
-    UpdateIssueForm, EditProposalTaskForm, AddAttachmentForm
+    UpdateIssueForm, EditProposalTaskForm, AddAttachmentForm,\
+    UpdateIssueAbstractForm
 from issues.models import ProposalType, Issue, IssueStatus, ProposalVote, \
     ProposalVoteValue, VoteResult
 from meetings.models import Meeting
@@ -45,9 +46,15 @@ class IssueDetailView(IssueMixin, DetailView):
             'issues.viewopen_issue'
 
     def get_context_data(self, **kwargs):
+       
         d = super(IssueDetailView, self).get_context_data(**kwargs)
+        m_id = self.request.GET.get('m_id', None)
         d['form'] = forms.CreateIssueCommentForm()
         d['proposal_form'] = forms.CreateProposalForm()
+        if m_id:
+            d['meeting'] = get_object_or_404(Meeting, id=m_id)
+        else:
+            d['meeting'] = None
         return d
 
     required_permission_for_post = 'issues.add_issuecomment'
@@ -142,6 +149,18 @@ class IssueEditView(AjaxFormView, IssueMixin, UpdateView):
     def form_valid(self, form):
         self.object = form.save()
         return render(self.request, 'issues/_issue_title.html',
+                      self.get_context_data())
+
+
+class IssueEditAbstractView(AjaxFormView, IssueMixin, UpdateView):
+
+    required_permission = 'issues.editopen_issue'
+
+    form_class = UpdateIssueAbstractForm
+
+    def form_valid(self, form):
+        self.object = form.save()
+        return render(self.request, 'issues/_issue-abstract.html',
                       self.get_context_data())
 
 
@@ -313,6 +332,7 @@ class ProposalDetailView(ProposalMixin, DetailView):
            add 'previous_res' var if found previous registered results for this meeting
         """
         context = super(ProposalDetailView, self).get_context_data(**kwargs)
+        m_id = self.request.GET.get('m_id', None)
         o = self.get_object()
         context['res'] = o.get_straw_results()
 
@@ -328,6 +348,11 @@ class ProposalDetailView(ProposalMixin, DetailView):
                 context['meeting'] = results[0].meeting
             else:
                 context['meeting'] = None
+
+        if m_id:
+            context['meeting_id'] = get_object_or_404(Meeting, id=m_id)
+        else:
+            context['meeting_id'] = None
 
         return context
 
