@@ -31,7 +31,7 @@ id="meeting-detail"
         <tbody>
     	{% if community.upcoming_meeting_scheduled_at %}
           <tr class="active">
-            <td><a href="{{community.get_absolute_url}}">{% trans "Upcoming Meeting" %}</a></td>
+            <td><a href="{{community.get_upcoming_absolute_url}}">{% trans "Upcoming Meeting" %}</a></td>
             <td>{{ community|display_upcoming_time }}</td>
             <td>{{ community.upcoming_meeting_location|default:_("Not set yet") }}</td>
           </tr>
@@ -85,7 +85,7 @@ id="meeting-detail"
     <table class="table table-condensed meeting-table">
         <thead>
             <tr>
-                <th class="count"><a href="{{ a.issue.get_absolute_url }}">{{ forloop.counter }}</a></th>
+                <th class="count"><a href="{{ a.issue.get_absolute_url }}?m_id={{object.id}}">{{ forloop.counter }}</a></th>
                 <th class="head_title"><a href="{{ a.issue.get_absolute_url }}?m_id={{object.id}}">{{ a.issue.title }}</a></th>
             </tr>
         </thead>
@@ -94,10 +94,10 @@ id="meeting-detail"
                 {% for p in a.accepted_proposals %}
             <tr>
                 <td class="sub_count num{{ forloop.counter }} {% if p.type == 1 %}task-icon{% endif %}{% if p.type == 2 %}rule-icon{% endif %}{% if p.type == 3 %}general-icon{% endif %}" rowspan="2"></td>
-                <td class="body_title"><a href="{{p.get_absolute_url}}"><b>{{p.title}}</b></a></td>
+                <td class="body_title"><a href="{{p.get_absolute_url}}?m_id={{object.id}}"><b>{{p.title}}</b></a></td>
             </tr>
             <tr class="table_divider">
-                    <td><a href="{{p.get_absolute_url}}">
+                    <td><a href="{{p.get_absolute_url}}?m_id={{object.id}}">
                             {% if p.type == 1 %}
                                 <p class="assign">
                                     {% if p.assigned_to %}

@@ -23,12 +23,16 @@ id="proposal-detail"
 {% block content %}
 
 <div class="meeting_header">
-	<a class="three_dot_sentence level1" href="{{object.issue.community.get_upcoming_absolute_url}}">{% trans "Agenda" %} - {{object.issue.community.upcoming_meeting_title}}</a>
+	{% if meeting_id %}
+		<a class="three_dot_sentence level1" href="{{meeting_id.get_absolute_url}}">{{ meeting_id.get_title_or_shortdate }}</a>
+	{% else %}
+		<a class="three_dot_sentence level1" href="{{object.community.get_upcoming_absolute_url}}">{{object.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}</a>
+	{% endif %}
 </div>
 
 <div class="issue_header">
 	<div class="issue_header_inner">
-		<a class="three_dot_sentence level2" href="{{object.issue.get_absolute_url}}">{% trans "Issue" %} - {{ object.issue.title }}</a>
+		<a class="three_dot_sentence level2" href="{{object.issue.get_absolute_url}}?m_id={{meeting_id.id}}">{{ object.issue.title }}</a>
 	</div>
 </div>
 
@@ -38,13 +42,13 @@ id="proposal-detail"
         {% if object.issue.proposals.closed %}
           <h5>{% trans "Decisions" %}</h5>
             {% for proposal in object.issue.proposals.closed %}
-                <li{% if object == proposal %} class="active_proposal"{% endif %}><a href="{{ proposal.get_absolute_url }}">{{ proposal }}</a></li>
+                <li{% if object == proposal %} class="active_proposal"{% endif %}><a href="{{ proposal.get_absolute_url }}?m_id={{meeting_id.id}}">{{ proposal }}</a></li>
             {% endfor %}
         {% endif %}
 
         <h5>{% trans "Proposals" %}</h5>
 		{% for i in object.issue.proposals.open %}
-		<li{% if object == i %} class="active_proposal"{% endif %}><a href="{{ i.get_absolute_url }}">{{ i }}</a></li>
+		<li{% if object == i %} class="active_proposal"{% endif %}><a href="{{ i.get_absolute_url }}?m_id={{meeting_id.id}}">{{ i }}</a></li>
 		{% endfor %}
 	</ul>
 </div>

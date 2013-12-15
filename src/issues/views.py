@@ -332,6 +332,7 @@ class ProposalDetailView(ProposalMixin, DetailView):
            add 'previous_res' var if found previous registered results for this meeting
         """
         context = super(ProposalDetailView, self).get_context_data(**kwargs)
+        m_id = self.request.GET.get('m_id', None)
         o = self.get_object()
         context['res'] = o.get_straw_results()
 
@@ -347,6 +348,11 @@ class ProposalDetailView(ProposalMixin, DetailView):
                 context['meeting'] = results[0].meeting
             else:
                 context['meeting'] = None
+
+        if m_id:
+            context['meeting_id'] = get_object_or_404(Meeting, id=m_id)
+        else:
+            context['meeting_id'] = None
 
         return context
 

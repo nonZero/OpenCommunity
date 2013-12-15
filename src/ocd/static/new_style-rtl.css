@@ -126,10 +126,12 @@
 	padding: 10px;
 	word-break: break-word;
 }
-.meetings_list li a {
+.meetings_list li a,
+.issues_list li a {
 	color: #6C6C6E;
 }
-.meetings_list li a:hover {
+.meetings_list li a:hover,
+.issues_list li a:hover {
 	color: #6C6C6E;
 }
 .dropdown-menu > li > form {
@@ -160,11 +162,20 @@
 }
 .issue_left_column_inner .nav > li > a {
 	padding: 5px 15px;
+	color: #6C6C6E;
 }
 .issue_left_column_inner .nav-tabs > li.active > a,
 .issue_left_column_inner .nav-tabs > li.active > a:hover,
 .issue_left_column_inner .nav-tabs > li.active > a:focus {
 	background-color: #FBFCEC;
+}
+.level1 {
+	font-size: 16px;
+	color: #333;
+}
+.level2 {
+	font-size: 18px;
+	color: #333;
 }
 
 #meeting-detail .oc_detail_top.row.clear h5 {
@@ -176,6 +187,10 @@
 }
 #issue-abstract .oc_detail_top {
 	padding: 15px;
+}
+#issue-detail .nav-tabs > li {
+	background: #eeeeee;
+	margin: 0 1px;
 }
 
 /* TODO Without CSS */
@@ -201,14 +216,6 @@
 	.proposal_left_column_inner {
 		border-right: 0;
 		border-top: 0;
-	}
-	.level1 {
-		font-size: 16px;
-		color: #333;
-	}
-	.level2 {
-		font-size: 18px;
-		color: #333;
 	}
 	.meeting_left_column {
 		padding: 30px;

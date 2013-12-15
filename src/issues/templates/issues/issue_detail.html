@@ -16,7 +16,7 @@ id="issue-detail"
 	{% if meeting %}
 		<a class="three_dot_sentence level1" href="{{meeting.get_absolute_url}}">{{ meeting.get_title_or_shortdate }}</a>
 	{% else %}
-		<a class="three_dot_sentence level1" href="{{object.community.get_upcoming_absolute_url}}">{% trans "Agenda" %} - {{object.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}</a>
+		<a class="three_dot_sentence level1" href="{{object.community.get_upcoming_absolute_url}}">{{object.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}</a>
 	{% endif %}
 </div>
 
