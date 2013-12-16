@@ -58,7 +58,6 @@ msgid "Save"
 msgstr "שמירה"
 
 #: forms.py:160 templates/issues/issue_list.html:16
-
 msgid "Add"
 msgstr "הוספה"
 
@@ -302,10 +301,10 @@ msgstr "הצבעת על ההחלטה"
 msgid "Change your vote"
 msgstr "שנה הצבעה"
 
-#: .\templates\issues\issue_confirm_delete.html.py:5
-#: .\templates\issues\issue_detail.html.py:92
-#: .\templates\issues\proposal_confirm_delete.html.py:5
-#: .\templates\issues\proposal_detail.html.py:76
+#: templates/issues/issue_confirm_delete.html:5
+#: templates/issues/issue_detail.html:34 templates/issues/issue_detail.html:35
+#: templates/issues/proposal_confirm_delete.html:5
+#: templates/issues/proposal_detail.html:21
 msgid "Delete"
 msgstr "מחיקה"
 
@@ -341,7 +340,6 @@ msgstr "הצעת החלטה חדשה"
 msgid "None"
 msgstr "ללא"
 
-
 #: templates/issues/issue_detail.html:15
 msgid "Current"
 msgstr "עדכנית"
@@ -350,12 +348,15 @@ msgstr "עדכנית"
 msgid "Full view"
 msgstr "תצוגה מלאה"
 
-
 #: templates/issues/issue_detail.html:26 templates/issues/issue_detail.html:27
 #: templates/issues/proposal_detail.html:17
 msgid "Edit"
 msgstr "עריכה"
 
+#: templates/issues/issue_detail.html:30 templates/issues/issue_detail.html:31
+#: templates/issues/issueattachment_form.html:9
+msgid "Add attachment"
+msgstr "צרף קובץ"
 
 #: templates/issues/issue_detail.html:44
 msgid "History"
@@ -369,16 +370,26 @@ msgstr "הצג"
 msgid "Hide"
 msgstr "הסתר"
 
+#: templates/issues/issue_detail.html:54
+msgid "Closed"
+msgstr "סגור"
 
 #: templates/issues/issue_detail.html:60
 msgid "In agenda"
 msgstr "בסדר יום"
 
+#: templates/issues/issue_detail.html:67
+#: templates/issues/proposal_detail.html:38
+msgid "Login to vote"
+msgstr "הכנס כדי להצביע"
 
 #: templates/issues/issue_detail.html:83
 msgid "Past Proposals"
 msgstr "החלטות קודמות"
 
+#: templates/issues/issue_detail.html:115
+msgid "Add Proposal"
+msgstr "הוסף הצעה"
 
 #: templates/issues/issue_detail.html:123
 msgid "Past comments"
@@ -472,6 +483,18 @@ msgstr "חיפוש"
 #: templates/issues/issue_list.html:25
 msgid "Search in agenda list"
 msgstr "חפשו בנושאים לדיון"
+
+#: templates/issues/issue_list.html:29
+msgid "By rank"
+msgstr "תיעדוף נושאים"
+
+#: templates/issues/issue_list.html:30
+msgid "By time"
+msgstr "זמן"
+
+#: templates/issues/issue_list.html:31
+msgid "My vote"
+msgstr "תיעדוף שלי"
 
 #: templates/issues/issueattachment_confirm_delete.html:5
 msgid "Delete Attachment"
