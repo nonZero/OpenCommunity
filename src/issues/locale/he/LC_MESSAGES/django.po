@@ -425,17 +425,6 @@ msgstr "הבא"
 msgid "All"
 msgstr "הכל"
 
-#: .\templates\issues\issue_detail.html.py:71
-#: .\templates\issues\issue_detail.html.py:174
-#: .\templates\issues\issue_detail.html.py:262
-msgid "Closed"
-msgstr "סגור"
-
-
-#: .\templates\issues\issue_detail.html.py:81
-#: .\templates\issues\proposal_detail.html.py:56
-msgid "Login to vote"
-msgstr "הכנס כדי להצביע"
 
 #: .\templates\issues\issue_detail.html.py:88
 #: .\templates\issues\proposal_detail.html.py:67
@@ -446,16 +435,6 @@ msgstr "פעולות"
 #: .\templates\issues\issue_detail.html.py:108
 msgid "Edit Abstract"
 msgstr "ערוך רקע לפגישה הקרובה"
-
-#: .\templates\issues\issue_detail.html.py:109
-#: .\templates\issues\issueattachment_form.html.py:9
-msgid "Add attachment"
-msgstr "צרף קובץ"
-
-#: .\templates\issues\issue_detail.html.py:126
-msgid "Add Proposal"
-msgstr "הוסף הצעה"
-
 
 #: .\templates\issues\issue_detail.html.py:219
 #: .\templates\issues\issue_detail.html.py:274
@@ -547,28 +526,6 @@ msgstr "עריכת הצעת החלטה"
 
 #~ msgid "Abstract"
 #~ msgstr "תקציר"
-#~ msgid "Past Proposals"
-
-#~ msgstr "החלטות קודמות"
-
-#~ msgid "Reassign task"
-#~ msgstr "עדכן משימה"
-
-#~ msgid "Current"
-#~ msgstr "עדכנית"
-
-#~ msgid "Full view"
-#~ msgstr "תצוגה מלאה"
-
-#~ msgid "History"
-#~ msgstr "היסטוריה"
-
-#~ msgid "Show"
-#~ msgstr "הצג"
-
-#~ msgid "Hide"
-#~ msgstr "הסתר"
-
 #~ msgid "Past comments"
 #~ msgstr "סיכומי פגישות קודמות"
 
