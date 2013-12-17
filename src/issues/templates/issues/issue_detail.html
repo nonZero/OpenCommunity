@@ -12,7 +12,7 @@ id="issue-detail"
 {% endblock %}
 
 {% block content %}
-<div class="meeting_header" style="padding-bottom: 37px;">
+<div class="meeting_header">
 	{% if meeting %}
 		<a class="three_dot_sentence level1" href="{{meeting.get_absolute_url}}">{{ meeting.get_title_or_shortdate }}</a>
 	{% else %}
@@ -20,7 +20,7 @@ id="issue-detail"
 	{% endif %}
 </div>
 
-<div class="issue_main">
+<div class="issue_main clearfix">
 	<div class="issue_right_column col-sm-3 hidden-xs">
 		<ul class="issues_list">
 			{% if meeting %}
@@ -39,19 +39,35 @@ id="issue-detail"
 		</ul>
 	</div>
 
-	<div class="issue_left_column col-sm-9 col-xs-12">
+	<div class="issue_left_column col-sm-9 col-xs-12" style="margin-bottom: -40px;">
 		<div class="issue_left_column_inner">
+			{% if object.is_archived or object.is_upcoming %}
+				<div class="text-right col-xs-12" style="font-size: 14px; border-bottom: 1px solid #e2e2e2;">
+					{% if object.is_archived %}
+						--{% trans "Closed" %}--
+					{% else %}
+						{% if object.is_upcoming %}
+							{% if community.upcoming_meeting_is_published or cperms.communities.viewupcoming_draft %}
+								--{% trans "In agenda" %}--
+							{% endif %}
+						{% endif %}
+					{% endif %}
+				</div>
+			{% endif %}
 
 			{% with can_straw_vote=object.can_straw_vote %}
 
 			{% csrf_token %}
-			<ul class="nav nav-tabs responsive" style="margin-top: -37px;">
+			{% if meeting %}
+			<ul class="nav nav-tabs responsive" style="margin-top: -37px; border-bottom: 0;">
 				
+				{% if object.is_archived %}
 				<li class="active">
 					<a href="#agendaitem-current" data-toggle="tab">{% trans "Next" %}</a>
 				</li>
+				{% endif %}
 				{% if object.agenda_items.count %}
-				<li>
+				<li{% if not object.is_archived %} class="active"{% endif %}>
 					<a href="#agendaitem-all" data-toggle="tab">{% trans "All" %}</a>
 				</li>
 				{% endif %}
@@ -63,8 +79,10 @@ id="issue-detail"
 				{% endif %}
 				{% endfor %}
 			</ul>
+			{% endif %}
 
 			<div class="tab-content">
+				{% if not object.is_archived %}
 				<div class="tab-pane active" id="agendaitem-current">
 					<div class="col-xs-3 pull-right">
 					{% if object.can_straw_vote and not user.id %}
@@ -145,18 +163,10 @@ id="issue-detail"
 						{% endif %}
 					{% endif %}
 				</div>
+				{% endif %}
 
-
-				<div class="tab-pane" id="agendaitem-all">
-					{% if object.is_archived %}
-						<h5 class="text-right"> --{% trans "Closed" %}-- </h5>
-					{% else %}
-						{% if object.is_upcoming %}
-							{% if community.upcoming_meeting_is_published or cperms.communities.viewupcoming_draft %}
-								<h5 class="text-right"> --{% trans "In agenda" %}-- </h5>
-							{% endif %}
-						{% endif %}
-					{% endif %}
+				{% if meeeting %}
+				<div class="tab-pane{% if object.is_archived %} active{% endif %}" id="agendaitem-all">
 					<div class="issue-top">
 						{% include "issues/_issue_title.html" %}
 					</div>
@@ -165,9 +175,6 @@ id="issue-detail"
 							{% include 'issues/_issue-abstract.html' %}
 						{% for ai in object.agenda_items.all %}
 							{% if ai.background or ai.attachments.count %}
-							{% if ai.background %}
-								<h2> {% trans "Background" %} </h2>
-							{% endif %}
 								<div class="oc_detail_top">
 									{% if ai.background %}
 										{{ai.background|userhtml}}
@@ -232,19 +239,11 @@ id="issue-detail"
 					</div>
 					{% endif %}
 				</div>
+				{% endif %}
 
 				{% for ai in object.agenda_items.all %}
 				{% if ai.background or ai.proposals.count or ai.comments.count %}
 				<div class="tab-pane" id="agendaitem-{{ai.id}}">
-					{% if object.is_archived %}
-						<h5 class="text-right"> --{% trans "Closed" %}-- </h5>
-					{% else %}
-						{% if object.is_upcoming %}
-							{% if community.upcoming_meeting_is_published or cperms.communities.viewupcoming_draft %}
-								<h5 class="text-right"> --{% trans "In agenda" %}-- </h5>
-							{% endif %}
-						{% endif %}
-					{% endif %}
 					<div class="issue-top">
 						{% include "issues/_issue_title.html" %}
 					</div>
@@ -255,7 +254,7 @@ id="issue-detail"
 						{% if ai.background or ai.proposals.count or ai.comments.count %}
 
 							{% if ai.background %}
-								<h2> {% trans "Background in previous meetings" %} </h2>
+								<h2> {% trans "Background" %} </h2>
 								<div class="oc_detail_top">
 									{{ai.background|userhtml}}
 							        {% if ai.attachments.count %}

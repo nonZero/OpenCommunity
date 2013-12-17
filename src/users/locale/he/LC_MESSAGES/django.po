@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-14 23:41+0200\n"
+"POT-Creation-Date: 2013-12-17 09:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -159,7 +159,7 @@ msgstr "נשלח לאחרונה ב"
 msgid "Invitation"
 msgstr "הזמנה"
 
-#: .\models.py:202 .\templates\users\membership_list.html.py:37
+#: .\models.py:202 .\templates\users\membership_list.html.py:36
 msgid "Invitations"
 msgstr "הזמנות"
 
@@ -278,15 +278,14 @@ msgstr "דואל"
 msgid "Join Open Community"
 msgstr "הצטרף לקהילה פתוחה"
 
-#: .\templates\users\membership_list.html.py:9
-#: .\templates\users\membership_list.html.py:17
+#: .\templates\users\membership_list.html.py:16
 msgid "Members"
 msgstr "חברים"
 
-#: .\templates\users\membership_list.html.py:31
+#: .\templates\users\membership_list.html.py:30
 msgid "No members."
 msgstr "אין חברים בקהילה"
 
-#: .\templates\users\membership_list.html.py:46
+#: .\templates\users\membership_list.html.py:45
 msgid "Invite"
 msgstr "הזמן"

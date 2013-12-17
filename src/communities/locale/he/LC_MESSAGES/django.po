@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-14 23:40+0200\n"
+"POT-Creation-Date: 2013-12-17 09:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -205,7 +205,7 @@ msgid "Login"
 msgstr "כניסה"
 
 #: .\templates\communities\base_meeting.html.py:20
-#: .\templates\communities\upcoming.html.py:26
+#: .\templates\communities\upcoming.html.py:27
 #: .\templates\communities\upcoming.html.py:97
 #: .\templates\emails\agenda.txt.py:1
 msgid "Upcoming Meeting"
@@ -271,12 +271,12 @@ msgid "All Meetings"
 msgstr "כל הפגישות"
 
 #: .\templates\communities\upcoming.html.py:18
-msgid "Meeting title"
-msgstr "שם הפגישה"
-
-#: .\templates\communities\upcoming.html.py:19
 msgid "Meeting date"
 msgstr "מועד הפגישה"
+
+#: .\templates\communities\upcoming.html.py:19
+msgid "Meeting title"
+msgstr "שם הפגישה"
 
 #: .\templates\communities\upcoming.html.py:20
 msgid "Meeting location"
@@ -290,7 +290,7 @@ msgstr "מיקום הפגישה"
 msgid "Not set yet"
 msgstr "טרם נקבע"
 
-#: .\templates\communities\upcoming.html.py:33
+#: .\templates\communities\upcoming.html.py:34
 msgid "No title"
 msgstr "ללא שם"
 
@@ -332,8 +332,8 @@ msgid "Agenda items"
 msgstr "נושאים לסדר היום"
 
 #: .\templates\communities\upcoming.html.py:132
-msgid "Votes/Total proposals"
-msgstr "כמה הצבעתי / סך הצעות"
+msgid "Total proposals/Votes"
+msgstr "סך הצעות/כמה הצבעתי"
 
 #: .\templates\communities\upcoming.html.py:135
 msgid "Create Issue"

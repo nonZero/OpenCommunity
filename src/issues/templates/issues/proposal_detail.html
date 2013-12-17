@@ -36,7 +36,7 @@ id="proposal-detail"
 	</div>
 </div>
 
-<div class="proposal_main">
+<div class="proposal_main clearfix">
 <div class="proposal_right_column col-sm-3 hidden-xs">
 	<ul class="issues_list">
         {% if object.issue.proposals.closed %}
@@ -65,7 +65,7 @@ id="proposal-detail"
 
 {% if cperms.issues.editclosed_proposal or object.is_open %}
 {% if cperms.issues.editopen_proposal or object.created_by == user %}
-	<div class="pull-right col-xs-6 col-sm-4 text-right">
+	<div class="pull-right text-right">
 		<div class="btn-group">
 			<button type="button" class="btn btn-default dropdown-toggle pull-right" data-toggle="dropdown">
 				{% trans "Actions" %} <span class="caret"></span>
@@ -85,8 +85,8 @@ id="proposal-detail"
 {% endif %}
 {% endif %}
 
-    <div class="pull-left col-xs-6 col-sm-8">
-        <h1>{{object.title}}</h1>
+    <div class="pull-left">
+        <h1 style="padding-right: 10px;">{{object.title}}</h1>
     </div>
 	<div class="oc_detail_top row clear" style="margin-right: -5px;margin-left: -5px;border:0;background: none;">
         {% if object.type == 1 %}
