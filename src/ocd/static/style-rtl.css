@@ -426,6 +426,13 @@ p.user_nav {
 	font-weight: bold;
 }
 
+.issue-abstract {
+    padding: 5px 15px;
+    border: 1px solid #d8d8d9;
+    background: #eee;
+    margin-bottom: 5px;
+}
+
 .oc_detail_top {
 	padding: 0 15px;
 	border-top: 1px solid #d8d8d9;
@@ -1058,6 +1065,10 @@ form.delete-invitation {
 .comments .comment-inner ol,
 .comments .comment-inner ul {
 	margin-bottom: 5px;
+}
+
+.filter {
+    display: none;
 }
 
 /* Footer */
