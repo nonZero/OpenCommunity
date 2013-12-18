@@ -12,7 +12,7 @@ id="issue-detail"
 {% endblock %}
 
 {% block content %}
-<div class="meeting_header" style="padding-bottom: 37px;">
+<div class="meeting_header">
     {% if meeting %}
         <a class="three_dot_sentence level1" href="{{meeting.get_absolute_url}}">{{ meeting.get_title_or_shortdate }}</a>
     {% else %}
@@ -20,7 +20,7 @@ id="issue-detail"
     {% endif %}
 </div>
 
-<div class="issue_main">
+<div class="issue_main clearfix">
     <div class="issue_right_column col-sm-3 hidden-xs">
         <ul class="issues_list">
             {% if meeting %}
@@ -39,13 +39,13 @@ id="issue-detail"
         </ul>
     </div>
 
-    <div class="issue_left_column col-sm-9 col-xs-12">
+    <div class="issue_left_column col-sm-9 col-xs-12" style="margin-bottom: -40px;">
         <div class="issue_left_column_inner">
 
             {% with can_straw_vote=object.can_straw_vote %}
 
             {% csrf_token %}
-            <ul class="nav nav-tabs responsive" style="margin-top: -37px;">
+            <ul class="nav nav-tabs" style="margin-top: -37px;  border-bottom: 0; padding-top: 37px;">
 
                 {% if not object.is_archived %}
                     <li{% if not meeting %} class="active"{% endif %}>
@@ -69,19 +69,24 @@ id="issue-detail"
                 {% endfor %}
             </ul>
 
+			{% if object.is_archived or object.is_upcoming %}
+				<div class="text-right col-xs-12" style="font-size: 14px; border-bottom: 1px solid #e2e2e2;">
+					{% if object.is_archived %}
+						--{% trans "Closed" %}--
+					{% else %}
+						{% if object.is_upcoming %}
+							{% if community.upcoming_meeting_is_published or cperms.communities.viewupcoming_draft %}
+								--{% trans "In agenda" %}--
+							{% endif %}
+						{% endif %}
+					{% endif %}
+				</div>
+			{% endif %}
+
             <div class="tab-content">
 
                 <div>
-                    {% if object.is_archived %}
-                        <h5 class="text-right"> --{% trans "Closed" %}-- </h5>
-                    {% else %}
-                        {% if object.is_upcoming %}
-                            {% if community.upcoming_meeting_is_published or cperms.communities.viewupcoming_draft %}
-                                <h5 class="text-right"> --{% trans "In agenda" %}-- </h5>
-                            {% endif %}
-                        {% endif %}
-                    {% endif %}
-                    <div class="issue-top">
+                    <div class="issue-top clear" style="padding-top: 20px;">
                         {% include "issues/_issue_title.html" %}
                     </div>
 
@@ -201,7 +206,7 @@ id="issue-detail"
     <script src="{{STATIC_URL}}js/proposal.js"></script>
     <script src="{{STATIC_URL}}js/_piechart.js"></script>
     <script src="{{STATIC_URL}}bootstrap/js/typeahead.min.js"></script>
-    <script src="{{ STATIC_URL }}js/hogan-2.0.0.js"></script>
+    <script src="{{STATIC_URL}}js/hogan-2.0.0.js"></script>
     <script src="{{STATIC_URL}}js/responsive-tabs.js"></script>
     <script src="{{STATIC_URL}}js/issues.js"></script>
     <script src="{{STATIC_URL}}js/filter.js"></script>
@@ -223,5 +228,13 @@ id="issue-detail"
             $('.active [data-toggle=filter]').click();
         });
     </script>
-
+	<script>
+		$(function () {
+			var right_column = $('.issue_right_column').outerHeight();
+			var left_column = $('.issue_left_column').outerHeight();
+			if (right_column > left_column) {
+				$('.issue_left_column').css('height', right_column+40+'px');
+			};
+		});
+	</script>
 {% endblock %}

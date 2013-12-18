@@ -31,7 +31,7 @@
 }
 
 .meeting_left_column {
-	border: 1px solid #e2e2e2;
+	border: 1px solid #cecfb3;
 	padding: 10px;
 	background-color: #e6e7c8;
 }
@@ -82,9 +82,9 @@
 
 .active_meeting {
 	background: #e6e7c8;
-	border-bottom: 1px solid #e2e2e2;
-	border-right: 1px solid #e2e2e2;
-	border-top: 1px solid #e2e2e2;
+	border-bottom: 1px solid #cecfb3;
+	border-right: 1px solid #cecfb3;
+	border-top: 1px solid #cecfb3;
 }
 
 .active_issue {
@@ -232,5 +232,8 @@
 	}
 	.paper_bg {
 		background: #FFFFFF;
+	}
+	.issue_left_column_inner ul.nav.nav-tabs {
+		padding-top: 0 !important;
 	}
 }
