@@ -12,7 +12,7 @@ id="issue-detail"
 {% endblock %}
 
 {% block content %}
-<div class="meeting_header" style="padding-bottom: 37px;">
+<div class="meeting_header">
     {% if meeting %}
         <a class="three_dot_sentence level1" href="{{meeting.get_absolute_url}}">{{ meeting.get_title_or_shortdate }}</a>
     {% else %}
@@ -45,31 +45,6 @@ id="issue-detail"
             {% with can_straw_vote=object.can_straw_vote %}
 
             {% csrf_token %}
-            <ul class="nav nav-tabs responsive" style="margin-top: -37px;">
-
-                {% if not object.is_archived %}
-                    <li{% if not meeting %} class="active"{% endif %}>
-                        <a href="#" data-toggle="filter" data-hide=".filter" data-show=".filter-upcoming">{% trans "Next" %}</a>
-                    </li>
-                {% endif %}
-
-                {% if object.agenda_items.count %}
-                    <li{% if not meeting and object.is_archived %} class="active"{% endif %}>
-                        <a href="#" data-toggle="filter" data-show=".filter">{% trans "All" %}</a>
-                    </li>
-                {% endif %}
-
-                {% for ai in object.agenda_items.all %}
-                    <li{% if meeting == ai.meeting %} class="active"{% endif %}>
-                        <a href="#" data-toggle="filter"
-                            data-hide=".filter" data-show=".filter-meeting-{{ai.meeting.id}}">
-                            {{ai.meeting.get_title_or_shortdate}}
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-
-            <div class="tab-content">
 
                 <div>
                     {% if object.is_archived %}
@@ -84,6 +59,37 @@ id="issue-detail"
                     <div class="issue-top">
                         {% include "issues/_issue_title.html" %}
                     </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        {% trans "Filter" %}
+                    </label>
+                    <div class="col-sm-10">
+                        <select id="filter" data-hide=".filter" class="form-control">
+
+                            {% if not object.is_archived %}
+                                <option value=".filter-upcoming"{% if not meeting %} selected{% endif %}>
+                                    {% trans "Upcoming Meeting" %}
+                                </option>
+                            {% endif %}
+
+                            {% if object.agenda_items.count %}
+                                <option value=".filter" {% if not meeting and object.is_archived %} selected{% endif %}>
+                                    {% trans "All" %}
+                                </option>
+                            {% endif %}
+
+                            {% for ai in object.agenda_items.all %}
+
+                                <option value=".filter-meeting-{{ai.meeting.id}}"
+                                    {% if meeting == ai.meeting %} selected{% endif %}>
+                                        {{ai.meeting.get_title_or_shortdate}}
+                                </option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+                  </div>
 
                         <h2 class="filter-title">{% trans "Background" %}</h2>
                         <div class="abstracts">
@@ -182,7 +188,6 @@ id="issue-detail"
                     {% endif %}
                 </div>
 
-            </div>
             {% endwith %}
         </div>
     </div>
@@ -204,7 +209,6 @@ id="issue-detail"
     <script src="{{ STATIC_URL }}js/hogan-2.0.0.js"></script>
     <script src="{{STATIC_URL}}js/responsive-tabs.js"></script>
     <script src="{{STATIC_URL}}js/issues.js"></script>
-    <script src="{{STATIC_URL}}js/filter.js"></script>
     <script src="{% url 'jsi18n' %}"></script>
 
     <script>
@@ -220,7 +224,17 @@ id="issue-detail"
                 {% endif %}
             {% endfor %}
 
-            $('.active [data-toggle=filter]').click();
+            $('#filter').on('change', function() {
+                $('.filter').hide();
+                console.log($(this).val());
+                $($(this).val()).show();
+                $('.filter-title').each(function() {
+                    $(this).toggle(
+                        $(this).next().find('.filter:visible').length > 0
+                    );
+                });
+            }).trigger('change');
+
         });
     </script>
 
