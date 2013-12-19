@@ -51,6 +51,10 @@ class Issue(UIDMixin):
     order_in_upcoming_meeting = models.IntegerField(
                                         _("Order in upcoming meeting"),
                                         default=9999, null=True, blank=True)
+    order_by_votes = models.IntegerField(
+                                        _("Order in upcoming meeting by votes"),
+                                        default=9999, null=True, blank=True)
+    
     length_in_minutes = models.IntegerField(_("Length (in minutes)"),
                                             null=True, blank=True)
 
@@ -213,7 +217,7 @@ def issue_attachment_path(instance, filename):
 
 class IssueAttachment(UIDMixin):
     issue = models.ForeignKey(Issue, related_name="attachments")
-    file = models.FileField(_("File"), storage=uploads_storage,
+    file = models.FileField(_("File"), storage=uploads_storage, max_length=200,
                             upload_to=issue_attachment_path)
     title = models.CharField(_("Title"), max_length=100)
     active = models.BooleanField(default=True)
@@ -309,7 +313,8 @@ class ProposalType(object):
                 (RULE, ugettext("Rule")),
                 (ADMIN, ugettext("General")),
                )
-     
+
+
 class ProposalManager(UIDManager):
 
     def active(self):
@@ -488,6 +493,7 @@ class Proposal(UIDMixin):
 
         
 class VoteResult(models.Model):
+    """ straw vote result """
     proposal = models.ForeignKey(Proposal, related_name="results",
                                  verbose_name=_("Proposal"))
     meeting = models.ForeignKey('meetings.Meeting', verbose_name=_("Meeting"))
@@ -497,3 +503,9 @@ class VoteResult(models.Model):
 
     class Meta:
         unique_together = (('proposal', 'meeting'),)
+
+
+class IssueRankingVote(models.Model):
+    voted_by = models.ForeignKey(settings.AUTH_USER_MODEL)
+    issue = models.ForeignKey(Issue)
+    rank = models.PositiveIntegerField()
