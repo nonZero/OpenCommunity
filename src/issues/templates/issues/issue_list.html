@@ -25,35 +25,17 @@ id="issue-list"
 		<input type="text" class="form-control issue-search" placeholder="{% trans "Search in agenda list" %}">
 	</div>
 </div>
-
+    {% if community.issue_ranking_enabled %}
     <ul id="issues-order" class="nav nav-tabs">
         <span style="float:right;margin-left: 2px;line-height: 1.428571429;border: 1px solid transparent;padding:10px 15px;font-weight:bold;">{% trans "Sort" %}</span>
-        <li class="active"><a href="#by_rank" data-toggle="tab">{% trans "By rank" %}</a></li>
-        <li><a href="#by_time" data-toggle="tab">{% trans "By time" %}</a></li>
-        <li><a href="#my_vote" data-toggle="tab">{% trans "My vote" %}</a></li>
+        <li {% if not cperms.issues.vote_ranking %} class="active" {% endif %}><a href="#by_time" data-toggle="tab">{% trans "By time" %}</a></li>
+        {% if cperms.issues.vote_ranking %}
+            <li class="active"><a href="#my_vote" data-toggle="tab">{% trans "My vote" %}</a></li>
+        {% endif %}
+        <li><a href="#by_rank" data-toggle="tab">{% trans "By rank" %}</a></li>
     </ul>
-
     <div class="tab-content">
-        <div id="by_rank" class="tab-pane active"> 
-            <h2> {% trans "Issues for discussion" %} </h2>
-            {% with can_sort=False %}
-			<ul id="voted_order" class="nav nav-pills nav-stacked">
-				{% for i in ranked_issues %}
-					{% include "issues/_issue_sort.html" %}
-				{% endfor %}
-			</ul>
-
-		
-            <h2>{% trans "Low priority issues" %}</h2>
-        
-            <ul id="ord_out" class="nav nav-pills nav-stacked">
-                {% for i in non_ranked_issues %}
-                    {% include "issues/_issue_sort.html" %}
-                {% endfor %}
-            </ul>
-            {% endwith %}
-        </div>    
-        <div id="by_time" class="tab-pane"> 
+        <div id="by_time" class="tab-pane {% if not cperms.issues.vote_ranking %} active {% endif %}"> 
             <table class="table table-condensed issue-table">
             {% for object in object_list %}
                 <tr class="issue-list">
@@ -62,33 +44,60 @@ id="issue-list"
                 </tr>
             {% endfor %}
             </table>
-        </div>    
-        <div id="my_vote" class="tab-pane"> 
+        </div>
+
+        {% if cperms.issues.vote_ranking %}
+        <div id="my_vote" class="tab-pane active"> 
             {% with can_sort=True %}
             <h2> {% trans "Issues for discussion" %} </h2>
 
             <ul id="ordered" class="nav nav-pills nav-stacked">
-              {% for i in ranked_issues %}
-                {% include "issues/_issue_sort.html" %}
-              {% endfor %}
+                {% for i in my_vote %}
+                    {% include "issues/_issue_sort.html" %}
+                {% endfor %}
             </ul>
-
-		
-            <h2>{% trans "Low priority issues" %}</h2>
+            
+            <div class="narrow">
+              <a id="do_ranking_vote" href="{% url 'issues' community.id %}" data-rel="formo" class="btn btn-warning btn-block btn-lg disabled">{% trans 'Submit' %}</a>
+            </div>
+            
+            <h2>{% trans "Other issues" %}</h2>
         
-            <ul id="out" class="nav nav-pills nav-stacked">
-                {% for i in non_ranked_issues %}
+            <ul id="voted_out" class="nav nav-pills nav-stacked">
+                {% for i in my_non_ranked %}
                     {% include "issues/_issue_sort.html" %}
                 {% endfor %}
             </ul>
             {% endwith %}
-            <div class="narrow">
-              <a id="do_ranking_vote" href="{% url 'issues' community.id %}" data-rel="formo" class="btn btn-oc btn-block btn-lg">{% trans 'Vote on issue ranking' %}</a>
-            </div>
+        </div>  
+        {% endif %}
+
+        <div id="by_rank" class="tab-pane"> 
+            <h2> {% trans "Issues for discussion" %} </h2>
+            {% with can_sort=False %}
+
+			<ul id="voted_order" class="nav nav-pills nav-stacked">
+				{% for i in sorted_issues %}
+					{% include "issues/_issue_sort.html" %}
+				{% endfor %}
+			</ul>
+
+            {% endwith %}
         </div>    
     </div>
+    {% else %}
+        <div id="by_time"> 
+            <table class="table table-condensed issue-table">
+                {% for object in object_list %}
+                    <tr class="issue-list">
+                        <td class="issue_date">{{ object.created_at|ocshortdate }}</td>
+                        <td class="issue_title left_arrow"><a href="{{ object.get_absolute_url }}"> {{ object.title }}</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
 
-
+    {% endif %}
 {% endblock %}
 
 {% block dialogs %}
@@ -105,7 +114,6 @@ id="issue-list"
 <script src="{{STATIC_URL}}jquery-ui/js/jquery-ui-1.10.2.custom.js"></script>
 <script>
     $(function() {
-        $('#do_ranking_vote').hide();
         $('input.issue-search').bind('input', function() {
             searchIssues($(this).val().trim());
         });
@@ -116,7 +124,7 @@ id="issue-list"
             //cursorAt: { top: 25 },
             handle: ".grab",
             update: function(event, ui) {
-                $('#do_ranking_vote').show();
+                $('#do_ranking_vote').removeClass('disabled');
             }
         }).removeClass('ui-corner-all').filter('li').removeClass('ui-corner-bottom');
         $('#ordered').on('click', '.addremove', function() {
@@ -124,14 +132,14 @@ id="issue-list"
             el.addClass('loading');
             $("#voted_out").append(el);
             // activate send button
-            $('#do_ranking_vote').show();
+            $('#do_ranking_vote').removeClass('disabled');
         });
         $('#voted_out').on('click', '.addremove', function() {
             var el = $(this).parent().parent();
             el.addClass('loading');
             $("#ordered").append(el);
             // activate send button
-            $('#do_ranking_vote').show();
+            $('#do_ranking_vote').removeClass('disabled');
         });
 
         $('body').on('click', '#do_ranking_vote', function(event) {
@@ -140,14 +148,17 @@ id="issue-list"
             var order_list = [];
             $.each($('#ordered li'), function(idx, el) {
                 console.log($(el).data('issue') + ' : >');
-                var ord_array = new Array();
-                ord_array[0] = $(el).data('issue');
-                order_list.push(ord_array);
+                // var ord_array = new Array();
+                // ord_array[0] = $(el).data('issue');
+                order_list.push($(el).data('issue'));
             })
-            $.post(url, {new_order: JSON.stringify(order_list)}, 
+            $.post(url, {
+                            new_order: JSON.stringify(order_list),
+                            community_id: '{{ community.id }}',
+                    }, 
                     function(p){ 
-                        $('#do_ranking_vote').hide();
-                    }, 'json');
+                        $('#do_ranking_vote').addClass('disabled')
+                    });
         });
 	});
 </script>

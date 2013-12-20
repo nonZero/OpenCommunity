@@ -13,7 +13,7 @@ from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, 
     UpdateIssueAbstractForm
 from issues.models import ProposalType, Issue, IssueStatus, ProposalVote, \
     ProposalVoteValue, VoteResult
-from issues.stubs.order_issues import save_vote, get_vote
+from issues.stubs.order_issues import save_vote
 from meetings.models import Meeting
 from oc_util.templatetags.opencommunity import minutes
 from ocd.base_views import CommunityMixin, AjaxFormView, json_response
@@ -40,17 +40,27 @@ class IssueList(IssueMixin, ListView):
 
     def get_context_data(self, **kwargs):
         d = super(IssueList, self).get_context_data(**kwargs)
-        print self.get_queryset()
+        # print self.get_queryset(), d['community'].id
         available_ids = set([x.id for x in self.get_queryset()])
-        ranked_ids = get_vote()
-        non_ranked_ids = available_ids - set(ranked_ids)
-        print available_ids, ranked_ids, non_ranked_ids
-        d['non_ranked_issues'] = models.Issue.objects.filter(id__in=non_ranked_ids)
-        d['ranked_issues'] = models.Issue.objects.filter(id__in=ranked_ids)
+        if d['community'].issue_ranking_enabled:
+            d['sorted_issues'] = d['community'].available_issues() \
+                    .order_by('order_by_votes')
+            if d['cperms']['issues']['vote_ranking']:
+                my_ranking = models.IssueRankingVote.objects.filter(
+                                voted_by=self.request.user,
+                                issue__community_id=d['community'].id) \
+                                .order_by('rank')
+                d['my_vote'] = [i.issue for i in my_ranking if i.issue.active]
+                all_issues_set = set(list(d['sorted_issues']))
+                d['my_non_ranked'] = list(all_issues_set - set(d['my_vote']))
+                print all_issues_set, set(d['my_vote'])
+        # d['can_rank_issues'] = can_rank_issues
         return d
+
 
     def post(self, request, *args, **kwargs):
         print '[][][][][][][]'
+        save_vote(request)
         return json_response({'res': 'ok', })
 
 class IssueDetailView(IssueMixin, DetailView):

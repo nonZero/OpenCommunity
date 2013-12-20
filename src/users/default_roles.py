@@ -34,6 +34,7 @@ class DefaultRoles(object):
                             'issues.view_proposal_in_discussion',
                             'communities.viewupcoming_draft',
                             'issues.view_referendum_results',
+                            'issues.vote_ranking',
                           ]
      
     permissions[PROPOSER] = permissions[PARTICIPANT] + [
