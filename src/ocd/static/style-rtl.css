@@ -294,27 +294,29 @@ p.user_nav {
 	width: 100%;
 	margin: 10px 15px;
 }
+/*#community-list ul .list-group,
+#community-list button.navbar-toggle,*/
 #login-page ul .list-group,
-#login-page button.navbar-toggle,
-#community-list ul .list-group,
-#community-list button.navbar-toggle {
+#login-page button.navbar-toggle {
 	display: none;
 }
-#login-page .col-lg-10,
-#login-page .col-md-9,
-#login-page .col-sm-9,
+/*
 #community-list .col-lg-10,
 #community-list .col-md-9,
-#community-list .col-sm-9 {
+#community-list .col-sm-9,
+#login-page .col-lg-10,
+#login-page .col-md-9,
+#login-page .col-sm-9 {
 	width: 100%;
 }
-#login-page .navbar-default .navbar-brand,
-#community-list .navbar-default .navbar-brand {
+#community-list .navbar-default .navbar-brand,
+#login-page .navbar-default .navbar-brand {
 	width: 100%;
 	margin-right: 0;
-}
+}*/
 /* Hide login button from community list page */
-#community-list #login_navbar {
+/*#community-list #login_navbar,*/
+#login-page #login_navbar {
 	display: none;
 }
 /* List */
@@ -847,6 +849,17 @@ ul.proposals li.prop-content p {
 .comments li.rich_editor {
 	background: transparent;
 	padding: 10px 0 0 0;
+}
+.rich_editor_box {
+	background: #fff;
+	border-left: 1px solid rgb(204, 204, 204);
+	border-right: 1px solid rgb(204, 204, 204);
+	border-bottom: 1px solid rgb(204, 204, 204);
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+	margin-top: -10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 .issue_attachments ul {
 	list-style-type: none;

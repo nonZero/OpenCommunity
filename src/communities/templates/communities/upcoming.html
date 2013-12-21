@@ -143,7 +143,7 @@
 			{% if object.upcoming_meeting_started and cperms.community.editupcoming_community %}
 			
 				<h2 class="pull-left">{% trans "Summary" %}</h2>
-				<div class="push">
+				<div class="push pull-right">
 					<a data-rel="form" href="{% url "upcoming_edit_summary" community.id %}" class="clear" style="padding: 9px;display: inline-block;">
 						<img src="{{ STATIC_URL }}images/comment_edit_pencil.png" />
 					</a>

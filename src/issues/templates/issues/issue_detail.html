@@ -175,8 +175,8 @@ id="issue-detail"
                                     <form id="add-comment" method="post">
                                         {% csrf_token %}
                                         {{form}}
-                                        <div class="narrow">
-                                            <button class="add-comment-btn btn btn-oc btn-lg btn-block" disabled="1">
+                                        <div class="col-xs-12 text-center rich_editor_box">
+                                            <button class="add-comment-btn btn btn-oc btn-lg" disabled="1" style="width: 200px;">
                                                 {% trans "Save" %}
                                             </button>
                                         </div>
