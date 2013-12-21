@@ -63,28 +63,6 @@ id="proposal-detail"
 
 <div class="proposal" data-id="{{object.id}}" data-accepted="{{object.status}}">
 
-{% if cperms.issues.editclosed_proposal or object.is_open %}
-{% if cperms.issues.editopen_proposal or object.created_by == user %}
-	<div class="pull-right text-right">
-		<div class="btn-group">
-			<button type="button" class="btn btn-default dropdown-toggle pull-right" data-toggle="dropdown">
-				{% trans "Actions" %} <span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu text-left" role="menu">
-				{% if not object.is_task or cperms.issues.edittask_proposal %}
-				<li>
-					<a href="{{object.get_edit_url}}" data-rel="form"> <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span> </a>
-				</li>
-				{% endif %}
-				<li>
-					<a href="{{object.get_delete_url}}" data-rel="form"> <i class="fa fa-trash-o"></i> <span>{% trans "Delete" %}</span> </a>
-				</li>
-			</ul>
-		</div>
-	</div>
-{% endif %}
-{% endif %}
-
     <div class="pull-left">
         <h1 style="padding-right: 10px;">{{object.title}}</h1>
     </div>
@@ -105,7 +83,18 @@ id="proposal-detail"
 		<div class="pull-left">
             <h5><span class="glyphicon glyphicon-user"></span> {% trans "By:" %} {{ object.created_by}}. {{ object.created_at}}</h5>
     	</div>
-		<h5 style="clear: both;border-top: 1px solid;padding-top: 10px;">
+    	<div class="col-xs-12" style="border-top: 1px solid; clear: both;margin-bottom: 10px;"></div>
+		{% if cperms.issues.editclosed_proposal or object.is_open %}
+			{% if cperms.issues.editopen_proposal or object.created_by == user %}
+				<div class="col-xs-12 text-right">
+					{% if not object.is_task or cperms.issues.edittask_proposal %}
+						<a href="{{object.get_edit_url}}" data-rel="form" style="color: #6C6C6E;"> <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span> </a>
+					{% endif %}
+					<a href="{{object.get_delete_url}}" data-rel="form" style="color: #6C6C6E;"> <i class="fa fa-trash-o"></i> <span>{% trans "Delete" %}</span> </a>
+				</div>
+			{% endif %}
+		{% endif %}
+		<h5 style="clear: both;">
 		    {% if object.content %}
 		        {{object.content|userhtml}}
 		    {% endif %}
@@ -150,12 +139,12 @@ id="proposal-detail"
         {% csrf_token %}
         <div class="narrow accept_reject_btns accept-buttons text-center">
             {% if object.status != object.statuses.ACCEPTED %}
-            <button class="btn btn-accept btn-lg proposal-action" name="accepted" value="{{object.statuses.ACCEPTED}}">
+            <button class="btn btn-default btn-lg" name="accepted" value="{{object.statuses.ACCEPTED}}" style="border-bottom: 5px solid #62d39f">
                 {% trans "Accept proposal" %}
             </button>
             {% endif %}
             {% if object.status != object.statuses.REJECTED %}
-            <button class="btn btn-reject btn-lg proposal-action" name="accepted" value="{{object.statuses.REJECTED}}">
+            <button class="btn btn-default btn-lg" name="accepted" value="{{object.statuses.REJECTED}}" style="border-bottom: 5px solid #de5757">
                 {% trans "Reject proposal" %}
             </button>
             {% endif %}

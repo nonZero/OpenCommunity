@@ -108,14 +108,14 @@
 	
 			<div class="oc_detail_top row clear" style="margin-right: -5px;margin-left: -5px;border:0;background: none;">
 				<div class="pull-left">
-	        		<h5><span class="glyphicon glyphicon-calendar"></span> {{ object|display_upcoming_time }}&nbsp;&nbsp;</h5>
+	        		<h5><i class="fa fa-calendar"></i> {{ object|display_upcoming_time }}&nbsp;&nbsp;</h5>
 	        	</div>
 				<div class="pull-left">
-					<h5><span class="glyphicon glyphicon-map-marker"></span> {{object.upcoming_meeting_location|default:_("Not set yet")}}&nbsp;&nbsp;</h5>
+					<h5><i class="fa fa-map-marker"></i> {{object.upcoming_meeting_location|default:_("Not set yet")}}&nbsp;&nbsp;</h5>
 				</div>
 				{% if cperms.community.editparticipants_community and community.upcoming_meeting_started %}
 				<div class="pull-left">
-					<h5><a data-rel="form" href="{% url "upcoming_edit_participants" community.id  %}" style="color: #6C6C6E;position: relative;top: 1px;text-decoration: none;"> <i class="fa fa-group"></i> {% trans "Participants" %}: {{object.upcoming_meeting_participants.count}}</a></h5>
+					<h5><a data-rel="form" href="{% url "upcoming_edit_participants" community.id  %}" style="color: #6C6C6E;"> <i class="fa fa-group"></i> {% trans "Participants" %}: {{object.full_participants}}</a></h5>
 				</div>
 				{% endif %}
 				

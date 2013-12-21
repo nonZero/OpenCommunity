@@ -30,7 +30,7 @@ id="issue-detail"
                 </li>
                 {% endfor %}
             {% else %}
-                {% for i in object.community.upcoming_issues %}
+                {% for i in object.community.upcoming_issues|dictsort:"order_in_upcoming_meeting" %}
                 <li{% if object == i %} class="active_issue"{% endif %}>
                     <a href="{{ i.get_absolute_url }}">{{ i }}</a>
                 </li>
@@ -69,7 +69,7 @@ id="issue-detail"
                 {% endfor %}
             </ul>
 			{% if object.is_archived or object.is_upcoming %}
-				<div class="text-right col-xs-12" style="font-size: 14px; border-bottom: 1px solid #e2e2e2;">
+				<div class="text-right col-xs-12" style="font-size: 14px;">
 					{% if object.is_archived %}
 						--{% trans "Closed" %}--
 					{% else %}
@@ -85,35 +85,37 @@ id="issue-detail"
             <div class="tab-content">
 
                 <div>
-                    <div class="issue-top">
+                    <div class="issue-top" style="border-bottom: 1px solid #e2e2e2;">
                         {% include "issues/_issue_title.html" %}
                     </div>
 
-                        <h2 class="filter-title">{% trans "Background" %}</h2>
+                        <h2 class="filter-title pull-left">{% trans "Background" %}</h2>
                         <div class="abstracts">
+
+	                    {% if cperms.issues.editclosed_issue or not object.is_archived %}
+	                        {% if cperms.issues.editopen_issue or object.created_by == user %}
+	                            <div class="filter filter-upcoming pull-right">
+	                                <h5>
+		                                <a data-rel="form" data-replace="#issue-abstract" href="{% url 'issue_edit_abstract' object.community.id object.id %}" title='{% trans "Edit Abstract" %}' style="color: #6C6C6E;"> <i class="fa fa-edit"></i> {% trans "Edit Abstract" %}</a>
+		                                <a id="add-attachment" data-rel="form" href="{% url 'add_attachment' community.id object.id %}" title='{% trans "Add attachment" %}' style="color: #6C6C6E;"> <i class="fa fa-paperclip"></i> {% trans "Add attachment" %}</a>
+	                                </h5>
+	                            </div>
+	                        {% endif %}
+	                    {% endif %}
+
                         {% for ai in object.agenda_items.all %}
                             {% if ai.background %}
-                                <div class="issue-abstract on filter-meeting-{{ai.meeting.id}} filter">
+                                <div class="issue-abstract on filter-meeting-{{ai.meeting.id}} filter" style="clear: both;">
                                     <a href="{{ai.meeting.get_absolute_url}}">{{ai.meeting.get_title_or_date}}:</a>
                                     {{ai.background|userhtml}}
                                 </div>
                             {% endif %}
                         {% endfor %}
 
-                        <div id="issue-abstract">
+                        <div id="issue-abstract" style="clear: both;">
                             {% include 'issues/_issue-abstract.html' %}
                         </div>
                         </div>
-
-                    {% if cperms.issues.editclosed_issue or not object.is_archived %}
-                        {% if cperms.issues.editopen_issue or object.created_by == user %}
-                            <div class="filter filter-upcoming">
-                                <a data-rel="form" data-replace="#issue-abstract" class="btn btn-default"
-                                href="{% url 'issue_edit_abstract' object.community.id object.id %}" title='{% trans "Edit Abstract" %}'> <i class="fa fa-edit"></i> <span>{% trans "Edit Abstract" %}</span> </a>
-                                <a id="add-attachment" data-rel="form" class="btn btn-default" href="{% url 'add_attachment' community.id object.id %}" title='{% trans "Add attachment" %}'> <i class="fa fa-paperclip"></i> <span>{% trans 'Add attachment' %}</span> </a>
-                            </div>
-                        {% endif %}
-                    {% endif %}
 
                     <h2 class="filter-title">
                         {% trans "Decisions" %}
