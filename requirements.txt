@@ -18,6 +18,10 @@ ipython
 # fabric
 # fabric-virtualenv
 
+
+# python-vote-core graphical library
+python-graph-core
+
 # helios stuff
 anyjson==0.3.1
 celery==3.0.16
