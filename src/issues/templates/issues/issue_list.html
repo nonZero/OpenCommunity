@@ -19,12 +19,6 @@ id="issue-list"
 {% endblock %}
 
 {% block content %}
-<div class="row">
-	<!-- <h2 class="col-xs-3 col-sm-1">{% trans "Search" %}:</h2> -->
-	<div class="col-xs-12 form-group">
-		<input type="text" class="form-control issue-search" placeholder="{% trans "Search in agenda list" %}">
-	</div>
-</div>
     {% if community.issue_ranking_enabled %}
     <ul id="issues-order" class="nav nav-tabs">
         <span style="float:right;margin-left: 2px;line-height: 1.428571429;border: 1px solid transparent;padding:10px 15px;font-weight:bold;">{% trans "Sort" %}</span>
@@ -36,6 +30,12 @@ id="issue-list"
     </ul>
     <div class="tab-content">
         <div id="by_time" class="tab-pane {% if not cperms.issues.vote_ranking %} active {% endif %}"> 
+            <div class="row">
+                <!-- <h2 class="col-xs-3 col-sm-1">{% trans "Search" %}:</h2> -->
+                <div class="col-xs-12 form-group">
+                    <input type="text" class="form-control issue-search" placeholder="{% trans "Search in agenda list" %}">
+                </div>
+            </div>
             <table class="table table-condensed issue-table">
             {% for object in object_list %}
                 <tr class="issue-list">
