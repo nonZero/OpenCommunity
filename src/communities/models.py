@@ -89,7 +89,6 @@ class Community(UIDMixin):
 
     board_name = models.CharField(_("Board Name"), max_length=200,
                                   null=True, blank=True)
-                                  
     straw_voting_enabled = models.BooleanField(_("Straw voting enabled"),
                                         default=False)
 
@@ -156,6 +155,9 @@ class Community(UIDMixin):
         if not self.upcoming_meeting_guests:
             return []
         return filter(None, [s.strip() for s in self.upcoming_meeting_guests.splitlines()])
+
+    def full_participants(self):
+        return len(self.upcoming_meeting_guests.splitlines()) + self.upcoming_meeting_participants.count() 
 
     def send_mail(self, template, sender, send_to, data=None, base_url=None):
 
