@@ -9,6 +9,7 @@ from ocd.base_models import HTMLField, UIDMixin, UIDManager
 from ocd.validation import enhance_html
 from ocd.storages import uploads_storage
 
+import meetings
 from datetime import datetime, timedelta
 import os.path
 
@@ -119,6 +120,10 @@ class Issue(UIDMixin):
     @property
     def is_archived(self):
         return self.status == IssueStatus.ARCHIVED
+    
+    @property
+    def in_closed_meeting(self):
+        return meetings.models.AgendaItem.objects.filter(issue=self).exists() 
 
     @property
     def can_straw_vote(self):

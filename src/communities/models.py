@@ -157,7 +157,9 @@ class Community(UIDMixin):
         return filter(None, [s.strip() for s in self.upcoming_meeting_guests.splitlines()])
 
     def full_participants(self):
-        return len(self.upcoming_meeting_guests.splitlines()) + self.upcoming_meeting_participants.count() 
+        guests_count = len(self.upcoming_meeting_guests.splitlines()) \
+                        if self.upcoming_meeting_guests else 0 
+        return guests_count + self.upcoming_meeting_participants.count() 
 
     def send_mail(self, template, sender, send_to, data=None, base_url=None):
 
