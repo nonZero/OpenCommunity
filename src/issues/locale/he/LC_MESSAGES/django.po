@@ -430,7 +430,7 @@ msgstr "שלח"
 
 #: templates/issues/issue_list.html:64
 msgid "Other issues"
-msgstr "נושאים אחרינושאים אחריםם"
+msgstr "נושאים אחרים"
 
 #: templates/issues/issueattachment_confirm_delete.html:5
 msgid "Delete Attachment"

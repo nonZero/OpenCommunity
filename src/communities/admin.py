@@ -17,6 +17,7 @@ class CommunityAdmin(ModelAdmin):
               'logo',
               'is_public',
               'straw_voting_enabled',
+              'issue_ranking_enabled',
               )
 
     inlines = [CommunityMembershipInline]
