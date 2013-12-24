@@ -26,14 +26,14 @@ id="issue-detail"
             {% if meeting %}
                 {% for i in meeting.agenda_items.all %}
                 <li>
-                	{% if object == i %} <img src="{{STATIC_URL}}images/issue_schventz.png" class="active_issue" />{% endif %}
+                	{% if object == i %} <div class="pull-right" style="width: 15px;"><span class="active_issue pull-right"></span></div>{% endif %}
                     <a href="{{ i.get_absolute_url }}?m_id={{meeting.id}}">{{ i }}</a>
                 </li>
                 {% endfor %}
             {% else %}
                 {% for i in object.community.upcoming_issues|dictsort:"order_in_upcoming_meeting" %}
                 <li>
-                	{% if object == i %} <img src="{{STATIC_URL}}images/issue_schventz.png" class="active_issue" />{% endif %}
+                	{% if object == i %} <div class="pull-right" style="width: 15px;"><span class="active_issue pull-right"></span></div>{% endif %}
                     <a href="{{ i.get_absolute_url }}">{{ i }}</a>
                 </li>
                 {% endfor %}
@@ -189,9 +189,21 @@ id="issue-detail"
                     </div>
                     {% endif %}
                 </div>
-
-            </div>
             {% endwith %}
+            {% if cperms.meetings.add_meeting and object.community.upcoming_meeting_started and object.status == object.statuses.IN_UPCOMING_MEETING %}
+				<br/>
+				<form id="issue-complete" method="post" action="{% url 'issue_complete' community.id issue.id %}">
+				    {% csrf_token %}
+				    <input name="enable" type="hidden" value="{{object.completed|yesno:'0,1'}}"/>
+				    <div class="narrow">
+				        <button class="close-issue-btn btn btn-oc btn-block btn-lg">
+				            {% if object.completed %}{% trans "Undo complete discussion" %}{% else %}{% trans "Complete discussion" %}{% endif %}
+				        </button>
+				    </div>
+				</form>
+				<br/>
+			{% endif %}
+            </div>
         </div>
     </div>
 </div>

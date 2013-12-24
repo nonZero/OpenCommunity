@@ -59,39 +59,25 @@
 		</div>
 		{% if cperms.communities.viewupcoming_community %}
 		{% if cperms.communities.viewupcoming_draft or object.upcoming_meeting_is_published %}
-		<div class="btn-group pull-right">
-			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-				{% trans "Actions" %} <span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu text-left" role="menu" style="left: 0; right: auto;">
+		<div class="pull-right">
 			{% if cperms.community.editupcoming_community %}
-				<li>
-					<a data-rel="form" href="{% url "upcoming_edit" community.id %}"> <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span></a>
-				</li>
-			{% endif %}
-			{% if cperms.community.editagenda_community %}
-				<li>
-					<a data-rel="form" href="{% url "upcoming_publish" community.id  %}"> {% if object.upcoming_meeting_started %} <i class="fa fa-envelope-o"></i> <span>{% trans "Summary Draft" %}</span> {% else %} <i class="fa fa-envelope-o"></i> <span>{% trans "Publish Agenda" %}</span> {% endif %}</a>
-				</li>
+				<a data-rel="form" href="{% url "upcoming_edit" community.id %}" style="display: block; text-align: left;"> <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span></a>
 			{% endif %}
 			{% if cperms.community.editupcoming_community %}
-				<li>
-					<form method="post" action="{% url "upcoming_start" community.id  %}">
-						{% csrf_token %}
-						<input type="hidden" name="upcoming_meeting_started" value="{{object.upcoming_meeting_started|yesno:'0,1'}}" id="id_upcoming_meeting_started">
-						{% if object.upcoming_meeting_started %}
-							<button style="border: 0; outline: none;background: 0;padding: 0;">
-								<i class="fa fa-undo"></i><span>{% trans "Undo Start Meeting" %}</span>
-							</button>
-						{% else %}
-							<button style="border: 0; outline: none;background: 0;padding: 0;">
-								<i class="fa fa-play-circle"></i><span>{% trans "Start Meeting" %}</span>
-							</button>
-						{% endif %}
-					</form>
-				</li>
+				<form method="post" class="btn btn-default" action="{% url "upcoming_start" community.id  %}">
+					{% csrf_token %}
+					<input type="hidden" name="upcoming_meeting_started" value="{{object.upcoming_meeting_started|yesno:'0,1'}}" id="id_upcoming_meeting_started">
+					{% if object.upcoming_meeting_started %}
+						<button style="border: 0; outline: none;background: 0;padding: 0;">
+							<i class="fa fa-undo"></i> <span>{% trans "Undo Start Meeting" %}</span>
+						</button>
+					{% else %}
+						<button style="border: 0; outline: none;background: 0;padding: 0;">
+							<i class="fa fa-play-circle"></i> <span>{% trans "Start Meeting" %}</span>
+						</button>
+					{% endif %}
+				</form>
 			{% endif %}
-			</ul>
 		</div>
 		{% endif %}
 		{% endif %}
@@ -155,12 +141,16 @@
 				{% endif %}
 			
 			{% endif %}
-	
+
+			{% if cperms.community.editagenda_community %}
+			<div style="margin: 1em auto;text-align: center;">
+				<a data-rel="form" href="{% url "upcoming_publish" community.id  %}" class="btn btn-oc" style="margin: 0 20px;"> {% if object.upcoming_meeting_started %} <i class="fa fa-envelope-o"></i> <span>{% trans "Summary Draft" %}</span> {% else %} <i class="fa fa-envelope-o"></i> <span>{% trans "Publish Agenda" %}</span> {% endif %}</a>
 			{% if object.upcoming_meeting_started and cperms.meetings.add_meeting %}
-				<div class="narrow">
-					<a href="{% url "upcoming_close" community.id %}" data-rel="form" class="btn btn-oc btn-block btn-lg"> {% trans "Close Meeting" %} </a>
-				</div>
+				<a href="{% url "upcoming_close" community.id %}" data-rel="form" class="btn btn-warning" style="margin: 0 20px;"> {% trans "Close Meeting" %} </a>
 			{% endif %}
+			</div>
+			{% endif %}
+	
 	
 			{% if cperms.community.editagenda_community %}
 			
