@@ -76,11 +76,14 @@ id="issue-list"
             <h2> {% trans "Issues for discussion" %} </h2>
             {% with can_sort=False %}
 
-			<ul id="voted_order" class="nav nav-pills nav-stacked">
-				{% for i in sorted_issues %}
-					{% include "issues/_issue_sort.html" %}
-				{% endfor %}
-			</ul>
+            <table id="voted_order" class="table table-condensed issue-table">
+                {% for object in sorted_issues %}
+                    <tr class="issue-list">
+                        <td class="issue_date">{{ forloop.counter }}</td>
+                        <td class="issue_title left_arrow"><a href="{{ object.get_absolute_url }}"> {{ object.title }}</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
 
             {% endwith %}
         </div>    
