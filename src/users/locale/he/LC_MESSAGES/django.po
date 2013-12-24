@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-17 09:32+0200\n"
+"POT-Creation-Date: 2013-12-24 15:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,19 +28,19 @@ msgid ""
 "form</a>."
 msgstr ""
 
-#: .\default_roles.py:95
+#: .\default_roles.py:96
 msgid "member"
 msgstr "חבר"
 
-#: .\default_roles.py:96
+#: .\default_roles.py:97
 msgid "board"
 msgstr "ועד"
 
-#: .\default_roles.py:97
+#: .\default_roles.py:98
 msgid "secretary"
 msgstr "מזכיר"
 
-#: .\default_roles.py:98
+#: .\default_roles.py:99
 msgid "chairman"
 msgstr "יושב ראש"
 

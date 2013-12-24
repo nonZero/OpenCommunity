@@ -92,6 +92,12 @@ def freeze():
 
 
 @task
+def reload_app():
+    with virtualenv(env.code_dir):
+        run("cd src && sudo kill -HUP `cat %s`" % env.pidfile)
+
+
+@task
 def deploy(restart=True):
     with virtualenv(env.code_dir):
         run("git pull")
@@ -103,7 +109,7 @@ def deploy(restart=True):
         run("git log -n 1 --format=\"%ai %h\" > static/version.txt")
         run("git log -n 1 > static/version-full.txt")
         if restart:
-            run("cd src && sudo kill -HUP `cat %s`" % env.pidfile)
+            reload_app()
 
 
 @task

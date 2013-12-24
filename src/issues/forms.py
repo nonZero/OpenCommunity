@@ -7,7 +7,8 @@ from users.models import OCUser
 import floppyforms as forms
 
 
-class BaseIssueForm(forms.ModelForm):
+class CreateIssueForm(forms.ModelForm):
+
     class Meta:
         model = models.Issue
         fields = (
@@ -20,14 +21,9 @@ class BaseIssueForm(forms.ModelForm):
             'abstract': HTMLArea,
         }
 
-
-class CreateIssueForm(BaseIssueForm):
-
     def __init__(self, *args, **kwargs):
 
         super(CreateIssueForm, self).__init__(*args, **kwargs)
-
-        initial = {'type': None}
 
         self.new_proposal = CreateProposalBaseForm(prefix='proposal',
                                    data=self.data if self.is_bound else None)
@@ -95,7 +91,7 @@ class AddAttachmentBaseForm(forms.ModelForm):
 
         return file_obj
 
-    
+
     def clean_title(self):
         title = self.cleaned_data['title']
 
@@ -125,12 +121,12 @@ class CreateProposalBaseForm(forms.ModelForm):
             'title': forms.TextInput,
             'content': HTMLArea,
             'assigned_to': forms.TextInput(attrs={
-                    'autocomplete':'off',                   
+                    'autocomplete':'off',
                     }),
             'due_by': forms.DateInput,
         }
 
-        
+
     def save(self):
         proposal = super(CreateProposalBaseForm, self).save()
         user_name = proposal.assigned_to
@@ -140,8 +136,8 @@ class CreateProposalBaseForm(forms.ModelForm):
             proposal.save()
         except OCUser.DoesNotExist:
             pass
-        
-        return proposal    
+
+        return proposal
 
 class CreateProposalForm(CreateProposalBaseForm):
 
@@ -158,7 +154,7 @@ class EditProposalForm(CreateProposalForm):
         super(EditProposalForm, self).__init__(*args, **kwargs)
         self.fields['type'].initial = self.instance.type
 
-        
+
 class EditProposalTaskForm(EditProposalForm):
 
     class Meta:
@@ -182,7 +178,7 @@ class CreateIssueCommentForm(forms.ModelForm):
         widgets = {
                     'content': HTMLArea,
                 }
-    
+
     def __init__(self, *args, **kwargs):
 #         self.helper = FormHelper()
 #         if self.form_id:

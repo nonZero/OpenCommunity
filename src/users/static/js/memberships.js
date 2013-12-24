@@ -5,15 +5,20 @@ $(function() {
 
         success: function(data) {
             var el = $(data.trim());
-            $("#invite-form").closest('li').before(el).parent().listview('refresh');
+            $("#invite-form").closest('li').before(el).parent();
+            $("#invite-form").get(0).reset();
             el.hide().show('slow');
             el.find('button').button();
             $("#invite-form #id_email").val("");
         },
         error: function(resp) {
-                if (resp.status == 403) {
-                    $("#popup-content").text(resp.responseText);
-                    $("#popup").popup({dismissible: true}).popup('open');
+                if (resp.status == 403 || resp.status == 400) {
+					$('label[for=id_email]').prepend(
+					'<div class="alert alert-warning alert-dismissable" style="margin-top: 10px;">' +
+				        '<button type="button" style="margin-right: 10px;" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +
+				        resp.responseText +
+					'</div>');
+					$("#invite-form #id_email").val("");
                 } else {
                     alert('Server Error! please try again or reload the page.');
                 }
@@ -29,7 +34,6 @@ $(function() {
                             success: function(data) {
                                 form.closest('li').hide('slow', function(){
                                     $(this).remove();
-                                    $("#invitations").listview('refresh');
                                     });
                             }
                         });
