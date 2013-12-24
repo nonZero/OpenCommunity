@@ -130,7 +130,7 @@ msgstr "אפשר הצבעת קש"
 
 #: .\models.py:95
 msgid "Issue ranking votes enabled"
-msgstr ""
+msgstr "אפשר תיעדוף נושאים"
 
 #: .\models.py:98
 msgid "Straw Vote ends at"

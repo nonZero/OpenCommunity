@@ -441,7 +441,7 @@ ul li.issue.oc_li a.addremove {
 .issue-abstract {
     padding: 5px 15px;
     border: 1px solid #d8d8d9;
-    background: #eee;
+    /*background: #eee;*/
     margin-bottom: 5px;
 }
 
@@ -449,13 +449,13 @@ ul li.issue.oc_li a.addremove {
 	padding: 0 15px;
 	border-top: 1px solid #d8d8d9;
 	border-bottom: 1px solid #d8d8d9;
-	background: #fcfcfc;
+	/*background: #fcfcfc;
 	background-image: -webkit-gradient(linear, left top, left bottom, from( #e7e7e8 ), to( #fcfcfc ));
 	background-image: -webkit-linear-gradient( top, #e7e7e8 , #fcfcfc );
 	background-image: -moz-linear-gradient( top, #e7e7e8 , #fcfcfc );
 	background-image: -ms-linear-gradient( top, #e7e7e8 , #fcfcfc );
 	background-image: -o-linear-gradient( top, #e7e7e8 , #fcfcfc );
-	background-image: linear-gradient( top, rgb(231, 231, 232) , #fcfcfc );
+	background-image: linear-gradient( top, rgb(231, 231, 232) , #fcfcfc );*/
 }
 
 .summary_box {
@@ -786,17 +786,27 @@ ul.proposals li.prop-content p {
 	margin: 7px;
 }
 #proposal-detail .accepted {
-	position: relative;
+	position: absolute;
+	top: 0;
+	left: 0;
+	font-size: 14px;
+	padding: 10px;
+	/*position: relative;
 	background: url(images/accepted.png) no-repeat right center #b8d29a;
 	border: 1px solid #d8e0df;
 	padding: 17px 50px;
 	font-size: 18px;
 	font-weight: bold;
 	margin-bottom: 20px;
-	margin-top: 20px;
+	margin-top: 20px;*/
 }
 #proposal-detail .rejected {
-    position: relative;
+	position: absolute;
+	top: 0;
+	left: 0;
+	font-size: 14px;
+	padding: 10px;
+    /*position: relative;
     background: url(images/proposal-rejected.png) no-repeat #d2af7d;
     background-position: 99% 50%;
     border: 1px solid #e8d8df;
@@ -804,7 +814,7 @@ ul.proposals li.prop-content p {
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 20px;
-	margin-top: 20px;
+	margin-top: 20px;*/
 }
 #proposal-detail .accepted a:hover,
 #proposal-detail .rejected a:hover {
