@@ -25,13 +25,15 @@ id="issue-detail"
         <ul class="issues_list">
             {% if meeting %}
                 {% for i in meeting.agenda_items.all %}
-                <li{% if object == i %} class="active_issue"{% endif %}>
+                <li>
+                	{% if object == i %} <img src="{{STATIC_URL}}images/issue_schventz.png" class="active_issue" />{% endif %}
                     <a href="{{ i.get_absolute_url }}?m_id={{meeting.id}}">{{ i }}</a>
                 </li>
                 {% endfor %}
             {% else %}
                 {% for i in object.community.upcoming_issues|dictsort:"order_in_upcoming_meeting" %}
-                <li{% if object == i %} class="active_issue"{% endif %}>
+                <li>
+                	{% if object == i %} <img src="{{STATIC_URL}}images/issue_schventz.png" class="active_issue" />{% endif %}
                     <a href="{{ i.get_absolute_url }}">{{ i }}</a>
                 </li>
                 {% endfor %}

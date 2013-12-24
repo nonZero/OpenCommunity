@@ -88,10 +88,10 @@
 }
 
 .active_issue {
-	background: #f5f6de;
-	border-bottom: 1px solid #e2e2e2;
-	border-right: 1px solid #e2e2e2;
-	border-top: 1px solid #e2e2e2;
+	position: absolute;
+	left: -11px;
+	top : 0;
+	z-index: 10;
 }
 
 .active_proposal {
@@ -118,8 +118,19 @@
 .issues_list li,
 .meetings_list li {
 	line-height: 20px;
+	margin: 0 10px;
 	padding: 10px;
 	word-break: break-word;
+	border-bottom: 1px solid #d5d6c6;
+	position: relative;
+}
+.issues_list h5,
+.meetings_list h5 {
+	color: #727256;
+	font-size: 16px;
+	margin: 20px 10px 0;
+	padding: 10px 0;
+	border-bottom: 1px solid #d5d6c6;
 }
 .meetings_list li a,
 .issues_list li a {
