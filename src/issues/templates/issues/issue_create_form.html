@@ -21,6 +21,9 @@
 	</ul>
     {{form.new_proposal}}
 
+{% endblock %}
+
+{% block scripts %}
 <script>
     $(function() {
         $('#id_proposal-type').closest('.form-group').hide();
@@ -28,6 +31,7 @@
         $("ul#proposal-type li")[0].click()
         var ac_url = '{% url "ac_user" community_id=community.id %}';
         init_user_autocomplete(ac_url);
+        $("#id_proposal-content").css('height', '100px');
      })
 </script>
 
