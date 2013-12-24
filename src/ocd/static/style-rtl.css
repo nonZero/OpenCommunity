@@ -336,16 +336,29 @@ p.user_nav {
 .nav > li.oc_li > a:hover, .nav > li.oc_li > a:focus {
 	background-color: transparent;
 }
-#agenda li.issue.oc_li a {
+
+
+li.issue.oc_li > a {
 	margin: 0 40px 0 100px;
 	padding-right: 0;
 	padding-left: 0;
 }
-#available li.issue.oc_li a {
+
+
+#available li.issue.oc_li a, #voted_out li.issue.oc_li a {
 	margin-left: 41px;
 	word-break: break-word;
 }
-#agenda li .grab {
+
+ul li.issue.oc_li a.addremove {
+	display: block;
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+
+
+#agenda li .grab , #ordered li .grab {
     width: 40px;
     height: 40px;
     background: url('images/drag-handle.png') center no-repeat;
@@ -371,17 +384,13 @@ p.user_nav {
     font-weight: bold;
     cursor: pointer;
 }
-#agenda li.issue a.addremove,
-#available li.issue a.addremove {
-	display: block;
-	margin: 0;
-	width: 100%;
-	height: 100%;
-}
-#agenda .icon-plus-minus {
+
+#agenda .icon-plus-minus, 
+#ordered .icon-plus-minus {
 	background: url('images/minus_action.png') no-repeat 50% 50%;
 }
-#available .icon-plus-minus {
+#available .icon-plus-minus,
+#voted_out .icon-plus-minus {
 	background: url('images/plus_action.png') no-repeat 50% 50%;
 }
 .tick {
@@ -390,7 +399,7 @@ p.user_nav {
 .cog {
 	background: url('images/cog.png') no-repeat 50% 50%;
 }
-.agenda_plus_minus {
+.agenda_plus_minus, .sort_plus_minus {
 	position: absolute;
 	width: 40px;
 	height: 100%;
@@ -1082,7 +1091,6 @@ form.delete-invitation {
 }
 
 .filter {
-    display: none;
 }
 
 /* Footer */

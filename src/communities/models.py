@@ -89,8 +89,10 @@ class Community(UIDMixin):
 
     board_name = models.CharField(_("Board Name"), max_length=200,
                                   null=True, blank=True)
-                                  
     straw_voting_enabled = models.BooleanField(_("Straw voting enabled"),
+                                        default=False)
+
+    issue_ranking_enabled = models.BooleanField(_("Issue ranking votes enabled"),   
                                         default=False)
 
     voting_ends_at = models.DateTimeField(_("Straw Vote ends at"),
@@ -153,11 +155,11 @@ class Community(UIDMixin):
         if not self.upcoming_meeting_guests:
             return []
         return filter(None, [s.strip() for s in self.upcoming_meeting_guests.splitlines()])
-    
+
     def full_participants(self):
         guests_count = len(self.upcoming_meeting_guests.splitlines()) \
-                        if self.upcoming_meeting_guests else 0
-        return guests_count + self.upcoming_meeting_participants.count()
+                        if self.upcoming_meeting_guests else 0 
+        return guests_count + self.upcoming_meeting_participants.count() 
 
     def send_mail(self, template, sender, send_to, data=None, base_url=None):
 

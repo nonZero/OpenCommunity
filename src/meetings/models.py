@@ -20,7 +20,7 @@ class AgendaItem(models.Model):
         unique_together = (("meeting", "issue"),)
         verbose_name = _("Agenda Item")
         verbose_name_plural = _("Agenda Items")
-        ordering = ('meeting__created_at', )
+        ordering = ('meeting__created_at', 'order')
 
     def __unicode__(self):
         return self.issue.title

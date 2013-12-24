@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-17 09:31+0200\n"
+"POT-Creation-Date: 2013-12-24 15:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -124,39 +124,43 @@ msgstr "סיכום הפגישה הקרובה"
 msgid "Board Name"
 msgstr "שם הועד"
 
-#: .\models.py:93
+#: .\models.py:92
 msgid "Straw voting enabled"
 msgstr "אפשר הצבעת קש"
 
-#: .\models.py:96
+#: .\models.py:95
+msgid "Issue ranking votes enabled"
+msgstr ""
+
+#: .\models.py:98
 msgid "Straw Vote ends at"
 msgstr "הצבעת שבשבת עד"
 
-#: .\models.py:99
+#: .\models.py:101
 msgid "Referendum started"
 msgstr "משאל התחיל"
 
-#: .\models.py:102
+#: .\models.py:104
 msgid "Referendum started at"
 msgstr "משאל התחיל ב"
 
-#: .\models.py:105
+#: .\models.py:107
 msgid "Referendum ends at"
 msgstr "משאל הסתיים ב"
 
-#: .\models.py:108
+#: .\models.py:110
 msgid "Default quorum"
 msgstr ""
 
-#: .\models.py:113
+#: .\models.py:115
 msgid "Community"
 msgstr "קהילה"
 
-#: .\models.py:114
+#: .\models.py:116
 msgid "Communities"
 msgstr "קהילות"
 
-#: .\models.py:147
+#: .\models.py:149
 msgid "Board"
 msgstr "ועד"
 
@@ -206,7 +210,7 @@ msgstr "כניסה"
 
 #: .\templates\communities\base_meeting.html.py:20
 #: .\templates\communities\upcoming.html.py:27
-#: .\templates\communities\upcoming.html.py:97
+#: .\templates\communities\upcoming.html.py:56
 #: .\templates\emails\agenda.txt.py:1
 msgid "Upcoming Meeting"
 msgstr "הפגישה הקרובה"
@@ -239,7 +243,7 @@ msgid "Select Participants"
 msgstr "בחר משתתפים"
 
 #: .\templates\communities\publish_upcoming.html.py:6
-#: .\templates\communities\upcoming.html.py:64
+#: .\templates\communities\upcoming.html.py:147
 #: .\templates\emails\protocol_draft.html.py:3
 #: .\templates\emails\protocol_draft.txt.py:1
 msgid "Summary Draft"
@@ -283,7 +287,7 @@ msgid "Meeting location"
 msgstr "מיקום הפגישה"
 
 #: .\templates\communities\upcoming.html.py:28
-#: .\templates\communities\upcoming.html.py:116
+#: .\templates\communities\upcoming.html.py:100
 #: .\templates\emails\_protocol.html.py:35
 #: .\templates\emails\_protocol.html.py:38
 #: .\templates\emails\agenda.html.py:55 .\templatetags\community_tags.py:17
@@ -298,63 +302,59 @@ msgstr "ללא שם"
 msgid "Unknown"
 msgstr "לא צוין"
 
-#: .\templates\communities\upcoming.html.py:54
-msgid "Actions"
-msgstr "פעולות"
-
-#: .\templates\communities\upcoming.html.py:59
+#: .\templates\communities\upcoming.html.py:64
 msgid "Edit"
 msgstr "עריכה"
 
-#: .\templates\communities\upcoming.html.py:64
-msgid "Publish Agenda"
-msgstr "פרסם סדר יום"
-
-#: .\templates\communities\upcoming.html.py:74
+#: .\templates\communities\upcoming.html.py:72
 msgid "Undo Start Meeting"
 msgstr "עצור פגישה"
 
-#: .\templates\communities\upcoming.html.py:78
+#: .\templates\communities\upcoming.html.py:76
 msgid "Start Meeting"
 msgstr "התחל פגישה"
 
-#: .\templates\communities\upcoming.html.py:107
+#: .\templates\communities\upcoming.html.py:91
 msgid "Login to vote"
 msgstr "הכנס בכדי להצביע"
 
-#: .\templates\communities\upcoming.html.py:120
+#: .\templates\communities\upcoming.html.py:104
 #: .\templates\emails\_protocol.html.py:51
 msgid "Participants"
 msgstr "משתתפים"
 
-#: .\templates\communities\upcoming.html.py:132
+#: .\templates\communities\upcoming.html.py:116
 msgid "Agenda items"
 msgstr "נושאים לסדר היום"
 
-#: .\templates\communities\upcoming.html.py:132
+#: .\templates\communities\upcoming.html.py:116
 msgid "Total proposals/Votes"
 msgstr "סך הצעות/כמה הצבעתי"
 
-#: .\templates\communities\upcoming.html.py:135
+#: .\templates\communities\upcoming.html.py:119
 msgid "Create Issue"
 msgstr "צור נושא"
 
-#: .\templates\communities\upcoming.html.py:147
+#: .\templates\communities\upcoming.html.py:131
 #: .\templates\emails\_protocol.html.py:41
 #: .\templates\emails\protocol.html.py:3 .\templates\emails\protocol.txt.py:1
 #: .\templates\emails\protocol_title.txt.py:1
 msgid "Summary"
 msgstr "סיכום הפגישה"
 
-#: .\templates\communities\upcoming.html.py:163
+#: .\templates\communities\upcoming.html.py:147
+msgid "Publish Agenda"
+msgstr "פרסם סדר יום"
+
+#: .\templates\communities\upcoming.html.py:149
 msgid "Close Meeting"
 msgstr "סגור פגישה"
 
-#: .\templates\communities\upcoming.html.py:170
+#: .\templates\communities\upcoming.html.py:158
 msgid "Available Issues"
 msgstr "נושאים נוספים"
 
-#: .\templates\communities\upcoming.html.py:184
+#: .\templates\communities\upcoming.html.py:172
 msgid "Agenda not yet published"
 msgstr "טרם פורסם סדר היום לפגישה הקרובה"
 
@@ -463,6 +463,9 @@ msgstr "הצבעה פעילה"
 #: .\templatetags\community_tags.py:61
 msgid "Published"
 msgstr "פורסם"
+
+#~ msgid "Actions"
+#~ msgstr "פעולות"
 
 #~ msgid "Sum vote"
 #~ msgstr "סכם הצבעות"
