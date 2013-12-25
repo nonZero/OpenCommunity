@@ -2,12 +2,12 @@ ul.wysihtml5-toolbar {
 	margin: 0;
 	padding: 0;
 	display: block;
-	background: #EEEEEE;
+	/*background: #EEEEEE;
 	border-top-right-radius: 4px;
 	border-top-left-radius: 4px;
 	border-top: 1px solid rgb(204, 204, 204);
 	border-right: 1px solid rgb(204, 204, 204);
-	border-left: 1px solid rgb(204, 204, 204);
+	border-left: 1px solid rgb(204, 204, 204);*/
 }
 
 ul.wysihtml5-toolbar::after {

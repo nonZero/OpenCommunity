@@ -61,7 +61,7 @@
 		{% if cperms.communities.viewupcoming_draft or object.upcoming_meeting_is_published %}
 		<div class="pull-right">
 			{% if cperms.community.editupcoming_community %}
-				<a data-rel="form" href="{% url "upcoming_edit" community.id %}" style="display: block; text-align: left;"> <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span></a>
+				<a data-rel="form" href="{% url "upcoming_edit" community.id %}" style="color: #6C6C6E;display: block; text-align: left;"> <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span></a>
 			{% endif %}
 			{% if cperms.community.editupcoming_community %}
 				<form method="post" class="btn btn-default" action="{% url "upcoming_start" community.id  %}">

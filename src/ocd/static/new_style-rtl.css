@@ -94,18 +94,20 @@
 	border-top: 1px solid #cecfb3;
 }
 
-.active_issue {
+.active_issue,
+.active_proposal {
 	z-index: 10;
-	border-top: 10px solid transparent;
-	border-bottom: 10px solid transparent;
-	border-left: 10px solid #f5f6de;
+	border-top: 20px solid transparent;
+	border-bottom: 20px solid transparent;
+	border-left: 20px solid #f5f6de;
 }
 
 .active_proposal {
-	background: #FFFFFF;
+	border-left: 20px solid #ffffff !important;
+	/*background: #FFFFFF;
 	border-bottom: 1px solid #e2e2e2;
 	border-right: 1px solid #e2e2e2;
-	border-top: 1px solid #e2e2e2;
+	border-top: 1px solid #e2e2e2;*/
 }
 
 .three_dot_sentence {
@@ -126,9 +128,7 @@
 .meetings_list li {
 	line-height: 20px;
 	margin: 0 10px 0 0;
-	padding: 10px 10px 10px 0;
 	word-break: break-word;
-	border-bottom: 1px solid #d5d6c6;
 	position: relative;
 }
 .issues_list h5,
@@ -142,6 +142,10 @@
 .meetings_list li a,
 .issues_list li a {
 	color: #6C6C6E;
+	display: block;
+	margin-left: 15px;
+	border-bottom: 1px solid #d5d6c6;
+	padding: 10px 10px 10px 0;
 }
 .meetings_list li a:hover,
 .issues_list li a:hover {

@@ -42,13 +42,19 @@ id="proposal-detail"
         {% if object.issue.proposals.closed %}
           <h5>{% trans "Decisions" %}</h5>
             {% for proposal in object.issue.proposals.closed %}
-                <li{% if object == proposal %} class="active_proposal"{% endif %}><a href="{{ proposal.get_absolute_url }}?m_id={{meeting_id.id}}">{{ proposal }}</a></li>
+                <li>
+                	{% if object == proposal %} <div class="pull-right" style="width: 15px;"><span class="active_proposal pull-right"></span></div>{% endif %}
+                	<a href="{{ proposal.get_absolute_url }}?m_id={{meeting_id.id}}">{{ proposal }}</a>
+                </li>
             {% endfor %}
         {% endif %}
 
         <h5>{% trans "Proposals" %}</h5>
 		{% for i in object.issue.proposals.open %}
-		<li{% if object == i %} class="active_proposal"{% endif %}><a href="{{ i.get_absolute_url }}?m_id={{meeting_id.id}}">{{ i }}</a></li>
+		<li>
+			{% if object == i %} <div class="pull-right" style="width: 15px;"><span class="active_proposal pull-right"></span></div>{% endif %}
+			<a href="{{ i.get_absolute_url }}?m_id={{meeting_id.id}}">{{ i }}</a>
+		</li>
 		{% endfor %}
 	</ul>
 </div>
@@ -64,7 +70,7 @@ id="proposal-detail"
 <div class="proposal" data-id="{{object.id}}" data-accepted="{{object.status}}">
 
     <div class="pull-left">
-        <h1 style="padding-right: 10px;">{{object.title}}</h1>
+        <h1 style="padding-right: 10px;padding-left: 130px;">{{object.title}}</h1>
     </div>
 	<div class="oc_detail_top row clear" style="margin-right: -5px;margin-left: -5px;border:0;background: none;">
         {% if object.type == 1 %}
@@ -107,13 +113,14 @@ id="proposal-detail"
             <div class="{{object.get_status_class}}">
                 
                 {% if object.status == object.statuses.ACCEPTED %}
-                    {% trans "Proposal accepted" %}!
+                    <i class="fa fa-check-circle"></i> {% trans "Proposal accepted" %}!
                 {% endif %}
                 {% if object.status == object.statuses.REJECTED %}
-                    {% trans "Proposal rejected" %}!
+                    <i class="fa fa-times-circle"></i> {% trans "Proposal rejected" %}!
                 {% endif %}
                 
-                {% if object.decided_at_meeting %} <a href="{{ object.decided_at_meeting.get_absolute_url }}" class="mobile_line_break">({{ object.decided_at_meeting.get_title_or_date }})</a>
+                {% if object.decided_at_meeting %}
+                	<a href="{{ object.decided_at_meeting.get_absolute_url }}" class="text-center" style="display: block;">({{ object.decided_at_meeting.get_title_or_date }})</a>
                 {% endif %}
         
                 {% if object.can_vote and cperms.issues.acceptopen_proposal %}
