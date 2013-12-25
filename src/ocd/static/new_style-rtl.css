@@ -87,6 +87,13 @@
 	border-top: 1px solid #cecfb3;
 }
 
+.active_sibling {
+	background: #f5f6de;
+	border-bottom: 1px solid #cecfb3;
+	border-right: 1px solid #cecfb3;
+	border-top: 1px solid #cecfb3;
+}
+
 .active_issue {
 	z-index: 10;
 	border-top: 10px solid transparent;

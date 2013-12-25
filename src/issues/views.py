@@ -63,6 +63,7 @@ class IssueList(IssueMixin, ListView):
         save_vote(request)
         return json_response({'res': 'ok', })
 
+
 class IssueDetailView(IssueMixin, DetailView):
 
     def get_required_permission(self):
@@ -80,9 +81,20 @@ class IssueDetailView(IssueMixin, DetailView):
             d['meeting'] = get_object_or_404(Meeting, id=m_id)
         else:
             d['meeting'] = None
+
+        if self.request.GET.get('s', None) == '1':
+           d['all_issues'] = Issue.objects.filter(active=True).exclude(
+                 status=IssueStatus.ARCHIVED).order_by('-created_at')
         return d
 
     required_permission_for_post = 'issues.add_issuecomment'
+
+    
+    def get(self, request, *args, **kwargs):
+        if  self.request.GET.get('s', None) == '1':
+            self.template_name = 'issues/issue_detail_siblings.html'
+        return super(IssueDetailView, self).get(request, *args, **kwargs)
+
 
     def post(self, request, *args, **kwargs):
 
@@ -196,7 +208,7 @@ class IssueCompleteView(IssueMixin, SingleObjectMixin, View):
     def post(self, request, *args, **kwargs):
         o = self.get_object()
         o.completed = request.POST.get('enable') == '1'
-        if not o.completed:
+        if not o.completed and o.status == o.statuses.ARCHIVED:
             o.status = o.statuses.OPEN
         o.save()
         return HttpResponse("-")

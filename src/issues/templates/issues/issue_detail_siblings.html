@@ -12,36 +12,19 @@ id="issue-detail"
 {% endblock %}
 
 {% block content %}
-<div class="meeting_header">
-    {% if meeting %}
-        <a class="three_dot_sentence level1" href="{{meeting.get_absolute_url}}">{{ meeting.get_title_or_shortdate }}</a>
-    {% else %}
-        <a class="three_dot_sentence level1" href="{{object.community.get_upcoming_absolute_url}}">{{object.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}</a>
-    {% endif %}
-</div>
 
-<div class="issue_main clearfix">
+
+
     <div class="issue_right_column col-sm-3 hidden-xs">
-        <ul class="issues_list">
-            {% if meeting %}
-                {% for ai in meeting.agenda.all %}
-                <li>
-                	{% if object == i %} <div class="pull-right" style="width: 15px;"><span class="active_issue pull-right"></span></div>{% endif %}
-                    <a href="{{ ai.issue.get_absolute_url }}?m_id={{meeting.id}}">{{ ai.issue }}</a>
-                </li>
-                {% endfor %}
-            {% else %}
-                {% for i in object.community.upcoming_issues|dictsort:"order_in_upcoming_meeting" %}
-                <li>
-                	{% if object == i %} <div class="pull-right" style="width: 15px;"><span class="active_issue pull-right"></span></div>{% endif %}
-                    <a href="{{ i.get_absolute_url }}">{{ i }}</a>
-                </li>
-                {% endfor %}
-            {% endif %}
-        </ul>
+      <h2>{% trans "Issues" %}</h2>
+      <ul class="meetings_list">
+        {% for i in all_issues %}
+          <li{% if object == i %} class="active_sibling"{% endif %}><a href="{{ i.get_absolute_url }}?s=1">{{ i.title }}</a></li>
+        {% endfor %}
+      </ul>
     </div>
 
-    <div class="issue_left_column col-sm-9 col-xs-12" style="margin-bottom: -40px;">
+    <div class="issue_left_column col-sm-9 col-xs-12">
         <div class="issue_left_column_inner">
 
             {% with can_straw_vote=object.can_straw_vote %}
@@ -109,7 +92,6 @@ id="issue-detail"
             {% endwith %}
         </div>
     </div>
-</div>
 
 {% endblock %}
 

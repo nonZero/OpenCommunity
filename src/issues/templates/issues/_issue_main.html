@@ -1,0 +1,121 @@
+{% load i18n %}
+{% load voting_tags community_tags opencommunity %}
+
+<div>
+    <div class="issue-top" style="border-bottom: 1px solid #e2e2e2;">
+        {% include "issues/_issue_title.html" %}
+    </div>
+
+        <h2 class="filter-title pull-left">{% trans "Background" %}</h2>
+        <div class="abstracts">
+
+            {% if cperms.issues.editclosed_issue or not object.is_archived %}
+                {% if cperms.issues.editopen_issue or object.created_by == user %}
+                    <div class="filter filter-upcoming pull-right">
+                        <h5>
+                            <a data-rel="form" data-replace="#issue-abstract" href="{% url 'issue_edit_abstract' object.community.id object.id %}" title='{% trans "Edit Abstract" %}' style="color: #6C6C6E;"> <i class="fa fa-edit"></i> {% trans "Edit Abstract" %}</a>
+                            <a id="add-attachment" data-rel="form" href="{% url 'add_attachment' community.id object.id %}" title='{% trans "Add attachment" %}' style="color: #6C6C6E;"> <i class="fa fa-paperclip"></i> {% trans "Add attachment" %}</a>
+                        </h5>
+                    </div>
+                {% endif %}
+            {% endif %}
+
+            {% for ai in object.agenda_items.all %}
+                {% if ai.background %}
+                    <div class="issue-abstract on filter-meeting-{{ai.meeting.id}} filter" style="clear: both;">
+                        <a href="{{ai.meeting.get_absolute_url}}">{{ai.meeting.get_title_or_date}}:</a>
+                        {{ai.background|userhtml}}
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            <div id="issue-abstract" style="clear: both;">
+                {% include 'issues/_issue-abstract.html' %}
+            </div>
+        </div>
+
+    <h2 class="filter-title">
+        {% trans "Decisions" %}
+    </h2>
+    <div>
+        {% for ai in object.agenda_items.all %}
+            {% if ai.proposals.count %}
+                <div class="filter-meeting-{{ai.meeting.id}} filter">
+                    {% for proposal in ai.proposals|dictsortreversed:"created_at" %}
+                        {% include 'issues/_proposal.html' %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <h2 class="filter-title">
+        {% trans "Proposals" %}
+    </h2>
+    <div>
+        <div class="open-proposals filter-upcoming filter">
+            {% for proposal in object.proposals.open %}
+                {% include 'issues/_proposal.html' %}
+                {% if can_straw_vote and not proposal.decided and cperms.issues.vote and user|member_of:community %}
+                    <div class="issue_proposal_vote">
+                        {% include 'issues/_vote.html' %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        {% if cperms.issues.add_proposal and not object.is_archived %}
+            <div class="narrow clear filter filter-upcoming">
+                <a class="btn btn-oc btn-lg btn-block" data-rel="form" data-append-to=".open-proposals" href="{% url "proposal_create" community.id object.id %}">{% trans "Add Proposal" %}</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <h2 class="filter-title">
+        {% trans "Summary" %}
+    </h2>
+    {% if object.active_comments.count or cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
+    <div class="issuecomments">
+        <ul id="comments" class="comments">
+            {% for ai in object.agenda_items.all %}
+                {% if ai.comments.count %}
+                    {% for c in ai.comments %}
+                        {% include "issues/_comment.html" %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+            {% for c in object.new_comments %}
+                {% include "issues/_comment.html" %}
+            {% endfor %}
+            {% if cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
+                <li class="rich_editor filter-upcoming filter">
+                    <form id="add-comment" method="post">
+                        {% csrf_token %}
+                        {{form}}
+                        <div class="col-xs-12 text-center rich_editor_box">
+                            <button class="add-comment-btn btn btn-oc btn-lg" disabled="1" style="width: 200px;">
+                                {% trans "Save" %}
+                            </button>
+                        </div>
+                    </form>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+    {% endif %}
+    {% if not meeting %}
+    {% if cperms.meetings.add_meeting and object.community.upcoming_meeting_started and object.status == object.statuses.IN_UPCOMING_MEETING %}
+        <br/>
+        <form id="issue-complete" method="post" action="{% url 'issue_complete' community.id issue.id %}">
+          {% csrf_token %}
+          <input name="enable" type="hidden" value="{{object.completed|yesno:'0,1'}}"/>
+          <div class="narrow">
+              <button class="close-issue-btn btn btn-oc btn-block btn-lg">
+                  {% if object.completed %}{% trans "Undo complete discussion" %}{% else %}{% trans "Complete discussion" %}{% endif %}
+              </button>
+          </div>
+        </form>
+        <br/>
+    {% endif %}
+    {% endif %}
+</div>
