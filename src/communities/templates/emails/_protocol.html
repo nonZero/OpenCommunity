@@ -23,10 +23,12 @@
         </h1>
 
         <div style="padding:3px 6px">
+            {% if community.allow_links_in_emails %}
             <p>
                 <a href="{{base_url}}{{url}}">{% trans "View online" %}</a>
             </p>
-            
+            {% endif %}
+
             <div style="border: solid 1px #ccc; margin: 4px 0;padding: 0"> 
                 <h2 style="margin:0; background: #ddd;padding: 4px">{% trans "Meeting Details" %}</h2>
 
@@ -77,9 +79,13 @@
                 <article style="border: solid 1px #ccc; margin-top: 12px;">
     
                     <h3 style="margin:0; background: #ddd;padding: 4px; font-size: 20px;">
+                        {% if community.allow_links_in_emails %}
                         <a href="{{base_url}}{{a.issue.get_absolute_url}}">
                             {{a.issue.title}}
                         </a>
+                        {% else %}
+                            {{a.issue.title}}
+                        {% endif %}
                     </h3>
 
                     {% if a.comments.count or a.issue.attachments.count %}
@@ -123,12 +129,16 @@
                             <ul>
                                 {% for p in a.accepted_proposals.all %}
                                     <li style="padding:2px 0">
+                                        {% if community.allow_links_in_emails %}
                                         <a href="{{base_url}}{{p.get_absolute_url}}">
                                             {% if p.type != 3 %}
                                                 {{ p.get_type_display }}:
                                             {% endif %}
                                             {{p.title}}
                                         </a>
+                                        {% else %}
+                                            {{p.title}} 
+                                        {% endif %}
                                         {% if p.assigned_to %}
                                             &nbsp;
                                             <b>{% trans "Assigned to" %}</b>: {{p.assigned_to}}
@@ -153,9 +163,13 @@
                             <ul>
                                 {% for n in a.rejected_proposals.all %}
                                     <li style="padding:2px 0">
+                                        {% if community.allow_links_in_emails %}
                                         <a href="{{base_url}}{{n.get_absolute_url}}">
                                             {{n.title}}
                                         </a>
+                                        {% else %}
+                                              {{n.title}}
+                                        {% endif %}
                                     </li>
                                 {% endfor %}
                             </ul>

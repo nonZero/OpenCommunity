@@ -110,6 +110,8 @@ class Community(UIDMixin):
     default_quorum = models.PositiveSmallIntegerField(_("Default quorum"),
                                     null=True, blank=True)
 
+    allow_links_in_emails = models.BooleanField(_("Allow links inside emails"),   
+                                        default=True)
 
     class Meta:
         verbose_name = _("Community")

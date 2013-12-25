@@ -18,6 +18,7 @@ class CommunityAdmin(ModelAdmin):
               'is_public',
               'straw_voting_enabled',
               'issue_ranking_enabled',
+              'allow_links_in_emails',
               )
 
     inlines = [CommunityMembershipInline]

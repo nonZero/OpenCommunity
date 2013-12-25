@@ -40,7 +40,7 @@ id="issue-list"
             {% for object in object_list %}
                 <tr class="issue-list">
                     <td class="issue_date">{{ object.created_at|ocshortdate }}</td>
-                    <td class="issue_title left_arrow"><a href="{{ object.get_absolute_url }}"> {{ object.title }}</a></td>
+                    <td class="issue_title left_arrow"><a href="{{ object.get_absolute_url }}?s=1"> {{ object.title }}</a></td>
                 </tr>
             {% endfor %}
             </table>
@@ -80,7 +80,7 @@ id="issue-list"
                 {% for object in sorted_issues %}
                     <tr class="issue-list">
                         <td class="issue_date">{{ forloop.counter }}</td>
-                        <td class="issue_title left_arrow"><a href="{{ object.get_absolute_url }}"> {{ object.title }}</a></td>
+                        <td class="issue_title left_arrow"><a href="{{ object.get_absolute_url }}?s=1"> {{ object.title }}</a></td>
                     </tr>
                 {% endfor %}
             </table>
@@ -94,7 +94,7 @@ id="issue-list"
                 {% for object in object_list %}
                     <tr class="issue-list">
                         <td class="issue_date">{{ object.created_at|ocshortdate }}</td>
-                        <td class="issue_title left_arrow"><a href="{{ object.get_absolute_url }}"> {{ object.title }}</a></td>
+                        <td class="issue_title left_arrow"><a href="{{ object.get_absolute_url }}?s=1"> {{ object.title }}</a></td>
                     </tr>
                 {% endfor %}
             </table>

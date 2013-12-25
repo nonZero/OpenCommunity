@@ -1,6 +1,6 @@
 <li class="issue oc_li" data-issue="{{i.id}}">
     {% if can_sort %} <div class="grab"></div> {% endif %}
-    <a href="{{i.get_absolute_url}}">
+    <a href="{{i.get_absolute_url}}?s=1">
       {{i.title}}
     </a>
     {% if can_sort %}
