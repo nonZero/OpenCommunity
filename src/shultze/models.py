@@ -147,7 +147,7 @@ class IssuesGraph(models.Model):
         """
         edges_dict = dict()
         for edge in IssueEdge.objects.filter(graph=self):
-            edges_dict[(edge.from_node.id, edge.to_node.id)] = edge.weight
+            edges_dict[(edge.from_node.issue_id, edge.to_node.issue_id)] = edge.weight
         return edges_dict
     
     def get_schulze_npr_results(self):
