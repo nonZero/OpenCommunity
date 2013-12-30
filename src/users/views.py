@@ -63,7 +63,7 @@ class MembershipList(MembershipMixin, ListView):
 
         i = form.save()
 
-        i.send()
+        i.send(sender=request.user)
 
         return render(request, 'users/_invitation.html', {'object': i})
 

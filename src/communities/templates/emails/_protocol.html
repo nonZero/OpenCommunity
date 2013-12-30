@@ -35,9 +35,12 @@
                 <div style="margin:0; padding: 4px">
                     <b>{% trans "Scheduled at" %}:</b>
                     {{ scheduled_at|default:_("Not set yet") }}
-                    <br/>
-                    <b>{% trans "Location" %}:</b>
-                    {{ location|default:_("Not set yet") }}
+                    
+                    {% if location %}
+                      <br/>
+                      <b>{% trans "Location" %}:</b>
+                    {% endif %}
+
                     {% if summary %}
                         <br/>
                         <b>{% trans "Summary" %}:</b>    

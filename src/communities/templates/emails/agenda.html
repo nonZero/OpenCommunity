@@ -92,6 +92,19 @@
                             </div>
                         {% endif %}
                         
+                        {% if i.attachments.count %}
+                         <div class="issue_attachments">
+                            <p>{% trans 'Related files' %}:</p>
+                            <ul>
+                            {% for att in i.attachments.all %}
+                                <li>                      
+                                    <a href="{{base_url}}{{ att.get_absolute_url }}" class="file_ext"><img height="16" src="{{base_url}}{{ STATIC_URL }}images/icons/{{ att.get_icon }}.png" /> {{att.title}}</a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                         </div>
+                        {% endif %}
+
                         {% with proposals=i.active_proposals.count %}
                             {% if proposals %}
                                 <h4 style="margin:0; background: #eee; padding: 2px">
