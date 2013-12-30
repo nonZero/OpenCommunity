@@ -216,6 +216,9 @@
 #issue-list nav.oc_navbar ul li:nth-child(1) a {
 	text-decoration: underline;
 } 
+#issue-list nav.oc_navbar ul.navbar-right li:nth-child(1) a {
+	text-decoration: none;
+} 
 #meeting-detail nav.oc_navbar ul li:nth-child(2) a,
 #issue-detail nav.oc_navbar ul li:nth-child(2) a,
 #proposal-detail nav.oc_navbar ul li:nth-child(2) a,

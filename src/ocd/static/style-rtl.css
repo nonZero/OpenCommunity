@@ -344,6 +344,11 @@ li.issue.oc_li > a {
 	padding-left: 0;
 }
 
+#voted_out li.issue.oc_li > a {
+	padding-right: 75px;
+	margin-right: 0;
+	font-size: 18px;
+}
 
 #available li.issue.oc_li a, #voted_out li.issue.oc_li a {
 	margin-left: 41px;
@@ -364,6 +369,24 @@ ul li.issue.oc_li a.addremove {
     background: url('images/drag-handle.png') center no-repeat;
     float: right;
     cursor: move;
+}
+#ordered li .grab span {
+	display: none;
+}
+#voted_out li .grab span {
+	display: block;
+}
+#voted_out li .grab {
+	width: 60px;
+    height: 45px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background: #3d3c3c;
+	color: #fff;
+	text-align: center;
+	font-size: 16px;
+	vertical-align: middle;
+    float: right;
 }
 #agenda .completed {
 	position: relative;
