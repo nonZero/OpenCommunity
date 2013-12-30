@@ -39,7 +39,7 @@ id="issue-detail"
                     margin-top: -31px;
                     margin-left:-23px;
                     border-bottom: 0; 
-                    padding-top: 37px;"
+                    padding-top: 0;"
                 >
 
                 {% if not object.is_archived %}
@@ -129,5 +129,14 @@ id="issue-detail"
             {% endif %}
         });
     </script>
+	<script>
+		$(function() {
+			var Issues = $('.issue_right_column').outerHeight();
+			var Issue = $('.issue_left_column').outerHeight();
+			if (Issues > Issue) {
+				$('.issue_left_column').outerHeight(Issues+20);
+			};
+		});
+	</script>
 
 {% endblock %}
