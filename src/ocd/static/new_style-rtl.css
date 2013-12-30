@@ -255,7 +255,7 @@
 	.paper_bg {
 		background: #FFFFFF;
 	}
-	.issue_left_column_inner ul.nav.nav-tabs {
-		padding-top: 0 !important;
-	}
+	/*.issue_left_column_inner ul.nav.nav-tabs {
+		padding-top: 37px !important;
+	}*/
 }
