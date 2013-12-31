@@ -32,7 +32,7 @@ $(function() {
         var el = $(this).parent().parent();
         el.addClass('loading');
         //console.log(el)
-        $("#available").append(el);
+        $("#available").prepend(el);
         toggleIssue(el, 1);
     }).sortable({
         'containment': $('#agenda').parent().parent(),

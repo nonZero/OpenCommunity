@@ -53,7 +53,7 @@ class IssueList(IssueMixin, ListView):
                                                 i.issue.status != IssueStatus.ARCHIVED]
                 all_issues_set = set(list(d['sorted_issues']))
                 d['my_non_ranked'] = list(all_issues_set - set(d['my_vote']))
-                print all_issues_set, set(d['my_vote'])
+                # print all_issues_set, set(d['my_vote'])
         # d['can_rank_issues'] = can_rank_issues
         return d
 

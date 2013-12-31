@@ -15,7 +15,6 @@ def user_vote(community_id, current_vote, prev_vote):
     if prev_vote:
         g.add_ballots(prev_vote,reverse=True)
     g.add_ballots(current_vote)
-    print g.get_schulze_npr_results()
 
 
 def set_issues_order_by_votes(community_id):
@@ -26,11 +25,11 @@ def set_issues_order_by_votes(community_id):
     except IssuesGraph.DoesNotExist:
         raise
     res = g.get_schulze_npr_results()
-    issues_order = Issue.objects.in_bulk(res['order'])
-    for i, obj in enumerate(issues_order.values()):
-        obj.order_by_votes = i
-        print '[', i, '] ', obj 
-        obj.save()
+    issues = Issue.objects.in_bulk(res['order'])
+    for idx, id in enumerate(res['order']):
+        issues[id].order_by_votes = idx
+        print '[', idx, '] ', issues[id]
+        issues[id].save()
         
 
 def send_issue_ranking(request):

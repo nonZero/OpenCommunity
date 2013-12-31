@@ -156,16 +156,39 @@
 			
 				<div id="available-agenda" class="agenda-list">
 					<h2>{% trans "Available Issues" %}</h2>
-				
-					<ul id="available" class="nav nav-pills nav-stacked">
-						{% for i in object.available_issues %}
-							{% include "communities/_issue.html" %}
-						{% endfor %}
-					</ul>
+          {% if community.issue_ranking_enabled %}
+              <ul id="issues-order" class="nav nav-tabs">
+                  <span style="float:right;margin-left: 2px;line-height: 1.428571429;border: 1px solid transparent;padding:10px 15px;font-weight:bold;">{% trans "Sort" %}</span>
+                  <li class="active"><a href="#by_time" data-toggle="tab">{% trans "By time" %}</a></li>
+                  <li><a href="#by_rank" data-toggle="tab">{% trans "By rank" %}</a></li>
+              </ul>    
+              <div class="tab-content">
+              <div id="by_time" class="tab-pane active"> 
+                  <ul id="available" class="nav nav-pills nav-stacked">
+                    {% for i in object.available_issues %}
+                      {% include "communities/_issue.html" %}
+                    {% endfor %}
+                  </ul>
+              </div>
+              <div id="by_rank" class="tab-pane"> 
+                  <ul id="available" class="nav nav-pills nav-stacked">
+                    {% for i in object.available_issues %}
+                      {% include "communities/_issue.html" %}
+                    {% endfor %}
+                  </ul>
+              </div>
+              </div>
+
+        {% else %}
+              <ul id="available" class="nav nav-pills nav-stacked">
+                {% for i in object.available_issues %}
+                  {% include "communities/_issue.html" %}
+                {% endfor %}
+             </ul> 
+        {% endif %}
+        
 				</div>
-			
-			{% endif %}
-	
+        {% endif %}	
 		{% else %}
 	
 			<div class="notice text-center">
