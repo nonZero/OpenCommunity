@@ -117,8 +117,8 @@ class Community(UIDMixin):
         verbose_name = _("Community")
         verbose_name_plural = _("Communities")
 
-    #def __unicode__(self):
-    #    return self.name
+    def __unicode__(self):
+        return self.name
 
     @models.permalink
     def get_absolute_url(self):
