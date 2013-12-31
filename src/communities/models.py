@@ -87,8 +87,8 @@ class Community(UIDMixin):
     upcoming_meeting_summary = HTMLField(_("Upcoming meeting summary"),
                                          null=True, blank=True)
 
-    board_name = models.CharField(_("Board Name"), max_length=200,
-                                  null=True, blank=True)
+    board_name = models.CharField(_("Board Name"), max_length=200)
+    
     straw_voting_enabled = models.BooleanField(_("Straw voting enabled"),
                                         default=False)
 
@@ -118,7 +118,7 @@ class Community(UIDMixin):
         verbose_name_plural = _("Communities")
 
     def __unicode__(self):
-        return self.name
+        return self.name + " - " + self.board_name
 
     @models.permalink
     def get_absolute_url(self):

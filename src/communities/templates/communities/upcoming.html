@@ -117,11 +117,17 @@
 			</div>
 	
 			<div id="agenda-container" class="agenda-list clear">
-				<h2 class="pull-left"> {% trans "Agenda items" %}{% if object.has_straw_votes and cperms.issues.vote and user.id %} - <span class="badge vote-badge">{% trans "Total proposals/Votes" %}</span>{% endif %} <span class="loader"> <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/> </span></h2>
-	
+				<h2 class="pull-left"> {% trans "Agenda items" %} <span class="loader"> <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/> </span></h2>
 				{% if cperms.community.editagenda_community %}
 					<a class="btn btn-oc pull-right" data-rel="form" href="{% url "issue_create_upcoming" community.id %}"> <i class="fa fa-plus"></i> <span>{% trans "Create Issue" %}</span></a>
 				{% endif %}
+				{% if object.has_straw_votes and cperms.issues.vote and object.upcoming_meeting_is_published and user.id %}
+					<h2 class="pull-right">
+						<span class="badge vote-badge">
+							{% trans "Total proposals/Votes" %}
+						</span>
+					</h2>
+				{% endif %}	
 	
 				<ul id="agenda" class="nav nav-pills nav-stacked clear">
 					{% for i in object.upcoming_issues %}
@@ -184,6 +190,7 @@
 
 {% block additional_scripts %}
 <script>
+    var Save = '{% trans "Save" %}';
 	$(function() {
 		$('.show_meetings').on('click', function() {
 			$(".main_meeting_content, .small_meetings").toggle().parent().toggleClass("paper_bg");

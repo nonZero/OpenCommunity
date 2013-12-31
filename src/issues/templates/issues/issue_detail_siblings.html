@@ -19,7 +19,12 @@ id="issue-detail"
       <h2>{% trans "Issues" %}</h2>
       <ul class="meetings_list">
         {% for i in all_issues %}
-          <li{% if object == i %} class="active_sibling"{% endif %}><a href="{{ i.get_absolute_url }}?s=1">{{ i.title }}</a></li>
+          <li>
+          	{% if object == i %}
+          		<div class="pull-right" style="width: 15px;"><span class="active_sibling pull-right"></span></div>
+          	{% endif %}
+          	<a href="{{ i.get_absolute_url }}?s=1">{{ i.title }}</a>
+      	</li>
         {% endfor %}
       </ul>
     </div>
@@ -67,13 +72,13 @@ id="issue-detail"
                   </li>
 
                     <li{% if not meeting and object.is_archived %} class="active"{% endif %}>
-                        <a href="#" data-toggle="filter">{% trans "All" %}</a>
+                        <a href="#" data-toggle="filter" data-hide=".filter-all">{% trans "All" %}</a>
                     </li>
                 </ul>
             {% endif %}
 
             {% if object.is_archived or object.is_upcoming %}
-                <div class="text-right col-xs-12" style="font-size: 14px;">
+                <div class="text-right col-xs-12 filter filter-upcoming" style="font-size: 14px;">
                     {% if object.is_archived %}
                         --{% trans "Closed" %}--
                     {% else %}
@@ -85,6 +90,12 @@ id="issue-detail"
                     {% endif %}
                 </div>
             {% endif %}
+
+			{% for ai in object.agenda_items.all reversed %}
+			    <div class="text-right col-xs-12 filter-meeting-{{ai.meeting.id}} filter filter-all" style="font-size: 14px;padding-left: 40px;">
+			        <a href="{{ai.meeting.get_absolute_url}}">{{ai.meeting.get_title_or_shortdate}}</a>
+			    </div>
+		    {% endfor %}
 
             <div class="tab-content">
                 {% include 'issues/_issue_main.html' %}
@@ -104,17 +115,22 @@ id="issue-detail"
     <script src="{{STATIC_URL}}js/issue.js"></script>
     <script src="{{STATIC_URL}}js/Chart.js"></script>
     <script src="{{STATIC_URL}}js/proposal.js"></script>
+    <script src="{{STATIC_URL}}js/filter.js"></script>
     <script src="{{STATIC_URL}}js/_piechart.js"></script>
     <script src="{{STATIC_URL}}bootstrap/js/typeahead.min.js"></script>
     <script src="{{ STATIC_URL }}js/hogan-2.0.0.js"></script>
     <script src="{{STATIC_URL}}js/issues.js"></script>
-    <script src="{{STATIC_URL}}js/filter.js"></script>
     <script src="{% url 'jsi18n' %}"></script>
 
     <script>
         $(function() {
+
+            {% if object.agenda_items.count %}
+                $('.active > [data-toggle=filter]').click();
+            {% endif %}
+
             {% for proposal in object.proposals.open %}
-                {% if proposal.can_show_straw_votes %}
+                {% if not proposal.decided and proposal.can_show_straw_votes %}
                     createChart(
                         {{ proposal.votes_pro|default_if_none:0 }},
                         {{ proposal.votes_con|default_if_none:0 }},
@@ -124,19 +140,7 @@ id="issue-detail"
                 {% endif %}
             {% endfor %}
 
-            {% if object.agenda_items.count %}
-                $('.active > [data-toggle=filter]').click();
-            {% endif %}
         });
     </script>
-	<script>
-		$(function() {
-			var Issues = $('.issue_right_column').outerHeight();
-			var Issue = $('.issue_left_column').outerHeight();
-			if (Issues > Issue) {
-				$('.issue_left_column').outerHeight(Issues+20);
-			};
-		});
-	</script>
 
 {% endblock %}

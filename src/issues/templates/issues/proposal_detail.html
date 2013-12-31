@@ -24,9 +24,9 @@ id="proposal-detail"
 
 <div class="meeting_header">
 	{% if meeting_id %}
-		<a class="three_dot_sentence level1" href="{{meeting_id.get_absolute_url}}">{{ meeting_id.get_title_or_shortdate }}</a>
+		<a class="three_dot_sentence level1" href="{{meeting_id.get_absolute_url}}">{{ meeting_id.title }}{% if meeting.title and meeting.held_at %} / {% endif %}{{ meeting_id.held_at|date:"j F Y" }}</a>
 	{% else %}
-		<a class="three_dot_sentence level1" href="{{object.community.get_upcoming_absolute_url}}">{{object.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}</a>
+		<a class="three_dot_sentence level1" href="{{object.community.get_upcoming_absolute_url}}">{{object.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}{% if object.community.upcoming_meeting_title and object.community.upcoming_meeting_scheduled_at %} / {% endif %}{{object.community.upcoming_meeting_scheduled_at|date:"j F Y"}}</a>
 	{% endif %}
 </div>
 
