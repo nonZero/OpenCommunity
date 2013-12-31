@@ -92,6 +92,8 @@ class AjaxFormView(object):
     def form_valid(self, form):
         """ returns link to redirect or empty string to reload as text/html """
         self.object = form.save()
+        if hasattr(self, 'on_success'):
+            self.on_success(form)
         url = "" if self.reload_on_success else self.get_success_url()
         return HttpResponse(url)
 

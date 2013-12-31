@@ -92,21 +92,21 @@
 					{% endif %}
 				</span>
 				{% if cperms.community.editupcoming_community %}
-					<span class="pull-right">
-						<form method="post" class="btn btn-default" action="{% url "upcoming_start" community.id  %}">
-							{% csrf_token %}
-							<input type="hidden" name="upcoming_meeting_started" value="{{object.upcoming_meeting_started|yesno:'0,1'}}" id="id_upcoming_meeting_started">
-							{% if object.upcoming_meeting_started %}
-								<button style="border: 0; outline: none;background: 0;padding: 0;">
-									<i class="fa fa-undo"></i> <span>{% trans "Undo Start Meeting" %}</span>
-								</button>
-							{% else %}
-								<button style="border: 0; outline: none;background: 0;padding: 0;">
-									<i class="fa fa-play-circle"></i> <span>{% trans "Start Meeting" %}</span>
-								</button>
-							{% endif %}
-						</form>
-					</span>
+                    <span class="pull-right">
+                        {% if object.upcoming_meeting_started %}
+                            <form method="post" class="btn btn-default" action="{% url "upcoming_end" community.id  %}">
+                                {% csrf_token %}
+                                <button style="border: 0; outline: none;background: 0;padding: 0;">
+                                    <i class="fa fa-undo"></i> <span>{% trans "Undo Start Meeting" %}</span>
+                                </button>
+                            </form>
+                        {% else %}
+                            <button style="border: 0; outline: none;background: 0;padding: 0;"
+                                    data-rel="form" data-url="{% url "upcoming_start" community.id  %}" >
+                                <i class="fa fa-play-circle"></i> <span>{% trans "Start Meeting" %}</span>
+                            </button>
+                        {% endif %}
+                    </span>
 				{% endif %}
 				
 				<h5 style="clear: both;border-top: 1px solid;padding-top: 10px;">

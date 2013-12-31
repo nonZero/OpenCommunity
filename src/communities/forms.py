@@ -91,28 +91,7 @@ class EditUpcomingMeetingSummaryForm(forms.ModelForm):
         }
 
 
-
-class StartMeetingForm(forms.ModelForm):
-
-    class Meta:
-        model = Community
-
-        fields = (
-                  'upcoming_meeting_started',
-                  )
-
-        widgets = {
-            'upcoming_meeting_started': forms.CheckboxInput,
-        }
-
-
 class UpcomingMeetingParticipantsForm(forms.ModelForm):
-
-#     upcoming_meeting_participants = forms.ModelMultipleChoiceField(label=_(
-#                                          "Participants in upcoming meeting"),
-#                                        required=False,
-#                                        queryset=OCUser.objects.all(),
-#                                        widget=forms.CheckboxSelectMultiple)
 
     class Meta:
         model = Community
@@ -131,4 +110,3 @@ class UpcomingMeetingParticipantsForm(forms.ModelForm):
         super(UpcomingMeetingParticipantsForm, self).__init__(*args, **kwargs)
         self.fields['upcoming_meeting_participants'].queryset = self.instance.get_members()
         self.fields['upcoming_meeting_guests'].widget.attrs['rows'] = 4
-        
