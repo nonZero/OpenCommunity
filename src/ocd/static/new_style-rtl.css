@@ -216,6 +216,9 @@
 #issue-list nav.oc_navbar ul li:nth-child(1) a {
 	text-decoration: underline;
 } 
+#issue-list nav.oc_navbar ul.navbar-right li:nth-child(1) a {
+	text-decoration: none;
+} 
 #meeting-detail nav.oc_navbar ul li:nth-child(2) a,
 #issue-detail nav.oc_navbar ul li:nth-child(2) a,
 #proposal-detail nav.oc_navbar ul li:nth-child(2) a,
@@ -255,7 +258,7 @@
 	.paper_bg {
 		background: #FFFFFF;
 	}
-	.issue_left_column_inner ul.nav.nav-tabs {
-		padding-top: 0 !important;
-	}
+	/*.issue_left_column_inner ul.nav.nav-tabs {
+		padding-top: 37px !important;
+	}*/
 }

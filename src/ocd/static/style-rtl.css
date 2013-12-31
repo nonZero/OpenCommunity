@@ -344,7 +344,16 @@ li.issue.oc_li > a {
 	padding-left: 0;
 }
 
-
+#voted_out li.issue.oc_li > a {
+	padding-right: 75px;
+	margin-right: 0;
+	font-size: 18px;
+}
+#ordered li.issue.oc_li > a {
+	padding-right: 20px;
+	margin-right: 60px;
+	font-size: 18px;
+}
 #available li.issue.oc_li a, #voted_out li.issue.oc_li a {
 	margin-left: 41px;
 	word-break: break-word;
@@ -358,12 +367,37 @@ ul li.issue.oc_li a.addremove {
 }
 
 
-#agenda li .grab , #ordered li .grab {
+#agenda li .grab {
     width: 40px;
     height: 40px;
     background: url('images/drag-handle.png') center no-repeat;
     float: right;
     cursor: move;
+}
+#ordered li .grab {
+    width: 60px;
+    height: 45px;
+    background: url('images/drag-handle-white.png') #3d3c3c center no-repeat;
+    float: right;
+    cursor: move;
+}
+#ordered li .grab span {
+	display: none;
+}
+#voted_out li .grab span {
+	display: block;
+}
+#voted_out li .grab {
+	width: 60px;
+    height: 45px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background: #3d3c3c;
+	color: #fff;
+	text-align: center;
+	font-size: 16px;
+	vertical-align: middle;
+    float: right;
 }
 #agenda .completed {
 	position: relative;
@@ -440,7 +474,7 @@ ul li.issue.oc_li a.addremove {
 
 .issue-abstract {
     padding: 5px 15px;
-    border: 1px solid #d8d8d9;
+    /*border: 1px solid #d8d8d9;*/
     /*background: #eee;*/
     margin-bottom: 5px;
 }
@@ -848,9 +882,14 @@ ul.proposals li.prop-content p {
 .comments .historic_comments > li,
 .comments > li {
 	padding: 5px;
-	background: #fff;
+	/*background: #fff;*/
 	list-style-type: none;
 	margin-bottom: 1px;
+	border-bottom: 1px solid #ccc;
+}
+.comments .historic_comments > li:last-child,
+.comments > li:last-child {
+	border-bottom: 0;
 }
 .comments li.editing {
 	background: transparent;
@@ -861,6 +900,9 @@ ul.proposals li.prop-content p {
 .comment-inner {
 	color: #6c6c6e;
 	font-size: 14px;
+}
+.comment-inner p {
+	margin-bottom: 0;
 }
 .comment-inner .userhtml {
 	font-size: 15px;

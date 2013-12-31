@@ -193,5 +193,14 @@ id="meeting-detail"
 		});
 	});
 </script>
+<script>
+	$(function() {
+		var Meeting = $('.meeting_right_column').outerHeight();
+		var Upcoming = $('.meeting_left_column').outerHeight();
+		if (Meeting > Upcoming) {
+			$('.meeting_left_column').outerHeight(Meeting+20);
+		};
+	});
+</script>
 
 {% endblock %}

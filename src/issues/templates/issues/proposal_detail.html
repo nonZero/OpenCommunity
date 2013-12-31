@@ -186,4 +186,17 @@ id="proposal-detail"
 <script src="{{STATIC_URL}}js/hogan-2.0.0.js"></script>
 <script src="{{STATIC_URL}}js/issues.js"></script>
 <script src="{{STATIC_URL}}js/proposal.js"></script>
+<script>
+	$(function() {
+		var Meeting = $('.proposal_main').outerHeight();
+		var Issue = $('.proposal_right_column').outerHeight();
+		var Proposal = $('.proposal_left_column').outerHeight();
+		if ((Issue + 20) < Proposal) {
+			$('.proposal_right_column').outerHeight(Proposal-20);
+		};
+		if (Issue > Proposal) {
+			$('.proposal_left_column').outerHeight(Issue+20);
+		};
+	});
+</script>
 {% endblock %}

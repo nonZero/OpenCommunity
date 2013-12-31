@@ -63,21 +63,6 @@
 			{% if cperms.community.editupcoming_community %}
 				<a data-rel="form" href="{% url "upcoming_edit" community.id %}" style="color: #6C6C6E;display: block; text-align: left;"> <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span></a>
 			{% endif %}
-			{% if cperms.community.editupcoming_community %}
-				<form method="post" class="btn btn-default" action="{% url "upcoming_start" community.id  %}">
-					{% csrf_token %}
-					<input type="hidden" name="upcoming_meeting_started" value="{{object.upcoming_meeting_started|yesno:'0,1'}}" id="id_upcoming_meeting_started">
-					{% if object.upcoming_meeting_started %}
-						<button style="border: 0; outline: none;background: 0;padding: 0;">
-							<i class="fa fa-undo"></i> <span>{% trans "Undo Start Meeting" %}</span>
-						</button>
-					{% else %}
-						<button style="border: 0; outline: none;background: 0;padding: 0;">
-							<i class="fa fa-play-circle"></i> <span>{% trans "Start Meeting" %}</span>
-						</button>
-					{% endif %}
-				</form>
-			{% endif %}
 		</div>
 		{% endif %}
 		{% endif %}
@@ -93,16 +78,35 @@
 			{% endif %}
 	
 			<div class="oc_detail_top row clear" style="margin-right: -5px;margin-left: -5px;border:0;background: none;">
-				<div class="pull-left">
-	        		<h5><i class="fa fa-calendar"></i> {{ object|display_upcoming_time }}&nbsp;&nbsp;</h5>
-	        	</div>
-				<div class="pull-left">
-					<h5><i class="fa fa-map-marker"></i> {{object.upcoming_meeting_location|default:_("Not set yet")}}&nbsp;&nbsp;</h5>
-				</div>
-				{% if cperms.community.editparticipants_community and community.upcoming_meeting_started %}
-				<div class="pull-left">
-					<h5><a data-rel="form" href="{% url "upcoming_edit_participants" community.id  %}" style="color: #6C6C6E;"> <i class="fa fa-group"></i> {% trans "Participants" %}: {{object.full_participants}}</a></h5>
-				</div>
+				<span class="pull-left">
+					<div class="pull-left">
+		        		<h5><i class="fa fa-calendar"></i> {{ object|display_upcoming_time }}&nbsp;&nbsp;</h5>
+		        	</div>
+					<div class="pull-left">
+						<h5><i class="fa fa-map-marker"></i> {{object.upcoming_meeting_location|default:_("Not set yet")}}&nbsp;&nbsp;</h5>
+					</div>
+					{% if cperms.community.editparticipants_community and community.upcoming_meeting_started %}
+					<div class="pull-left">
+						<h5><a data-rel="form" href="{% url "upcoming_edit_participants" community.id  %}" style="color: #6C6C6E;"> <i class="fa fa-group"></i> {% trans "Participants" %}: {{object.full_participants}}</a></h5>
+					</div>
+					{% endif %}
+				</span>
+				{% if cperms.community.editupcoming_community %}
+					<span class="pull-right">
+						<form method="post" class="btn btn-default" action="{% url "upcoming_start" community.id  %}">
+							{% csrf_token %}
+							<input type="hidden" name="upcoming_meeting_started" value="{{object.upcoming_meeting_started|yesno:'0,1'}}" id="id_upcoming_meeting_started">
+							{% if object.upcoming_meeting_started %}
+								<button style="border: 0; outline: none;background: 0;padding: 0;">
+									<i class="fa fa-undo"></i> <span>{% trans "Undo Start Meeting" %}</span>
+								</button>
+							{% else %}
+								<button style="border: 0; outline: none;background: 0;padding: 0;">
+									<i class="fa fa-play-circle"></i> <span>{% trans "Start Meeting" %}</span>
+								</button>
+							{% endif %}
+						</form>
+					</span>
 				{% endif %}
 				
 				<h5 style="clear: both;border-top: 1px solid;padding-top: 10px;">
@@ -207,6 +211,15 @@
 		$('.show_meetings').on('click', function() {
 			$(".main_meeting_content, .small_meetings").toggle().parent().toggleClass("paper_bg");
 		});
+	});
+</script>
+<script>
+	$(function() {
+		var Meeting = $('.meeting_right_column').outerHeight();
+		var Upcoming = $('.meeting_left_column').outerHeight();
+		if (Meeting > Upcoming) {
+			$('.meeting_left_column').outerHeight(Meeting+20);
+		};
 	});
 </script>
 {% endblock %}
