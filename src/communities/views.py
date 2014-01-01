@@ -1,6 +1,6 @@
 from communities import models
 from communities.forms import EditUpcomingMeetingForm, \
-    PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm, StartMeetingForm, \
+    PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm, \
     EditUpcomingMeetingSummaryForm
 from communities.models import SendToOption
 from django.conf import settings
@@ -9,10 +9,11 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.db.models.aggregates import Max
 from django.http.response import HttpResponse, HttpResponseBadRequest, \
     HttpResponseRedirect
+from django.shortcuts import redirect
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django.views.generic import View, ListView
-from django.views.generic.detail import DetailView
+from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import UpdateView
 from issues.models import IssueStatus
 from ocd.base_views import ProtectedMixin, AjaxFormView
@@ -167,30 +168,34 @@ class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):
         return resp
 
 
-class StartMeetingView(CommunityModelMixin, UpdateView):
+class StartMeetingView(EditUpcomingMeetingParticipantsView):
+
+    template_name = "communities/start_meeting.html"
 
     reload_on_success = True
 
-    required_permission = 'community.editupcoming_community'
-
-    form_class = StartMeetingForm
-
-    #template_name = "communities/start_meeting.html"
-
-    def form_valid(self, form):
-        resp = super(StartMeetingView, self).form_valid(form)
+    def on_success(self, form):
         c = self.object
-        if c.straw_voting_enabled:
-            if form.cleaned_data['upcoming_meeting_started']:
-                c.voting_ends_at = timezone.now().replace(second=0)
-                c.save()
-                c.sum_vote_results()
-            else:
-                c.voting_ends_at = timezone.now() + datetime.timedelta(days=4000)
-                c.save()
-        return resp
-        
-            
+        if not c.upcoming_meeting_started:
+            c.upcoming_meeting_started = True
+            c.voting_ends_at = timezone.now().replace(second=0)
+            c.save()
+            c.sum_vote_results()
+
+
+class EndMeetingView(CommunityModelMixin, SingleObjectMixin, View):
+
+    def post(self, request, *args, **kwargs):
+        c = self.community
+        if c.upcoming_meeting_started:
+            c.upcoming_meeting_started = False
+            c.voting_ends_at = timezone.now() + datetime.timedelta(days=4000)
+            c.save()
+        return redirect(c)
+
+
+
+
 class EditUpcomingSummaryView(AjaxFormView, CommunityModelMixin, UpdateView):
 
     reload_on_success = True
@@ -218,7 +223,6 @@ class SumVotesView(View):
     required_permission = 'meetings.add_meeting'
     
     def get(self, request, pk):
-
         c = models.Community.objects.get(pk=pk)
         c.sum_vote_results(only_when_over=False)
         c.voting_ends_at = datetime.datetime.now().replace(second=0)

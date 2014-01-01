@@ -18,13 +18,13 @@ $(function() {
         return false;
     });
 
-    $("body").on('click', 'a', function() {
+    $("body").on('click', 'a,button', function() {
 
         if ($(this).data('rel') != 'form') {
             return;
         }
 
-        var url = $(this).attr('href');
+        var url = $(this).attr('href') || $(this).data('url');
         var modal = $('#modal-form');
 
         var origin = $(this);
@@ -36,7 +36,7 @@ $(function() {
                 $(this).removeData('bs.modal').empty();
             });
         }).fail(function() {
-            alert('Server Error, pleae reload page.');
+            alert('Server Error, please reload page.');
         });
 
         return false;
