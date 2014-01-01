@@ -2,10 +2,7 @@
 {% load opencommunity %}
 
 <div class="col-xs-12">
-    <h1>{{object.title}}</h1>
-	<div class="pull-left">
-	    <h5 style="clear: both;">{% trans "By:" %} {{ object.created_by}}. {{ object.created_at}}</h5>
-	</div>
+    <h1 class="pull-left">{{object.title}}</h1>
 	{% if not object.in_closed_meeting %}
 		{% if cperms.issues.editopen_issue or object.created_by == user %}
 		<div class="pull-right">
@@ -16,6 +13,9 @@
 		</div>
 		{% endif %}
 	{% endif %}
+	<div>
+	    <h5 style="clear: both;">{% trans "By:" %} {{ object.created_by}}. {{ object.created_at}}</h5>
+	</div>
 </div>
 <div class="clearfix"></div>
 <span class="loader">

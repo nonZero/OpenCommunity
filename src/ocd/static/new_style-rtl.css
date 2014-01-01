@@ -218,6 +218,19 @@
 #members-list nav.oc_navbar ul li:nth-child(3) a {
 	text-decoration: underline;
 } 
+.dropdown-menu {
+	min-width: 120px;
+}
+.issue_left_column_inner ul.nav.nav-tabs {
+	float: left;
+	margin-top: -31px;
+	margin-left: -14px;
+	border-bottom: 0;
+	padding-top: 0;
+}
+.tabs-margin {
+	margin-top: 20px;
+}
 
 @media (min-width: 768px) {
 	.proposal_right_column {
@@ -251,4 +264,11 @@
 	/*.issue_left_column_inner ul.nav.nav-tabs {
 		padding-top: 37px !important;
 	}*/
+	.issue_left_column_inner ul.nav.nav-tabs {
+		margin-left: -23px;
+	}
+	.tabs-margin {
+		margin-top: 0;
+	}
+
 }
