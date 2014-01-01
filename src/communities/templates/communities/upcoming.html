@@ -93,17 +93,19 @@
 			{% endif %}
 	
 			<div class="oc_detail_top row clear" style="margin-right: -5px;margin-left: -5px;border:0;background: none;">
-				<div class="pull-left">
-	        		<h5><i class="fa fa-calendar"></i> {{ object|display_upcoming_time }}&nbsp;&nbsp;</h5>
-	        	</div>
-				<div class="pull-left">
-					<h5><i class="fa fa-map-marker"></i> {{object.upcoming_meeting_location|default:_("Not set yet")}}&nbsp;&nbsp;</h5>
-				</div>
-				{% if cperms.community.editparticipants_community and community.upcoming_meeting_started %}
-				<div class="pull-left">
-					<h5><a data-rel="form" href="{% url "upcoming_edit_participants" community.id  %}" style="color: #6C6C6E;"> <i class="fa fa-group"></i> {% trans "Participants" %}: {{object.full_participants}}</a></h5>
-				</div>
-				{% endif %}
+				<span class="pull-left">
+					<div class="pull-left">
+		        		<h5><i class="fa fa-calendar"></i> {{ object|display_upcoming_time }}&nbsp;&nbsp;</h5>
+		        	</div>
+					<div class="pull-left">
+						<h5><i class="fa fa-map-marker"></i> {{object.upcoming_meeting_location|default:_("Not set yet")}}&nbsp;&nbsp;</h5>
+					</div>
+					{% if cperms.community.editparticipants_community and community.upcoming_meeting_started %}
+					<div class="pull-left">
+						<h5><a data-rel="form" href="{% url "upcoming_edit_participants" community.id  %}" style="color: #6C6C6E;"> <i class="fa fa-group"></i> {% trans "Participants" %}: {{object.full_participants}}</a></h5>
+					</div>
+					{% endif %}
+				</span>
 				
 				<h5 style="clear: both;border-top: 1px solid;padding-top: 10px;">
 				{% if object.upcoming_meeting_comments %}
@@ -113,11 +115,17 @@
 			</div>
 	
 			<div id="agenda-container" class="agenda-list clear">
-				<h2 class="pull-left"> {% trans "Agenda items" %}{% if object.has_straw_votes and cperms.issues.vote and user.id %} - <span class="badge vote-badge">{% trans "Total proposals/Votes" %}</span>{% endif %} <span class="loader"> <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/> </span></h2>
-	
+				<h2 class="pull-left"> {% trans "Agenda items" %} <span class="loader"> <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/> </span></h2>
 				{% if cperms.community.editagenda_community %}
 					<a class="btn btn-oc pull-right" data-rel="form" href="{% url "issue_create_upcoming" community.id %}"> <i class="fa fa-plus"></i> <span>{% trans "Create Issue" %}</span></a>
 				{% endif %}
+				{% if object.has_straw_votes and cperms.issues.vote and object.upcoming_meeting_is_published and user.id %}
+					<h2 class="pull-right">
+						<span class="badge vote-badge">
+							{% trans "Total proposals/Votes" %}
+						</span>
+					</h2>
+				{% endif %}	
 	
 				<ul id="agenda" class="nav nav-pills nav-stacked clear">
 					{% for i in object.upcoming_issues %}
@@ -164,7 +172,7 @@
               <div>
                   <div  class="tab-pane active"> 
                       <ul id="available" class="nav nav-pills nav-stacked">
-                        {% for i in object.available_issues %}
+                        {% for i in community.available_issues %}
                           {% include "communities/_issue.html" %}
                         {% endfor %}
                       </ul>  
@@ -173,7 +181,7 @@
 
         {% else %}
               <ul id="available" class="nav nav-pills nav-stacked">
-                {% for i in object.available_issues %}
+                {% for i in community.available_issues %}
                   {% include "communities/_issue.html" %}
                 {% endfor %}
              </ul> 
@@ -196,6 +204,7 @@
 {% block additional_scripts %}
 <script>
 
+    var Save = '{% trans "Save" %}';
 	$(function() {
 		$('.show_meetings').on('click', function() {
 			$(".main_meeting_content, .small_meetings").toggle().parent().toggleClass("paper_bg");

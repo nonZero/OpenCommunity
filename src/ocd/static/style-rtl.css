@@ -30,6 +30,7 @@ h1 {
 	padding: 5px 0;
 	margin: 0;
 	font-weight: normal;
+	word-break: break-word;
 }
 h2 {
 	font-size: 18px;
@@ -256,16 +257,37 @@ ul.errorlist li {
 /* Navbar */
 
 nav.oc_navbar {
-	background-image: url('images/title_bg.png');
-/*	background: #428bca;*/
+	/*background-image: url('images/title_bg.png');*/
+	background: transparent;
 /*	margin-bottom: 0;*/
+}
+.navbar {
+	min-height: 35px;
+	margin: 0 20px;
+	border-top: 0;
+	border-right: 0;
+	border-left: 0;
+	border-bottom: 4px double #666666;
+}
+.nav > li > a {
+	padding: 10px 15px;
+}
+.navbar-toggle {
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+.navbar-brand {
+	padding: 10px 15px;
 }
 .navbar-default .navbar-brand {
 	font-size: 16px;
 	font-weight: bold;
-	color: #fff;
+	color: #666;
 /*	width: 60%;
 	margin-right: 20%;*/
+}
+.just_slash {
+	padding: 10px 0;
 }
 .navbar-default .navbar-collapse {
 	background-image: -webkit-linear-gradient( top, #fcfcfc, #e7e7e8 );
@@ -288,7 +310,7 @@ nav.oc_navbar {
 }
 .navbar-default.oc_navbar .navbar-brand:hover,
 .navbar-default.oc_navbar .navbar-brand:focus {
-	color: #fff;
+	/*color: #fff;*/
 }
 p.user_nav {
 	width: 100%;
@@ -322,10 +344,10 @@ p.user_nav {
 /* List */
 
 .oc_li {
-	background: #448698;
+	background: #f5f6de;
 }
 .oc_li a {
-	color: #fff;
+	color: #666;
 }
 .left_arrow {
 	padding-left: 35px;
@@ -339,9 +361,9 @@ p.user_nav {
 
 
 li.issue.oc_li > a {
-	margin: 0 40px 0 100px;
+	margin: 0 40px;
 	padding-right: 0;
-	padding-left: 0;
+	padding-left: 10px;
 }
 
 #voted_out li.issue.oc_li > a {
@@ -353,6 +375,7 @@ li.issue.oc_li > a {
 	padding-right: 20px;
 	margin-right: 60px;
 	font-size: 18px;
+	word-break: break-word;
 }
 #available li.issue.oc_li a, #voted_out li.issue.oc_li a {
 	margin-left: 41px;
@@ -380,6 +403,8 @@ ul li.issue.oc_li a.addremove {
     background: url('images/drag-handle-white.png') #3d3c3c center no-repeat;
     float: right;
     cursor: move;
+    position: absolute;
+	height: 100%;
 }
 #ordered li .grab span {
 	display: none;
@@ -398,6 +423,8 @@ ul li.issue.oc_li a.addremove {
 	font-size: 16px;
 	vertical-align: middle;
     float: right;
+    position: absolute;
+	height: 100%;
 }
 #agenda .completed {
 	position: relative;
@@ -411,12 +438,17 @@ ul li.issue.oc_li a.addremove {
 .timer {
 	position: absolute;
 	top: 10px;
-	left: 45px;
+	left: 85px;
     background: transparent;
     color: #fff;
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
+}
+.user_votes_on_issue {
+	position: absolute;
+	top: 10px;
+	left: 45px;
 }
 
 #agenda .icon-plus-minus, 
@@ -437,7 +469,7 @@ ul li.issue.oc_li a.addremove {
 	position: absolute;
 	width: 40px;
 	height: 100%;
-	border-right: 1px solid #fff;
+	border-right: 1px solid #ccc;
 	top: 0;
 	left: 0;
 }
@@ -645,7 +677,7 @@ table.issue-table {
 	vertical-align: middle;
 }
 .issue-table tbody tr td.issue_title a {
-	color: #fff;
+	color: #666;
 	font-size: 18px;
 	display: block;
 }
@@ -654,7 +686,7 @@ table.issue-table {
 }
 table.issue-table tr td {
 	border-top: 0;
-	background-color: #448698;
+	background-color: #f5f6de;
 	color: #fff;
 }
 .issue-table tr td.name {
@@ -1214,11 +1246,12 @@ form.delete-invitation {
 		margin-right: 0;
 	}
 	.navbar-default .navbar-collapse {
-		background-image: url('images/title_bg.png');
+		/*background-image: url('images/title_bg.png');*/
+		background: transparent;
 	}
 	.navbar-default .navbar-nav > li > a,
 	.navbar-default p.navbar-text {
-		color: #fff;
+		color: #666;
 	}
 	i.fa + span {
 		display: inline;
@@ -1232,6 +1265,16 @@ form.delete-invitation {
 	.mobile_line_break {
 		display: inline;
 	}
+	.navbar-nav > li > a {
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+	li.issue.oc_li > a {
+		margin: 0 40px 0 125px;
+		padding-right: 0;
+		padding-left: 0;
+	}
+
 }
 
 /* Medium devices (desktops, 992px and up) */
