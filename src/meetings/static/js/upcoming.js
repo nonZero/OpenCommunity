@@ -1,5 +1,22 @@
 "use strict";
 
+  var issue_sort = '';
+
+  function sort_issues(by) {
+    $('#available li').hide();
+    var sorted = issue_sort[by]; 
+    $.each( sorted, function( idx, value ) {
+      var elem = $('#available li[data-issue="' + value + '"]');
+      if(elem && elem.length == 1) {
+          elem.detach();
+          $('#available').append(elem);
+      }
+    })
+
+    $('#available li').show();
+  }
+
+
 $(function() {
 
     function reorderIssues(li, val, callback) {
@@ -29,10 +46,10 @@ $(function() {
 
     $('#agenda').on('click', '.addremove', function() {
         //$(this).find('.icon-minus').removeClass('icon-minus').addClass('icon-plus');
-        var el = $(this).parent().parent();
+        var el = $(this).parent().parent().detach();
         el.addClass('loading');
-        //console.log(el)
         $("#available").prepend(el);
+        sort_issues($('#issues-order li.active a').attr('href'));
         toggleIssue(el, 1);
     }).sortable({
         'containment': $('#agenda').parent().parent(),
@@ -45,10 +62,10 @@ $(function() {
     }).removeClass('ui-corner-all').filter('li').removeClass('ui-corner-bottom');
 
     $('#available').on('click', '.addremove', function() {
-        //$(this).find('.icon-plus').removeClass('icon-plus').addClass('icon-minus');
-        var el = $(this).parent().parent();
+        var el = $(this).parent().parent().detach();
         el.addClass('loading');
         $("#agenda").append(el);
+        sort_issues($('#issues-order li.active a').attr('href'));
         toggleIssue(el, 0);
     });
 
