@@ -14,7 +14,7 @@ id="issue-detail"
 {% block content %}
 <div class="meeting_header">
     {% if meeting %}
-        <a class="three_dot_sentence level1" href="{{meeting.get_absolute_url}}">{{ meeting.title }}{% if meeting.title and meeting.held_at %} / {% endif %}{{ meeting.held_at|date:"j F Y" }}</a>
+        <a class="three_dot_sentence level1" href="{{meeting.get_absolute_url}}">{% if meeting.title %}{{ meeting.title }} / {% endif %}{{ meeting.held_at|date:"j F Y" }}</a>
     {% else %}
         <a class="three_dot_sentence level1" href="{{object.community.get_upcoming_absolute_url}}">{{object.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}{% if object.community.upcoming_meeting_title and object.community.upcoming_meeting_scheduled_at %} / {% endif %}{{object.community.upcoming_meeting_scheduled_at|date:"j F Y"}}</a>
     {% endif %}

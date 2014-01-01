@@ -344,10 +344,10 @@ p.user_nav {
 /* List */
 
 .oc_li {
-	background: #448698;
+	background: #f5f6de;
 }
 .oc_li a {
-	color: #fff;
+	color: #666;
 }
 .left_arrow {
 	padding-left: 35px;
@@ -469,7 +469,7 @@ ul li.issue.oc_li a.addremove {
 	position: absolute;
 	width: 40px;
 	height: 100%;
-	border-right: 1px solid #fff;
+	border-right: 1px solid #ccc;
 	top: 0;
 	left: 0;
 }
@@ -677,7 +677,7 @@ table.issue-table {
 	vertical-align: middle;
 }
 .issue-table tbody tr td.issue_title a {
-	color: #fff;
+	color: #666;
 	font-size: 18px;
 	display: block;
 }
@@ -686,7 +686,7 @@ table.issue-table {
 }
 table.issue-table tr td {
 	border-top: 0;
-	background-color: #448698;
+	background-color: #f5f6de;
 	color: #fff;
 }
 .issue-table tr td.name {
