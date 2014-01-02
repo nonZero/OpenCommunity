@@ -67,8 +67,9 @@
                 <h2 style="margin:12px 0 0 0; background:#eee; padding:6px 3px 3px"
                 >{% trans "The following issues will be discussed in the next meeting" %}</h2>
             <div style="padding:12px 6px">
+                {% if community.allow_links_in_emails %}
                     ({% trans "click links for more details" %})
-        
+                {% endif %} 
         
                 {% for i in community.upcoming_issues %}
                     <article style="border: solid 1px #ccc; margin-top: 12px;">
@@ -92,7 +93,7 @@
                             </div>
                         {% endif %}
                         
-                        {% if i.attachments.count %}
+                        {% if i.attachments.count and community.allow_links_in_emails %}
                          <div class="issue_attachments">
                             <p>{% trans 'Related files' %}:</p>
                             <ul>

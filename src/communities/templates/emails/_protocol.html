@@ -91,7 +91,7 @@
 
                     {% if a.comments.count or a.issue.attachments.count %}
 
-                      {% if a.issue.attachments.count %}
+                      {% if a.issue.attachments.count and community.allow_links_in_emails %}
                          <div class="issue_attachments">
                          <p>{% trans 'Related files' %}:</p>
                          <ul>

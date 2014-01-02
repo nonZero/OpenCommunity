@@ -17,7 +17,7 @@ from django.utils import timezone
 from django.views.generic import View, ListView
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import UpdateView
-from issues.models import IssueStatus
+from issues.models import IssueStatus, Issue
 from ocd.base_views import ProtectedMixin, AjaxFormView
 import datetime
 import json
@@ -95,9 +95,12 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
     def get_context_data(self, **kwargs):
         d = super(UpcomingMeetingView, self).get_context_data(**kwargs)
         sorted_issues = {'by_time': [], 'by_rank': []}
-        for i in self.community.available_issues():
+        open_issues = Issue.objects.filter(active=True, \
+                                 community=self.community) \
+                                .exclude(status=IssueStatus.ARCHIVED)
+        for i in open_issues.order_by('-created_at'):
             sorted_issues['by_time'].append(i.id)
-        for i in self.community.available_issues_by_rank():
+        for i in open_issues.order_by('order_by_votes'):
             sorted_issues['by_rank'].append(i.id)
         d['sorted'] = json.dumps(sorted_issues) 
         return d

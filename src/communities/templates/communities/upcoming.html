@@ -211,7 +211,6 @@
 		});
     
     issue_sort = JSON.parse('{{ sorted|safe }}');
-    // console.log(issue_sort);
     $('a[href="by_time"]').click(function (e) {
       e.preventDefault();
       sort_issues('by_time');

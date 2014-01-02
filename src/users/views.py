@@ -62,8 +62,7 @@ class MembershipList(MembershipMixin, ListView):
         form.instance.created_by = request.user
 
         i = form.save()
-
-        i.send(sender=request.user)
+        i.send(sender=request.user, recipient_name=form.cleaned_data['name'])
 
         return render(request, 'users/_invitation.html', {'object': i})
 
