@@ -12,31 +12,22 @@
 
 {% block meeting %}
 	<div class="small_meetings" style="display: none;">
-		<table class="table">
-        <thead>
-          <tr>
-            <th>{% trans "Meeting date" %}</th>
-            <th>{% trans "Meeting title" %}</th>
-            <th>{% trans "Meeting location" %}</th>
-          </tr>
-        </thead>
-        <tbody>
+		<ul>
     	{% if object.upcoming_meeting_scheduled_at %}
-          <tr class="active">
-            <td><a href="{{object.get_absolute_url}}">{{ object|display_upcoming_time }}</a></td>
-            <td><a href="{{object.get_absolute_url}}">{% trans "Upcoming Meeting" %}</a></td>
-            <td>{{ object.upcoming_meeting_location|default:_("Not set yet") }}</td>
-          </tr>
+          <li class="active">
+            <h4><a href="{{object.get_absolute_url}}">{% trans "Upcoming Meeting" %}</a></h4>
+            <h5><i class="fa fa-calendar"></i> {{ object|display_upcoming_time }}
+            <i class="fa fa-map-marker"></i> {{ object.upcoming_meeting_location|default:_("Not set yet") }}</h5>
+          </li>
       	{% endif %}
 		{% for m in object.meetings.all %}
-          <tr>
-            <td><a href="{{m.get_absolute_url}}">{{ m.held_at }}</a></td>
-            <td><a href="{{m.get_absolute_url}}">{{ m.title|default_if_none:_("No title") }}</a></td>
-            <td>{{ m.location|default_if_none:_("Unknown") }}</td>
-          </tr>
+          <li>
+            <h4><a href="{{m.get_absolute_url}}">{{ m.title|default_if_none:_("No title") }}</a></h4>
+            <h5><i class="fa fa-calendar"></i> {{ m.held_at }}
+            <i class="fa fa-map-marker"></i> {{ m.location|default_if_none:_("Unknown") }}</h5>
+          </li>
 		{% endfor %}
-        </tbody>
-      </table>
+        </ul>
 	</div>
 <div class="main_meeting_content">
 	<div class="text-right col-xs-12" style="font-size: 14px; border-bottom: 1px solid #666; margin-bottom: 10px;">
@@ -153,8 +144,8 @@
 			{% endif %}
 
 			{% if cperms.community.editagenda_community %}
-			<div style="margin: 1em auto;text-align: center;">
-				<a data-rel="form" href="{% url "upcoming_publish" community.id  %}" class="btn btn-oc" style="margin: 0 20px;"> {% if object.upcoming_meeting_started %} <i class="fa fa-envelope-o"></i> <span>{% trans "Summary Draft" %}</span> {% else %} <i class="fa fa-envelope-o"></i> <span>{% trans "Publish Agenda" %}</span> {% endif %}</a>
+			<div style="margin: 1em auto;text-align: center;clear: both;">
+				<a data-rel="form" href="{% url "upcoming_publish" community.id  %}" class="btn btn-oc"> {% if object.upcoming_meeting_started %} <i class="fa fa-envelope-o"></i> <span>{% trans "Summary Draft" %}</span> {% else %} <i class="fa fa-envelope-o"></i> <span>{% trans "Publish Agenda" %}</span> {% endif %}</a>
 			{% if object.upcoming_meeting_started and cperms.meetings.add_meeting %}
 				<a href="{% url "upcoming_close" community.id %}" data-rel="form" class="btn btn-warning" style="margin: 0 20px;"> {% trans "Close Meeting" %} </a>
 			{% endif %}
@@ -193,7 +184,8 @@
     var Save = '{% trans "Save" %}';
 	$(function() {
 		$('.show_meetings').on('click', function() {
-			$(".main_meeting_content, .small_meetings").toggle().parent().toggleClass("paper_bg");
+			$(".main_meeting_content, .small_meetings").toggle().toggleClass("paper_bg");
+			$(".meeting_left_column").css('background', 'transparent !important');
 		});
 	});
 </script>

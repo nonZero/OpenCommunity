@@ -20,31 +20,22 @@ id="meeting-detail"
 
 {% block meeting %}
 	<div class="small_meetings" style="display: none;">
-		<table class="table">
-        <thead>
-          <tr>
-            <th>{% trans "Meeting title" %}</th>
-            <th>{% trans "Meeting date" %}</th>
-            <th>{% trans "Meeting location" %}</th>
-          </tr>
-        </thead>
-        <tbody>
+		<ul>
     	{% if community.upcoming_meeting_scheduled_at %}
-          <tr class="active">
-            <td><a href="{{community.get_upcoming_absolute_url}}">{% trans "Upcoming Meeting" %}</a></td>
-            <td>{{ community|display_upcoming_time }}</td>
-            <td>{{ community.upcoming_meeting_location|default:_("Not set yet") }}</td>
-          </tr>
+          <li class="active">
+            <h4><a href="{{community.get_upcoming_absolute_url}}">{% trans "Upcoming Meeting" %}</a></h4>
+            <h5><i class="fa fa-calendar"></i> {{ community|display_upcoming_time }}
+            <i class="fa fa-map-marker"></i> {{ community.upcoming_meeting_location|default:_("Not set yet") }}</h5>
+          </li>
       	{% endif %}
 		{% for m in object.community.meetings.all %}
-          <tr>
-            <td><a href="{{m.get_absolute_url}}">{{ m.title|default_if_none:_("No title") }}</a></td>
-            <td>{{ m.held_at }}</td>
-            <td>{{ m.location|default_if_none:_("Unknown") }}</td>
-          </tr>
+          <li>
+            <h4><a href="{{m.get_absolute_url}}">{{ m.title|default_if_none:_("No title") }}</a></h4>
+            <h5><i class="fa fa-calendar"></i> {{ m.held_at }}
+            <i class="fa fa-map-marker"></i> {{ m.location|default_if_none:_("Unknown") }}</h5>
+          </li>
 		{% endfor %}
-        </tbody>
-      </table>
+      </ul>
 	</div>
 	<div class="main_meeting_content">
         <div class="col-xs-12">
@@ -191,6 +182,7 @@ id="meeting-detail"
 	$(function() {
 		$('.show_meetings').on('click', function() {
 			$(".main_meeting_content, .small_meetings").toggle();
+			$(".meeting_left_column").css('background', 'transparent');
 		});
 	});
 </script>

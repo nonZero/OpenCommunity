@@ -231,6 +231,18 @@
 .tabs-margin {
 	margin-top: 20px;
 }
+h5 {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.small_meetings ul {
+	padding: 0 5px;
+	list-style-type: none;
+}
+.small_meetings ul li {
+	margin-bottom: 10px;
+	border-bottom: 1px solid #ccc;
+}
 
 @media (min-width: 768px) {
 	.proposal_right_column {
@@ -270,5 +282,8 @@
 	.tabs-margin {
 		margin-top: 0;
 	}
-
+	h5 {
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
 }
