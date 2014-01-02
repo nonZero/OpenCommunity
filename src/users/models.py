@@ -211,7 +211,7 @@ class Invitation(models.Model):
     def get_absolute_url(self):
         return "accept_invitation", (self.code,)
 
-    def send(self, base_url=None):
+    def send(self, sender, base_url=None):
 
         if not base_url:
             base_url = settings.HOST_URL
@@ -224,7 +224,7 @@ class Invitation(models.Model):
 
         message = render_to_string("emails/invitation.txt", d)
         recipient_list = [self.email]
-        from_email = "%s <%s>" % (self.community.name, settings.FROM_EMAIL)
+        from_email = "%s <%s>" % (sender.get_full_name(), sender.email)
         self.last_sent_at = timezone.now()
 
         try:

@@ -35,5 +35,5 @@ urlpatterns = patterns('',
         views.ProtocolDraftPreviewView.as_view(),
         name='preview_ongoing_protocol'),
 
-
+  
 )

@@ -58,7 +58,6 @@
 			</h1>
 		</div>
 	</div>
-</div>
 	{% if cperms.communities.viewupcoming_community %}
 		{% if cperms.communities.viewupcoming_draft or object.upcoming_meeting_is_published %}
 	
@@ -82,6 +81,7 @@
 					</div>
 					{% endif %}
 				</span>
+
 				{% if cperms.community.editupcoming_community %}
                     <span class="pull-right" style="line-height: 35px;">
                         {% if object.upcoming_meeting_started %}
@@ -99,7 +99,7 @@
                         {% endif %}
                     </span>
 				{% endif %}
-				
+								
 				<h5 style="clear: both;border-top: 1px solid;padding-top: 10px;">
 				{% if object.upcoming_meeting_comments %}
 				    {{object.upcoming_meeting_comments|userhtml}}
@@ -157,16 +157,31 @@
 			
 				<div id="available-agenda" class="agenda-list">
 					<h2>{% trans "Available Issues" %}</h2>
-				
-					<ul id="available" class="nav nav-pills nav-stacked">
-						{% for i in object.available_issues %}
-							{% include "communities/_issue.html" %}
-						{% endfor %}
-					</ul>
+          {% if community.issue_ranking_enabled %}
+              <ul id="issues-order" class="nav nav-tabs">
+                  <li class="active"><a href="by_time" data-toggle="tab">{% trans "By time" %}</a></li>
+                  <li><a href="by_rank" data-toggle="tab">{% trans "By rank" %}</a></li>
+              </ul>    
+              <div>
+                  <div  class="tab-pane active"> 
+                      <ul id="available" class="nav nav-pills nav-stacked">
+                        {% for i in community.available_issues %}
+                          {% include "communities/_issue.html" %}
+                        {% endfor %}
+                      </ul>  
+                  </div>
+              </div>
+
+        {% else %}
+              <ul id="available" class="nav nav-pills nav-stacked">
+                {% for i in community.available_issues %}
+                  {% include "communities/_issue.html" %}
+                {% endfor %}
+             </ul> 
+        {% endif %}
+        
 				</div>
-			
-			{% endif %}
-	
+        {% endif %}	
 		{% else %}
 	
 			<div class="notice text-center">
@@ -181,12 +196,24 @@
 
 {% block additional_scripts %}
 <script>
+
     var Save = '{% trans "Save" %}';
 	$(function() {
 		$('.show_meetings').on('click', function() {
-			$(".main_meeting_content, .small_meetings").toggle().toggleClass("paper_bg");
-			$(".meeting_left_column").css('background', 'transparent !important');
+			$(".main_meeting_content, .small_meetings").toggle();
+			$(".meeting_left_column").toggleClass("paper_bg");
 		});
+    
+    issue_sort = JSON.parse('{{ sorted|safe }}');
+    // console.log(issue_sort);
+    $('a[href="by_time"]').click(function (e) {
+      e.preventDefault();
+      sort_issues('by_time');
+    });
+    $('a[href="by_rank"]').click(function (e) {
+      e.preventDefault();
+      sort_issues('by_rank');
+    });
 	});
 </script>
 <script>

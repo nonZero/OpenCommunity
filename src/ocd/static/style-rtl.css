@@ -272,6 +272,9 @@ nav.oc_navbar {
 .nav > li > a {
 	padding: 10px 15px;
 }
+#issue-list .nav > li > a {
+	padding: 10px;
+}
 .navbar-toggle {
 	margin-top: 4px;
 	margin-bottom: 4px;
@@ -290,7 +293,8 @@ nav.oc_navbar {
 	padding: 10px 0;
 }
 .navbar-default .navbar-collapse {
-	background-image: -webkit-linear-gradient( top, #fcfcfc, #e7e7e8 );
+	/*background-image: -webkit-linear-gradient( top, #fcfcfc, #e7e7e8 );*/
+	background-color: transparent;
 }
 .navbar-default .navbar-nav > li > a {
 	color: #333333;
@@ -344,10 +348,16 @@ p.user_nav {
 /* List */
 
 .oc_li {
-	background: #f5f6de;
+	background-color: #f5f6de;
+}
+#community-list .oc_li {
+	background-color: #448698;
 }
 .oc_li a {
 	color: #666;
+}
+#community-list .oc_li a {
+	color: #fff;
 }
 .left_arrow {
 	padding-left: 35px;
@@ -781,6 +791,7 @@ ul.prop-table {
 	background: #ffffff;
 	list-style-type: none;
 }
+#issue-detail-siblings ul.prop-table,
 #issue-detail ul.prop-table {
 	cursor: pointer;
 }

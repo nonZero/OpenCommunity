@@ -9,7 +9,9 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.db.models.aggregates import Max
 from django.http.response import HttpResponse, HttpResponseBadRequest, \
     HttpResponseRedirect
-from django.shortcuts import redirect
+from django.template import RequestContext
+from django.template.loader import render_to_string
+from django.shortcuts import render, redirect, render_to_response
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django.views.generic import View, ListView
@@ -89,6 +91,17 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
                                 content_type='application/json')
 
         return HttpResponseBadRequest("Oops, bad request")
+
+    def get_context_data(self, **kwargs):
+        d = super(UpcomingMeetingView, self).get_context_data(**kwargs)
+        sorted_issues = {'by_time': [], 'by_rank': []}
+        for i in self.community.available_issues():
+            sorted_issues['by_time'].append(i.id)
+        for i in self.community.available_issues_by_rank():
+            sorted_issues['by_rank'].append(i.id)
+        d['sorted'] = json.dumps(sorted_issues) 
+        return d
+
 
 
 class PublishUpcomingMeetingPreviewView(CommunityModelMixin, DetailView):

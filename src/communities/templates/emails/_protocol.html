@@ -35,9 +35,10 @@
                 <div style="margin:0; padding: 4px">
                     <b>{% trans "Scheduled at" %}:</b>
                     {{ scheduled_at|default:_("Not set yet") }}
+                    {% if location %}
                     <br/>
-                    <b>{% trans "Location" %}:</b>
-                    {{ location|default:_("Not set yet") }}
+                    <b>{% trans "Location" %}:</b> {{ location }}
+                    {% endif %}
                     {% if summary %}
                         <br/>
                         <b>{% trans "Summary" %}:</b>    
@@ -89,9 +90,6 @@
                     </h3>
 
                     {% if a.comments.count or a.issue.attachments.count %}
-                      <h4 style="margin:0; background: #eee; padding: 2px">
-                          {% trans "Discussion Summary" %}
-                      </h4>
 
                       {% if a.issue.attachments.count %}
                          <div class="issue_attachments">

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-24 15:19+0200\n"
+"POT-Creation-Date: 2014-01-02 19:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,8 +18,8 @@ msgstr ""
 "Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\admin.py:60 .\models.py:388 .\templates\issues\issue_detail.html.py:157
-#: .\templates\issues\proposal_detail.html.py:49
+#: .\admin.py:60 .\models.py:388 .\templates\issues\_issue_main.html.py:53
+#: .\templates\issues\proposal_detail.html.py:52
 msgid "Proposals"
 msgstr "הצעות החלטה"
 
@@ -27,7 +27,8 @@ msgstr "הצעות החלטה"
 msgid "Comments"
 msgstr "הערות"
 
-#: .\admin.py:68 .\templates\issues\issue_detail.html.py:71
+#: .\admin.py:68 .\templates\issues\issue_detail.html.py:62
+#: .\templates\issues\issue_detail_siblings.html.py:61
 msgid "Meetings"
 msgstr "פגישות"
 
@@ -51,12 +52,12 @@ msgstr "העלה קובץ"
 msgid "Create"
 msgstr "צור חדש"
 
-#: .\forms.py:152 .\forms.py:194 .\templates\issues\issue_detail.html.py:201
+#: .\forms.py:152 .\forms.py:194 .\templates\issues\_issue_main.html.py:97
 #: .\templates\issues\issuecomment_form.html.py:9
 msgid "Save"
 msgstr "שמירה"
 
-#: .\forms.py:170 .\templates\issues\issue_list.html.py:16
+#: .\forms.py:170 .\templates\issues\issue_list.html.py:15
 msgid "Add"
 msgstr "הוספה"
 
@@ -92,7 +93,7 @@ msgstr "נוצר על ידי"
 msgid "Title"
 msgstr "כותרת"
 
-#: .\models.py:43 .\templates\issues\issue_detail.html.py:113
+#: .\models.py:43 .\templates\issues\_issue_main.html.py:9
 msgid "Background"
 msgstr "רקע"
 
@@ -129,7 +130,7 @@ msgstr "פורסם לחברי הקהילה"
 msgid "Issue"
 msgstr "נושא לדיון"
 
-#: .\models.py:69 .\templates\issues\issue_list.html.py:10
+#: .\models.py:69 .\templates\issues\issue_detail_siblings.html.py:21
 msgid "Issues"
 msgstr "נושאים לדיון"
 
@@ -222,7 +223,7 @@ msgid "Type"
 msgstr "סוג"
 
 #: .\models.py:368 .\templates\issues\_proposal.html.py:19
-#: .\templates\issues\proposal_detail.html.py:73
+#: .\templates\issues\proposal_detail.html.py:112
 msgid "Assigned to"
 msgstr "אחראי"
 
@@ -231,7 +232,7 @@ msgid "Assigned to user"
 msgstr "אחראי"
 
 #: .\models.py:374 .\templates\issues\_proposal.html.py:22
-#: .\templates\issues\proposal_detail.html.py:79
+#: .\templates\issues\proposal_detail.html.py:118
 msgid "Due by"
 msgstr "יעד"
 
@@ -274,22 +275,52 @@ msgstr "נערך לאחרונה על ידי"
 msgid "Upcoming Meeting"
 msgstr "בפגישה הקרובה"
 
-#: .\templates\issues\_issue_title.html.py:7
-#: .\templates\issues\proposal_detail.html.py:84
-msgid "By:"
-msgstr "מאת:"
+#: .\templates\issues\_issue_main.html.py:16
+msgid "Edit Abstract"
+msgstr "עריכה"
 
-#: .\templates\issues\_issue_title.html.py:13
-#: .\templates\issues\proposal_detail.html.py:91
+#: .\templates\issues\_issue_main.html.py:17
+#: .\templates\issues\issueattachment_form.html.py:9
+msgid "Add attachment"
+msgstr "צרף קובץ"
+
+#: .\templates\issues\_issue_main.html.py:38
+#: .\templates\issues\proposal_detail.html.py:43
+msgid "Decisions"
+msgstr "החלטות"
+
+#: .\templates\issues\_issue_main.html.py:69
+msgid "Add Proposal"
+msgstr "הוסף הצעה"
+
+#: .\templates\issues\_issue_main.html.py:75
+msgid "Summary"
+msgstr "סיכום"
+
+#: .\templates\issues\_issue_main.html.py:114
+msgid "Undo complete discussion"
+msgstr "החזר נושא לדיון"
+
+#: .\templates\issues\_issue_main.html.py:114
+msgid "Complete discussion"
+msgstr "הדיון הושלם"
+
+#: .\templates\issues\_issue_title.html.py:10
+#: .\templates\issues\proposal_detail.html.py:101
 msgid "Edit"
 msgstr "עריכה"
 
-#: .\templates\issues\_issue_title.html.py:14
+#: .\templates\issues\_issue_title.html.py:11
 #: .\templates\issues\issue_confirm_delete.html.py:5
 #: .\templates\issues\proposal_confirm_delete.html.py:5
-#: .\templates\issues\proposal_detail.html.py:93
+#: .\templates\issues\proposal_detail.html.py:103
 msgid "Delete"
 msgstr "מחיקה"
+
+#: .\templates\issues\_issue_title.html.py:17
+#: .\templates\issues\proposal_detail.html.py:123
+msgid "By:"
+msgstr "מאת:"
 
 #: .\templates\issues\_proposal_vote_results.html.py:16
 msgid "Last vote"
@@ -355,95 +386,73 @@ msgstr "הצעת החלטה חדשה"
 msgid "None"
 msgstr "ללא"
 
-#: .\templates\issues\issue_detail.html.py:64
+#: .\templates\issues\issue_detail.html.py:55
+#: .\templates\issues\issue_detail_siblings.html.py:54
 msgid "Next"
 msgstr "הבא"
 
-#: .\templates\issues\issue_detail.html.py:87
+#: .\templates\issues\issue_detail.html.py:78
+#: .\templates\issues\issue_detail_siblings.html.py:77
 msgid "All"
 msgstr "הכל"
 
-#: .\templates\issues\issue_detail.html.py:95
+#: .\templates\issues\issue_detail.html.py:86
+#: .\templates\issues\issue_detail_siblings.html.py:85
 msgid "Closed"
 msgstr "סגור"
 
-#: .\templates\issues\issue_detail.html.py:99
+#: .\templates\issues\issue_detail.html.py:90
+#: .\templates\issues\issue_detail_siblings.html.py:89
 msgid "In agenda"
 msgstr "בסדר יום"
 
-#: .\templates\issues\issue_detail.html.py:120
-msgid "Edit Abstract"
-msgstr "עריכה"
-
-#: .\templates\issues\issue_detail.html.py:121
-#: .\templates\issues\issueattachment_form.html.py:9
-msgid "Add attachment"
-msgstr "צרף קובץ"
-
-#: .\templates\issues\issue_detail.html.py:142
-#: .\templates\issues\proposal_detail.html.py:43
-msgid "Decisions"
-msgstr "החלטות"
-
-#: .\templates\issues\issue_detail.html.py:173
-msgid "Add Proposal"
-msgstr "הוסף הצעה"
-
-#: .\templates\issues\issue_detail.html.py:179
-msgid "Summary"
-msgstr "סיכום"
-
-#: .\templates\issues\issue_detail.html.py:218
-msgid "Undo complete discussion"
-msgstr "החזר נושא לדיון"
-
-#: .\templates\issues\issue_detail.html.py:218
-msgid "Complete discussion"
-msgstr "הדיון הושלם"
+#: .\templates\issues\issue_detail_siblings.html.py:12
+msgid "All Issues"
+msgstr "כל הנושאים"
 
 #: .\templates\issues\issue_form.html.py:10
 msgid "Edit Issue"
 msgstr "ערוך נושא"
 
-#: .\templates\issues\issue_list.html.py:24
+#: .\templates\issues\issue_list.html.py:23
 msgid "Sort"
 msgstr "מיון"
 
-#: .\templates\issues\issue_list.html.py:25
+#: .\templates\issues\issue_list.html.py:24
 msgid "By time"
 msgstr "זמן"
 
-#: .\templates\issues\issue_list.html.py:27
+#: .\templates\issues\issue_list.html.py:26
 msgid "My vote"
 msgstr "תיעדוף שלי"
 
-#: .\templates\issues\issue_list.html.py:29
+#: .\templates\issues\issue_list.html.py:28
 msgid "By rank"
-msgstr "תיעדוף נושאים"
+msgstr "משוקלל"
 
-#: .\templates\issues\issue_list.html.py:34
+#: .\templates\issues\issue_list.html.py:33
 msgid "Search"
 msgstr "חיפוש"
 
-#: .\templates\issues\issue_list.html.py:36
+#: .\templates\issues\issue_list.html.py:35
 msgid "Search in agenda list"
 msgstr "חפשו בנושאים לדיון"
 
-#: .\templates\issues\issue_list.html.py:52
-#: .\templates\issues\issue_list.html.py:76
+#: .\templates\issues\issue_list.html.py:51
+#: .\templates\issues\issue_list.html.py:75
 msgid "Issues for discussion"
 msgstr "נושאים לדיון"
 
-#: .\templates\issues\issue_list.html.py:61
-#: .\templates\issues\issue_list.html.py:125
+#: .\templates\issues\issue_list.html.py:60
+#: .\templates\issues\issue_list.html.py:127
 msgid "Submit"
 msgstr "שלח"
 
-#: .\templates\issues\issue_list.html.py:64
+#: .\templates\issues\issue_list.html.py:63
 msgid "Other issues"
 msgstr "נושאים אחרים"
 
-#: .\templates\issues\issue_list.html.py:118
+#: .\templates\issues\issue_list.html.py:120
 msgid "Preferences sent"
 msgstr "תיעדוף נשלח"
 
@@ -463,27 +472,27 @@ msgstr "צרף"
 msgid "Cencel edit"
 msgstr "בטל עריכה"
 
-#: .\templates\issues\proposal_detail.html.py:60
+#: .\templates\issues\proposal_detail.html.py:66
 msgid "Login to vote"
 msgstr "הכנס כדי להצביע"
 
-#: .\templates\issues\proposal_detail.html.py:110
+#: .\templates\issues\proposal_detail.html.py:81
 msgid "Proposal accepted"
 msgstr "ההצעה התקבלה"
 
-#: .\templates\issues\proposal_detail.html.py:113
+#: .\templates\issues\proposal_detail.html.py:84
 msgid "Proposal rejected"
 msgstr "ההצעה נדחתה"
 
-#: .\templates\issues\proposal_detail.html.py:120
+#: .\templates\issues\proposal_detail.html.py:92
 msgid "Cancel approval"
 msgstr "בטל"
 
-#: .\templates\issues\proposal_detail.html.py:143
+#: .\templates\issues\proposal_detail.html.py:151
 msgid "Accept proposal"
 msgstr "קבל את ההחלטה"
 
-#: .\templates\issues\proposal_detail.html.py:148
+#: .\templates\issues\proposal_detail.html.py:156
 msgid "Reject proposal"
 msgstr "דחה הצעה"
 

@@ -4,11 +4,13 @@
 {% load voting_tags community_tags opencommunity %}
 
 {% block extra-page-id %}
-id="issue-detail"
+id="issue-detail-siblings"
 {% endblock %}
 
 {% block page_header %}
-<!-- {% trans "Issue" %} -->
+<span class="visible-xs">
+	<a href="{% url 'issues' community.id %}" style="color: #6C6C6E;text-decoration: none;">{% trans "All Issues" %}</a>
+</span>
 {% endblock %}
 
 {% block content %}

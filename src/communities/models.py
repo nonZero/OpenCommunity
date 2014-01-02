@@ -136,7 +136,11 @@ class Community(UIDMixin):
 
     def available_issues(self):
         return self.issues.filter(active=True, status=issues_models.IssueStatus.OPEN
-                                  ).order_by('created_at')
+                                  ).order_by('-created_at')
+    
+    def available_issues_by_rank(self):
+        return self.issues.filter(active=True, status=issues_models.IssueStatus.OPEN
+                                  ).order_by('order_by_votes')
     def issues_ready_to_close(self):
         return self.upcoming_issues().filter(
                                          proposals__active=True,

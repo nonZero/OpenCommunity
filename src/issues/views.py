@@ -13,7 +13,7 @@ from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, 
     UpdateIssueAbstractForm
 from issues.models import ProposalType, Issue, IssueStatus, ProposalVote, \
     ProposalVoteValue, VoteResult
-from issues.stubs.order_issues import save_vote
+from shultze_vote import send_issue_ranking
 from meetings.models import Meeting
 from oc_util.templatetags.opencommunity import minutes
 from ocd.base_views import CommunityMixin, AjaxFormView, json_response
@@ -53,14 +53,14 @@ class IssueList(IssueMixin, ListView):
                                                 i.issue.status != IssueStatus.ARCHIVED]
                 all_issues_set = set(list(d['sorted_issues']))
                 d['my_non_ranked'] = list(all_issues_set - set(d['my_vote']))
-                print all_issues_set, set(d['my_vote'])
+                # print all_issues_set, set(d['my_vote'])
         # d['can_rank_issues'] = can_rank_issues
         return d
 
 
     def post(self, request, *args, **kwargs):
         print '[][][][][][][]'
-        save_vote(request)
+        send_issue_ranking(request)
         return json_response({'res': 'ok', })
 
 
