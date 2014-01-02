@@ -5,6 +5,10 @@
 	id="create-proposal"
 {% endblock %}
 
+{% block form_name %}
+<div class="proposal-form-bg"></div>
+{% endblock %}
+
 {% block page_header %}
     {% if form.instance.id %}
         {% trans "Edit Proposal" %}

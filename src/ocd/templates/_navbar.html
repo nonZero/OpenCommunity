@@ -2,11 +2,11 @@
 
 <nav class="navbar navbar-default oc_navbar" role="navigation">
 	<div class="navbar-header">
-		<button type="button" class="navbar-toggle oc_menu" data-toggle="collapse" data-target=".oc-panel">
+		<button type="button" class="navbar-toggle oc_menu pull-left" data-toggle="collapse" data-target=".oc-panel">
 			<span class="sr-only">Toggle navigation</span>
 		</button>
 		<span class="navbar-brand"> {% if community %}
-		{{community}}
+		{{community}}{% if community.board_name %} - {{community.board_name}}{% endif %}
 		{% else %}
 		{% trans "Open Community" %}
 		{% endif %} </span>

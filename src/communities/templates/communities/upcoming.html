@@ -12,31 +12,22 @@
 
 {% block meeting %}
 	<div class="small_meetings" style="display: none;">
-		<table class="table">
-        <thead>
-          <tr>
-            <th>{% trans "Meeting date" %}</th>
-            <th>{% trans "Meeting title" %}</th>
-            <th>{% trans "Meeting location" %}</th>
-          </tr>
-        </thead>
-        <tbody>
+		<ul>
     	{% if object.upcoming_meeting_scheduled_at %}
-          <tr class="active">
-            <td><a href="{{object.get_absolute_url}}">{{ object|display_upcoming_time }}</a></td>
-            <td><a href="{{object.get_absolute_url}}">{% trans "Upcoming Meeting" %}</a></td>
-            <td>{{ object.upcoming_meeting_location|default:_("Not set yet") }}</td>
-          </tr>
+          <li class="active">
+            <h4><a href="{{object.get_absolute_url}}">{% trans "Upcoming Meeting" %}</a></h4>
+            <h5><i class="fa fa-calendar"></i> {{ object|display_upcoming_time }}
+            <i class="fa fa-map-marker"></i> {{ object.upcoming_meeting_location|default:_("Not set yet") }}</h5>
+          </li>
       	{% endif %}
 		{% for m in object.meetings.all %}
-          <tr>
-            <td><a href="{{m.get_absolute_url}}">{{ m.held_at }}</a></td>
-            <td><a href="{{m.get_absolute_url}}">{{ m.title|default_if_none:_("No title") }}</a></td>
-            <td>{{ m.location|default_if_none:_("Unknown") }}</td>
-          </tr>
+          <li>
+            <h4><a href="{{m.get_absolute_url}}">{{ m.title|default_if_none:_("No title") }}</a></h4>
+            <h5><i class="fa fa-calendar"></i> {{ m.held_at }}
+            <i class="fa fa-map-marker"></i> {{ m.location|default_if_none:_("Unknown") }}</h5>
+          </li>
 		{% endfor %}
-        </tbody>
-      </table>
+        </ul>
 	</div>
 <div class="main_meeting_content">
 	<div class="text-right col-xs-12" style="font-size: 14px; border-bottom: 1px solid #666; margin-bottom: 10px;">
@@ -46,6 +37,15 @@
 		{% endwith %}
 	</div>
 	<div class="col-xs-12">
+		{% if cperms.communities.viewupcoming_community %}
+			{% if cperms.communities.viewupcoming_draft or object.upcoming_meeting_is_published %}
+				<div class="pull-right">
+					{% if cperms.community.editupcoming_community %}
+						<a data-rel="form" href="{% url "upcoming_edit" community.id %}" style="color: #6C6C6E;display: block; text-align: left;"> <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span></a>
+					{% endif %}
+				</div>
+			{% endif %}
+		{% endif %}
 		<div class="pull-left">
 			<h1>
 			{% if object.upcoming_meeting_title and cperms.communities.viewupcoming_community %}
@@ -57,32 +57,7 @@
 			{% endif %}
 			</h1>
 		</div>
-		{% if cperms.communities.viewupcoming_community %}
-		{% if cperms.communities.viewupcoming_draft or object.upcoming_meeting_is_published %}
-		<div class="pull-right">
-			{% if cperms.community.editupcoming_community %}
-				<a data-rel="form" href="{% url "upcoming_edit" community.id %}" style="color: #6C6C6E;display: block; text-align: left;"> <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span></a>
-			{% endif %}
-			{% if cperms.community.editupcoming_community %}
-				<form method="post" class="btn btn-default" action="{% url "upcoming_start" community.id  %}">
-					{% csrf_token %}
-					<input type="hidden" name="upcoming_meeting_started" value="{{object.upcoming_meeting_started|yesno:'0,1'}}" id="id_upcoming_meeting_started">
-					{% if object.upcoming_meeting_started %}
-						<button style="border: 0; outline: none;background: 0;padding: 0;">
-							<i class="fa fa-undo"></i> <span>{% trans "Undo Start Meeting" %}</span>
-						</button>
-					{% else %}
-						<button style="border: 0; outline: none;background: 0;padding: 0;">
-							<i class="fa fa-play-circle"></i> <span>{% trans "Start Meeting" %}</span>
-						</button>
-					{% endif %}
-				</form>
-			{% endif %}
-		</div>
-		{% endif %}
-		{% endif %}
 	</div>
-</div>
 	{% if cperms.communities.viewupcoming_community %}
 		{% if cperms.communities.viewupcoming_draft or object.upcoming_meeting_is_published %}
 	
@@ -92,7 +67,7 @@
 			</div>
 			{% endif %}
 	
-			<div class="oc_detail_top row clear" style="margin-right: -5px;margin-left: -5px;border:0;background: none;">
+			<div class="oc_detail_top row clear" style="border:0;background: none;">
 				<span class="pull-left">
 					<div class="pull-left">
 		        		<h5><i class="fa fa-calendar"></i> {{ object|display_upcoming_time }}&nbsp;&nbsp;</h5>
@@ -106,7 +81,25 @@
 					</div>
 					{% endif %}
 				</span>
-				
+
+				{% if cperms.community.editupcoming_community %}
+                    <span class="pull-right" style="line-height: 35px;">
+                        {% if object.upcoming_meeting_started %}
+                            <form method="post" class="btn btn-default" action="{% url "upcoming_end" community.id  %}">
+                                {% csrf_token %}
+                                <button style="color: #666;border: 0; outline: none;background: 0;padding: 0;">
+                                    <i class="fa fa-undo"></i> <span>{% trans "Undo Start Meeting" %}</span>
+                                </button>
+                            </form>
+                        {% else %}
+                            <button style="color: #666;border: 0; outline: none;background: 0;padding: 0;"
+                                    data-rel="form" data-url="{% url "upcoming_start" community.id  %}" >
+                                <i class="fa fa-play-circle"></i> <span>{% trans "Start Meeting" %}</span>
+                            </button>
+                        {% endif %}
+                    </span>
+				{% endif %}
+								
 				<h5 style="clear: both;border-top: 1px solid;padding-top: 10px;">
 				{% if object.upcoming_meeting_comments %}
 				    {{object.upcoming_meeting_comments|userhtml}}
@@ -151,8 +144,8 @@
 			{% endif %}
 
 			{% if cperms.community.editagenda_community %}
-			<div style="margin: 1em auto;text-align: center;">
-				<a data-rel="form" href="{% url "upcoming_publish" community.id  %}" class="btn btn-oc" style="margin: 0 20px;"> {% if object.upcoming_meeting_started %} <i class="fa fa-envelope-o"></i> <span>{% trans "Summary Draft" %}</span> {% else %} <i class="fa fa-envelope-o"></i> <span>{% trans "Publish Agenda" %}</span> {% endif %}</a>
+			<div style="margin: 1em auto;text-align: center;clear: both;">
+				<a data-rel="form" href="{% url "upcoming_publish" community.id  %}" class="btn btn-oc"> {% if object.upcoming_meeting_started %} <i class="fa fa-envelope-o"></i> <span>{% trans "Summary Draft" %}</span> {% else %} <i class="fa fa-envelope-o"></i> <span>{% trans "Publish Agenda" %}</span> {% endif %}</a>
 			{% if object.upcoming_meeting_started and cperms.meetings.add_meeting %}
 				<a href="{% url "upcoming_close" community.id %}" data-rel="form" class="btn btn-warning" style="margin: 0 20px;"> {% trans "Close Meeting" %} </a>
 			{% endif %}
@@ -207,7 +200,8 @@
     var Save = '{% trans "Save" %}';
 	$(function() {
 		$('.show_meetings').on('click', function() {
-			$(".main_meeting_content, .small_meetings").toggle().parent().toggleClass("paper_bg");
+			$(".main_meeting_content, .small_meetings").toggle();
+			$(".meeting_left_column").toggleClass("paper_bg");
 		});
     
     issue_sort = JSON.parse('{{ sorted|safe }}');
@@ -219,6 +213,15 @@
       e.preventDefault();
       sort_issues('by_rank');
     });
+	});
+</script>
+<script>
+	$(function() {
+		var Meeting = $('.meeting_right_column').outerHeight();
+		var Upcoming = $('.meeting_left_column').outerHeight();
+		if (Meeting > Upcoming) {
+			$('.meeting_left_column').outerHeight(Meeting+20);
+		};
 	});
 </script>
 {% endblock %}

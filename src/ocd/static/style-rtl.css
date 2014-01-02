@@ -147,7 +147,7 @@ ul.errorlist li {
 	color: #fff;
 	text-shadow: none;
 	background-color: #194e5c;
-	border-color: #fff;
+	/*border-color: #fff;*/
 }
 .btn-oc:hover {
 	opacity: 0.9;
@@ -272,6 +272,9 @@ nav.oc_navbar {
 .nav > li > a {
 	padding: 10px 15px;
 }
+#issue-list .nav > li > a {
+	padding: 10px;
+}
 .navbar-toggle {
 	margin-top: 4px;
 	margin-bottom: 4px;
@@ -290,7 +293,8 @@ nav.oc_navbar {
 	padding: 10px 0;
 }
 .navbar-default .navbar-collapse {
-	background-image: -webkit-linear-gradient( top, #fcfcfc, #e7e7e8 );
+	/*background-image: -webkit-linear-gradient( top, #fcfcfc, #e7e7e8 );*/
+	background-color: transparent;
 }
 .navbar-default .navbar-nav > li > a {
 	color: #333333;
@@ -344,10 +348,16 @@ p.user_nav {
 /* List */
 
 .oc_li {
-	background: #f5f6de;
+	background-color: #f5f6de;
+}
+#community-list .oc_li {
+	background-color: #448698;
 }
 .oc_li a {
 	color: #666;
+}
+#community-list .oc_li a {
+	color: #fff;
 }
 .left_arrow {
 	padding-left: 35px;
@@ -392,14 +402,16 @@ ul li.issue.oc_li a.addremove {
 
 #agenda li .grab {
     width: 40px;
-    height: 40px;
+    /*height: 40px;*/
     background: url('images/drag-handle.png') center no-repeat;
     float: right;
     cursor: move;
+    position: absolute;
+	height: 100%;
 }
 #ordered li .grab {
     width: 60px;
-    height: 45px;
+    /*height: 45px;*/
     background: url('images/drag-handle-white.png') #3d3c3c center no-repeat;
     float: right;
     cursor: move;
@@ -440,7 +452,7 @@ ul li.issue.oc_li a.addremove {
 	top: 10px;
 	left: 85px;
     background: transparent;
-    color: #fff;
+    color: #666;
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
@@ -660,7 +672,7 @@ table.issue-table {
 	font-size: 18px;
 	padding-left: 30px;
 	padding-right: 10px;
-	background: url(images/arrow-left.png) #448698 no-repeat 10px 50%;
+	background: url(images/arrow-left.png) #f5f6de no-repeat 10px 50%;
 	word-break: break-word;
 }
 .issue-table tr td.title {
@@ -717,7 +729,7 @@ table.issue-table tr td {
 	overflow: hidden;
 }
 .meeting-table thead tr th a {
-    color: #fff;
+    color: #666;
     text-decoration: none;
 /*    display: block;*/
     max-height: 2.6em;
@@ -731,6 +743,7 @@ table.issue-table tr td {
 }
 .meeting-table thead tr th.count a {
     width: 38px;
+    color: #fff;
 }
 .issue-table tr td.icon {
     /*font-size: 30px;*/
@@ -778,6 +791,7 @@ ul.prop-table {
 	background: #ffffff;
 	list-style-type: none;
 }
+#issue-detail-siblings ul.prop-table,
 #issue-detail ul.prop-table {
 	cursor: pointer;
 }
@@ -846,41 +860,24 @@ ul.proposals li.prop-content p {
 	margin: 10px 0;
 }
 .unaccept {
-	position: absolute;
+	/*position: absolute;
 	top: 0;
 	left: 0;
-	margin: 7px;
+	margin: 7px;*/
 }
 #proposal-detail .accepted {
-	position: absolute;
+	/*position: absolute;
 	top: 0;
-	left: 0;
+	left: 0;*/
 	font-size: 14px;
-	padding: 10px;
-	/*position: relative;
-	background: url(images/accepted.png) no-repeat right center #b8d29a;
-	border: 1px solid #d8e0df;
-	padding: 17px 50px;
-	font-size: 18px;
-	font-weight: bold;
-	margin-bottom: 20px;
-	margin-top: 20px;*/
+	/*padding: 10px;*/
 }
 #proposal-detail .rejected {
-	position: absolute;
+	/*position: absolute;
 	top: 0;
-	left: 0;
+	left: 0;*/
 	font-size: 14px;
-	padding: 10px;
-    /*position: relative;
-    background: url(images/proposal-rejected.png) no-repeat #d2af7d;
-    background-position: 99% 50%;
-    border: 1px solid #e8d8df;
-	padding: 17px 50px;
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 20px;
-	margin-top: 20px;*/
+	/*padding: 10px;*/
 }
 #proposal-detail .accepted a:hover,
 #proposal-detail .rejected a:hover {

@@ -9,6 +9,10 @@
     {% trans "Create Issue" %}
 {% endblock %}
 
+{% block form_name %}
+<div class="issue-form-bg"></div>
+{% endblock %}
+
 {% block content %}
     {% csrf_token %}
     {{form}}

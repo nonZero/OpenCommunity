@@ -41,23 +41,14 @@ id="issue-detail"
         </ul>
     </div>
 
-    <div class="issue_left_column col-sm-9 col-xs-12" style="margin-bottom: -40px;">
+    <div class="issue_left_column col-sm-9 col-xs-12{% if object.agenda_items.count %} tabs-margin{% endif %}" style="margin-bottom: -40px;">
         <div class="issue_left_column_inner">
 
             {% with can_straw_vote=object.can_straw_vote %}
 
             {% csrf_token %}
                 {% if object.agenda_items.count %}
-            <ul
-                data-filter=".filter"
-                class="nav nav-tabs"
-                style="
-                    float: left;
-                    margin-top: -31px;
-                    margin-left:-23px;
-                    border-bottom: 0; 
-                    padding-top: 0;"
-                >
+            <ul data-filter=".filter" class="nav nav-tabs">
 
                 {% if not object.is_archived %}
                     <li{% if not meeting %} class="active"{% endif %}>
@@ -133,7 +124,6 @@ id="issue-detail"
     <script src="{{ STATIC_URL }}js/hogan-2.0.0.js"></script>
     <script src="{{STATIC_URL}}js/issues.js"></script>
     <script src="{% url 'jsi18n' %}"></script>
-
     <script>
         $(function() {
 			
