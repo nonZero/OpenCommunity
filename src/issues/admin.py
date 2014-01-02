@@ -36,6 +36,7 @@ class IssueAdmin(admin.ModelAdmin):
                     'created_at',
                     'status',
                     'active',
+                    'order_by_votes',
                     'proposal_count',
                     'comment_count',
                     'meeting_count',
