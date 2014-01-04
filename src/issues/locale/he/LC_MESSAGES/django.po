@@ -348,7 +348,7 @@ msgstr "חברים"
 
 #: .\templates\issues\_vote_reset_panel.html.py:3
 msgid "You have voted on this proposal"
-msgstr "הצבעת על ההחלטה"
+msgstr "הצבעת על ההצעה"
 
 #: .\templates\issues\_vote_reset_panel.html.py:7
 msgid "Change your vote"

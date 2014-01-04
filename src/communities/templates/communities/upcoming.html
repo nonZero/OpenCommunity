@@ -16,15 +16,15 @@
     	{% if object.upcoming_meeting_scheduled_at %}
           <li class="active">
             <h4><a href="{{object.get_absolute_url}}">{% trans "Upcoming Meeting" %}</a></h4>
-            <h5><i class="fa fa-calendar"></i> {{ object|display_upcoming_time }}
+            <h5 style="font-weight: normal;"><i class="fa fa-calendar"></i> {{ object|display_upcoming_time }}
             <i class="fa fa-map-marker"></i> {{ object.upcoming_meeting_location|default:_("Not set yet") }}</h5>
           </li>
       	{% endif %}
 		{% for m in object.meetings.all %}
           <li>
-            <h4><a href="{{m.get_absolute_url}}">{{ m.title|default_if_none:_("No title") }}</a></h4>
-            <h5><i class="fa fa-calendar"></i> {{ m.held_at }}
-            <i class="fa fa-map-marker"></i> {{ m.location|default_if_none:_("Unknown") }}</h5>
+            <h4><a href="{{m.get_absolute_url}}">{% if m.title %}{{ m.title }}{% else %}{{ m.held_at }}{% endif %}</a></h4>
+            <h5 style="font-weight: normal;">{% if m.title %}<i class="fa fa-calendar"></i> {{ m.held_at }}{% endif %}
+            {% if m.location %}<i class="fa fa-map-marker"></i> {{ m.location }}{% endif %}</h5>
           </li>
 		{% endfor %}
         </ul>
@@ -68,22 +68,20 @@
 			{% endif %}
 	
 			<div class="oc_detail_top row clear" style="border:0;background: none;">
-				<span class="pull-left">
-					<div class="pull-left">
-		        		<h5><i class="fa fa-calendar"></i> {{ object|display_upcoming_time }}&nbsp;&nbsp;</h5>
-		        	</div>
-					<div class="pull-left">
-						<h5><i class="fa fa-map-marker"></i> {{object.upcoming_meeting_location|default:_("Not set yet")}}&nbsp;&nbsp;</h5>
-					</div>
-					{% if cperms.community.editparticipants_community and community.upcoming_meeting_started %}
-					<div class="pull-left">
-						<h5><a data-rel="form" href="{% url "upcoming_edit_participants" community.id  %}" style="color: #6C6C6E;"> <i class="fa fa-group"></i> {% trans "Participants" %}: {{object.full_participants}}</a></h5>
-					</div>
-					{% endif %}
-				</span>
+				<div class="pull-left">
+	        		<h5><i class="fa fa-calendar"></i> {{ object|display_upcoming_time }}&nbsp;&nbsp;</h5>
+	        	</div>
+				<div class="pull-left">
+					<h5><i class="fa fa-map-marker"></i> {{object.upcoming_meeting_location|default:_("Not set yet")}}&nbsp;&nbsp;</h5>
+				</div>
+				{% if cperms.community.editparticipants_community and community.upcoming_meeting_started %}
+				<div class="pull-left">
+					<h5><a data-rel="form" href="{% url "upcoming_edit_participants" community.id  %}" style="color: #6C6C6E;"> <i class="fa fa-group"></i> {% trans "Participants" %}: {{object.full_participants}}</a></h5>
+				</div>
+				{% endif %}
 
 				{% if cperms.community.editupcoming_community %}
-                    <span class="pull-right" style="line-height: 35px;">
+                    <span class="pull-right">
                         {% if object.upcoming_meeting_started %}
                             <form method="post" class="btn btn-default" action="{% url "upcoming_end" community.id  %}">
                                 {% csrf_token %}
@@ -94,7 +92,7 @@
                         {% else %}
                             <button style="color: #666;border: 0; outline: none;background: 0;padding: 0;"
                                     data-rel="form" data-url="{% url "upcoming_start" community.id  %}" >
-                                <i class="fa fa-play-circle"></i> <span>{% trans "Start Meeting" %}</span>
+                                <h5><i class="fa fa-play-circle"></i> <span>{% trans "Start Meeting" %}</span></h5>
                             </button>
                         {% endif %}
                     </span>

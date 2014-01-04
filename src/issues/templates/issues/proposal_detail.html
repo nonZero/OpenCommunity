@@ -26,7 +26,7 @@ id="proposal-detail"
 	{% if meeting_id %}
 		<a class="three_dot_sentence level1" href="{{meeting_id.get_absolute_url}}">{{ meeting_id.title }}{% if meeting.title and meeting.held_at %} / {% endif %}{{ meeting_id.held_at|date:"j F Y" }}</a>
 	{% else %}
-		<a class="three_dot_sentence level1" href="{{object.community.get_upcoming_absolute_url}}">{{object.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}{% if object.community.upcoming_meeting_title and object.community.upcoming_meeting_scheduled_at %} / {% endif %}{{object.community.upcoming_meeting_scheduled_at|date:"j F Y"}}</a>
+		<a class="three_dot_sentence level1" href="{{object.issue.community.get_upcoming_absolute_url}}">{{object.issue.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}{% if object.issue.community.upcoming_meeting_scheduled_at %} / {% endif %}{{object.issue.community.upcoming_meeting_scheduled_at|date:"j F Y"}}</a>
 	{% endif %}
 </div>
 
@@ -78,10 +78,10 @@ id="proposal-detail"
 	            <div class="{{object.get_status_class}}">
 	                
 	                {% if object.status == object.statuses.ACCEPTED %}
-	                    <i class="fa fa-check-circle"></i> {% trans "Proposal accepted" %}!
+	                    <i class="fa fa-check-circle" style="color: #a4cb53;"></i> {% trans "Proposal accepted" %}!
 	                {% endif %}
 	                {% if object.status == object.statuses.REJECTED %}
-	                    <i class="fa fa-times-circle"></i> {% trans "Proposal rejected" %}!
+	                    <i class="fa fa-times-circle" style="color: #d95e59"></i> {% trans "Proposal rejected" %}!
 	                {% endif %}
 	                
 	                {% if object.decided_at_meeting %}

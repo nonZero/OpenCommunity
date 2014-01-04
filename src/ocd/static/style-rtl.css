@@ -8,6 +8,7 @@ body {
 	direction: rtl;
 	/*{global-font-family}*/
 	font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	margin-bottom: 50px;
 }
 h1,
 h2,
@@ -525,6 +526,12 @@ ul li.issue.oc_li a.addremove {
 
 .oc_detail_top {
 	padding: 0 15px;
+	/*border-top: 1px solid #d8d8d9;*/
+	border-bottom: 1px solid #d8d8d9;
+}
+
+.summary_box {
+	padding: 15px;
 	border-top: 1px solid #d8d8d9;
 	border-bottom: 1px solid #d8d8d9;
 	/*background: #fcfcfc;
@@ -534,19 +541,6 @@ ul li.issue.oc_li a.addremove {
 	background-image: -ms-linear-gradient( top, #e7e7e8 , #fcfcfc );
 	background-image: -o-linear-gradient( top, #e7e7e8 , #fcfcfc );
 	background-image: linear-gradient( top, rgb(231, 231, 232) , #fcfcfc );*/
-}
-
-.summary_box {
-	padding: 15px;
-	border-top: 1px solid #d8d8d9;
-	border-bottom: 1px solid #d8d8d9;
-	background: #fcfcfc;
-	background-image: -webkit-gradient(linear, left top, left bottom, from( #e7e7e8 ), to( #fcfcfc ));
-	background-image: -webkit-linear-gradient( top, #e7e7e8 , #fcfcfc );
-	background-image: -moz-linear-gradient( top, #e7e7e8 , #fcfcfc );
-	background-image: -ms-linear-gradient( top, #e7e7e8 , #fcfcfc );
-	background-image: -o-linear-gradient( top, #e7e7e8 , #fcfcfc );
-	background-image: linear-gradient( top, rgb(231, 231, 232) , #fcfcfc );
 }
 
 /* Tables */
@@ -1099,7 +1093,7 @@ form.delete-invitation {
 
 .change_vote {
 	background: #fff3a5;
-	padding: 10px 20px;
+	padding: 10px;
 	color: #666;
 	font-size: 16px;
 	font-weight: bold;
@@ -1136,8 +1130,8 @@ form.delete-invitation {
 	color: red;
 }
 .vote-badge {
-	color: #448698;
-	background: #fff;
+	color: #fff;
+	background: #448698;
 }
 .no-vote-badge {
 	background: transparent;
