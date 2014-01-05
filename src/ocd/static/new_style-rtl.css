@@ -43,7 +43,7 @@
 
 .issue_left_column {
 	border: 1px solid #e2e2e2;
-	padding: 0 2%;
+	padding: 0 2% 0 15px;
 	background-color: #f5f6de;
 }
 
@@ -257,7 +257,7 @@
 .issue_left_column_inner ul.nav.nav-tabs {
 	float: left;
 	margin-top: -31px;
-	margin-left: -14px;
+	margin-left: -24px;
 	border-bottom: 0;
 	padding-top: 0;
 }
@@ -267,6 +267,9 @@
 h5 {
 	margin-top: 5px;
 	margin-bottom: 5px;
+}
+.oc_detail_top h5 {
+	font-weight: normal;
 }
 .small_meetings {
 	padding: 10px;
@@ -314,20 +317,11 @@ h5 {
 	/*.issue_left_column_inner ul.nav.nav-tabs {
 		padding-top: 37px !important;
 	}*/
-	.issue_left_column_inner ul.nav.nav-tabs {
-		margin-left: -23px;
-	}
 	.tabs-margin {
 		margin-top: 0;
 	}
 	h5 {
 		margin-top: 10px;
 		margin-bottom: 10px;
-	}
-}
-
-@media (min-width: 481px) (max-width: 767px) {
-	.issue_left_column_inner ul.nav.nav-tabs {
-		margin-left: -17px;
 	}
 }
