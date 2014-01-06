@@ -43,7 +43,7 @@
 
 .issue_left_column {
 	border: 1px solid #e2e2e2;
-	padding: 0 2%;
+	padding: 0 2% 0 15px;
 	background-color: #f5f6de;
 }
 
@@ -118,7 +118,9 @@
 	list-style-type: none;
 	padding: 5px 5px 5px 0;
 }
-
+#agenda li.issue.oc_li > a {
+	margin-left: 125px;
+}
 .issues_list li,
 .meetings_list li {
 	line-height: 20px;
@@ -215,6 +217,22 @@
 .proposal-form-bg+.modal-dialog .modal-content {
 	background: #fff;
 }
+.meeting-form-bg+.modal-dialog .modal-header,
+.issue-form-bg+.modal-dialog .modal-header,
+.proposal-form-bg+.modal-dialog .modal-header {
+	background-image: url('images/background.jpg');
+}
+.meeting-form-bg+.modal-dialog .modal-title,
+.meeting-form-bg+.modal-dialog .modal-header .close,
+.issue-form-bg+.modal-dialog .modal-title,
+.issue-form-bg+.modal-dialog .modal-header .close,
+.proposal-form-bg+.modal-dialog .modal-title,
+.proposal-form-bg+.modal-dialog .modal-header .close {
+	color: #6C6C6E;
+}
+#proposal-type li a {
+	color: #6C6C6E;
+}
 
 /* TODO Without CSS */
 
@@ -239,7 +257,7 @@
 .issue_left_column_inner ul.nav.nav-tabs {
 	float: left;
 	margin-top: -31px;
-	margin-left: -14px;
+	margin-left: -24px;
 	border-bottom: 0;
 	padding-top: 0;
 }
@@ -249,6 +267,9 @@
 h5 {
 	margin-top: 5px;
 	margin-bottom: 5px;
+}
+.oc_detail_top h5 {
+	font-weight: normal;
 }
 .small_meetings {
 	padding: 10px;
@@ -296,9 +317,6 @@ h5 {
 	/*.issue_left_column_inner ul.nav.nav-tabs {
 		padding-top: 37px !important;
 	}*/
-	.issue_left_column_inner ul.nav.nav-tabs {
-		margin-left: -23px;
-	}
 	.tabs-margin {
 		margin-top: 0;
 	}

@@ -2,7 +2,7 @@
 <form method="post" action="{{form.instance.get_edit_url}}" class="edit-issue-form">
     {% csrf_token %}
     {{form.content}}{{form.content.errors}}
-    <div class="save-comment narrow">
+    <div class="save-comment col-xs-12 text-center rich_editor_box" style="margin-top: 1px;">
         <span class="cancel-edit-comment">
             <button class="btn btn-default btn-lg">{% trans "Cencel edit" %}</button>
         </span>

@@ -47,22 +47,22 @@
 		{% endif %}
     </div>
 	<div class="oc_detail_top row clear" style="margin-right: -5px;margin-left: -5px;border:0;background: none;">
+        <div class="pull-left">
+            <h5><i class="fa fa-user"></i> {% trans "By:" %} {{ object.created_by }}. {{ object.created_at|date:"d/m/Y" }}&nbsp;&nbsp;</h5>
+        </div>
         {% if object.type == 1 %}
             {% if object.assigned_to %}
     			<div class="pull-left">
-	        		<h5><span class="glyphicon glyphicon-user"></span> {% trans "Assigned to" %}: {{ object.assigned_to }}&nbsp;&nbsp;</h5>
+              <h5><i class="fa fa-hand-o-left"></i> {% trans "Assigned to" %}: {{ object.assigned_to }}&nbsp;&nbsp;</h5>
 	        	</div>
             {% if object.assigned_to and object.due_by %}{% endif %}
             {% endif %}
             {% if object.due_by %}
-    			<div class="pull-left">
-                    <h5><span class="glyphicon glyphicon-calendar"></span> {% trans "Due by" %}: {{ object.due_by|date:"d/m/Y" }}&nbsp;&nbsp;</h5>
+    			  <div class="pull-left">
+                    <h5><i class="fa fa-calendar"></i> {% trans "Due by" %}: {{ object.due_by|date:"d/m/Y" }}</h5>
 	        	</div>
             {% endif %}
         {% endif %}
-		<div class="pull-left">
-            <h5 style="line-height: 18px;"> {% trans "By:" %} {{ object.created_by }}. {{ object.created_at|date:"d/m/Y" }}</h5>
-    	</div>
     	<div class="col-xs-12" style="border-top: 1px solid; clear: both;margin-bottom: 10px;"></div>
 		<h5 style="clear: both;">
 		    {% if object.content %}
