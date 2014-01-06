@@ -17,9 +17,15 @@
 <div class="meeting_right_column col-sm-3 hidden-xs">
 	<h2>{% trans "Meetings" %}</h2>
 	<ul class="meetings_list">
-		<li{% if object == community %} class="active_meeting"{% endif %}><a href="{{ community.get_absolute_url }}">{{community.upcoming_meeting_title|default:_("Upcoming Meeting")}}</a></li>
+		<li>
+			{% if object == community %} <div class="pull-right" style="width: 15px;"><span class="active_meeting pull-right"></span></div>{% endif %}
+			<a href="{{ community.get_absolute_url }}">{{community.upcoming_meeting_title|default:_("Upcoming Meeting")}}</a>
+		</li>
 		{% for i in community.meetings.all %}
-		<li{% if object == i %} class="active_meeting"{% endif %}><a href="{{ i.get_absolute_url }}">{{ i.get_title_or_shortdate }}</a></li>
+		<li>
+			{% if object == i %} <div class="pull-right" style="width: 15px;"><span class="active_meeting pull-right"></span></div>{% endif %}
+			<a href="{{ i.get_absolute_url }}">{{ i.get_title_or_shortdate }}</a>
+		</li>
 		{% endfor %}
 	</ul>
 </div>

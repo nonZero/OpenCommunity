@@ -8,6 +8,7 @@ body {
 	direction: rtl;
 	/*{global-font-family}*/
 	font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	margin-bottom: 50px;
 }
 h1,
 h2,
@@ -30,6 +31,7 @@ h1 {
 	padding: 5px 0;
 	margin: 0;
 	font-weight: normal;
+	word-break: break-word;
 }
 h2 {
 	font-size: 18px;
@@ -146,7 +148,7 @@ ul.errorlist li {
 	color: #fff;
 	text-shadow: none;
 	background-color: #194e5c;
-	border-color: #fff;
+	/*border-color: #fff;*/
 }
 .btn-oc:hover {
 	opacity: 0.9;
@@ -256,19 +258,44 @@ ul.errorlist li {
 /* Navbar */
 
 nav.oc_navbar {
-	background-image: url('images/title_bg.png');
-/*	background: #428bca;*/
+	/*background-image: url('images/title_bg.png');*/
+	background: transparent;
 /*	margin-bottom: 0;*/
+}
+.navbar {
+	min-height: 35px;
+	margin: 0 20px;
+	border-top: 0;
+	border-right: 0;
+	border-left: 0;
+	border-bottom: 4px double #666666;
+}
+.nav > li > a {
+	padding: 10px 15px;
+}
+#issue-list .nav > li > a {
+	padding: 10px;
+}
+.navbar-toggle {
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+.navbar-brand {
+	padding: 10px 15px;
 }
 .navbar-default .navbar-brand {
 	font-size: 16px;
 	font-weight: bold;
-	color: #fff;
+	color: #666;
 /*	width: 60%;
 	margin-right: 20%;*/
 }
+.just_slash {
+	padding: 10px 0;
+}
 .navbar-default .navbar-collapse {
-	background-image: -webkit-linear-gradient( top, #fcfcfc, #e7e7e8 );
+	/*background-image: -webkit-linear-gradient( top, #fcfcfc, #e7e7e8 );*/
+	background-color: transparent;
 }
 .navbar-default .navbar-nav > li > a {
 	color: #333333;
@@ -288,7 +315,7 @@ nav.oc_navbar {
 }
 .navbar-default.oc_navbar .navbar-brand:hover,
 .navbar-default.oc_navbar .navbar-brand:focus {
-	color: #fff;
+	/*color: #fff;*/
 }
 p.user_nav {
 	width: 100%;
@@ -322,9 +349,15 @@ p.user_nav {
 /* List */
 
 .oc_li {
-	background: #448698;
+	background-color: #f5f6de;
+}
+#community-list .oc_li {
+	background-color: #448698;
 }
 .oc_li a {
+	color: #666;
+}
+#community-list .oc_li a {
 	color: #fff;
 }
 .left_arrow {
@@ -339,9 +372,9 @@ p.user_nav {
 
 
 li.issue.oc_li > a {
-	margin: 0 40px 0 100px;
+	margin: 0 40px;
 	padding-right: 0;
-	padding-left: 0;
+	padding-left: 10px;
 }
 
 #voted_out li.issue.oc_li > a {
@@ -353,6 +386,7 @@ li.issue.oc_li > a {
 	padding-right: 20px;
 	margin-right: 60px;
 	font-size: 18px;
+	word-break: break-word;
 }
 #available li.issue.oc_li a, #voted_out li.issue.oc_li a {
 	margin-left: 41px;
@@ -369,17 +403,21 @@ ul li.issue.oc_li a.addremove {
 
 #agenda li .grab {
     width: 40px;
-    height: 40px;
+    /*height: 40px;*/
     background: url('images/drag-handle.png') center no-repeat;
     float: right;
     cursor: move;
+    position: absolute;
+	height: 100%;
 }
 #ordered li .grab {
     width: 60px;
-    height: 45px;
+    /*height: 45px;*/
     background: url('images/drag-handle-white.png') #3d3c3c center no-repeat;
     float: right;
     cursor: move;
+    position: absolute;
+	height: 100%;
 }
 #ordered li .grab span {
 	display: none;
@@ -398,6 +436,8 @@ ul li.issue.oc_li a.addremove {
 	font-size: 16px;
 	vertical-align: middle;
     float: right;
+    position: absolute;
+	height: 100%;
 }
 #agenda .completed {
 	position: relative;
@@ -411,12 +451,17 @@ ul li.issue.oc_li a.addremove {
 .timer {
 	position: absolute;
 	top: 10px;
-	left: 45px;
+	left: 85px;
     background: transparent;
-    color: #fff;
+    color: #666;
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
+}
+.user_votes_on_issue {
+	position: absolute;
+	top: 10px;
+	left: 45px;
 }
 
 #agenda .icon-plus-minus, 
@@ -437,7 +482,7 @@ ul li.issue.oc_li a.addremove {
 	position: absolute;
 	width: 40px;
 	height: 100%;
-	border-right: 1px solid #fff;
+	border-right: 1px solid #ccc;
 	top: 0;
 	left: 0;
 }
@@ -481,6 +526,12 @@ ul li.issue.oc_li a.addremove {
 
 .oc_detail_top {
 	padding: 0 15px;
+	/*border-top: 1px solid #d8d8d9;*/
+	border-bottom: 1px solid #d8d8d9;
+}
+
+.summary_box {
+	padding: 15px;
 	border-top: 1px solid #d8d8d9;
 	border-bottom: 1px solid #d8d8d9;
 	/*background: #fcfcfc;
@@ -490,19 +541,6 @@ ul li.issue.oc_li a.addremove {
 	background-image: -ms-linear-gradient( top, #e7e7e8 , #fcfcfc );
 	background-image: -o-linear-gradient( top, #e7e7e8 , #fcfcfc );
 	background-image: linear-gradient( top, rgb(231, 231, 232) , #fcfcfc );*/
-}
-
-.summary_box {
-	padding: 15px;
-	border-top: 1px solid #d8d8d9;
-	border-bottom: 1px solid #d8d8d9;
-	background: #fcfcfc;
-	background-image: -webkit-gradient(linear, left top, left bottom, from( #e7e7e8 ), to( #fcfcfc ));
-	background-image: -webkit-linear-gradient( top, #e7e7e8 , #fcfcfc );
-	background-image: -moz-linear-gradient( top, #e7e7e8 , #fcfcfc );
-	background-image: -ms-linear-gradient( top, #e7e7e8 , #fcfcfc );
-	background-image: -o-linear-gradient( top, #e7e7e8 , #fcfcfc );
-	background-image: linear-gradient( top, rgb(231, 231, 232) , #fcfcfc );
 }
 
 /* Tables */
@@ -628,7 +666,7 @@ table.issue-table {
 	font-size: 18px;
 	padding-left: 30px;
 	padding-right: 10px;
-	background: url(images/arrow-left.png) #448698 no-repeat 10px 50%;
+	background: url(images/arrow-left.png) #f5f6de no-repeat 10px 50%;
 	word-break: break-word;
 }
 .issue-table tr td.title {
@@ -645,7 +683,7 @@ table.issue-table {
 	vertical-align: middle;
 }
 .issue-table tbody tr td.issue_title a {
-	color: #fff;
+	color: #666;
 	font-size: 18px;
 	display: block;
 }
@@ -654,7 +692,7 @@ table.issue-table {
 }
 table.issue-table tr td {
 	border-top: 0;
-	background-color: #448698;
+	background-color: #f5f6de;
 	color: #fff;
 }
 .issue-table tr td.name {
@@ -685,7 +723,7 @@ table.issue-table tr td {
 	overflow: hidden;
 }
 .meeting-table thead tr th a {
-    color: #fff;
+    color: #666;
     text-decoration: none;
 /*    display: block;*/
     max-height: 2.6em;
@@ -699,6 +737,7 @@ table.issue-table tr td {
 }
 .meeting-table thead tr th.count a {
     width: 38px;
+    color: #fff;
 }
 .issue-table tr td.icon {
     /*font-size: 30px;*/
@@ -746,6 +785,7 @@ ul.prop-table {
 	background: #ffffff;
 	list-style-type: none;
 }
+#issue-detail-siblings ul.prop-table,
 #issue-detail ul.prop-table {
 	cursor: pointer;
 }
@@ -814,41 +854,24 @@ ul.proposals li.prop-content p {
 	margin: 10px 0;
 }
 .unaccept {
-	position: absolute;
+	/*position: absolute;
 	top: 0;
 	left: 0;
-	margin: 7px;
+	margin: 7px;*/
 }
 #proposal-detail .accepted {
-	position: absolute;
+	/*position: absolute;
 	top: 0;
-	left: 0;
+	left: 0;*/
 	font-size: 14px;
-	padding: 10px;
-	/*position: relative;
-	background: url(images/accepted.png) no-repeat right center #b8d29a;
-	border: 1px solid #d8e0df;
-	padding: 17px 50px;
-	font-size: 18px;
-	font-weight: bold;
-	margin-bottom: 20px;
-	margin-top: 20px;*/
+	/*padding: 10px;*/
 }
 #proposal-detail .rejected {
-	position: absolute;
+	/*position: absolute;
 	top: 0;
-	left: 0;
+	left: 0;*/
 	font-size: 14px;
-	padding: 10px;
-    /*position: relative;
-    background: url(images/proposal-rejected.png) no-repeat #d2af7d;
-    background-position: 99% 50%;
-    border: 1px solid #e8d8df;
-	padding: 17px 50px;
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 20px;
-	margin-top: 20px;*/
+	/*padding: 10px;*/
 }
 #proposal-detail .accepted a:hover,
 #proposal-detail .rejected a:hover {
@@ -1070,7 +1093,7 @@ form.delete-invitation {
 
 .change_vote {
 	background: #fff3a5;
-	padding: 10px 20px;
+	padding: 10px;
 	color: #666;
 	font-size: 16px;
 	font-weight: bold;
@@ -1107,8 +1130,8 @@ form.delete-invitation {
 	color: red;
 }
 .vote-badge {
-	color: #448698;
-	background: #fff;
+	color: #fff;
+	background: #448698;
 }
 .no-vote-badge {
 	background: transparent;
@@ -1214,11 +1237,12 @@ form.delete-invitation {
 		margin-right: 0;
 	}
 	.navbar-default .navbar-collapse {
-		background-image: url('images/title_bg.png');
+		/*background-image: url('images/title_bg.png');*/
+		background: transparent;
 	}
 	.navbar-default .navbar-nav > li > a,
 	.navbar-default p.navbar-text {
-		color: #fff;
+		color: #666;
 	}
 	i.fa + span {
 		display: inline;
@@ -1232,6 +1256,16 @@ form.delete-invitation {
 	.mobile_line_break {
 		display: inline;
 	}
+	.navbar-nav > li > a {
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+	li.issue.oc_li > a {
+		margin: 0 40px 0 125px;
+		padding-right: 0;
+		padding-left: 0;
+	}
+
 }
 
 /* Medium devices (desktops, 992px and up) */

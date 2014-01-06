@@ -12,6 +12,7 @@ LOGIN_ERROR = _("Please enter a correct %(username)s and password. "
 
 class InvitationForm(forms.ModelForm):
 
+    # name = forms.CharField(label=_('Name'))
     class Meta:
         model = Invitation
 
@@ -27,6 +28,11 @@ class InvitationForm(forms.ModelForm):
             'message': HTMLArea,
         }
 
+    
+    def __init__(self, *args, **kwargs):
+      super(InvitationForm, self).__init__(*args, **kwargs)
+      self.fields.insert(0, 'name', forms.CharField(label=_('Name')))
+        
     def clean_email(self):
         return self.cleaned_data.get("email").lower()
 

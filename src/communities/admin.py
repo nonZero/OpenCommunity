@@ -13,6 +13,7 @@ class CommunityAdmin(ModelAdmin):
 
     fields = (
               'name',
+              'board_name',
               'official_identifier',
               'logo',
               'is_public',

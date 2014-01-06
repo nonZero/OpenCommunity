@@ -20,7 +20,6 @@ id="issue-list"
 {% block content %}
     {% if community.issue_ranking_enabled %}
     <ul id="issues-order" class="nav nav-tabs">
-        <span style="float:right;margin-left: 2px;line-height: 1.428571429;border: 1px solid transparent;padding:10px 15px;font-weight:bold;">{% trans "Sort" %}</span>
         <li class="active"><a href="#by_time" data-toggle="tab">{% trans "By time" %}</a></li>
         {% if cperms.issues.vote_ranking %}
             <li><a href="#my_vote" data-toggle="tab">{% trans "My vote" %}</a></li>
@@ -146,7 +145,7 @@ id="issue-list"
         $('#ordered').on('click', '.addremove', function() {
             var el = $(this).parent().parent();
             el.addClass('loading');
-            $("#voted_out").append(el);
+            $("#voted_out").prepend(el);
             // activate send button
             enable_send_button();
         });
@@ -170,8 +169,10 @@ id="issue-list"
                             community_id: '{{ community.id }}',
                     }, 
                     function(p){ 
-                        disable_send_button();
-                    });
+                        // disable_send_button();
+                      });
+
+          disable_send_button();
         });
 	});
 </script>

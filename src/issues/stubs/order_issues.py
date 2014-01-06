@@ -22,7 +22,7 @@ def process_vote_stub(current_order, prev_order):
             issues[id].order_by_votes = ord
             issues[id].save()
 
-def save_vote(request):
+def send_issue_ranking(request):
     if request.POST:
         current_vote = json.loads(request.POST.get('new_order'))
         prev_vote = IssueRankingVote.objects.filter(
@@ -31,17 +31,24 @@ def save_vote(request):
                             .order_by('rank')
         
         if current_vote:
+            prev_param = {'ballot': [], 'count': 1, }
+            current_param = {'ballot': [], 'count': 1, }
             prev_vote_as_list = list(prev_vote.values_list('issue_id', flat=True))
             for v in prev_vote:
                 v.delete()
+
+            for v in prev_vote_as_list:
+                prev_param['ballot'].append([v])
+
             for i, v in enumerate(current_vote):
                 IssueRankingVote.objects.create(
                     voted_by=request.user,
                     issue_id=v,
                     rank=i
                 )
-            print current_vote, prev_vote_as_list
-            process_vote_stub(current_vote, prev_vote)
+                current_param['ballot'].append([v])
+            print current_param, prev_param
+            # process_vote_stub(current_vote, prev_vote)
             return HttpResponse(json_response('ok'))
 
 
