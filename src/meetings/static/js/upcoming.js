@@ -17,22 +17,22 @@
     $('#available li').show();
   }
 
+  function reorderIssues(li, val, callback) {
+      $('#agenda-container').addClass('loading');
+      var l = $('#agenda li').map(function() {
+          return $(this).data('issue');
+      }).get();
+      $.post('', {
+          issues : l,
+      }, function(data) {
+          $('#agenda-container').removeClass('loading');
+      }).fail(function() {
+          alert('Server Error. Please refresh your browser and try again');
+      });
+  }
+
 
 $(function() {
-
-    function reorderIssues(li, val, callback) {
-        $('#agenda-container').addClass('loading');
-        var l = $('#agenda li').map(function() {
-            return $(this).data('issue');
-        }).get();
-        $.post('', {
-            issues : l,
-        }, function(data) {
-            $('#agenda-container').removeClass('loading');
-        }).fail(function() {
-            alert('Server Error. Please refresh your browser and try again');
-        });
-    }
 
     function toggleIssue(li, val, callback) {
         $.post('', {

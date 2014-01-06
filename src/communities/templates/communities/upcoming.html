@@ -151,24 +151,24 @@
 			{% endif %}
 	
 	
-			{% if cperms.community.editagenda_community %}
-			
-				<div id="available-agenda" class="agenda-list">
-					<h2 class="pull-left">{% trans "Available Issues" %}</h2>
-          {% if community.issue_ranking_enabled %}
-              <ul id="issues-order" class="nav nav-tabs pull-right">
-                  <li class="active"><a href="by_time" data-toggle="tab">{% trans "By time" %}</a></li>
-                  <li><a href="by_rank" data-toggle="tab">{% trans "By rank" %}</a></li>
-              </ul>    
-              <div style="clear: both;">
-                  <div  class="tab-pane active"> 
-                      <ul id="available" class="nav nav-pills nav-stacked">
-                        {% for i in community.available_issues %}
-                          {% include "communities/_issue.html" %}
-                        {% endfor %}
-                      </ul>  
-                  </div>
-              </div>
+        {% if cperms.community.editagenda_community %}
+        <div id="available-agenda" class="agenda-list">
+        <h2>{% trans "Available Issues" %}</h2>
+        
+        {% if community.issue_ranking_enabled %}
+            <ul id="issues-order" class="nav nav-tabs pull-right">
+                <li class="active"><a href="by_time" data-toggle="tab">{% trans "By time" %}</a></li>
+                <li><a href="by_rank" data-toggle="tab">{% trans "By rank" %}</a></li>
+            </ul>    
+            <div style="clear: both;">
+                <div class="tab-pane active"> 
+                    <ul id="available" class="nav nav-pills nav-stacked">
+                    {% for i in community.available_issues %}
+                        {% include "communities/_issue.html" %}
+                    {% endfor %}
+                    </ul>  
+                </div>
+            </div>
 
         {% else %}
               <ul id="available" class="nav nav-pills nav-stacked">

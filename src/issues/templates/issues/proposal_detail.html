@@ -23,20 +23,24 @@ id="proposal-detail"
 {% block content %}
 
 <div class="meeting_header">
-	{% if meeting_id %}
-		<a class="three_dot_sentence level1" href="{{meeting_id.get_absolute_url}}">{{ meeting_id.title }}{% if meeting.title and meeting.held_at %} / {% endif %}{{ meeting_id.held_at|date:"j F Y" }}</a>
-	{% else %}
-		<a class="three_dot_sentence level1" href="{{object.issue.community.get_upcoming_absolute_url}}">{{object.issue.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}{% if object.issue.community.upcoming_meeting_scheduled_at %} / {% endif %}{{object.issue.community.upcoming_meeting_scheduled_at|date:"j F Y"}}</a>
-	{% endif %}
+    {% if not issue_frame %}
+        {% if meeting_id %}
+            <a class="three_dot_sentence level1" href="{{meeting_id.get_absolute_url}}">{{ meeting_id.title }}{% if meeting.title and meeting.held_at %} / {% endif %}{{ meeting_id.held_at|date:"j F Y" }}</a>
+        {% else %}
+            <a class="three_dot_sentence level1" href="{{object.issue.community.get_upcoming_absolute_url}}">{{object.issue.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}{% if object.issue.community.upcoming_meeting_scheduled_at %} / {% endif %}{{object.issue.community.upcoming_meeting_scheduled_at|date:"j F Y"}}</a>
+        {% endif %}
+    {% else %} 
+    <a class="three_dot_sentence level1" href="{% url 'issues' community.id %}">{% trans 'Issues' %}</a>
+    {% endif %}
 </div>
 
 <div class="issue_header">
 	<div class="issue_header_inner">
-		<a class="three_dot_sentence level2" href="{{object.issue.get_absolute_url}}?m_id={{meeting_id.id}}">{{ object.issue.title }}</a>
+        <a class="three_dot_sentence level2" href="{{object.issue.get_absolute_url}}?m_id={{meeting_id.id}}{{issue_frame|yesno:'&s=1,'}}">{{ object.issue.title }}</a>
 	</div>
 </div>
 
-<div class="proposal_main clearfix">
+<div class="proposal_main clearfix">    
 <div class="proposal_right_column col-sm-3 hidden-xs">
 	<ul class="issues_list">
         {% if object.issue.proposals.closed %}
@@ -44,7 +48,7 @@ id="proposal-detail"
             {% for proposal in object.issue.proposals.closed %}
                 <li>
                 	{% if object == proposal %} <div class="pull-right" style="width: 15px;"><span class="active_proposal pull-right"></span></div>{% endif %}
-                	<a href="{{ proposal.get_absolute_url }}?m_id={{meeting_id.id}}">{{ proposal }}</a>
+                    <a href="{{ proposal.get_absolute_url }}?m_id={{meeting_id.id}}{{issue_frame|yesno:'&s=1,'}} ">{{ proposal }}</a>
                 </li>
             {% endfor %}
         {% endif %}
@@ -53,7 +57,7 @@ id="proposal-detail"
 		{% for i in object.issue.proposals.open %}
 		<li>
 			{% if object == i %} <div class="pull-right" style="width: 15px;"><span class="active_proposal pull-right"></span></div>{% endif %}
-			<a href="{{ i.get_absolute_url }}?m_id={{meeting_id.id}}">{{ i }}</a>
+			<a href="{{ i.get_absolute_url }}?m_id={{meeting_id.id}}{{issue_frame|yesno:'&s=1,'}}">{{ i }}</a>
 		</li>
 		{% endfor %}
 	</ul>
@@ -89,15 +93,7 @@ id="proposal-detail"
 <script src="{{STATIC_URL}}js/proposal.js"></script>
 <script>
 	$(function() {
-		var Meeting = $('.proposal_main').outerHeight();
-		var Issue = $('.proposal_right_column').outerHeight();
-		var Proposal = $('.proposal_left_column').outerHeight();
-		if ((Issue + 20) < Proposal) {
-			$('.proposal_right_column').outerHeight(Proposal-20);
-		};
-		if (Issue > Proposal) {
-			$('.proposal_left_column').outerHeight(Issue+20);
-		};
+        adapt_proposal_outer_height();
 	});
 </script>
 {% endblock %}

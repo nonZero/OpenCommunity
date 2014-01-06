@@ -365,13 +365,15 @@ class ProposalDetailView(ProposalMixin, DetailView):
     def get_required_permission_for_post(self):
         o = self.get_object()
         return 'issues.acceptclosed_proposal' if o.decided_at_meeting else 'issues.acceptopen_proposal'
-
+    
+    """    
     def get_template_names(self):
         if self.request.GET.get('s', None):
             return ['issues/proposal_detail_issue_list.html']
         else:
             return super(ProposalDetailView, self).get_template_names()
 
+    """
 
     def get_context_data(self, **kwargs):
         """add meeting for the latest straw voting result
@@ -400,11 +402,7 @@ class ProposalDetailView(ProposalMixin, DetailView):
         else:
             context['meeting_id'] = None
 
-        if self.request.GET.get('s', None):
-            context['all_issues'] = Issue.objects.filter(
-                        community=self.community, active=True) \
-                        .exclude(status=IssueStatus.ARCHIVED) \
-                        .order_by('-created_at')
+        context['issue_frame'] = self.request.GET.get('s', None)
  
         return context
 

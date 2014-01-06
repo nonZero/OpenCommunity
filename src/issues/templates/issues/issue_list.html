@@ -20,14 +20,14 @@ id="issue-list"
 {% block content %}
     {% if community.issue_ranking_enabled %}
     <ul id="issues-order" class="nav nav-tabs">
-        <li class="active"><a href="#by_time" data-toggle="tab">{% trans "By time" %}</a></li>
+        <li><a href="#by_time" data-toggle="tab">{% trans "By time" %}</a></li>
         {% if cperms.issues.vote_ranking %}
             <li><a href="#my_vote" data-toggle="tab">{% trans "My vote" %}</a></li>
         {% endif %}
         <li><a href="#by_rank" data-toggle="tab">{% trans "By rank" %}</a></li>
     </ul>
     <div class="tab-content">
-        <div id="by_time" class="tab-pane active"> 
+        <div id="by_time" class="tab-pane"> 
             <div class="row">
                 <!-- <h2 class="col-xs-3 col-sm-1">{% trans "Search" %}:</h2> -->
                 <div class="col-xs-12 form-group">
@@ -142,6 +142,9 @@ id="issue-list"
         var cur_tab_ref = $.cookie('issue-tab');
         if(cur_tab_ref) {
           $('a[href="' + cur_tab_ref + '"]').tab('show');
+        }
+        else {
+          $('a[href="#by_time"]').tab('show');
         }
         $('input.issue-search').bind('input', function() {
             searchIssues($(this).val().trim(), $(this));
