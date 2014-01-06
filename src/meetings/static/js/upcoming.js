@@ -7,6 +7,7 @@
     var sorted = issue_sort[by]; 
     $.each( sorted, function( idx, value ) {
       var elem = $('#available li[data-issue="' + value + '"]');
+    
       if(elem && elem.length == 1) {
           elem.detach();
           $('#available').append(elem);
@@ -49,7 +50,9 @@ $(function() {
         var el = $(this).parent().parent().detach();
         el.addClass('loading');
         $("#available").prepend(el);
-        sort_issues($('#issues-order li.active a').attr('href'));
+        if($('#issues-order').length) {
+          sort_issues($('#issues-order li.active a').attr('href'));
+        }
         toggleIssue(el, 1);
     }).sortable({
         'containment': $('#agenda').parent().parent(),
@@ -65,7 +68,9 @@ $(function() {
         var el = $(this).parent().parent().detach();
         el.addClass('loading');
         $("#agenda").append(el);
-        sort_issues($('#issues-order li.active a').attr('href'));
+        if($('#issues-order').length) {
+            sort_issues($('#issues-order li.active a').attr('href'));
+        }
         toggleIssue(el, 0);
     });
 

@@ -2,7 +2,7 @@
 {% load opencommunity %}
 
 <ul class="prop-table proposals{% if proposal.is_open %} open{% endif %}">
-    <a href="{{proposal.get_absolute_url}}?m_id={{meeting.id}}" style="display: none;"></a>
+  <a href="{{proposal.get_absolute_url}}?m_id={{meeting.id}}{% if siblings %}&s=1{% endif %}" style="display: none;"></a>
     <li class="drag-icon
     {% if proposal.type == 1 %}task-icon{% endif %}
     {% if proposal.type == 2 %}rule-icon{% endif %}

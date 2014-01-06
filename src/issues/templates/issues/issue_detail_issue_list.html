@@ -1,0 +1,56 @@
+{% extends "issues/issue_list_frame.html" %}
+{% load i18n %}
+{% load humanize %}
+{% load voting_tags community_tags opencommunity %}
+
+    {% block meeting_selection %}
+        {% if object.agenda_items.count %}
+            <ul
+                data-filter=".filter"
+                class="nav nav-tabs"
+                style="
+                    float: left;
+                    margin-top: -31px;
+                    margin-left:-23px;
+                    border-bottom: 0; 
+                    padding-top: 0;"
+                >
+
+                {% if not object.is_archived %}
+                    <li{% if not meeting %} class="active"{% endif %}>
+                        <a href="#" data-toggle="filter" data-show=".filter-upcoming">{% trans "Next" %}</a>
+                    </li>
+                {% endif %}
+
+
+                <li class="dropdown{% if meeting %} active{% endif %}">
+                    <a role="button" data-toggle="dropdown" href="#">
+                        {% trans "Meetings" %}
+                    <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        {% for ai in object.agenda_items.all reversed %}
+                            <li{% if meeting == ai.meeting %} class="active"{% endif %}>
+                                <a role="menuitem" href="#" data-toggle="filter"
+                                    data-show=".filter-meeting-{{ai.meeting.id}}">
+                                    {{ai.meeting.get_title_or_shortdate}}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
+                <li{% if not meeting and object.is_archived %} class="active"{% endif %}>
+                    <a href="#" data-toggle="filter" data-hide=".filter-all">{% trans "All" %}</a>
+                </li>
+            </ul>
+        {% endif %}
+    {% endblock %}
+
+    {% block main_object %}
+        {% with siblings=True %}
+            {% include 'issues/_issue_main.html' %}
+        {% endwith %}
+    {% endblock %}
+
+
