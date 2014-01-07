@@ -64,7 +64,7 @@ def send_issue_ranking(request):
                 current_param['ballot'].append([v])
             remaining_issues = Issue.objects.filter(community_id=cid, active=True) \
                                             .exclude(id__in=current_vote)
-            current_param['ballot'].append([issue.id for issue in remaining_issues])
+            # current_param['ballot'].append([issue.id for issue in remaining_issues])
             current_param = [current_param,]
             # print current_param, prev_param
             user_vote(cid, current_param, prev_param)

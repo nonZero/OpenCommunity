@@ -66,6 +66,28 @@
 	background: #e6e7c8;
 }
 
+#issue_frame .meeting_header {
+	padding: 0 2% 0 0;
+  background: none;
+  border: none;
+}
+
+#issue_frame .meeting_header h2 {
+  font-size: 18px;
+}
+
+#issue_frame .issue_header {
+	padding: 0 0 0 0;
+  background: none;
+  border-right: none;
+}
+
+#issue_frame .proposal_main {
+	padding: 0 2% 0 0;
+  background: none;
+  border: none;
+}
+
 .proposal_left_column {
 	border-left: 1px solid #e2e2e2;
 	border-right: 1px solid #d4d5c8;
