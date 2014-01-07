@@ -20,14 +20,14 @@ id="issue-list"
 {% block content %}
     {% if community.issue_ranking_enabled %}
     <ul id="issues-order" class="nav nav-tabs">
-        <li class="active"><a href="#by_time" data-toggle="tab">{% trans "By time" %}</a></li>
+        <li><a href="#by_time" data-toggle="tab">{% trans "By time" %}</a></li>
         {% if cperms.issues.vote_ranking %}
             <li><a href="#my_vote" data-toggle="tab">{% trans "My vote" %}</a></li>
         {% endif %}
         <li><a href="#by_rank" data-toggle="tab">{% trans "By rank" %}</a></li>
     </ul>
     <div class="tab-content">
-        <div id="by_time" class="tab-pane active"> 
+        <div id="by_time" class="tab-pane"> 
             <div class="row">
                 <!-- <h2 class="col-xs-3 col-sm-1">{% trans "Search" %}:</h2> -->
                 <div class="col-xs-12 form-group">
@@ -71,9 +71,13 @@ id="issue-list"
         {% endif %}
 
         <div id="by_rank" class="tab-pane"> 
-            <h2> {% trans "Issues for discussion" %} </h2>
             {% with can_sort=False %}
 
+            <div class="row">
+                <div class="col-xs-12 form-group">
+                    <input type="text" class="form-control issue-search" placeholder="{% trans "Search in agenda list" %}">
+                </div>
+            </div>
             <table id="voted_order" class="table table-condensed issue-table">
                 {% for object in sorted_issues %}
                     <tr class="issue-list">
@@ -88,6 +92,11 @@ id="issue-list"
     </div>
     {% else %}
         <div id="by_time"> 
+            <div class="row">
+                <div class="col-xs-12 form-group">
+                    <input type="text" class="form-control issue-search" placeholder="{% trans "Search in agenda list" %}">
+                </div>
+            </div>    
             <table class="table table-condensed issue-table">
                 {% for object in object_list %}
                     <tr class="issue-list">
@@ -112,6 +121,7 @@ id="issue-list"
 <script src="{{STATIC_URL}}bootstrap/js/typeahead.min.js"></script>
 <script src="{{STATIC_URL}}js/hogan-2.0.0.js"></script>
 <script src="{{STATIC_URL}}js/issues.js"></script>
+<script src="{{STATIC_URL}}js/jquery.cookie.js"></script>
 <script src="{{STATIC_URL}}jquery-ui/js/jquery-ui-1.10.2.custom.js"></script>
 <script>
     function disable_send_button() {
@@ -129,14 +139,21 @@ id="issue-list"
 
     $(function() {
         $('#do_ranking_vote').hide();
+        var cur_tab_ref = $.cookie('issue-tab');
+        if(cur_tab_ref) {
+          $('a[href="' + cur_tab_ref + '"]').tab('show');
+        }
+        else {
+          $('a[href="#by_time"]').tab('show');
+        }
         $('input.issue-search').bind('input', function() {
-            searchIssues($(this).val().trim());
+            searchIssues($(this).val().trim(), $(this));
         });
         
         $('#ordered').sortable({
-            //containment: $('#ordered').parent().parent(),
+            containment: $('#ordered').parent().parent(),
             opacity: 0.6,
-            //cursorAt: { top: 25 },
+            cursorAt: { top: 25 },
             handle: ".grab",
             update: function(event, ui) {
                 enable_send_button();
@@ -174,6 +191,11 @@ id="issue-list"
 
           disable_send_button();
         });
+
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            var tab_id = $(e.target).attr('href'); 
+            $.cookie('issue-tab', tab_id);
+        })
 	});
 </script>
 {% endblock %}

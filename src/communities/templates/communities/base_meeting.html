@@ -52,7 +52,7 @@
 <script>
     $(function() {
         $('input.issue-search').bind('input', function() {
-            searchIssues($(this).val().trim());
+            searchIssues($(this).val().trim(), $(this));
         });
     })
 </script>

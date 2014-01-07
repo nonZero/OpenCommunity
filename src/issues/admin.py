@@ -28,6 +28,10 @@ class ProposalInline(admin.TabularInline):
     extra = 0
 
 
+class RankingInline(admin.TabularInline):
+    model = models.IssueRankingVote 
+    extra = 0
+
 class IssueAdmin(admin.ModelAdmin):
 
     list_display = (
@@ -54,6 +58,7 @@ class IssueAdmin(admin.ModelAdmin):
         ProposalInline,
         IssueCommentInline,
         IssueAgendaItemInline,
+        RankingInline,
     ]
 
     def proposal_count(self, instance):
@@ -130,6 +135,8 @@ class ProposalAdmin(admin.ModelAdmin):
         return instance.issue.community
     community.admin_order_field = 'issue__community'
     community.short_description = _("Community")
+
+
 
 site.register(models.Issue, IssueAdmin)
 site.register(models.Proposal, ProposalAdmin)

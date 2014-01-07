@@ -1,5 +1,19 @@
 "use strict";
 
+	function adapt_proposal_outer_height() {
+		var meeting_h = $('.proposal_main').outerHeight();
+		var issue_h = $('.proposal_right_column').outerHeight();
+		var proposal_h = $('.proposal_left_column').outerHeight();
+		if ((issue_h + 20) < proposal_h) {
+			$('.proposal_right_column').outerHeight(proposal_h-20);
+		};
+		if (issue_h > proposal_h) {
+			$('.proposal_left_column').outerHeight(issue_h+20);
+		};
+	}
+
+
+
 $(function() {
 
     // disclaimer: this code is ugly.

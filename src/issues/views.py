@@ -52,15 +52,17 @@ class IssueList(IssueMixin, ListView):
                                 .order_by('rank')
                 d['my_vote'] = [i.issue for i in my_ranking if i.issue.active and \
                                                 i.issue.status != IssueStatus.ARCHIVED]
-                all_issues_set = set(list(d['sorted_issues']))
-                d['my_non_ranked'] = list(all_issues_set - set(d['my_vote']))
-                # print all_issues_set, set(d['my_vote'])
-        # d['can_rank_issues'] = can_rank_issues
+                # all_issues_set = set(list(d['sorted_issues']))
+                # non_ranked = []
+                # list(all_issues_set - set(d['my_vote'])) 
+                # for i in self.get_queryset():
+                
+                d['my_non_ranked'] = [i for i in self.get_queryset() \
+                                      if i not in d['my_vote']] 
         return d
 
 
     def post(self, request, *args, **kwargs):
-        print '[][][][][][][]'
         send_issue_ranking(request)
         return json_response({'res': 'ok', })
 
@@ -84,7 +86,7 @@ class IssueDetailView(IssueMixin, DetailView):
             d['meeting'] = None
 
         if self.request.GET.get('s', None) == '1':
-           d['all_issues'] = Issue.objects.filter(active=True).exclude(
+            d['all_issues'] = self.get_queryset().exclude(
                  status=IssueStatus.ARCHIVED).order_by('-created_at')
         return d
 
@@ -93,7 +95,7 @@ class IssueDetailView(IssueMixin, DetailView):
     
     def get(self, request, *args, **kwargs):
         if  self.request.GET.get('s', None) == '1':
-            self.template_name = 'issues/issue_detail_siblings.html'
+            self.template_name = 'issues/issue_detail_issue_list.html'
         return super(IssueDetailView, self).get(request, *args, **kwargs)
 
 
@@ -363,7 +365,15 @@ class ProposalDetailView(ProposalMixin, DetailView):
     def get_required_permission_for_post(self):
         o = self.get_object()
         return 'issues.acceptclosed_proposal' if o.decided_at_meeting else 'issues.acceptopen_proposal'
+    
+    """    
+    def get_template_names(self):
+        if self.request.GET.get('s', None):
+            return ['issues/proposal_detail_issue_list.html']
+        else:
+            return super(ProposalDetailView, self).get_template_names()
 
+    """
 
     def get_context_data(self, **kwargs):
         """add meeting for the latest straw voting result
@@ -392,6 +402,8 @@ class ProposalDetailView(ProposalMixin, DetailView):
         else:
             context['meeting_id'] = None
 
+        context['issue_frame'] = self.request.GET.get('s', None)
+ 
         return context
 
     def post(self, request, *args, **kwargs):

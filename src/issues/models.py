@@ -512,5 +512,5 @@ class VoteResult(models.Model):
 
 class IssueRankingVote(models.Model):
     voted_by = models.ForeignKey(settings.AUTH_USER_MODEL)
-    issue = models.ForeignKey(Issue)
+    issue = models.ForeignKey(Issue, related_name='ranking_votes')
     rank = models.PositiveIntegerField()

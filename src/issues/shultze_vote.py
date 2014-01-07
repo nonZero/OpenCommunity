@@ -34,10 +34,11 @@ def set_issues_order_by_votes(community_id):
 
 def send_issue_ranking(request):
     if request.POST:
+        cid = request.POST['community_id']
         current_vote = json.loads(request.POST.get('new_order'))
         prev_vote = IssueRankingVote.objects.filter(
                             voted_by=request.user,
-                            issue__community_id=request.POST['community_id']) \
+                            issue__community_id=cid) \
                             .order_by('rank')
         
         if current_vote:
@@ -61,9 +62,12 @@ def send_issue_ranking(request):
                     rank=i
                 )
                 current_param['ballot'].append([v])
+            remaining_issues = Issue.objects.filter(community_id=cid, active=True) \
+                                            .exclude(id__in=current_vote)
+            current_param['ballot'].append([issue.id for issue in remaining_issues])
             current_param = [current_param,]
             # print current_param, prev_param
-            user_vote(request.POST['community_id'], current_param, prev_param)
+            user_vote(cid, current_param, prev_param)
             set_issues_order_by_votes(request.POST['community_id'])
             return HttpResponse(json_response('ok'))
 

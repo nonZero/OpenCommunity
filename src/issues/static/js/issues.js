@@ -83,8 +83,9 @@ function init_user_autocomplete(ac_url) {
     }).css('background-color', '#fff');
 }
 
-function searchIssues(term) {
-    $(".issue-table tr").each(function() {
-        $(this).toggle(!term || $(this).text().indexOf(term) > 0);
+function searchIssues(term, inp) {
+    var context = inp.closest('.tab-pane');
+    $(".issue-table tr", context).each(function() {
+        $(this).toggle(!term || $('a', $(this)).text().indexOf(term) > 0);
     });
 }
