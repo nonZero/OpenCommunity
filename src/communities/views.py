@@ -3,6 +3,7 @@ from communities.forms import EditUpcomingMeetingForm, \
     PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm, \
     EditUpcomingMeetingSummaryForm
 from communities.models import SendToOption
+from users.permissions import has_community_perm 
 from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy, reverse
@@ -56,9 +57,18 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
     template_name = "communities/upcoming.html"
 
     required_permission_for_post = 'community.editagenda_community'
+    
+    """
+    def get(self, request, *args, **kwargs):
+        if not has_community_perm(request.user, self.community, 'viewupcoming_draft'):
+            return HttpResponseRedirect(reverse('meeting', 
+                                                kwargs={'community_id': self.community.id, 'pk': 26})) 
+        return super(UpcomingMeetingView, self).get(request, *args, **kwargs)
+    """
 
     def post(self, request, *args, **kwargs):
 
+        
         """ add / removes an issue from upcoming meeting """
 
         if settings.DEBUG:

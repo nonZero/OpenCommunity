@@ -6,6 +6,11 @@ id="proposal-detail"
 {% endblock %}
 
 {% block page_header %}
+    {% if issue_frame %}
+    <span class="visible-xs">
+        <a href="{% url 'issues' community.id %}" style="color: #6C6C6E;text-decoration: none;">{% trans "All Issues" %}</a>
+    </span>
+    {% endif%}
 {% endblock %}
 
 {% comment %}
@@ -33,7 +38,7 @@ id="proposal-detail"
             <a class="three_dot_sentence level1" href="{{object.issue.community.get_upcoming_absolute_url}}">{{object.issue.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}{% if object.issue.community.upcoming_meeting_scheduled_at %} / {% endif %}{{object.issue.community.upcoming_meeting_scheduled_at|date:"j F Y"}}</a>
         {% endif %}
     {% else %} 
-        <h2>{% trans 'Issues' %}</h2>
+        <h2 class="hidden-xs">{% trans 'Issues' %}</h2>
     {% endif %}
     </div>
 

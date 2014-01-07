@@ -425,11 +425,11 @@ msgstr "הצעות"
 
 #: .\templates\emails\agenda_title.txt.py:1
 msgid "Upcoming Agenda For"
-msgstr "סדר יום לפגישת ועד שתתקיים ב"
+msgstr "סדר יום לפגישה שתתקיים ב"
 
 #: .\templates\emails\agenda_title.txt.py:1
 msgid "Upcoming Agenda"
-msgstr "סדר יום לפגישת הועד הקרובה"
+msgstr "סדר יום לפגישה הקרובה"
 
 #: .\templates\emails\protocol_draft_title.txt.py:1
 msgid "Meeting Summary Draft"

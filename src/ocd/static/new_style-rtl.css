@@ -48,7 +48,7 @@
 }
 
 #issue-detail-siblings .issue_left_column {
-	margin-top: 10px;
+	margin-top: 25px;
 }
 
 .issue_left_column_inner {
@@ -74,6 +74,10 @@
 
 #issue_frame .meeting_header h2 {
   font-size: 18px;
+}
+
+#issue_frame h2 a {
+  color: #6c6c6e;
 }
 
 #issue_frame .issue_header {

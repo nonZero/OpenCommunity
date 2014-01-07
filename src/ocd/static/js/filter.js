@@ -12,6 +12,7 @@ function toggleTitles() {
 function setHeight() {
 	var Issues = $('.issue_right_column').outerHeight();
 	var Issue = $('.issue_left_column').outerHeight();
+  // console.log('----------> ' + Issues + ' , ' + Issue)
 	if (Issues > Issue) {
 		$('.issue_left_column').outerHeight(Issues+20);
 	};
@@ -24,7 +25,6 @@ $(function() {
         var $this = $(this);
 
         var root = $this.closest('[data-filter]');
-
         root.find('li').removeClass('active');
         $this.parent('li').addClass('active');
         $this.closest('li.dropdown').addClass('active');
