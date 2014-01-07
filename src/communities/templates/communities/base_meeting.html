@@ -19,12 +19,18 @@
 	<ul class="meetings_list">
 		<li>
 			{% if object == community %} <div class="pull-right" style="width: 15px;"><span class="active_meeting pull-right"></span></div>{% endif %}
-			<a href="{{ community.get_absolute_url }}">{{community.upcoming_meeting_title|default:_("Upcoming Meeting")}}</a>
+			<a href="{{ community.get_absolute_url }}">
+				{{community.upcoming_meeting_title|default:_("Upcoming Meeting")}}
+				{% if community.upcoming_meeting_scheduled_at %}<br /><span style="font-size: 11px;">{{ community.upcoming_meeting_scheduled_at|date:"d F, Y" }}</span>{% endif %}
+			</a>
 		</li>
 		{% for i in community.meetings.all %}
 		<li>
 			{% if object == i %} <div class="pull-right" style="width: 15px;"><span class="active_meeting pull-right"></span></div>{% endif %}
-			<a href="{{ i.get_absolute_url }}">{{ i.get_title_or_shortdate }}</a>
+			<a href="{{ i.get_absolute_url }}">
+				{{ i.get_title_or_shortdate }}
+				{% if i.title and i.held_at %}<br /><span style="font-size: 11px;">{{ i.held_at|date:"d F, Y" }}</span>{% endif %}
+			</a>
 		</li>
 		{% endfor %}
 	</ul>
