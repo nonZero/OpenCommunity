@@ -30,8 +30,8 @@ class InvitationForm(forms.ModelForm):
 
     
     def __init__(self, *args, **kwargs):
-      super(InvitationForm, self).__init__(*args, **kwargs)
-      self.fields.insert(0, 'name', forms.CharField(label=_('Name')))
+        super(InvitationForm, self).__init__(*args, **kwargs)
+        self.fields.insert(0, 'name', forms.CharField(label=_('Name'), required=False))
         
     def clean_email(self):
         return self.cleaned_data.get("email").lower()

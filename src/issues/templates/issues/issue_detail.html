@@ -26,7 +26,7 @@ id="issue-detail"
             {% if meeting %}
                 {% for ai in meeting.agenda.all %}
                 <li>
-                	{% if object == i %} <div class="pull-right" style="width: 15px;"><span class="active_issue pull-right"></span></div>{% endif %}
+                	{% if object == ai.issue %} <div class="pull-right" style="width: 15px;"><span class="active_issue pull-right"></span></div>{% endif %}
                     <a href="{{ ai.issue.get_absolute_url }}?m_id={{meeting.id}}">{{ ai.issue }}</a>
                 </li>
                 {% endfor %}
