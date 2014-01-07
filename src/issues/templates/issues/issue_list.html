@@ -47,7 +47,7 @@ id="issue-list"
         {% if cperms.issues.vote_ranking %}
         <div id="my_vote" class="tab-pane"> 
             {% with can_sort=True %}
-            <h2> {% trans "Issues for discussion" %} </h2>
+            <h2> {% trans "My Agenda" %} </h2>
 
             <ul id="ordered" class="nav nav-pills nav-stacked">
                 {% for i in my_vote %}
