@@ -21,8 +21,11 @@ id="proposal-detail"
 {% endcomment %}
 
 {% block content %}
+    {% if issue_frame %}
+        <div id="issue_frame">
+    {% endif %}        
 
-<div class="meeting_header">
+    <div class="meeting_header">
     {% if not issue_frame %}
         {% if meeting_id %}
             <a class="three_dot_sentence level1" href="{{meeting_id.get_absolute_url}}">{{ meeting_id.title }}{% if meeting.title and meeting.held_at %} / {% endif %}{{ meeting_id.held_at|date:"j F Y" }}</a>
@@ -30,17 +33,18 @@ id="proposal-detail"
             <a class="three_dot_sentence level1" href="{{object.issue.community.get_upcoming_absolute_url}}">{{object.issue.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}{% if object.issue.community.upcoming_meeting_scheduled_at %} / {% endif %}{{object.issue.community.upcoming_meeting_scheduled_at|date:"j F Y"}}</a>
         {% endif %}
     {% else %} 
-    <a class="three_dot_sentence level1" href="{% url 'issues' community.id %}">{% trans 'Issues' %}</a>
+        <h2>{% trans 'Issues' %}</h2>
     {% endif %}
-</div>
+    </div>
 
-<div class="issue_header">
-	<div class="issue_header_inner">
-        <a class="three_dot_sentence level2" href="{{object.issue.get_absolute_url}}?m_id={{meeting_id.id}}{{issue_frame|yesno:'&s=1,'}}">{{ object.issue.title }}</a>
-	</div>
-</div>
+    <div class="issue_header">
+        <div class="issue_header_inner">
+            <a class="three_dot_sentence level2" href="{{object.issue.get_absolute_url}}?m_id={{meeting_id.id}}{{issue_frame|yesno:'&s=1,'}}">{{ object.issue.title }}</a>
+        </div>
+    </div>
 
-<div class="proposal_main clearfix">    
+
+<div  class="proposal_main clearfix">    
 <div class="proposal_right_column col-sm-3 hidden-xs">
 	<ul class="issues_list">
         {% if object.issue.proposals.closed %}
@@ -66,7 +70,9 @@ id="proposal-detail"
 {% include 'issues/proposal_detail_main.html' %}
 
 </div>
-</div>
+{% if issue_frame %}
+    </div>
+{% endif %}        
 {% endblock %}
 
 {% block extrahead %}
