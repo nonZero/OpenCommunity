@@ -48,7 +48,7 @@
 }
 
 #issue-detail-siblings .issue_left_column {
-	margin-top: 30px;
+	margin-top: 10px;
 }
 
 .issue_left_column_inner {
@@ -236,6 +236,9 @@
 }
 label[for=id_proposal-title] {
 	padding-top: 20px;
+}
+#issue-detail-siblings .btn-group-justified {
+	margin-bottom: 0;
 }
 /* TODO Without CSS */
 
