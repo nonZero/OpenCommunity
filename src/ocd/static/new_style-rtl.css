@@ -76,6 +76,10 @@
   font-size: 18px;
 }
 
+#issue_frame h2 a {
+  color: #6c6c6e;
+}
+
 #issue_frame .issue_header {
 	padding: 0 0 0 0;
   background: none;
