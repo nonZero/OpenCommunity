@@ -83,16 +83,16 @@
 				{% if cperms.community.editupcoming_community %}
                     <span class="pull-right">
                         {% if object.upcoming_meeting_started %}
-                            <form method="post" class="btn btn-default" action="{% url "upcoming_end" community.id  %}">
+                            <form method="post" action="{% url "upcoming_end" community.id  %}">
                                 {% csrf_token %}
-                                <button style="color: #666;border: 0; outline: none;background: 0;padding: 0;">
+                                <button class="btn btn-default" style="border: 0; outline: none;background: 0;padding: 0;">
                                     <i class="fa fa-undo"></i> <span>{% trans "Undo Start Meeting" %}</span>
                                 </button>
                             </form>
                         {% else %}
-                            <button style="color: #666;border: 0; outline: none;background: 0;padding: 0;"
+                            <button class="btn btn-default" style="border: 0; outline: none;background: 0;padding: 0;"
                                     data-rel="form" data-url="{% url "upcoming_start" community.id  %}" >
-                                <h5><i class="fa fa-play-circle"></i> <span>{% trans "Start Meeting" %}</span></h5>
+                                    <i class="fa fa-play-circle"></i> <span>{% trans "Start Meeting" %}</span>
                             </button>
                         {% endif %}
                     </span>
