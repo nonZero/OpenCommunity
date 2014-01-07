@@ -287,8 +287,6 @@ nav.oc_navbar {
 	font-size: 16px;
 	font-weight: bold;
 	color: #666;
-/*	width: 60%;
-	margin-right: 20%;*/
 }
 .just_slash {
 	padding: 10px 0;
@@ -451,7 +449,7 @@ ul li.issue.oc_li a.addremove {
 .timer {
 	position: absolute;
 	top: 10px;
-	left: 85px;
+	left: 45px;
     background: transparent;
     color: #666;
     font-size: 14px;
@@ -1134,7 +1132,7 @@ form.delete-invitation {
 	background: #448698;
 }
 .no-vote-badge {
-	background: transparent;
+	/*background: transparent;*/
 	color: #fff;
 	border: 1px solid;
 }
@@ -1190,6 +1188,9 @@ form.delete-invitation {
 	}
 	.meeting-header-users {
 		padding: 14px 0;
+	}
+	.navbar-default .navbar-brand {
+		width: 80%;
 	}
 }		
 

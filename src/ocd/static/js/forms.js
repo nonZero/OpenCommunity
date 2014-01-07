@@ -54,8 +54,7 @@ function enhanceHtml(form) {
     }).css({
         'width' : '100%',
         'border-top-right-radius' : '0',
-        'border-top-left-radius' : '0',
-        'border-top' : '0'
+        'border-top-left-radius' : '0'
     });
 }
 

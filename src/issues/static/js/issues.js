@@ -6,15 +6,15 @@ function refreshProposalForm() {
     $('#id_proposal-title').prop('disabled', $('#id_proposal-type').val() == '');
 
     // hide task related fields
-    var els = $('#id_proposal-title').parent().parent();
-    var els1 = $('#id_proposal-content').parent().parent().parent().parent();
+    var el = $('#proposal-section');
+    //var els1 = $('#id_proposal-content').parent().parent().parent().parent();
     if ($('#id_proposal-type').val() == '') {
-        els.hide();
-        els1.hide();
+        el.hide();
+        //els1.hide();
         $('#id_proposal-title,#id_proposal-type').removeAttr('required');
     } else {
-        els.show();
-        els1.show();
+        el.show();
+        //els1.show();
         $('#id_proposal-title,#id_proposal-type').prop('required', true);
     }
 

@@ -48,7 +48,7 @@
 }
 
 #issue-detail-siblings .issue_left_column {
-	margin-top: 30px;
+	margin-top: 10px;
 }
 
 .issue_left_column_inner {
@@ -199,6 +199,7 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
+	color: #555555;
 }
 .issue_left_column_inner .nav > li > a {
 	padding: 2px 15px;
@@ -259,7 +260,12 @@
 #proposal-type li a {
 	color: #6C6C6E;
 }
-
+label[for=id_proposal-title] {
+	padding-top: 20px;
+}
+#issue-detail-siblings .btn-group-justified {
+	margin-bottom: 0;
+}
 /* TODO Without CSS */
 
 /*#issue-list nav.oc_navbar ul li:nth-child(1) a {
@@ -300,6 +306,9 @@ h5 {
 .small_meetings {
 	padding: 10px;
 	border: 1px solid #cecfb3;
+}
+.small_meetings a {
+	color: #6C6C6E;
 }
 .small_meetings ul {
 	padding: 0 5px;
