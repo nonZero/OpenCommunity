@@ -9,15 +9,8 @@ id="issue-list"
 {% block page_header %}
 {% endblock %}
 
-{% block pagemenu %}
-{% if user.id and cperms.issues.add_issue %}
-<div class="one_action_icon">
-	<a href="{% url "issue_create" community.id %}" class="btn btn-oc" data-rel="form"> <i class="fa fa-plus"></i> {% trans "Add" %} </a>
-</div>
-{% endif %}
-{% endblock %}
-
 {% block content %}
+	<h2>{% trans "Issues" %}</h2>
     {% if community.issue_ranking_enabled %}
     <ul id="issues-order" class="nav nav-tabs">
         <li><a href="#by_time" data-toggle="tab">{% trans "By time" %}</a></li>
@@ -26,7 +19,12 @@ id="issue-list"
         {% endif %}
         <li><a href="#by_rank" data-toggle="tab">{% trans "By rank" %}</a></li>
     </ul>
-    <div class="tab-content">
+	{% if user.id and cperms.issues.add_issue %}
+	<div class="one_action_icon">
+		<a href="{% url "issue_create" community.id %}" class="btn btn-oc" data-rel="form"> <i class="fa fa-plus"></i><span> {% trans "Create Issue" %}</span></a>
+	</div>
+	{% endif %}
+    <div class="tab-content clearfix" style="clear: both; padding-top: 10px;">
         <div id="by_time" class="tab-pane"> 
             <div class="row">
                 <!-- <h2 class="col-xs-3 col-sm-1">{% trans "Search" %}:</h2> -->
