@@ -10,11 +10,11 @@ function toggleTitles() {
 }
 
 function setHeight() {
-	var Issues = $('.issue_right_column').outerHeight();
-	var Issue = $('.issue_left_column').outerHeight();
-  // console.log('----------> ' + Issues + ' , ' + Issue)
-	if (Issues > Issue) {
-		$('.issue_left_column').outerHeight(Issues+20);
+	var issues_h = $('.issue_right_column').outerHeight();
+	var frame_h = $('.issue_left_column').outerHeight();
+	var inner_h = $('.issue_left_column_inner').outerHeight();
+	if ((inner_h > frame_h) || (issues_h > frame_h)) {
+		  $('.issue_left_column').outerHeight(Math.max(inner_h, issues_h)+20);
 	};
 }
 

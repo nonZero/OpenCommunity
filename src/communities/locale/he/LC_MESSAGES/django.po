@@ -433,7 +433,7 @@ msgstr "סדר יום לפגישה הקרובה"
 
 #: .\templates\emails\protocol_draft_title.txt.py:1
 msgid "Meeting Summary Draft"
-msgstr "טויטת סיכום פגישה"
+msgstr "טיוטת סיכום פגישה"
 
 #: .\templatetags\community_tags.py:41
 msgid "Started"

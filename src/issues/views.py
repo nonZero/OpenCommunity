@@ -180,6 +180,13 @@ class IssueCreateView(AjaxFormView, IssueMixin, CreateView):
         return super(IssueCreateView, self).form_valid(form)
 
 
+    def get_success_url(self):
+        url = super(IssueCreateView, self).get_success_url()
+        if not self.upcoming:
+            url += '?s=1'
+        return url
+
+
 class IssueEditView(AjaxFormView, IssueMixin, UpdateView):
 
     required_permission = 'issues.editopen_issue'

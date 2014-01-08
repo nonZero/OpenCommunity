@@ -91,7 +91,7 @@ class Issue(UIDMixin):
         return self.comments.filter(active=True)
         
     def new_comments(self):
-        return self.comments.filter(active=True, meeting_id=None)
+        return self.comments.filter(meeting_id=None)
 
     def historical_comments(self):
         return self.comments.filter(active=True).exclude(meeting_id=None)
@@ -114,7 +114,7 @@ class Issue(UIDMixin):
                                   ProposalStatus.ACCEPTED,
                                   ProposalStatus.REJECTED
                               ])
-        return decided_at_current or self.new_comments()
+        return decided_at_current or self.new_comments().filter(active=True)
 
 
     @property
