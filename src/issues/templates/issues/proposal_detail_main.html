@@ -10,9 +10,6 @@
 
 <div class="proposal" data-id="{{object.id}}" data-accepted="{{object.status}}">
 
-    <div class="pull-left">
-        <h1 style="padding: 5px 10px;">{{object.title}}</h1>
-    </div>
     <div class="pull-right">
 	    {% if cperms.issues.view_proposal_in_discussion or not proposal.is_open %}
 	        {% if object.status == object.statuses.ACCEPTED or object.status == object.statuses.REJECTED %}
@@ -45,6 +42,9 @@
 				</div>
 			{% endif %}
 		{% endif %}
+    </div>
+    <div class="pull-left">
+        <h1 style="padding: 5px 10px;">{{object.title}}</h1>
     </div>
 	<div class="oc_detail_top row clear" style="margin-right: -5px;margin-left: -5px;border:0;background: none;">
         <div class="pull-left">
@@ -82,7 +82,108 @@
             </div>
         {% endif %}
 	{% endwith %}
-
+	
+	<div class="board_vote clearfix">
+	{% if object.status == object.statuses.ACCEPTED or object.status == object.statuses.REJECTED %}
+		<div class="col-xs-4 prop-infavor">
+			<h4>{% trans "Pro" %}</h4>
+			<p>{{ res.votes_pro }} - {% widthratio res.votes_pro res.community_members 100 %}%</p>
+			<ul>
+			{% with 'יניב בועז' as list %}
+  				{% for i in list.split %}
+				<li>
+					{{i}}
+				</li>
+				{% endfor %}
+			{% endwith %}
+			</ul>
+		</div>
+		<div class="col-xs-4 prop-nutral">
+			<h4>{% trans "Neutral" %}</h4>
+			<p>{{ res|nutral_votes }} - {% widthratio res|nutral_votes res.community_members 100 %}%</p>
+			<ul>
+			{% with 'שמעון מאיר יוסי אבנר' as list %}
+  				{% for i in list.split %}
+				<li>
+					{{i}}
+				</li>
+				{% endfor %}
+			{% endwith %}
+			</ul>
+		</div>
+		<div class="col-xs-4 prop-against">
+			<h4>{% trans "Con" %}</h4>
+			<p>{{ res.votes_con }} - {% widthratio res.votes_con res.community_members 100 %}%</p>
+			<ul>
+			{% with 'חן' as list %}
+  				{% for i in list.split %}
+				<li>
+					{{i}}
+				</li>
+				{% endfor %}
+			{% endwith %}
+			</ul>
+		</div>
+	{% else %}
+			<div class="col-xs-12 clearfix" style="border-bottom: 1px solid">
+				<div class="col-xs-6 col-sm-offset-6">
+					<div class="col-xs-4 text-center" style="background: #a4cb53;">
+						<h5>{% trans "Pro" %}</h5>
+					</div>
+					<div class="col-xs-4 text-center" style="background: #ffffff;">
+						<h5>{% trans "Neutral" %}</h5>
+					</div>
+					<div class="col-xs-4 text-center" style="background: #d95e59;">
+						<h5>{% trans "Con" %}</h5>
+					</div>
+				</div>
+			</div>
+		{% for i in proposal.issue.community.get_members %}
+			<div class="col-xs-12 clearfix user_vote_line"{% if forloop.last %} style="border-bottom: 1px solid;"{% endif %}>
+				<div class="col-xs-6">
+					{{ i.email }}
+				</div>
+				<div class="col-xs-6">
+					<div class="col-xs-4 text-center" style="background: #a4cb53;">
+						<div class="radio-inline">
+							<label>
+								<input type="radio" name="votesRadios{{i.id}}" id="RadioPro{{i.id}}" value="pro" checked>
+							</label>
+						</div>
+					</div>
+					<div class="col-xs-4 text-center" style="background: #ffffff;">
+						<div class="radio-inline">
+							<label>
+								<input type="radio" name="votesRadios{{i.id}}" id="RadioNut{{i.id}}" value="nut">
+							</label>
+						</div>
+					</div>
+					<div class="col-xs-4 text-center" style="background: #d95e59;">
+						<div class="radio-inline">
+							<label>
+								<input type="radio" name="votesRadios{{i.id}}" id="RadioCon{{i.id}}" value="con">
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+			<div class="col-xs-12 clearfix">
+				<div class="col-xs-6 col-sm-offset-6">
+					<div class="col-xs-4 text-center" style="background: #a4cb53;">
+						<h5>{{ res.votes_pro }} - {% widthratio res.votes_pro res.community_members 100 %}%</h5>
+					</div>
+					<div class="col-xs-4 text-center" style="background: #ffffff;">
+						<h5>{{ res|nutral_votes }} - {% widthratio res|nutral_votes res.community_members 100 %}%</h5>
+					</div>
+					<div class="col-xs-4 text-center" style="background: #d95e59;">
+						<h5>{{ res.votes_con }} - {% widthratio res.votes_con res.community_members 100 %}%</h5>
+					</div>
+				</div>
+			</div>
+	{% endif %}
+	</div>
+	
     {% if object.can_vote and cperms.issues.acceptopen_proposal %}
     <form id="proposal-form" method="post">
         {% csrf_token %}
@@ -102,4 +203,3 @@
     {% endif %}
 </div>
 </div>
-

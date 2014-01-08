@@ -30,9 +30,9 @@ id="meeting-detail"
       	{% endif %}
 		{% for m in object.community.meetings.all %}
           <li>
-            <h4><a href="{{m.get_absolute_url}}">{{ m.title|default_if_none:_("No title") }}</a></h4>
-            <h5><i class="fa fa-calendar"></i> {{ m.held_at }}
-            <i class="fa fa-map-marker"></i> {{ m.location|default_if_none:_("Unknown") }}</h5>
+            <h4><a href="{{m.get_absolute_url}}">{% if m.title %}{{ m.title }}{% else %}{{ m.held_at }}{% endif %}</a></h4>
+            <h5 style="font-weight: normal;">{% if m.title %}<i class="fa fa-calendar"></i> {{ m.held_at }}{% endif %}
+            {% if m.location %}<i class="fa fa-map-marker"></i> {{ m.location }}{% endif %}</h5>
           </li>
 		{% endfor %}
       </ul>
