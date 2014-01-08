@@ -23,7 +23,7 @@
     <body {% block extra-page-id %}{% endblock %}>
         <div class="notmodal">
             {% include '_navbar.html' %}
-            <div class="container">
+            <div class="container main-page">
                 <div class="row">
                     {% if messages %}
                     <div class="col-xs-12">
@@ -80,8 +80,12 @@
             <script src="{{STATIC_URL}}bootstrap-wysihtml5/locales/bootstrap-wysihtml5.he-IL.js"></script>
         {% endif %}
         {% block scripts %}
-
         {% endblock %}
+        <script>
+            $(function(){
+                $('.main-page').show();
+            })
+        </script>
 
     </body>
 </html>

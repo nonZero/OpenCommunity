@@ -43,7 +43,7 @@ h2 {
 .oc_detail_top h5 span {
 	font-weight: normal;
 }
-.loader {
+.loader, .main-page {
     display:none;
 }
 .loader img {
