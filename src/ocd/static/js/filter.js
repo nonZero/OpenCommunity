@@ -42,7 +42,6 @@ $(function () {
     }
 
     var filters = {};
-    console.log($('[data-toggle=filter]'));
     $('[data-toggle=filter]').each(function() {
         filters[$(this).attr('href')] = $(this);
     });
