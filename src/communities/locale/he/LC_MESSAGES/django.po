@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-08 00:17+0200\n"
+"POT-Creation-Date: 2014-01-08 23:31+0200\n"
 "PO-Revision-Date: 2014-01-08 00:34+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -168,7 +168,7 @@ msgstr "קהילות"
 msgid "Board"
 msgstr "ועד"
 
-#: .\views.py:182
+#: .\views.py:192
 #, python-format
 msgid "Sending to %d users"
 msgstr "שולח ל-%d משתמשים"
@@ -186,7 +186,7 @@ msgid "History"
 msgstr "היסטוריה"
 
 #: .\templates\_community_panel.html.py:11
-#: .\templates\communities\base_meeting.html.py:18
+#: .\templates\communities\base_meeting.html.py:15
 msgid "Meetings"
 msgstr "פגישות"
 
@@ -212,7 +212,7 @@ msgstr "יציאה"
 msgid "Login"
 msgstr "כניסה"
 
-#: .\templates\communities\base_meeting.html.py:23
+#: .\templates\communities\base_meeting.html.py:20
 #: .\templates\communities\upcoming.html.py:18
 #: .\templates\communities\upcoming.html.py:56
 #: .\templates\emails\agenda.txt.py:1
@@ -229,7 +229,7 @@ msgstr "בכדי לצפות בקהילות שלך, עליך להכנס למער�
 
 #: .\templates\communities\community_list.html.py:55
 #: .\templates\emails\agenda.html.py:33
-#: .\templates\emails\agenda_title.txt.py:1
+#: .\templates\emails\agenda_title.txt.py:3
 #: .\templatetags\community_tags.py:43
 msgid "Version"
 msgstr "גרסא"
@@ -423,11 +423,11 @@ msgstr "למידע נוסף יש ללחוץ על הקישורים"
 msgid "Proposals"
 msgstr "הצעות"
 
-#: .\templates\emails\agenda_title.txt.py:1
+#: .\templates\emails\agenda_title.txt.py:3
 msgid "Upcoming Agenda For"
 msgstr "סדר יום לפגישה שתתקיים ב"
 
-#: .\templates\emails\agenda_title.txt.py:1
+#: .\templates\emails\agenda_title.txt.py:3
 msgid "Upcoming Agenda"
 msgstr "סדר יום לפגישה הקרובה"
 

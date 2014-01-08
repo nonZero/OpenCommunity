@@ -357,7 +357,21 @@ h5 {
 	margin-bottom: 10px;
 	border-bottom: 1px solid #ccc;
 }
-
+.member_tasks {
+	background: #ffffff;
+	border-right: 1px solid #dddddd;
+	border-left: 1px solid #dddddd;
+	border-bottom: 1px solid #dddddd;
+	padding: 10px;
+}
+.task_devider {
+	border-bottom: 1px solid #dddddd;
+	margin-bottom: 10px;
+}
+.task_devider:last-child {
+	border-bottom: 0;
+	margin-bottom: 0;
+}
 @media (min-width: 480px) {
 	#issues-order.nav-tabs {
 		width: 81%;

@@ -7,7 +7,10 @@ from django.db import models
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from issues.models import Proposal, ProposalVote
+from meetings.models import Meeting, MeetingParticipant
 from users.default_roles import DefaultGroups
+import datetime
 import logging
 import random
 import string
@@ -100,17 +103,6 @@ class OCUser(AbstractBaseUser, PermissionsMixin):
         send_mail(subject, message, from_email, [self.email])
 
 
-
-
-
-
-
-
-
-
-
-
-
 class MembershipManager(models.Manager):
     def board(self):
         return self.get_query_set().exclude(
@@ -143,8 +135,42 @@ class Membership(models.Model):
         return "%s: %s (%s)" % (self.community.name, self.user.display_name,
                                 self.get_default_group_name_display())
 
+    @models.permalink
+    def get_absolute_url(self):
+        return "member_profile", (self.community.id, self.id)
+
     def get_permissions(self):
         return DefaultGroups.permissions[self.default_group_name]
+    
+    def total_meetings(self):
+        return self.community.meetings.count()
+        
+    def meetings_participation(self):
+        return MeetingParticipant.objects.filter(user=self.user).count()
+    
+    def meetings_participation_percantage(self):
+        return round((float(self.meetings_participation()) / float(self.total_meetings())) * 100.0)
+
+    def member_tasks(self):
+        return Proposal.objects.filter(assigned_to_user=self.user).all()
+
+    def member_open_tasks(self):
+        return Proposal.objects.filter(assigned_to_user=self.user, due_by__gte=datetime.date.today(), status=1)
+
+    def member_close_tasks(self):
+        return Proposal.objects.filter(assigned_to_user=self.user, active=False)
+
+    def member_late_tasks(self):
+        return Proposal.objects.filter(assigned_to_user=self.user, due_by__lte=datetime.date.today(), status=1)
+
+    def member_proposal_pro_votes(self):
+        return ProposalVote.objects.filter(user=self.user, value=1)
+
+    def member_proposal_con_votes(self):
+        return ProposalVote.objects.filter(user=self.user, value=-1)
+
+    def member_proposal_nut_votes(self):
+        return ProposalVote.objects.filter(user=self.user, value=0)
 
 CODE_CHARS = string.lowercase + string.digits
 
@@ -210,6 +236,7 @@ class Invitation(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return "accept_invitation", (self.code,)
+
 
     def send(self, sender, recipient_name='', base_url=None):
 

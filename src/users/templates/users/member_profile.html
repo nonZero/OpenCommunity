@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% load i18n voting_tags %}
+
+{% block extra-page-id %}
+id="member-profile"
+{% endblock %}
+
+{% block page_header %}
+{{ object.user.display_name }}
+{% endblock %}
+
+{% block content %}
+<div class="col-xs-4">
+	<p>
+		{% trans "Position" %}: {% trans object.default_group_name %}
+	</p>
+	<p>
+		{% trans "Serves since" %}: {{ object.created_at|date:"d F Y" }}
+	</p>
+	<p>
+		{% trans "Email" %}: {{ object.user.email }}
+	</p>
+	<h3>{% trans "Meetings participation" %}</h3>
+	<p class="pull-left">
+		{{ object.meetings_participation }} {% trans "Out of" %} {{ object.total_meetings }} - {{ object.meetings_participation_percantage }}%
+	</p>
+	<canvas class="pull-left" id="participationChart" height="40px" width="40px"></canvas>
+</div>
+<div class="col-xs-4">
+	<h3>{% trans "Tasks" %}</h3>
+	<ul class="nav nav-tabs">
+		<li class="active">
+			<a href="#late" data-toggle="tab">{% trans "Late" %} ({{ object.member_late_tasks.count }})</a>
+		</li>
+		<li>
+			<a href="#open" data-toggle="tab">{% trans "Open" %} ({{ object.member_open_tasks.count }})</a>
+		</li>
+		<li>
+			<a href="#close" data-toggle="tab">{% trans "Close" %} ({{ object.member_close_tasks.count }})</a>
+		</li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active member_tasks" id="late">
+			{% for p in object.member_late_tasks %}
+			<div class="task_devider">
+				<p>
+					{{ p.title }}
+				</p>
+				<p>
+					{% trans "Due by" %}: {{ p.due_by }}
+				</p>
+				<p>
+					{{ p.content|safe }}
+				</p>
+			</div>
+			{% endfor %}
+		</div>
+		<div class="tab-pane member_tasks" id="open">
+			{% for p in object.member_open_tasks %}
+			<p>
+				{{ p.title }}
+			</p>
+			<p>
+				{% trans "Due by" %}: {{ p.due_by }}
+			</p>
+			<p>
+				{{ p.content|safe }}
+			</p>
+			{% endfor %}
+		</div>
+		<div class="tab-pane member_tasks" id="close">
+			{% for p in object.member_close_tasks %}
+			<p>
+				{{ p.title }}
+			</p>
+			<p>
+				{% trans "Due by" %}: {{ p.due_by }}
+			</p>
+			<p>
+				{{ p.content|safe }}
+			</p>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+<div class="col-xs-4">
+	<h3>{% trans "Summary of votes participation" %}</h3>
+	<ul class="nav nav-tabs">
+		<li class="active">
+			<a href="#pro" data-toggle="tab" style="background: #a4cb53;">{% trans "Pro" %} ({{ object.member_proposal_pro_votes.count }})</a>
+		</li>
+		<li>
+			<a href="#neutral" data-toggle="tab" style="background: #ffffff;">{% trans "Neutral" %} ({{ object.member_proposal_nut_votes.count }})</a>
+		</li>
+		<li>
+			<a href="#con" data-toggle="tab" style="background: #d95e59;">{% trans "Con" %} ({{ object.member_proposal_con_votes.count }})</a>
+		</li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active" id="pro" style="background: #a4cb53;">
+			<p>50% of the proposal he voted were rejected</p>
+			{% for p in object.member_proposal_pro_votes %}
+			<p>
+				{{ p.proposal.title }}
+			</p>
+			<p>
+				{{ p.proposal.get_status_display }}
+			</p>
+			{% endfor %}
+		</div>
+		<div class="tab-pane" id="neutral" style="background: #ffffff;">
+			{% for p in object.member_proposal_nut_votes %}
+			<p>
+				{{ p.proposal.title }}
+			</p>
+			<p>
+				{{ p.proposal.get_status_display }}
+			</p>
+			{% endfor %}
+		</div>
+		<div class="tab-pane" id="con" style="background: #d95e59;">
+			<p>50% of the proposal he voted were accepted</p>
+			{% for p in object.member_proposal_con_votes %}
+			<p>
+				{{ p.proposal.title }}
+			</p>
+			<p>
+				{{ p.proposal.get_status_display }}
+			</p>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{STATIC_URL}}js/Chart.js"></script>
+<script src="{{STATIC_URL}}js/_participantchart.js"></script>
+<script>
+	createChart(
+		{{ object.meetings_participation }},
+		{{ object.total_meetings|subtract:object.meetings_participation }}
+	);
+</script>
+{% endblock %}

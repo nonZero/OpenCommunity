@@ -197,3 +197,13 @@ class AutocompletePrefetchMember(AutocompleteMemberName):
         return members.filter(user__is_active=True)
 
         
+class MemberProfile(MembershipMixin, DetailView):
+    
+    model = models.Membership
+    template_name = "users/member_profile.html"
+    
+    def get_context_data(self, **kwargs):
+       
+        d = super(MemberProfile, self).get_context_data(**kwargs)
+        d['form'] = ""
+        return d
