@@ -103,7 +103,7 @@
         </ul>
     </div>
     {% endif %}
-    {% if cperms.meetings.add_meeting and object.community.upcoming_meeting_started and object.status == object.statuses.IN_UPCOMING_MEETING %}
+    {% if cperms.meetings.add_meeting and not object.completed and object.community.upcoming_meeting_started and object.status == object.statuses.IN_UPCOMING_MEETING %}
         <form id="issue-complete" method="post" action="{% url 'issue_complete' community.id issue.id %}">
           {% csrf_token %}
           <input name="enable" type="hidden" value="{{object.completed|yesno:'0,1'}}"/>
