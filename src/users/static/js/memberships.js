@@ -5,6 +5,7 @@ $(function() {
 
         success: function(data) {
             var el = $(data.trim());
+            $('label[for=id_email] .alert').remove();
             $("#invite-form").closest('li').before(el).parent();
             $("#invite-form").get(0).reset();
             el.hide().show('slow');
@@ -13,6 +14,7 @@ $(function() {
         },
         error: function(resp) {
                 if (resp.status == 403 || resp.status == 400) {
+					$('label[for=id_email] .alert').remove();
 					$('label[for=id_email]').prepend(
 					'<div class="alert alert-warning alert-dismissable" style="margin-top: 10px;">' +
 				        '<button type="button" style="margin-right: 10px;" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +

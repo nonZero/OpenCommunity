@@ -922,6 +922,9 @@ ul.proposals li.prop-content p {
 	color: #6c6c6e;
 	font-size: 14px;
 }
+.comment-inner a {
+	word-break: break-all;
+}
 .comment-inner p {
 	margin-bottom: 0;
 }

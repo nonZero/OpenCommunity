@@ -3,20 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-02 19:58+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-01-08 00:17+0200\n"
+"PO-Revision-Date: 2014-01-08 00:34+0200\n"
+"Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
+"Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.6.3\n"
 
 #: .\forms.py:31
 msgid "Title"
@@ -168,7 +168,7 @@ msgstr "קהילות"
 msgid "Board"
 msgstr "ועד"
 
-#: .\views.py:179
+#: .\views.py:182
 #, python-format
 msgid "Sending to %d users"
 msgstr "שולח ל-%d משתמשים"
@@ -212,7 +212,7 @@ msgstr "יציאה"
 msgid "Login"
 msgstr "כניסה"
 
-#: .\templates\communities\base_meeting.html.py:22
+#: .\templates\communities\base_meeting.html.py:23
 #: .\templates\communities\upcoming.html.py:18
 #: .\templates\communities\upcoming.html.py:56
 #: .\templates\emails\agenda.txt.py:1
@@ -243,7 +243,7 @@ msgid "Select Participants"
 msgstr "בחר משתתפים"
 
 #: .\templates\communities\publish_upcoming.html.py:6
-#: .\templates\communities\upcoming.html.py:148
+#: .\templates\communities\upcoming.html.py:142
 #: .\templates\emails\protocol_draft.html.py:3
 #: .\templates\emails\protocol_draft.txt.py:1
 msgid "Summary Draft"
@@ -268,7 +268,7 @@ msgstr "סגור"
 
 #: .\templates\communities\start_meeting.html.py:5
 #: .\templates\communities\start_meeting.html.py:8
-#: .\templates\communities\upcoming.html.py:97
+#: .\templates\communities\upcoming.html.py:91
 msgid "Start Meeting"
 msgstr "התחל פגישה"
 
@@ -277,19 +277,11 @@ msgid "All Meetings"
 msgstr "כל הפגישות"
 
 #: .\templates\communities\upcoming.html.py:20
-#: .\templates\communities\upcoming.html.py:76
+#: .\templates\communities\upcoming.html.py:73
 #: .\templates\emails\_protocol.html.py:37
 #: .\templates\emails\agenda.html.py:57 .\templatetags\community_tags.py:17
 msgid "Not set yet"
 msgstr "טרם נקבע"
-
-#: .\templates\communities\upcoming.html.py:25
-msgid "No title"
-msgstr "ללא שם"
-
-#: .\templates\communities\upcoming.html.py:27
-msgid "Unknown"
-msgstr "לא צוין"
 
 #: .\templates\communities\upcoming.html.py:44
 msgid "Edit"
@@ -299,59 +291,60 @@ msgstr "עריכה"
 msgid "Login to vote"
 msgstr "הכנס בכדי להצביע"
 
-#: .\templates\communities\upcoming.html.py:80
+#: .\templates\communities\upcoming.html.py:75
 #: .\templates\emails\_protocol.html.py:54
 msgid "Participants"
 msgstr "משתתפים"
 
-#: .\templates\communities\upcoming.html.py:91
+#: .\templates\communities\upcoming.html.py:85
 msgid "Undo Start Meeting"
 msgstr "עצור פגישה"
 
-#: .\templates\communities\upcoming.html.py:111
+#: .\templates\communities\upcoming.html.py:105
 msgid "Agenda items"
 msgstr "נושאים לסדר היום"
 
-#: .\templates\communities\upcoming.html.py:113
+#: .\templates\communities\upcoming.html.py:107
 msgid "Create Issue"
 msgstr "צור נושא"
 
-#: .\templates\communities\upcoming.html.py:118
+#: .\templates\communities\upcoming.html.py:112
 msgid "Total proposals/Votes"
 msgstr "סך הצעות/כמה הצבעתי"
 
-#: .\templates\communities\upcoming.html.py:132
+#: .\templates\communities\upcoming.html.py:126
 #: .\templates\emails\_protocol.html.py:44
 #: .\templates\emails\protocol.html.py:3 .\templates\emails\protocol.txt.py:1
 #: .\templates\emails\protocol_title.txt.py:1
 msgid "Summary"
 msgstr "סיכום הפגישה"
 
-#: .\templates\communities\upcoming.html.py:148
+#: .\templates\communities\upcoming.html.py:142
 msgid "Publish Agenda"
 msgstr "פרסם סדר יום"
 
-#: .\templates\communities\upcoming.html.py:150
+#: .\templates\communities\upcoming.html.py:144
 msgid "Close Meeting"
 msgstr "סגור פגישה"
 
-#: .\templates\communities\upcoming.html.py:159
+#: .\templates\communities\upcoming.html.py:154
+#: .\templates\communities\upcoming.html.py:170
 msgid "Available Issues"
 msgstr "נושאים נוספים"
 
-#: .\templates\communities\upcoming.html.py:162
+#: .\templates\communities\upcoming.html.py:156
 msgid "By time"
 msgstr "זמן"
 
-#: .\templates\communities\upcoming.html.py:163
+#: .\templates\communities\upcoming.html.py:157
 msgid "By rank"
 msgstr "משוקלל"
 
-#: .\templates\communities\upcoming.html.py:188
+#: .\templates\communities\upcoming.html.py:183
 msgid "Agenda not yet published"
 msgstr "טרם פורסם סדר היום לפגישה הקרובה"
 
-#: .\templates\communities\upcoming.html.py:200
+#: .\templates\communities\upcoming.html.py:195
 msgid "Save"
 msgstr "שמירה"
 
@@ -380,7 +373,7 @@ msgid "Issues & Decisions"
 msgstr "נושאים והחלטות"
 
 #: .\templates\emails\_protocol.html.py:96
-#: .\templates\emails\agenda.html.py:97
+#: .\templates\emails\agenda.html.py:98
 msgid "Related files"
 msgstr "קבצים קשורים"
 
@@ -389,12 +382,12 @@ msgid "Accepted Proposals"
 msgstr "החלטות שהתקבלו"
 
 #: .\templates\emails\_protocol.html.py:143
-#: .\templates\emails\agenda.html.py:130
+#: .\templates\emails\agenda.html.py:131
 msgid "Assigned to"
 msgstr "אחראי"
 
 #: .\templates\emails\_protocol.html.py:147
-#: .\templates\emails\agenda.html.py:134
+#: .\templates\emails\agenda.html.py:135
 msgid "Due by"
 msgstr "יעד"
 
@@ -422,11 +415,11 @@ msgstr "כניסה לאתר והצבעה על ההצעות"
 msgid "The following issues will be discussed in the next meeting"
 msgstr "הנושאים שיועלו לדיון"
 
-#: .\templates\emails\agenda.html.py:70
+#: .\templates\emails\agenda.html.py:71
 msgid "click links for more details"
 msgstr "למידע נוסף יש ללחוץ על הקישורים"
 
-#: .\templates\emails\agenda.html.py:111
+#: .\templates\emails\agenda.html.py:112
 msgid "Proposals"
 msgstr "הצעות"
 
@@ -457,6 +450,12 @@ msgstr "הצבעה פעילה"
 #: .\templatetags\community_tags.py:61
 msgid "Published"
 msgstr "פורסם"
+
+#~ msgid "No title"
+#~ msgstr "ללא שם"
+
+#~ msgid "Unknown"
+#~ msgstr "לא צוין"
 
 #~ msgid "Open Community"
 #~ msgstr "קהילה פתוחה"
