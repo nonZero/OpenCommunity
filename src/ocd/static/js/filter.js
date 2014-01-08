@@ -4,23 +4,23 @@
  * Toggles visibilty for titles with no "child" elements.
  */
 function toggleTitles() {
-    $('.filter-title').each(function() {
+    $('.filter-title').each(function () {
         $(this).toggle($(this).next().find('.filter:visible').length > 0);
     });
 }
 
 function setHeight() {
-	var issues_h = $('.issue_right_column').outerHeight();
-	var frame_h = $('.issue_left_column').outerHeight();
-	var inner_h = $('.issue_left_column_inner').outerHeight();
-	if ((inner_h > frame_h) || (issues_h > frame_h)) {
-		  $('.issue_left_column').outerHeight(Math.max(inner_h, issues_h)+20);
-	};
+    var issues_h = $('.issue_right_column').outerHeight();
+    var frame_h = $('.issue_left_column').outerHeight();
+    var inner_h = $('.issue_left_column_inner').outerHeight();
+    if ((inner_h > frame_h) || (issues_h > frame_h)) {
+        $('.issue_left_column').outerHeight(Math.max(inner_h, issues_h) + 20);
+    }
 }
 
-$(function() {
+$(function () {
 
-    $(document).on('click.filter.data-api', '[data-toggle=filter]', function(e) {
+    $(document).on('click.filter.data-api', '[data-toggle=filter]', function (e) {
 
         var $this = $(this);
 
