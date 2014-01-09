@@ -91,7 +91,10 @@
   background: none;
   border: none;
 }
-
+#issues-order.nav-tabs {
+	display: inline-block;
+	width: 84%;
+}
 .proposal_left_column {
 	border-left: 1px solid #e2e2e2;
 	border-right: 1px solid #d4d5c8;
@@ -319,6 +322,20 @@ h5 {
 	border-bottom: 1px solid #ccc;
 }
 
+@media (min-width: 480px) {
+	#issues-order.nav-tabs {
+		width: 81%;
+	}
+	.one_action_icon {
+		width: 77px;
+		display: inline-block;
+		vertical-align: top;
+		line-height: 42px;
+	}
+	.one_action_icon span {
+		display: inline;
+	}
+}
 @media (min-width: 768px) {
 	.proposal_right_column {
 		background: #f5f6de;
@@ -358,5 +375,14 @@ h5 {
 	h5 {
 		margin-top: 10px;
 		margin-bottom: 10px;
+	}
+	#issues-order.nav-tabs {
+		width: 88%;
+	}
+}
+
+@media (min-width: 992px) {
+	#issues-order.nav-tabs {
+		width: 91%;
 	}
 }
