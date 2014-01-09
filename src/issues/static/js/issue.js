@@ -96,7 +96,7 @@ $(function() {
         return false;
     });
 
-    $('#issue-complete').ajaxForm({
+    $('#issue-complete,#issue-undo-complete').ajaxForm({
         success: function(data) {
             history.back();
         }

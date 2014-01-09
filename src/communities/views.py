@@ -19,6 +19,7 @@ from django.views.generic import View, ListView
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import UpdateView
 from issues.models import IssueStatus, Issue
+from meetings.models import Meeting
 from ocd.base_views import ProtectedMixin, AjaxFormView
 import datetime
 import json
@@ -58,13 +59,15 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
 
     required_permission_for_post = 'community.editagenda_community'
     
-    """
     def get(self, request, *args, **kwargs):
-        if not has_community_perm(request.user, self.community, 'viewupcoming_draft'):
+        if not has_community_perm(request.user, self.community, 'viewupcoming_draft') \
+           and not self.community.upcoming_meeting_is_published:
+            last_meeting = Meeting.objects.latest('held_at') 
             return HttpResponseRedirect(reverse('meeting', 
-                                                kwargs={'community_id': self.community.id, 'pk': 26})) 
+                                        kwargs={
+                                           'community_id': self.community.id, 
+                                           'pk': last_meeting.id})) 
         return super(UpcomingMeetingView, self).get(request, *args, **kwargs)
-    """
 
     def post(self, request, *args, **kwargs):
 
