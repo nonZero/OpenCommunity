@@ -244,7 +244,10 @@ class ProtocolDraftPreviewView(CommunityModelMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         d = super(ProtocolDraftPreviewView, self).get_context_data(**kwargs)
-        d['meeting_time'] = datetime.datetime.now().replace(second=0)
+        meeting_time = self.community.upcoming_meeting_scheduled_at
+        if not meeting_time:
+            meeting_time =datetime.datetime.now()
+        d['meeting_time'] = meeting_time.replace(second=0)
         return d
 
     
