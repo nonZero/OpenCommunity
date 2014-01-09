@@ -76,7 +76,8 @@ function init_user_autocomplete(ac_url) {
     var tpl = '<p {{#board}}class="emp"{{/board}}>{{value}}</p>';
 
     $("[id$='assigned_to']").typeahead({
-        // prefetch : ac_url,
+       // prefetch : ac_url,
+        cache: false,
         remote : ac_url + '?q=%QUERY',
         engine : Hogan,
         template : tpl
