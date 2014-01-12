@@ -10,9 +10,6 @@
 
 <div class="proposal" data-id="{{object.id}}" data-accepted="{{object.status}}">
 
-    <div class="pull-left">
-        <h1 style="padding: 5px 10px;">{{object.title}}</h1>
-    </div>
     <div class="pull-right">
 	    {% if cperms.issues.view_proposal_in_discussion or not proposal.is_open %}
 	        {% if object.status == object.statuses.ACCEPTED or object.status == object.statuses.REJECTED %}
@@ -45,6 +42,9 @@
 				</div>
 			{% endif %}
 		{% endif %}
+    </div>
+    <div class="pull-left">
+        <h1 style="padding: 5px 10px;">{{object.title}}</h1>
     </div>
 	<div class="oc_detail_top row clear" style="margin-right: -5px;margin-left: -5px;border:0;background: none;">
         <div class="pull-left">

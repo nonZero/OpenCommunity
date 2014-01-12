@@ -66,6 +66,10 @@ p > a {
 	margin-bottom: 30px;
 }
 
+.userhtml a, .oc_li a {
+	word-break: break-word;
+}
+
 /* Errors */
 
 ul.errorlist {
