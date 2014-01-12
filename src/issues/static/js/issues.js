@@ -77,6 +77,7 @@ function init_user_autocomplete(ac_url) {
 
     $("[id$='assigned_to']").typeahead({
         prefetch : ac_url,
+        cache: false,
         remote : ac_url + '?q=%QUERY',
         engine : Hogan,
         template : tpl
