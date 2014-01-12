@@ -1,4 +1,3 @@
-from collections import defaultdict
 from django.conf import settings
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, \
     PermissionsMixin
@@ -7,8 +6,9 @@ from django.db import models
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from issues.models import Proposal, ProposalVote
-from meetings.models import Meeting, MeetingParticipant
+from issues.models import Proposal, ProposalVote, ProposalVoteValue, \
+    ProposalStatus
+from meetings.models import MeetingParticipant
 from users.default_roles import DefaultGroups
 import datetime
 import logging
@@ -155,22 +155,31 @@ class Membership(models.Model):
         return Proposal.objects.filter(assigned_to_user=self.user).all()
 
     def member_open_tasks(self):
-        return Proposal.objects.filter(assigned_to_user=self.user, due_by__gte=datetime.date.today(), status=1)
+        return Proposal.objects.filter(assigned_to_user=self.user, due_by__gte=datetime.date.today(), active=True)
 
     def member_close_tasks(self):
         return Proposal.objects.filter(assigned_to_user=self.user, active=False)
 
     def member_late_tasks(self):
-        return Proposal.objects.filter(assigned_to_user=self.user, due_by__lte=datetime.date.today(), status=1)
+        return Proposal.objects.filter(assigned_to_user=self.user, due_by__lte=datetime.date.today(), status=ProposalStatus.IN_DISCUSSION)
 
     def member_proposal_pro_votes(self):
-        return ProposalVote.objects.filter(user=self.user, value=1)
+        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.PRO).exclude(proposal__status=ProposalStatus.IN_DISCUSSION)
+
+    def member_proposal_pro_votes_accepted(self):
+        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.PRO).exclude(proposal__status=ProposalStatus.IN_DISCUSSION).exclude(proposal__status=ProposalStatus.REJECTED)
 
     def member_proposal_con_votes(self):
-        return ProposalVote.objects.filter(user=self.user, value=-1)
+        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.CON).exclude(proposal__status=ProposalStatus.IN_DISCUSSION)
+
+    def member_proposal_con_votes_accepted(self):
+        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.CON).exclude(proposal__status=ProposalStatus.IN_DISCUSSION).exclude(proposal__status=ProposalStatus.REJECTED)
 
     def member_proposal_nut_votes(self):
-        return ProposalVote.objects.filter(user=self.user, value=0)
+        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.NEUTRAL).exclude(proposal__status=ProposalStatus.IN_DISCUSSION)
+
+    def member_proposal_nut_votes_accepted(self):
+        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.NEUTRAL).exclude(proposal__status=ProposalStatus.IN_DISCUSSION).exclude(proposal__status=ProposalStatus.REJECTED)
 
 CODE_CHARS = string.lowercase + string.digits
 

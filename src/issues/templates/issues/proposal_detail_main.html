@@ -84,10 +84,10 @@
 	{% endwith %}
 	
 	<div class="board_vote clearfix">
-	{% if object.status == object.statuses.ACCEPTED or object.status == object.statuses.REJECTED %}
+	{% if not object.status == object.statuses.ACCEPTED or not object.status == object.statuses.REJECTED %}
 		<div class="col-xs-4 prop-infavor">
 			<h4>{% trans "Pro" %}</h4>
-			<p>{{ res.votes_pro }} - {% widthratio res.votes_pro res.community_members 100 %}%</p>
+			<p>{{ object.participants_pro_vote_result.items }} - {% widthratio object.participants_pro_vote_result.count object.issue.community.upcoming_meeting_participants.count 100 %}%</p>
 			<ul>
 			{% with 'יניב בועז' as list %}
   				{% for i in list.split %}
@@ -125,6 +125,7 @@
 			</ul>
 		</div>
 	{% else %}
+		<h4>{% for key, val in object.members_vote_result.items %}{{key}}: {{val}}{% endfor %}</h4>
 			<div class="col-xs-12 clearfix" style="border-bottom: 1px solid">
 				<div class="col-xs-6 col-sm-offset-6">
 					<div class="col-xs-4 text-center" style="background: #a4cb53;">
@@ -138,7 +139,7 @@
 					</div>
 				</div>
 			</div>
-		{% for i in proposal.issue.community.get_members %}
+		{% for i in object.issue.community.upcoming_meeting_participants.all %}
 			<div class="col-xs-12 clearfix user_vote_line"{% if forloop.last %} style="border-bottom: 1px solid;"{% endif %}>
 				<div class="col-xs-6">
 					{{ i.email }}
