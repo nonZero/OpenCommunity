@@ -47,7 +47,7 @@ id="issue-detail"
             {% with can_straw_vote=object.can_straw_vote %}
 
             {% csrf_token %}
-                {% if object.agenda_items.count %}
+            {% if not object.is_archived and object.agenda_items.count > 1 %}
             <ul data-filter=".filter" class="nav nav-tabs">
 
                 {% if not object.is_archived %}
