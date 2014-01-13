@@ -440,25 +440,17 @@ class Proposal(UIDMixin):
     def members_vote_result(self):
         votes_dict = {}
         users = self.issue.community.upcoming_meeting_participants.all()
-        for u in users.all():
+        for u in users:
             vote = ProposalVote.objects.filter(proposal=self, user=u)
             if vote.count():
                 votes_dict[u] = vote[0].value
+            else:
+                votes_dict[u] = 0
+    
         return votes_dict
-                    
-    @property
-    def participants_pro_vote_result(self):
-        pro_votes_dict = {}
-        users = self.issue.community.upcoming_meeting_participants.all()
-        for u in users.all():
-            vote = ProposalVote.objects.filter(proposal=self, user=u, value=1)
-            if vote.count():
-                pro_votes_dict[u] = vote[0].value
-        print pro_votes_dict
-        return pro_votes_dict
-                    
-    def participants_con_vote_result(self):
-        return ProposalVote.objects.filter(proposal=self, user=self.issue.community.upcoming_meeting_participants, value=ProposalVoteValue.CON)
+
+    def votes_by_val(self, val):
+        return ProposalVote.objects.filter(proposal=self, value=val)
                     
     def do_votes_summation(self, members_count):
 
