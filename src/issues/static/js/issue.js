@@ -98,7 +98,7 @@ $(function() {
 
     $('#issue-complete,#issue-undo-complete').ajaxForm({
         success: function(data) {
-            history.back();
+            location.reload(true);
         }
     });
 

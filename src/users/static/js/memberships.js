@@ -20,7 +20,6 @@ $(function() {
 				        '<button type="button" style="margin-right: 10px;" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +
 				        resp.responseText +
 					'</div>');
-					$("#invite-form #id_email").val("");
                 } else {
                     alert('Server Error! please try again or reload the page.');
                 }
