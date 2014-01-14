@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-08 23:31+0200\n"
+"POT-Creation-Date: 2014-01-14 15:10+0200\n"
 "PO-Revision-Date: 2014-01-08 00:34+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -168,7 +168,7 @@ msgstr "קהילות"
 msgid "Board"
 msgstr "ועד"
 
-#: .\views.py:192
+#: .\views.py:198
 #, python-format
 msgid "Sending to %d users"
 msgstr "שולח ל-%d משתמשים"
@@ -212,7 +212,7 @@ msgstr "יציאה"
 msgid "Login"
 msgstr "כניסה"
 
-#: .\templates\communities\base_meeting.html.py:20
+#: .\templates\communities\base_meeting.html.py:23
 #: .\templates\communities\upcoming.html.py:18
 #: .\templates\communities\upcoming.html.py:56
 #: .\templates\emails\agenda.txt.py:1
@@ -315,7 +315,7 @@ msgstr "סך הצעות/כמה הצבעתי"
 #: .\templates\communities\upcoming.html.py:126
 #: .\templates\emails\_protocol.html.py:44
 #: .\templates\emails\protocol.html.py:3 .\templates\emails\protocol.txt.py:1
-#: .\templates\emails\protocol_title.txt.py:1
+#: .\templates\emails\protocol_title.txt.py:4
 msgid "Summary"
 msgstr "סיכום הפגישה"
 
@@ -431,7 +431,7 @@ msgstr "סדר יום לפגישה שתתקיים ב"
 msgid "Upcoming Agenda"
 msgstr "סדר יום לפגישה הקרובה"
 
-#: .\templates\emails\protocol_draft_title.txt.py:1
+#: .\templates\emails\protocol_draft_title.txt.py:3
 msgid "Meeting Summary Draft"
 msgstr "טיוטת סיכום פגישה"
 
