@@ -1,16 +1,19 @@
+import logging
+
 from django.conf import settings
 from django.db import models, transaction
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+
 from issues.models import ProposalStatus, IssueStatus, VoteResult
+import issues.models as issues_models
 from meetings.models import MeetingParticipant
+import meetings.models as meetings_models
 from ocd.base_models import HTMLField, UIDMixin
 from ocd.email import send_mails
 from users.models import OCUser, Membership
-import issues.models as issues_models
-import logging
-import meetings.models as meetings_models
+from users.default_roles import DefaultGroups
 
 
 logger = logging.getLogger(__name__)
@@ -156,6 +159,12 @@ class Community(UIDMixin):
 
     def get_members(self):
         return OCUser.objects.filter(memberships__community=self)
+
+    def get_board_members(self):
+        return Membership.objects.filter(community=self).exclude(default_group_name=DefaultGroups.MEMBER)
+
+    def get_none_board_members(self):
+        return Membership.objects.filter(community=self, default_group_name=DefaultGroups.MEMBER)
 
     def get_guest_list(self):
         if not self.upcoming_meeting_guests:
