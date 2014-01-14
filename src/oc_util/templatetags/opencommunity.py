@@ -186,3 +186,21 @@ def users_by_vote(proposal, val):
         vote = -1
     res = ProposalVote.objects.filter(proposal=proposal, value=vote)
     return [v.user for v in res]
+
+
+@register.filter
+def upcoming_participants_by_vote(proposal, val):
+    participants = proposal.issue.community.upcoming_meeting_participants.all()
+    if val == 'neut':
+        ret = []
+        voter_ids = ProposalVote.objects.filter(proposal=proposal) \
+                    .values_list('user', flat=True)
+        return [u for u in participants.all() if u.id not in voter_ids]
+    
+    if val == 'pro':
+        vote = 1
+    elif val == 'con':
+        vote = -1 
+    res = ProposalVote.objects.filter(proposal=proposal, value=vote, 
+                            user_id__in=participants.values_list('id', flat=True))
+    return [v.user for v in res]

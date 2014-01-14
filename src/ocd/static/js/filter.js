@@ -39,7 +39,7 @@ $(function () {
         toggleTitles();
         setHeight();
 
-    }
+    };
 
     var filters = {};
     $('[data-toggle=filter]').each(function() {
@@ -65,5 +65,3 @@ $(function () {
     }
 
 });
-
-

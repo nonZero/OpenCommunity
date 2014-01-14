@@ -44,7 +44,7 @@ id="member-profile"
 			{% for p in object.member_late_tasks %}
 			<div class="task_devider">
 				<p>
-					{{ p.title }}
+					<b>{{ p.title }}</b>
 				</p>
 				<p>
 					{% trans "Due by" %}: {{ p.due_by }}
@@ -57,28 +57,32 @@ id="member-profile"
 		</div>
 		<div class="tab-pane member_tasks" id="open">
 			{% for p in object.member_open_tasks %}
-			<p>
-				{{ p.title }}
-			</p>
-			<p>
-				{% trans "Due by" %}: {{ p.due_by }}
-			</p>
-			<p>
-				{{ p.content|safe }}
-			</p>
+			<div class="task_devider">
+				<p>
+					<b>{{ p.title }}</b>
+				</p>
+				<p>
+					{% trans "Due by" %}: {{ p.due_by }}
+				</p>
+				<p>
+					{{ p.content|safe }}
+				</p>
+			</div>
 			{% endfor %}
 		</div>
 		<div class="tab-pane member_tasks" id="close">
 			{% for p in object.member_close_tasks %}
-			<p>
-				{{ p.title }}
-			</p>
-			<p>
-				{% trans "Due by" %}: {{ p.due_by }}
-			</p>
-			<p>
-				{{ p.content|safe }}
-			</p>
+			<div class="task_devider">
+				<p>
+					<b>{{ p.title }}</b>
+				</p>
+				<p>
+					{% trans "Due by" %}: {{ p.due_by }}
+				</p>
+				<p>
+					{{ p.content|safe }}
+				</p>
+			</div>
 			{% endfor %}
 		</div>
 	</div>

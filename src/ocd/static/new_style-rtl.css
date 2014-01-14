@@ -305,6 +305,11 @@ label[for=id_proposal-title] {
 .user_vote_line {
 	border-bottom: 1px dotted #d8e0df;	
 }
+.board_vote .col-xs-4,
+.board_vote .col-xs-12 {
+	padding-right: 0;
+	padding-left: 0;
+}
 /* TODO Without CSS */
 
 /*#issue-list nav.oc_navbar ul li:nth-child(1) a {
