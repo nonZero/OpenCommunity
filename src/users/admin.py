@@ -58,6 +58,13 @@ class UserMembershipInline(admin.TabularInline):
     model = Membership
     fk_name = 'user'
 
+class MembershipAdmin(admin.ModelAdmin):
+
+    list_display = (
+                    'community',
+                    'default_group_name',
+                    'user',
+                    )
 
 class OCUserAdmin(UserAdmin):
     # The forms to add and change user instances
@@ -90,6 +97,6 @@ class OCUserAdmin(UserAdmin):
 admin.site.register(OCUser, OCUserAdmin)
 admin.site.unregister(Group)
 
-admin.site.register(Membership)
+admin.site.register(Membership, MembershipAdmin)
 admin.site.register(Invitation)
 

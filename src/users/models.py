@@ -158,7 +158,7 @@ class Membership(models.Model):
         return Proposal.objects.filter(assigned_to_user=self.user, due_by__gte=datetime.date.today(), active=True)
 
     def member_close_tasks(self):
-        return Proposal.objects.filter(assigned_to_user=self.user, active=False)
+        return Proposal.objects.filter(assigned_to_user=self.user, active=True, status=ProposalStatus.ACCEPTED)
 
     def member_late_tasks(self):
         return Proposal.objects.filter(assigned_to_user=self.user, due_by__lte=datetime.date.today(), status=ProposalStatus.IN_DISCUSSION)
@@ -173,7 +173,7 @@ class Membership(models.Model):
         return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.CON).exclude(proposal__status=ProposalStatus.IN_DISCUSSION)
 
     def member_proposal_con_votes_accepted(self):
-        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.CON).exclude(proposal__status=ProposalStatus.IN_DISCUSSION).exclude(proposal__status=ProposalStatus.REJECTED)
+        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.CON).exclude(proposal__status=ProposalStatus.IN_DISCUSSION).exclude(proposal__status=ProposalStatus.ACCEPTED)
 
     def member_proposal_nut_votes(self):
         return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.NEUTRAL).exclude(proposal__status=ProposalStatus.IN_DISCUSSION)
