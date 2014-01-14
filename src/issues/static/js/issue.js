@@ -96,10 +96,19 @@ $(function() {
         return false;
     });
 
-    $('#issue-complete,#issue-undo-complete').ajaxForm({
+    $('#issue-complete').ajaxForm({
         success: function(data) {
-            location.reload(true);
+           window.history.back(); 
         }
+    });
+    
+    $('#issue-undo-complete').ajaxForm({
+        success: function(data) {
+            console.log(window.location);
+            var target = window.location.protocol + '://' + window.location.host + window.location.pathname;
+            console.log(target);
+        }
+
     });
 
 });
