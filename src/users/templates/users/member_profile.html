@@ -106,15 +106,19 @@ id="member-profile"
 				{% trans "of decisions voted for were accepted" %} ({{ object.member_proposal_pro_votes_accepted.count }})
 			</p>
 			{% for p in object.member_proposal_pro_votes %}
-		  		<a style="display: block;margin: 0 5%;background: #fff;padding: 5px;" href="{{p.proposal.issue.get_absolute_url}}">{{p.proposal.issue.title}}</a>
+		  		{% ifchanged p.proposal.issue.get_absolute_url %}
+		  		<a style="display: block;margin: 0 5%;background: #f5f6de;padding: 5px;text-decoration: none;color: #6C6C6E;" href="{{p.proposal.issue.get_absolute_url}}">{{p.proposal.issue.title}}</a>
+				{% endifchanged %}
 				<ul class="prop-table proposals" style="margin: 0 auto 10px auto;width: 90%;">
 				    <li class="drag-icon {% if p.proposal.type == 1 %}task-icon{% endif %}{% if p.proposal.type == 2 %}rule-icon{% endif %}{% if p.proposal.type == 3 %}general-icon{% endif %}"></li>
+				    <a href="{{p.proposal.get_absolute_url}}" style="text-decoration: none;color: #6C6C6E;">
 				    <li class="prop-title">{{p.proposal.title}}</li>
 				    <li class="prop-content">
 				        <p class="assign">
 				        	{% trans "By:" %} {{ p.proposal.created_by }}. {{ p.proposal.created_at|date:"d/m/Y" }}
 				        </p>
 				    </li>
+				    </a>
 				   <li class="check_box {% if p.proposal.status == p.proposal.statuses.ACCEPTED %}checked{% endif %}{% if p.proposal.status == p.proposal.statuses.REJECTED %}rejected{% endif %}"></li>
 				</ul>
 			{% endfor %}
