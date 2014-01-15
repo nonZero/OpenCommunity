@@ -377,6 +377,10 @@ h5 {
 	border-bottom: 0;
 	margin-bottom: 0;
 }
+#member-profile .nav > li > a {
+	padding: 10px 10px;
+}
+
 @media (min-width: 480px) {
 	#issue-list #issues-order.nav-tabs {
 		width: 81%;
