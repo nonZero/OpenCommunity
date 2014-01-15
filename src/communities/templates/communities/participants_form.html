@@ -15,26 +15,31 @@
 </div>
 <div class="participants-body-list"{% if object.full_participants.count %} style="display: none;"{% endif %}>
 	<div class="panel panel-default">
+		{% if object.meeting_participants.board %}
 		<div class="panel-heading">
 			<h3 class="panel-title">{% trans "Board" %}</h3>
 		</div>
 		<ul class="list-group">
-			{% for i in object.get_board_members %}
+			{% for board in object.meeting_participants.board %}
 			<li class="list-group-item">
-				{{ i.user }} ({% trans i.default_group_name %})
+				{{ board.display_name }}
 			</li>
 			{% endfor %}
 		</ul>
+		{% endif %}
+		{% if object.meeting_participants.members %}
 		<div class="panel-heading">
 			<h3 class="panel-title">{% trans "Members" %}</h3>
 		</div>
 		<ul class="list-group">
-			{% for i in object.get_none_board_members %}
+			{% for member in object.meeting_participants.members %}
 			<li class="list-group-item">
-				{{ i.user }}
+				{{ member.display_name }}
 			</li>
 			{% endfor %}
 		</ul>
+		{% endif %}
+		{% if object.get_guest_list %}
 		<div class="panel-heading">
 			<h3 class="panel-title">{% trans "Guests" %}</h3>
 		</div>
@@ -45,6 +50,7 @@
 			</li>
 			{% endfor %}
 		</ul>
+		{% endif %}
 	</div>
 </div>
 {% endblock %}

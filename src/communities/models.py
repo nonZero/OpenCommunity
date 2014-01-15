@@ -159,7 +159,21 @@ class Community(UIDMixin):
 
     def get_members(self):
         return OCUser.objects.filter(memberships__community=self)
+        
+    def meeting_participants(self):
 
+        meeting_participants = {'board': [], 'members': [],}
+
+        board_ids = [m.user.id for m in self.memberships.board()]
+
+        for u in self.upcoming_meeting_participants.all():
+            if u.id in board_ids:
+                meeting_participants['board'].append(u)
+            else:
+                meeting_participants['members'].append(u)
+
+        return meeting_participants
+        
     def get_board_members(self):
         return Membership.objects.filter(community=self).exclude(default_group_name=DefaultGroups.MEMBER)
 
