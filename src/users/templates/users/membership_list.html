@@ -33,9 +33,8 @@ id="members-list"
 {% endif %}
 
 <div>
-  {% if invites.count %}
-	<h2>{% trans "Invitations" %}</h2>
-  {% endif %}
+  <h2{% if not invites.count %} class="hide" {% endif %}> {% trans "Invitations" %} </h2>
+  
   <ul id="invitations" class="list-group">
 		{% for object in invites %}
 		{% include 'users/_invitation.html' %}
