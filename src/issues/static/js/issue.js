@@ -103,7 +103,8 @@ $(function() {
     
     $('#issue-undo-complete').ajaxForm({
         success: function(data) {
-            var target = window.location.protocol + '://' + window.location.host + window.location.pathname;
+            var target = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            window.location = target;
         }
 
     });
