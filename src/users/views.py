@@ -188,7 +188,7 @@ class AutocompleteMemberName(MembershipMixin, ListView):
             return HttpResponse(json.dumps({}))
         else:
             
-            members = list(members.values('user__display_name',
+            members = list(members.values('user__display_name', 'user__id',
                                             'default_group_name'))
             for m in members:
                 m['tokens'] = [m['user__display_name'],]
