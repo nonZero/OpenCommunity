@@ -222,6 +222,8 @@ def issue_attachment_path(instance, filename):
 
 class IssueAttachment(UIDMixin):
     issue = models.ForeignKey(Issue, related_name="attachments")
+    agenda_item = models.ForeignKey('meetings.AgendaItem', null=True, blank=True,
+                                    related_name="attachments")
     file = models.FileField(_("File"), storage=uploads_storage, max_length=200,
                             upload_to=issue_attachment_path)
     title = models.CharField(_("Title"), max_length=100)
@@ -295,8 +297,10 @@ class ProposalVoteValue(object):
 
 class ProposalVote(models.Model):
     proposal = models.ForeignKey("Proposal", verbose_name=_("Proposal"))
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"))
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
+                              related_name="votes")
     value = models.SmallIntegerField(choices=ProposalVoteValue.CHOICES, verbose_name=_("Vote"))
+    registered_by_chairman = models.BooleanField(default=False)
 
     class Meta:
         unique_together = (("proposal", "user"),)

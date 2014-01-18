@@ -36,7 +36,6 @@ $(function() {
 
     // Delete and undelete comment form
     $('#comments').on('click', '.delete-comment button', function() {
-        console.log('1');
         var btn = $(this);
         var form = btn.closest('form');
         var extra = {};
@@ -104,9 +103,8 @@ $(function() {
     
     $('#issue-undo-complete').ajaxForm({
         success: function(data) {
-            console.log(window.location);
-            var target = window.location.protocol + '://' + window.location.host + window.location.pathname;
-            console.log(target);
+            var target = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            window.location = target;
         }
 
     });
