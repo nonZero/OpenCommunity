@@ -504,7 +504,7 @@ class ProposalVoteView(CommunityMixin, DetailView):
 
     def post(self, request, *args, **kwargs):
         
-        if request.POST['user']:
+        if request.POST.get('user'):
             voter_id = request.POST['user']
         else:
             voter_id = request.user.id
