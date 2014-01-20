@@ -1,18 +1,13 @@
 from django.conf import settings
 from django.db import models, transaction
-from django.db.models import Sum
 from django.utils import timezone
 from django.utils.text import get_valid_filename
-
 from django.utils.translation import ugettext, ugettext_lazy as _
 from ocd.base_models import HTMLField, UIDMixin, UIDManager
-from ocd.validation import enhance_html
 from ocd.storages import uploads_storage
-
+from ocd.validation import enhance_html
 import meetings
-from datetime import datetime, timedelta
 import os.path
-
 
 
 class IssueStatus(object):
@@ -445,6 +440,31 @@ class Proposal(UIDMixin):
                 except VoteResult.DoesNotExist:
                     return None
 
+    @property
+    def members_vote_result(self):
+        votes_dict = { 'sums': {}, 'per_user': {} }
+        pro_count = 0
+        con_count = 0
+        neut_count = 0
+        users = self.issue.community.upcoming_meeting_participants.all()
+        for u in users:
+            vote = ProposalVote.objects.filter(proposal=self, user=u)
+            if vote.count():
+                votes_dict['per_user'][u] = vote[0].value
+                if vote == 1:
+                    pro_count += 1
+                elif vote == -1:
+                    con_count += 1
+                elif vote == 0:
+                    neut_count += 1
+                
+            else:
+                votes_dict['per_user'][u] = 0
+                neut_count += 1
+        votes_dict['sums']['pro_count'] = pro_count
+        votes_dict['sums']['con_count'] = con_count
+        votes_dict['sums']['neut_count'] = neut_count
+        return votes_dict
                     
     def do_votes_summation(self, members_count):
 

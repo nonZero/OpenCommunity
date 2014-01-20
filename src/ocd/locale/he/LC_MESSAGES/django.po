@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-08 00:17+0200\n"
+"POT-Creation-Date: 2014-01-14 22:30+0200\n"
 "PO-Revision-Date: 2014-01-08 00:33+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,11 +40,11 @@ msgstr "כניסה"
 msgid "Page Title"
 msgstr "כותרת עמוד"
 
-#: .\templates\base.html.py:54
+#: .\templates\base.html.py:51
 msgid "Attention"
 msgstr "שים לב"
 
-#: .\templates\base.html.py:61 .\templates\dialog.html.py:25
+#: .\templates\base.html.py:58 .\templates\dialog.html.py:25
 msgid "Close"
 msgstr "סגור"
 

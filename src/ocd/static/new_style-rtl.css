@@ -269,6 +269,47 @@ label[for=id_proposal-title] {
 #issue-detail-siblings .btn-group-justified {
 	margin-bottom: 0;
 }
+.board_vote {
+	border: 1px solid #d8e0df;
+	padding: 10px;
+}
+.board_vote h4,
+.board_vote p {
+	border-bottom: 1px solid #d8e0df;
+	padding-bottom: 10px;
+}
+.board_vote ul {
+	padding: 0;
+	list-style-type: none;
+}
+.prop-against {
+	padding: 0;
+	background: #d95e59;
+	border: 1px solid #d8e0df;
+	text-align: center;
+}
+.prop-infavor {
+	padding: 0;
+	background: #a4cb53;
+	border: 1px solid #d8e0df;
+	text-align: center;
+}
+.prop-nutral {
+	padding: 0;
+	border: 1px solid #d8e0df;
+	text-align: center;
+}
+.radio input[type="radio"], .radio-inline input[type="radio"] {
+	float: none;
+}
+.user_vote_line {
+	border-bottom: 1px dotted #d8e0df;	
+}
+.board_vote .col-xs-4,
+.board_vote .col-xs-12 {
+	padding-right: 0;
+	padding-left: 0;
+}
 /* TODO Without CSS */
 
 /*#issue-list nav.oc_navbar ul li:nth-child(1) a {
@@ -320,6 +361,24 @@ h5 {
 .small_meetings ul li {
 	margin-bottom: 10px;
 	border-bottom: 1px solid #ccc;
+}
+.member_tasks {
+	background: #ffffff;
+	border-right: 1px solid #dddddd;
+	border-left: 1px solid #dddddd;
+	border-bottom: 1px solid #dddddd;
+	padding: 10px;
+}
+.task_devider {
+	border-bottom: 1px solid #dddddd;
+	margin-bottom: 10px;
+}
+.task_devider:last-child {
+	border-bottom: 0;
+	margin-bottom: 0;
+}
+#member-profile .nav > li > a {
+	padding: 10px 10px;
 }
 
 @media (min-width: 480px) {

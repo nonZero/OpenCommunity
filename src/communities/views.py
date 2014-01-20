@@ -62,13 +62,15 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
     def get(self, request, *args, **kwargs):
         if not has_community_perm(request.user, self.community, 'viewupcoming_draft') \
            and not self.community.upcoming_meeting_is_published:
-            last_meeting = Meeting.objects.filter(community=self.community) \
-                           .latest('held_at') 
-            if last_meeting:
+            try:
+                last_meeting = Meeting.objects.filter(community=self.community) \
+                                                       .latest('held_at') 
                 return HttpResponseRedirect(reverse('meeting', 
                                             kwargs={
                                            'community_id': self.community.id, 
                                            'pk': last_meeting.id})) 
+            except Meeting.DoesNotExist:
+                pass
 
         return super(UpcomingMeetingView, self).get(request, *args, **kwargs)
 

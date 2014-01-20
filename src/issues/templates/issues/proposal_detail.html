@@ -95,6 +95,9 @@ id="proposal-detail"
 <script src="{{STATIC_URL}}js/hogan-2.0.0.js"></script>
 <script src="{{STATIC_URL}}js/issues.js"></script>
 <script src="{{STATIC_URL}}js/proposal.js"></script>
+{% if object.issue.community.upcoming_meeting_started %}
+	<script src="{{STATIC_URL}}js/proposal_members_vote.js"></script>
+{% endif %}
 <script>
 	$(function() {
         adapt_proposal_outer_height();

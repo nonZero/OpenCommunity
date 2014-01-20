@@ -2,5 +2,66 @@
 {% load i18n %}
 
 {% block page_header %}
-    {% trans "Select Participants" %}
+    <span class="participant-title">
+    	<span class="select-participants"{% if not object.full_participants.count %} style="display: none;"{% endif %}>{% trans "Select Participants" %} <button type="button" class="btn btn-default">{% trans "List" %}</button></span>
+    	<span class="list-of-participants"{% if object.full_participants.count %} style="display: none;"{% endif %}>{% trans "List of Participants" %} <button type="button" class="btn btn-default">{% trans "Edit" %}</button></span>
+	</span>
+{% endblock %}
+
+{% block content %}
+
+<div class="participants-body-form"{% if not object.full_participants.count %} style="display: none;"{% endif %}>
+    {{form}}
+</div>
+<div class="participants-body-list"{% if object.full_participants.count %} style="display: none;"{% endif %}>
+	<div class="panel panel-default">
+		{% if object.meeting_participants.board %}
+		<div class="panel-heading">
+			<h3 class="panel-title">{% trans "Board" %}</h3>
+		</div>
+		<ul class="list-group">
+			{% for board in object.meeting_participants.board %}
+			<li class="list-group-item">
+				{{ board.display_name }}
+			</li>
+			{% endfor %}
+		</ul>
+		{% endif %}
+		{% if object.meeting_participants.members %}
+		<div class="panel-heading">
+			<h3 class="panel-title">{% trans "Members" %}</h3>
+		</div>
+		<ul class="list-group">
+			{% for member in object.meeting_participants.members %}
+			<li class="list-group-item">
+				{{ member.display_name }}
+			</li>
+			{% endfor %}
+		</ul>
+		{% endif %}
+		{% if object.get_guest_list %}
+		<div class="panel-heading">
+			<h3 class="panel-title">{% trans "Guests" %}</h3>
+		</div>
+		<ul class="list-group">
+			{% for i in object.get_guest_list %}
+			<li class="list-group-item">
+				{{ i }}
+			</li>
+			{% endfor %}
+		</ul>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
+
+{% block page_scripts %}
+<script>
+	$(function() {
+		$('.participant-title button').on('click', function() {
+			$(".select-participants, .list-of-participants").toggle();
+			$(".participants-body-list, .participants-body-form").toggle();
+		});
+	}); 
+</script>
 {% endblock %}

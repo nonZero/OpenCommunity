@@ -17,8 +17,10 @@ id="members-list"
 	<ul class="list-group">
 		{% for object in object_list %}
 		<li class="list-group-item">
-			{{ object.user.display_name }}
-			({{ object.get_default_group_name_display }})
+			<a href="{{ object.get_absolute_url }}" style="color: #333333;">
+				{{ object.user.display_name }}
+				({{ object.get_default_group_name_display }})
+			</a>
 		</li>
 		{% endfor %}
 	</ul>
