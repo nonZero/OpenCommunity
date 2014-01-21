@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-14 22:30+0200\n"
+"POT-Creation-Date: 2014-01-21 21:09+0200\n"
 "PO-Revision-Date: 2014-01-07 08:07+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -159,22 +159,22 @@ msgstr "נוצר ב"
 
 #: .\models.py:285 .\templates\issues\_vote_panel.html.py:7
 #: .\templates\issues\proposal_detail_main.html.py:115
-#: .\templates\issues\proposal_detail_main.html.py:138
+#: .\templates\issues\proposal_detail_main.html.py:144
 msgid "Con"
 msgstr "נגד"
 
 #: .\models.py:286 .\templates\issues\proposal_detail_main.html.py:102
-#: .\templates\issues\proposal_detail_main.html.py:135
+#: .\templates\issues\proposal_detail_main.html.py:139
 msgid "Neutral"
 msgstr "נמנע"
 
 #: .\models.py:287 .\templates\issues\_vote_panel.html.py:4
 #: .\templates\issues\proposal_detail_main.html.py:89
-#: .\templates\issues\proposal_detail_main.html.py:132
+#: .\templates\issues\proposal_detail_main.html.py:134
 msgid "Pro"
 msgstr "בעד"
 
-#: .\models.py:292 .\models.py:382 .\models.py:523
+#: .\models.py:292 .\models.py:382 .\models.py:527
 msgid "Proposal"
 msgstr "הצעת החלטה"
 
@@ -247,19 +247,19 @@ msgstr "יעד"
 msgid "Votes"
 msgstr "הצבעות"
 
-#: .\models.py:375 .\models.py:525
+#: .\models.py:375 .\models.py:529
 msgid "Votes pro"
 msgstr "הצבעות בעד"
 
-#: .\models.py:376 .\models.py:526
+#: .\models.py:376 .\models.py:530
 msgid "Votes con"
 msgstr "הצבעות נגד"
 
-#: .\models.py:377 .\models.py:527
+#: .\models.py:377 .\models.py:531
 msgid "Community members"
 msgstr "חברי קהילה"
 
-#: .\models.py:524
+#: .\models.py:528
 msgid "Meeting"
 msgstr "פגישה"
 
@@ -381,7 +381,8 @@ msgstr "כן"
 
 #: .\templates\issues\issue_create_form.html.py:9
 #: .\templates\issues\issue_form.html.py:16
-#: .\templates\issues\issue_list.html.py:24
+#: .\templates\issues\issue_list.html.py:23
+#: .\templates\issues\issue_list.html.py:30
 msgid "Create Issue"
 msgstr "נושא חדש"
 
@@ -430,30 +431,30 @@ msgstr "תיעדוף שלי"
 msgid "By rank"
 msgstr "משוקלל"
 
-#: .\templates\issues\issue_list.html.py:30
+#: .\templates\issues\issue_list.html.py:37
 msgid "Search"
 msgstr "חיפוש"
 
-#: .\templates\issues\issue_list.html.py:32
-#: .\templates\issues\issue_list.html.py:76
-#: .\templates\issues\issue_list.html.py:95
+#: .\templates\issues\issue_list.html.py:39
+#: .\templates\issues\issue_list.html.py:83
+#: .\templates\issues\issue_list.html.py:102
 msgid "Search in agenda list"
 msgstr "חפשו בנושאים לדיון"
 
-#: .\templates\issues\issue_list.html.py:48
+#: .\templates\issues\issue_list.html.py:55
 msgid "My Agenda"
 msgstr "ההצעה שלי לסדר היום"
 
-#: .\templates\issues\issue_list.html.py:57
-#: .\templates\issues\issue_list.html.py:134
+#: .\templates\issues\issue_list.html.py:64
+#: .\templates\issues\issue_list.html.py:141
 msgid "Submit"
 msgstr "שלח"
 
-#: .\templates\issues\issue_list.html.py:60
+#: .\templates\issues\issue_list.html.py:67
 msgid "Other issues"
 msgstr "נושאים אחרים"
 
-#: .\templates\issues\issue_list.html.py:127
+#: .\templates\issues\issue_list.html.py:134
 msgid "Preferences sent"
 msgstr "תיעדוף נשלח"
 
@@ -494,11 +495,11 @@ msgstr "ההצעה נדחתה"
 msgid "Cancel approval"
 msgstr "בטל"
 
-#: .\templates\issues\proposal_detail_main.html.py:191
+#: .\templates\issues\proposal_detail_main.html.py:196
 msgid "Accept proposal"
 msgstr "קבל את ההחלטה"
 
-#: .\templates\issues\proposal_detail_main.html.py:196
+#: .\templates\issues\proposal_detail_main.html.py:201
 msgid "Reject proposal"
 msgstr "דחה הצעה"
 
