@@ -12,7 +12,7 @@ id="members-list"
 
 {% if object_list %}
 
-<div>
+<div class="col-xs-12 col-sm-6">
 	<h2>{% trans "Members" %}</h2>
 	<ul class="list-group">
 		{% for object in object_list %}
@@ -28,13 +28,13 @@ id="members-list"
 
 {% else %}
 
-<div>
+<div class="col-xs-12 col-sm-6">
 	{% trans "No members." %}
 </div>
 
 {% endif %}
 
-<div>
+<div class="col-xs-12 col-sm-6">
 	<h2>{% trans "Invitations" %}</h2>
 	<ul id="invitations" class="list-group">
 		{% for object in invites %}

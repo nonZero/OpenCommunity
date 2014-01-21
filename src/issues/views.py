@@ -1,3 +1,6 @@
+import mimetypes
+import json
+
 from django.db.models.aggregates import Max
 from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render, redirect
@@ -7,18 +10,20 @@ from django.views.generic import ListView
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+
 from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
-    UpdateIssueForm, EditProposalTaskForm, AddAttachmentForm,\
+    UpdateIssueForm, EditProposalTaskForm, AddAttachmentForm, \
     UpdateIssueAbstractForm
 from issues.models import ProposalType, Issue, IssueStatus, ProposalVote, \
     ProposalVoteValue, VoteResult
-from shultze_vote import send_issue_ranking
 from meetings.models import Meeting
 from oc_util.templatetags.opencommunity import minutes
 from ocd.base_views import CommunityMixin, AjaxFormView, json_response
 from ocd.validation import enhance_html
-import mimetypes
+from shultze_vote import send_issue_ranking
+from users.default_roles import DefaultGroups
+from users.models import Membership
 
 
 class IssueMixin(CommunityMixin):
@@ -389,6 +394,13 @@ class ProposalDetailView(ProposalMixin, DetailView):
         context = super(ProposalDetailView, self).get_context_data(**kwargs)
         m_id = self.request.GET.get('m_id', None)
         o = self.get_object()
+        try:
+            group = self.request.user.memberships.get(community=self.issue.community).default_group_name
+        except:
+            group = ""
+        show_to_member = o.decided and (self.issue.community.upcoming_meeting_is_published or o.decided_at_meeting) and group == DefaultGroups.MEMBER
+        show_to_board = (self.issue.is_current or o.decided_at_meeting) and group == DefaultGroups.BOARD
+        show_to_chairman = o.status != o.statuses.IN_DISCUSSION and (self.issue.is_current or o.decided_at_meeting) and group == DefaultGroups.CHAIRMAN
         context['res'] = o.get_straw_results()
 
         results = VoteResult.objects.filter(proposal=o) \
@@ -410,6 +422,9 @@ class ProposalDetailView(ProposalMixin, DetailView):
             context['meeting_id'] = None
 
         context['issue_frame'] = self.request.GET.get('s', None)
+        context['show_vote_result_to_board'] = show_to_board
+        context['show_vote_result_to_member'] = show_to_member
+        context['show_vote_result_to_chairman'] = show_to_chairman
  
         return context
 
@@ -561,3 +576,67 @@ class ProposalVoteView(CommunityMixin, DetailView):
                                          'community': self.community,
                                      })
         })
+
+class MultiProposalVoteView(CommunityMixin, DetailView):
+    required_permission_for_post = 'issues.vote'
+    model = models.Proposal
+
+    def post(self, request, *args, **kwargs):
+        
+        voters_id = json.loads(request.POST['users'])
+        proposal = self.get_object()
+        pid = proposal.id
+
+        val = request.POST['val']
+
+        value = ''
+        if val == 'pro':
+            value = ProposalVoteValue.PRO
+        elif val == 'con':
+            value = ProposalVoteValue.CON
+        elif val == 'reset':
+            for user_id in voters_id:
+                vote = get_object_or_404(ProposalVote,
+                                         proposal_id=pid, user_id=user_id)
+
+                vote.delete()
+            return json_response({
+                'result': 'ok',
+                'html': render_to_string('issues/_vote_panel.html',
+                                         {
+                                             'proposal': proposal,
+                                             'community': self.community,
+                                         }),
+                'sum': render_to_string('issues/_member_vote_sum.html',
+                                         {
+                                             'proposal': proposal,
+                                             'community': self.community,
+                                         })
+            })
+
+        else:
+            return HttpResponseBadRequest('vote value not valid')
+
+        for user_id in voters_id:
+            if ProposalVote.objects.filter(proposal_id=pid, user_id=user_id).exists():
+                ProposalVote.objects.filter(proposal_id=pid, user_id=user_id).update(value=value)
+            else:
+                ProposalVote.objects.create(
+                    proposal_id=pid,
+                    user_id=user_id,
+                    value=value)
+
+        return json_response({
+            'result': 'ok',
+            'html': render_to_string('issues/_vote_reset_panel.html',
+                                        {
+                                             'proposal': proposal,
+                                             'community': self.community,
+                                         }),
+            'sum': render_to_string('issues/_member_vote_sum.html',
+                                     {
+                                         'proposal': proposal,
+                                         'community': self.community,
+                                     })
+        })
+
