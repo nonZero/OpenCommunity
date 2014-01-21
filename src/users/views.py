@@ -1,3 +1,6 @@
+import time
+import json
+
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.core.urlresolvers import reverse
@@ -6,16 +9,18 @@ from django.http.response import HttpResponse, HttpResponseForbidden,\
     HttpResponseBadRequest
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required, permission_required
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView
 from django.views.generic.list import BaseListView, ListView
+from django.views.generic import FormView
 from django.template import RequestContext
 
 from ocd.base_views import CommunityMixin
 from users import models
-from users.forms import InvitationForm, QuickSignupForm
+from users.forms import InvitationForm, QuickSignupForm, ImportInvitationsForm
 from users.models import Invitation, OCUser, Membership
-import json
 
 class MembershipMixin(CommunityMixin):
 
@@ -24,6 +29,19 @@ class MembershipMixin(CommunityMixin):
     def get_queryset(self):
         return models.Membership.objects.filter(community=self.community)
 
+
+    def validate_invitation(self, email):
+        # somewhat of a privacy problem next line. should probably fail silently
+        if Membership.objects.filter(community=self.community,
+                                 user__email=email).exists():
+            return HttpResponseBadRequest(
+                         _("This user already a member of this community."))
+
+        if Invitation.objects.filter(community=self.community,
+                                 email=email).exists():
+            return HttpResponseBadRequest(
+                         _("This user is already invited to this community."))
+        return None
 
 class MembershipList(MembershipMixin, ListView):
 
@@ -47,16 +65,9 @@ class MembershipList(MembershipMixin, ListView):
             return HttpResponseBadRequest(
                                  _("Form error. Please supply a valid email."))
 
-        # somewhat of a privacy problem next line. should probably fail silently
-        if Membership.objects.filter(community=self.community,
-                                 user__email=form.instance.email).exists():
-            return HttpResponseBadRequest(
-                         _("This user already a member of this community."))
-
-        if Invitation.objects.filter(community=self.community,
-                                 email=form.instance.email).exists():
-            return HttpResponseBadRequest(
-                         _("This user is already invited to this community."))
+        v_err = self.validate_invitation(form.instance.email)
+        if v_err:
+            return v_err
 
         form.instance.community = self.community
         form.instance.created_by = request.user
@@ -179,7 +190,7 @@ class AutocompleteMemberName(MembershipMixin, ListView):
             return HttpResponse(json.dumps({}))
         else:
             
-            members = list(members.values('user__display_name',
+            members = list(members.values('user__display_name', 'user__id',
                                             'default_group_name'))
             for m in members:
                 m['tokens'] = [m['user__display_name'],]
@@ -201,3 +212,53 @@ class MemberProfile(MembershipMixin, DetailView):
         d = super(MemberProfile, self).get_context_data(**kwargs)
         d['form'] = ""
         return d
+
+
+class ImportInvitationsView(MembershipMixin, FormView):
+    form_class = ImportInvitationsForm
+    template_name = 'users/import_invitations.html'        
+       
+    def get(self, request, *args, **kwargs):
+        return self.render_to_response(self.get_context_data(import_invitation_form=self.get_form(self.form_class)))
+
+
+    def form_valid(self, form):
+        msg = 'def message'
+        def_enc = 'utf-8'
+        uploaded = form.cleaned_data['csv_file'] 
+        for chunk in uploaded.chunks():
+            rows = chunk.split('\n')
+            for row in rows:
+                words = row.split(',')
+                # print ' -- ', words[0], ' -- '
+                if words[0] == 'msg':
+                    msg = words[1]
+                    try:
+                        msg = msg.decode(def_enc)
+                    except UnicodeDecodeError:
+                        def_enc = 'windows-1255'
+                        msg = msg.decode(def_enc)
+                elif len(words) > 1:
+                    # print ' - '.join(row.split(','))
+                    name = words[0].decode(def_enc)
+                    email = words[1].decode(def_enc)
+                    role = words[2].strip().decode(def_enc)
+                    v_err = self.validate_invitation(email)
+                    if v_err:
+                        continue
+                    i = Invitation.objects.create( 
+                        community=self.community,
+                        email=email,
+                        created_by=self.request.user,
+                        default_group_name=role,
+                        message=msg) 
+
+                    i.send(sender=self.request.user, recipient_name=name)
+                    # reduce email sending rate
+                    time.sleep(4)      
+        return HttpResponse('---- Done ---')
+
+
+    @method_decorator(permission_required('is_superuser'))
+    def dispatch(self, *args, **kwargs):
+        return super(ImportInvitationsView, self).dispatch(*args, **kwargs)

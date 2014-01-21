@@ -36,7 +36,6 @@ $(function() {
 
     // Delete and undelete comment form
     $('#comments').on('click', '.delete-comment button', function() {
-        console.log('1');
         var btn = $(this);
         var form = btn.closest('form');
         var extra = {};
@@ -96,10 +95,18 @@ $(function() {
         return false;
     });
 
-    $('#issue-complete,#issue-undo-complete').ajaxForm({
+    $('#issue-complete').ajaxForm({
         success: function(data) {
-            history.back();
+           window.history.back(); 
         }
+    });
+    
+    $('#issue-undo-complete').ajaxForm({
+        success: function(data) {
+            var target = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            window.location = target;
+        }
+
     });
 
 });

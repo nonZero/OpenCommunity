@@ -10,6 +10,10 @@ function toggleTitles() {
 }
 
 function setHeight() {
+    $('.issue_left_column').css('height', 'auto');
+    if (!$('.issue_right_column').is(":visible")) {
+        return;
+    }
     var issues_h = $('.issue_right_column').outerHeight();
     var frame_h = $('.issue_left_column').outerHeight();
     var inner_h = $('.issue_left_column_inner').outerHeight();
@@ -38,7 +42,6 @@ $(function () {
 
         toggleTitles();
         setHeight();
-
     };
 
     var filters = {};
@@ -61,7 +64,11 @@ $(function () {
 
     } else {
         toggleTitles();
-        setHeight();
     }
+    $('body').on('ocd.show', function () {
+        setHeight();
+    });
+
+    $(window).resize(setHeight);
 
 });

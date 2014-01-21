@@ -10,6 +10,7 @@ $(function() {
             $("#invite-form").get(0).reset();
             el.hide().show('slow');
             el.find('button').button();
+            el.closest('ul').prev().removeClass('hide');
             $("#invite-form #id_email").val("");
         },
         error: function(resp) {
@@ -20,7 +21,6 @@ $(function() {
 				        '<button type="button" style="margin-right: 10px;" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +
 				        resp.responseText +
 					'</div>');
-					$("#invite-form #id_email").val("");
                 } else {
                     alert('Server Error! please try again or reload the page.');
                 }
@@ -35,8 +35,11 @@ $(function() {
         form.ajaxSubmit({
                             success: function(data) {
                                 form.closest('li').hide('slow', function(){
+                                    if($('li.list-group-item', $(this).parent()).length == 1) {
+                                        $(this).parent().prev().addClass('hide');
+                                    }  
                                     $(this).remove();
-                                    });
+                                });
                             }
                         });
         return false;
