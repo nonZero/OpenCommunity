@@ -60,7 +60,8 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
     required_permission_for_post = 'community.editagenda_community'
     
     def get(self, request, *args, **kwargs):
-        if not has_community_perm(request.user, self.community, 'viewupcoming_draft') \
+        if not has_community_perm(request.user, self.community, 
+                                  'communities.viewupcoming_draft') \
            and not self.community.upcoming_meeting_is_published:
             try:
                 last_meeting = Meeting.objects.filter(community=self.community) \
