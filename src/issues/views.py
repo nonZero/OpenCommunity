@@ -546,6 +546,7 @@ class ProposalVoteView(CommunityMixin, DetailView):
             ProposalVote.objects.create(
                 proposal_id=pid,
                 user_id=voter_id,
+                registered_by=request.user,
                 value=value)
 
         return json_response({

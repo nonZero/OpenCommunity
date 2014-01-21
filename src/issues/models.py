@@ -295,7 +295,8 @@ class ProposalVote(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
                               related_name="votes")
     value = models.SmallIntegerField(choices=ProposalVoteValue.CHOICES, verbose_name=_("Vote"))
-    registered_by_chairman = models.BooleanField(default=False)
+    registered_by = models.ForeignKey(settings.AUTH_USER_MODEL, 
+                                        related_name='reg_votes', null=True)
 
     class Meta:
         unique_together = (("proposal", "user"),)
@@ -371,11 +372,12 @@ class Proposal(UIDMixin):
                                          null=True, blank=True,
                                          related_name="proposals_assigned")
     due_by = models.DateField(_("Due by"), null=True, blank=True)
-
+    """
     votes = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                    verbose_name=_("Votes"), blank=True,
                                    related_name="proposals",
                                    through="ProposalVote")
+    """                               
     votes_pro = models.PositiveIntegerField(_("Votes pro"), null=True, blank=True)
     votes_con = models.PositiveIntegerField(_("Votes con"), null=True, blank=True)
     community_members = models.PositiveIntegerField(_("Community members"),
