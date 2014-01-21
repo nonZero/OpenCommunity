@@ -264,3 +264,10 @@ def supervisor_status():
     run("sudo supervisorctl status")
 
 
+@task
+def switch(branch):
+    with cd(env.code_dir):
+        run('git fetch origin')
+        run('git checkout {}'.format(branch))
+        deploy()
+

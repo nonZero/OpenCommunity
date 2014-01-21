@@ -98,9 +98,4 @@ id="proposal-detail"
 {% if object.issue.community.upcoming_meeting_started %}
 	<script src="{{STATIC_URL}}js/proposal_members_vote.js"></script>
 {% endif %}
-<script>
-	$(function() {
-        adapt_proposal_outer_height();
-	});
-</script>
 {% endblock %}

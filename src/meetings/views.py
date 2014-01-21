@@ -35,7 +35,8 @@ class MeetingDetailView(MeetingMixin, DetailView):
         d = super(MeetingDetailView, self).get_context_data(**kwargs)
         o = self.get_object()
         d['guest_list'] = o.get_guest_list()
-        d['total_participants'] = len(d['guest_list']) + o.participants.count()
+        d['total_participants'] = len(d['guest_list']) + o.participations \
+                                    .filter(is_absent=False).count()
         return d
 
 
