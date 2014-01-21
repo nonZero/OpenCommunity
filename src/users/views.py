@@ -190,10 +190,14 @@ class AutocompleteMemberName(MembershipMixin, ListView):
             context = self.get_context_data(object_list=members)
             return HttpResponse(json.dumps(members), {'content_type': 'application/json'})
 
-
-class AutocompletePrefetchMember(AutocompleteMemberName):
-    def get_queryset(self):
-        members = super(AutocompleteMemberName, self).get_queryset()
-        return members.filter(user__is_active=True)
-
         
+class MemberProfile(MembershipMixin, DetailView):
+    
+    model = models.Membership
+    template_name = "users/member_profile.html"
+    
+    def get_context_data(self, **kwargs):
+       
+        d = super(MemberProfile, self).get_context_data(**kwargs)
+        d['form'] = ""
+        return d

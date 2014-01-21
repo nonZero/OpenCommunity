@@ -66,6 +66,10 @@ p > a {
 	margin-bottom: 30px;
 }
 
+.userhtml a, .oc_li a {
+	word-break: break-word;
+}
+
 /* Errors */
 
 ul.errorlist {
@@ -219,8 +223,13 @@ ul.errorlist li {
     margin: 1.5em auto;
 }
 .one_action_icon {
-    max-width: 200px;
-    margin: 0 auto;
+	width: 40px;
+	display: inline-block;
+	vertical-align: top;
+	line-height: 42px;
+}
+.one_action_icon span {
+	display: none;
 }
 .btn-group-justified {
 	margin-bottom: 10px;
@@ -858,18 +867,16 @@ ul.proposals li.prop-content p {
 	margin: 7px;*/
 }
 #proposal-detail .accepted {
-	/*position: absolute;
-	top: 0;
-	left: 0;*/
 	font-size: 14px;
-	/*padding: 10px;*/
+}
+#proposal-detail .accepted .fa {
+	color: #a4cb53;
 }
 #proposal-detail .rejected {
-	/*position: absolute;
-	top: 0;
-	left: 0;*/
 	font-size: 14px;
-	/*padding: 10px;*/
+}
+#proposal-detail .rejected .fa {
+	color: #d95e59;
 }
 #proposal-detail .accepted a:hover,
 #proposal-detail .rejected a:hover {

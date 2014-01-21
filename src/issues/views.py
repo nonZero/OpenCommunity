@@ -503,7 +503,11 @@ class ProposalVoteView(CommunityMixin, DetailView):
     model = models.Proposal
 
     def post(self, request, *args, **kwargs):
-        voter_id = request.user.id
+        
+        if request.POST.get('user'):
+            voter_id = request.POST['user']
+        else:
+            voter_id = request.user.id
         proposal = self.get_object()
         pid = proposal.id
 
@@ -525,16 +529,24 @@ class ProposalVoteView(CommunityMixin, DetailView):
                                          {
                                              'proposal': proposal,
                                              'community': self.community,
+                                         }),
+                'sum': render_to_string('issues/_member_vote_sum.html',
+                                         {
+                                             'proposal': proposal,
+                                             'community': self.community,
                                          })
             })
 
         else:
             return HttpResponseBadRequest('vote value not valid')
 
-        ProposalVote.objects.create(
-            proposal_id=pid,
-            user_id=voter_id,
-            value=value)
+        if ProposalVote.objects.filter(proposal_id=pid, user_id=voter_id).exists():
+            ProposalVote.objects.filter(proposal_id=pid, user_id=voter_id).update(value=value)
+        else:
+            ProposalVote.objects.create(
+                proposal_id=pid,
+                user_id=voter_id,
+                value=value)
 
         return json_response({
             'result': 'ok',
@@ -542,5 +554,10 @@ class ProposalVoteView(CommunityMixin, DetailView):
                                         {
                                              'proposal': proposal,
                                              'community': self.community,
-                                         })
+                                         }),
+            'sum': render_to_string('issues/_member_vote_sum.html',
+                                     {
+                                         'proposal': proposal,
+                                         'community': self.community,
+                                     })
         })
