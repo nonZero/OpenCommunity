@@ -89,3 +89,9 @@ class OCPasswordResetConfirmForm(SetPasswordForm):
         super(OCPasswordResetConfirmForm, self).__init__(*args, **kwargs)
         self.fields['new_password1'].widget.attrs['class'] = u'form-control'
         self.fields['new_password2'].widget.attrs['class'] = u'form-control'
+
+
+class ImportInvitationsForm(forms.Form):
+    csv_file = forms.FileField(required=True)
+
+        

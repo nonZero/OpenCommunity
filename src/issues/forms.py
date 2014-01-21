@@ -106,13 +106,14 @@ class AddAttachmentForm(AddAttachmentBaseForm):
 
 
 class CreateProposalBaseForm(forms.ModelForm):
-
+    
     class Meta:
         model = models.Proposal
         fields = (
                    'type',
                    'title',
                    'content',
+                   'assigned_to_user',
                    'assigned_to',
                    'due_by',
                    )
@@ -120,24 +121,10 @@ class CreateProposalBaseForm(forms.ModelForm):
             'type': forms.Select,
             'title': forms.TextInput,
             'content': HTMLArea,
-            'assigned_to': forms.TextInput(attrs={
-                    'autocomplete':'off',
-                    }),
+            'assigned_to_user': forms.HiddenInput(),
             'due_by': forms.DateInput,
         }
 
-
-    def save(self):
-        proposal = super(CreateProposalBaseForm, self).save()
-        user_name = proposal.assigned_to
-        try:
-            u = OCUser.objects.get(display_name=user_name)
-            proposal.assigned_to_user = u
-            proposal.save()
-        except OCUser.DoesNotExist:
-            pass
-
-        return proposal
 
 class CreateProposalForm(CreateProposalBaseForm):
 
@@ -154,7 +141,7 @@ class EditProposalForm(CreateProposalForm):
         super(EditProposalForm, self).__init__(*args, **kwargs)
         self.fields['type'].initial = self.instance.type
 
-
+    
 class EditProposalTaskForm(EditProposalForm):
 
     class Meta:

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load floppyforms %}
+{% load i18n %}
+
+{% block page_header %}{% trans "Import invitation list" %}{% endblock %}
+
+{% block content %}
+
+<form enctype="multipart/form-data"  method="post">{% csrf_token %}
+{% form import_invitation_form using 'floppyforms/layouts/default.html'  %}
+<input type="submit" value="Submit" />
+</form>
+
+{% endblock %}
