@@ -74,11 +74,11 @@
 
     {% with proposal=object c=proposal.issue.community %}
         {% if proposal.can_straw_vote and cperms.issues.vote and user|member_of:c %}
-            {% include 'issues/_vote.html' %}
+          ===================
         {% endif %}
         {% if proposal.can_show_straw_votes %}
             <div id="results_container">
-                {% include 'issues/_proposal_vote_results.html' %}
+                0000000000000000000000000
             </div>
         {% endif %}
 	{% endwith %}
