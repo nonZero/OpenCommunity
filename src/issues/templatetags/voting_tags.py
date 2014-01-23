@@ -60,9 +60,8 @@ def prev_straw_results_link(proposal, meeting_id=None):
         try:
             result = VoteResult.objects.filter(proposal=proposal) \
                                        .latest('meeting__held_at')
-            if result.meeting:
-                return '{0}?meeting_id={1}&dir=prev'.format( \
-                        url, result.meeting.id)
+            return '{0}?meeting_id={1}&dir=prev'.format( \
+                     url, result.meeting.id)
         except VoteResult.DoesNotExist:
             pass
 
