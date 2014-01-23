@@ -23,8 +23,8 @@ id="proposal-detail"
 
     <div class="meeting_header">
     {% if not issue_frame %}
-        {% if meeting_id %}
-            <a class="three_dot_sentence level1" href="{{meeting_id.get_absolute_url}}">{{ meeting_id.title }}{% if meeting.title and meeting.held_at %} / {% endif %}{{ meeting_id.held_at|date:"j F Y" }}</a>
+        {% if meeting %}
+        <a class="three_dot_sentence level1" href="{{meeting_context.get_absolute_url}}">{% if meeting_context.title %}{{ meeting_context.title }}{% endif %} {% if meeting_context.held_at %}{% if meeting_context.title %} / {% endif %}{{ meeting_context.held_at|date:"j F Y" }}{% endif %}</a>
         {% else %}
             <a class="three_dot_sentence level1" href="{{object.issue.community.get_upcoming_absolute_url}}">{{object.issue.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}{% if object.issue.community.upcoming_meeting_scheduled_at %} / {% endif %}{{object.issue.community.upcoming_meeting_scheduled_at|date:"j F Y"}}</a>
         {% endif %}
@@ -35,7 +35,7 @@ id="proposal-detail"
 
     <div class="issue_header">
         <div class="issue_header_inner">
-            <a class="three_dot_sentence level2" href="{{object.issue.get_absolute_url}}?m_id={{meeting_id.id}}{{issue_frame|yesno:'&s=1,'}}">{{ object.issue.title }}</a>
+            <a class="three_dot_sentence level2" href="{{object.issue.get_absolute_url}}?m_id={{meeting_context.id}}{{issue_frame|yesno:'&s=1,'}}">{{ object.issue.title }}</a>
         </div>
     </div>
 
@@ -48,7 +48,7 @@ id="proposal-detail"
             {% for proposal in object.issue.proposals.closed %}
                 <li>
                 	{% if object == proposal %} <div class="pull-right" style="width: 15px;"><span class="active_proposal pull-right"></span></div>{% endif %}
-                    <a href="{{ proposal.get_absolute_url }}?m_id={{meeting_id.id}}{{issue_frame|yesno:'&s=1,'}} ">{{ proposal }}</a>
+                    <a href="{{ proposal.get_absolute_url }}?m_id={{meeting_context.id}}{{issue_frame|yesno:'&s=1,'}} ">{{ proposal }}</a>
                 </li>
             {% endfor %}
         {% endif %}
@@ -58,7 +58,7 @@ id="proposal-detail"
 			{% for i in object.issue.proposals.open %}
 			<li>
 				{% if object == i %} <div class="pull-right" style="width: 15px;"><span class="active_proposal pull-right"></span></div>{% endif %}
-				<a href="{{ i.get_absolute_url }}?m_id={{meeting_id.id}}{{issue_frame|yesno:'&s=1,'}}">{{ i }}</a>
+				<a href="{{ i.get_absolute_url }}?m_id={{meeting_context.id}}{{issue_frame|yesno:'&s=1,'}}">{{ i }}</a>
 			</li>
 			{% endfor %}
 		{% endif %}
@@ -95,12 +95,4 @@ id="proposal-detail"
 <script src="{{STATIC_URL}}js/hogan-2.0.0.js"></script>
 <script src="{{STATIC_URL}}js/issues.js"></script>
 <script src="{{STATIC_URL}}js/proposal.js"></script>
-{% if object.issue.community.upcoming_meeting_started %}
-	<script src="{{STATIC_URL}}js/proposal_members_vote.js"></script>
-{% endif %}
-<script>
-	$(function() {
-        adapt_proposal_outer_height();
-	});
-</script>
 {% endblock %}

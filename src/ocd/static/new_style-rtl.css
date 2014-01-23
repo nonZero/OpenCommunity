@@ -23,12 +23,16 @@
 	width: 98%;
 }
 
-.issue_main {
+.issue_main, .issue_main_siblings {
 	padding: 0 2% 0 0;
 	border-right: 1px solid #a3a3a3;
 	border-bottom: 1px solid #a3a3a3;
 	background: #e6e7c8;
 }
+
+.issue_main_siblings {
+  margin-top:30px;
+} 
 
 .meeting_left_column {
 	border: 1px solid #cecfb3;
