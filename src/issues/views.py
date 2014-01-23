@@ -97,11 +97,12 @@ class IssueDetailView(IssueMixin, DetailView):
 
     required_permission_for_post = 'issues.add_issuecomment'
 
-    
+    """ 
     def get(self, request, *args, **kwargs):
         if  self.request.GET.get('s', None) == '1':
             self.template_name = 'issues/issue_detail_issue_list.html'
         return super(IssueDetailView, self).get(request, *args, **kwargs)
+    """
 
 
     def post(self, request, *args, **kwargs):
@@ -378,14 +379,6 @@ class ProposalDetailView(ProposalMixin, DetailView):
         o = self.get_object()
         return 'issues.acceptclosed_proposal' if o.decided_at_meeting else 'issues.acceptopen_proposal'
     
-    """    
-    def get_template_names(self):
-        if self.request.GET.get('s', None):
-            return ['issues/proposal_detail_issue_list.html']
-        else:
-            return super(ProposalDetailView, self).get_template_names()
-
-    """
 
     def get_context_data(self, **kwargs):
         """add meeting for the latest straw voting result
@@ -417,9 +410,9 @@ class ProposalDetailView(ProposalMixin, DetailView):
                 context['meeting'] = None
 
         if m_id:
-            context['meeting_id'] = get_object_or_404(Meeting, id=m_id)
+            context['meeting_context'] = get_object_or_404(Meeting, id=m_id)
         else:
-            context['meeting_id'] = None
+            context['meeting_context'] = None
 
         context['issue_frame'] = self.request.GET.get('s', None)
         context['show_vote_result_to_board'] = show_to_board

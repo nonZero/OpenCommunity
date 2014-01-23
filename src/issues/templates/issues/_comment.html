@@ -25,7 +25,7 @@
         <div class="comment-inner">
             <p>
                 {% if c.meeting %}
-                    <a href="{{c.meeting.get_absolute_url}}">{{c.meeting.get_title_or_date}}:</a>
+                    <a class="filter" href="{{c.meeting.get_absolute_url}}">{{c.meeting.get_title_or_date}}:</a>
                 {% endif %}
 
                 <i>
