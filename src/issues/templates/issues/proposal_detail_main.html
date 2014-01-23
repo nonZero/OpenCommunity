@@ -78,7 +78,7 @@
         {% endif %}
         {% if proposal.can_show_straw_votes %}
             <div id="results_container">
-                0000000000000000000000000
+                {% include 'issues/_proposal_vote_results.html' %}
             </div>
         {% endif %}
 	{% endwith %}
