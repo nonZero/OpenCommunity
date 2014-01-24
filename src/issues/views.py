@@ -92,13 +92,6 @@ class IssueDetailView(IssueMixin, DetailView):
 
     required_permission_for_post = 'issues.add_issuecomment'
 
-    """ 
-    def get(self, request, *args, **kwargs):
-        if  self.request.GET.get('s', None) == '1':
-            self.template_name = 'issues/issue_detail_issue_list.html'
-        return super(IssueDetailView, self).get(request, *args, **kwargs)
-    """
-
 
     def post(self, request, *args, **kwargs):
 

@@ -134,8 +134,11 @@ class Issue(UIDMixin):
                self.community.upcoming_meeting_is_published and \
                self.proposals.open().count() > 0
 
-
+    @property
+    def current_attachments(self):
+        return self.attachments.filter(agenda_item__isnull=True)
         
+
 class IssueComment(UIDMixin):
     issue = models.ForeignKey(Issue, related_name="comments")
     active = models.BooleanField(default=True)
