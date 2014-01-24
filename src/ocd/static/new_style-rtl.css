@@ -95,10 +95,6 @@
   background: none;
   border: none;
 }
-#issue-list #issues-order.nav-tabs {
-	display: inline-block;
-	width: 84%;
-}
 .proposal_left_column {
 	border-left: 1px solid #e2e2e2;
 	border-right: 1px solid #d4d5c8;
@@ -106,7 +102,17 @@
 	padding: 0 2% 0 0;
 	background: #f5f6de;
 }
-
+.nav-tabs > li.btn-tab > a {
+	color: #fff;
+	font-size: 14px !important;
+}
+li.btn-tab span {
+	display: none;
+}
+.nav-tabs > li.btn-tab > a:hover, .nav-tabs > li.btn-tab > a:focus {
+	background-color: #194e5c;
+	border-color: #194e5c;
+}
 .proposal_left_column_inner {
 	/*border: 1px solid #e2e2e2;*/
 	background-color: #FFFFFF;
@@ -386,9 +392,6 @@ h5 {
 }
 
 @media (min-width: 480px) {
-	#issue-list #issues-order.nav-tabs {
-		width: 81%;
-	}
 	.one_action_icon {
 		width: 77px;
 		display: inline-block;
@@ -396,6 +399,9 @@ h5 {
 		line-height: 42px;
 	}
 	.one_action_icon span {
+		display: inline;
+	}
+	li.btn-tab span {
 		display: inline;
 	}
 }
@@ -439,13 +445,7 @@ h5 {
 		margin-top: 10px;
 		margin-bottom: 10px;
 	}
-	#issue-list #issues-order.nav-tabs {
-		width: 88%;
-	}
 }
 
 @media (min-width: 992px) {
-	#issue-list #issues-order.nav-tabs {
-		width: 91%;
-	}
 }

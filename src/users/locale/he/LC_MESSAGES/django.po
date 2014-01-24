@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-14 22:30+0200\n"
-"PO-Revision-Date: 2014-01-14 15:11+0200\n"
+"POT-Creation-Date: 2014-01-21 21:09+0200\n"
+"PO-Revision-Date: 2014-01-21 21:12+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -29,19 +29,19 @@ msgid ""
 "form</a>."
 msgstr ""
 
-#: .\default_roles.py:96
+#: .\default_roles.py:97
 msgid "member"
 msgstr "חבר"
 
-#: .\default_roles.py:97
+#: .\default_roles.py:98
 msgid "board"
 msgstr "ועד"
 
-#: .\default_roles.py:98
+#: .\default_roles.py:99
 msgid "secretary"
 msgstr "מזכיר"
 
-#: .\default_roles.py:99
+#: .\default_roles.py:100
 msgid "chairman"
 msgstr "יושב ראש"
 
@@ -202,8 +202,8 @@ msgstr "שלום"
 
 #: .\templates\emails\invitation.txt.py:4
 #, python-format
-msgid "%(u)s have invited you to join %(c)s."
-msgstr "%(u)s הזמין אותך להצטרף לקהילה %(c)s."
+msgid "This invitation is from %(u)s to join %(c)s."
+msgstr "זו הזמנה מ%(u)s להצטרף לקהילת %(c)s."
 
 #: .\templates\emails\invitation.txt.py:8
 msgid "Click here to join this community:"
@@ -214,12 +214,8 @@ msgid "(Or copy the url above to your browser)"
 msgstr "או העתק כתובת זו לדפדפן"
 
 #: .\templates\emails\invitation.txt.py:12
-msgid "Thank you!"
-msgstr "תודה,"
-
-#: .\templates\emails\invitation.txt.py:14
-msgid "Open Community Team"
-msgstr "צוות קהילה פתוחה"
+msgid "Once registered you will be able to enter"
+msgstr "אחרי ההרשמה תוכל להכנס ישירות ל"
 
 #: .\templates\users\_invitation.html.py:6
 msgid "Delete"
@@ -299,59 +295,59 @@ msgstr "השתתפות בישיבות"
 msgid "Out of"
 msgstr "מתוך"
 
-#: .\templates\users\member_profile.html.py:30
+#: .\templates\users\member_profile.html.py:28
 msgid "Tasks"
 msgstr "משימות"
 
-#: .\templates\users\member_profile.html.py:33
+#: .\templates\users\member_profile.html.py:31
 msgid "Late"
 msgstr "באיחור"
 
-#: .\templates\users\member_profile.html.py:36
+#: .\templates\users\member_profile.html.py:34
 msgid "Open"
 msgstr "פתוחות"
 
-#: .\templates\users\member_profile.html.py:39
+#: .\templates\users\member_profile.html.py:37
 msgid "Close"
 msgstr "סגורות"
 
-#: .\templates\users\member_profile.html.py:50
-#: .\templates\users\member_profile.html.py:65
-#: .\templates\users\member_profile.html.py:80
+#: .\templates\users\member_profile.html.py:48
+#: .\templates\users\member_profile.html.py:63
+#: .\templates\users\member_profile.html.py:78
 msgid "Due by"
 msgstr "יעד"
 
-#: .\templates\users\member_profile.html.py:91
+#: .\templates\users\member_profile.html.py:89
 msgid "Summary of votes participation"
 msgstr "סיכום ההצבעות בהם השתתף"
 
-#: .\templates\users\member_profile.html.py:94
+#: .\templates\users\member_profile.html.py:92
 msgid "Pro"
 msgstr "בעד"
 
-#: .\templates\users\member_profile.html.py:97
+#: .\templates\users\member_profile.html.py:95
 msgid "Neutral"
 msgstr "נמנע"
 
-#: .\templates\users\member_profile.html.py:100
+#: .\templates\users\member_profile.html.py:98
 msgid "Con"
 msgstr "נגד"
 
-#: .\templates\users\member_profile.html.py:108
+#: .\templates\users\member_profile.html.py:106
 msgid "of decisions voted for were accepted"
 msgstr "מההחלטות בהם הצביע 'בעד' התקבלו"
 
-#: .\templates\users\member_profile.html.py:117
-#: .\templates\users\member_profile.html.py:138
-#: .\templates\users\member_profile.html.py:159
+#: .\templates\users\member_profile.html.py:118
+#: .\templates\users\member_profile.html.py:143
+#: .\templates\users\member_profile.html.py:168
 msgid "By:"
 msgstr "מאת:"
 
-#: .\templates\users\member_profile.html.py:129
+#: .\templates\users\member_profile.html.py:131
 msgid "of decisions didn't vote were accepted"
 msgstr "מההחלטות בהם לא הצביע התקבלו"
 
-#: .\templates\users\member_profile.html.py:150
+#: .\templates\users\member_profile.html.py:156
 msgid "of decisions voted against were rejected"
 msgstr "מההחלטות בהם הצביע 'נגד' נדחו"
 
@@ -370,6 +366,12 @@ msgstr "הזמנה חדשה"
 #: .\templates\users\membership_list.html.py:48
 msgid "Invite"
 msgstr "הזמן"
+
+#~ msgid "Thank you!"
+#~ msgstr "תודה,"
+
+#~ msgid "Open Community Team"
+#~ msgstr "צוות קהילה פתוחה"
 
 #~ msgid "of decisions voted for were accepted "
 #~ msgstr "מההחלטות בהם הצביע 'בעד' התקבלו"

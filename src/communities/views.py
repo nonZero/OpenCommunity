@@ -1,28 +1,30 @@
-from communities import models
-from communities.forms import EditUpcomingMeetingForm, \
-    PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm, \
-    EditUpcomingMeetingSummaryForm
-from communities.models import SendToOption
-from users.permissions import has_community_perm 
+import datetime
+import json
+
 from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.db.models.aggregates import Max
 from django.http.response import HttpResponse, HttpResponseBadRequest, \
     HttpResponseRedirect
+from django.shortcuts import render, redirect, render_to_response
 from django.template import RequestContext
 from django.template.loader import render_to_string
-from django.shortcuts import render, redirect, render_to_response
-from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 from django.views.generic import View, ListView
 from django.views.generic.detail import DetailView, SingleObjectMixin
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView, DeleteView
+
+from communities import models
+from communities.forms import EditUpcomingMeetingForm, \
+    PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm, \
+    EditUpcomingMeetingSummaryForm
+from communities.models import SendToOption
 from issues.models import IssueStatus, Issue
 from meetings.models import Meeting
 from ocd.base_views import ProtectedMixin, AjaxFormView
-import datetime
-import json
+from users.permissions import has_community_perm
 
 
 class CommunityList(ListView):
@@ -156,6 +158,19 @@ class EditUpcomingMeetingParticipantsView(AjaxFormView, CommunityModelMixin, Upd
 
     form_class = UpcomingMeetingParticipantsForm
     template_name = "communities/participants_form.html"
+
+
+class DeleteParticipantView(CommunityModelMixin, DeleteView):
+
+#     required_permission = ''
+
+    def get(self, request, *args, **kwargs):
+        return HttpResponse("?")
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+        return HttpResponse("OK")
 
 
 class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):

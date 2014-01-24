@@ -21,8 +21,9 @@
 		</div>
 		<ul class="list-group">
 			{% for board in object.meeting_participants.board %}
-			<li class="list-group-item">
-				{{ board.display_name }}
+			<li class="list-group-item clearfix">
+				<span style="line-height: 2;">{{ board.display_name }}</span>
+        		<!-- <button data-action="{% url 'delete_participant' object.id board.id %}" class="pull-right btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> {% trans "Delete" %}</button> -->
 			</li>
 			{% endfor %}
 		</ul>
@@ -33,8 +34,9 @@
 		</div>
 		<ul class="list-group">
 			{% for member in object.meeting_participants.members %}
-			<li class="list-group-item">
-				{{ member.display_name }}
+			<li class="list-group-item clearfix">
+				<span style="line-height: 2;">{{ member.display_name }}</span>
+				<!-- <button data-action="{% url 'delete_participant' object.id member.id %}" class="pull-right btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> {% trans "Delete" %}</button> -->
 			</li>
 			{% endfor %}
 		</ul>
@@ -55,6 +57,8 @@
 </div>
 {% endblock %}
 
+{% block nofooter %}{% endblock %}
+
 {% block page_scripts %}
 <script>
 	$(function() {
@@ -64,4 +68,21 @@
 		});
 	}); 
 </script>
+<!-- <script>
+	$(function() {
+	    // Delete participant form
+	    $('.participants-body-list').on('click', '.delete-participant button', function() {
+	        var btn = $(this);
+	        var form = btn.closest('form');
+	        form.ajaxSubmit({
+	                            success: function(data) {
+	                                form.closest('li').hide('slow', function(){
+	                                    $(this).remove();
+	                                    });
+	                            }
+	                        });
+	        return false;
+	    });
+	}); 
+</script> -->
 {% endblock %}

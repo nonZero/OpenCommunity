@@ -2,7 +2,7 @@
 import datetime
 from south.db import db
 from south.v2 import SchemaMigration
-from django.db import models
+from django.utils.translation import gettext as _
 
 
 class Migration(SchemaMigration):
@@ -13,6 +13,7 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.BooleanField')(default=False),
                       keep_default=False)
 
+        orm.Community.objects.filter(board_name=None).update(board_name=_('Board'))
 
         # Changing field 'Community.board_name'
         db.alter_column(u'communities_community', 'board_name', self.gf('django.db.models.fields.CharField')(max_length=200))

@@ -285,6 +285,15 @@ nav.oc_navbar {
 #issue-list .nav > li > a {
 	padding: 10px;
 }
+#issue-list  .nav-tabs > li.active > a,
+#issue-list  .nav-tabs > li.active > a:hover,
+#issue-list  .nav-tabs > li.active > a:focus {
+	color: #fff;
+	background-color: #555555;
+}
+#issue-list  .nav-tabs > li > a {
+	font-size: 14px;
+}
 .navbar-toggle {
 	margin-top: 4px;
 	margin-bottom: 4px;
@@ -690,7 +699,7 @@ table.issue-table {
 	vertical-align: middle;
 }
 .issue-table tbody tr td.issue_title a {
-	color: #666;
+	color: #333;
 	font-size: 18px;
 	display: block;
 }
@@ -756,7 +765,7 @@ table.issue-table tr td.issue_date {
 	width: 60px;
 	padding-top: 14px;
 	padding-bottom: 14px;
-	background: #3d3c3c;
+	background: #999999;
 	text-align: center;
 	font-size: 16px;
 	vertical-align: middle;
@@ -1275,6 +1284,9 @@ form.delete-invitation {
 		margin: 0 40px 0 125px;
 		padding-right: 0;
 		padding-left: 0;
+	}
+	#issue-list .nav-tabs > li > a {
+		font-size: 18px;
 	}
 
 }

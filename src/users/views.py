@@ -1,3 +1,6 @@
+import time
+import json
+
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.core.urlresolvers import reverse
@@ -18,7 +21,6 @@ from ocd.base_views import CommunityMixin
 from users import models
 from users.forms import InvitationForm, QuickSignupForm, ImportInvitationsForm
 from users.models import Invitation, OCUser, Membership
-import json
 
 class MembershipMixin(CommunityMixin):
 
@@ -212,7 +214,6 @@ class MemberProfile(MembershipMixin, DetailView):
         return d
 
 
-import time
 class ImportInvitationsView(MembershipMixin, FormView):
     form_class = ImportInvitationsForm
     template_name = 'users/import_invitations.html'        

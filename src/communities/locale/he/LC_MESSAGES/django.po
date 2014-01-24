@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-14 22:30+0200\n"
+"POT-Creation-Date: 2014-01-21 21:09+0200\n"
 "PO-Revision-Date: 2014-01-14 22:32+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -164,11 +164,11 @@ msgstr "קהילה"
 msgid "Communities"
 msgstr "קהילות"
 
-#: .\models.py:158 .\templates\communities\participants_form.html.py:19
+#: .\models.py:158 .\templates\communities\participants_form.html.py:20
 msgid "Board"
 msgstr "ועד"
 
-#: .\views.py:198
+#: .\views.py:213
 #, python-format
 msgid "Sending to %d users"
 msgstr "שולח ל-%d משתמשים"
@@ -191,7 +191,7 @@ msgid "Meetings"
 msgstr "פגישות"
 
 #: .\templates\_community_panel.html.py:23
-#: .\templates\communities\participants_form.html.py:29
+#: .\templates\communities\participants_form.html.py:33
 msgid "Members"
 msgstr "חברים"
 
@@ -256,7 +256,12 @@ msgstr "רשימת משתתפים בפגישה"
 msgid "Edit"
 msgstr "עריכה"
 
+#: .\templates\communities\participants_form.html.py:26
 #: .\templates\communities\participants_form.html.py:39
+msgid "Delete"
+msgstr ""
+
+#: .\templates\communities\participants_form.html.py:46
 #: .\templates\emails\_protocol.html.py:62
 msgid "Guests"
 msgstr "אורחים"
