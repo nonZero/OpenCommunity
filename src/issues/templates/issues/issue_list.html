@@ -25,10 +25,10 @@ id="issue-list"
 		{% endif %}
     </ul>
     {% endif %}
-	{% if user.id and cperms.issues.add_issue and not community.issue_ranking_enabled %}
-		<div class="one_action_icon col-xs-2 pull-right">
-			<a href="{% url "issue_create" community.id %}" class="btn btn-oc" data-rel="form"> <i class="fa fa-plus"></i><span> {% trans "Create Issue" %}</span></a>
-		</div>
+	{% if user.id and cperms.issues.add_issue %}
+	<div class="one_action_icon{% if community.issue_ranking_enabled %}"{% else %} col-xs-2 pull-right" style="width: auto;line-height: 1;"{% endif %}>
+		<a href="{% url "issue_create" community.id %}" class="btn btn-oc" data-rel="form"> <i class="fa fa-plus"></i><span> {% trans "Create Issue" %}</span></a>
+	</div>
 	{% endif %}
     {% if community.issue_ranking_enabled %}
     <div class="tab-content clearfix" style="clear: both; padding-top: 10px;">
