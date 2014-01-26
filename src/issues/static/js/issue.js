@@ -109,4 +109,13 @@ $(function() {
 
     });
 
+    // fill empty file title upon file selection
+    $('body').on('change', 'input#id_file', function() {
+        var title_inp = $(this).closest('form').find('input#id_title');
+        if(title_inp.val().length > 0)
+            return;
+        var full_filename = $(this).val();
+        var base_filename = '';
+        title_inp.val(base_filename);
+      })
 });
