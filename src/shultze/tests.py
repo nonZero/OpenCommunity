@@ -21,6 +21,7 @@ def user_vote(community_id, current_vote, prev_vote=[]):
         g.add_ballots(prev_vote,reverse=True)
     g.add_ballots(current_vote)
 
+
 class SimpleTest(TestCase):
     def test_basic_addition(self):
         """
@@ -80,101 +81,6 @@ class GraphToResults(TestCase):
             'candidates': set([issue_a.id, issue_b.id, issue_c.id]),
             'rounds': [{'winner': issue_a.id}, {'winner': issue_b.id}, {'winner': issue_c.id}],
             'order': [issue_a.id, issue_b.id, issue_c.id]
-        })
-
-class BallotsToResults(TestCase):
-    def setUp(self):
-        com = Community.objects.create(name='com1')
-        usr = OCUser.objects.create_user('a@b.com')
-        graph = IssuesGraph.objects.create(community=com)
-
-    def test_single_voter(self):
-        """Check basic logic from ballot to Schulze NPR"""
-        
-        com = Community.objects.get(name='com1')
-        usr = OCUser.objects.get(email='a@b.com')
-        graph = IssuesGraph.objects.get(community=com)
-        
-        #create issues
-        issue_a = Issue.objects.create(community=com, created_by=usr, title='issue_a')
-        issue_b = Issue.objects.create(community=com, created_by=usr, title='issue_b')
-        issue_c = Issue.objects.create(community=com, created_by=usr, title='issue_c')
-        issue_d = Issue.objects.create(community=com, created_by=usr, title='issue_d')
-        issue_e = Issue.objects.create(community=com, created_by=usr, title='issue_e')
-        
-        #add issues as graph nodes
-        graph.add_node(issue_a)
-        graph.add_node(issue_b)
-        graph.add_node(issue_c)
-        graph.add_node(issue_d)
-        graph.add_node(issue_e)
-
-        # Generate data
-        input = [
-            {"count":1, "ballot":[[issue_a.id], [issue_b.id], [issue_c.id], [issue_d.id], [issue_e.id]]},
-        ]
-        # add ballots to graph
-        graph.add_ballots(input)
-        
-        #calculate results
-        output = graph.get_schulze_npr_results()
-
-        # Run tests
-        self.assertEqual(output, {
-            'order': [issue_a.id, issue_b.id, issue_c.id, issue_d.id, issue_e.id],
-            'candidates': set([issue_a.id, issue_b.id, issue_c.id, issue_d.id, issue_e.id]),
-            'rounds': [
-                {'winner': issue_a.id},
-                {'winner': issue_b.id},
-                {'winner': issue_c.id},
-                {'winner': issue_d.id},
-                {'winner': issue_e.id}
-            ]
-        })
-
-    def test_nonproportionality(self):
-        """Check basic logic from ballot to Schulze NPR"""
-        
-        com = Community.objects.get(name='com1')
-        usr = OCUser.objects.get(email='a@b.com')
-        graph = IssuesGraph.objects.get(community=com)
-        
-        #create issues
-        issue_a = Issue.objects.create(community=com, created_by=usr, title='issue_a')
-        issue_b = Issue.objects.create(community=com, created_by=usr, title='issue_b')
-        issue_c = Issue.objects.create(community=com, created_by=usr, title='issue_c')
-        issue_d = Issue.objects.create(community=com, created_by=usr, title='issue_d')
-        issue_e = Issue.objects.create(community=com, created_by=usr, title='issue_e')
-        
-        #add issues as graph nodes
-        graph.add_node(issue_a)
-        graph.add_node(issue_b)
-        graph.add_node(issue_c)
-        graph.add_node(issue_d)
-        graph.add_node(issue_e)
-
-        # Generate data
-        input = [
-            {"count":2, "ballot":[[issue_a.id], [issue_b.id], [issue_c.id], [issue_d.id], [issue_e.id]]},
-            {"count":1, "ballot":[[issue_e.id], [issue_d.id], [issue_c.id], [issue_b.id], [issue_a.id]]},
-        ]
-        # add ballots to graph
-        graph.add_ballots(input)
-        
-        #calculate results
-        output = graph.get_schulze_npr_results()
-
-        # Run tests
-        self.assertEqual(output, {
-            'order': [issue_a.id, issue_b.id, issue_c.id, issue_d.id, issue_e.id],
-            'candidates': set([issue_a.id, issue_b.id, issue_c.id, issue_d.id, issue_e.id]),
-            'rounds': [
-                {'winner': issue_a.id},
-                {'winner': issue_b.id},
-                {'winner': issue_c.id},
-                {'winner': issue_d.id},
-                {'winner': issue_e.id}
-            ]
         })
 
 
@@ -243,14 +149,14 @@ class BallotsIO(TestCase):
         )
 
 
-class Itamar(TestCase):
+class BallotsToResults(TestCase):
     def setUp(self):
         com = Community.objects.create(name='com1')
         usr = OCUser.objects.create_user('a@b.com')
         graph = IssuesGraph.objects.create(community=com)
 
-    def test_graph(self):
-        """Check voting reversibility"""
+    def test_single_voter(self):
+        """Check basic logic from ballot to Schulze NPR"""
         
         com = Community.objects.get(name='com1')
         usr = OCUser.objects.get(email='a@b.com')
@@ -269,87 +175,170 @@ class Itamar(TestCase):
         graph.add_node(issue_c)
         graph.add_node(issue_d)
         graph.add_node(issue_e)
-        
-        # Generate data
-        input=[
-            {'count': 1, 'ballot': [[issue_b.id, issue_c.id, issue_d.id, issue_e.id], [issue_a.id]]},
-            {'count': 1, 'ballot': [[issue_d.id], [issue_a.id, issue_b.id, issue_c.id, issue_e.id]]},
-            {'count': 1, 'ballot': [[issue_a.id], [issue_b.id, issue_c.id, issue_d.id, issue_e.id]]},
-        ]
-        
-        # add ballots to graph
-        user_vote(com,input)
 
-        #calculate results
-        output = graph.get_edges_dict()
-        
-        # Run tests
-        self.assertEqual(output,
-                        {(1, 2): 1,
-                        (1, 3): 1,
-                        (1, 4): 1,
-                        (1, 5): 1,
-                        (2, 1): 1,
-                        (2, 3): 0,
-                        (2, 4): 0,
-                        (2, 5): 0,
-                        (3, 1): 1,
-                        (3, 2): 0,
-                        (3, 4): 0,
-                        (3, 5): 0,
-                        (4, 1): 2,
-                        (4, 2): 1,
-                        (4, 3): 1,
-                        (4, 5): 1,
-                        (5, 1): 1,
-                        (5, 2): 0,
-                        (5, 3): 0,
-                        (5, 4): 0}
-        )
-    
-    def test_results(self):
-        """Check voting reversibility"""
-        
-        com = Community.objects.get(name='com1')
-        usr = OCUser.objects.get(email='a@b.com')
-        graph = IssuesGraph.objects.get(community=com)
-        
-        #create issues
-        issue_a = Issue.objects.create(community=com, created_by=usr, title='issue_a')
-        issue_b = Issue.objects.create(community=com, created_by=usr, title='issue_b')
-        issue_c = Issue.objects.create(community=com, created_by=usr, title='issue_c')
-        issue_d = Issue.objects.create(community=com, created_by=usr, title='issue_d')
-        issue_e = Issue.objects.create(community=com, created_by=usr, title='issue_e')
-        
-        #add issues as graph nodes
-        graph.add_node(issue_a)
-        graph.add_node(issue_b)
-        graph.add_node(issue_c)
-        graph.add_node(issue_d)
-        graph.add_node(issue_e)
-        
         # Generate data
-        input=[
-            {'count': 1, 'ballot': [[issue_b.id, issue_c.id, issue_d.id, issue_e.id], [issue_a.id]]},
-            {'count': 1, 'ballot': [[issue_d.id], [issue_a.id, issue_b.id, issue_c.id, issue_e.id]]},
-            {'count': 1, 'ballot': [[issue_a.id], [issue_b.id, issue_c.id, issue_d.id, issue_e.id]]},
+        input = [
+            {"count":1, "ballot":[[issue_a.id], [issue_b.id], [issue_c.id], [issue_d.id], [issue_e.id]]},
         ]
-        
         # add ballots to graph
-        user_vote(com,input)
-
+        graph.add_ballots(input)
+        
         #calculate results
         output = graph.get_schulze_npr_results()
-        print graph.get_edges_dict()
-        print output
+
+        # Run tests
+        self.assertEqual(output, {
+            'order': [issue_a.id, issue_b.id, issue_c.id, issue_d.id, issue_e.id],
+            'candidates': set([issue_a.id, issue_b.id, issue_c.id, issue_d.id, issue_e.id]),
+            'rounds': [
+                {'winner': issue_a.id},
+                {'winner': issue_b.id},
+                {'winner': issue_c.id},
+                {'winner': issue_d.id},
+                {'winner': issue_e.id}
+            ]
+        })
+
+    def test_nonproportionality(self):
+        """Check nonproportionality case from ballot to Schulze NPR"""
+        
+        com = Community.objects.get(name='com1')
+        usr = OCUser.objects.get(email='a@b.com')
+        graph = IssuesGraph.objects.get(community=com)
+        
+        #create issues
+        issue_a = Issue.objects.create(community=com, created_by=usr, title='issue_a')
+        issue_b = Issue.objects.create(community=com, created_by=usr, title='issue_b')
+        issue_c = Issue.objects.create(community=com, created_by=usr, title='issue_c')
+        issue_d = Issue.objects.create(community=com, created_by=usr, title='issue_d')
+        issue_e = Issue.objects.create(community=com, created_by=usr, title='issue_e')
+        
+        #add issues as graph nodes
+        graph.add_node(issue_a)
+        graph.add_node(issue_b)
+        graph.add_node(issue_c)
+        graph.add_node(issue_d)
+        graph.add_node(issue_e)
+
+        # Generate data
+        input = [
+            {"count":2, "ballot":[[issue_a.id], [issue_b.id], [issue_c.id], [issue_d.id], [issue_e.id]]},
+            {"count":1, "ballot":[[issue_e.id], [issue_d.id], [issue_c.id], [issue_b.id], [issue_a.id]]},
+        ]
+        # add ballots to graph
+        graph.add_ballots(input)
+        
+        #calculate results
+        output = graph.get_schulze_npr_results()
+
+        # Run tests
+        self.assertEqual(output, {
+            'order': [issue_a.id, issue_b.id, issue_c.id, issue_d.id, issue_e.id],
+            'candidates': set([issue_a.id, issue_b.id, issue_c.id, issue_d.id, issue_e.id]),
+            'rounds': [
+                {'winner': issue_a.id},
+                {'winner': issue_b.id},
+                {'winner': issue_c.id},
+                {'winner': issue_d.id},
+                {'winner': issue_e.id}
+            ]
+        })
+
+
+class Itamar(TestCase):
+    def setUp(self):
+        com = Community.objects.create(name='com1')
+        usr = OCUser.objects.create_user('a@b.com')
+        graph = IssuesGraph.objects.create(community=com)
+    
+    def test_results(self):
+        """Check results for Itamar's example"""
+        
+        com = Community.objects.get(name='com1')
+        usr = OCUser.objects.get(email='a@b.com')
+        graph = IssuesGraph.objects.get(community=com)
+        
+        #create issues
+        issue_a = Issue.objects.create(community=com, created_by=usr, title='issue_a')
+        issue_b = Issue.objects.create(community=com, created_by=usr, title='issue_b')
+        issue_c = Issue.objects.create(community=com, created_by=usr, title='issue_c')
+        issue_d = Issue.objects.create(community=com, created_by=usr, title='issue_d')
+        issue_e = Issue.objects.create(community=com, created_by=usr, title='issue_e')
+        
+        #add issues as graph nodes
+        graph.add_node(issue_a)
+        graph.add_node(issue_b)
+        graph.add_node(issue_c)
+        graph.add_node(issue_d)
+        graph.add_node(issue_e)
+        
+        # Generate data
+        input=[
+            {'count': 1, 'ballot': [[issue_b.id, issue_c.id, issue_d.id, issue_e.id], [issue_a.id]]},
+            {'count': 1, 'ballot': [[issue_d.id], [issue_a.id, issue_b.id, issue_c.id, issue_e.id]]},
+            {'count': 1, 'ballot': [[issue_a.id], [issue_b.id, issue_c.id, issue_d.id, issue_e.id]]},
+        ]
+        
+        # add ballots to graph
+        user_vote(com,input)
+
+        #calculate results
+        output = graph.get_schulze_npr_results(tie_breaker = [1, 2, 3, 5])
         # Run tests
         self.assertEqual(output,
-                        {'tie_breaker': [2, 5, 1, 3], 
+                        {'tie_breaker': [1, 2, 3, 5], 
                         'candidates': set([1, 2, 3, 4, 5]), 
-                        'order': [4, 2, 5, 1, 3], 
+                        'order': [4, 1, 2, 3, 5], 
                         'rounds': [{'winner': 4}, 
-                            {'winner': 2, 'tied_winners': set([1, 2, 3, 5])}, 
-                            {'winner': 5, 'tied_winners': set([1, 3, 5])}, 
-                            {'winner': 1, 'tied_winners': set([1, 3])}, 
-                            {'winner': 3}]}
+                            {'winner': 1, 'tied_winners': set([1, 2, 3, 5])}, 
+                            {'winner': 2, 'tied_winners': set([2, 3, 5])}, 
+                            {'winner': 3, 'tied_winners': set([3, 5])}, 
+                            {'winner': 5}]}
+        )
+
+class RatedOrders(TestCase):
+    def setUp(self):
+        com = Community.objects.create(name='com1')
+        usr = OCUser.objects.create_user('a@b.com')
+        graph = IssuesGraph.objects.create(community=com)
+
+    def test_results(self):
+        """Check order rating"""
+        
+        com = Community.objects.get(name='com1')
+        usr = OCUser.objects.get(email='a@b.com')
+        graph = IssuesGraph.objects.get(community=com)
+        
+        #create issues
+        issue_a = Issue.objects.create(community=com, created_by=usr, title='issue_a')
+        issue_b = Issue.objects.create(community=com, created_by=usr, title='issue_b')
+        issue_c = Issue.objects.create(community=com, created_by=usr, title='issue_c')
+        issue_d = Issue.objects.create(community=com, created_by=usr, title='issue_d')
+        issue_e = Issue.objects.create(community=com, created_by=usr, title='issue_e')
+        
+        #add issues as graph nodes
+        graph.add_node(issue_a)
+        graph.add_node(issue_b)
+        graph.add_node(issue_c)
+        graph.add_node(issue_d)
+        graph.add_node(issue_e)
+        
+        # Generate data
+        input=[
+            {'count': 1, 'ballot': [[issue_b.id, issue_c.id, issue_d.id, issue_e.id], [issue_a.id]]},
+            {'count': 1, 'ballot': [[issue_d.id], [issue_a.id, issue_b.id, issue_c.id, issue_e.id]]},
+            {'count': 1, 'ballot': [[issue_a.id], [issue_b.id, issue_c.id, issue_d.id, issue_e.id]]},
+        ]
+        
+        # add ballots to graph
+        user_vote(com,input)
+
+        #calculate results
+        output = graph.get_schulze_npr_order_and_rating(tie_breaker=[1, 2, 3, 5])
+        # Run tests
+        self.assertEqual(output,
+                        [{(4, 1): 1},
+                         {(1, 2): 0},
+                         {(2, 3): 0},
+                         {(3, 5): 0}]
         )

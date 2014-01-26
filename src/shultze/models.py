@@ -5,6 +5,7 @@ from pyvotecore.condorcet import CondorcetHelper
 from pyvotecore.schulze_by_graph import SchulzeMethodByGraph, SchulzeNPRByGraph
 from pyvotecore.schulze_method import SchulzeMethod #TODO: remove this when iteritems bug is solved
 import itertools
+from collections import defaultdict
 
 # Not a django model!
 class PyVoteCoreAssistance(CondorcetHelper):
@@ -150,10 +151,24 @@ class IssuesGraph(models.Model):
             edges_dict[(edge.from_node.issue_id, edge.to_node.issue_id)] = edge.weight
         return edges_dict
     
-    def get_schulze_npr_results(self):
+    def get_schulze_npr_results(self, winner_threshold=None, tie_breaker=None, ballot_notation=None):
         input = self.get_edges_dict()
-        output = SchulzeMethodByGraph(input).as_dict()
+        output = SchulzeNPRByGraph(input, winner_threshold, tie_breaker, ballot_notation).as_dict()
         return output
+    
+    def get_schulze_npr_order_and_rating(self, winner_threshold=None, tie_breaker=None, ballot_notation=None):
+        input = self.get_edges_dict()
+        output = SchulzeNPRByGraph(input, winner_threshold, tie_breaker, ballot_notation).as_dict()
+        edges_dict = self.get_edges_dict()
+        rated_order = []
+        for round, (c1, c2) in enumerate(zip(output['order'], output['order'][1:])):
+            assert output['rounds'][round]['winner'] == c1
+            if 'tied_winners' in output['rounds'][round].keys():
+                if c2 in output['rounds'][round]['tied_winners']:
+                    rated_order.append({(c1,c2): 0})
+                    continue
+            rated_order.append({(c1,c2): edges_dict[(c1,c2)] - edges_dict[(c2,c1)]})
+        return rated_order
 
 class IssueNode(models.Model):
     """
