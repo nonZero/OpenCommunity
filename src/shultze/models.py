@@ -2,7 +2,7 @@ from django.db import models
 from issues.models import Issue
 from communities.models import Community
 from pyvotecore.condorcet import CondorcetHelper
-from pyvotecore.schulze_by_graph import SchulzeNPRByGraph
+from pyvotecore.schulze_by_graph import SchulzeMethodByGraph, SchulzeNPRByGraph
 from pyvotecore.schulze_method import SchulzeMethod #TODO: remove this when iteritems bug is solved
 import itertools
 
@@ -152,7 +152,7 @@ class IssuesGraph(models.Model):
     
     def get_schulze_npr_results(self):
         input = self.get_edges_dict()
-        output = SchulzeNPRByGraph(input).as_dict()
+        output = SchulzeMethodByGraph(input).as_dict()
         return output
 
 class IssueNode(models.Model):

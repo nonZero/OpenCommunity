@@ -249,7 +249,7 @@ class Itamar(TestCase):
         usr = OCUser.objects.create_user('a@b.com')
         graph = IssuesGraph.objects.create(community=com)
 
-    def test_vote_reversal(self):
+    def test_graph(self):
         """Check voting reversibility"""
         
         com = Community.objects.get(name='com1')
@@ -274,6 +274,7 @@ class Itamar(TestCase):
         input=[
             {'count': 1, 'ballot': [[issue_b.id, issue_c.id, issue_d.id, issue_e.id], [issue_a.id]]},
             {'count': 1, 'ballot': [[issue_d.id], [issue_a.id, issue_b.id, issue_c.id, issue_e.id]]},
+            {'count': 1, 'ballot': [[issue_a.id], [issue_b.id, issue_c.id, issue_d.id, issue_e.id]]},
         ]
         
         # add ballots to graph
@@ -281,38 +282,32 @@ class Itamar(TestCase):
 
         #calculate results
         output = graph.get_edges_dict()
-        print output
+        
         # Run tests
-        self.assertEqual(output, {(1, 2): 0,
-            (1, 3): 0,
-            (1, 4): 0,
-            (1, 5): 0,
-            (2, 1): 0,
-            (2, 3): 0,
-            (2, 4): 0,
-            (2, 5): 0,
-            (3, 1): 0,
-            (3, 2): 0,
-            (3, 4): 0,
-            (3, 5): 0,
-            (4, 1): 0,
-            (4, 2): 0,
-            (4, 3): 0,
-            (4, 5): 0,
-            (5, 1): 0,
-            (5, 2): 0,
-            (5, 3): 0,
-            (5, 4): 0}
+        self.assertEqual(output,
+                        {(1, 2): 1,
+                        (1, 3): 1,
+                        (1, 4): 1,
+                        (1, 5): 1,
+                        (2, 1): 1,
+                        (2, 3): 0,
+                        (2, 4): 0,
+                        (2, 5): 0,
+                        (3, 1): 1,
+                        (3, 2): 0,
+                        (3, 4): 0,
+                        (3, 5): 0,
+                        (4, 1): 2,
+                        (4, 2): 1,
+                        (4, 3): 1,
+                        (4, 5): 1,
+                        (5, 1): 1,
+                        (5, 2): 0,
+                        (5, 3): 0,
+                        (5, 4): 0}
         )
-
-
-class Itamar(TestCase):
-    def setUp(self):
-        com = Community.objects.create(name='com1')
-        usr = OCUser.objects.create_user('a@b.com')
-        graph = IssuesGraph.objects.create(community=com)
-
-    def test_vote_reversal(self):
+    
+    def test_results(self):
         """Check voting reversibility"""
         
         com = Community.objects.get(name='com1')
@@ -337,36 +332,24 @@ class Itamar(TestCase):
         input=[
             {'count': 1, 'ballot': [[issue_b.id, issue_c.id, issue_d.id, issue_e.id], [issue_a.id]]},
             {'count': 1, 'ballot': [[issue_d.id], [issue_a.id, issue_b.id, issue_c.id, issue_e.id]]},
-            {'count': 1, 'ballot': [[issue_a.id], [issue_b.id, issue_c.id, issue_d.id, issue_e.id]]}
+            {'count': 1, 'ballot': [[issue_a.id], [issue_b.id, issue_c.id, issue_d.id, issue_e.id]]},
         ]
         
         # add ballots to graph
-        #user_vote(com,input)
-        for v in input:
-            user_vote(com,[v])
-            print graph.get_edges_dict()
+        user_vote(com,input)
+
         #calculate results
-        output = graph.get_edges_dict()
+        output = graph.get_schulze_npr_results()
+        print graph.get_edges_dict()
         print output
         # Run tests
-        self.assertEqual(output, {(1, 2): 0,
-            (1, 3): 0,
-            (1, 4): 0,
-            (1, 5): 0,
-            (2, 1): 0,
-            (2, 3): 0,
-            (2, 4): 0,
-            (2, 5): 0,
-            (3, 1): 0,
-            (3, 2): 0,
-            (3, 4): 0,
-            (3, 5): 0,
-            (4, 1): 0,
-            (4, 2): 0,
-            (4, 3): 0,
-            (4, 5): 0,
-            (5, 1): 0,
-            (5, 2): 0,
-            (5, 3): 0,
-            (5, 4): 0}
+        self.assertEqual(output,
+                        {'tie_breaker': [2, 5, 1, 3], 
+                        'candidates': set([1, 2, 3, 4, 5]), 
+                        'order': [4, 2, 5, 1, 3], 
+                        'rounds': [{'winner': 4}, 
+                            {'winner': 2, 'tied_winners': set([1, 2, 3, 5])}, 
+                            {'winner': 5, 'tied_winners': set([1, 3, 5])}, 
+                            {'winner': 1, 'tied_winners': set([1, 3])}, 
+                            {'winner': 3}]}
         )

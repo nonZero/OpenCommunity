@@ -60,6 +60,7 @@ class SchulzePR(OrderingVotingSystem, SchulzeHelper):
                     weight = self.strength_of_vote_management(completed)
                     if weight > 0:
                         self.graph.add_edge((candidate_to, candidate_from), weight)
+            print self.edge_weights(self.graph)
 
             # Determine the round winner through the Schwartz set heuristic
             self.schwartz_set_heuristic()
