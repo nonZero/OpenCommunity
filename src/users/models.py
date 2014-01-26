@@ -237,6 +237,6 @@ class Invitation(models.Model):
         except:
             logger.error("Invitation email sending failed", exc_info=True)
             self.error_count += 1
-            self.status = EmailStatus.ERROR
+            self.status = EmailStatus.FAILED
             self.save()
             return False
