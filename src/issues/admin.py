@@ -137,21 +137,9 @@ class ProposalAdmin(admin.ModelAdmin):
     community.short_description = _("Community")
 
 
-class ProposalVoteAdmin(admin.ModelAdmin):
-
-    list_display = (
-                    'value',
-                    'user',
-                    'proposal'
-                    )
-    list_display_links = (
-                            'value',
-                            'user',
-                            'proposal'
-                          )
-    admin_order_field = 'proposal'
 
 site.register(models.Issue, IssueAdmin)
 site.register(models.Proposal, ProposalAdmin)
-site.register(models.ProposalVote, ProposalVoteAdmin)
+site.register(models.ProposalVote)
+site.register(models.VoteResult)
 site.register(models.IssueComment, IssueCommentAdmin)
