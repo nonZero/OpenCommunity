@@ -224,19 +224,20 @@ class ImportInvitationsView(MembershipMixin, FormView):
 
     def form_valid(self, form):
         msg = 'def message'
-        def_enc = 'utf-8'
+        def_enc = 'windows-1255'
         uploaded = form.cleaned_data['csv_file'] 
+        sent = 0
         for chunk in uploaded.chunks():
             rows = chunk.split('\n')
-            for row in rows:
+            for i, row in enumerate(rows):
                 words = row.split(',')
                 # print ' -- ', words[0], ' -- '
-                if words[0] == 'msg':
-                    msg = words[1]
+                if i == 0:
+                    msg = words[0]
                     try:
                         msg = msg.decode(def_enc)
                     except UnicodeDecodeError:
-                        def_enc = 'windows-1255'
+                        def_enc = 'utf-8'
                         msg = msg.decode(def_enc)
                 elif len(words) > 1:
                     # print ' - '.join(row.split(','))
@@ -246,17 +247,22 @@ class ImportInvitationsView(MembershipMixin, FormView):
                     v_err = self.validate_invitation(email)
                     if v_err:
                         continue
-                    i = Invitation.objects.create( 
+                    invitation = Invitation.objects.create( 
                         community=self.community,
                         email=email,
                         created_by=self.request.user,
                         default_group_name=role,
                         message=msg) 
+                    try:
+                        invitation.send(sender=self.request.user, recipient_name=name)
+                        # reduce email sending rate
+                        time.sleep(4)
+                        sent += 1
+                    except:
+                      pass
 
-                    i.send(sender=self.request.user, recipient_name=name)
-                    # reduce email sending rate
-                    time.sleep(4)      
-        return HttpResponse('---- Done ---')
+        messages.success(self.request, _('%d Invitations sent') % (sent,))           
+        return redirect(reverse('members', kwargs={'community_id': self.community.id}))
 
 
     @method_decorator(permission_required('is_superuser'))
