@@ -211,7 +211,7 @@ class ImportInvitationsView(MembershipMixin, FormView):
 
     def form_valid(self, form):
         msg = 'def message'
-        def_enc = 'utf-8'
+        def_enc = 'windows-1255'
         uploaded = form.cleaned_data['csv_file'] 
         sent = 0
         for chunk in uploaded.chunks():
@@ -224,7 +224,7 @@ class ImportInvitationsView(MembershipMixin, FormView):
                     try:
                         msg = msg.decode(def_enc)
                     except UnicodeDecodeError:
-                        def_enc = 'windows-1255'
+                        def_enc = 'utf-8'
                         msg = msg.decode(def_enc)
                 elif len(words) > 1:
                     # print ' - '.join(row.split(','))
