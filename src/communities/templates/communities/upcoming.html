@@ -20,6 +20,7 @@
             <i class="fa fa-map-marker"></i> {{ object.upcoming_meeting_location|default:_("Not set yet") }}</h5>
           </li>
       	{% endif %}
+		{% if object.meetings.count %}
 		{% for m in object.meetings.all %}
           <li>
             <h4><a href="{{m.get_absolute_url}}">{% if m.title %}{{ m.title }}{% else %}{{ m.held_at }}{% endif %}</a></h4>
@@ -27,6 +28,7 @@
             {% if m.location %}<i class="fa fa-map-marker"></i> {{ m.location }}{% endif %}</h5>
           </li>
 		{% endfor %}
+		{% endif %}
         </ul>
 	</div>
 <div class="main_meeting_content">
