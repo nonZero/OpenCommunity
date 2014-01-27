@@ -10,7 +10,7 @@ id="issue-list"
 {% endblock %}
 
 {% block content %}
-	<h1>{% trans "Issues" %}</h1>
+	<h2>{% trans "Issues" %}</h2>
     {% if community.issue_ranking_enabled %}
     <ul id="issues-order" class="nav nav-tabs">
         <li><a href="#by_time" data-toggle="tab">{% trans "By time" %}</a></li>
@@ -18,17 +18,12 @@ id="issue-list"
             <li><a href="#my_vote" data-toggle="tab">{% trans "My vote" %}</a></li>
         {% endif %}
         <li><a href="#by_rank" data-toggle="tab">{% trans "By rank" %}</a></li>
-		{% if user.id and cperms.issues.add_issue %}
-		<li class="pull-right btn-tab">
-			<a href="{% url "issue_create" community.id %}" class="btn btn-oc" data-rel="form"> <i class="fa fa-plus"></i><span> {% trans "Create Issue" %}</span></a>
-		</li>
-		{% endif %}
     </ul>
     {% endif %}
-	{% if user.id and cperms.issues.add_issue and not community.issue_ranking_enabled %}
-		<div class="one_action_icon col-xs-2 pull-right">
-			<a href="{% url "issue_create" community.id %}" class="btn btn-oc" data-rel="form"> <i class="fa fa-plus"></i><span> {% trans "Create Issue" %}</span></a>
-		</div>
+	{% if user.id and cperms.issues.add_issue %}
+	<div class="one_action_icon{% if community.issue_ranking_enabled %}"{% else %} col-xs-2 pull-right" style="width: auto;line-height: 1;"{% endif %}>
+		<a href="{% url "issue_create" community.id %}" class="btn btn-oc" data-rel="form"> <i class="fa fa-plus"></i><span> {% trans "Create Issue" %}</span></a>
+	</div>
 	{% endif %}
     {% if community.issue_ranking_enabled %}
     <div class="tab-content clearfix" style="clear: both; padding-top: 10px;">
@@ -42,7 +37,7 @@ id="issue-list"
             <table class="table table-condensed issue-table">
             {% for object in object_list %}
                 <tr class="issue-list">
-                    <td class="issue_date">{{ object.created_at|date:"j M" }}</td>
+                    <td class="issue_date">{{ object.created_at|ocshortdate }}</td>
                     <td class="issue_title left_arrow"><a href="{{ object.get_absolute_url }}?s=1"> {{ object.title }}</a></td>
                 </tr>
             {% endfor %}

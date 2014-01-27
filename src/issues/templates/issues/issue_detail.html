@@ -58,7 +58,7 @@ id="issue-detail"
         {% endif %}
     </div>
 
-    <div class="issue_left_column col-sm-9 col-xs-12{% if not object.is_archived and object.agenda_items.count > 1 %} tabs-margin{% endif %}" style="margin-bottom: -40px;">
+    <div class="issue_left_column col-sm-9 col-xs-12 {% if not object.completed and object.agenda_items.count > 1 %} tabs-margin{% endif %}" style="margin-bottom: -40px;">
         <div class="issue_left_column_inner">
 
             {% with can_straw_vote=object.can_straw_vote %}
@@ -132,13 +132,13 @@ id="issue-detail"
 {% endblock %}
 
 {% block scripts %}
-    <script src="{{STATIC_URL}}js/filter.js"></script>
     <script src="{{STATIC_URL}}js/issue.js"></script>
     <script src="{{STATIC_URL}}js/Chart.js"></script>
     <script src="{{STATIC_URL}}js/proposal.js"></script>
+    <script src="{{STATIC_URL}}js/filter.js"></script>
     <script src="{{STATIC_URL}}js/_piechart.js"></script>    
     <script src="{{STATIC_URL}}bootstrap/js/typeahead.min.js"></script>
-    <script src="{{STATIC_URL}}js/hogan-2.0.0.js"></script>
+    <script src="{{ STATIC_URL }}js/hogan-2.0.0.js"></script>
     <script src="{{STATIC_URL}}js/issues.js"></script>
     <script src="{% url 'jsi18n' %}"></script>
     <script>

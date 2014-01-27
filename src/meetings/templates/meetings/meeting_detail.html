@@ -180,20 +180,22 @@ id="meeting-detail"
 	}); 
 </script>
 <script>
+	function set_meeting_height() {
+		var meeting = $('.meeting_right_column').outerHeight();
+		var upcoming = $('.meeting_left_column').outerHeight();
+		if (meeting > upcoming) {
+			$('.meeting_left_column').outerHeight(meeting+20);
+		};
+  }
+
 	$(function() {
 		$('.show_meetings').on('click', function() {
 			$(".main_meeting_content, .small_meetings").toggle();
 			$(".meeting_left_column").css('background', 'transparent');
 		});
-	});
-</script>
-<script>
-	$(function() {
-		var Meeting = $('.meeting_right_column').outerHeight();
-		var Upcoming = $('.meeting_left_column').outerHeight();
-		if (Meeting > Upcoming) {
-			$('.meeting_left_column').outerHeight(Meeting+20);
-		};
+    $('body').on('ocd.show', function () {
+       set_meeting_height();
+     });
 	});
 </script>
 

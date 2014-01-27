@@ -116,7 +116,7 @@ class MeetingParticipant(models.Model):
     default_group_name = models.CharField(_('Group'), max_length=50,
                                           choices=DefaultGroups.CHOICES,
                                           null=True, blank=True)
-    is_absent = models.BooleanField(_("Is Absent"), default=False)
+    is_absent = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = _("Meeting Participant")
