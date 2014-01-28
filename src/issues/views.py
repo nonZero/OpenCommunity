@@ -396,11 +396,10 @@ class ProposalDetailView(ProposalMixin, DetailView):
                          o.decided_at_meeting)
         show_to_board =  group == DefaultGroups.BOARD
         show_to_chairman = group == DefaultGroups.CHAIRMAN and \
-                           o.status != o.statuses.IN_DISCUSSION and \
-                          (self.issue.is_current or o.decided_at_meeting is not None) 
+                           (o.status != o.statuses.IN_DISCUSSION or \
+                             m_id) 
 
         show_board_vote_result = show_to_member or show_to_board or show_to_chairman
-
         context['res'] = o.get_straw_results()
 
         results = VoteResult.objects.filter(proposal=o) \
@@ -423,6 +422,8 @@ class ProposalDetailView(ProposalMixin, DetailView):
 
         context['issue_frame'] = self.request.GET.get('s', None)
         context['show_board_vote_result'] = show_board_vote_result 
+        context['board_vote_active'] = group == DefaultGroups.CHAIRMAN and \
+                                        not m_id and not o.decided 
         return context
 
     def post(self, request, *args, **kwargs):

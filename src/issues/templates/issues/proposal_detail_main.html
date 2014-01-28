@@ -126,7 +126,7 @@
     </div>
     </div>  
 	{% endif %}
-	{% if cperms.issues.proposal_board_vote and object.issue.is_upcoming and object.issue.is_current and object.status == object.statuses.IN_DISCUSSION %}
+	{% if cperms.issues.proposal_board_vote and board_vote_active %}
 	  <div class="board_vote clearfix">
 		<div class="col-xs-12 clearfix" style="border-bottom: 1px solid">
 			<div class="col-xs-4"></div>
