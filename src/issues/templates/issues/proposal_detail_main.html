@@ -74,7 +74,7 @@
 
     {% with proposal=object c=proposal.issue.community %}
         {% if proposal.can_straw_vote and cperms.issues.vote and user|member_of:c %}
-          ===================
+            {% include 'issues/_vote.html' %}
         {% endif %}
         {% if proposal.can_show_straw_votes %}
             <div id="results_container">
@@ -83,8 +83,8 @@
         {% endif %}
 	{% endwith %}
 	
-	<div class="board_vote clearfix">
-	{% if object.members_vote_result.total and show_vote_result_to_board or show_vote_result_to_member or show_vote_result_to_chairman %}
+	{% if object.members_vote_result.total and show_board_vote_result %}
+	  <div class="board_vote clearfix">
 		<div class="col-xs-4 prop-infavor">
 			<h4>{% trans "Pro" %}</h4>
 			<p>
@@ -123,9 +123,11 @@
 				</li>
 				{% endfor %}
 			</ul>
-		</div>
+    </div>
+    </div>  
 	{% endif %}
 	{% if cperms.issues.proposal_board_vote and object.issue.is_upcoming and object.issue.is_current and object.status == object.statuses.IN_DISCUSSION %}
+	  <div class="board_vote clearfix">
 		<div class="col-xs-12 clearfix" style="border-bottom: 1px solid">
 			<div class="col-xs-4"></div>
 			<div class="col-xs-8">
@@ -184,8 +186,8 @@
 				{% endwith %}
 			</div>
 		</div>
+    </div>
 	{% endif %}
-	</div>
 	
     {% if object.can_vote and cperms.issues.acceptopen_proposal %}
     <form id="proposal-form" method="post">

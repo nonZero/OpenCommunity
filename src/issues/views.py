@@ -391,9 +391,16 @@ class ProposalDetailView(ProposalMixin, DetailView):
             group = self.request.user.memberships.get(community=self.issue.community).default_group_name
         except:
             group = ""
-        show_to_member = o.decided and (self.issue.community.upcoming_meeting_is_published or o.decided_at_meeting) and group == DefaultGroups.MEMBER
-        show_to_board = (self.issue.is_current or o.decided_at_meeting) and group == DefaultGroups.BOARD
-        show_to_chairman = o.status != o.statuses.IN_DISCUSSION and (self.issue.is_current or o.decided_at_meeting) and group == DefaultGroups.CHAIRMAN
+        show_to_member = group == DefaultGroups.MEMBER and o.decided and \
+                        (self.issue.community.upcoming_meeting_is_published or \
+                         o.decided_at_meeting)
+        show_to_board =  group == DefaultGroups.BOARD
+        show_to_chairman = group == DefaultGroups.CHAIRMAN and \
+                           o.status != o.statuses.IN_DISCUSSION and \
+                          (self.issue.is_current or o.decided_at_meeting) 
+        
+        show_board_vote_result = show_to_member or show_to_board or show_to_chairman
+
         context['res'] = o.get_straw_results()
 
         results = VoteResult.objects.filter(proposal=o) \
@@ -415,10 +422,7 @@ class ProposalDetailView(ProposalMixin, DetailView):
             context['meeting_context'] = None
 
         context['issue_frame'] = self.request.GET.get('s', None)
-        context['show_vote_result_to_board'] = show_to_board
-        context['show_vote_result_to_member'] = show_to_member
-        context['show_vote_result_to_chairman'] = show_to_chairman
- 
+        context['show_board_vote_result'] = show_board_vote_result 
         return context
 
     def post(self, request, *args, **kwargs):
