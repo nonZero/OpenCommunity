@@ -98,17 +98,14 @@
 .proposal-header {
 	padding: .7em 15px 0 15px;
 	word-break: break-word;
-	font-weight: bold;
 }
 .proposal-footer {
 	padding: 0 15px .7em 15px;
 	word-break: break-word;
-	font-weight: bold;
 }
 .proposal-undecided {
 	padding: 15px;
 	word-break: break-word;
-	font-weight: bold;
 }
 .proposal_history_inner li {
 	color: #666;

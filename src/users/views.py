@@ -1,26 +1,27 @@
-import time
-import json
-
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required, permission_required
 from django.core.urlresolvers import reverse
 from django.db.utils import IntegrityError
-from django.http.response import HttpResponse, HttpResponseForbidden,\
-    HttpResponseBadRequest
+from django.http.response import HttpResponse, HttpResponseForbidden, \
+    HttpResponseBadRequest, Http404
 from django.shortcuts import render, redirect
-from django.utils.translation import ugettext_lazy as _
+from django.template import RequestContext
 from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.translation import ugettext_lazy as _
+from django.views.generic import FormView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView
 from django.views.generic.list import BaseListView, ListView
-from django.views.generic import FormView
-from django.template import RequestContext
-
+from ocd import settings
 from ocd.base_views import CommunityMixin
 from users import models
 from users.forms import InvitationForm, QuickSignupForm, ImportInvitationsForm
 from users.models import Invitation, OCUser, Membership
+import json
+import time
+
+
 
 class MembershipMixin(CommunityMixin):
 
@@ -117,6 +118,14 @@ class AcceptInvitationView(DetailView):
         d['form'] = self.form if self.form else self.get_form()
         return d
 
+    def get(self, request, *args, **kwargs):
+        try:
+            self.object = self.get_object()
+        except Http404:
+            return render(request, 'users/invitation404.html', {'base_url': settings.HOST_URL})
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
+    
     def post(self, request, *args, **kwargs):
 
         i = self.get_object()
@@ -259,7 +268,7 @@ class ImportInvitationsView(MembershipMixin, FormView):
                         time.sleep(4)
                         sent += 1
                     except:
-                      pass
+                        pass
 
         messages.success(self.request, _('%d Invitations sent') % (sent,))           
         return redirect(reverse('members', kwargs={'community_id': self.community.id}))

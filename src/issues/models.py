@@ -404,6 +404,11 @@ class Proposal(UIDMixin):
                    self.issue.community.upcoming_meeting_started
 
     @property
+    def can_vote_in_upcoming(self):
+        """ Returns True if the proposal is open and the issue is in upcoming meeting """
+        return self.is_open and self.issue.is_upcoming
+    
+    @property
     def has_votes(self):
         """ Returns True if the proposal has any vote """
         return self.votes_con or self.votes_pro
