@@ -80,7 +80,7 @@ id="meeting-detail"
 			        </div>
 					<div class="proposal_history_main clearfix">
 		                {% if a.accepted_proposals.count %}
-		                    {% for p in a.accepted_proposals %}
+		                    {% for p in a.accepted_proposals|dictsort:"created_at" %}
 								<ul class="proposal_history_inner">
 			                    	<li class="proposal-icon {% if p.type == 1 %}task-icon{% elif p.type == 2 %}rule-icon{% elif p.type == 3 %}general-icon{% endif %}"></li>
 				                    <li class="proposal-header">
