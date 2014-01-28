@@ -44,3 +44,5 @@ src/ocd/static/Chart.js/
 *.orig
 Boaz-Chen_OPEN-COMMUNITY/
 /.idea/
+build
+media/community_logo

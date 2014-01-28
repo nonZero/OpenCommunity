@@ -74,7 +74,7 @@
 
     {% with proposal=object c=proposal.issue.community %}
         {% if proposal.can_straw_vote and cperms.issues.vote and user|member_of:c %}
-            {% include 'issues/_vote.html' %}
+          ===================
         {% endif %}
         {% if proposal.can_show_straw_votes %}
             <div id="results_container">
@@ -82,7 +82,111 @@
             </div>
         {% endif %}
 	{% endwith %}
-
+	
+	<div class="board_vote clearfix">
+	{% if object.members_vote_result.total and show_vote_result_to_board or show_vote_result_to_member or show_vote_result_to_chairman %}
+		<div class="col-xs-4 prop-infavor">
+			<h4>{% trans "Pro" %}</h4>
+			<p>
+				{{ proposal|upcoming_participants_by_vote:'pro'|length }} - {% widthratio proposal|upcoming_participants_by_vote:'pro'|length object.issue.community.upcoming_meeting_participants.count 100 %}%
+			</p>
+			<ul>
+  				{% for u in proposal|upcoming_participants_by_vote:'pro' %}
+				<li>
+			      {{ u.display_name }}
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="col-xs-4 prop-nutral">
+			<h4>{% trans "Neutral" %}</h4>
+			<p>
+				{{ proposal|upcoming_participants_by_vote:'neut'|length }} - {% widthratio proposal|upcoming_participants_by_vote:'neut'|length object.issue.community.upcoming_meeting_participants.count 100 %}%
+			</p>
+			<ul>
+  				{% for u in proposal|upcoming_participants_by_vote:'neut' %}
+				<li>
+			      {{ u.display_name }}
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="col-xs-4 prop-against">
+			<h4>{% trans "Con" %}</h4>
+			<p>
+				{{ proposal|upcoming_participants_by_vote:'con'|length }} - {% widthratio proposal|upcoming_participants_by_vote:'con'|length object.issue.community.upcoming_meeting_participants.count 100 %}%
+			</p>
+			<ul>
+  				{% for u in proposal|upcoming_participants_by_vote:'con' %}
+				<li>
+			      {{ u.display_name }}
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
+	{% if cperms.issues.proposal_board_vote and object.issue.is_upcoming and object.issue.is_current and object.status == object.statuses.IN_DISCUSSION %}
+		<div class="col-xs-12 clearfix" style="border-bottom: 1px solid">
+			<div class="col-xs-4"></div>
+			<div class="col-xs-8">
+				<div class="col-xs-4 text-center" style="background: #a4cb53;">
+					<h5 style="margin:5px 0">
+						<button class="btn btn-default btn-sm all-pro" data-value="pro" data-href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}">{% trans "Pro" %}</button>
+					</h5>
+				</div>
+				<div class="col-xs-4 text-center" style="background: #ffffff;">
+					<h5 style="margin:5px 0">
+						<button class="btn btn-default btn-sm all-neutral" data-value="reset" data-href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}">{% trans "Neutral" %}</button>
+					</h5>
+				</div>
+				<div class="col-xs-4 text-center" style="background: #d95e59;">
+					<h5 style="margin:5px 0">
+						<button class="btn btn-default btn-sm all-con" data-value="con" data-href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}">{% trans "Con" %}</button>
+					</h5>
+				</div>
+			</div>
+		</div>
+		{% for key, val in object.members_vote_result.per_user.items %}
+			<div class="col-xs-12 clearfix user_vote_line"{% if forloop.last %} style="border-bottom: 1px solid;"{% endif %}>
+				<div class="col-xs-4">
+					{{ key.display_name }}
+				</div>
+				<div class="col-xs-8">
+					<div class="col-xs-4 text-center" style="background: #a4cb53;">
+						<div class="radio-inline">
+							<label>
+								<input type="radio" data-href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}" name="votesRadios{{key.id}}" value="pro" {% if val == 1 %}checked="checked"{% endif %}>
+							</label>
+						</div>
+					</div>
+					<div class="col-xs-4 text-center" style="background: #ffffff;">
+						<div class="radio-inline">
+							<label>
+								<input type="radio" data-href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}" name="votesRadios{{key.id}}" value="reset" {% if val == 0 %}checked="checked"{% endif %}>
+							</label>
+						</div>
+					</div>
+					<div class="col-xs-4 text-center" style="background: #d95e59;">
+						<div class="radio-inline">
+							<label>
+								<input type="radio" data-href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}" name="votesRadios{{key.id}}" value="con" {% if val == -1 %}checked="checked"{% endif %}>
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+		<div class="col-xs-12 clearfix">
+			<div class="col-xs-4"></div>
+			<div id="member_vote_sum" class="col-xs-8">
+				{% with proposal=object %}
+				{% include 'issues/_member_vote_sum.html' %}
+				{% endwith %}
+			</div>
+		</div>
+	{% endif %}
+	</div>
+	
     {% if object.can_vote and cperms.issues.acceptopen_proposal %}
     <form id="proposal-form" method="post">
         {% csrf_token %}
@@ -102,4 +206,3 @@
     {% endif %}
 </div>
 </div>
-

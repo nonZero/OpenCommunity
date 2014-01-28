@@ -1,7 +1,7 @@
 {% load i18n %}
 {% trans 'Hello' %} {{ recipient_name|default:'' }},
 
-{% blocktrans with u=object.created_by.display_name c=object.community.name %}{{u}} have invited you to join {{c}}.{% endblocktrans %}
+{% blocktrans with u=object.created_by.display_name c=object.community.name %}This invitation is from {{u}} to join {{c|safe}}.{% endblocktrans %}
 {% if object.message %}
 {{object.message}}
 {% endif %}
@@ -9,6 +9,4 @@
 {{base_url}}{{object.get_absolute_url}}
 {% blocktrans %}(Or copy the url above to your browser){% endblocktrans %}
 
-{% blocktrans %}Thank you!{% endblocktrans %}
-
-{% blocktrans %}Open Community Team{% endblocktrans %}
+{% blocktrans %}Once registered you will be able to enter{% endblocktrans %} www.demos.org.il

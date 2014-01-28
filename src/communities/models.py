@@ -1,16 +1,19 @@
+import logging
+
 from django.conf import settings
 from django.db import models, transaction
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+
 from issues.models import ProposalStatus, IssueStatus, VoteResult
+import issues.models as issues_models
 from meetings.models import MeetingParticipant
+import meetings.models as meetings_models
 from ocd.base_models import HTMLField, UIDMixin
 from ocd.email import send_mails
 from users.models import OCUser, Membership
-import issues.models as issues_models
-import logging
-import meetings.models as meetings_models
+from users.default_roles import DefaultGroups
 
 
 logger = logging.getLogger(__name__)
@@ -87,7 +90,8 @@ class Community(UIDMixin):
     upcoming_meeting_summary = HTMLField(_("Upcoming meeting summary"),
                                          null=True, blank=True)
 
-    board_name = models.CharField(_("Board Name"), max_length=200)
+    board_name = models.CharField(_("Board Name"), default=_("Board"), 
+                                  max_length=200)
     
     straw_voting_enabled = models.BooleanField(_("Straw voting enabled"),
                                         default=False)
@@ -112,6 +116,9 @@ class Community(UIDMixin):
 
     allow_links_in_emails = models.BooleanField(_("Allow links inside emails"),   
                                         default=True)
+    
+    register_missing_board_members = models.BooleanField(_("Resister missing board members"), 
+                                                         default=False)
 
     class Meta:
         verbose_name = _("Community")
@@ -156,6 +163,26 @@ class Community(UIDMixin):
 
     def get_members(self):
         return OCUser.objects.filter(memberships__community=self)
+        
+    def meeting_participants(self):
+
+        meeting_participants = {'board': [], 'members': [],}
+
+        board_ids = [m.user.id for m in self.memberships.board()]
+
+        for u in self.upcoming_meeting_participants.all():
+            if u.id in board_ids:
+                meeting_participants['board'].append(u)
+            else:
+                meeting_participants['members'].append(u)
+
+        return meeting_participants
+        
+    def get_board_members(self):
+        return Membership.objects.filter(community=self).exclude(default_group_name=DefaultGroups.MEMBER)
+
+    def get_none_board_members(self):
+        return Membership.objects.filter(community=self, default_group_name=DefaultGroups.MEMBER)
 
     def get_guest_list(self):
         if not self.upcoming_meeting_guests:
@@ -246,8 +273,23 @@ class Community(UIDMixin):
         for prop in un_summed_proposals:
             prop.do_votes_summation(member_count)
 
-
+    def _register_absents(self, meeting, meeting_participants):
+        board_members = [mm.user for mm in Membership.objects.board() \
+                          .filter(community=self, user__is_active=True)]
+        absents = set(board_members) - set(meeting_participants)
+        ordinal_base = len(meeting_participants)
+        for i, a in enumerate(absents):
+            try:
+                mm = a.memberships.get(community=self)
+            except Membership.DoesNotExist:
+                mm = None
+            MeetingParticipant.objects.create(meeting=meeting, user=a,
+                display_name=a.display_name,         
+                ordinal=ordinal_base + i,
+                is_absent=True, 
+                default_group_name=mm.default_group_name if mm else None)   
             
+
     def close_meeting(self, m, user):
         """
         Creates a :model:`meetings.Meeting` instance, with corresponding
@@ -308,11 +350,13 @@ class Community(UIDMixin):
                     c.meeting = m
                     c.save()
 
-                meetings_models.AgendaItem.objects.create(
+                ai = meetings_models.AgendaItem.objects.create(
                                               meeting=m, issue=issue, order=i,
                                               background=issue.abstract,
                                               closed=issue.completed)
 
+                issue.attachments.filter(active=True, agenda_item__isnull=True) \
+                                          .update(agenda_item = ai) 
                 issue.is_published = True
                 issue.abstract = None
 
@@ -321,9 +365,8 @@ class Community(UIDMixin):
                     issue.order_in_upcoming_meeting = None
 
                 issue.save()
-
-            for i, p in enumerate(self.upcoming_meeting_participants.all()):
-
+            meeting_participants = self.upcoming_meeting_participants.all()
+            for i, p in enumerate(meeting_participants):
                 try:
                     mm = p.memberships.get(community=self)
                 except Membership.DoesNotExist:
@@ -332,7 +375,8 @@ class Community(UIDMixin):
                 MeetingParticipant.objects.create(meeting=m, ordinal=i, user=p,
                       display_name=p.display_name,
                       default_group_name=mm.default_group_name if mm else None)
-
+            
+            self._register_absents(m, meeting_participants)    
             self.upcoming_meeting_participants = []
 
         return m

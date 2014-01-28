@@ -1,3 +1,6 @@
+import time
+import json
+
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.core.urlresolvers import reverse
@@ -18,7 +21,6 @@ from ocd.base_views import CommunityMixin
 from users import models
 from users.forms import InvitationForm, QuickSignupForm, ImportInvitationsForm
 from users.models import Invitation, OCUser, Membership
-import json
 
 class MembershipMixin(CommunityMixin):
 
@@ -199,8 +201,19 @@ class AutocompleteMemberName(MembershipMixin, ListView):
             context = self.get_context_data(object_list=members)
             return HttpResponse(json.dumps(members), {'content_type': 'application/json'})
 
+        
+class MemberProfile(MembershipMixin, DetailView):
+    
+    model = models.Membership
+    template_name = "users/member_profile.html"
+    
+    def get_context_data(self, **kwargs):
+       
+        d = super(MemberProfile, self).get_context_data(**kwargs)
+        d['form'] = ""
+        return d
 
-import time
+
 class ImportInvitationsView(MembershipMixin, FormView):
     form_class = ImportInvitationsForm
     template_name = 'users/import_invitations.html'        

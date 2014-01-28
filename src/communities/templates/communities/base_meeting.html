@@ -24,7 +24,7 @@
 			</a>
     </li>
     {% endif %}
-
+	{% if community.meetings.count %}
 		{% for i in community.meetings.all %}
 		<li>
 			{% if object == i %} <div class="pull-right" style="width: 15px;"><span class="active_meeting pull-right"></span></div>{% endif %}
@@ -34,6 +34,7 @@
 			</a>
 		</li>
 		{% endfor %}
+	{% endif %}
 	</ul>
 </div>
 
@@ -61,7 +62,7 @@
         $('input.issue-search').bind('input', function() {
             searchIssues($(this).val().trim(), $(this));
         });
-    })
+    });
 </script>
 {% block additional_scripts %}{% endblock %}
 {% endblock %}

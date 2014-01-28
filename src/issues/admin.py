@@ -141,4 +141,5 @@ class ProposalAdmin(admin.ModelAdmin):
 site.register(models.Issue, IssueAdmin)
 site.register(models.Proposal, ProposalAdmin)
 site.register(models.ProposalVote)
+site.register(models.VoteResult)
 site.register(models.IssueComment, IssueCommentAdmin)
