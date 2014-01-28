@@ -1,7 +1,7 @@
 {% load i18n %}
 {% trans 'Hello' %} {{ recipient_name|default:'' }},
 
-{% blocktrans with u=object.created_by.display_name c=object.community.name %}This invitation is from {{u}} to join {{c}}.{% endblocktrans %}
+{% blocktrans with u=object.created_by.display_name c=object.community.name %}This invitation is from {{u}} to join {{c|safe}}.{% endblocktrans %}
 {% if object.message %}
 {{object.message}}
 {% endif %}

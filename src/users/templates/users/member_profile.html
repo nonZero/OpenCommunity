@@ -22,7 +22,9 @@ id="member-profile"
 	</p>
 	<h2>{% trans "Meetings participation" %}</h2>
 	<canvas class="pull-left" id="participationChart" height="40px" width="40px"></canvas>
-	<p>{{ object.meetings_participation_percantage }}%<br />{{ object.meetings_participation }} {% trans "Out of" %} {{ object.total_meetings }}</p>
+	{% if object.total_meetings.count %}
+		<p>{{ object.meetings_participation_percantage }}%<br />{{ object.meetings_participation }} {% trans "Out of" %} {{ object.total_meetings }}</p>
+	{% endif %}
 </div>
 <div class="col-xs-12 col-md-4">
 	<h2>{% trans "Tasks" %}</h2>
