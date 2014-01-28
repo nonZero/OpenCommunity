@@ -125,7 +125,7 @@
                                 {% trans "Accepted Proposals" %}
                             </h4>
                             <ul>
-                                {% for p in a.accepted_proposals.all %}
+                                {% for p in a.accepted_proposals.all|dictsortreversed:"created_at" %}
                                     <li style="padding:2px 0">
                                         {% if community.allow_links_in_emails %}
                                         <a href="{{base_url}}{{p.get_absolute_url}}">
@@ -159,7 +159,7 @@
                                 {% trans "Rejected Proposals" %}
                             </h4>
                             <ul>
-                                {% for n in a.rejected_proposals.all %}
+                                {% for n in a.rejected_proposals.all|dictsortreversed:"created_at" %}
                                     <li style="padding:2px 0">
                                         {% if community.allow_links_in_emails %}
                                         <a href="{{base_url}}{{n.get_absolute_url}}">
