@@ -397,8 +397,8 @@ class ProposalDetailView(ProposalMixin, DetailView):
         show_to_board =  group == DefaultGroups.BOARD
         show_to_chairman = group == DefaultGroups.CHAIRMAN and \
                            o.status != o.statuses.IN_DISCUSSION and \
-                          (self.issue.is_current or o.decided_at_meeting) 
-        
+                          (self.issue.is_current or o.decided_at_meeting is not None) 
+
         show_board_vote_result = show_to_member or show_to_board or show_to_chairman
 
         context['res'] = o.get_straw_results()
