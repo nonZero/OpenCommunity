@@ -429,7 +429,7 @@ ul li.issue.oc_li a.addremove {
 #ordered li .grab {
     width: 60px;
     /*height: 45px;*/
-    background: url('images/drag-handle-white.png') #3d3c3c center no-repeat;
+    background: url('images/drag-handle-white.png') #999999 center no-repeat;
     float: right;
     cursor: move;
     position: absolute;
@@ -446,7 +446,7 @@ ul li.issue.oc_li a.addremove {
     height: 45px;
 	padding-top: 10px;
 	padding-bottom: 10px;
-	background: #3d3c3c;
+	background: #999999;
 	color: #fff;
 	text-align: center;
 	font-size: 16px;
