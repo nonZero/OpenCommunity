@@ -213,6 +213,7 @@ class Invitation(models.Model):
                                    verbose_name=_("Created by"),
                                    related_name="invitations_created")
 
+    name = models.CharField(_("Name"), max_length=200, null=True, blank=True)
     email = models.EmailField(_("Email"))
     message = models.TextField(_("Message"), null=True, blank=True)
 
