@@ -9,4 +9,4 @@
 {{base_url}}{{object.get_absolute_url}}
 {% blocktrans %}(Or copy the url above to your browser){% endblocktrans %}
 
-{% blocktrans %}Once registered you will be able to enter{% endblocktrans %} www.opencommunity.org.il
+{% blocktrans %}Once registered you will be able to enter{% endblocktrans %} www.demos.org.il

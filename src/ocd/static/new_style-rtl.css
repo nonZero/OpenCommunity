@@ -23,6 +23,19 @@
 	width: 98%;
 }
 
+.issue_header_history {
+	padding: 10px 15px;
+	margin-left: 2%;
+	border-top: 1px solid #d4d5c8;
+	border-right: 1px solid #d4d5c8;
+	border-left: 1px solid #d4d5c8;
+	background-color: #f5f6de;
+	/*width: 98%;*/
+}
+.issue_header_history a {
+	color: #666;
+	text-decoration: none;
+}
 .issue_main {
 	padding: 0 2% 0 0;
 	border-right: 1px solid #a3a3a3;
@@ -70,6 +83,61 @@
 	background: #e6e7c8;
 }
 
+.proposal_history_inner {
+	display: table;
+	background: #ffffff;
+	border: 1px solid #e2e2e2;
+	margin-bottom: 0;
+	padding: 0;
+	width: 100%;
+	list-style-type: none;
+}
+.proposal_history_inner:last-child {
+	margin-bottom: -20px;
+}
+.proposal-header {
+	padding: .7em 15px 0 15px;
+	word-break: break-word;
+	font-weight: bold;
+}
+.proposal-footer {
+	padding: 0 15px .7em 15px;
+	word-break: break-word;
+	font-weight: bold;
+}
+.proposal-undecided {
+	padding: 15px;
+	word-break: break-word;
+	font-weight: bold;
+}
+.proposal_history_inner li {
+	color: #666;
+}
+.proposal_history_inner a {
+	display: block;
+	color: #6c6c6e;
+	font-size: 15px;
+	text-decoration: none;
+	overflow: hidden;
+	word-break: break-word;
+}
+.proposal_history_main {
+	padding: 0 2% 0 0;
+	border-right: 1px solid #d4d5c8;
+	border-bottom: 1px solid #d4d5c8;
+	background: #f5f6de;
+}
+.history_inner {
+	margin-bottom: 40px;
+} 
+.history_inner:last-child {
+	margin-bottom: 0;
+}
+.proposal-icon {
+	display: table-cell;
+	width: 40px;
+	background-color: #cacccd;
+}
 #issue_frame .meeting_header {
 	padding: 0 2% 0 0;
   background: none;

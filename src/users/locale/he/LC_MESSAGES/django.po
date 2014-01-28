@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-21 21:09+0200\n"
-"PO-Revision-Date: 2014-01-21 21:12+0200\n"
+"PO-Revision-Date: 2014-01-28 11:23+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -215,7 +215,7 @@ msgstr "או העתק כתובת זו לדפדפן"
 
 #: .\templates\emails\invitation.txt.py:12
 msgid "Once registered you will be able to enter"
-msgstr "אחרי ההרשמה תוכל להכנס ישירות ל"
+msgstr "אחרי ההרשמה ניתן להכנס ישירות ל"
 
 #: .\templates\users\_invitation.html.py:6
 msgid "Delete"
