@@ -18,14 +18,12 @@ id="issue-list"
             <li><a href="#my_vote" data-toggle="tab">{% trans "My vote" %}</a></li>
         {% endif %}
         <li><a href="#by_rank" data-toggle="tab">{% trans "By rank" %}</a></li>
+        {% if user.id and cperms.issues.add_issue %}
+            <li class="pull-right btn-tab">
+                <a href="{% url "issue_create" community.id %}" class="btn btn-oc" data-rel="form"> <i class="fa fa-plus"></i><span> {% trans "Create Issue" %}</span></a>
+            </li>
+        {% endif %}
     </ul>
-    {% endif %}
-	{% if user.id and cperms.issues.add_issue %}
-	<div class="one_action_icon{% if community.issue_ranking_enabled %}"{% else %} col-xs-2 pull-right" style="width: auto;line-height: 1;"{% endif %}>
-		<a href="{% url "issue_create" community.id %}" class="btn btn-oc" data-rel="form"> <i class="fa fa-plus"></i><span> {% trans "Create Issue" %}</span></a>
-	</div>
-	{% endif %}
-    {% if community.issue_ranking_enabled %}
     <div class="tab-content clearfix" style="clear: both; padding-top: 10px;">
         <div id="by_time" class="tab-pane"> 
             <div class="row">
@@ -91,6 +89,11 @@ id="issue-list"
         </div>    
     </div>
     {% else %}
+         {% if user.id and cperms.issues.add_issue and not community.issue_ranking_enabled %}
+                <div class="one_action_icon col-xs-2 pull-right" style="width: auto;line-height: 1;">
+                        <a href="{% url "issue_create" community.id %}" class="btn btn-oc" data-rel="form"> <i class="fa fa-plus"></i><span> {% trans "Create Issue" %}</span></a>
+                </div>
+        {% endif %}
         <div id="by_time"> 
             <div class="row">
                 <div class="form-group {% if community.issue_ranking_enabled %}col-xs-12{% else %}col-xs-8 col-sm-10 pull-left{% endif %}">

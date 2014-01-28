@@ -106,7 +106,17 @@
 	padding: 0 2% 0 0;
 	background: #f5f6de;
 }
-
+.nav-tabs > li.btn-tab > a {
+        color: #fff;
+        font-size: 14px !important;
+}
+li.btn-tab span {
+        display: none;
+}
+.nav-tabs > li.btn-tab > a:hover, .nav-tabs > li.btn-tab > a:focus {
+        background-color: #194e5c;
+        border-color: #194e5c;
+}
 .proposal_left_column_inner {
 	/*border: 1px solid #e2e2e2;*/
 	background-color: #FFFFFF;
@@ -339,6 +349,9 @@ h5 {
 	.one_action_icon span {
 		display: inline;
 	}
+ li.btn-tab span {
+    display: inline;
+ }
 }
 @media (min-width: 768px) {
 	.proposal_right_column {
