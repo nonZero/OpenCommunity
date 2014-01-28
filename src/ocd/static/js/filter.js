@@ -63,6 +63,8 @@ $(function () {
         }).trigger('hashchange');
 
     } else {
+        $('.filter').addClass('on');
+        $('.filter-subtitle').hide();
         toggleTitles();
     }
     $('body').on('ocd.show', function () {
