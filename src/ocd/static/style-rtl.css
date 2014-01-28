@@ -271,19 +271,29 @@ nav.oc_navbar {
 	background: transparent;
 /*	margin-bottom: 0;*/
 }
+
 .navbar {
-	min-height: 35px;
-	margin: 0 20px;
-	border-top: 0;
-	border-right: 0;
-	border-left: 0;
-	border-bottom: 4px double #666666;
+        min-height: 35px;
+        margin: 0 20px;
+        border-top: 0;
+        border-right: 0;
+        border-left: 0;
+        border-bottom: 4px double #666666;
 }
 .nav > li > a {
-	padding: 10px 15px;
+        padding: 10px 15px;
 }
 #issue-list .nav > li > a {
-	padding: 10px;
+        padding: 10px;
+}
+#issue-list  .nav-tabs > li.active > a,
+#issue-list  .nav-tabs > li.active > a:hover,
+#issue-list  .nav-tabs > li.active > a:focus {
+        color: #fff;
+        background-color: #555555;
+}
+#issue-list  .nav-tabs > li > a {
+        font-size: 14px;
 }
 #issue-list  .nav-tabs > li.active > a,
 #issue-list  .nav-tabs > li.active > a:hover,
@@ -295,27 +305,28 @@ nav.oc_navbar {
 	font-size: 14px;
 }
 .navbar-toggle {
-	margin-top: 4px;
-	margin-bottom: 4px;
+        margin-top: 4px;
+        margin-bottom: 4px;
 }
 .navbar-brand {
-	padding: 10px 15px;
+        padding: 10px 15px;
 }
 .navbar-default .navbar-brand {
-	font-size: 16px;
-	font-weight: bold;
-	color: #666;
+        font-size: 16px;
+        font-weight: bold;
+        color: #666;
 }
 .just_slash {
-	padding: 10px 0;
+        padding: 10px 0;
 }
 .navbar-default .navbar-collapse {
-	/*background-image: -webkit-linear-gradient( top, #fcfcfc, #e7e7e8 );*/
-	background-color: transparent;
+        /*background-image: -webkit-linear-gradient( top, #fcfcfc, #e7e7e8 );*/
+        background-color: transparent;
 }
 .navbar-default .navbar-nav > li > a {
-	color: #333333;
+        color: #333333;
 }
+
 .oc_menu {
 	border: 0;
 	width: 32px;
