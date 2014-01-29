@@ -387,19 +387,32 @@ class ProposalDetailView(ProposalMixin, DetailView):
         context = super(ProposalDetailView, self).get_context_data(**kwargs)
         m_id = self.request.GET.get('m_id', None)
         o = self.get_object()
+        
+        if m_id:
+            context['meeting_context'] = get_object_or_404(Meeting, id=m_id)
+            participants = context['meeting_context'].participants.all()
+        else:
+            context['meeting_context'] = None
+            participants = o.issue.community.upcoming_meeting_participants.all()
+
+         
+        board_votes_count = ProposalVote.objects.filter(proposal=o, 
+                                        user_id__in=[p.id for p in participants]).count()
         try:
             group = self.request.user.memberships.get(community=self.issue.community).default_group_name
         except:
             group = ""
-        show_to_member = group == DefaultGroups.MEMBER and o.decided and \
-                        (self.issue.community.upcoming_meeting_is_published or \
-                         o.decided_at_meeting)
-        show_to_board =  group == DefaultGroups.BOARD
-        show_to_chairman = group == DefaultGroups.CHAIRMAN and \
-                           (o.status != o.statuses.IN_DISCUSSION or \
-                             m_id) 
 
-        show_board_vote_result = show_to_member or show_to_board or show_to_chairman
+        is_current = o.issue.is_current
+        show_to_member = group == DefaultGroups.MEMBER and o.decided and \
+                         o.decided_at_meeting
+        show_to_board = group == DefaultGroups.BOARD and \
+                                 (is_current or o.decided_at_meeting)
+        show_to_chairman = group == DefaultGroups.CHAIRMAN and \
+                           (o.decided or m_id) 
+
+        show_board_vote_result = board_votes_count and \
+                                  (show_to_member or show_to_board or show_to_chairman)
         context['res'] = o.get_straw_results()
 
         results = VoteResult.objects.filter(proposal=o) \
@@ -415,15 +428,11 @@ class ProposalDetailView(ProposalMixin, DetailView):
             else:
                 context['meeting'] = None
 
-        if m_id:
-            context['meeting_context'] = get_object_or_404(Meeting, id=m_id)
-        else:
-            context['meeting_context'] = None
 
         context['issue_frame'] = self.request.GET.get('s', None)
         context['show_board_vote_result'] = show_board_vote_result 
-        context['board_vote_active'] = group == DefaultGroups.CHAIRMAN and \
-                                        not m_id and not o.decided 
+        context['chairman_can_vote'] = is_current and not o.decided and not m_id
+        
         return context
 
     def post(self, request, *args, **kwargs):

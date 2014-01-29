@@ -107,3 +107,19 @@ def nutral_votes(proposal):
         return 'undefined'
     votes = proposal.votes_pro + proposal.votes_con
     return proposal.community_members - votes
+
+
+@register.filter
+def board_votes_in_meeting(proposal, meeting_id):
+    if meeting_id != '0':
+        try:
+          meeting = Meeting.objects.get(id=meeting_id)
+        except Meeting.DoesNotExist:
+            return 0
+        participants = meeting.participants.all()
+    else:
+        participants = proposal.issue.community.upcoming_meeting_participants.all()
+
+    votes = ProposalVote.objects.filter(proposal=self, 
+                                        user_id__in=[p.id for p in participants]).count()
+    return votes

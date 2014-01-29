@@ -262,15 +262,11 @@ class Community(UIDMixin):
         if only_when_over and time_till_close.total_seconds() > 0:
             return
         
-        un_summed_proposals = issues_models.Proposal.objects.filter(
+        proposals_to_sum = issues_models.Proposal.objects.filter(
                         # votes_pro=None,
-                        status=ProposalStatus.IN_DISCUSSION,
-                        issue__status=IssueStatus.IN_UPCOMING_MEETING,
                         issue__community_id=self.id)
-        if un_summed_proposals.count() == 0:
-            return
         member_count = self.get_members().count()
-        for prop in un_summed_proposals:
+        for prop in proposals_to_sum:
             prop.do_votes_summation(member_count)
 
     def _register_absents(self, meeting, meeting_participants):

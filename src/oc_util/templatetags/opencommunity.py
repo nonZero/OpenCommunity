@@ -10,8 +10,7 @@ from django.utils.safestring import mark_safe
 from django.utils.timezone import is_aware, utc
 from django.utils.translation import pgettext, ungettext, ugettext as _, \
     ungettext, ugettext
-from issues.models import ProposalVote
-
+from issues.models import ProposalVote, ProposalVoteValue
 register = template.Library()
 
 
@@ -187,6 +186,16 @@ def users_by_vote(proposal, val):
     res = ProposalVote.objects.filter(proposal=proposal, value=vote)
     return [v.user for v in res]
 
+"""
+def board_vote(proposal, val, participants):
+    voter_ids = ProposalVote.objects.filter(proposal=proposal) \
+                .values_list('user', flat=True)
+    non_voters = [u for u in participants.all() if u.id not in voter_ids]
+    res = ProposalVote.objects.filter(proposal=proposal, 
+                                      user__in=participants) \
+                                      .exclude(value=.values_list('id', flat=True))
+    return [v.user for v in res]
+"""
 
 @register.filter
 def upcoming_participants_by_vote(proposal, val):
@@ -204,3 +213,9 @@ def upcoming_participants_by_vote(proposal, val):
     res = ProposalVote.objects.filter(proposal=proposal, value=vote, 
                             user_id__in=participants.values_list('id', flat=True))
     return [v.user for v in res]
+
+"""
+@register.simple_tag
+def board_votes_in_meeting(proposal, meeting_id):
+    meeting = get_object_or_404(Meeting, id=meeting_id)
+"""

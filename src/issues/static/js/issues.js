@@ -91,7 +91,7 @@ function init_user_autocomplete(ac_url) {
 }
 
 function searchIssues(term, inp) {
-    var context = inp.closest('.tab-pane');
+    var context = inp.closest('[id^="by_"]');
     $(".issue-table tr", context).each(function() {
         $(this).toggle(!term || $('a', $(this)).text().indexOf(term) > 0);
     });
