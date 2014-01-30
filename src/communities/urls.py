@@ -28,6 +28,9 @@ urlpatterns = patterns('',
         views.EditUpcomingMeetingParticipantsView.as_view(),
         name="upcoming_edit_participants"),
 
+    url(r'^upcoming/participants/delete-participant/(?P<participant_id>\d+)/$', views.DeleteParticipantView.as_view(), 
+        name="delete_participant"),
+
     # FOR TESTING ONLY!
     url(r'^upcoming/sum_votes/$', views.SumVotesView.as_view(), name="sum_votes"),
         

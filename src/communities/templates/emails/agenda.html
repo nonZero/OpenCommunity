@@ -14,7 +14,7 @@
     	</div>
     	{% endif %}
         <h1 style="margin:0 0 1em 0; text-align: center; padding: 4px">
-            {{community}}{% if community.official_identifier %} {{ community.official_identifier }}{% endif %}
+            {{community}} - {{ community.board_name }} {% if community.official_identifier %} <br/> {{ community.official_identifier }}{% endif %}
         </h1>
         <h1 style="margin:0; background: #ddd;padding: 4px"
         >{% trans "Agenda" %}
@@ -36,7 +36,7 @@
                     {% endif %}
                 </i>
             </p>
-            <p>
+            <p style="height: 18px;">
                 {% if community.allow_links_in_emails %}
                   {% if community.has_straw_votes %}
                       <a href="{{base_url}}{{community.get_absolute_url}}">{% trans "Enter site and vote on proposals" %}</a>
@@ -112,7 +112,7 @@
                                     {% trans "Proposals" %}
                                 </h4>
                                 <ul>
-                                    {% for p in i.active_proposals.all %}
+                                    {% for p in i.active_proposals.all|dictsort:"created_at" %}
                                         {% if not p.decided %}
                                         <li style="padding:2px 0">
                                             {% if community.allow_links_in_emails %}

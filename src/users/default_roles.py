@@ -59,6 +59,7 @@ class DefaultRoles(object):
                            'community.editsummary_community', # ???
                            'community.invite_member',
                            'issues.move_to_referendum',
+                           'issues.proposal_board_vote',
                           ]
 
     permissions[DECIDER] = permissions[OPERATOR] + [

@@ -99,3 +99,12 @@ def subtract(value, arg):
     if arg is None:
         return value
     return value - arg
+
+
+@register.filter
+def nutral_votes(proposal):
+    if proposal.votes_pro is None:
+        return 'undefined'
+    votes = proposal.votes_pro + proposal.votes_con
+    return proposal.community_members - votes
+

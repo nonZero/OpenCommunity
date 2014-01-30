@@ -23,7 +23,7 @@
     <body {% block extra-page-id %}{% endblock %}>
         <div class="notmodal">
             {% include '_navbar.html' %}
-            <div class="container">
+            <div class="container main-page">
                 <div class="row">
                     {% if messages %}
                     <div class="col-xs-12">
@@ -40,9 +40,6 @@
                         <h2>
                             {% block page_header %}{% trans "Page Title" %}{% endblock %}
                         </h2>
-                        <div class="btn-group btn-group-justified">
-                            {% block pagemenu %}{% endblock %}
-                        </div>
                         {% block content %}
                         {% endblock %}
                     </div>
@@ -80,8 +77,13 @@
             <script src="{{STATIC_URL}}bootstrap-wysihtml5/locales/bootstrap-wysihtml5.he-IL.js"></script>
         {% endif %}
         {% block scripts %}
-
         {% endblock %}
+        <script>
+            $(function(){
+                $('.main-page').show();
+                $('body').trigger('ocd.show');
+            })
+        </script>
 
     </body>
 </html>

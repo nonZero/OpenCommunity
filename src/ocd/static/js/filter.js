@@ -4,45 +4,73 @@
  * Toggles visibilty for titles with no "child" elements.
  */
 function toggleTitles() {
-    $('.filter-title').each(function() {
-        $(this).toggle($(this).next().find('.filter:visible').length > 0);
+    $('.filter-title').each(function () {
+        $(this).toggle($(this).next().find('.filter.on').length > 0);
     });
 }
 
 function setHeight() {
-	var Issues = $('.issue_right_column').outerHeight();
-	var Issue = $('.issue_left_column').outerHeight();
-  // console.log('----------> ' + Issues + ' , ' + Issue)
-	if (Issues > Issue) {
-		$('.issue_left_column').outerHeight(Issues+20);
-	};
+    $('.issue_left_column').css('height', 'auto');
+    if (!$('.issue_right_column').is(":visible")) {
+        return;
+    }
+    var issues_h = $('.issue_right_column').outerHeight();
+    var frame_h = $('.issue_left_column').outerHeight();
+    var inner_h = $('.issue_left_column_inner').outerHeight();
+    if ((inner_h > frame_h) || (issues_h > frame_h)) {
+        $('.issue_left_column').outerHeight(Math.max(inner_h, issues_h) + 20);
+    }
 }
 
-$(function() {
+$(function () {
 
-    $(document).on('click.filter.data-api', '[data-toggle=filter]', function(e) {
+    var doFilter = function(el) {
 
-        var $this = $(this);
-
-        var root = $this.closest('[data-filter]');
+        var root = el.closest('[data-filter]');
         root.find('li').removeClass('active');
-        $this.parent('li').addClass('active');
-        $this.closest('li.dropdown').addClass('active');
-        if ($this.data('show')) {
+        el.parent('li').addClass('active');
+        el.closest('li.dropdown').addClass('active');
+        if (el.data('show')) {
             $(root.data('filter')).hide().removeClass('on');
-            $($this.data('show')).show().addClass('on');
+            $(el.data('show')).show().addClass('on');
         } else {
             $(root.data('filter')).show().addClass('on');
         }
-        if ($this.data('hide')) {
-            $($this.data('hide')).hide().removeClass('on');
+        if (el.data('hide')) {
+            $(el.data('hide')).hide().removeClass('on');
         }
 
         toggleTitles();
         setHeight();
+    };
 
+    var filters = {};
+    $('[data-toggle=filter]').each(function() {
+        filters[$(this).attr('href')] = $(this);
+    });
+    if (Object.keys(filters).length > 1) {
+
+        var hash = '#' + window.location.hash.replace(/^#/,'');
+        if (hash == '#') {
+           window.location.hash = '#upcoming' in filters ? '#upcoming' : '#all';
+        }
+
+        $(window).bind('hashchange', function() {
+            var hash = '#' + window.location.hash.replace(/^#/,'');
+            if (hash in filters) {
+                doFilter(filters[hash]);
+            }
+        }).trigger('hashchange');
+
+    } else {
+        $('.filter').addClass('on');
+        $('.filter-subtitle').hide();
+        toggleTitles();
+    }
+    $('body').on('ocd.show', function () {
+        setHeight();
     });
 
-    toggleTitles();
-    setHeight();
+    $(window).resize(setHeight);
+
 });

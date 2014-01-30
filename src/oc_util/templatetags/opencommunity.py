@@ -1,4 +1,7 @@
 from __future__ import unicode_literals
+
+import datetime
+
 from django import template
 from django.template import defaultfilters
 from django.template.defaultfilters import stringfilter
@@ -7,8 +10,7 @@ from django.utils.safestring import mark_safe
 from django.utils.timezone import is_aware, utc
 from django.utils.translation import pgettext, ungettext, ugettext as _, \
     ungettext, ugettext
-import datetime
-
+from issues.models import ProposalVote, ProposalVoteBoard, ProposalVoteValue
 register = template.Library()
 
 
@@ -165,3 +167,56 @@ def minutes_strict(value):
         return value
 
     return "%02d:%02d" % (value / 60, value % 60) if value else "?"
+
+
+    return [v.user for v in res]
+
+"""
+def board_vote(proposal, val, participants):
+    voter_ids = ProposalVoteBoard.objects.filter(proposal=proposal) \
+                .values_list('user', flat=True)
+    non_voters = [u for u in participants.all() if u.id not in voter_ids]
+    res = ProposalVoteBoard.objects.filter(proposal=proposal) \
+                                      .values_list('id', flat=True))
+    return [v.user for v in res]
+"""
+
+def board_voters_on_proposal(proposal):
+    if proposal.decided_at_meeting:
+        participants = proposal.decided_at_meeting.participants.all()
+    else:
+        participants = proposal.issue.community.upcoming_meeting_participants.all()
+    
+    return participants 
+
+
+@register.filter
+def board_votes_count(p):
+    return len(board_voters_on_proposal(p))
+
+
+@register.filter
+def participants_by_vote(p, val):
+    participants = board_voters_on_proposal(p)
+    
+    if val == 'neut':
+        ret = []
+        voter_ids = ProposalVoteBoard.objects.filter(proposal=p) \
+                    .exclude(value=ProposalVoteValue.NEUTRAL) \
+                    .values_list('user', flat=True)
+        return [u for u in participants if u.id not in voter_ids]
+    
+    elif val == 'pro':
+        vote = 1
+    elif val == 'con':
+        vote = -1 
+    res = ProposalVoteBoard.objects.filter(proposal=p, value=vote, 
+                            user_id__in=participants.values_list('id', flat=True))
+    
+    return [v.user for v in res]
+
+"""
+@register.simple_tag
+def board_votes_in_meeting(proposal, meeting_id):
+    meeting = get_object_or_404(Meeting, id=meeting_id)
+"""

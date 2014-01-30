@@ -77,10 +77,17 @@ function init_user_autocomplete(ac_url) {
 
     $("[id$='assigned_to']").typeahead({
         prefetch : ac_url,
+        cache: false,
         remote : ac_url + '?q=%QUERY',
         engine : Hogan,
         template : tpl
     }).css('background-color', '#fff');
+
+   $("[id$='assigned_to']").on('typeahead:selected', function (object, datum) {
+        // console.log(datum);
+        $("[id$='assigned_to_user']").val(datum['user__id']);      
+        
+  });
 }
 
 function searchIssues(term, inp) {

@@ -43,7 +43,7 @@ h2 {
 .oc_detail_top h5 span {
 	font-weight: normal;
 }
-.loader {
+.loader, .main-page {
     display:none;
 }
 .loader img {
@@ -64,6 +64,10 @@ p > a {
 }
 .container {
 	margin-bottom: 30px;
+}
+
+.userhtml a, .oc_li a {
+	word-break: break-word;
 }
 
 /* Errors */
@@ -219,8 +223,13 @@ ul.errorlist li {
     margin: 1.5em auto;
 }
 .one_action_icon {
-    max-width: 200px;
-    margin: 0 auto;
+	width: 40px;
+	display: inline-block;
+	vertical-align: top;
+	line-height: 42px;
+}
+.one_action_icon span {
+	display: none;
 }
 .btn-group-justified {
 	margin-bottom: 10px;
@@ -262,42 +271,62 @@ nav.oc_navbar {
 	background: transparent;
 /*	margin-bottom: 0;*/
 }
+
 .navbar {
-	min-height: 35px;
-	margin: 0 20px;
-	border-top: 0;
-	border-right: 0;
-	border-left: 0;
-	border-bottom: 4px double #666666;
+        min-height: 35px;
+        margin: 0 20px;
+        border-top: 0;
+        border-right: 0;
+        border-left: 0;
+        border-bottom: 4px double #666666;
 }
 .nav > li > a {
-	padding: 10px 15px;
+        padding: 10px 15px;
 }
 #issue-list .nav > li > a {
-	padding: 10px;
+        padding: 10px;
+}
+#issue-list  .nav-tabs > li.active > a,
+#issue-list  .nav-tabs > li.active > a:hover,
+#issue-list  .nav-tabs > li.active > a:focus {
+        color: #fff;
+        background-color: #555555;
+}
+#issue-list  .nav-tabs > li > a {
+        font-size: 14px;
+}
+#issue-list  .nav-tabs > li.active > a,
+#issue-list  .nav-tabs > li.active > a:hover,
+#issue-list  .nav-tabs > li.active > a:focus {
+	color: #fff;
+	background-color: #555555;
+}
+#issue-list  .nav-tabs > li > a {
+	font-size: 14px;
 }
 .navbar-toggle {
-	margin-top: 4px;
-	margin-bottom: 4px;
+        margin-top: 4px;
+        margin-bottom: 4px;
 }
 .navbar-brand {
-	padding: 10px 15px;
+        padding: 10px 15px;
 }
 .navbar-default .navbar-brand {
-	font-size: 16px;
-	font-weight: bold;
-	color: #666;
+        font-size: 16px;
+        font-weight: bold;
+        color: #666;
 }
 .just_slash {
-	padding: 10px 0;
+        padding: 10px 0;
 }
 .navbar-default .navbar-collapse {
-	/*background-image: -webkit-linear-gradient( top, #fcfcfc, #e7e7e8 );*/
-	background-color: transparent;
+        /*background-image: -webkit-linear-gradient( top, #fcfcfc, #e7e7e8 );*/
+        background-color: transparent;
 }
 .navbar-default .navbar-nav > li > a {
-	color: #333333;
+        color: #333333;
 }
+
 .oc_menu {
 	border: 0;
 	width: 32px;
@@ -411,7 +440,7 @@ ul li.issue.oc_li a.addremove {
 #ordered li .grab {
     width: 60px;
     /*height: 45px;*/
-    background: url('images/drag-handle-white.png') #3d3c3c center no-repeat;
+    background: url('images/drag-handle-white.png') #999999 center no-repeat;
     float: right;
     cursor: move;
     position: absolute;
@@ -428,7 +457,7 @@ ul li.issue.oc_li a.addremove {
     height: 45px;
 	padding-top: 10px;
 	padding-bottom: 10px;
-	background: #3d3c3c;
+	background: #999999;
 	color: #fff;
 	text-align: center;
 	font-size: 16px;
@@ -681,7 +710,7 @@ table.issue-table {
 	vertical-align: middle;
 }
 .issue-table tbody tr td.issue_title a {
-	color: #666;
+	color: #333;
 	font-size: 18px;
 	display: block;
 }
@@ -747,7 +776,7 @@ table.issue-table tr td.issue_date {
 	width: 60px;
 	padding-top: 14px;
 	padding-bottom: 14px;
-	background: #3d3c3c;
+	background: #999999;
 	text-align: center;
 	font-size: 16px;
 	vertical-align: middle;
@@ -858,18 +887,16 @@ ul.proposals li.prop-content p {
 	margin: 7px;*/
 }
 #proposal-detail .accepted {
-	/*position: absolute;
-	top: 0;
-	left: 0;*/
 	font-size: 14px;
-	/*padding: 10px;*/
+}
+#proposal-detail .accepted .fa {
+	color: #a4cb53;
 }
 #proposal-detail .rejected {
-	/*position: absolute;
-	top: 0;
-	left: 0;*/
 	font-size: 14px;
-	/*padding: 10px;*/
+}
+#proposal-detail .rejected .fa {
+	color: #d95e59;
 }
 #proposal-detail .accepted a:hover,
 #proposal-detail .rejected a:hover {
@@ -921,6 +948,9 @@ ul.proposals li.prop-content p {
 .comment-inner {
 	color: #6c6c6e;
 	font-size: 14px;
+}
+.comment-inner a {
+	word-break: break-all;
 }
 .comment-inner p {
 	margin-bottom: 0;
@@ -1265,6 +1295,9 @@ form.delete-invitation {
 		margin: 0 40px 0 125px;
 		padding-right: 0;
 		padding-left: 0;
+	}
+	#issue-list .nav-tabs > li > a {
+		font-size: 18px;
 	}
 
 }

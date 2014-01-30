@@ -86,6 +86,9 @@ class Meeting(UIDMixin):
         return s
         #return date_format(self.scheduled_at) + ", " + time_format(self.scheduled_at)
 
+    def get_active_issues(self):
+        return [ai.issue for ai in self.agenda.all() if ai.issue.active]
+
     def get_guest_list(self):
         if not self.guests:
             return []
@@ -113,6 +116,7 @@ class MeetingParticipant(models.Model):
     default_group_name = models.CharField(_('Group'), max_length=50,
                                           choices=DefaultGroups.CHOICES,
                                           null=True, blank=True)
+    is_absent = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = _("Meeting Participant")

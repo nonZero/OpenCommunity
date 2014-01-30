@@ -12,47 +12,64 @@ id="issue-detail"
 {% endblock %}
 
 {% block content %}
+{% if not all_issues %}
 <div class="meeting_header">
     {% if meeting %}
         <a class="three_dot_sentence level1" href="{{meeting.get_absolute_url}}">{% if meeting.title %}{{ meeting.title }} / {% endif %}{{ meeting.held_at|date:"j F Y" }}</a>
     {% else %}
-        <a class="three_dot_sentence level1" href="{{object.community.get_upcoming_absolute_url}}">{{object.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}{% if object.community.upcoming_meeting_title and object.community.upcoming_meeting_scheduled_at %} / {% endif %}{{object.community.upcoming_meeting_scheduled_at|date:"j F Y"}}</a>
+        <a class="three_dot_sentence level1" href="{{object.community.get_upcoming_absolute_url}}">{{object.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}{% if object.community.upcoming_meeting_scheduled_at %} / {{object.community.upcoming_meeting_scheduled_at|date:"j F Y"}}{% endif %}</a>
     {% endif %}
 </div>
+{% endif %}
 
-<div class="issue_main clearfix">
+<div class="{% if all_issues %}issue_main_siblings{% else %}issue_main{% endif %} clearfix">
     <div class="issue_right_column col-sm-3 hidden-xs">
-        <ul class="issues_list">
-            {% if meeting %}
-                {% for ai in meeting.agenda.all %}
+        {% if all_issues %}
+            <h2>{% trans "Issues" %}</h2>
+            <ul class="meetings_list">
+                {% for i in all_issues %}
                 <li>
-                	{% if object == i %} <div class="pull-right" style="width: 15px;"><span class="active_issue pull-right"></span></div>{% endif %}
-                    <a href="{{ ai.issue.get_absolute_url }}?m_id={{meeting.id}}">{{ ai.issue }}</a>
+                    {% if object == i %}
+                        <div class="pull-right" style="width: 15px;"><span class="active_sibling pull-right"></span></div>
+                    {% endif %}
+                    <a href="{{ i.get_absolute_url }}?s=1">{{ i.title }}</a>
                 </li>
                 {% endfor %}
-            {% else %}
-                {% for i in object.community.upcoming_issues|dictsort:"order_in_upcoming_meeting" %}
-                <li>
-                	{% if object == i %} <div class="pull-right" style="width: 15px;"><span class="active_issue pull-right"></span></div>{% endif %}
-                    <a href="{{ i.get_absolute_url }}">{{ i }}</a>
-                </li>
-                {% endfor %}
-            {% endif %}
-        </ul>
+            </ul>
+        {% else %}
+            <ul class="issues_list">
+                {% if meeting %}
+                    {% for issue in meeting.get_active_issues %}
+                    <li>
+                        {% if object == issue %} <div class="pull-right" style="width: 15px;"><span class="active_issue pull-right"></span></div>{% endif %}
+                        <a href="{{ issue.get_absolute_url }}?m_id={{meeting.id}}">{{ issue }}</a>
+                    </li>
+                    {% endfor %}
+                {% else %}
+                    {% for i in object.community.upcoming_issues|dictsort:"order_in_upcoming_meeting" %}
+                    <li>
+                        {% if object == i %} <div class="pull-right" style="width: 15px;"><span class="active_issue pull-right"></span></div>{% endif %}
+                        <a href="{{ i.get_absolute_url }}">{{ i }}</a>
+                    </li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+
+        {% endif %}
     </div>
 
-    <div class="issue_left_column col-sm-9 col-xs-12{% if object.agenda_items.count %} tabs-margin{% endif %}" style="margin-bottom: -40px;">
+    <div class="issue_left_column col-sm-9 col-xs-12 {% if not object.completed and object.agenda_items.count > 1 %} tabs-margin{% endif %}" style="margin-bottom: -40px;">
         <div class="issue_left_column_inner">
 
             {% with can_straw_vote=object.can_straw_vote %}
 
             {% csrf_token %}
-                {% if object.agenda_items.count %}
+            {% if object.agenda_items.count > 1 or object.agenda_items.count == 1 and not object.completed %}
             <ul data-filter=".filter" class="nav nav-tabs">
 
                 {% if not object.is_archived %}
                     <li{% if not meeting %} class="active"{% endif %}>
-                        <a href="#" data-toggle="filter" data-show=".filter-upcoming">{% trans "Next" %}</a>
+                        <a href="#upcoming" data-toggle="filter" data-show=".filter-upcoming">{% trans "Next" %}</a>
                     </li>
                 {% endif %}
 
@@ -65,7 +82,7 @@ id="issue-detail"
                     <ul class="dropdown-menu" role="menu">
                           {% for ai in object.agenda_items.all reversed %}
                               <li{% if meeting == ai.meeting %} class="active"{% endif %}>
-                                  <a role="menuitem" href="#" data-toggle="filter"
+                                  <a role="menuitem" href="#meeting-{{ai.meeting.id}}" data-toggle="filter"
                                       data-show=".filter-meeting-{{ai.meeting.id}}">
                                       {{ai.meeting.get_title_or_shortdate}}
                                   </a>
@@ -75,7 +92,7 @@ id="issue-detail"
                   </li>
 
                     <li{% if not meeting and object.is_archived %} class="active"{% endif %}>
-                        <a href="#" data-toggle="filter" data-hide=".filter-all">{% trans "All" %}</a>
+                        <a href="#all" data-toggle="filter" data-hide=".filter-all">{% trans "All" %}</a>
                     </li>
                 </ul>
             {% endif %}
@@ -141,7 +158,6 @@ id="issue-detail"
                     );
                 {% endif %}
             {% endfor %}
-
         });
     </script>
 

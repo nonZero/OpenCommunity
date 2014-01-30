@@ -1,27 +1,30 @@
-from communities import models
-from communities.forms import EditUpcomingMeetingForm, \
-    PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm, \
-    EditUpcomingMeetingSummaryForm
-from communities.models import SendToOption
-from users.permissions import has_community_perm 
+import datetime
+import json
+
 from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.db.models.aggregates import Max
 from django.http.response import HttpResponse, HttpResponseBadRequest, \
     HttpResponseRedirect
+from django.shortcuts import render, redirect, render_to_response
 from django.template import RequestContext
 from django.template.loader import render_to_string
-from django.shortcuts import render, redirect, render_to_response
-from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 from django.views.generic import View, ListView
 from django.views.generic.detail import DetailView, SingleObjectMixin
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView, DeleteView
+
+from communities import models
+from communities.forms import EditUpcomingMeetingForm, \
+    PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm, \
+    EditUpcomingMeetingSummaryForm
+from communities.models import SendToOption
 from issues.models import IssueStatus, Issue
+from meetings.models import Meeting
 from ocd.base_views import ProtectedMixin, AjaxFormView
-import datetime
-import json
+from users.permissions import has_community_perm
 
 
 class CommunityList(ListView):
@@ -58,13 +61,20 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
 
     required_permission_for_post = 'community.editagenda_community'
     
-    """
     def get(self, request, *args, **kwargs):
-        if not has_community_perm(request.user, self.community, 'viewupcoming_draft'):
-            return HttpResponseRedirect(reverse('meeting', 
-                                                kwargs={'community_id': self.community.id, 'pk': 26})) 
+        if not has_community_perm(request.user, self.community, 'communities.viewupcoming_draft') \
+           and not self.community.upcoming_meeting_is_published:
+            try:
+                last_meeting = Meeting.objects.filter(community=self.community) \
+                                                       .latest('held_at') 
+                return HttpResponseRedirect(reverse('meeting', 
+                                            kwargs={
+                                           'community_id': self.community.id, 
+                                           'pk': last_meeting.id})) 
+            except Meeting.DoesNotExist:
+                pass
+
         return super(UpcomingMeetingView, self).get(request, *args, **kwargs)
-    """
 
     def post(self, request, *args, **kwargs):
 
@@ -147,6 +157,19 @@ class EditUpcomingMeetingParticipantsView(AjaxFormView, CommunityModelMixin, Upd
 
     form_class = UpcomingMeetingParticipantsForm
     template_name = "communities/participants_form.html"
+
+
+class DeleteParticipantView(CommunityModelMixin, DeleteView):
+
+#     required_permission = ''
+
+    def get(self, request, *args, **kwargs):
+        return HttpResponse("?")
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+        return HttpResponse("OK")
 
 
 class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):
@@ -241,7 +264,10 @@ class ProtocolDraftPreviewView(CommunityModelMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         d = super(ProtocolDraftPreviewView, self).get_context_data(**kwargs)
-        d['meeting_time'] = datetime.datetime.now().replace(second=0)
+        meeting_time = self.community.upcoming_meeting_scheduled_at
+        if not meeting_time:
+            meeting_time =datetime.datetime.now()
+        d['meeting_time'] = meeting_time.replace(second=0)
         return d
 
     
