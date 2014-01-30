@@ -264,6 +264,8 @@ class Community(UIDMixin):
         
         proposals_to_sum = issues_models.Proposal.objects.filter(
                         # votes_pro=None,
+                        status=ProposalStatus.IN_DISCUSSION,
+                        issue__status=IssueStatus.IN_UPCOMING_MEETING,
                         issue__community_id=self.id)
         member_count = self.get_members().count()
         for prop in proposals_to_sum:

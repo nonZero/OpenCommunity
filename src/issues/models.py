@@ -294,7 +294,26 @@ class ProposalVote(models.Model):
     proposal = models.ForeignKey("Proposal", verbose_name=_("Proposal"))
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
                               related_name="votes")
-    value = models.SmallIntegerField(choices=ProposalVoteValue.CHOICES, verbose_name=_("Vote"))
+    value = models.SmallIntegerField(choices=ProposalVoteValue.CHOICES, 
+                                     verbose_name=_("Vote"))
+
+    class Meta:
+        unique_together = (("proposal", "user"),)
+        verbose_name = _("Proposal Vote")
+        verbose_name_plural = _("Proposal Votes")
+
+
+    def __unicode__(self):
+        return "%s - %s" % (self.proposal.issue.title, self.user.display_name)
+
+
+class ProposalVoteBoard(models.Model):
+    proposal = models.ForeignKey("Proposal", verbose_name=_("Proposal"))
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
+                              related_name="board_votes")
+    value = models.SmallIntegerField(choices=ProposalVoteValue.CHOICES, 
+                                     default=ProposalVoteValue.NEUTRAL,
+                                     verbose_name=_("Vote"))
 
     class Meta:
         unique_together = (("proposal", "user"),)
@@ -439,16 +458,17 @@ class Proposal(UIDMixin):
                     return None
 
     @property
-    def members_vote_result(self):
+    def board_vote_result(self):
         total_votes = 0
         votes_dict = { 'sums': {}, 'total': total_votes, 'per_user': {} }
         pro_count = 0
         con_count = 0
         neut_count = 0
+        
         users = self.issue.community.upcoming_meeting_participants.all()
         for u in users:
-            vote = ProposalVote.objects.filter(proposal=self, user=u)
-            if vote.count():
+            vote = ProposalVoteBoard.objects.filter(proposal=self, user=u)
+            if vote.exists():
                 votes_dict['per_user'][u] = vote[0].value
                 if vote[0].value == 1:
                     pro_count += 1
@@ -462,12 +482,14 @@ class Proposal(UIDMixin):
             else:
                 votes_dict['per_user'][u] = 0
                 neut_count += 1
+            
         votes_dict['sums']['pro_count'] = pro_count
         votes_dict['sums']['con_count'] = con_count
         votes_dict['sums']['neut_count'] = neut_count
         votes_dict['total'] = total_votes
         return votes_dict
-                        
+           
+
     def do_votes_summation(self, members_count):
 
         pro_votes = ProposalVote.objects.filter(proposal=self,
@@ -524,7 +546,7 @@ class Proposal(UIDMixin):
 
         
 class VoteResult(models.Model):
-    """ straw vote result """
+    """ straw vote result per proposal, per meeting """
     proposal = models.ForeignKey(Proposal, related_name="results",
                                  verbose_name=_("Proposal"))
     meeting = models.ForeignKey('meetings.Meeting', verbose_name=_("Meeting"))

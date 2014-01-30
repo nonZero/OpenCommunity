@@ -148,7 +148,7 @@
 				</div>
 			</div>
 		</div>
-		{% for key, val in object.members_vote_result.per_user.items %}
+		{% for key, val in object.board_vote_result.per_user.items %}
 			<div class="col-xs-12 clearfix user_vote_line"{% if forloop.last %} style="border-bottom: 1px solid;"{% endif %}>
 				<div class="col-xs-4">
 					{{ key.display_name }}

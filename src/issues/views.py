@@ -16,7 +16,7 @@ from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, 
     UpdateIssueForm, EditProposalTaskForm, AddAttachmentForm, \
     UpdateIssueAbstractForm
 from issues.models import ProposalType, Issue, IssueStatus, ProposalVote, \
-    ProposalVoteValue, VoteResult
+    ProposalVoteBoard, ProposalVoteValue, VoteResult
 from meetings.models import Meeting
 from oc_util.templatetags.opencommunity import minutes
 from ocd.base_views import CommunityMixin, AjaxFormView, json_response
@@ -80,13 +80,13 @@ class IssueDetailView(IssueMixin, DetailView):
             'issues.viewopen_issue'
 
     def get_context_data(self, **kwargs):
-       
         d = super(IssueDetailView, self).get_context_data(**kwargs)
         m_id = self.request.GET.get('m_id', None)
         d['form'] = forms.CreateIssueCommentForm()
         d['proposal_form'] = forms.CreateProposalForm()
         if m_id:
-            d['meeting'] = get_object_or_404(Meeting, id=m_id)
+            d['meeting'] = get_object_or_404(Meeting, id=m_id,
+                                            community=self.community)
         else:
             d['meeting'] = None
 
@@ -389,29 +389,28 @@ class ProposalDetailView(ProposalMixin, DetailView):
         o = self.get_object()
         
         if m_id:
-            context['meeting_context'] = get_object_or_404(Meeting, id=m_id)
+            context['meeting_context'] = get_object_or_404(Meeting, id=m_id,
+                                                    community=self.community)
             participants = context['meeting_context'].participants.all()
         else:
             context['meeting_context'] = None
             participants = o.issue.community.upcoming_meeting_participants.all()
 
          
-        board_votes_count = ProposalVote.objects.filter(proposal=o, 
-                                        user_id__in=[p.id for p in participants]).count()
+        board_votes = ProposalVoteBoard.objects.filter(proposal=o).exclude( \
+                                    value=ProposalVoteValue.NEUTRAL)
         try:
             group = self.request.user.memberships.get(community=self.issue.community).default_group_name
         except:
             group = ""
 
         is_current = o.issue.is_current
-        show_to_member = group == DefaultGroups.MEMBER and o.decided and \
-                         o.decided_at_meeting
+        show_to_member = group == DefaultGroups.MEMBER and o.decided_at_meeting
         show_to_board = group == DefaultGroups.BOARD and \
                                  (is_current or o.decided_at_meeting)
-        show_to_chairman = group == DefaultGroups.CHAIRMAN and \
-                           (o.decided or m_id) 
+        show_to_chairman = group == DefaultGroups.CHAIRMAN and o.decided 
 
-        show_board_vote_result = board_votes_count and \
+        show_board_vote_result = board_votes.count() and \
                                   (show_to_member or show_to_board or show_to_chairman)
         context['res'] = o.get_straw_results()
 
@@ -431,7 +430,7 @@ class ProposalDetailView(ProposalMixin, DetailView):
 
         context['issue_frame'] = self.request.GET.get('s', None)
         context['show_board_vote_result'] = show_board_vote_result 
-        context['chairman_can_vote'] = is_current and not o.decided and not m_id
+        context['chairman_can_vote'] = is_current and not o.decided
         
         return context
 
@@ -528,8 +527,11 @@ class ProposalVoteView(CommunityMixin, DetailView):
         
         if request.POST.get('user'):
             voter_id = request.POST['user']
+            vote_class = ProposalVoteBoard
         else:
             voter_id = request.user.id
+            vote_class = ProposalVote
+
         proposal = self.get_object()
         pid = proposal.id
 
@@ -541,9 +543,8 @@ class ProposalVoteView(CommunityMixin, DetailView):
         elif val == 'con':
             value = ProposalVoteValue.CON
         elif val == 'reset':
-            vote = get_object_or_404(ProposalVote,
+            vote = get_object_or_404(vote_class,
                                      proposal_id=pid, user_id=voter_id)
-
             vote.delete()
             return json_response({
                 'result': 'ok',
@@ -561,15 +562,11 @@ class ProposalVoteView(CommunityMixin, DetailView):
 
         else:
             return HttpResponseBadRequest('vote value not valid')
-
-        if ProposalVote.objects.filter(proposal_id=pid, user_id=voter_id).exists():
-            ProposalVote.objects.filter(proposal_id=pid, user_id=voter_id).update(value=value)
-        else:
-            ProposalVote.objects.create(
-                proposal_id=pid,
-                user_id=voter_id,
-                value=value)
-
+        
+        vote, created = vote_class.objects.get_or_create(proposal_id=pid, 
+                                                         user_id=voter_id)
+        vote.value=value
+        vote.save()
         return json_response({
             'result': 'ok',
             'html': render_to_string('issues/_vote_reset_panel.html',
@@ -588,9 +585,8 @@ class MultiProposalVoteView(CommunityMixin, DetailView):
     required_permission_for_post = 'issues.vote'
     model = models.Proposal
 
-    def post(self, request, *args, **kwargs):
-        
-        voters_id = json.loads(request.POST['users'])
+    def post(self, request, *args, **kwargs): 
+        voter_ids = json.loads(request.POST['users'])
         proposal = self.get_object()
         pid = proposal.id
 
@@ -602,11 +598,8 @@ class MultiProposalVoteView(CommunityMixin, DetailView):
         elif val == 'con':
             value = ProposalVoteValue.CON
         elif val == 'reset':
-            for user_id in voters_id:
-                vote = get_object_or_404(ProposalVote,
-                                         proposal_id=pid, user_id=user_id)
-
-                vote.delete()
+            ProposalVoteBoard.objects.filter(proposal_id=pid,
+                                        user_id__in=voter_ids).delete()
             return json_response({
                 'result': 'ok',
                 'html': render_to_string('issues/_vote_panel.html',
@@ -624,15 +617,11 @@ class MultiProposalVoteView(CommunityMixin, DetailView):
         else:
             return HttpResponseBadRequest('vote value not valid')
 
-        for user_id in voters_id:
-            if ProposalVote.objects.filter(proposal_id=pid, user_id=user_id).exists():
-                ProposalVote.objects.filter(proposal_id=pid, user_id=user_id).update(value=value)
-            else:
-                ProposalVote.objects.create(
-                    proposal_id=pid,
-                    user_id=user_id,
-                    value=value)
-
+        for user_id in voter_ids:
+            vote, created = ProposalVoteBoard.objects.get_or_create(
+                        proposal_id=pid, user_id=user_id)
+            vote.value = value
+            vote.save()
         return json_response({
             'result': 'ok',
             'html': render_to_string('issues/_vote_reset_panel.html',
