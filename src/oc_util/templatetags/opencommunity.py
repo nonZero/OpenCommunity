@@ -181,22 +181,38 @@ def board_vote(proposal, val, participants):
     return [v.user for v in res]
 """
 
+def board_voters_on_proposal(proposal):
+    if proposal.decided_at_meeting:
+        participants = proposal.decided_at_meeting.participants.all()
+    else:
+        participants = proposal.issue.community.upcoming_meeting_participants.all()
+    
+    return participants 
+
+
 @register.filter
-def upcoming_participants_by_vote(proposal, val):
-    participants = proposal.issue.community.upcoming_meeting_participants.all()
+def board_votes_count(p):
+    return len(board_voters_on_proposal(p))
+
+
+@register.filter
+def participants_by_vote(p, val):
+    participants = board_voters_on_proposal(p)
+    
     if val == 'neut':
         ret = []
-        voter_ids = ProposalVoteBoard.objects.filter(proposal=proposal) \
+        voter_ids = ProposalVoteBoard.objects.filter(proposal=p) \
                     .exclude(value=ProposalVoteValue.NEUTRAL) \
                     .values_list('user', flat=True)
-        return [u for u in participants.all() if u.id not in voter_ids]
+        return [u for u in participants if u.id not in voter_ids]
     
     elif val == 'pro':
         vote = 1
     elif val == 'con':
         vote = -1 
-    res = ProposalVoteBoard.objects.filter(proposal=proposal, value=vote, 
+    res = ProposalVoteBoard.objects.filter(proposal=p, value=vote, 
                             user_id__in=participants.values_list('id', flat=True))
+    
     return [v.user for v in res]
 
 """
