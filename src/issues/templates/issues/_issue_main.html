@@ -23,7 +23,7 @@
             {% for ai in object.agenda_items.all %}
                 {% if ai.background %}
                     <div class="issue-abstract on filter-meeting-{{ai.meeting.id}} filter" style="clear: both;">
-                        <a class="filter" href="{{ai.meeting.get_absolute_url}}">{{ai.meeting.get_title_or_date}}:</a>
+                        <a class="filter filter-subtitle" href="{{ai.meeting.get_absolute_url}}">{{ai.meeting.get_title_or_date}}:</a>
                         {{ai.background|userhtml}}
                     </div>
                 {% endif %}

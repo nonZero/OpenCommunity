@@ -107,3 +107,4 @@ def nutral_votes(proposal):
         return 'undefined'
     votes = proposal.votes_pro + proposal.votes_con
     return proposal.community_members - votes
+
