@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-21 21:09+0200\n"
-"PO-Revision-Date: 2014-01-28 11:23+0200\n"
+"POT-Creation-Date: 2014-02-02 15:32+0200\n"
+"PO-Revision-Date: 2014-01-30 21:47+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.6.3\n"
 
-#: .\admin.py:42 .\forms.py:42
+#: .\admin.py:42 .\forms.py:38
 msgid "Password"
 msgstr "סיסמא"
 
@@ -52,15 +52,11 @@ msgid ""
 "be case-sensitive."
 msgstr "אנא הכנס %(username)s וסיסמא תיקניים. שים לב לאותיות קטנות וגדולות."
 
-#: .\forms.py:34
-msgid "Name"
-msgstr "שם"
-
-#: .\forms.py:43
+#: .\forms.py:39
 msgid "Password confirmation"
 msgstr "אימות סיסמא"
 
-#: .\forms.py:57
+#: .\forms.py:53
 msgid "Passwords don't match"
 msgstr "סיסמא לא תואמת"
 
@@ -96,11 +92,11 @@ msgstr "משתמשים"
 msgid "Community"
 msgstr "קהילה"
 
-#: .\models.py:115 .\models.py:221
+#: .\models.py:115 .\models.py:222
 msgid "User"
 msgstr "משתמש"
 
-#: .\models.py:117 .\models.py:224
+#: .\models.py:117 .\models.py:225
 msgid "Group"
 msgstr "קבוצה"
 
@@ -136,65 +132,74 @@ msgstr "נכשל"
 msgid "Created by"
 msgstr "נוצר על ידי"
 
-#: .\models.py:216 .\templates\users\member_profile.html.py:21
+#: .\models.py:216
+msgid "Name"
+msgstr "שם"
+
+#: .\models.py:217 .\templates\users\member_profile.html.py:21
 msgid "Email"
 msgstr "דואל"
 
-#: .\models.py:217
+#: .\models.py:218
 msgid "Message"
 msgstr "הודעה"
 
-#: .\models.py:227
+#: .\models.py:228
 msgid "Status"
 msgstr "סטאטוס"
 
-#: .\models.py:229
+#: .\models.py:230
 msgid "Times Sent"
 msgstr "מספר הפעמים שההזמנה נשלחה"
 
-#: .\models.py:230
+#: .\models.py:231
 msgid "Error count"
 msgstr "מספר הפעימים שהמשלוח נכשל"
 
-#: .\models.py:231
+#: .\models.py:232
 msgid "Sent at"
 msgstr "נשלח לאחרונה ב"
 
-#: .\models.py:236
+#: .\models.py:237
 msgid "Invitation"
 msgstr "הזמנה"
 
-#: .\models.py:237 .\templates\users\membership_list.html.py:38
+#: .\models.py:238 .\templates\users\membership_list.html.py:38
 msgid "Invitations"
 msgstr "הזמנות"
 
-#: .\models.py:239
+#: .\models.py:240
 msgid "INVITAION_DEFAULT_MESSAGE"
 msgstr ""
 "המערכת תאפשר לך מעורבות בתהליך קבלת ההחלטות של ה%s.\n"
 "אחרי אישור ההצטרפות ניתן לראות את הנושאים לדיון, את סדר היום לישיבה הקרובה, "
 "ואת סיכום ההחלטות מהישיבות הקודמות, ובעתיד ניתן יהיה גם לדון ולהשפיע עליהם."
 
-#: .\models.py:255
+#: .\models.py:256
 #, python-format
 msgid "Invitation to %s"
 msgstr "הזמנה לקהילה %s"
 
-#: .\views.py:48 .\tests\invitation_test.py:78
-msgid "Form error. Please supply a valid email."
-msgstr "יש בעיה בטופס. אנא בדוק את כתובת האימייל"
-
-#: .\views.py:54 .\tests\invitation_test.py:97
+#: .\views.py:43 .\tests\invitation_test.py:97
 msgid "This user already a member of this community."
 msgstr "משתמש זה כבר חבר בקהילה"
 
-#: .\views.py:59 .\tests\invitation_test.py:87
+#: .\views.py:48 .\tests\invitation_test.py:87
 msgid "This user is already invited to this community."
 msgstr "משתמש זה כבר הוזמן לקהילה"
 
-#: .\views.py:143
+#: .\views.py:71 .\tests\invitation_test.py:78
+msgid "Form error. Please supply a valid email."
+msgstr "יש בעיה בטופס. אנא בדוק את כתובת האימייל"
+
+#: .\views.py:170
 msgid "Oops. Something went wrong. Please try again."
 msgstr "אופס. משהו השתבש. אנה נסה שוב."
+
+#: .\views.py:280
+#, python-format
+msgid "%d Invitations sent"
+msgstr "%d הזמנות נשלחו"
 
 #: .\templates\emails\invitation.txt.py:2
 msgid "Hello"
@@ -202,8 +207,8 @@ msgstr "שלום"
 
 #: .\templates\emails\invitation.txt.py:4
 #, python-format
-msgid "This invitation is from %(u)s to join %(c)s."
-msgstr "זו הזמנה מ%(u)s להצטרף לקהילת %(c)s."
+msgid "This invitation is from %(u)s to join %(c|safe)s."
+msgstr "זו הזמנה מ%(u)s להצטרף לקהילת %(c|safe)s."
 
 #: .\templates\emails\invitation.txt.py:8
 msgid "Click here to join this community:"
@@ -221,6 +226,23 @@ msgstr "אחרי ההרשמה ניתן להכנס ישירות ל"
 msgid "Delete"
 msgstr "מחיקה"
 
+#: .\templates\users\import_invitations.html.py:5
+msgid "Import invitation list"
+msgstr "יבא רשימת מוזמנים"
+
+#: .\templates\users\invitation404.html.py:12
+msgid "Invitation already accepted"
+msgstr "הזמנה כבר מומשה"
+
+#: .\templates\users\invitation404.html.py:16
+#: .\templates\users\invitation_detail.html.py:18
+msgid "You are logged in as"
+msgstr "אתה מחובר למערכת בשם"
+
+#: .\templates\users\invitation404.html.py:20
+msgid "Go to home page"
+msgstr "עבור לעמוד הראשי"
+
 #: .\templates\users\invitation_detail.html.py:9
 msgid "Accept Invitation"
 msgstr "אישור הזמנה"
@@ -229,10 +251,6 @@ msgstr "אישור הזמנה"
 #, python-format
 msgid "You were invited to %(s)s."
 msgstr "הוזמנת לקהילה %(s)s."
-
-#: .\templates\users\invitation_detail.html.py:18
-msgid "You are logged in as"
-msgstr "אתה מחובר למערכת בשם"
 
 #: .\templates\users\invitation_detail.html.py:24
 #, python-format
@@ -291,63 +309,63 @@ msgstr "מכהן מ"
 msgid "Meetings participation"
 msgstr "השתתפות בישיבות"
 
-#: .\templates\users\member_profile.html.py:25
+#: .\templates\users\member_profile.html.py:26
 msgid "Out of"
 msgstr "מתוך"
 
-#: .\templates\users\member_profile.html.py:28
+#: .\templates\users\member_profile.html.py:30
 msgid "Tasks"
 msgstr "משימות"
 
-#: .\templates\users\member_profile.html.py:31
+#: .\templates\users\member_profile.html.py:33
 msgid "Late"
 msgstr "באיחור"
 
-#: .\templates\users\member_profile.html.py:34
+#: .\templates\users\member_profile.html.py:36
 msgid "Open"
 msgstr "פתוחות"
 
-#: .\templates\users\member_profile.html.py:37
+#: .\templates\users\member_profile.html.py:39
 msgid "Close"
 msgstr "סגורות"
 
-#: .\templates\users\member_profile.html.py:48
-#: .\templates\users\member_profile.html.py:63
-#: .\templates\users\member_profile.html.py:78
+#: .\templates\users\member_profile.html.py:50
+#: .\templates\users\member_profile.html.py:65
+#: .\templates\users\member_profile.html.py:80
 msgid "Due by"
 msgstr "יעד"
 
-#: .\templates\users\member_profile.html.py:89
+#: .\templates\users\member_profile.html.py:91
 msgid "Summary of votes participation"
 msgstr "סיכום ההצבעות בהם השתתף"
 
-#: .\templates\users\member_profile.html.py:92
+#: .\templates\users\member_profile.html.py:94
 msgid "Pro"
 msgstr "בעד"
 
-#: .\templates\users\member_profile.html.py:95
+#: .\templates\users\member_profile.html.py:97
 msgid "Neutral"
 msgstr "נמנע"
 
-#: .\templates\users\member_profile.html.py:98
+#: .\templates\users\member_profile.html.py:100
 msgid "Con"
 msgstr "נגד"
 
-#: .\templates\users\member_profile.html.py:106
+#: .\templates\users\member_profile.html.py:109
 msgid "of decisions voted for were accepted"
 msgstr "מההחלטות בהם הצביע 'בעד' התקבלו"
 
-#: .\templates\users\member_profile.html.py:118
-#: .\templates\users\member_profile.html.py:143
-#: .\templates\users\member_profile.html.py:168
+#: .\templates\users\member_profile.html.py:122
+#: .\templates\users\member_profile.html.py:150
+#: .\templates\users\member_profile.html.py:178
 msgid "By:"
 msgstr "מאת:"
 
-#: .\templates\users\member_profile.html.py:131
+#: .\templates\users\member_profile.html.py:137
 msgid "of decisions didn't vote were accepted"
 msgstr "מההחלטות בהם לא הצביע התקבלו"
 
-#: .\templates\users\member_profile.html.py:156
+#: .\templates\users\member_profile.html.py:165
 msgid "of decisions voted against were rejected"
 msgstr "מההחלטות בהם הצביע 'נגד' נדחו"
 
@@ -359,13 +377,24 @@ msgstr "חברים"
 msgid "No members."
 msgstr "אין חברים בקהילה"
 
-#: .\templates\users\membership_list.html.py:44
+#: .\templates\users\membership_list.html.py:45
 msgid "New invitation"
 msgstr "הזמנה חדשה"
 
-#: .\templates\users\membership_list.html.py:48
+#: .\templates\users\membership_list.html.py:49
 msgid "Invite"
 msgstr "הזמן"
+
+#~ msgid ""
+#~ "The system will allow you to participate in decision-making process of "
+#~ "the %s.\n"
+#~ "Once enrolloed you will be able to see the topics for the agenda at the "
+#~ "next meeting,And summary of previous meeting decisions, in the future it "
+#~ "will be possible to discuss and influence them."
+#~ msgstr ""
+#~ "המערכת תאפשר לך מעורבות בתהליך קבלת ההחלטות של %(c).אחרי אישור ההצטרפות "
+#~ "ניתן לראות את הנושאים לדיון, את סדר היום לישיבה הקרובה, ואת סיכום ההחלטות "
+#~ "מהישיבות הקודמות, ובעתיד ניתן יהיה גם לדון ולהשפיע עליהם."
 
 #~ msgid "Thank you!"
 #~ msgstr "תודה,"

@@ -16,6 +16,11 @@
         {% csrf_token %}
         <div class="form-group">
         {{ form }}
+			<div class="checkbox">
+			    <label>
+					<input type="checkbox" name="remeber-me">{% trans "Remember me" %}
+			    </label>
+			</div>
 		</div>
 		<a href="{% url "password_reset" %}">{% trans "forgot password" %}?</a>
         <div class="narrow">

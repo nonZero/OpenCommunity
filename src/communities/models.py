@@ -179,7 +179,8 @@ class Community(UIDMixin):
         return meeting_participants
         
     def get_board_members(self):
-        return Membership.objects.filter(community=self).exclude(default_group_name=DefaultGroups.MEMBER)
+#         return Membership.objects.filter(community=self).exclude(default_group_name=DefaultGroups.MEMBER)
+        return OCUser.objects.filter(memberships__community=self).exclude(memberships__default_group_name=DefaultGroups.MEMBER)
 
     def get_none_board_members(self):
         return Membership.objects.filter(community=self, default_group_name=DefaultGroups.MEMBER)
@@ -216,13 +217,22 @@ class Community(UIDMixin):
         from_email = "%s <%s>" % (sender.display_name, sender.email)
 
         recipient_list = set([sender.email])
+        open_invitation_list = set([sender.email])
 
         if send_to == SendToOption.ALL_MEMBERS:
             recipient_list.update(list(
                       self.memberships.values_list('user__email', flat=True)))
+            open_invitation_email_list = self.invitations.values_list('email', flat=True) 
+            if open_invitation_email_list.count():
+                open_invitation_list.update(list(open_invitation_email_list))
+            
         elif send_to == SendToOption.BOARD_ONLY:
             recipient_list.update(list(
                         self.memberships.board().values_list('user__email', flat=True)))
+            open_invitation_email_list = self.invitations.exclude(default_group_name=DefaultGroups.MEMBER).values_list('email', flat=True) 
+            if open_invitation_email_list.count():
+                open_invitation_list.update(list(open_invitation_email_list))
+
         elif send_to == SendToOption.ONLY_ATTENDEES:
             recipient_list.update(list(
                        self.upcoming_meeting_participants.values_list(
@@ -231,6 +241,9 @@ class Community(UIDMixin):
         logger.info("Sending agenda to %d users" % len(recipient_list))
 
         send_mails(from_email, recipient_list, subject, message, html_message)
+        
+        if open_invitation_list:
+            send_mails(from_email, open_invitation_list, subject, message, html_message)
 
         return len(recipient_list)
 

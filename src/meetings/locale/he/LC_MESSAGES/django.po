@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-21 21:09+0200\n"
+"POT-Creation-Date: 2014-02-02 15:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Send to"
 msgstr "שלח אל"
 
-#: .\models.py:11 .\models.py:78 .\models.py:109 .\models.py:134
+#: .\models.py:11 .\models.py:78 .\models.py:109 .\models.py:135
 msgid "Meeting"
 msgstr "פגישה"
 
@@ -91,7 +91,7 @@ msgid "Agenda items"
 msgstr "סדר יום"
 
 #: .\models.py:71 .\templates\meetings\meeting_detail.html.py:60
-#: .\templates\meetings\meeting_detail.html.py:131
+#: .\templates\meetings\meeting_detail.html.py:124
 msgid "Participants"
 msgstr "משתתפים"
 
@@ -107,7 +107,7 @@ msgstr "רשום כל אורח בשורה נפקדת"
 msgid "Meetings"
 msgstr "פגישות"
 
-#: .\models.py:115 .\models.py:135
+#: .\models.py:115 .\models.py:136
 msgid "Name"
 msgstr "שם"
 
@@ -115,23 +115,23 @@ msgstr "שם"
 msgid "Group"
 msgstr "קבוצה"
 
-#: .\models.py:121
+#: .\models.py:122
 msgid "Meeting Participant"
 msgstr "משתתף בפגישה"
 
-#: .\models.py:122
+#: .\models.py:123
 msgid "Meeting Participants"
 msgstr "משתתפים בפגישה"
 
-#: .\models.py:138
+#: .\models.py:139
 msgid "Meeting External Participant"
 msgstr "משתתף חיצוני"
 
-#: .\models.py:139
+#: .\models.py:140
 msgid "Meeting External Participants"
 msgstr "משתתפים חיצוניים"
 
-#: .\views.py:69
+#: .\views.py:70
 #, python-format
 msgid "Sending to %d users"
 msgstr "שולח ל-%d משתמשים"
@@ -169,27 +169,19 @@ msgstr "טרם נקבע"
 msgid "Protocol"
 msgstr "פרוטוקול"
 
-#: .\templates\meetings\meeting_detail.html.py:95
+#: .\templates\meetings\meeting_detail.html.py:94
 msgid "Assigned to"
 msgstr "אחראי"
 
-#: .\templates\meetings\meeting_detail.html.py:98
+#: .\templates\meetings\meeting_detail.html.py:97
 msgid "Due by"
 msgstr "יעד"
 
-#: .\templates\meetings\meeting_detail.html.py:110
-msgid "Closed without descisions"
-msgstr "הדיון נסגר ללא החלטות"
-
-#: .\templates\meetings\meeting_detail.html.py:111
-msgid "Undecided"
-msgstr "הדיון לא הושלם"
-
-#: .\templates\meetings\meeting_detail.html.py:160
+#: .\templates\meetings\meeting_detail.html.py:153
 msgid "Meeting protocol"
 msgstr "פרוטוקול הפגישה"
 
-#: .\templates\meetings\meeting_detail.html.py:164
+#: .\templates\meetings\meeting_detail.html.py:157
 msgid "Close"
 msgstr "סגור"
 
@@ -244,6 +236,12 @@ msgstr "ט"
 #: .\templatetags\letter_tag.py:5
 msgid "j"
 msgstr "י"
+
+#~ msgid "Closed without descisions"
+#~ msgstr "הדיון נסגר ללא החלטות"
+
+#~ msgid "Undecided"
+#~ msgstr "הדיון לא הושלם"
 
 #~ msgid "No title"
 #~ msgstr "ללא שם"

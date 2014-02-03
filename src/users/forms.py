@@ -90,4 +90,6 @@ class OCPasswordResetConfirmForm(SetPasswordForm):
 class ImportInvitationsForm(forms.Form):
     csv_file = forms.FileField(required=True)
 
-        
+    def __init__(self, *args, **kwargs):
+        super(ImportInvitationsForm, self).__init__(*args, **kwargs)
+        self.fields['csv_file'].label = _("Upload CSV file to import")

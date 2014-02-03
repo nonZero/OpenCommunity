@@ -36,7 +36,7 @@ urlpatterns = patterns('',
             name="accept_invitation"),
 
     url(r'^user/password/reset/$',
-        'django.contrib.auth.views.password_reset',
+        'users.views.oc_password_reset',
         {'post_reset_redirect': '/user/password/reset/done/',
          'password_reset_form': OCPasswordResetForm},
         name="password_reset"),

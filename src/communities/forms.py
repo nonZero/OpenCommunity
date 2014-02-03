@@ -1,9 +1,10 @@
 from communities.models import Community, SendToOption
+from datetime import datetime, date, time
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from ocd import formfields
 from ocd.formfields import HTMLArea, OCSplitDateTime
 import floppyforms as forms
-from django.utils import timezone
-from datetime import datetime, date, time
 
 class EditUpcomingMeetingForm(forms.ModelForm):
 
@@ -98,15 +99,16 @@ class UpcomingMeetingParticipantsForm(forms.ModelForm):
 
         fields = (
                    'upcoming_meeting_participants',
-                   'upcoming_meeting_guests',
+#                    'upcoming_meeting_guests',
                    )
 
         widgets = {
-            'upcoming_meeting_participants': forms.CheckboxSelectMultiple,
-            'upcoming_meeting_guests': forms.Textarea,
+            'upcoming_meeting_participants': formfields.OCCheckboxSelectMultiple,
+#             'upcoming_meeting_guests': forms.Textarea,
         }
-
+    
     def __init__(self, *args, **kwargs):
         super(UpcomingMeetingParticipantsForm, self).__init__(*args, **kwargs)
-        self.fields['upcoming_meeting_participants'].queryset = self.instance.get_members()
-        self.fields['upcoming_meeting_guests'].widget.attrs['rows'] = 4
+        self.fields['upcoming_meeting_participants'].queryset = self.instance.get_board_members()
+        self.fields['upcoming_meeting_participants'].label = ""
+#         self.fields['upcoming_meeting_guests'].widget.attrs['rows'] = 4
