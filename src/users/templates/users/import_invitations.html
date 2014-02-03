@@ -7,7 +7,7 @@
 {% block content %}
 
 <div class="form-group">
-	<a class="btn btn-xs btn-warning" href="{{ MEDIA_URL }}sample_csv.csv"><span class="glyphicon glyphicon-file"></span> {% trans "Sample file" %}</a>
+	<a class="btn btn-xs btn-warning" href="{{ STATIC_URL }}sample_csv.csv"><span class="glyphicon glyphicon-file"></span> {% trans "Sample file" %}</a>
 </div>
 <form role="form" enctype="multipart/form-data" method="post">{% csrf_token %}
 	<div class="form-group">
