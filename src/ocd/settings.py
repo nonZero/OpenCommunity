@@ -28,7 +28,7 @@ DATABASES = {
         'NAME': 'opencommunity',
         'USER': 'opencommunity',
         'PASSWORD': 'opencommunity',
-        'HOST': '',
+        'HOST': 'localhost',
         'PORT': '',
     }
 }

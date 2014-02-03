@@ -12,8 +12,9 @@ class Migration(SchemaMigration):
         db.add_column(u'communities_community', 'register_missing_board_members',
                       self.gf('django.db.models.fields.BooleanField')(default=False),
                       keep_default=False)
-
-        orm.Community.objects.filter(board_name=None).update(board_name=_('Board'))
+        
+        if not db.dry_run:
+            orm.Community.objects.filter(board_name=None).update(board_name=_('Board'))
 
         # Changing field 'Community.board_name'
         db.alter_column(u'communities_community', 'board_name', self.gf('django.db.models.fields.CharField')(max_length=200))
