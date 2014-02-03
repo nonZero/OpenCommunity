@@ -1,6 +1,6 @@
 from django.test import TestCase
 from users.default_roles import DefaultGroups
-from communities.tests.common import createTestCommunity
+from communities.tests.common import create_community
 
 class BoardTest(TestCase):
 
@@ -11,7 +11,7 @@ class BoardTest(TestCase):
                  [DefaultGroups.BOARD] * 5 +
                  [DefaultGroups.MEMBER] * 10)
         
-        (self.c,self.members,self.chairmen) = createTestCommunity(roles)
+        (self.c,self.members,self.chairmen) = create_community(roles)
 
         roles2 = (
                  [DefaultGroups.CHAIRMAN] * 3 +
@@ -19,7 +19,7 @@ class BoardTest(TestCase):
                  [DefaultGroups.BOARD] * 6 +
                  [DefaultGroups.MEMBER] * 8)
         
-        (self.c2,self.members2,self.chairmen2) = createTestCommunity(roles2,community_name="Bar Inc.")
+        (self.c2,self.members2,self.chairmen2) = create_community(roles2,community_name="Bar Inc.")
 
 
     def test_board(self):
