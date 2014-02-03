@@ -78,38 +78,34 @@ id="meeting-detail"
                         <!-- <th class="count"><a href="{{ a.issue.get_absolute_url }}?m_id={{object.id}}">{{ forloop.counter }}</a></th> -->
     			        <a class="three_dot_sentence level2" href="{{ a.issue.get_absolute_url }}?m_id={{object.id}}">{{ a.issue.title }}</a>
 			        </div>
-					<div class="proposal_history_main clearfix">
-		                {% if a.accepted_proposals.count %}
-		                    {% for p in a.accepted_proposals|dictsort:"created_at" %}
-								<ul class="proposal_history_inner">
-			                    	<li class="proposal-icon {% if p.type == 1 %}task-icon{% elif p.type == 2 %}rule-icon{% elif p.type == 3 %}general-icon{% endif %}"></li>
-				                    <li class="proposal-header">
-				                    	<a href="{{p.get_absolute_url}}?m_id={{object.id}}"><b>{{p.title}}</b></a>
-				                    </li>
-				                    <li class="proposal-footer">
-			                            {% if p.type == 1 %}
-			                                <p class="assign">
-			                                    {% if p.assigned_to %}
-			                                        <span><b>{% trans "Assigned to" %}:</b> {{ p.assigned_to }}</span>
-			                                    {% endif %}
-			                                    {% if p.due_by %}
-			                                        <span><b>{% trans "Due by" %}:</b> {{ p.due_by }}</span>
-			                                    {% endif %}
-			                                </p>
-			                            {% endif %}
-			                            {{p.content|userhtml}}
-		                           </li>
-				               	</ul>
-			                {% endfor %}
-		                {% else %}
-							<ul class="proposal_history_inner">
-		                        <li class="proposal-undecided">
-			                        {% if a.issue.completed %}{% trans "Closed without descisions" %}
-			                        {% else %} {% trans "Undecided" %} {% endif %}
-		                        </li>
-			               	</ul>
-		                {% endif %}
-	               </div>
+
+              {% if a.accepted_proposals.count %}
+              <div class="proposal_history_main clearfix">
+                  {% for p in a.accepted_proposals|dictsort:"created_at" %}
+                  <ul class="proposal_history_inner">
+                      <li class="proposal-icon {% if p.type == 1 %}task-icon{% elif p.type == 2 %}rule-icon{% elif p.type == 3 %}general-icon{% endif %}"></li>
+                      <a href="{{p.get_absolute_url}}?m_id={{object.id}}">
+                        <li class="proposal-header">
+                          <b>{{p.title}}</b>
+                        </li>
+                        <li class="proposal-footer">
+                              {% if p.type == 1 %}
+                                  <p class="assign">
+                                      {% if p.assigned_to %}
+                                          <span><b>{% trans "Assigned to" %}:</b> {{ p.assigned_to }}</span>
+                                      {% endif %}
+                                      {% if p.due_by %}
+                                          <span><b>{% trans "Due by" %}:</b> {{ p.due_by }}</span>
+                                      {% endif %}
+                                  </p>
+                              {% endif %}
+                              {{p.content|userhtml}}
+                          </li>
+                        </a>
+                  </ul>
+                {% endfor %}
+              </div>
+              {% endif %}
                </div>
                 {% endif %}
             {% endfor %}

@@ -204,6 +204,7 @@ class EmailStatus(object):
 
 
 class Invitation(models.Model):
+    
     community = models.ForeignKey('communities.Community',
                                   verbose_name=_("Community"),
                                   related_name='invitations')
@@ -212,7 +213,8 @@ class Invitation(models.Model):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                    verbose_name=_("Created by"),
                                    related_name="invitations_created")
-
+    
+    name = models.CharField(_("Name"), max_length=200, null=True, blank=True)
     email = models.EmailField(_("Email"))
     message = models.TextField(_("Message"), null=True, blank=True)
 

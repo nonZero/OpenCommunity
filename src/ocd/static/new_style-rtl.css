@@ -471,7 +471,23 @@ h5 {
     display: inline;
  }
 
- @media (min-width: 768px) {
+.all-pro {
+	background: #a4cb53;
+}
+.all-con {
+	background: #d95e59;
+}
+
+.board_select {
+  margin: 8px 4px;
+}
+
+.board_select  ul {
+	list-style-type: none;
+	padding: 5px 5px 5px 0;
+}
+
+@media (min-width: 768px) {
 	.proposal_right_column {
 		background: #f5f6de;
 		border-right: 1px solid #d4d5c8;

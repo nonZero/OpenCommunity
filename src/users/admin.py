@@ -65,6 +65,8 @@ class MembershipAdmin(admin.ModelAdmin):
                     'default_group_name',
                     'user',
                     )
+    list_filter = ('community', 'default_group_name',)
+
 
 class OCUserAdmin(UserAdmin):
     # The forms to add and change user instances
@@ -94,9 +96,13 @@ class OCUserAdmin(UserAdmin):
 
     inlines = [UserMembershipInline]
 
+
+class InvitationAdmin(admin.ModelAdmin):
+    list_display = ('community', 'name', 'email', 'default_group_name', 'last_sent_at', 'status')
+    ordering = ('community', 'last_sent_at')
+
+admin.site.register(Invitation, InvitationAdmin)
 admin.site.register(OCUser, OCUserAdmin)
 admin.site.unregister(Group)
-
 admin.site.register(Membership, MembershipAdmin)
-admin.site.register(Invitation)
 

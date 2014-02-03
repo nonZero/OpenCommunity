@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block extra-page-id %}
+{% endblock %}
+
+{% block page_header %}
+{% endblock %}
+
+{% block content %}
+<div class="text-center">
+	<h1>{% trans "Invitation already accepted" %}</h1>
+
+{% if user.id %}
+    <h2>
+        {% trans "You are logged in as" %} {{user}}.
+    </h2>
+{% endif %}
+
+	<a style="font-size: 16px;color: #666;" href="{{ base_url }}">{% trans "Go to home page" %}</a>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

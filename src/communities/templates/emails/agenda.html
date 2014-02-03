@@ -38,7 +38,7 @@
             </p>
             <p style="height: 18px;">
                 {% if community.allow_links_in_emails %}
-                  {% if community.has_straw_votes %}
+                  {% if community.straw_voting_enabled and has_open_proposals %}
                       <a href="{{base_url}}{{community.get_absolute_url}}">{% trans "Enter site and vote on proposals" %}</a>
                   {% else %}
                       <a href="{{base_url}}{{community.get_absolute_url}}">{% trans "View online" %}</a>
