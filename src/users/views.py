@@ -26,7 +26,6 @@ import json
 import time
 
 
-
 class MembershipMixin(CommunityMixin):
 
     model = models.Membership
