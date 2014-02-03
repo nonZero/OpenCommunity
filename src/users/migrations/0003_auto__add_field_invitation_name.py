@@ -49,7 +49,7 @@ class Migration(SchemaMigration):
             'referendum_started_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'register_missing_board_members': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'straw_voting_enabled': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'uid': ('django.db.models.fields.CharField', [], {'default': "'9quitkfuvmzwiyor6f68btah'", 'unique': 'True', 'max_length': '24'}),
+            'uid': ('django.db.models.fields.CharField', [], {'default': "'wc1a29yyijik8z3a4vt67log'", 'unique': 'True', 'max_length': '24'}),
             'upcoming_meeting_comments': ('ocd.base_models.HTMLField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_guests': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_is_published': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -72,7 +72,7 @@ class Migration(SchemaMigration):
         },
         u'users.invitation': {
             'Meta': {'unique_together': "(('community', 'email'),)", 'object_name': 'Invitation'},
-            'code': ('django.db.models.fields.CharField', [], {'default': "'5xbcihabhwb2yhzcwm81i1ots6dc4ip1jql6dngvzyeg92q0'", 'max_length': '48'}),
+            'code': ('django.db.models.fields.CharField', [], {'default': "'p8rohsf2lfni9pmrd5v2zflf980sxn2208ie7y7ujh9xj16b'", 'max_length': '48'}),
             'community': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'invitations'", 'to': u"orm['communities.Community']"}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'invitations_created'", 'to': u"orm['users.OCUser']"}),

@@ -179,8 +179,9 @@ class Community(UIDMixin):
         return meeting_participants
         
     def get_board_members(self):
-#         return Membership.objects.filter(community=self).exclude(default_group_name=DefaultGroups.MEMBER)
-        return OCUser.objects.filter(memberships__community=self).exclude(memberships__default_group_name=DefaultGroups.MEMBER)
+        board_memberships = Membership.objects.filter(community=self) \
+                            .exclude(default_group_name=DefaultGroups.MEMBER)
+        return [m.user for m in board_memberships]
 
     def get_none_board_members(self):
         return Membership.objects.filter(community=self, default_group_name=DefaultGroups.MEMBER)
@@ -217,22 +218,13 @@ class Community(UIDMixin):
         from_email = "%s <%s>" % (sender.display_name, sender.email)
 
         recipient_list = set([sender.email])
-        open_invitation_list = set([sender.email])
 
         if send_to == SendToOption.ALL_MEMBERS:
             recipient_list.update(list(
                       self.memberships.values_list('user__email', flat=True)))
-            open_invitation_email_list = self.invitations.values_list('email', flat=True) 
-            if open_invitation_email_list.count():
-                open_invitation_list.update(list(open_invitation_email_list))
-            
         elif send_to == SendToOption.BOARD_ONLY:
             recipient_list.update(list(
                         self.memberships.board().values_list('user__email', flat=True)))
-            open_invitation_email_list = self.invitations.exclude(default_group_name=DefaultGroups.MEMBER).values_list('email', flat=True) 
-            if open_invitation_email_list.count():
-                open_invitation_list.update(list(open_invitation_email_list))
-
         elif send_to == SendToOption.ONLY_ATTENDEES:
             recipient_list.update(list(
                        self.upcoming_meeting_participants.values_list(
@@ -241,9 +233,6 @@ class Community(UIDMixin):
         logger.info("Sending agenda to %d users" % len(recipient_list))
 
         send_mails(from_email, recipient_list, subject, message, html_message)
-        
-        if open_invitation_list:
-            send_mails(from_email, open_invitation_list, subject, message, html_message)
 
         return len(recipient_list)
 
@@ -262,10 +251,7 @@ class Community(UIDMixin):
     def has_straw_votes(self):
         if not self.straw_voting_enabled or self.straw_vote_ended:
             return False
-        for i in self.upcoming_issues():
-            if i.proposals.open().count():
-                return True
-        return False
+        return self.upcoming_proposals_any({'is_open': True})
         
         
     def sum_vote_results(self, only_when_over=True):
@@ -275,16 +261,35 @@ class Community(UIDMixin):
         if only_when_over and time_till_close.total_seconds() > 0:
             return
         
-        un_summed_proposals = issues_models.Proposal.objects.filter(
+        proposals_to_sum = issues_models.Proposal.objects.filter(
                         # votes_pro=None,
                         status=ProposalStatus.IN_DISCUSSION,
                         issue__status=IssueStatus.IN_UPCOMING_MEETING,
                         issue__community_id=self.id)
-        if un_summed_proposals.count() == 0:
-            return
         member_count = self.get_members().count()
-        for prop in un_summed_proposals:
+        for prop in proposals_to_sum:
             prop.do_votes_summation(member_count)
+
+   
+    def _get_upcoming_proposals(self):   
+        proposals = []
+        upcoming = self.upcoming_issues()
+        for issue in upcoming:
+            proposals.extend([p for p in issue.proposals.all() if p.active]) 
+        return proposals
+
+
+    def upcoming_proposals_any(self, prop_dict):
+        """ test multiple properties against proposals belonging to the upcoming meeting
+            return True if any of the proposals passes the tests
+        """  
+        proposals = self._get_upcoming_proposals()
+        test_attrs = lambda p:  [getattr(p, k) == val for k, val in prop_dict.items()]
+        for p in proposals:
+            if all(test_attrs(p)):
+                return True
+        return False
+    
 
     def _register_absents(self, meeting, meeting_participants):
         board_members = [mm.user for mm in Membership.objects.board() \

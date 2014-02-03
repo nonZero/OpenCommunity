@@ -62,7 +62,8 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
     required_permission_for_post = 'community.editagenda_community'
     
     def get(self, request, *args, **kwargs):
-        if not has_community_perm(request.user, self.community, 'communities.viewupcoming_draft') \
+        if not has_community_perm(request.user, self.community, 
+                                  'communities.viewupcoming_draft') \
            and not self.community.upcoming_meeting_is_published:
             try:
                 last_meeting = Meeting.objects.filter(community=self.community) \
@@ -130,8 +131,13 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
 class PublishUpcomingMeetingPreviewView(CommunityModelMixin, DetailView):
 
     required_permission = 'communities.viewupcoming_community'
-
     template_name = "emails/agenda.html"
+
+    def get_context_data(self, **kwargs):
+        d = super(PublishUpcomingMeetingPreviewView, self).get_context_data(**kwargs)
+        d['has_open_proposals'] = \
+                        self.community.upcoming_proposals_any({'is_open': True})
+        return d
 
 
 class EditUpcomingMeetingView(AjaxFormView, CommunityModelMixin, UpdateView):
@@ -157,6 +163,12 @@ class EditUpcomingMeetingParticipantsView(AjaxFormView, CommunityModelMixin, Upd
 
     form_class = UpcomingMeetingParticipantsForm
     template_name = "communities/participants_form.html"
+
+
+    def get_context_data(self, **kwargs):
+        d = super(EditUpcomingMeetingParticipantsView, self).get_context_data(**kwargs)
+        
+        return d
 
 
 class DeleteParticipantView(CommunityModelMixin, DeleteView):
@@ -209,7 +221,8 @@ class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):
 
         template = 'protocol_draft' if c.upcoming_meeting_started else 'agenda'
         tpl_data = {
-            'meeting_time': datetime.datetime.now().replace(second=0)
+            'meeting_time': datetime.datetime.now().replace(second=0),
+            'has_open_proposals': c.upcoming_proposals_any({'is_open': True}), 
         }
         total = c.send_mail(template, self.request.user, form.cleaned_data['send_to'], tpl_data)
         messages.info(self.request, _("Sending to %d users") % total)
