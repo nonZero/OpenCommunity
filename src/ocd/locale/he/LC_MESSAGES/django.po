@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-21 21:09+0200\n"
+"POT-Creation-Date: 2014-02-02 15:32+0200\n"
 "PO-Revision-Date: 2014-01-08 00:33+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,15 +36,15 @@ msgstr "קהילה פתוחה"
 msgid "Login"
 msgstr "כניסה"
 
-#: .\templates\base.html.py:41
+#: .\templates\base.html.py:40
 msgid "Page Title"
 msgstr "כותרת עמוד"
 
-#: .\templates\base.html.py:51
+#: .\templates\base.html.py:50
 msgid "Attention"
 msgstr "שים לב"
 
-#: .\templates\base.html.py:58 .\templates\dialog.html.py:25
+#: .\templates\base.html.py:57 .\templates\dialog.html.py:25
 msgid "Close"
 msgstr "סגור"
 
@@ -154,11 +154,27 @@ msgstr ""
 "שכחת סיסמא? הכנס את כתובת המייל שלך למטה, ונשלח לך מייל עם הסבר כיצד להגדיר "
 "סיסמא חדשה."
 
-#: .\templates\registration\password_reset_form.html.py:15
+#: .\templates\registration\password_reset_form.html.py:16
+msgid "An invitation has been sent to this email account before"
+msgstr ""
+
+#: .\templates\registration\password_reset_form.html.py:17
+msgid "Click"
+msgstr ""
+
+#: .\templates\registration\password_reset_form.html.py:17
+msgid "Here"
+msgstr ""
+
+#: .\templates\registration\password_reset_form.html.py:17
+msgid "to accept invitation"
+msgstr ""
+
+#: .\templates\registration\password_reset_form.html.py:24
 msgid "Email address:"
 msgstr "כתובת אימייל:"
 
-#: .\templates\registration\password_reset_form.html.py:18
+#: .\templates\registration\password_reset_form.html.py:27
 msgid "Reset my password"
 msgstr "אפס סיסמא"
 

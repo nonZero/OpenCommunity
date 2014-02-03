@@ -1,31 +1,31 @@
-import time
-import json
-
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
-from django.core.urlresolvers import reverse
-from django.db.utils import IntegrityError
-from django.http.response import HttpResponse, HttpResponseForbidden,\
-    HttpResponseBadRequest
-from django.template.response import TemplateResponse
-from django.shortcuts import render, redirect
-from django.utils.translation import ugettext_lazy as _
-from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.decorators import login_required, permission_required
+from django.core.urlresolvers import reverse
+from django.db.utils import IntegrityError
+from django.http.response import HttpResponse, HttpResponseForbidden, \
+    HttpResponseBadRequest, Http404, HttpResponseRedirect
+from django.shortcuts import render, redirect
+from django.template import RequestContext
+from django.template.response import TemplateResponse
+from django.utils.decorators import method_decorator
+from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
+from django.views.generic import FormView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView
 from django.views.generic.list import BaseListView, ListView
-from django.views.generic import FormView
-from django.template import RequestContext
-
+from ocd import settings
 from ocd.base_views import CommunityMixin
 from users import models
 from default_roles import DefaultGroups
 from users.forms import InvitationForm, QuickSignupForm, ImportInvitationsForm
 from users.models import Invitation, OCUser, Membership
+import json
+import time
+
 
 class MembershipMixin(CommunityMixin):
 
@@ -109,9 +109,6 @@ class AcceptInvitationView(DetailView):
 
     form = None
 
-    def __init__(self, **kwargs):
-        super(AcceptInvitationView, self).__init__(**kwargs)
-
     def get_form(self):
         if self.request.method == "POST":
             return QuickSignupForm(self.request.POST)
@@ -135,7 +132,7 @@ class AcceptInvitationView(DetailView):
             return render(request, 'users/invitation404.html', {'base_url': settings.HOST_URL})
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
-
+    
     def post(self, request, *args, **kwargs):
 
         i = self.get_object()
@@ -286,7 +283,7 @@ class ImportInvitationsView(MembershipMixin, FormView):
                         time.sleep(4)
                         sent += 1
                     except:
-                      pass
+                        pass
 
         messages.success(self.request, _('%d Invitations sent') % (sent,))           
         return redirect(reverse('members', kwargs={'community_id': self.community.id}))
@@ -299,25 +296,26 @@ class ImportInvitationsView(MembershipMixin, FormView):
 
 @csrf_protect
 def oc_password_reset(request, is_admin_site=False,
-                template_name='registration/password_reset_form.html',
-                email_template_name='registration/password_reset_email.html',
-                subject_template_name='registration/password_reset_subject.txt',
-                password_reset_form=PasswordResetForm,
-                token_generator=default_token_generator,
-                post_reset_redirect=None,
-                from_email=None,
-                current_app=None,
-                extra_context=None):
+                   template_name='registration/password_reset_form.html',
+                   email_template_name='registration/password_reset_email.html',
+                   subject_template_name='registration/password_reset_subject.txt',
+                   password_reset_form=PasswordResetForm,
+                   token_generator=default_token_generator,
+                   post_reset_redirect=None,
+                   from_email=None,
+                   current_app=None,
+                   extra_context=None):
     if post_reset_redirect is None:
         post_reset_redirect = reverse('django.contrib.auth.views.password_reset_done')
     if request.method == "POST":
         form = password_reset_form(request.POST)
         email = request.POST['email']
+        from_email = request.POST['email']
         try:
             invitation = Invitation.objects.get(email=email)
             extra_context = {
-                            'invitation_url': reverse('accept_invitation', kwargs={'code': invitation.code})
-                            }
+                             'invitation_url': reverse('accept_invitation', kwargs={'code': invitation.code})
+                             }
         except Invitation.DoesNotExist:        
             if form.is_valid():
                 opts = {
@@ -341,5 +339,3 @@ def oc_password_reset(request, is_admin_site=False,
         context.update(extra_context)
     return TemplateResponse(request, template_name, context,
                             current_app=current_app)
-
-        

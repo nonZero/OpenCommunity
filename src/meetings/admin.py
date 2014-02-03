@@ -36,5 +36,11 @@ class MeetingAdmin(admin.ModelAdmin):
                         'guests',
                         )
 
+    list_filter = (
+                    'community',
+                    'participants',
+                    'guests',
+                    )
+
 site.register(models.Meeting, MeetingAdmin)
 site.register(models.AgendaItem)

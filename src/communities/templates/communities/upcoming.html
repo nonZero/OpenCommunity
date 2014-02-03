@@ -75,7 +75,6 @@
 					<i class="fa fa-map-marker"></i> {{object.upcoming_meeting_location|default:_("Not set yet")}}
 				{% if cperms.community.editparticipants_community and community.upcoming_meeting_started %}
 					<a data-rel="form" href="{% url "upcoming_edit_participants" community.id  %}" style="color: #6C6C6E;"> <i class="fa fa-group"></i> {% trans "Participants" %}: {{object.full_participants}}</a>
-					<!-- <a data-toggle="modal" data-target="#modal-form" href="{% url "upcoming_edit_participants" community.id  %}" style="color: #6C6C6E;"> <i class="fa fa-group"></i> {% trans "Participants" %}: {{object.full_participants}}</a> -->
 				{% endif %}
 				</h5>
 

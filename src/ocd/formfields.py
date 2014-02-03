@@ -18,3 +18,5 @@ class OCSplitDateTime(forms.SplitDateTimeWidget):
         html = super(OCSplitDateTime, self).render(name, value, attrs=attrs)
         return mark_safe("<span class=\"oc-dt-split\">%s</span>" % html)
         
+class OCCheckboxSelectMultiple(forms.SelectMultiple):
+    template_name = 'floppyforms/oc_checkbox_select.html'

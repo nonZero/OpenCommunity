@@ -137,6 +137,11 @@ class ProposalAdmin(admin.ModelAdmin):
     community.short_description = _("Community")
 
 
+
+site.register(models.Issue, IssueAdmin)
+site.register(models.Proposal, ProposalAdmin)
+site.register(models.ProposalVote)
+
 class VoteResultAdmin(admin.ModelAdmin):
 
     list_display = (
@@ -149,8 +154,6 @@ class VoteResultAdmin(admin.ModelAdmin):
 
     ordering = ['proposal',]
 
-site.register(models.Issue, IssueAdmin)
-site.register(models.Proposal, ProposalAdmin)
-site.register(models.ProposalVote)
 site.register(models.VoteResult, VoteResultAdmin)
+
 site.register(models.IssueComment, IssueCommentAdmin)
