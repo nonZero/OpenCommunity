@@ -156,19 +156,19 @@ msgstr ""
 
 #: .\templates\registration\password_reset_form.html.py:16
 msgid "An invitation has been sent to this email account before"
-msgstr ""
+msgstr "הזמנה כבר נשלחה בעבר לאימייל הזה"
 
 #: .\templates\registration\password_reset_form.html.py:17
 msgid "Click"
-msgstr ""
+msgstr "לחצ/י"
 
 #: .\templates\registration\password_reset_form.html.py:17
 msgid "Here"
-msgstr ""
+msgstr "כאן"
 
 #: .\templates\registration\password_reset_form.html.py:17
 msgid "to accept invitation"
-msgstr ""
+msgstr "לקבלת ההזמנה"
 
 #: .\templates\registration\password_reset_form.html.py:24
 msgid "Email address:"

@@ -241,8 +241,10 @@ class ImportInvitationsView(MembershipMixin, FormView):
     def form_valid(self, form):
         msg = 'def message'
         def_enc = 'windows-1255'
-        uploaded = form.cleaned_data['csv_file'] 
-        roles = [r[1] for r in DefaultGroups.CHOICES]
+        uploaded = form.cleaned_data['csv_file']
+
+        # CHOICES is a tuple of role names: (name, _(name))
+        roles = dict(DefaultGroups.CHOICES)
         sent = 0
 
         for chunk in uploaded.chunks():
@@ -263,10 +265,13 @@ class ImportInvitationsView(MembershipMixin, FormView):
                     email = words[1].decode(def_enc)
                     try:
                         role = words[2].strip().decode(def_enc)
+                        for k, v in roles.items():
+                            if v == role:
+                                role = k
                     except:
-                        role = roles[0]
-                    if not role in roles:
-                        role = roles[0]
+                        role = roles.keys()[0]
+                    if not role in roles.keys():
+                        role = roles.keys()[0]
 
                     v_err = self.validate_invitation(email)
                     if v_err:
