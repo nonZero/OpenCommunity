@@ -23,6 +23,7 @@ from django.template import RequestContext
 
 from ocd.base_views import CommunityMixin
 from users import models
+from default_roles import DefaultGroups
 from users.forms import InvitationForm, QuickSignupForm, ImportInvitationsForm
 from users.models import Invitation, OCUser, Membership
 
@@ -244,7 +245,9 @@ class ImportInvitationsView(MembershipMixin, FormView):
         msg = 'def message'
         def_enc = 'windows-1255'
         uploaded = form.cleaned_data['csv_file'] 
+        roles = [r[1] for r in DefaultGroups.CHOICES]
         sent = 0
+
         for chunk in uploaded.chunks():
             rows = chunk.split('\n')
             for i, row in enumerate(rows):
@@ -261,7 +264,13 @@ class ImportInvitationsView(MembershipMixin, FormView):
                     # print ' - '.join(row.split(','))
                     name = words[0].decode(def_enc)
                     email = words[1].decode(def_enc)
-                    role = words[2].strip().decode(def_enc)
+                    try:
+                        role = words[2].strip().decode(def_enc)
+                    except:
+                        role = roles[0]
+                    if not role in roles:
+                        role = roles[0]
+
                     v_err = self.validate_invitation(email)
                     if v_err:
                         continue
