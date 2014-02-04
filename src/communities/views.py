@@ -165,12 +165,6 @@ class EditUpcomingMeetingParticipantsView(AjaxFormView, CommunityModelMixin, Upd
     template_name = "communities/participants_form.html"
 
 
-    def get_context_data(self, **kwargs):
-        d = super(EditUpcomingMeetingParticipantsView, self).get_context_data(**kwargs)
-        
-        return d
-
-
 class DeleteParticipantView(CommunityModelMixin, DeleteView):
 
 #     required_permission = ''

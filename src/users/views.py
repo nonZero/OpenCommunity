@@ -319,8 +319,11 @@ def oc_password_reset(request, is_admin_site=False,
         try:
             invitation = Invitation.objects.get(email=email)
             extra_context = {
-                             'invitation_url': reverse('accept_invitation', kwargs={'code': invitation.code})
+                             'has_invitation': True,
                              }
+            invitation.send(sender=invitation.created_by, 
+                            recipient_name=invitation.name)
+
         except Invitation.DoesNotExist:        
             if form.is_valid():
                 opts = {
