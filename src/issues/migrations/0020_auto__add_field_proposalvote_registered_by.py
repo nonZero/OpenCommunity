@@ -8,9 +8,6 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Deleting field 'ProposalVote.registered_by_chairman'
-        db.delete_column(u'issues_proposalvote', 'registered_by_chairman')
-
         # Adding field 'ProposalVote.registered_by'
         db.add_column(u'issues_proposalvote', 'registered_by',
                       self.gf('django.db.models.fields.related.ForeignKey')(related_name='reg_votes', null=True, to=orm['users.OCUser']),
@@ -22,9 +19,6 @@ class Migration(SchemaMigration):
         db.add_column(u'issues_proposalvote', 'registered_by_chairman',
                       self.gf('django.db.models.fields.BooleanField')(default=False),
                       keep_default=False)
-
-        # Deleting field 'ProposalVote.registered_by'
-        db.delete_column(u'issues_proposalvote', 'registered_by_id')
 
 
     models = {
