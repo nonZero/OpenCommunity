@@ -11,6 +11,9 @@ urlpatterns = patterns('',
     url(r'^upcoming/start/$', views.StartMeetingView.as_view(),
         name="upcoming_start"),
 
+    url(r'^upcoming/end/$', views.EndMeetingView.as_view(),
+        name="upcoming_end"),
+
     url(r'^edit-summary/$', views.EditUpcomingSummaryView.as_view(),
         name="upcoming_edit_summary"),
 
@@ -26,11 +29,11 @@ urlpatterns = patterns('',
         name="upcoming_edit_participants"),
 
     # FOR TESTING ONLY!
-    url(r'^upcoming/sum_votes/$', views.sum_votes, name="sum_votes"),
+    url(r'^upcoming/sum_votes/$', views.SumVotesView.as_view(), name="sum_votes"),
         
     url(r'^protocol-preview/$',
         views.ProtocolDraftPreviewView.as_view(),
         name='preview_ongoing_protocol'),
 
-
+  
 )

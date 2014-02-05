@@ -1,17 +1,24 @@
 {% load i18n %}
 
+<li class="hidden-xs" style="width: 50px;height: 40px;"></li>
+
 {% if cperms.issues.viewopen_issue %}
     <li><a {% if pill == 'issues' %}class="active"{% endif %} href="{% url 'issues' community.id %}">{% trans "Issues" %}</a></li>
+    <li class="just_slash hidden-xs">/</li>
 {% endif %}
 
 {% if cperms.communities.viewupcoming_community %}
-    <li><a {% if pill == 'upcoming' %}class="active"{% endif %} href="{% url 'community' community.id %}">{% trans "Upcoming Meeting" %}</a></li>
+    <li><a {% if pill == 'upcoming' %}class="active"{% endif %} href="{% url 'community' community.id %}">{% trans "Meetings" %}</a></li>
 {% endif %}
 
+{% comment %}
 {% if cperms.meetings.view_meeting and community.meetings.count %}
+    <li class="just_slash hidden-xs">/</li>
     <li><a href="{% url 'history' community.id %}">{% trans "History" %}</a></li>
 {% endif %}
+{% endcomment %}
 
 {% if cperms.community.invite_member %}
+    <li class="just_slash hidden-xs">/</li>
     <li><a href="{% url 'members' community.id %}">{% trans "Members" %}</a></li>
 {% endif %}

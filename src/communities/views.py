@@ -1,19 +1,24 @@
 from communities import models
 from communities.forms import EditUpcomingMeetingForm, \
-    PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm, StartMeetingForm, \
+    PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm, \
     EditUpcomingMeetingSummaryForm
 from communities.models import SendToOption
+from users.permissions import has_community_perm 
 from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.db.models.aggregates import Max
 from django.http.response import HttpResponse, HttpResponseBadRequest, \
     HttpResponseRedirect
+from django.template import RequestContext
+from django.template.loader import render_to_string
+from django.shortcuts import render, redirect, render_to_response
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import ListView
-from django.views.generic.detail import DetailView
+from django.utils import timezone
+from django.views.generic import View, ListView
+from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import UpdateView
-from issues.models import IssueStatus
+from issues.models import IssueStatus, Issue
 from ocd.base_views import ProtectedMixin, AjaxFormView
 import datetime
 import json
@@ -52,9 +57,18 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
     template_name = "communities/upcoming.html"
 
     required_permission_for_post = 'community.editagenda_community'
+    
+    """
+    def get(self, request, *args, **kwargs):
+        if not has_community_perm(request.user, self.community, 'viewupcoming_draft'):
+            return HttpResponseRedirect(reverse('meeting', 
+                                                kwargs={'community_id': self.community.id, 'pk': 26})) 
+        return super(UpcomingMeetingView, self).get(request, *args, **kwargs)
+    """
 
     def post(self, request, *args, **kwargs):
 
+        
         """ add / removes an issue from upcoming meeting """
 
         if settings.DEBUG:
@@ -88,6 +102,20 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
 
         return HttpResponseBadRequest("Oops, bad request")
 
+    def get_context_data(self, **kwargs):
+        d = super(UpcomingMeetingView, self).get_context_data(**kwargs)
+        sorted_issues = {'by_time': [], 'by_rank': []}
+        open_issues = Issue.objects.filter(active=True, \
+                                 community=self.community) \
+                                .exclude(status=IssueStatus.ARCHIVED)
+        for i in open_issues.order_by('-created_at'):
+            sorted_issues['by_time'].append(i.id)
+        for i in open_issues.order_by('order_by_votes'):
+            sorted_issues['by_rank'].append(i.id)
+        d['sorted'] = json.dumps(sorted_issues) 
+        return d
+
+
 
 class PublishUpcomingMeetingPreviewView(CommunityModelMixin, DetailView):
 
@@ -108,9 +136,6 @@ class EditUpcomingMeetingView(AjaxFormView, CommunityModelMixin, UpdateView):
     def get_form(self, form_class):
         form = super(EditUpcomingMeetingView, self).get_form(form_class)
         c = self.get_object()
-        if not c.straw_voting_enabled:
-            del form.fields['voting_ends_at']
-
         return form
         
         
@@ -133,6 +158,7 @@ class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):
     form_class = PublishUpcomingMeetingForm
     template_name = "communities/publish_upcoming.html"
 
+    
     def get_form(self, form_class):
         form = super(PublishUpcomingView, self).get_form(form_class)
         c = self.get_object()
@@ -159,22 +185,41 @@ class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):
             c.save()
 
         template = 'protocol_draft' if c.upcoming_meeting_started else 'agenda'
-
-        total = c.send_mail(template, self.request.user, form.cleaned_data['send_to'])
+        tpl_data = {
+            'meeting_time': datetime.datetime.now().replace(second=0)
+        }
+        total = c.send_mail(template, self.request.user, form.cleaned_data['send_to'], tpl_data)
         messages.info(self.request, _("Sending to %d users") % total)
 
         return resp
 
 
-class StartMeetingView(CommunityModelMixin, UpdateView):
+class StartMeetingView(EditUpcomingMeetingParticipantsView):
+
+    template_name = "communities/start_meeting.html"
 
     reload_on_success = True
 
-    required_permission = 'community.editupcoming_community'
+    def on_success(self, form):
+        c = self.object
+        if not c.upcoming_meeting_started:
+            c.upcoming_meeting_started = True
+            c.voting_ends_at = timezone.now().replace(second=0)
+            c.save()
+            c.sum_vote_results()
 
-    form_class = StartMeetingForm
 
-    #template_name = "communities/start_meeting.html"
+class EndMeetingView(CommunityModelMixin, SingleObjectMixin, View):
+
+    def post(self, request, *args, **kwargs):
+        c = self.community
+        if c.upcoming_meeting_started:
+            c.upcoming_meeting_started = False
+            c.voting_ends_at = timezone.now() + datetime.timedelta(days=4000)
+            c.save()
+        return redirect(c)
+
+
 
 
 class EditUpcomingSummaryView(AjaxFormView, CommunityModelMixin, UpdateView):
@@ -194,13 +239,18 @@ class ProtocolDraftPreviewView(CommunityModelMixin, DetailView):
 
     template_name = "emails/protocol_draft.html"
 
+    def get_context_data(self, **kwargs):
+        d = super(ProtocolDraftPreviewView, self).get_context_data(**kwargs)
+        d['meeting_time'] = datetime.datetime.now().replace(second=0)
+        return d
+
     
-def sum_votes(request, pk):
-    if not request.user.is_superuser:
-        return HttpResponse('--')
-        
-    c = models.Community.objects.get(pk=pk)
-    c.sum_vote_results(only_when_over=False)
-    c.voting_ends_at = datetime.datetime.now()
-    c.save()
-    return HttpResponseRedirect(reverse('community', kwargs={'pk': pk}))
+class SumVotesView(View):
+    required_permission = 'meetings.add_meeting'
+    
+    def get(self, request, pk):
+        c = models.Community.objects.get(pk=pk)
+        c.sum_vote_results(only_when_over=False)
+        c.voting_ends_at = datetime.datetime.now().replace(second=0)
+        c.save()
+        return HttpResponseRedirect(reverse('community', kwargs={'pk': pk}))

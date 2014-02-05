@@ -1,13 +1,18 @@
 #from django import forms
 #from django.forms.models import ModelForm
+from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.utils.translation import ugettext_lazy as _
 from ocd.formfields import HTMLArea
 from users.models import Invitation, OCUser
 import floppyforms as forms
 
 
+LOGIN_ERROR = _("Please enter a correct %(username)s and password. "
+                           "Note that both fields may be case-sensitive.")
+
 class InvitationForm(forms.ModelForm):
 
+    # name = forms.CharField(label=_('Name'))
     class Meta:
         model = Invitation
 
@@ -23,6 +28,11 @@ class InvitationForm(forms.ModelForm):
             'message': HTMLArea,
         }
 
+    
+    def __init__(self, *args, **kwargs):
+      super(InvitationForm, self).__init__(*args, **kwargs)
+      self.fields.insert(0, 'name', forms.CharField(label=_('Name'), required=False))
+        
     def clean_email(self):
         return self.cleaned_data.get("email").lower()
 
@@ -55,3 +65,27 @@ class QuickSignupForm(forms.ModelForm):
             user.save()
         return user
 
+
+class OCPasswordResetForm(PasswordResetForm):
+
+    class Meta:
+        fields = (
+                  'email',
+                  )
+
+    def __init__(self, *args, **kwargs):
+        super(OCPasswordResetForm, self).__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs['class'] = u'form-control'
+        
+class OCPasswordResetConfirmForm(SetPasswordForm):
+
+    class Meta:
+        fields = (
+                  'new_password1',
+                  'new_password2',
+                  )
+
+    def __init__(self, *args, **kwargs):
+        super(OCPasswordResetConfirmForm, self).__init__(*args, **kwargs)
+        self.fields['new_password1'].widget.attrs['class'] = u'form-control'
+        self.fields['new_password2'].widget.attrs['class'] = u'form-control'

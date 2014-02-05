@@ -1,0 +1,60 @@
+{% extends "issues/issue_list_frame.html" %}
+{% load i18n %}
+{% load humanize %}
+{% load voting_tags community_tags opencommunity %}
+
+
+{% block extra-page-id %}
+id="proposal-detail"
+{% endblock %}
+
+
+{% block issue_header %}
+	<div style="margin:12px;">
+		<a class="three_dot_sentence level2" href="{{object.issue.get_absolute_url}}?m_id={{meeting_id.id}}&s=1">{{ object.issue.title }}</a>
+</div>
+{% endblock %}
+
+
+    {% block main_object %}
+        {% with siblings=True %}
+            {% include 'issues/proposal_detail_main.html' %}
+        {% endwith %}
+    {% endblock %}
+    
+{% block extrahead %}
+<link rel="stylesheet" href="{{STATIC_URL}}css/proposal.css"/>
+<link rel="stylesheet" href="{{STATIC_URL}}bootstrap/css/typeahead.js-bootstrap.css"/>
+{% endblock %}
+
+{% block scripts %}
+{% if object.can_show_straw_votes %}
+    <script src="{{STATIC_URL}}js/Chart.js"></script>
+    <script src="{{STATIC_URL}}js/_piechart.js"></script>
+    <script>
+        createChart(
+        {{ object.votes_pro }},
+        {{ object.votes_con }},
+        {{ object.community_members|subtract:object.votes_con|subtract:object.votes_pro }},
+        {{ object.id }}
+        );
+    </script>
+{% endif %}
+<script src="{{STATIC_URL}}bootstrap/js/typeahead.min.js"></script>
+<script src="{{STATIC_URL}}js/hogan-2.0.0.js"></script>
+<script src="{{STATIC_URL}}js/issues.js"></script>
+<script src="{{STATIC_URL}}js/proposal.js"></script>
+<script>
+	$(function() {
+		var Meeting = $('.proposal_main').outerHeight();
+		var Issue = $('.proposal_right_column').outerHeight();
+		var Proposal = $('.proposal_left_column').outerHeight();
+		if ((Issue + 20) < Proposal) {
+			$('.proposal_right_column').outerHeight(Proposal-20);
+		};
+		if (Issue > Proposal) {
+			$('.proposal_left_column').outerHeight(Issue+20);
+		};
+	});
+</script>
+{% endblock %}

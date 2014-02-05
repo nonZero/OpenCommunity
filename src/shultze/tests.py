@@ -9,26 +9,8 @@ from django.test import TestCase
 from communities.models import Community
 from users.models import OCUser
 from issues.models import Issue
+from issues.shultze_vote import user_vote
 from shultze.models import IssuesGraph, IssueEdge
-
-def user_vote(community_id, current_vote, prev_vote=[]):
-    try:
-        g = IssuesGraph.objects.get(community_id=community_id)
-    except IssuesGraph.DoesNotExist:
-        g = IssuesGraph.objects.create(community_id=community_id)
-        g.initialize_graph()
-    if prev_vote:
-        g.add_ballots(prev_vote,reverse=True)
-    g.add_ballots(current_vote)
-
-
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
-
 
 class GraphToResults(TestCase):
     def setUp(self):

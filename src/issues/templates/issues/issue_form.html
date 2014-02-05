@@ -5,6 +5,10 @@
     id="issue-create"
 {% endblock %}
 
+{% block form_name %}
+<div class="issue-form-bg"></div>
+{% endblock %}
+
 {% block page_header %}
     {% if form.instance.id %}
         {% trans "Edit Issue" %}

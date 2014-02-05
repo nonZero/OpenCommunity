@@ -8,6 +8,7 @@ body {
 	direction: rtl;
 	/*{global-font-family}*/
 	font-family: "Alef", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	margin-bottom: 50px;
 }
 h1,
 h2,
@@ -26,13 +27,18 @@ h6,
 	color: #6C6C6E;
 }
 h1 {
-	font-size: 30px;
+	font-size: 28px;
 	padding: 5px 0;
 	margin: 0;
+	font-weight: normal;
+	word-break: break-word;
 }
 h2 {
 	font-size: 18px;
 	margin-top: 10px;
+}
+.modal-body h3 {
+	font-size: 18px;
 }
 .oc_detail_top h5 span {
 	font-weight: normal;
@@ -56,6 +62,9 @@ a {
 p > a {
 	word-break: break-word;
 }
+.container {
+	margin-bottom: 30px;
+}
 
 /* Errors */
 
@@ -69,6 +78,9 @@ ul.errorlist li {
 
 /* Forms */
 
+.modal-body {
+	padding: 20px 20px 10px 20px;
+}
 .modal-content {
 	background: url('images/background.jpg') repeat;
 }
@@ -82,6 +94,12 @@ ul.errorlist li {
 .modal-header .close {
 	color: #fff;
 	opacity: 1;
+}
+.modal-footer {
+	margin-top: 0;
+}
+.form-group {
+	margin-bottom: 10px;
 }
 #upcoming-meeting .field-send_to ul {
 	list-style-type: none;
@@ -110,6 +128,14 @@ ul.errorlist li {
 	width: 49%;
 	display: inline-block;
 }
+#issue-proposal-type {
+	margin-bottom: 10px;
+}
+#issue-proposal-type.nav-tabs > li.active > a,
+#issue-proposal-type.nav-tabs > li.active > a:hover,
+#issue-proposal-type.nav-tabs > li.active > a:focus {
+	border-bottom-color: #dddddd;
+}
 
 /* General buttons */
 
@@ -122,7 +148,7 @@ ul.errorlist li {
 	color: #fff;
 	text-shadow: none;
 	background-color: #194e5c;
-	border-color: #fff;
+	/*border-color: #fff;*/
 }
 .btn-oc:hover {
 	opacity: 0.9;
@@ -232,19 +258,42 @@ ul.errorlist li {
 /* Navbar */
 
 nav.oc_navbar {
-	background-image: url('images/title_bg.png');
-/*	background: #428bca;*/
+	/*background-image: url('images/title_bg.png');*/
+	background: transparent;
 /*	margin-bottom: 0;*/
+}
+.navbar {
+	min-height: 35px;
+	margin: 0 20px;
+	border-top: 0;
+	border-right: 0;
+	border-left: 0;
+	border-bottom: 4px double #666666;
+}
+.nav > li > a {
+	padding: 10px 15px;
+}
+#issue-list .nav > li > a {
+	padding: 10px;
+}
+.navbar-toggle {
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+.navbar-brand {
+	padding: 10px 15px;
 }
 .navbar-default .navbar-brand {
 	font-size: 16px;
 	font-weight: bold;
-	color: #fff;
-/*	width: 60%;
-	margin-right: 20%;*/
+	color: #666;
+}
+.just_slash {
+	padding: 10px 0;
 }
 .navbar-default .navbar-collapse {
-	background-image: -webkit-linear-gradient( top, #fcfcfc, #e7e7e8 );
+	/*background-image: -webkit-linear-gradient( top, #fcfcfc, #e7e7e8 );*/
+	background-color: transparent;
 }
 .navbar-default .navbar-nav > li > a {
 	color: #333333;
@@ -264,41 +313,49 @@ nav.oc_navbar {
 }
 .navbar-default.oc_navbar .navbar-brand:hover,
 .navbar-default.oc_navbar .navbar-brand:focus {
-	color: #fff;
+	/*color: #fff;*/
 }
 p.user_nav {
 	width: 100%;
 	margin: 10px 15px;
 }
+/*#community-list ul .list-group,
+#community-list button.navbar-toggle,*/
 #login-page ul .list-group,
-#login-page button.navbar-toggle,
-#community-list ul .list-group,
-#community-list button.navbar-toggle {
+#login-page button.navbar-toggle {
 	display: none;
 }
-#login-page .col-lg-10,
-#login-page .col-md-9,
-#login-page .col-sm-9,
+/*
 #community-list .col-lg-10,
 #community-list .col-md-9,
-#community-list .col-sm-9 {
+#community-list .col-sm-9,
+#login-page .col-lg-10,
+#login-page .col-md-9,
+#login-page .col-sm-9 {
 	width: 100%;
 }
-#login-page .navbar-default .navbar-brand,
-#community-list .navbar-default .navbar-brand {
+#community-list .navbar-default .navbar-brand,
+#login-page .navbar-default .navbar-brand {
 	width: 100%;
 	margin-right: 0;
-}
+}*/
 /* Hide login button from community list page */
-#community-list #login_navbar {
+/*#community-list #login_navbar,*/
+#login-page #login_navbar {
 	display: none;
 }
 /* List */
 
 .oc_li {
-	background: #448698;
+	background-color: #f5f6de;
+}
+#community-list .oc_li {
+	background-color: #448698;
 }
 .oc_li a {
+	color: #666;
+}
+#community-list .oc_li a {
 	color: #fff;
 }
 .left_arrow {
@@ -310,21 +367,75 @@ p.user_nav {
 .nav > li.oc_li > a:hover, .nav > li.oc_li > a:focus {
 	background-color: transparent;
 }
-#agenda li.issue.oc_li a {
-	margin: 0 40px 0 100px;
+
+
+li.issue.oc_li > a {
+	margin: 0 40px;
 	padding-right: 0;
-	padding-left: 0;
+	padding-left: 10px;
 }
-#available li.issue.oc_li a {
+
+#voted_out li.issue.oc_li > a {
+	padding-right: 75px;
+	margin-right: 0;
+	font-size: 18px;
+}
+#ordered li.issue.oc_li > a {
+	padding-right: 20px;
+	margin-right: 60px;
+	font-size: 18px;
+	word-break: break-word;
+}
+#available li.issue.oc_li a, #voted_out li.issue.oc_li a {
 	margin-left: 41px;
 	word-break: break-word;
 }
+
+ul li.issue.oc_li a.addremove {
+	display: block;
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+
+
 #agenda li .grab {
     width: 40px;
-    height: 40px;
+    /*height: 40px;*/
     background: url('images/drag-handle.png') center no-repeat;
     float: right;
     cursor: move;
+    position: absolute;
+	height: 100%;
+}
+#ordered li .grab {
+    width: 60px;
+    /*height: 45px;*/
+    background: url('images/drag-handle-white.png') #3d3c3c center no-repeat;
+    float: right;
+    cursor: move;
+    position: absolute;
+	height: 100%;
+}
+#ordered li .grab span {
+	display: none;
+}
+#voted_out li .grab span {
+	display: block;
+}
+#voted_out li .grab {
+	width: 60px;
+    height: 45px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background: #3d3c3c;
+	color: #fff;
+	text-align: center;
+	font-size: 16px;
+	vertical-align: middle;
+    float: right;
+    position: absolute;
+	height: 100%;
 }
 #agenda .completed {
 	position: relative;
@@ -340,22 +451,23 @@ p.user_nav {
 	top: 10px;
 	left: 45px;
     background: transparent;
-    color: #fff;
+    color: #666;
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
 }
-#agenda li.issue a.addremove,
-#available li.issue a.addremove {
-	display: block;
-	margin: 0;
-	width: 100%;
-	height: 100%;
+.user_votes_on_issue {
+	position: absolute;
+	top: 10px;
+	left: 45px;
 }
-#agenda .icon-plus-minus {
+
+#agenda .icon-plus-minus, 
+#ordered .icon-plus-minus {
 	background: url('images/minus_action.png') no-repeat 50% 50%;
 }
-#available .icon-plus-minus {
+#available .icon-plus-minus,
+#voted_out .icon-plus-minus {
 	background: url('images/plus_action.png') no-repeat 50% 50%;
 }
 .tick {
@@ -364,11 +476,11 @@ p.user_nav {
 .cog {
 	background: url('images/cog.png') no-repeat 50% 50%;
 }
-.agenda_plus_minus {
+.agenda_plus_minus, .sort_plus_minus {
 	position: absolute;
 	width: 40px;
 	height: 100%;
-	border-right: 1px solid #fff;
+	border-right: 1px solid #ccc;
 	top: 0;
 	left: 0;
 }
@@ -403,30 +515,30 @@ p.user_nav {
 	font-weight: bold;
 }
 
+.issue-abstract {
+    padding: 5px 15px;
+    /*border: 1px solid #d8d8d9;*/
+    /*background: #eee;*/
+    margin-bottom: 5px;
+}
+
 .oc_detail_top {
 	padding: 0 15px;
-	border-top: 1px solid #d8d8d9;
+	/*border-top: 1px solid #d8d8d9;*/
 	border-bottom: 1px solid #d8d8d9;
-	background: #fcfcfc;
-	background-image: -webkit-gradient(linear, left top, left bottom, from( #e7e7e8 ), to( #fcfcfc ));
-	background-image: -webkit-linear-gradient( top, #e7e7e8 , #fcfcfc );
-	background-image: -moz-linear-gradient( top, #e7e7e8 , #fcfcfc );
-	background-image: -ms-linear-gradient( top, #e7e7e8 , #fcfcfc );
-	background-image: -o-linear-gradient( top, #e7e7e8 , #fcfcfc );
-	background-image: linear-gradient( top, rgb(231, 231, 232) , #fcfcfc );
 }
 
 .summary_box {
 	padding: 15px;
 	border-top: 1px solid #d8d8d9;
 	border-bottom: 1px solid #d8d8d9;
-	background: #fcfcfc;
+	/*background: #fcfcfc;
 	background-image: -webkit-gradient(linear, left top, left bottom, from( #e7e7e8 ), to( #fcfcfc ));
 	background-image: -webkit-linear-gradient( top, #e7e7e8 , #fcfcfc );
 	background-image: -moz-linear-gradient( top, #e7e7e8 , #fcfcfc );
 	background-image: -ms-linear-gradient( top, #e7e7e8 , #fcfcfc );
 	background-image: -o-linear-gradient( top, #e7e7e8 , #fcfcfc );
-	background-image: linear-gradient( top, rgb(231, 231, 232) , #fcfcfc );
+	background-image: linear-gradient( top, rgb(231, 231, 232) , #fcfcfc );*/
 }
 
 /* Tables */
@@ -488,14 +600,34 @@ table.issue-table {
 	border-left: 1px dashed #8f9698;
 }
 .meeting-header-users {
-	padding-top: 17px;
-	padding-bottom: 17px;
+	padding-top: 14px;
+	padding-bottom: 14px;
+	border-left: 1px dashed #8f9698;
+	height: 100%;
+}
+.meeting-header-users:last-child {
+	border-left: 0;
+}
+.emp {
+    font-weight: 900;
+    font-size: 110%;
+    color: #000;
 }
 .show-participants {
 	display: block;
-	line-height: 25px;
+	line-height: 32px;
 	padding-right: 45px;
-	background: url('images/users.png') no-repeat right center;
+	background-image: url('images/users.png');
+	background-repeat: no-repeat;
+	background-size: 32px 32px;
+	background-position: right center;
+	height: 100%;
+}
+.show-protocol {
+	display: block;
+	line-height: 32px;
+	height: 100%;
+	text-align: center;
 }
 .users {
 	color: #fff;
@@ -532,11 +664,11 @@ table.issue-table {
 	font-size: 18px;
 	padding-left: 30px;
 	padding-right: 10px;
-	background: url(images/arrow-left.png) #448698 no-repeat 10px 50%;
+	background: url(images/arrow-left.png) #f5f6de no-repeat 10px 50%;
 	word-break: break-word;
 }
 .issue-table tr td.title {
-	font-size: 24px;
+	font-size: 16px;
 	padding: 10px 5px 5px 5px;
 	line-height: 1;
 	font-weight: bold;
@@ -549,7 +681,7 @@ table.issue-table {
 	vertical-align: middle;
 }
 .issue-table tbody tr td.issue_title a {
-	color: #fff;
+	color: #666;
 	font-size: 18px;
 	display: block;
 }
@@ -558,7 +690,7 @@ table.issue-table {
 }
 table.issue-table tr td {
 	border-top: 0;
-	background-color: #448698;
+	background-color: #f5f6de;
 	color: #fff;
 }
 .issue-table tr td.name {
@@ -589,7 +721,7 @@ table.issue-table tr td {
 	overflow: hidden;
 }
 .meeting-table thead tr th a {
-    color: #fff;
+    color: #666;
     text-decoration: none;
 /*    display: block;*/
     max-height: 2.6em;
@@ -603,9 +735,10 @@ table.issue-table tr td {
 }
 .meeting-table thead tr th.count a {
     width: 38px;
+    color: #fff;
 }
 .issue-table tr td.icon {
-    font-size: 30px;
+    /*font-size: 30px;*/
     background: url(images/issue-icon.png) no-repeat center #3d3c3c;
     width: 45px;
 	text-align: center;
@@ -629,6 +762,18 @@ table.issue-table tr td.issue_date {
 
 /* Proposal page table & more */
 
+.agendaitem {
+    border: 1px solid #ccc;
+    margin-bottom: 6px;
+    background: #f0f0f0;
+    padding: 0 6px;
+}
+
+.open-proposals h2:last-child,
+.comments h2:last-child {
+    display:none;
+}
+
 ul.prop-table {
 	display: table;
 	width: 100%;
@@ -638,6 +783,7 @@ ul.prop-table {
 	background: #ffffff;
 	list-style-type: none;
 }
+#issue-detail-siblings ul.prop-table,
 #issue-detail ul.prop-table {
 	cursor: pointer;
 }
@@ -664,6 +810,8 @@ ul:nth-child(odd).proposals li.drag-icon {
 }
 ul.proposals li.prop-title {
 	padding: .7em 15px 0 15px;
+	word-break: break-word;
+	font-weight: bold;
 }
 a ul.proposals li.prop-title {
 	color: #6c6c6e;
@@ -695,38 +843,44 @@ ul.proposals li.prop-content p {
 	border: 1px solid #d8e0df;
 	background: #fff;
 }
+#proposal-detail .proposal-info {
+	margin-top: 15px;
+	clear: both;
+}
 .proposal-info p {
 	word-break: break-word;
 	margin: 10px 0;
 }
 .unaccept {
-	position: absolute;
+	/*position: absolute;
 	top: 0;
 	left: 0;
-	margin: 7px;
+	margin: 7px;*/
 }
 #proposal-detail .accepted {
-	position: relative;
-	background: url(images/accepted.png) no-repeat right center #b8d29a;
-	border: 1px solid #d8e0df;
-	padding: 17px 50px;
-	font-size: 18px;
-	font-weight: bold;
-	margin-bottom: 20px;
+	/*position: absolute;
+	top: 0;
+	left: 0;*/
+	font-size: 14px;
+	/*padding: 10px;*/
 }
 #proposal-detail .rejected {
-    position: relative;
-    background: url(images/proposal-rejected.png) no-repeat #d2af7d;
-    background-position: 99% 50%;
-    border: 1px solid #e8d8df;
-	padding: 17px 50px;
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 20px;
+	/*position: absolute;
+	top: 0;
+	left: 0;*/
+	font-size: 14px;
+	/*padding: 10px;*/
 }
 #proposal-detail .accepted a:hover,
 #proposal-detail .rejected a:hover {
 	text-decoration: none;
+}
+
+/* Protocol & Agenda ajax preview */
+
+#protocolPreview {
+	text-align: right;
+	padding-top: 20px;
 }
 
 /* Messages */
@@ -742,32 +896,55 @@ ul.proposals li.prop-content p {
 
 /* Issue detail comments */
 
-#comments {
+.comments {
 	padding: 0;
 	margin-bottom: 1px;
 }
-#comments li {
+.comments .historic_comments > li,
+.comments > li {
 	padding: 5px;
-	background: #fff;
+	/*background: #fff;*/
 	list-style-type: none;
 	margin-bottom: 1px;
+	border-bottom: 1px solid #ccc;
 }
-#comments li.editing {
+.comments .historic_comments > li:last-child,
+.comments > li:last-child {
+	border-bottom: 0;
+}
+.comments li.editing {
 	background: transparent;
 }
-#comments li.editing div {
-	padding-left: 26px;
+.comments li.editing div {
+	/*padding-left: 26px;*/
 }
 .comment-inner {
 	color: #6c6c6e;
 	font-size: 14px;
 }
-.comment-inner p.content {
+.comment-inner a {
+	word-break: break-all;
+}
+.comment-inner p {
+	margin-bottom: 0;
+}
+.comment-inner .userhtml {
 	font-size: 15px;
 }
-#comments li.rich_editor {
+.comments li.rich_editor {
 	background: transparent;
 	padding: 10px 0 0 0;
+}
+.rich_editor_box {
+	background: #fff;
+	border-left: 1px solid rgb(204, 204, 204);
+	border-right: 1px solid rgb(204, 204, 204);
+	border-bottom: 1px solid rgb(204, 204, 204);
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+	margin-top: -10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 .issue_attachments ul {
 	list-style-type: none;
@@ -780,9 +957,21 @@ ul#invitations {
 	list-style-type: none;
 }
 form.delete-invitation {
-	display: inline;
-	margin-left: 15px;
+/*	display: inline;*/
+	margin-right: 10px;
 }
+.comment-switch-active {
+	text-decoration: underline;
+}
+.history_toggle {
+	position: absolute;
+	right: 15px;
+	font-size: 14px;
+}
+#comment-switch {
+	cursor: pointer;
+}
+
 /* Images & Icons */
 
 .check_box {
@@ -852,21 +1041,30 @@ form.delete-invitation {
 .vid {background-image: url('images/icons/video.png');}
 .snd {background-image: url('images/icons/audio.png');}
 
-i.fa + span {
+/*i.fa + span {
 	display: none;
-}
+}*/
 
 /* Pie Chart */
 
 .piechart {
 	margin: 10px 0;
-	background: #fff;
+	/*background: #fff;*/
 	padding-top: 10px;
+	border: 1px solid #d8e0df;
 }
 .piechart span {
 	font-size: 1.1em;
 	vertical-align: top;
 }
+
+.piechart a {
+   font-size: 1.1em;
+   vertical-align: top;
+   color: #000;
+   text-decoration: none;
+}
+
 .piechart span span {
 	font-size: 1em;
 	width: 35px;
@@ -884,28 +1082,47 @@ i.fa + span {
 .chart_divider {
 	height: 1px;
 	border-top: 1px dotted;
-	margin: 15px 0;
+	margin-bottom: 10px;
+}
+.chart_datetime {
+	border-bottom: 1px solid #d8e0df;
+	padding-bottom: 10px;
+	margin-bottom: 10px;	
 }
 
 /* Votes */
 
 .change_vote {
 	background: #fff3a5;
-	padding: 10px 40px;
+	padding: 10px;
 	color: #666;
 	font-size: 16px;
 	font-weight: bold;
 }
-.change_vote span {
-	margin-left: 30px;
+.issue_proposal_vote .change_vote {
+	margin-top: -10px;
 }
 .prop_votes {
 	height: 35px;
-	margin-top: 10px;	
 	margin-bottom: 10px;
+}
+#proposal-detail .prop_votes {
+	margin-top: 10px;
 }
 .issue_proposal_vote {
 	height: 55px;
+	background: #fff;
+	border-right: 1px solid #d8e0df;
+	border-left: 1px solid #d8e0df;
+	border-bottom: 1px solid #d8e0df;
+	margin-bottom: 20px;
+	padding: 10px 0;
+}
+.change_vote~.issue_proposal_vote {
+	padding-top: 0;
+}
+.issue_proposal_vote:last-child {
+	margin-bottom: 0;
 }
 .proposal_count {
 	color: green;
@@ -913,33 +1130,43 @@ i.fa + span {
 .votes_count {
 	color: red;
 }
+.vote-badge {
+	color: #fff;
+	background: #448698;
+}
+.no-vote-badge {
+	/*background: transparent;*/
+	color: #fff;
+	border: 1px solid;
+}
 
-/* WYSIWYG top bar */
+/* WYSIHTML5 Editor */
 
-.mce-container.mce-panel.mce-first.mce-stack-layout-item {
-	background: #3d3c3c;
-	padding: 5px;
+.wysiwyg-text-align-left {
+    text-align: left;
 }
-.mce-container.mce-panel.mce-first.mce-stack-layout-item .mce-widget {
-	box-shadow: none;
+.wysiwyg-text-align-right {
+    text-align: right;
+}
+.wysiwyg-text-align-center {
+    text-align: center;
+}
+.oc_detail_top ol,
+.oc_detail_top ul,
+#proposal-detail .proposal .proposal-info ol,
+#proposal-detail .proposal .proposal-info ul,
+.summary_box ol,
+.summary_box ul {
+	margin-bottom: 0;
+}
+.oc_detail_top p,
+.comments .comment-inner .userhtml,
+.comments .comment-inner ol,
+.comments .comment-inner ul {
+	margin-bottom: 5px;
 }
 
-.mce-statusbar {
-	display: none !important;
-}
-.mce-btn-group {
-	margin: 0 10px !important;
-}
-.mce-btn {
-	border: 0 !important;
-	background: transparent !important;
-	-webkit-box-shadow: 0 0 0 !important;
-	-moz-box-shadow: 0 0 0 !important;
-	box-shadow: 0 0 0 !important;
-}
-.mce-btn-small .mce-ico {
-	color: #f5f5f5 !important;
-	text-shadow: none !important;
+.filter {
 }
 
 /* Footer */
@@ -949,6 +1176,26 @@ i.fa + span {
 }
 
 /* Responsive */
+
+/* Extra small devices, mostly for patches (smartphone, up to 480px) */
+@media (max-width: 480px) {
+	ul.wysihtml5-toolbar > li:last-child {
+		display:none
+		}
+	.mobile_line_break {
+		display: block;
+	}
+	.show-participants {
+		padding-right: 0;
+		background-position: center;
+	}
+	.meeting-header-users {
+		padding: 14px 0;
+	}
+	.navbar-default .navbar-brand {
+		width: 80%;
+	}
+}		
 
 /* Extra small devices (smartphone, up to 767px) */
 @media (max-width: 767px) {
@@ -994,15 +1241,35 @@ i.fa + span {
 		margin-right: 0;
 	}
 	.navbar-default .navbar-collapse {
-		background-image: url('images/title_bg.png');
+		/*background-image: url('images/title_bg.png');*/
+		background: transparent;
 	}
 	.navbar-default .navbar-nav > li > a,
 	.navbar-default p.navbar-text {
-		color: #fff;
+		color: #666;
 	}
 	i.fa + span {
 		display: inline;
 	}
+	.change_vote {
+		padding: 10px 40px;
+	}
+	.change_vote span {
+		margin-left: 30px;
+	}
+	.mobile_line_break {
+		display: inline;
+	}
+	.navbar-nav > li > a {
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+	li.issue.oc_li > a {
+		margin: 0 40px 0 125px;
+		padding-right: 0;
+		padding-left: 0;
+	}
+
 }
 
 /* Medium devices (desktops, 992px and up) */

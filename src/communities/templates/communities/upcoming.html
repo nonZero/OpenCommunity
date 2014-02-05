@@ -1,154 +1,222 @@
-{% extends "base.html" %}
+{% extends "communities/base_meeting.html" %}
 {% load i18n %}
-{% load opencommunity %}
+{% load opencommunity community_tags %}
 
 {% block extra-page-id %}
 	id="upcoming-meeting"
 {% endblock %}
 
 {% block page_header %}
-	{% trans "Upcoming Meeting" %}
-	{% if object.upcoming_meeting_title and cperms.communities.viewupcoming_community %}
-		{% if cperms.community.editagenda_community or object.upcoming_meeting_is_published %}
-			- {{object.upcoming_meeting_title}}
-		{% endif %}
-	{% endif %}
+<span class="show_meetings visible-xs" style="cursor: pointer;">{% trans "All Meetings" %}</span>
 {% endblock %}
 
-{% block pagemenu %}
-	{% if cperms.community.editagenda_community %}
-		<a class="btn btn-oc" data-rel="form" href="{% url "issue_create_upcoming" community.id %}"> <i class="fa fa-plus"></i> <span>{% trans "Create Issue" %}</span></a>
-	{% endif %}
-
-	{% if cperms.community.editupcoming_community %}
-		<a class="btn btn-oc" data-rel="form"
-		href="{% url "upcoming_edit" community.id %}"> <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span> </a>
-	{% endif %}
-
-	{% if cperms.community.editparticipants_community and community.upcoming_meeting_started %}
-		<a class="btn btn-oc" data-rel="form"
-		href="{% url "upcoming_edit_participants" community.id  %}"> <i class="fa fa-group"></i> <span>{% trans "Select Participants" %}</span> </a>
-	{% endif %}
-
-	{% if cperms.community.editagenda_community %}
-		<a class="btn btn-oc" data-rel="form"
-		href="{% url "upcoming_publish" community.id  %}"> {% if object.upcoming_meeting_started %} <i class="fa fa-envelope-o"></i> <span>{% trans "Summary Draft" %}</span> {% else %} <i class="fa fa-envelope-o"></i> <span>{% trans "Publish Agenda" %}</span> {% endif %} </a>
-	{% endif %}
-
-	{% if cperms.community.editupcoming_community %}
-		<form class="btn btn-oc" method="post" action="{% url "upcoming_start" community.id  %}">
-			{% csrf_token %}
-			<input type="hidden" name="upcoming_meeting_started" value="{{object.upcoming_meeting_started|yesno:'0,1'}}" id="id_upcoming_meeting_started">
-			{% if object.upcoming_meeting_started %}
-				<button class="btn-oc" style="border: 0; outline: none;">
-					<i class="fa fa-undo"></i><span>{% trans "Undo Start Meeting" %}</span>
-				</button>
-			{% else %}
-				<button class="btn-oc" style="border: 0; outline: none;">
-					<i class="fa fa-play-circle"></i><span>{% trans "Start Meeting" %}</span>
-				</button>
-			{% endif %}
-		</form>
-	{% endif %}
-
-	{% if user.is_superuser and object.straw_voting_enabled %}
-		<a class="btn btn-oc" id="summation"
-		href="{% url "sum_votes" community.id  %}"> <i class="fa fa-bar-chart-o"></i> <span>{% trans "Sum vote" %}</span></a>
-	{% endif %}
-{% endblock %}
-
-{% block content %}
-
-{% if cperms.communities.viewupcoming_community %}
-	{% if cperms.communities.viewupcoming_draft or object.upcoming_meeting_is_published %}
-
-		{% if object.upcoming_meeting_started %}
-			<h2 class="text-center"> --{% trans "Meeting started" %}-- </h2>
-		{% else %}
-
-			{% if object.upcoming_meeting_is_published %}
-				<h2 class="text-center"> --{% trans "Published" %}-- </h2>
-				<h2 class="text-center"> ({% trans "Version" %} {{object.upcoming_meeting_version}} - {{object.upcoming_meeting_published_at}}) </h2>
-			{% else %}
-				<h2 class="text-center"> --{% trans "Draft" %}-- </h2>
-			{% endif %}
-		{% endif %}
-
-		<div class="oc_detail_top">
-			<h5> {% trans "Location" %}: <span>{{object.upcoming_meeting_location|default:_("Not set yet")}}</span></h5>
-			<h5> {% trans "Scheduled at" %}: <span>{{object.upcoming_meeting_scheduled_at|default:_("Not set yet")}}
-				{% if object.upcoming_meeting_comments %}
-					{{object.upcoming_meeting_comments|safe}}
-				{% endif %}</span>
-			</h5>
-			{% if object.straw_voting_enabled %}
-				<h5>
-					{% trans "Voting ends at" %}: <span>{{ object.voting_ends_at|default:_("Not set yet") }}</span>
-				</h5>
-			{% endif %}
-		</div>
-
-		<div id="agenda-container" class="agenda-list">
-			<h2> {% trans "Agenda items" %} <span class="loader"> <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/> </span></h2>
-			<ul id="agenda" class="nav nav-pills nav-stacked">
-				{% for i in object.upcoming_issues %}
-					{% include "communities/_issue.html" %}
-				{% endfor %}
-			</ul>
-		</div>
-
-		{% if object.upcoming_meeting_started and cperms.community.editupcoming_community %}
-		
-			<h2>{% trans "Summary" %}</h2>
-			{% if object.upcoming_meeting_summary %}
-				<div class="summary_box">
-					{{object.upcoming_meeting_summary|safe}}
+{% block meeting %}
+	<div class="small_meetings" style="display: none;">
+		<ul>
+    	{% if object.upcoming_meeting_scheduled_at %}
+          <li class="active">
+            <h4><a href="{{object.get_absolute_url}}">{% trans "Upcoming Meeting" %}</a></h4>
+            <h5 style="font-weight: normal;"><i class="fa fa-calendar"></i> {{ object|display_upcoming_time }}
+            <i class="fa fa-map-marker"></i> {{ object.upcoming_meeting_location|default:_("Not set yet") }}</h5>
+          </li>
+      	{% endif %}
+		{% for m in object.meetings.all %}
+          <li>
+            <h4><a href="{{m.get_absolute_url}}">{% if m.title %}{{ m.title }}{% else %}{{ m.held_at }}{% endif %}</a></h4>
+            <h5 style="font-weight: normal;">{% if m.title %}<i class="fa fa-calendar"></i> {{ m.held_at }}{% endif %}
+            {% if m.location %}<i class="fa fa-map-marker"></i> {{ m.location }}{% endif %}</h5>
+          </li>
+		{% endfor %}
+        </ul>
+	</div>
+<div class="main_meeting_content">
+	<div class="text-right col-xs-12" style="font-size: 14px; border-bottom: 1px solid #666; margin-bottom: 10px;">
+		{% with status=object|upcoming_status %}
+			-- {{ status.0 }} --
+			{% if status.1 %}<!-- <h5>({{ status.1 }}) </h5> -->{% endif %}
+		{% endwith %}
+	</div>
+	<div class="col-xs-12">
+		{% if cperms.communities.viewupcoming_community %}
+			{% if cperms.communities.viewupcoming_draft or object.upcoming_meeting_is_published %}
+				<div class="pull-right">
+					{% if cperms.community.editupcoming_community %}
+						<a data-rel="form" href="{% url "upcoming_edit" community.id %}" style="color: #6C6C6E;display: block; text-align: left;"> <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span></a>
+					{% endif %}
 				</div>
 			{% endif %}
-			<div class="push">
-				<a data-rel="form" href="{% url "upcoming_edit_summary" community.id %}" class="btn btn-oc"> {% trans "Edit" %} </a>
-			</div>
-		
 		{% endif %}
-
-		{% if object.upcoming_meeting_started and cperms.meetings.add_meeting %}
-			<div class="narrow">
-				<a href="{% url "upcoming_close" community.id %}" data-rel="form" class="btn btn-oc btn-block btn-lg"> {% trans "Close Meeting" %} </a>
+		<div class="pull-left">
+			<h1>
+			{% if object.upcoming_meeting_title and cperms.communities.viewupcoming_community %}
+				{% if cperms.community.editagenda_community or object.upcoming_meeting_is_published %}
+					{{object.upcoming_meeting_title}}
+				{% endif %}
+			{% else %}
+				{% trans "Upcoming Meeting" %}
+			{% endif %}
+			</h1>
+		</div>
+	</div>
+	{% if cperms.communities.viewupcoming_community %}
+		{% if cperms.communities.viewupcoming_draft or object.upcoming_meeting_is_published %}
+	
+			{% if object.straw_voting_enabled and not object.straw_vote_ended and not user.id %}
+			<div class="text-center" style="margin-bottom: 10px;">
+				<a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-warning">{% trans "Login to vote" %}</a>
 			</div>
-		{% endif %}
+			{% endif %}
+	
+			<div class="oc_detail_top row clear" style="border:0;background: none;">
+				<h5 class="pull-left" style="line-height: 1.3;">
+	        		<i class="fa fa-calendar"></i> {{ object|display_upcoming_time }}
+					<i class="fa fa-map-marker"></i> {{object.upcoming_meeting_location|default:_("Not set yet")}}
+				{% if cperms.community.editparticipants_community and community.upcoming_meeting_started %}
+					<a data-rel="form" href="{% url "upcoming_edit_participants" community.id  %}" style="color: #6C6C6E;"> <i class="fa fa-group"></i> {% trans "Participants" %}: {{object.full_participants}}</a>
+				{% endif %}
+				</h5>
 
-		{% if cperms.community.editagenda_community %}
-		
-			<div id="available-agenda" class="agenda-list">
-				<h2>{% trans "Available Issues" %}</h2>
-			
-				<ul id="available" class="nav nav-pills nav-stacked">
-					{% for i in object.available_issues %}
+				{% if cperms.community.editupcoming_community %}
+                    <h5 class="pull-right">
+                        {% if object.upcoming_meeting_started %}
+                            <form method="post" action="{% url "upcoming_end" community.id  %}">
+                                {% csrf_token %}
+                                <button class="btn btn-default" style="border: 0; outline: none;background: 0;padding: 0;">
+                                    <i class="fa fa-undo"></i> <span>{% trans "Undo Start Meeting" %}</span>
+                                </button>
+                            </form>
+                        {% else %}
+                            <button class="btn btn-default" style="border: 0; outline: none;background: 0;padding: 0;"
+                                    data-rel="form" data-url="{% url "upcoming_start" community.id  %}" >
+                                    <i class="fa fa-play-circle"></i> <span>{% trans "Start Meeting" %}</span>
+                            </button>
+                        {% endif %}
+                    </h5>
+				{% endif %}
+								
+				<h5 style="clear: both;border-top: 1px solid;padding-top: 10px;">
+				{% if object.upcoming_meeting_comments %}
+				    {{object.upcoming_meeting_comments|userhtml}}
+				{% endif %}
+				</h5>
+			</div>
+	
+			<div id="agenda-container" class="agenda-list clear">
+				<h2 class="pull-left"> {% trans "Agenda items" %} <span class="loader"> <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/> </span></h2>
+				{% if cperms.community.editagenda_community %}
+					<a class="btn btn-oc pull-right" data-rel="form" href="{% url "issue_create_upcoming" community.id %}"> <i class="fa fa-plus"></i> <span>{% trans "Create Issue" %}</span></a>
+				{% endif %}
+				{% if object.has_straw_votes and cperms.issues.vote and object.upcoming_meeting_is_published and user.id %}
+					<h2 class="pull-right">
+						<span class="badge vote-badge">
+							{% trans "Total proposals/Votes" %}
+						</span>
+					</h2>
+				{% endif %}	
+	
+				<ul id="agenda" class="nav nav-pills nav-stacked clear">
+					{% for i in object.upcoming_issues %}
 						{% include "communities/_issue.html" %}
 					{% endfor %}
 				</ul>
 			</div>
-		
+	
+			{% if object.upcoming_meeting_started and cperms.community.editupcoming_community %}
+			
+				<h2 class="pull-left">{% trans "Summary" %}</h2>
+				<div class="push pull-right">
+					<a data-rel="form" href="{% url "upcoming_edit_summary" community.id %}" class="clear" style="padding: 9px;display: inline-block;">
+						<img src="{{ STATIC_URL }}images/comment_edit_pencil.png" />
+					</a>
+				</div>
+				{% if object.upcoming_meeting_summary %}
+					<div class="summary_box clear">
+						{{object.upcoming_meeting_summary|userhtml}}
+					</div>
+				{% endif %}
+			
+			{% endif %}
+
+			{% if cperms.community.editagenda_community %}
+			<div style="margin: 1em auto;text-align: center;clear: both;">
+				<a data-rel="form" href="{% url "upcoming_publish" community.id  %}" class="btn btn-oc"> {% if object.upcoming_meeting_started %} <i class="fa fa-envelope-o"></i> <span>{% trans "Summary Draft" %}</span> {% else %} <i class="fa fa-envelope-o"></i> <span>{% trans "Publish Agenda" %}</span> {% endif %}</a>
+			{% if object.upcoming_meeting_started and cperms.meetings.add_meeting %}
+				<a href="{% url "upcoming_close" community.id %}" data-rel="form" class="btn btn-warning" style="margin: 0 20px;"> {% trans "Close Meeting" %} </a>
+			{% endif %}
+			</div>
+			{% endif %}
+	
+	
+        {% if cperms.community.editagenda_community %}
+        <div id="available-agenda" class="agenda-list">
+        
+        {% if community.issue_ranking_enabled %}
+            <h2 class="pull-left">{% trans "Available Issues" %}</h2>
+            <ul id="issues-order" class="nav nav-tabs pull-right">
+                <li class="active"><a href="by_time" data-toggle="tab">{% trans "By time" %}</a></li>
+                <li><a href="by_rank" data-toggle="tab">{% trans "By rank" %}</a></li>
+            </ul>    
+            <div style="clear: both;">
+                <div class="tab-pane active"> 
+                    <ul id="available" class="nav nav-pills nav-stacked">
+                    {% for i in community.available_issues %}
+                        {% include "communities/_issue.html" %}
+                    {% endfor %}
+                    </ul>  
+                </div>
+            </div>
+
+        {% else %}
+              <h2>{% trans "Available Issues" %}</h2>
+              <ul id="available" class="nav nav-pills nav-stacked">
+                {% for i in community.available_issues %}
+                  {% include "communities/_issue.html" %}
+                {% endfor %}
+             </ul> 
+        {% endif %}
+        
+				</div>
+        {% endif %}	
+		{% else %}
+	
+			<div class="notice text-center" style="clear:both;">
+				{% trans "Agenda not yet published" %}.
+			</div>
+	
 		{% endif %}
-
-	{% else %}
-
-		<div class="notice text-center">
-			{% trans "Agenda not yet published" %}.
-		</div>
-
+	
 	{% endif %}
-
-{% endif %}
-
+</div>
 {% endblock %}
 
-{% block extrahead %}
-{% endblock %}
+{% block additional_scripts %}
+<script>
 
-{% block scripts %}
-<script src="{{STATIC_URL}}jquery-ui/js/jquery-ui-1.10.2.custom.js"></script>
-<script src="{{STATIC_URL}}js/jquery.ui.touch-punch.js"></script>
-<script src="{{STATIC_URL}}js/upcoming.js"></script>
-<script src="{{STATIC_URL}}js/issues.js"></script>
+    var Save = '{% trans "Save" %}';
+	$(function() {
+		$('.show_meetings').on('click', function() {
+			$(".main_meeting_content, .small_meetings").toggle();
+			$(".meeting_left_column").toggleClass("paper_bg");
+		});
+    
+    issue_sort = JSON.parse('{{ sorted|safe }}');
+    $('a[href="by_time"]').click(function (e) {
+      e.preventDefault();
+      sort_issues('by_time');
+    });
+    $('a[href="by_rank"]').click(function (e) {
+      e.preventDefault();
+      sort_issues('by_rank');
+    });
+	});
+</script>
+<script>
+	$(function() {
+		var Meeting = $('.meeting_right_column').outerHeight();
+		var Upcoming = $('.meeting_left_column').outerHeight();
+		if (Meeting > Upcoming) {
+			$('.meeting_left_column').outerHeight(Meeting+20);
+		};
+	});
+</script>
 {% endblock %}

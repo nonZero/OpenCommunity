@@ -1,25 +1,20 @@
 {% extends "base.html" %}
-{% load i18n humanize voting_tags %}
+{% load i18n humanize voting_tags community_tags opencommunity %}
 
 {% block extra-page-id %}
 id="proposal-detail"
 {% endblock %}
 
 {% block page_header %}
-{% trans "Proposal" %}
+    {% if issue_frame %}
+    <span class="visible-xs">
+        <a href="{% url 'issues' community.id %}" style="color: #6C6C6E;text-decoration: none;">{% trans "All Issues" %}</a>
+    </span>
+    {% endif%}
 {% endblock %}
 
+{% comment %}
 {% block pagemenu %}
-{% if cperms.issues.editclosed_proposal or object.is_open %}
-{% if cperms.issues.editopen_proposal or object.created_by == user %}
-    <a class="btn btn-oc" href="{{object.get_edit_url}}" data-rel="form">
-        <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span>
-    </a>
-    <a class="btn btn-oc" href="{{object.get_delete_url}}" data-rel="form">
-        <i class="fa fa-trash-o"></i> <span>{% trans "Delete" %}</span>
-    </a>
-{% endif %}
-{% endif %}
 <!-- {% if object.is_task and cperms.issues.edittask_proposal %}
 {% if cperms.issues.editclosed_proposal or object.is_open %}
 <a class="btn btn-oc" href="{{object.get_edit_task_url}}" data-rel="form">
@@ -28,122 +23,88 @@ id="proposal-detail"
 {% endif %}
 {% endif %} -->
 {% endblock %}
+{% endcomment %}
 
 {% block content %}
+    {% if issue_frame %}
+        <div id="issue_frame">
+    {% endif %}        
 
-<div class="proposal" data-id="{{object.id}}" data-accepted="{{object.status}}">
-
-    <a class="title_w_right_icon prop_back_icon" href="{{object.issue.get_absolute_url}}"> {{object.issue}} </a>
-
-    <ul class="prop-table proposals">
-        <li class="wide-icon {% if object.type == 1 %}task-icon{% endif %}{% if object.type == 2 %}rule-icon{% endif %}{% if object.type == 3 %}general-icon{% endif %}"></li>
-        <li class="prop-title">
-            <h2>{{object.title}} <!-- ({{object.get_status_display}}{% if object.decided_at_meeting %} {{object.decided_at_meeting}}{% endif %}) --></h2>
-        </li>
-        <li class="prop-content">
-            {% if object.type == 1 %}
-                <p class="assign">
-                    {% if object.assigned_to %}
-                        <b>{% trans "Assigned to" %}:</b> {{ object.assigned_to }}&nbsp;
-                    {% if object.assigned_to and object.due_by %}{% endif %}
-                    {% endif %}
-                    {% if object.due_by %}
-                        <b>{% trans "Due by" %}:</b> {{ object.due_by }}
-                    {% endif %}
-                </p>
-            {% endif %}
-            <p>
-                <b>{% trans "By:" %}</b> {{ object.created_by}}. {{ object.created_at}} {# ({{ object.created_at|naturaltime}}) #}
-            </p>
-        </li>
-    </ul>
-
-    <br />
-    {% if cperms.issues.view_proposal_in_discussion or not proposal.is_open %}
-        {% if object.status == object.statuses.ACCEPTED or object.status == object.statuses.REJECTED %}
-            <div class="{{object.get_status_class}}">
-                
-                {% if object.status == object.statuses.ACCEPTED %}
-                    {% trans "Proposal accepted" %}!
-                {% endif %}
-                {% if object.status == object.statuses.REJECTED %}
-                    {% trans "Proposal rejected" %}!
-                {% endif %}
-                
-                {% if object.decided_at_meeting %} (<a href="{{ object.decided_at_meeting.get_absolute_url }}"> {{ object.decided_at_meeting.get_title_or_date }} </a>)
-                {% endif %}
-        
-                {% if object.can_vote and cperms.issues.acceptopen_proposal %}
-                    <a href="#" class="unaccept btn btn-oc btn-lg" data-value="{{object.statuses.IN_DISCUSSION}}">{% trans "Cancel approval" %}</a>
-                {% endif %}
-            </div>
+    <div class="meeting_header">
+    {% if not issue_frame %}
+        {% if meeting_id %}
+            <a class="three_dot_sentence level1" href="{{meeting_id.get_absolute_url}}">{{ meeting_id.title }}{% if meeting.title and meeting.held_at %} / {% endif %}{{ meeting_id.held_at|date:"j F Y" }}</a>
+        {% else %}
+            <a class="three_dot_sentence level1" href="{{object.issue.community.get_upcoming_absolute_url}}">{{object.issue.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}{% if object.issue.community.upcoming_meeting_scheduled_at %} / {% endif %}{{object.issue.community.upcoming_meeting_scheduled_at|date:"j F Y"}}</a>
         {% endif %}
+    {% else %} 
+        <h2 class="hidden-xs">{% trans 'Issues' %}</h2>
     {% endif %}
-
-    {% if object.abstract %}
-        <div>
-            <h4>{% trans "Abstract" %}</h4>
-            <p>
-                {{object.abstract|safe}}
-            </p>
-        </div>
-    {% endif %}
-
-    {% if object.content %}
-    <div class="proposal-info">
-        {# <h4>{% trans "Content" %}</h4> #}
-        {{object.content|safe}}
     </div>
-    {% endif %}
 
-
-    {% with proposal=object %}
-        {% if object.can_straw_vote and cperms.issues.vote and user.id %}
-            {% include 'issues/_vote.html' %}
-        {% endif %}
-        {% if community.straw_voting_enabled and not proposal.decided and community.straw_vote_ended %}
-            {% include 'issues/_proposal_vote_results.html' %}
-        {% endif %}
-	{% endwith %}
-
-    {% if object.can_vote and cperms.issues.acceptopen_proposal %}
-    <form id="proposal-form" method="post">
-        {% csrf_token %}
-        <div class="narrow accept_reject_btns accept-buttons text-center">
-            {% if object.status != object.statuses.ACCEPTED %}
-            <button class="btn btn-accept btn-lg proposal-action" name="accepted" value="{{object.statuses.ACCEPTED}}">
-                {% trans "Accept proposal" %}
-            </button>
-            {% endif %}
-            {% if object.status != object.statuses.REJECTED %}
-            <button class="btn btn-reject btn-lg proposal-action" name="accepted" value="{{object.statuses.REJECTED}}">
-                {% trans "Reject proposal" %}
-            </button>
-            {% endif %}
+    <div class="issue_header">
+        <div class="issue_header_inner">
+            <a class="three_dot_sentence level2" href="{{object.issue.get_absolute_url}}?m_id={{meeting_id.id}}{{issue_frame|yesno:'&s=1,'}}">{{ object.issue.title }}</a>
         </div>
-    </form>
-    {% endif %}
+    </div>
+
+
+<div  class="proposal_main clearfix">    
+<div class="proposal_right_column col-sm-3 hidden-xs">
+	<ul class="issues_list">
+        {% if object.issue.proposals.closed %}
+          <h5>{% trans "Decisions" %}</h5>
+            {% for proposal in object.issue.proposals.closed %}
+                <li>
+                	{% if object == proposal %} <div class="pull-right" style="width: 15px;"><span class="active_proposal pull-right"></span></div>{% endif %}
+                    <a href="{{ proposal.get_absolute_url }}?m_id={{meeting_id.id}}{{issue_frame|yesno:'&s=1,'}} ">{{ proposal }}</a>
+                </li>
+            {% endfor %}
+        {% endif %}
+
+        <h5>{% trans "Proposals" %}</h5>
+		{% for i in object.issue.proposals.open %}
+		<li>
+			{% if object == i %} <div class="pull-right" style="width: 15px;"><span class="active_proposal pull-right"></span></div>{% endif %}
+			<a href="{{ i.get_absolute_url }}?m_id={{meeting_id.id}}{{issue_frame|yesno:'&s=1,'}}">{{ i }}</a>
+		</li>
+		{% endfor %}
+	</ul>
+</div>
+
+{% include 'issues/proposal_detail_main.html' %}
 
 </div>
+{% if issue_frame %}
+    </div>
+{% endif %}        
 {% endblock %}
 
 {% block extrahead %}
 <link rel="stylesheet" href="{{STATIC_URL}}css/proposal.css"/>
+<link rel="stylesheet" href="{{STATIC_URL}}bootstrap/css/typeahead.js-bootstrap.css"/>
 {% endblock %}
 
 {% block scripts %}
-<script src="{{STATIC_URL}}js/proposal.js"></script>
-{% if object.community_members %}
+{% if object.can_show_straw_votes %}
     <script src="{{STATIC_URL}}js/Chart.js"></script>
     <script src="{{STATIC_URL}}js/_piechart.js"></script>
     <script>
-    createChart(
-    {{ object.votes_pro }},
-    {{ object.votes_con }},
-    {{ object.community_members|subtract:object.votes_con|subtract:object.votes_pro }},
-    {{ object.id }}
-    );
+        createChart(
+        {{ object.votes_pro }},
+        {{ object.votes_con }},
+        {{ object.community_members|subtract:object.votes_con|subtract:object.votes_pro }},
+        {{ object.id }}
+        );
     </script>
-{% endif %}    
-
+{% endif %}
+<script src="{{STATIC_URL}}bootstrap/js/typeahead.min.js"></script>
+<script src="{{STATIC_URL}}js/hogan-2.0.0.js"></script>
+<script src="{{STATIC_URL}}js/issues.js"></script>
+<script src="{{STATIC_URL}}js/proposal.js"></script>
+<script>
+	$(function() {
+        adapt_proposal_outer_height();
+	});
+</script>
 {% endblock %}

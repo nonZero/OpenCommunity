@@ -1,25 +1,44 @@
 {% load i18n %}
-{% load voting_tags %}
+{% load voting_tags community_tags %}
 
-{% if proposal.community_members %}
-<div class="row piechart">
+{% if res.community_members %}
+<div class="row piechart" data-prop-id="{{ proposal.id }}" data-pro="{{ res.votes_pro }}" data-con="{{ res.votes_con }}" data-total="{{ res.community_members }}" >
+	<div class="col-xs-12 text-center chart_datetime">
+        {% with next_link=proposal|next_straw_results_link:meeting.id prev_link=proposal|prev_straw_results_link:meeting.id %}
+            {% if prev_link %}
+                <a href="{{ prev_link }}" class="glyphicon glyphicon-circle-arrow-right" id="results_prev"  style="vertical-align: sub"></a>
+            {% endif %}
+            {% if meeting.held_at %}{{ meeting.held_at }}
+            {% else %}
+                {% if next_link %}
+                  {{ c|display_upcoming_time }}
+                {% else %}
+                    {% trans 'Last vote' %}
+                {% endif %}
+            {% endif %}
+            {% if next_link %}
+                <a href="{{ next_link }}" class="glyphicon glyphicon-circle-arrow-left" id="results_next"  style="vertical-align: sub"></a>
+            {% endif %}
+        {% endwith %}
+   </div>
+
 	<div class="col-xs-6">
 		<p>
-			<span class="for glyphicon glyphicon-stop"></span><span> <span>{% trans "For" %}</span>: {{ proposal.votes_pro }}</span>
+			<span class="for glyphicon glyphicon-stop"></span><span> <span>{% trans "For" %}</span>:{{ res.votes_pro }}</span>
 			<br>
-			<span class="against glyphicon glyphicon-stop"></span><span> <span>{% trans "Against" %}</span>: {{ proposal.votes_con }}</span>
+			<span class="against glyphicon glyphicon-stop"></span><span> <span>{% trans "Against" %}</span>: {{ res.votes_con }}</span>
 			<br>
 			<div class="chart_divider"></div>
-			<span>{% trans "Voted" %}: {{ proposal.votes_pro|add:proposal.votes_con }} ({{ proposal|vote_percentage }} %)</span><br>
-			<span>{% trans "Out of" %}: {{ proposal.community_members }} {% trans "members" %}</span>
+			<span>{% trans "Voted" %}: {{ res.votes_pro|add:res.votes_con }} ({{ res|vote_percentage|floatformat:"0" }}%)</span><br>
+			<span>{% trans "Out of" %}: {{ res.community_members }} {% trans "members" %}</span>
 		</p>
 	</div>
+	
 	<div class="col-xs-6 text-center">
-		<span class="glyphicon glyphicon-circle-arrow-right" style="vertical-align: sub"></span>
-		{{ proposal.created_at|date:"SHORT_DATE_FORMAT" }}
-		<span class="glyphicon glyphicon-circle-arrow-left" style="vertical-align: sub"></span>
-		<br>
-		<canvas id="proposal{{ proposal.id }}Chart" height="100px" width="100px"></canvas>
+        <canvas id="proposal{{ proposal.id }}Chart" height="110px" width="110px"></canvas>
 	</div>
+   
 </div>
+
+    
 {% endif %}

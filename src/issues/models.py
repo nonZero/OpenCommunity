@@ -9,6 +9,7 @@ from ocd.base_models import HTMLField, UIDMixin, UIDManager
 from ocd.validation import enhance_html
 from ocd.storages import uploads_storage
 
+import meetings
 from datetime import datetime, timedelta
 import os.path
 
@@ -51,6 +52,10 @@ class Issue(UIDMixin):
     order_in_upcoming_meeting = models.IntegerField(
                                         _("Order in upcoming meeting"),
                                         default=9999, null=True, blank=True)
+    order_by_votes = models.IntegerField(
+                                        _("Order in upcoming meeting by votes"),
+                                        default=9999, null=True, blank=True)
+    
     length_in_minutes = models.IntegerField(_("Length (in minutes)"),
                                             null=True, blank=True)
 
@@ -88,6 +93,9 @@ class Issue(UIDMixin):
     def new_comments(self):
         return self.comments.filter(active=True, meeting_id=None)
 
+    def historical_comments(self):
+        return self.comments.filter(active=True).exclude(meeting_id=None)
+
     def has_closed_parts(self):
         """ Should be able to be viewed """
 
@@ -112,15 +120,24 @@ class Issue(UIDMixin):
     @property
     def is_archived(self):
         return self.status == IssueStatus.ARCHIVED
+    
+    @property
+    def in_closed_meeting(self):
+        return meetings.models.AgendaItem.objects.filter(issue=self).exists() 
 
     @property
     def can_straw_vote(self):
-        time_till_close = self.community.voting_ends_at - timezone.now()
+
+        # test date/time limit
+        if self.community.voting_ends_at:
+            time_till_close = self.community.voting_ends_at - timezone.now()
+            if time_till_close.total_seconds() <= 0:
+                return False
+                
         return self.community.straw_voting_enabled and \
                self.is_upcoming and \
                self.community.upcoming_meeting_is_published and \
-               self.proposals.open().count() > 0 and \
-               time_till_close.total_seconds() > 0
+               self.proposals.open().count() > 0
 
 
         
@@ -205,7 +222,7 @@ def issue_attachment_path(instance, filename):
 
 class IssueAttachment(UIDMixin):
     issue = models.ForeignKey(Issue, related_name="attachments")
-    file = models.FileField(_("File"), storage=uploads_storage,
+    file = models.FileField(_("File"), storage=uploads_storage, max_length=200,
                             upload_to=issue_attachment_path)
     title = models.CharField(_("Title"), max_length=100)
     active = models.BooleanField(default=True)
@@ -245,9 +262,9 @@ class IssueAttachment(UIDMixin):
             'flac': 'snd',
             'txt': 'txt',
         }
-        ext = os.path.splitext(self.file.name)[1][1:]
+        ext = os.path.splitext(self.file.name)[1][1:] or ''
         try:
-            icon = file_icon_map[ext]
+            icon = file_icon_map[ext.lower()]
         except KeyError:
             icon = 'file'
         return icon    
@@ -301,7 +318,8 @@ class ProposalType(object):
                 (RULE, ugettext("Rule")),
                 (ADMIN, ugettext("General")),
                )
-     
+
+
 class ProposalManager(UIDManager):
 
     def active(self):
@@ -309,7 +327,7 @@ class ProposalManager(UIDManager):
 
     def open(self):
         return self.get_query_set().filter(active=True,
-                                           decided_at_meeting_id=None)
+                                           decided_at_meeting_id=None).order_by("created_at")
 
     def closed(self):
         return self.get_query_set().filter(active=True).exclude(
@@ -387,22 +405,51 @@ class Proposal(UIDMixin):
                    self.issue.community.upcoming_meeting_started
 
     @property
+    def has_votes(self):
+        """ Returns True if the proposal has any vote """
+        return self.votes_con or self.votes_pro
+
+    @property
     def can_straw_vote(self):
         return self.status == ProposalStatus.IN_DISCUSSION and \
                self.issue.can_straw_vote
+                
+    @property
+    def can_show_straw_votes(self):
+        return self.has_votes and \
+               (not self.issue.is_upcoming or \
+                not self.issue.community.upcoming_meeting_is_published or \
+                self.issue.community.straw_vote_ended)
 
         
-    def do_votes_summation(self, members_count):
-        pro = 0
-        con = 0
-        for v in ProposalVote.objects.filter(proposal=self):
-            if v.value == ProposalVoteValue.PRO:
-                pro += 1
-            elif v.value == ProposalVoteValue.CON:
-                con += 1
+    def get_straw_results(self, meeting_id=None):
+        """ get straw voting results registered for the given meeting """
+        if meeting_id:
+            try:
+                res = VoteResult.objects.get(proposal=self, meeting_id=meeting_id)
+            except VoteResult.DoesNotExist:
+                return None
+            return res
+        else:
+            if self.issue.is_upcoming and self.issue.community.straw_vote_ended:
+                return self
+            else:
+                try:
+                    res = VoteResult.objects.filter(proposal=self) \
+                            .latest('meeting__held_at')
+                    return res
+                except VoteResult.DoesNotExist:
+                    return None
 
-        self.votes_pro = pro
-        self.votes_con = con
+                    
+    def do_votes_summation(self, members_count):
+
+        pro_votes = ProposalVote.objects.filter(proposal=self,
+                    value = ProposalVoteValue.PRO).count()
+        con_votes = ProposalVote.objects.filter(proposal=self,
+                    value = ProposalVoteValue.CON).count()
+        self.votes_pro = pro_votes
+        self.votes_con = con_votes
         self.community_members = members_count
         self.save()
 
@@ -419,12 +466,24 @@ class Proposal(UIDMixin):
     def get_edit_url(self):
         return ("proposal_edit", (str(self.issue.community.pk), str(self.issue.pk),
                                 str(self.pk)))
-
+                                
+    """
+    @models.permalink
+    def get_edit_url(self):
+        if not self.is_task():
+            return ("proposal_edit", (str(self.issue.community.pk), str(self.issue.pk),
+                                str(self.pk)))
+        else:
+            return ("proposal_edit_task", (str(self.issue.community.pk), str(self.issue.pk),
+                                str(self.pk)))
+    """
+    
     @models.permalink
     def get_edit_task_url(self):
         return ("proposal_edit_task", (str(self.issue.community.pk), str(self.issue.pk),
                                 str(self.pk)))
-
+    
+    
     @models.permalink
     def get_delete_url(self):
         return ("proposal_delete", (str(self.issue.community.pk), str(self.issue.pk),
@@ -437,7 +496,9 @@ class Proposal(UIDMixin):
             return "rejected"
         return ""
 
+        
 class VoteResult(models.Model):
+    """ straw vote result """
     proposal = models.ForeignKey(Proposal, related_name="results",
                                  verbose_name=_("Proposal"))
     meeting = models.ForeignKey('meetings.Meeting', verbose_name=_("Meeting"))
@@ -447,3 +508,9 @@ class VoteResult(models.Model):
 
     class Meta:
         unique_together = (('proposal', 'meeting'),)
+
+
+class IssueRankingVote(models.Model):
+    voted_by = models.ForeignKey(settings.AUTH_USER_MODEL)
+    issue = models.ForeignKey(Issue, related_name='ranking_votes')
+    rank = models.PositiveIntegerField()

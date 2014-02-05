@@ -11,8 +11,9 @@
 
         <link href="{{ STATIC_URL }}bootstrap/css/bootstrap{% if LANGUAGE_CODE == 'he' %}-rtl{% endif %}.css" rel="stylesheet">
         <link href="{{ STATIC_URL }}style{% if LANGUAGE_CODE == 'he' %}-rtl{% endif %}.css" rel="stylesheet">
+        <link href="{{ STATIC_URL }}new_style{% if LANGUAGE_CODE == 'he' %}-rtl{% endif %}.css" rel="stylesheet">
         <link href="{{ STATIC_URL }}fonts/alef/alef.css" rel="stylesheet" />
-        <link href="{{ STATIC_URL }}font-awesome-4.0.1/css/font-awesome.css" rel="stylesheet" />
+        <link href="{{ STATIC_URL }}font-awesome-4.0.3/css/font-awesome.css" rel="stylesheet" />
         <link href="{{ STATIC_URL }}bootstrap-wysihtml5/bootstrap-wysihtml5{% if LANGUAGE_CODE == 'he' %}-rtl{% endif %}.css" rel="stylesheet" />
         {% block extrahead %}
         {% endblock %}
@@ -36,9 +37,9 @@
                    </div>
                     {% endif %}
                     <div class="col-xs-12">
-                        <h1 class="text-center">
-                            {% block page_header %}Page Title{% endblock %}
-                        </h1>
+                        <h2>
+                            {% block page_header %}{% trans "Page Title" %}{% endblock %}
+                        </h2>
                         <div class="btn-group btn-group-justified">
                             {% block pagemenu %}{% endblock %}
                         </div>
@@ -73,7 +74,7 @@
         <script src="{{ STATIC_URL }}js/csrf.js"></script>
         <script src="{{ STATIC_URL }}js/jquery.form.js"></script>
         <script src="{{ STATIC_URL }}js/forms.js"></script>
-        <script src="{{STATIC_URL}}bootstrap-wysihtml5/wysihtml5-0.4.0pre.js"></script>
+        <script src="{{STATIC_URL}}bootstrap-wysihtml5/wysihtml5-0.4.0-oc.js"></script>
         <script src="{{STATIC_URL}}bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
         {% if LANGUAGE_CODE == 'he' %}
             <script src="{{STATIC_URL}}bootstrap-wysihtml5/locales/bootstrap-wysihtml5.he-IL.js"></script>

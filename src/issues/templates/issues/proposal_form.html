@@ -5,8 +5,14 @@
 	id="create-proposal"
 {% endblock %}
 
+{% block form_name %}
+<div class="proposal-form-bg"></div>
+{% endblock %}
+
 {% block page_header %}
-    {% if form.instance %}
+    {% if form.instance.id %}
+        {% trans "Edit Proposal" %}
+    {% else %}
         {% trans "New Proposal" %}
     {% endif %}
 {% endblock %}
@@ -15,10 +21,15 @@
 {% endblock %}
 
 {% block content %}
-
+    <ul id="proposal-type" class="nav nav-tabs">
+      <li><a href="#">{% trans "General" %}</a></li>
+      <li><a href="#">{% trans "Rule" %}</a></li>
+      <li><a href="#">{% trans "Task" %}</a></li>
+   </ul>
     {{ form }}
-
+    
 <script>
+
 	function refreshProposalForm() {
 
 		// prevent html5 required field
@@ -37,28 +48,42 @@
 
 	}
 
+
 	function refreshProposalEditForm() {
 
 		// prevent html5 required field
 		$('#id_type').val() == '';
-
 		// hide task related fields
-		var els = $('#div_id_assigned_to,#div_id_due_by');
 		if ($('#id_type').val() == '1') {
-			els.show();
+			$('#id_assigned_to').closest('.form-group').show()
+         $('#id_due_by').closest('.form-group').show()
 		} else {
-			els.hide();
+         $('#id_assigned_to').closest('.form-group').hide()
+			$('#id_due_by').closest('.form-group').hide()
 		}
 
 	}
-	refreshProposalEditForm();
-	refreshProposalForm();
-	$(function() {
-		$('body').on('change', '#id_proposal-type', refreshProposalForm);
-	}); 
-	$(function() {
-		$('body').on('change', '#id_type', refreshProposalEditForm);
-	}); 
+	
+
+    $(function() {
+        /* a map between proposal type, to order of appearance (tab index) */
+        var type_idx_map = {
+            1: 2,
+            2: 1,
+            3: 0
+        }
+        var type_select = $('#id_proposal-type');
+        type_select.closest('.form-group').hide();
+        
+        var sel_idx = 0;
+        {% if object %}
+            sel_idx = type_idx_map[{{ object.type }}]
+        {% endif %}
+        init_proposal_tabs(false);
+        $("ul#proposal-type li")[sel_idx].click()
+        var ac_url = '{% url "ac_user" community_id=community.id %}';
+        init_user_autocomplete(ac_url);
+	});
 </script>
 
 {% endblock %}

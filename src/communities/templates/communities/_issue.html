@@ -2,27 +2,31 @@
 {% load opencommunity voting_tags %}
 
 <li class="issue oc_li" data-issue="{{i.id}}">
-    {% if cperms.community.editagenda_community %}
-	    <div class="grab"></div>
-    {% endif %}
-    <a href="{{i.get_absolute_url}}">
-        {{i.title}}{% if i.can_straw_vote and cperms.issues.vote and user.id %} ({% user_votes_on_issue %}){% endif %}
-    </a>
-    
-    {% if cperms.community.editagenda_community and not i.changed_in_current %}
-	    <div class="timer" data-url="{% url 'issue_set_length' community.id i.id %}">
-	        <span data-strict="{{i.length_in_minutes|minutes_strict}}">{{i.length_in_minutes|minutes|default:'--:--'}}</span>
-	    </div>
-	    <div class="icon-plus-minus agenda_plus_minus">
-	        <a href="#" class="addremove"></a>
-	    </div>
+	{% if cperms.community.editagenda_community %}
+		<div class="grab"></div>
+	{% endif %}
+	<a href="{{i.get_absolute_url}}"{% if not object.upcoming_meeting_is_published %} style="margin-left: 100px;"{% endif %}>
+		{{i.title}}
+	</a>
+
+	{% if cperms.community.editagenda_community and not i.changed_in_current %}
+		<div class="timer" data-url="{% url 'issue_set_length' community.id i.id %}"{% if i.can_straw_vote and cperms.issues.vote and user.id %} style="left: 85px;"{% endif %}>
+			<span data-strict="{{i.length_in_minutes|minutes_strict}}">{{i.length_in_minutes|minutes|default:'--:--'}}</span>
+		</div>
+		{% if i.can_straw_vote and cperms.issues.vote and user.id %}
+			<div class="user_votes_on_issue">
+				{% user_votes_on_issue %}
+			</div>
+		{% endif %}
+		<div class="icon-plus-minus agenda_plus_minus">
+			<a href="#" class="addremove"></a>
+		</div>
 	{% else %}
-	    {% if object.upcoming_meeting_started %}
-		    <div class="agenda_plus_minus  
-	        {% if i.completed %}tick{% else %}
-	            {% if i.new_comments.count %}cog{% endif %}
-	        {% endif %}">
-	    	</div>
-	    {% endif %}
-    {% endif %}
+		{% if object.upcoming_meeting_started %}
+			<div class="agenda_plus_minus
+			{% if i.completed %}tick{% else %}
+			{% if i.changed_in_current %}cog{% endif %}
+			{% endif %}"></div>
+		{% endif %}
+	{% endif %}
 </li>

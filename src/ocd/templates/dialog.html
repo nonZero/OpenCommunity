@@ -1,5 +1,8 @@
 {% load i18n %}
 
+{% block form_name %}
+{% endblock %}
+
 <div class="modal-dialog">
     <form method="post">
 
@@ -31,7 +34,4 @@
 {% endblock %}
 
 {% block scripts %}
-    <script>
-        initForm($('#modal-form'));
-    </script>
 {% endblock %}

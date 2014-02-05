@@ -2,25 +2,30 @@
 {% load i18n %}
 
 {% block page_header %}
-    {% trans "Edit" %}
+    {% trans "Edit agenda" %}
+{% endblock %}
+
+{% block form_name %}
+<div class="meeting-form-bg"></div>
 {% endblock %}
 
 {% block scripts %}
     {{ block.super }}
     <script>
-        /*
-        $('#id_upcoming_meeting_scheduled_at').blur(function(event) {
-            var date_str = $(this).val()
-            var d = new Date(date_str)
-            var d_as_millis = d.getTime()
-            d_as_millis -= 24 * 60 * 60 * 1000
-            var end_vote_time = new Date(d_as_millis)
-            end_vote_time.setHours(0)
-            end_vote_time.setMinutes(0)
-            end_vote_time.setSeconds(0)
-            
+        $('#id_upcoming_meeting_scheduled_at_0').blur(function(event) {
+            var cur_end_vote_date = $('#id_voting_ends_at_0').val()
+            var date_str = $(this).val();
+            if( !cur_end_vote_date ||
+                (new Date(date_str) < new Date(cur_end_vote_date))) {            
+                /*
+                var d_as_millis = d.getTime()
+                d_as_millis -= 24 * 60 * 60 * 1000
+                console.log(end_vote_time);
+                */
+                $('#id_voting_ends_at_0').val(date_str);
+                $('#id_voting_ends_at_1').val("00:00");
+            }
         })
-        */
     </script>
 {% endblock %}
 

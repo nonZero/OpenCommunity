@@ -1,11 +1,21 @@
 from __future__ import unicode_literals
 from django import template
 from django.template import defaultfilters
+from django.template.defaultfilters import stringfilter
 from django.utils.formats import date_format
+from django.utils.safestring import mark_safe
 from django.utils.timezone import is_aware, utc
 from django.utils.translation import pgettext, ungettext, ugettext as _, \
     ungettext, ugettext
 import datetime
+
+register = template.Library()
+
+
+@register.filter
+@stringfilter
+def userhtml(s):
+    return mark_safe('<div class="userhtml">%s</div>' % s)
 
 
 def simpletimesince(d, now=None, reversed=False):
@@ -59,7 +69,6 @@ def simpletimesince(d, now=None, reversed=False):
 
 
 
-register = template.Library()
 # This filter doesn't require expects_localtime=True because it deals properly
 # with both naive and aware datetimes. Therefore avoid the cost of conversion.
 @register.filter

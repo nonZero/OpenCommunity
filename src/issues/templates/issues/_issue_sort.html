@@ -1,0 +1,13 @@
+{% load opencommunity %}
+
+<li class="issue oc_li" data-issue="{{i.id}}">
+    {% if can_sort %} <div class="grab"><span>{{ i.created_at|ocshortdate }}</span></div> {% endif %}
+    <a href="{{i.get_absolute_url}}?s=1">
+      {{i.title}}
+    </a>
+    {% if can_sort %}
+    <div class="icon-plus-minus sort_plus_minus">
+        <a href="#" class="addremove"></a>
+    </div>
+    {% endif %}
+</li>    

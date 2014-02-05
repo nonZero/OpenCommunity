@@ -17,6 +17,7 @@
         <div class="form-group">
         {{ form }}
 		</div>
+		<a href="{% url "password_reset" %}">{% trans "forgot password" %}?</a>
         <div class="narrow">
         	<input type="submit" class="btn btn-oc btn-block" value="{% trans "Login" %}" />
     	</div>

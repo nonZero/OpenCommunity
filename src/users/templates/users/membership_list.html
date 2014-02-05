@@ -6,7 +6,6 @@ id="members-list"
 {% endblock %}
 
 {% block page_header %}
-{% trans "Members" %}
 {% endblock %}
 
 {% block content %}
@@ -39,7 +38,8 @@ id="members-list"
 		{% for object in invites %}
 		{% include 'users/_invitation.html' %}
 		{% endfor %}
-		<li>
+		<li class="clearfix">
+			<h2>{% trans "New invitation" %}</h2>
 			<form method="post" id="invite-form">
 				{% csrf_token %}
 				{{form}}

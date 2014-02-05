@@ -1,116 +1,125 @@
-{% extends "base.html" %}
+{% extends "communities/base_meeting.html" %}
 {% load i18n %}
 {% load humanize %}
 {% load letter_tag %}
+{% load opencommunity community_tags %}
 
 {% block extra-page-id %}
 id="meeting-detail"
 {% endblock %}
 
+{% comment %}
 {% block page_header %}
 {% trans "Meetings history" %}
 {% endblock %}
+{% endcomment %}
 
-{% block content %}
+{% block page_header %}
+<span class="show_meetings visible-xs" style="cursor: pointer;">{% trans "All Meetings" %}</span>
+{% endblock %}
 
-<div class="meeting-header">
-    <div class="col-xs-8 meeting-header-title">
-        <a data-toggle="modal" href="#meetings" class="select-meeting">
-        <p>
-            {% if object.title %}
-            <span>{{object.title}}</span>
-            {% else %}
-            {% trans "Summary" %}
-            {% endif %}
-            <br />
-            <span style="font-size: 14px;">{{object.held_at|date:"d/m/Y H:i"}}</span>
-        </p>
-        </a>
-    </div>
-    <div class="col-xs-4 meeting-header-users">
-        <a data-toggle="modal" href="#participants" class="show-participants">
-        <div class="users">
-            {{total_participants}}
+{% block meeting %}
+	<div class="small_meetings" style="display: none;">
+		<ul>
+    	{% if community.upcoming_meeting_scheduled_at %}
+          <li class="active">
+            <h4><a href="{{community.get_upcoming_absolute_url}}">{% trans "Upcoming Meeting" %}</a></h4>
+            <h5><i class="fa fa-calendar"></i> {{ community|display_upcoming_time }}
+            <i class="fa fa-map-marker"></i> {{ community.upcoming_meeting_location|default:_("Not set yet") }}</h5>
+          </li>
+      	{% endif %}
+		{% for m in object.community.meetings.all %}
+          <li>
+            <h4><a href="{{m.get_absolute_url}}">{{ m.title|default_if_none:_("No title") }}</a></h4>
+            <h5><i class="fa fa-calendar"></i> {{ m.held_at }}
+            <i class="fa fa-map-marker"></i> {{ m.location|default_if_none:_("Unknown") }}</h5>
+          </li>
+		{% endfor %}
+      </ul>
+	</div>
+	<div class="main_meeting_content">
+        <div class="col-xs-12">
+            <h1>
+                {% if object.title %}
+                <span>{{object.title}}</span>
+                {% else %}
+                {% trans "Summary" %}
+                {% endif %}
+            </h1>
         </div>
-        </a>
-    </div>
-</div>
-
-{% if object.summary %}
-<div class="oc_detail_top summary clear">
-    {{object.summary|safe}}
-</div>
-{% endif %}
-<br>
-
-<div class="table-inner">
-    {% for a in object.agenda.all %}
-
-    <table class="table table-condensed meeting-table">
-        <thead>
-            <tr>
-                <th class="count"><a href="{{ a.issue.get_absolute_url }}">{{ forloop.counter }}</a></th>
-                <th class="head_title"><a href="{{ a.issue.get_absolute_url }}">{{ a.issue.title }}</a></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if a.accepted_proposals.count %}
-                {% for p in a.accepted_proposals %}
-            <tr>
-                <td class="sub_count num{{ forloop.counter }} {% if p.type == 1 %}task-icon{% endif %}{% if p.type == 2 %}rule-icon{% endif %}{% if p.type == 3 %}general-icon{% endif %}" rowspan="2"></td>
-                <td class="body_title"><a href="{{p.get_absolute_url}}">{{p.get_status_display}}: <b>{{p.title}}</b></a></td>
-            </tr>
-            <tr class="table_divider">
-                    <td><a href="{{p.get_absolute_url}}">
-                            {% if p.type == 1 %}
-                                <p class="assign">
-                                    {% if p.assigned_to %}
-                                        <span><b>{% trans "Assigned to" %}:</b> {{ p.assigned_to }}</span>      
-                                    {% endif %}
-                                    {% if p.due_by %}
-                                        <span><b>{% trans "Due by" %}:</b> {{ p.due_by }}</span>
-                                    {% endif %}
-                                </p>
-                            {% endif %}
-                            {{p.content|safe}}
-                        </a></td>
-                </tr>
-            {% endfor %}
-            {% else %}
-            <tr>
-                <td class="sub_count num1" rowspan="2"><span></span></td>
-                    <td class="body_title" style="vertical-align: top;" rowspan="2">
-                        {% if a.issue.completed %}{% trans "Closed without descisions" %}
-                        {% else %} {% trans "Undecided" %} {% endif %}
-                    </td>
-            </tr>
+        <div class="oc_detail_top row clear" style="margin-right: -5px;margin-left: -5px;border:0;background: none;">
+            <div class="pull-left">
+                <h5><i class="fa fa-calendar"></i> {{object.held_at|date:"d/m/Y H:i"}}&nbsp;&nbsp;</h5>
+            </div>
+            {% if object.location %}
+            <div class="pull-left">
+                <h5><i class="fa fa-map-marker"></i> {{object.location}}</h5>
+            </div>
             {% endif %}
-        </tbody>
-    </table>
-    {% endfor %}
-</div>
+            <div class="pull-left">
+                <h5><a data-toggle="modal" href="#participants"><i class="fa fa-users"></i> {% trans "Participants" %}: {{total_participants}}</a></h5>
+            </div>
+            <div class="pull-left">
+                <h5><a data-toggle="modal" href="#meetingProtocol"><i class="fa fa-list-alt"></i> {% trans "Protocol" %}</a></h5>
+            </div>
+
+            <h5 style="clear: both;border-top: 1px solid;padding-top: 10px;">
+            {% if object.summary %}
+                {{object.summary|userhtml}}
+            {% endif %}
+            </h5>
+        </div>
+
+        <div class="table-inner">
+            {% for a in object.agenda.all %}
+
+            <table class="table table-condensed meeting-table">
+                <thead>
+                    <tr>
+                        <th class="count"><a href="{{ a.issue.get_absolute_url }}?m_id={{object.id}}">{{ forloop.counter }}</a></th>
+                        <th class="head_title"><a href="{{ a.issue.get_absolute_url }}?m_id={{object.id}}">{{ a.issue.title }}</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if a.accepted_proposals.count %}
+                        {% for p in a.accepted_proposals %}
+                    <tr>
+                        <td class="sub_count num{{ forloop.counter }} {% if p.type == 1 %}task-icon{% endif %}{% if p.type == 2 %}rule-icon{% endif %}{% if p.type == 3 %}general-icon{% endif %}" rowspan="2"></td>
+                        <td class="body_title"><a href="{{p.get_absolute_url}}?m_id={{object.id}}"><b>{{p.title}}</b></a></td>
+                    </tr>
+                    <tr class="table_divider">
+                            <td><a href="{{p.get_absolute_url}}?m_id={{object.id}}">
+                                    {% if p.type == 1 %}
+                                        <p class="assign">
+                                            {% if p.assigned_to %}
+                                                <span><b>{% trans "Assigned to" %}:</b> {{ p.assigned_to }}</span>
+                                            {% endif %}
+                                            {% if p.due_by %}
+                                                <span><b>{% trans "Due by" %}:</b> {{ p.due_by }}</span>
+                                            {% endif %}
+                                        </p>
+                                    {% endif %}
+                                    {{p.content|userhtml}}
+                                </a></td>
+                        </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td class="sub_count num1" rowspan="2"><span></span></td>
+                            <td class="body_title" style="vertical-align: top;" rowspan="2">
+                                {% if a.issue.completed %}{% trans "Closed without descisions" %}
+                                {% else %} {% trans "Undecided" %} {% endif %}
+                            </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
 
 {% block dialogs %}
-<div class="modal fade" id="meetings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;
-                </button>
-                <h4 class="modal-title">{% trans "Meetings" %}</h4>
-            </div>
-            <div class="modal-body">
-                <ul class="list-group">
-                    {% for m in community.meetings.all %}
-                    <a class="list-group-item" href="{{m.get_absolute_url}}">{{m}}</a>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="modal fade" id="participants" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -142,8 +151,49 @@ id="meeting-detail"
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="meetingProtocol" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">{% trans "Meeting protocol" %}</h4>
+      </div>
+      <div id="meeting-protocol-preview" class="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 {% endblock %}
 
 {% block scripts %}
+<script>
+	$.ajax({
+		url : "protocol/",
+		success : function(result) {
+			$("#meeting-protocol-preview").html(result);
+		}
+	}); 
+</script>
+<script>
+	$(function() {
+		$('.show_meetings').on('click', function() {
+			$(".main_meeting_content, .small_meetings").toggle();
+			$(".meeting_left_column").css('background', 'transparent');
+		});
+	});
+</script>
+<script>
+	$(function() {
+		var Meeting = $('.meeting_right_column').outerHeight();
+		var Upcoming = $('.meeting_left_column').outerHeight();
+		if (Meeting > Upcoming) {
+			$('.meeting_left_column').outerHeight(Meeting+20);
+		};
+	});
+</script>
 
 {% endblock %}

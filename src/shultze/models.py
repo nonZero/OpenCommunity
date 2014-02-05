@@ -2,10 +2,11 @@ from django.db import models
 from issues.models import Issue
 from communities.models import Community
 from pyvotecore.condorcet import CondorcetHelper
-from pyvotecore.schulze_by_graph import SchulzeMethodByGraph, SchulzeNPRByGraph
+from pyvotecore.schulze_by_graph import SchulzeNPRByGraph
 from pyvotecore.schulze_method import SchulzeMethod #TODO: remove this when iteritems bug is solved
 import itertools
 from collections import defaultdict
+
 
 # Not a django model!
 class PyVoteCoreAssistance(CondorcetHelper):
@@ -169,6 +170,7 @@ class IssuesGraph(models.Model):
                     continue
             rated_order.append({(c1,c2): edges_dict[(c1,c2)] - edges_dict[(c2,c1)]})
         return rated_order
+
 
 class IssueNode(models.Model):
     """

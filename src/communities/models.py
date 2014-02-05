@@ -87,10 +87,12 @@ class Community(UIDMixin):
     upcoming_meeting_summary = HTMLField(_("Upcoming meeting summary"),
                                          null=True, blank=True)
 
-    board_name = models.CharField(_("Board Name"), max_length=200,
-                                  null=True, blank=True)
-                                  
+    board_name = models.CharField(_("Board Name"), max_length=200)
+    
     straw_voting_enabled = models.BooleanField(_("Straw voting enabled"),
+                                        default=False)
+
+    issue_ranking_enabled = models.BooleanField(_("Issue ranking votes enabled"),   
                                         default=False)
 
     voting_ends_at = models.DateTimeField(_("Straw Vote ends at"),
@@ -108,6 +110,8 @@ class Community(UIDMixin):
     default_quorum = models.PositiveSmallIntegerField(_("Default quorum"),
                                     null=True, blank=True)
 
+    allow_links_in_emails = models.BooleanField(_("Allow links inside emails"),   
+                                        default=True)
 
     class Meta:
         verbose_name = _("Community")
@@ -132,7 +136,11 @@ class Community(UIDMixin):
 
     def available_issues(self):
         return self.issues.filter(active=True, status=issues_models.IssueStatus.OPEN
-                                  ).order_by('created_at')
+                                  ).order_by('-created_at')
+    
+    def available_issues_by_rank(self):
+        return self.issues.filter(active=True, status=issues_models.IssueStatus.OPEN
+                                  ).order_by('order_by_votes')
     def issues_ready_to_close(self):
         return self.upcoming_issues().filter(
                                          proposals__active=True,
@@ -154,6 +162,11 @@ class Community(UIDMixin):
             return []
         return filter(None, [s.strip() for s in self.upcoming_meeting_guests.splitlines()])
 
+    def full_participants(self):
+        guests_count = len(self.upcoming_meeting_guests.splitlines()) \
+                        if self.upcoming_meeting_guests else 0 
+        return guests_count + self.upcoming_meeting_participants.count() 
+
     def send_mail(self, template, sender, send_to, data=None, base_url=None):
 
         if not base_url:
@@ -173,7 +186,7 @@ class Community(UIDMixin):
 
         message = render_to_string("emails/%s.txt" % template, d)
         html_message = render_to_string("emails/%s.html" % template, d)
-        from_email = "%s <%s>" % (self.name, settings.FROM_EMAIL)
+        from_email = "%s <%s>" % (sender.display_name, sender.email)
 
         recipient_list = set([sender.email])
 
@@ -197,9 +210,23 @@ class Community(UIDMixin):
 
     @property
     def straw_vote_ended(self):
+        if not self.upcoming_meeting_is_published:
+            return True
+        if not self.voting_ends_at:
+            return False
         time_till_close = self.voting_ends_at - timezone.now()
         return time_till_close.total_seconds() < 0
 
+        
+    @property
+    def has_straw_votes(self):
+        if not self.straw_voting_enabled or self.straw_vote_ended:
+            return False
+        for i in self.upcoming_issues():
+            if i.proposals.open().count():
+                return True
+        return False
+        
         
     def sum_vote_results(self, only_when_over=True):
         if not self.voting_ends_at:
@@ -210,6 +237,7 @@ class Community(UIDMixin):
         
         un_summed_proposals = issues_models.Proposal.objects.filter(
                         # votes_pro=None,
+                        status=ProposalStatus.IN_DISCUSSION,
                         issue__status=IssueStatus.IN_UPCOMING_MEETING,
                         issue__community_id=self.id)
         if un_summed_proposals.count() == 0:
@@ -221,6 +249,13 @@ class Community(UIDMixin):
 
             
     def close_meeting(self, m, user):
+        """
+        Creates a :model:`meetings.Meeting` instance, with corresponding
+        :model:`meetings.AgenddItem`s.
+
+        Optionally changes statuses for :model:`issues.Issue`s and
+        :model:`issues.Proposal`s.
+        """
 
         with transaction.commit_on_success():
             m.community = self
@@ -269,15 +304,17 @@ class Community(UIDMixin):
                             votes_con=p.votes_con,
                             community_members=p.community_members)
                             
-                for c in issue.comments.filter(active=True, meeting=None):
+                for c in issue.comments.filter(meeting=None):
                     c.meeting = m
                     c.save()
 
                 meetings_models.AgendaItem.objects.create(
                                               meeting=m, issue=issue, order=i,
+                                              background=issue.abstract,
                                               closed=issue.completed)
 
                 issue.is_published = True
+                issue.abstract = None
 
                 if issue.completed:
                     issue.status = issue.statuses.ARCHIVED
@@ -300,6 +337,19 @@ class Community(UIDMixin):
 
         return m
 
+        
+    def draft_meeting(self):
+        if self.upcoming_meeting_scheduled_at:
+            held_at = self.upcoming_meeting_scheduled_at.date()
+        else:
+            held_at = None
+            
+        return {
+            'id': '',
+            'held_at': held_at,
+        }
+
+      
     def draft_agenda(self):
         """ prepares a fake agenda item list for 'protocol_draft' template. """
 

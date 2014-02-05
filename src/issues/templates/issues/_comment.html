@@ -1,9 +1,10 @@
 {% load i18n %}
+{% load opencommunity %}
 
 {% if c.active or cperms.issues.editclosed_issuecomment or cperms.issues.editopen_issuecomment and c.is_open  %}
     {% if c.meeting or cperms.issues.view_proposal_in_discussion %}
-    <li{% if not c.active %} class="deleted"{% endif %}>
-    
+    <li class="filter-{% if c.meeting %}meeting-{{c.meeting.id}}{% else %}upcoming{% endif %} filter{% if not c.active %} deleted{% endif %}">
+
         {% if cperms.issues.editclosed_issuecomment or cperms.issues.editopen_issuecomment and c.is_open  %}
             <form class="delete-comment pull-right" method="post" action="{{c.get_delete_url}}">
                 {% csrf_token %}
@@ -14,14 +15,11 @@
                     <button class="btn btn-comment" name="undelete" value="1"></button>
                 </span>
             </form>
-        
+
             <span class="edit-comment pull-right">
                 <button class="btn btn-comment" data-id="{{c.id}}" data-url="{{c.get_edit_url}}"></button>
             </span>
 
-            <!-- <span class="cancel-edit-comment pull-right">
-                <button class="btn btn-comment"></button>
-            </span> -->
         {% endif %}
 
         <div class="comment-inner">
@@ -35,9 +33,7 @@
                 </i>
             </p>
 
-            <p class="content">
-                {{c.content|safe}}
-            </p>
+            {{c.content|userhtml}}
 
             {% if c.last_edited_by %}
                 <i>

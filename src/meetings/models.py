@@ -3,14 +3,16 @@ from django.db import models
 from django.utils.formats import date_format
 from django.utils.translation import ugettext_lazy as _
 from issues.models import Issue, ProposalStatus
+from ocd.base_models import UIDMixin, HTMLField
 from users.default_roles import DefaultGroups
-from ocd.base_models import UIDMixin
 
 
 class AgendaItem(models.Model):
     meeting = models.ForeignKey('Meeting', verbose_name=_("Meeting"),
                                 related_name="agenda")
-    issue = models.ForeignKey(Issue, verbose_name=_("Issue"))
+    issue = models.ForeignKey(Issue, verbose_name=_("Issue"),
+                              related_name="agenda_items")
+    background = HTMLField(_("Background"), null=True, blank=True)
     order = models.PositiveIntegerField(default=100, verbose_name=_("Order"))
     closed = models.BooleanField(_('Closed'), default=True)
 
@@ -18,6 +20,7 @@ class AgendaItem(models.Model):
         unique_together = (("meeting", "issue"),)
         verbose_name = _("Agenda Item")
         verbose_name_plural = _("Agenda Items")
+        ordering = ('meeting__created_at', 'order')
 
     def __unicode__(self):
         return self.issue.title
@@ -58,7 +61,10 @@ class Meeting(UIDMixin):
 
     summary = models.TextField(_("Summary"), null=True, blank=True)
 
-    agenda_items = models.ManyToManyField(Issue, through=AgendaItem, blank=True, verbose_name=_("Agenda items"))
+    agenda_items = models.ManyToManyField(Issue, through=AgendaItem,
+                                          blank=True,
+                                          related_name='meetings',
+                                          verbose_name=_("Agenda items"))
 
     participants = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                           related_name="participated_in_meeting",
@@ -80,6 +86,9 @@ class Meeting(UIDMixin):
         return s
         #return date_format(self.scheduled_at) + ", " + time_format(self.scheduled_at)
 
+    def get_active_issues(self):
+        return [ai.issue for ai in self.agenda.all() if ai.issue.active]
+
     def get_guest_list(self):
         if not self.guests:
             return []
@@ -87,6 +96,9 @@ class Meeting(UIDMixin):
 
     def get_title_or_date(self):
         return self.title or date_format(self.held_at)
+ 
+    def get_title_or_shortdate(self):
+        return self.title or self.held_at.strftime('%d/%m/%Y')
  
     @models.permalink
     def get_absolute_url(self):

@@ -2,11 +2,13 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from issues import models
 from issues.models import ProposalType
-import floppyforms as forms
 from ocd.formfields import HTMLArea
+from users.models import OCUser
+import floppyforms as forms
 
 
-class BaseIssueForm(forms.ModelForm):
+class CreateIssueForm(forms.ModelForm):
+
     class Meta:
         model = models.Issue
         fields = (
@@ -19,18 +21,12 @@ class BaseIssueForm(forms.ModelForm):
             'abstract': HTMLArea,
         }
 
-
-class CreateIssueForm(BaseIssueForm):
-
     def __init__(self, *args, **kwargs):
 
         super(CreateIssueForm, self).__init__(*args, **kwargs)
 
-        initial = {'type': ProposalType.ADMIN}
-
         self.new_proposal = CreateProposalBaseForm(prefix='proposal',
-                                   data=self.data if self.is_bound else None,
-                                   initial=initial)
+                                   data=self.data if self.is_bound else None)
         self.new_proposal.fields['type'].required = False
 
     def is_valid(self):
@@ -48,14 +44,28 @@ class CreateIssueForm(BaseIssueForm):
         return o
 
 
-class UpdateIssueForm(BaseIssueForm):
-    def __init__(self, *args, **kwargs):
-#         self.helper = FormHelper()
-# 
-#         self.helper.add_input(Submit('submit', _('Update')))
+class UpdateIssueForm(forms.ModelForm):
+    class Meta:
+        model = models.Issue
+        fields = (
+                   'title',
+                   )
 
-        super(UpdateIssueForm, self).__init__(*args, **kwargs)
-#        self.helper.form_tag = True
+        widgets = {
+            'title': forms.TextInput,
+        }
+
+
+class UpdateIssueAbstractForm(forms.ModelForm):
+    class Meta:
+        model = models.Issue
+        fields = (
+                   'abstract',
+                   )
+
+        widgets = {
+            'abstract': HTMLArea,
+        }
 
 
 class AddAttachmentBaseForm(forms.ModelForm):
@@ -66,16 +76,21 @@ class AddAttachmentBaseForm(forms.ModelForm):
                    'file',
                    )
 
+        widgets = {
+            'title': forms.TextInput,
+            }
+
     def clean_file(self):
         file_obj = self.cleaned_data['file']
 
         if len(file_obj.name.split('.')) == 1:
             raise forms.ValidationError(_("File type is not allowed!"))
 
-        if file_obj.name.split('.')[-1] not in settings.UPLOAD_ALLOWED_EXTS:
+        if file_obj.name.split('.')[-1].lower() not in settings.UPLOAD_ALLOWED_EXTS:
             raise forms.ValidationError(_("File type is not allowed!"))
 
         return file_obj
+
 
     def clean_title(self):
         title = self.cleaned_data['title']
@@ -105,26 +120,39 @@ class CreateProposalBaseForm(forms.ModelForm):
             'type': forms.Select,
             'title': forms.TextInput,
             'content': HTMLArea,
-            'assigned_to': forms.TextInput,
+            'assigned_to': forms.TextInput(attrs={
+                    'autocomplete':'off',
+                    }),
             'due_by': forms.DateInput,
         }
 
+
+    def save(self):
+        proposal = super(CreateProposalBaseForm, self).save()
+        user_name = proposal.assigned_to
+        try:
+            u = OCUser.objects.get(display_name=user_name)
+            proposal.assigned_to_user = u
+            proposal.save()
+        except OCUser.DoesNotExist:
+            pass
+
+        return proposal
 
 class CreateProposalForm(CreateProposalBaseForm):
 
     submit_button_text = _('Create')
 
     def __init__(self, *args, **kwargs):
-#         self.helper = FormHelper()
-# 
-#         self.helper.add_input(Submit('submit', self.submit_button_text))
-
         super(CreateProposalForm, self).__init__(*args, **kwargs)
         self.fields['type'].initial = ProposalType.ADMIN
 
 
 class EditProposalForm(CreateProposalForm):
     submit_button_text = _('Save')
+    def __init__(self, *args, **kwargs):
+        super(EditProposalForm, self).__init__(*args, **kwargs)
+        self.fields['type'].initial = self.instance.type
 
 
 class EditProposalTaskForm(EditProposalForm):
@@ -150,7 +178,7 @@ class CreateIssueCommentForm(forms.ModelForm):
         widgets = {
                     'content': HTMLArea,
                 }
-    
+
     def __init__(self, *args, **kwargs):
 #         self.helper = FormHelper()
 #         if self.form_id:

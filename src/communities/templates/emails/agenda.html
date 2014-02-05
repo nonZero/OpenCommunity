@@ -1,5 +1,5 @@
 {% load i18n %}
-{% load opencommunity %}
+{% load opencommunity community_tags %}
 <div{% if LANGUAGE_CODE == 'he' %} dir="rtl"{% endif %}
     style="font-family: Arial, Helvetica, sans-serif{% if LANGUAGE_CODE == 'he' %};direction:rtl{% endif %}"
 >
@@ -17,7 +17,7 @@
             {{community}}{% if community.official_identifier %} {{ community.official_identifier }}{% endif %}
         </h1>
         <h1 style="margin:0; background: #ddd;padding: 4px"
-        >{% trans "Upcoming Meeting" %}
+        >{% trans "Agenda" %}
             {% if community.upcoming_meeting_title %}
               -
               {{community.upcoming_meeting_title}} 
@@ -37,7 +37,13 @@
                 </i>
             </p>
             <p>
-                <a href="{{base_url}}{{community.get_absolute_url}}">{% trans "View online" %}</a>
+                {% if community.allow_links_in_emails %}
+                  {% if community.has_straw_votes %}
+                      <a href="{{base_url}}{{community.get_absolute_url}}">{% trans "Enter site and vote on proposals" %}</a>
+                  {% else %}
+                      <a href="{{base_url}}{{community.get_absolute_url}}">{% trans "View online" %}</a>
+                  {% endif %}
+                {% endif %}  
             </p>
 
             <div style="border: solid 1px #ccc; margin: 4px 0;padding: 0"> 
@@ -45,14 +51,10 @@
 
                 <div style="margin:0; padding: 4px">
                         <b>{% trans "Scheduled at" %}:</b>
-                        {{community.upcoming_meeting_scheduled_at|default:_("Not set yet")}}
+                        {{community|display_upcoming_time}}
                         <br/>
                         <b>{% trans "Location" %}:</b>
                         {{community.upcoming_meeting_location|default:_("Not set yet")}}
-                        {% if community.straw_voting_enabled %}
-                            <br/>
-                            <b>{% trans "Voting ends at" %}:</b> {{ community.voting_ends_at|default:_("Not set yet") }}    
-                        {% endif %} 
                         {% if community.upcoming_meeting_comments %}
                             <div>
                                 {{community.upcoming_meeting_comments|safe}}
@@ -65,16 +67,21 @@
                 <h2 style="margin:12px 0 0 0; background:#eee; padding:6px 3px 3px"
                 >{% trans "The following issues will be discussed in the next meeting" %}</h2>
             <div style="padding:12px 6px">
+                {% if community.allow_links_in_emails %}
                     ({% trans "click links for more details" %})
-        
+                {% endif %} 
         
                 {% for i in community.upcoming_issues %}
                     <article style="border: solid 1px #ccc; margin-top: 12px;">
         
-                        <h3 style="margin:0; background: #ddd;padding: 4px">
+                        <h3 style="margin:0; background: #ddd;padding: 4px; font-size: 20px;">
+                        {% if community.allow_links_in_emails %}
                             <a href="{{base_url}}{{i.get_absolute_url}}">
                                 {{i.title}}
                             </a>
+                        {% else %}    
+                            {{i.title}}
+                        {% endif %}
                             {% if i.length_in_minutes %}
                               ({{i.length_in_minutes|minutes}})
                             {% endif %}
@@ -86,6 +93,19 @@
                             </div>
                         {% endif %}
                         
+                        {% if i.attachments.count and community.allow_links_in_emails %}
+                         <div class="issue_attachments">
+                            <p>{% trans 'Related files' %}:</p>
+                            <ul>
+                            {% for att in i.attachments.all %}
+                                <li>                      
+                                    <a href="{{base_url}}{{ att.get_absolute_url }}" class="file_ext"><img height="16" src="{{base_url}}{{ STATIC_URL }}images/icons/{{ att.get_icon }}.png" /> {{att.title}}</a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                         </div>
+                        {% endif %}
+
                         {% with proposals=i.active_proposals.count %}
                             {% if proposals %}
                                 <h4 style="margin:0; background: #eee; padding: 2px">
@@ -93,13 +113,19 @@
                                 </h4>
                                 <ul>
                                     {% for p in i.active_proposals.all %}
+                                        {% if not p.decided %}
                                         <li style="padding:2px 0">
-	                                        <a href="{{base_url}}{{p.get_absolute_url}}">
-                                                {% if p.type != 3 %}
-                                                    {{ p.get_type_display }}:
-                                                {% endif %}
-	                                             {{p.title}}
-	                                        </a>
+                                            {% if community.allow_links_in_emails %}
+                                                <a href="{{base_url}}{{p.get_absolute_url}}">
+                                                    {% if p.type != 3 %}
+                                                        {{ p.get_type_display }}:
+                                                    {% endif %}
+                                                  {{p.title}}
+                                                </a>
+                                            {% else %}
+                                                  {{p.title}}
+                                            {% endif %}
+
 	                                        {% if p.assigned_to %}
 	                                            &nbsp;
 	                                            <b>{% trans "Assigned to" %}</b>: {{p.assigned_to}}
@@ -114,6 +140,7 @@
 	                                            </div>
 	                                        {% endif %}
                                         </li>
+                                        {% endif %}
                                     {% endfor %}
                                 </ul>
                             {% endif %}

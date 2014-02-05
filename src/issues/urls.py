@@ -7,12 +7,16 @@ urlpatterns = patterns('',
     url(r'^$', views.IssueList.as_view(), name="issues"),
 
     url(r'^create/$', views.IssueCreateView.as_view(), name="issue_create"),
-    url(r'^upcoming-create/$', views.IssueCreateView.as_view(upcoming=True), name="issue_create_upcoming"),
+    url(r'^upcoming-create/$', views.IssueCreateView.as_view(upcoming=True),
+                                name="issue_create_upcoming"),
 
     url(r'^(?P<pk>\d+)/$', views.IssueDetailView.as_view(), name="issue"),
 
     url(r'^(?P<pk>\d+)/edit/$', views.IssueEditView.as_view(),
                                 name="issue_edit"),
+
+    url(r'^(?P<pk>\d+)/edit-abstract/$', views.IssueEditAbstractView.as_view(),
+                                name="issue_edit_abstract"),
 
     url(r'^(?P<pk>\d+)/set-length/$', views.IssueSetLengthView.as_view(),
                                 name="issue_set_length"),
@@ -57,4 +61,7 @@ urlpatterns = patterns('',
 
     url(r'^vote/(?P<pk>\d+)/$',
         views.ProposalVoteView.as_view(), name="vote_on_proposal"),
+
+    url(r'^vote_res_panel/(?P<pk>\d+)/$',
+        views.VoteResultsView.as_view(), name="vote_results_panel"),
 )
