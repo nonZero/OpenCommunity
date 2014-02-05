@@ -201,7 +201,7 @@ def process_vote_stub(community_id, current_order, prev_order=[]):
     try:
         community_instance = Community.objects.get(id=community_id)
     except Community.DoesNotExist:
-        raise
+        raise  # return None?
     try:
         graph = IssuesGraph.objects.get(community=community_instance)
     except IssuesGraph.DoesNotExist:
