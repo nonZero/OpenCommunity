@@ -42,12 +42,11 @@
             {% endfor %}
             
 
+           {% if object.abstract or object.current_attachments.count %}
             <div id="issue-abstract" style="clear: both;">
                     <div class="issue-abstract filter-upcoming filter">
                         <a class="filter" href="{{community.get_absolute_url}}">{% trans "Upcoming Meeting" %}</a>
-                        {% if object.abstract %}
-                           {{object.abstract|userhtml}}
-                        {% endif %}
+                           {{object.abstract|default_if_none:""|userhtml}}
                     </div>
             </div>
             <ul style="clear: both;margin:0">
@@ -60,6 +59,7 @@
                   </li>  
               {% endfor %}
             </ul>
+            {% endif %}
         </div>
 
     <h2 class="filter-title">

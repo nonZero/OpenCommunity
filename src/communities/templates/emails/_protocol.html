@@ -89,20 +89,7 @@
                         {% endif %}
                     </h3>
 
-                    {% if a.comments.count or a.issue.attachments.count %}
-
-                      {% if a.issue.attachments.count and community.allow_links_in_emails %}
-                         <div class="issue_attachments">
-                         <p>{% trans 'Related files' %}:</p>
-                         <ul>
-                         {% for att in a.issue.attachments.all %}
-                            <li>                      
-                                <a href="{{base_url}}{{ att.get_absolute_url }}" class="file_ext"><img height="16" src="{{base_url}}{{ STATIC_URL }}images/icons/{{ att.get_icon }}.png" /> {{att.title}}</a>
-                            </li>
-                         {% endfor %}
-                         </ul>
-                         </div>
-                      {% endif %}
+                    {% if a.comments.count or a.issue.current_attachments.count %}
 
                       {% if a.comments.count %}
                         {% for c in a.comments.all %}
@@ -117,6 +104,19 @@
                         {% endfor %}
                       {% endif %}
                       
+                      {% if a.issue.current_attachments.count and community.allow_links_in_emails %}
+                         <div class="issue_attachments">
+                         <p>{% trans 'Related files' %}:</p>
+                         <ul>
+                         {% for att in a.issue.current_attachments.all %}
+                            <li>                      
+                                <a href="{{base_url}}{{ att.get_absolute_url }}" class="file_ext"><img height="16" src="{{base_url}}{{ STATIC_URL }}images/icons/{{ att.get_icon }}.png" /> {{att.title}}</a>
+                            </li>
+                         {% endfor %}
+                         </ul>
+                         </div>
+                      {% endif %}
+
                     {% endif %}
 
                     {% if a.proposals %}
