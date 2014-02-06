@@ -62,7 +62,7 @@ msgstr "סיסמא לא תואמת"
 
 #: forms.py:95
 msgid "Upload CSV file to import"
-msgstr ""
+msgstr "העלאת קובץ csv"
 
 #: models.py:69
 msgid "email address"
@@ -236,7 +236,7 @@ msgstr "יבא רשימת מוזמנים"
 
 #: templates/users/import_invitations.html:10
 msgid "Sample file"
-msgstr ""
+msgstr "קובץ לדוגמה"
 
 #: templates/users/invitation404.html:12
 msgid "Invitation already accepted"

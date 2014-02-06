@@ -133,7 +133,7 @@ msgstr ""
 
 #: templates/registration/password_reset_email.html:5
 msgid "Please go to the following page and choose a new password:"
-msgstr "גש לדף הבא ובחר סיסמא חדשה:"
+msgstr "בדף הבא ניתן לבחור סיסמא חדשה:"
 
 #: templates/registration/password_reset_email.html:9
 msgid "Your username/email, in case you've forgotten:"
