@@ -295,6 +295,7 @@ class ProposalVote(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
                               related_name="votes")
     value = models.SmallIntegerField(choices=ProposalVoteValue.CHOICES, 
+                                     default=ProposalVoteValue.NEUTRAL,
                                      verbose_name=_("Vote"))
 
     class Meta:
