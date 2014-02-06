@@ -45,7 +45,6 @@ class IssueList(IssueMixin, ListView):
 
     def get_context_data(self, **kwargs):
         d = super(IssueList, self).get_context_data(**kwargs)
-        # print self.get_queryset(), d['community'].id
         available_ids = set([x.id for x in self.get_queryset()])
         if d['community'].issue_ranking_enabled:
             d['sorted_issues'] = super(IssueList, self).get_queryset().exclude(
@@ -216,9 +215,15 @@ class IssueCompleteView(IssueMixin, SingleObjectMixin, View):
 
     def post(self, request, *args, **kwargs):
         o = self.get_object()
-        o.completed = request.POST.get('enable') == '1'
-        if not o.completed and o.status == o.statuses.ARCHIVED:
-            o.status = o.statuses.OPEN
+        if request.POST.get('complete') == '1':
+            o.completed = True
+        elif request.POST.get('undo_complete') == '1':
+            o.completed = False
+            if o.status == IssueStatus.ARCHIVED:
+                o.status = o.statuses.OPEN
+        elif request.POST.get('archive') == '1':
+            o.completed = True
+            o.status = IssueStatus.ARCHIVED
         o.save()
         return HttpResponse("-")
 
