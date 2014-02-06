@@ -529,7 +529,7 @@ ul li.issue.oc_li a.addremove {
 
 .issue-abstract {
     padding: 5px 15px;
-    margin-bottom: 5px;
+    margin: 8px 0 5px 0;
 }
 
 .oc_detail_top {

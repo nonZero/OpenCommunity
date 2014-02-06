@@ -403,13 +403,6 @@ class ProposalDetailView(ProposalMixin, DetailView):
             group = ""
 
         is_current = o.issue.is_current
-        show_to_member = group == DefaultGroups.MEMBER and o.decided_at_meeting
-        show_to_board = group == DefaultGroups.BOARD and \
-                                 (is_current or o.decided_at_meeting)
-        show_to_chairman = group == DefaultGroups.CHAIRMAN and o.decided 
-
-        show_board_vote_result = board_votes.count() and \
-                                  (show_to_member or show_to_board or show_to_chairman)
         context['res'] = o.get_straw_results()
 
         results = VoteResult.objects.filter(proposal=o) \
@@ -426,6 +419,12 @@ class ProposalDetailView(ProposalMixin, DetailView):
                 context['meeting'] = None
 
 
+        show_to_member = group == DefaultGroups.MEMBER and o.decided_at_meeting
+        show_to_board = group == DefaultGroups.BOARD and \
+                                 (is_current or o.decided_at_meeting)
+        show_to_chairman = group == DefaultGroups.CHAIRMAN and o.decided 
+        show_board_vote_result = board_votes.count() and \
+                                  (show_to_member or show_to_board or show_to_chairman)
         context['issue_frame'] = self.request.GET.get('s', None)
         context['show_board_vote_result'] = show_board_vote_result 
         context['chairman_can_vote'] = is_current and not o.decided
