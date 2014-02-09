@@ -165,10 +165,16 @@ ul.errorlist li {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 }
-#modal-form .nav-tabs > li.active > a,
-#modal-form .nav-tabs > li.active > a:hover,
-#modal-form .nav-tabs > li.active > a:focus {
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
 	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+#upcoming-meeting #issues-order.nav-tabs > li.active > a,
+#upcoming-meeting #issues-order.nav-tabs > li.active > a:hover,
+#upcoming-meeting #issues-order.nav-tabs > li.active > a:focus {
+	background: #f5f6de;
 }
 
 /* General buttons */

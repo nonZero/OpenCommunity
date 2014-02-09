@@ -36,9 +36,9 @@
 			{% if cperms.issues.editopen_proposal or object.created_by == user %}
 				<div class="col-xs-12 text-right">
 					{% if not object.is_task or cperms.issues.edittask_proposal %}
-						<a href="{{object.get_edit_url}}" data-rel="form" style="color: #6C6C6E;"> <i class="fa fa-edit"></i> <span>{% trans "Edit" %}</span> </a>
+						<i class="fa fa-edit"></i> <a href="{{object.get_edit_url}}" data-rel="form" style="color: #6C6C6E;"><span>{% trans "Edit" %}</span></a>
 					{% endif %}
-					<a href="{{object.get_delete_url}}" data-rel="form" style="color: #6C6C6E;"> <i class="fa fa-trash-o"></i> <span>{% trans "Delete" %}</span> </a>
+						<i class="fa fa-trash-o"></i> <a href="{{object.get_delete_url}}" data-rel="form" style="color: #6C6C6E;"><span>{% trans "Delete" %}</span></a>
 				</div>
 			{% endif %}
 		{% endif %}

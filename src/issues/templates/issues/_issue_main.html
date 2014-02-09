@@ -13,8 +13,8 @@
                 {% if cperms.issues.editopen_issue or object.created_by == user %}
                     <div class="filter filter-upcoming pull-right">
                         <h5>
-                            <a data-rel="form" data-replace="#issue-abstract" href="{% url 'issue_edit_abstract' object.community.id object.id %}" title='{% trans "Edit Abstract" %}' style="color: #6C6C6E;"> <i class="fa fa-edit"></i> {% trans "Edit Abstract" %}</a>
-                            <a id="add-attachment" data-rel="form" href="{% url 'add_attachment' community.id object.id %}" title='{% trans "Add attachment" %}' style="color: #6C6C6E;"> <i class="fa fa-paperclip"></i> {% trans "Add attachment" %}</a>
+                            <i class="fa fa-edit"></i> <a data-rel="form" data-replace="#issue-abstract" href="{% url 'issue_edit_abstract' object.community.id object.id %}" title='{% trans "Edit Abstract" %}' style="color: #6C6C6E;">{% trans "Edit Abstract" %}</a>
+                            <i class="fa fa-paperclip"></i> <a id="add-attachment" data-rel="form" href="{% url 'add_attachment' community.id object.id %}" title='{% trans "Add attachment" %}' style="color: #6C6C6E;">{% trans "Add attachment" %}</a>
                         </h5>
                     </div>
                 {% endif %}
