@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-09 17:16+0200\n"
+"POT-Creation-Date: 2014-02-09 23:00+0200\n"
 "PO-Revision-Date: 2014-02-09 17:17+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -127,7 +127,7 @@ msgstr "שם הועד"
 #: .\models.py:93 .\models.py:162
 #: .\migrations\0011_auto__add_field_community_register_missing_board_members__chg_field_co.py:16
 #: .\templates\communities\participants_form.html.py:23
-#: .\templates\communities\participants_form.html.py:105
+#: .\templates\communities\participants_form.html.py:106
 msgid "Board"
 msgstr "ועד"
 
@@ -265,17 +265,10 @@ msgid "Edit"
 msgstr "עריכה"
 
 #: .\templates\communities\participants_form.html.py:29
-#: .\templates\communities\participants_form.html.py:131
+#: .\templates\communities\participants_form.html.py:130
 #: .\templates\emails\_protocol.html.py:62
 msgid "Guests"
 msgstr "אורחים"
-
-#: .\templates\communities\participants_form.html.py:44
-#: .\templates\communities\participants_form.html.py:70
-#: .\templates\communities\participants_form.html.py:111
-#: .\templates\communities\participants_form.html.py:124
-msgid "Delete"
-msgstr "מחק"
 
 #: .\templates\communities\participants_form.html.py:56
 #: .\templates\communities\participants_form.html.py:91
@@ -311,7 +304,7 @@ msgid "Close"
 msgstr "סגור"
 
 #: .\templates\communities\start_meeting.html.py:5
-#: .\templates\communities\start_meeting.html.py:8
+#: .\templates\communities\start_meeting.html.py:10
 #: .\templates\communities\upcoming.html.py:93
 msgid "Start Meeting"
 msgstr "התחל פגישה"
@@ -482,6 +475,9 @@ msgstr "הצבעה פעילה"
 #: .\templatetags\community_tags.py:61
 msgid "Published"
 msgstr "פורסם"
+
+#~ msgid "Delete"
+#~ msgstr "מחק"
 
 #~ msgid "No Accepted Proposals"
 #~ msgstr "לא התקבלו החלטות"
