@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-02 15:32+0200\n"
+"POT-Creation-Date: 2014-02-09 14:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Send to"
 msgstr "שלח אל"
 
-#: .\models.py:11 .\models.py:78 .\models.py:109 .\models.py:135
+#: .\models.py:11 .\models.py:78 .\models.py:112 .\models.py:138
 msgid "Meeting"
 msgstr "פגישה"
 
@@ -107,27 +107,31 @@ msgstr "רשום כל אורח בשורה נפקדת"
 msgid "Meetings"
 msgstr "פגישות"
 
-#: .\models.py:115 .\models.py:136
+#: .\models.py:118 .\models.py:139
 msgid "Name"
 msgstr "שם"
 
-#: .\models.py:116
+#: .\models.py:119
 msgid "Group"
 msgstr "קבוצה"
 
 #: .\models.py:122
+msgid "Is Absent"
+msgstr ""
+
+#: .\models.py:125
 msgid "Meeting Participant"
 msgstr "משתתף בפגישה"
 
-#: .\models.py:123
+#: .\models.py:126
 msgid "Meeting Participants"
 msgstr "משתתפים בפגישה"
 
-#: .\models.py:139
+#: .\models.py:142
 msgid "Meeting External Participant"
 msgstr "משתתף חיצוני"
 
-#: .\models.py:140
+#: .\models.py:143
 msgid "Meeting External Participants"
 msgstr "משתתפים חיצוניים"
 

@@ -348,20 +348,5 @@ def oc_password_reset(request, is_admin_site=False,
     }
     if extra_context is not None:
         context.update(extra_context)
-        subject = _("Invitation to %s") % invitation.community.name
-        from_email = "%s <%s>" % (invitation.created_by.get_full_name(), invitation.created_by.email)
-        d = {
-              'base_url': settings.HOST_URL,
-              'object': invitation,
-              'recipient_name': invitation.name,
-             }
-
-        message = render_to_string("emails/invitation.txt", d)
-        send_mail(subject, message, from_email, [invitation.email], fail_silently=False)
-        invitation.last_sent_at = timezone.now()
-        invitation.times_sent += 1
-        invitation.status = EmailStatus.SENT
-        invitation.save()
-
     return TemplateResponse(request, template_name, context,
                             current_app=current_app)

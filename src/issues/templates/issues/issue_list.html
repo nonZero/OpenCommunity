@@ -52,7 +52,9 @@ id="issue-list"
         {% if cperms.issues.vote_ranking %}
         <div id="my_vote" class="tab-pane"> 
             {% with can_sort=True %}
-            <h2> {% trans "My Agenda" %} </h2>
+            <h2> {% trans "My Agenda" %} 
+            	<i class="fa fa-info-circle" style="color: #194e5c;" id="help" data-container="#help" data-trigger="hover" data-toggle="popover" data-placement="top" data-content="{% trans 'Please prioritize relevant issues in your perspective' %}"></i>
+        	</h2>
 
             <ul id="ordered" class="nav nav-pills nav-stacked">
                 {% for i in my_vote %}
@@ -98,7 +100,7 @@ id="issue-list"
     {% else %}
         <div id="by_time"> 
             <div class="row">
-                <div class="form-group {% if community.issue_ranking_enabled %}col-xs-12{% else %}col-xs-9 pull-left{% endif %}">
+                <div class="form-group {% if not cperms.issues.add_issue %}col-xs-12{% else %}col-xs-9 pull-left{% endif %}">
                     <input type="text" class="form-control issue-search" placeholder="{% trans "Search in agenda list" %}">
                 </div>
             </div>    
@@ -128,6 +130,7 @@ id="issue-list"
 <script src="{{STATIC_URL}}js/issues.js"></script>
 <script src="{{STATIC_URL}}js/jquery.cookie.js"></script>
 <script src="{{STATIC_URL}}jquery-ui/js/jquery-ui-1.10.2.custom.js"></script>
+<script src="{{STATIC_URL}}js/jquery.ui.touch-punch.js"></script>
 <script>
     function disable_send_button() {
         $('#do_ranking_vote').removeClass('btn-warning');
@@ -187,7 +190,7 @@ id="issue-list"
             var order_list = [];
             $.each($('#ordered li'), function(idx, el) {
                 order_list.push($(el).data('issue'));
-            })
+            });
             $.post(url, {
                             new_order: JSON.stringify(order_list),
                             community_id: '{{ community.id }}',
@@ -202,7 +205,10 @@ id="issue-list"
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             var tab_id = $(e.target).attr('href'); 
             $.cookie('issue-tab', tab_id);
-        })
+        });
+	});
+	$(function() {
+		$('#help').popover();
 	});
 </script>
 {% endblock %}
