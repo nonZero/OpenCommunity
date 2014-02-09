@@ -158,13 +158,11 @@ class EditUpcomingMeetingView(AjaxFormView, CommunityModelMixin, UpdateView):
 class EditUpcomingMeetingParticipantsView(AjaxFormView, CommunityModelMixin, UpdateView):
 
     reload_on_success = True
-
     required_permission = 'community.editparticipants_community'
-
     form_class = UpcomingMeetingParticipantsForm
     template_name = "communities/participants_form.html"
-
-
+    
+    
 class DeleteParticipantView(CommunityModelMixin, DeleteView):
 
 #     required_permission = ''

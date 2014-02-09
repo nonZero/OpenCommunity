@@ -1,5 +1,5 @@
 {% extends "dialog.html" %}
-{% load i18n %}
+{% load i18n floppyforms %}
 
 {% block page_header %}
     <span class="participant-title">
@@ -10,9 +10,94 @@
 
 {% block content %}
 
+<form id="participants_form">
+
+<div id="p_select" style="display:none;" >
+{% formfield form.upcoming_meeting_participants %}
+{% formfield form.upcoming_meeting_guests %}
+</div>  
+
 <div class="participants-body-form"{% if not object.full_participants.count %} style="display: none;"{% endif %}>
-    {{form}}
+	<ul class="nav nav-tabs">
+		<li class="active">
+			<a href="#board" data-toggle="tab">{% trans "Board" %}</a>
+		</li>
+		<li>
+			<a href="#members" data-toggle="tab">{% trans "Members" %}</a>
+		</li>
+		<li>
+			<a href="#guests" data-toggle="tab">{% trans "Guests" %}</a>
+		</li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active" id="board">
+      <div class="board_select">{% formfield form.board %}</div>
+		</div>
+		<div class="tab-pane" id="members">
+			<ul class="list-group" id="members-list">
+				{% for member in object.meeting_participants.members %}
+				<li class="list-group-item">
+					<div style="display: inline;line-height: 30px;">
+						{{ member.display_name }}
+					</div>
+					<button class="pull-right btn btn-danger btn-sm del_member">
+						<i class="fa fa-trash-o"></i> {% trans "Delete" %}
+					</button>
+				</li>
+				{% endfor %}
+			</ul>
+			<div class="row">
+				<div class="form-group">
+					<div class="col-xs-10">
+						<input type="text" class="form-control" id="add_member"/>
+					</div>
+					<div class="col-xs-2">
+						<button class="btn btn-default" id="add_member_btn" type="button">
+							{% trans "Add" %}
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="tab-pane" id="guests">
+			<ul class="list-group" id="guests-list">
+				{% for guest in object.get_guest_list %}
+				<li class="list-group-item">
+					<div style="display: inline;line-height: 30px;">
+						{{ guest }}
+					</div>
+					<button class="pull-right btn btn-danger btn-sm">
+						<i class="fa fa-trash-o"></i> {% trans "Delete" %}
+					</button>
+				</li>
+				{% endfor %}
+			</ul>
+			<div class="row">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">{% trans "Name" %}</label>
+					<div class="col-xs-8">
+						<input type="text" class="form-control" id="guest_name" />
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">{% trans "Email" %}</label>
+					<div class="col-xs-8">
+						<input type="email" class="form-control" id="guest_email" />
+					</div>
+					<div class="col-xs-2">
+						<button class="btn btn-default" id="add_guest_btn" type="button">
+							{% trans "Add" %}
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
+</form>
+
 <div class="participants-body-list"{% if object.full_participants.count %} style="display: none;"{% endif %}>
 	<div class="panel panel-default">
 		{% if object.meeting_participants.board %}
@@ -57,30 +142,9 @@
 </div>
 {% endblock %}
 
-{% block page_scripts %}
-<script>
-	$(function() {
-		$('.participant-title button').on('click', function() {
-			$(".select-participants, .list-of-participants").toggle();
-			$(".participants-body-list, .participants-body-form").toggle();
-		});
-	}); 
-</script>
-<!-- <script>
-	$(function() {
-	    // Delete participant form
-	    $('.participants-body-list').on('click', '.delete-participant button', function() {
-	        var btn = $(this);
-	        var form = btn.closest('form');
-	        form.ajaxSubmit({
-	                            success: function(data) {
-	                                form.closest('li').hide('slow', function(){
-	                                    $(this).remove();
-	                                    });
-	                            }
-	                        });
-	        return false;
-	    });
-	}); 
-</script> -->
+{% block scripts %}
+    <script>
+      var typeahead_url = '{% url  "ac_user" community_id=object.id  %}';
+    </script>
+    <script src="{{STATIC_URL}}js/participants.js"></script>
 {% endblock %}
