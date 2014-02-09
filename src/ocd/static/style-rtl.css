@@ -1207,6 +1207,9 @@ form.delete-invitation {
 	border-bottom: 1px solid #a3a3a3;
 	background: #e6e7c8;
 }
+.issue_main .issue_left_column {
+	margin-top: 25px;
+}
 
 .issue_main_siblings {
   margin-top:30px;
@@ -1722,6 +1725,9 @@ label[for=id_proposal-title] {
 	h5 {
 		margin-top: 10px;
 		margin-bottom: 10px;
+	}
+	.issue_main .issue_left_column {
+		margin-top: 0;
 	}
 
 }

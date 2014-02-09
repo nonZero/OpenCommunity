@@ -17,7 +17,7 @@
 {% formfield form.upcoming_meeting_guests %}
 </div>  
 
-<div class="participants-body-form">
+<div class="participants-body-form"{% if not object.full_participants.count %} style="display: none;"{% endif %}>
 	<ul class="nav nav-tabs">
 		<li class="active">
 			<a href="#board" data-toggle="tab">{% trans "Board" %}</a>
@@ -31,7 +31,7 @@
 	</ul>
 	<div class="tab-content">
 		<div class="tab-pane active" id="board">
-      <div class="board_select">{% formfield form.board %}</div>
+			<div class="board_select">{% formfield form.board %}</div>
 		</div>
 		<div class="tab-pane" id="members">
 			<ul class="list-group" id="members-list">
