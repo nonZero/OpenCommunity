@@ -17,7 +17,7 @@
 {% formfield form.upcoming_meeting_guests %}
 </div>  
 
-<div class="participants-body-form"{% if not object.full_participants.count %} style="display: none;"{% endif %}>
+<div class="participants-body-form">
 	<ul class="nav nav-tabs">
 		<li class="active">
 			<a href="#board" data-toggle="tab">{% trans "Board" %}</a>
@@ -98,6 +98,7 @@
 </div>
 </form>
 
+{% block participants_list %}
 <div class="participants-body-list"{% if object.full_participants.count %} style="display: none;"{% endif %}>
 	<div class="panel panel-default">
 		{% if object.meeting_participants.board %}
@@ -140,6 +141,7 @@
 		{% endif %}
 	</div>
 </div>
+{% endblock %}
 {% endblock %}
 
 {% block scripts %}
