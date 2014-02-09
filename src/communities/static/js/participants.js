@@ -8,7 +8,6 @@ $(function() {
     $('.board_select').on('change', 'li input', function() {
        var uid = $(this).val();
        var sel = $(this).is(':checked');
-       console.log(uid);
        $('#p_select input[value="' + uid + '"]').prop('checked', sel);
     })
     
@@ -26,11 +25,10 @@ $(function() {
 					            '<button class="pull-right btn btn-danger btn-sm">' +
                       '<i class="fa fa-trash-o"></i> {% trans "Delete" %}</button></li>';
 
-    var url = '{% url  "ac_user" community_id=object.id  %}';
     $("#add_member").typeahead({
-      prefetch : url,
+      prefetch : typeahead_url,
         cache: false,
-        remote : url + '?q=%QUERY',
+        remote : typeahead_url + '?q=%QUERY',
         engine : Hogan,
         // template : tpl
     }).css('background-color', '#fff');

@@ -143,5 +143,8 @@
 {% endblock %}
 
 {% block scripts %}
+    <script>
+      var typeahead_url = '{% url  "ac_user" community_id=object.id  %}';
+    </script>
     <script src="{{STATIC_URL}}js/participants.js"></script>
 {% endblock %}
