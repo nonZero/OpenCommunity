@@ -135,8 +135,8 @@ class PublishUpcomingMeetingPreviewView(CommunityModelMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         d = super(PublishUpcomingMeetingPreviewView, self).get_context_data(**kwargs)
-        d['has_open_proposals'] = \
-                        self.community.upcoming_proposals_any({'is_open': True})
+        d['can_straw_vote'] = self.community.upcoming_proposals_any({'is_open': True}) \
+                             and self.community.upcoming_meeting_is_published 
         return d
 
 
@@ -163,12 +163,6 @@ class EditUpcomingMeetingParticipantsView(AjaxFormView, CommunityModelMixin, Upd
 
     form_class = UpcomingMeetingParticipantsForm
     template_name = "communities/participants_form.html"
-
-
-    def get_context_data(self, **kwargs):
-        d = super(EditUpcomingMeetingParticipantsView, self).get_context_data(**kwargs)
-        
-        return d
 
 
 class DeleteParticipantView(CommunityModelMixin, DeleteView):
@@ -222,7 +216,8 @@ class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):
         template = 'protocol_draft' if c.upcoming_meeting_started else 'agenda'
         tpl_data = {
             'meeting_time': datetime.datetime.now().replace(second=0),
-            'has_open_proposals': c.upcoming_proposals_any({'is_open': True}), 
+            'can_straw_vote': c.upcoming_proposals_any({'is_open': True}) \
+                             and c.upcoming_meeting_is_published, 
         }
         total = c.send_mail(template, self.request.user, form.cleaned_data['send_to'], tpl_data)
         messages.info(self.request, _("Sending to %d users") % total)

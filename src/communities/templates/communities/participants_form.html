@@ -11,83 +11,7 @@
 {% block content %}
 
 <div class="participants-body-form"{% if not object.full_participants.count %} style="display: none;"{% endif %}>
-	<ul class="nav nav-tabs">
-		<li class="active">
-			<a href="#board" data-toggle="tab">{% trans "Board" %}</a>
-		</li>
-		<li>
-			<a href="#members" data-toggle="tab">{% trans "Members" %}</a>
-		</li>
-		<li>
-			<a href="#guests" data-toggle="tab">{% trans "Guests" %}</a>
-		</li>
-	</ul>
-	<div class="tab-content">
-		<div class="tab-pane active" id="board">
-			{{form}}
-		</div>
-		<div class="tab-pane" id="members">
-			<ul class="list-group" id="members-list">
-				{% for member in object.meeting_participants.members %}
-				<li class="list-group-item">
-					<div style="display: inline;line-height: 30px;">
-						{{ member.display_name }}
-					</div>
-					<button class="pull-right btn btn-danger btn-sm">
-						<i class="fa fa-trash-o"></i> {% trans "Delete" %}
-					</button>
-				</li>
-				{% endfor %}
-			</ul>
-			<div class="row">
-				<div class="form-group">
-					<div class="col-xs-10">
-						<input type="text" class="form-control" />
-					</div>
-					<div class="col-xs-2">
-						<button class="btn btn-default" type="button">
-							{% trans "Add" %}
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="tab-pane" id="guests">
-			<ul class="list-group" id="guests-list">
-				{% for guest in object.get_guest_list %}
-				<li class="list-group-item">
-					<div style="display: inline;line-height: 30px;">
-						{{ guest }}
-					</div>
-					<button class="pull-right btn btn-danger btn-sm">
-						<i class="fa fa-trash-o"></i> {% trans "Delete" %}
-					</button>
-				</li>
-				{% endfor %}
-			</ul>
-			<div class="row">
-				<div class="form-group">
-					<label class="col-sm-2 control-label">{% trans "Name" %}</label>
-					<div class="col-xs-8">
-						<input type="text" required="required" class="form-control" />
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="form-group">
-					<label class="col-sm-2 control-label">{% trans "Email" %}</label>
-					<div class="col-xs-8">
-						<input type="email" class="form-control" />
-					</div>
-					<div class="col-xs-2">
-						<button class="btn btn-default" type="button">
-							{% trans "Add" %}
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    {{form}}
 </div>
 <div class="participants-body-list"{% if object.full_participants.count %} style="display: none;"{% endif %}>
 	<div class="panel panel-default">
@@ -142,4 +66,21 @@
 		});
 	}); 
 </script>
+<!-- <script>
+	$(function() {
+	    // Delete participant form
+	    $('.participants-body-list').on('click', '.delete-participant button', function() {
+	        var btn = $(this);
+	        var form = btn.closest('form');
+	        form.ajaxSubmit({
+	                            success: function(data) {
+	                                form.closest('li').hide('slow', function(){
+	                                    $(this).remove();
+	                                    });
+	                            }
+	                        });
+	        return false;
+	    });
+	}); 
+</script> -->
 {% endblock %}

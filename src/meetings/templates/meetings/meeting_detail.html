@@ -125,7 +125,7 @@ id="meeting-detail"
             </div>
             <div class="modal-body">
                 <ul class="list-group">
-                    {% for p in object.participations.all %}
+                    {% for p in object.get_participations %}
                     <li class="list-group-item">
                         {{p.display_name}}
                         {% if p.default_group_name %}

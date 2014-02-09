@@ -99,7 +99,10 @@ class Meeting(UIDMixin):
  
     def get_title_or_shortdate(self):
         return self.title or self.held_at.strftime('%d/%m/%Y')
- 
+    
+    def get_participations(self):
+        return self.participations.filter(is_absent=False)
+        
     @models.permalink
     def get_absolute_url(self):
         return ("meeting", (str(self.community.pk), str(self.pk),))

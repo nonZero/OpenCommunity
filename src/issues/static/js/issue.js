@@ -95,7 +95,7 @@ $(function() {
         return false;
     });
 
-    $('#issue-complete').ajaxForm({
+    $('#issue-complete,#issue-archive').ajaxForm({
         success: function(data) {
            window.history.back(); 
         }

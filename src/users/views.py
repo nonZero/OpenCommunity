@@ -23,6 +23,7 @@ from django.views.generic.list import BaseListView, ListView
 from ocd import settings
 from ocd.base_views import CommunityMixin
 from users import models
+from default_roles import DefaultGroups
 from users.forms import InvitationForm, QuickSignupForm, ImportInvitationsForm
 from users.models import Invitation, OCUser, Membership, EmailStatus
 import json
@@ -243,8 +244,12 @@ class ImportInvitationsView(MembershipMixin, FormView):
     def form_valid(self, form):
         msg = 'def message'
         def_enc = 'windows-1255'
-        uploaded = form.cleaned_data['csv_file'] 
+        uploaded = form.cleaned_data['csv_file']
+
+        # CHOICES is a tuple of role names: (name, _(name))
+        roles = dict(DefaultGroups.CHOICES)
         sent = 0
+
         for chunk in uploaded.chunks():
             rows = chunk.split('\n')
             for i, row in enumerate(rows):
@@ -261,7 +266,16 @@ class ImportInvitationsView(MembershipMixin, FormView):
                     # print ' - '.join(row.split(','))
                     name = words[0].decode(def_enc)
                     email = words[1].decode(def_enc)
-                    role = words[2].strip().decode(def_enc)
+                    try:
+                        role = words[2].strip().decode(def_enc)
+                        for k, v in roles.items():
+                            if v == role:
+                                role = k
+                    except:
+                        role = roles.keys()[0]
+                    if not role in roles.keys():
+                        role = roles.keys()[0]
+
                     v_err = self.validate_invitation(email)
                     if v_err:
                         continue
@@ -308,8 +322,11 @@ def oc_password_reset(request, is_admin_site=False,
         try:
             invitation = Invitation.objects.get(email=email)
             extra_context = {
-                             'invitation_url': reverse('accept_invitation', kwargs={'code': invitation.code})
+                             'has_invitation': True,
                              }
+            invitation.send(sender=invitation.created_by, 
+                            recipient_name=invitation.name)
+
         except Invitation.DoesNotExist:        
             if form.is_valid():
                 opts = {

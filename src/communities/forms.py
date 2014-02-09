@@ -99,16 +99,15 @@ class UpcomingMeetingParticipantsForm(forms.ModelForm):
 
         fields = (
                    'upcoming_meeting_participants',
-#                    'upcoming_meeting_guests',
+                   'upcoming_meeting_guests',
                    )
 
         widgets = {
             'upcoming_meeting_participants': formfields.OCCheckboxSelectMultiple,
-#             'upcoming_meeting_guests': forms.Textarea,
+             'upcoming_meeting_guests': forms.Textarea,
         }
     
     def __init__(self, *args, **kwargs):
         super(UpcomingMeetingParticipantsForm, self).__init__(*args, **kwargs)
-        self.fields['upcoming_meeting_participants'].queryset = self.instance.get_board_members()
         self.fields['upcoming_meeting_participants'].label = ""
-#         self.fields['upcoming_meeting_guests'].widget.attrs['rows'] = 4
+        self.fields['upcoming_meeting_participants'].queryset = self.instance.get_members()
