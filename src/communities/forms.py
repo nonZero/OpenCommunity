@@ -1,10 +1,10 @@
 from communities.models import Community, SendToOption
+from datetime import datetime, date, time
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from ocd.formfields import HTMLArea, OCSplitDateTime
+from ocd.formfields import HTMLArea, OCSplitDateTime, OCCheckboxSelectMultiple
 from users.models import OCUser, Membership
 import floppyforms as forms
-from django.utils import timezone
-from datetime import datetime, date, time
 
 class EditUpcomingMeetingForm(forms.ModelForm):
 
@@ -94,7 +94,7 @@ class EditUpcomingMeetingSummaryForm(forms.ModelForm):
 
 class UpcomingMeetingParticipantsForm(forms.ModelForm):
 
-    board = forms.MultipleChoiceField(widget = forms.CheckboxSelectMultiple)
+    board = forms.MultipleChoiceField(widget = OCCheckboxSelectMultiple)
 
     class Meta:
         model = Community
@@ -105,23 +105,23 @@ class UpcomingMeetingParticipantsForm(forms.ModelForm):
                    )
 
         widgets = {
-            'upcoming_meeting_participants': forms.CheckboxSelectMultiple,
+            'upcoming_meeting_participants': OCCheckboxSelectMultiple,
             'upcoming_meeting_guests': forms.Textarea,
         }
 
     def __init__(self, *args, **kwargs):
-      super(UpcomingMeetingParticipantsForm, self).__init__(*args, **kwargs)
-      participants = self.instance.upcoming_meeting_participants.values_list(
-                                                              'id', flat=True)
-      board_in = []
-      board_choices = []
-      for b in self.instance.get_board_members():
-          board_choices.append((b.id, b.display_name,))
-          if b.id in participants:
-              board_in.append(b.id)
-      self.fields['board'].choices = board_choices 
-      self.initial['board'] = board_in
-      print 'board in: ', board_in
-      self.fields['upcoming_meeting_participants'].queryset = self.instance.get_members()
-      self.fields['upcoming_meeting_participants'].label = ""
-      
+        super(UpcomingMeetingParticipantsForm, self).__init__(*args, **kwargs)
+        participants = self.instance.upcoming_meeting_participants.values_list(
+                                                                'id', flat=True)
+        board_in = []
+        board_choices = []
+        for b in self.instance.get_board_members():
+            board_choices.append((b.id, b.display_name,))
+            if b.id in participants:
+                board_in.append(b.id)
+        self.fields['board'].choices = board_choices 
+        self.initial['board'] = board_in
+        print 'board in: ', board_in
+        self.fields['upcoming_meeting_participants'].queryset = self.instance.get_members()
+        self.fields['upcoming_meeting_participants'].label = ""
+        

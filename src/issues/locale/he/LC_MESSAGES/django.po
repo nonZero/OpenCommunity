@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-09 14:55+0200\n"
+"POT-Creation-Date: 2014-02-09 17:16+0200\n"
 "PO-Revision-Date: 2014-02-09 14:57+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -438,8 +438,8 @@ msgid "Search"
 msgstr "חיפוש"
 
 #: .\templates\issues\issue_list.html.py:39
-#: .\templates\issues\issue_list.html.py:83
-#: .\templates\issues\issue_list.html.py:102
+#: .\templates\issues\issue_list.html.py:85
+#: .\templates\issues\issue_list.html.py:104
 msgid "Search in agenda list"
 msgstr "חפשו בנושאים לדיון"
 
@@ -447,20 +447,20 @@ msgstr "חפשו בנושאים לדיון"
 msgid "My Agenda"
 msgstr "ההצעה שלי לסדר היום"
 
-#: .\templates\issues\issue_list.html.py:55
+#: .\templates\issues\issue_list.html.py:56
 msgid "Please prioritize relevant issues in your perspective"
 msgstr "סדר הנושאים בפגישה מבטא את רמת החשיבות בעינך. נא לסדר לפי העדיפות"
 
-#: .\templates\issues\issue_list.html.py:64
-#: .\templates\issues\issue_list.html.py:143
+#: .\templates\issues\issue_list.html.py:66
+#: .\templates\issues\issue_list.html.py:146
 msgid "Submit"
 msgstr "שלח"
 
-#: .\templates\issues\issue_list.html.py:67
+#: .\templates\issues\issue_list.html.py:69
 msgid "Other issues"
 msgstr "נושאים אחרים"
 
-#: .\templates\issues\issue_list.html.py:135
+#: .\templates\issues\issue_list.html.py:138
 msgid "Preferences sent"
 msgstr "תיעדוף נשלח"
 

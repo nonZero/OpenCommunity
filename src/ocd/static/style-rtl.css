@@ -160,6 +160,16 @@ ul.errorlist li {
 .proposal-form-bg+.modal-dialog .modal-header .close {
 	color: #6C6C6E;
 }
+.participants-body-form .list-group-item:first-child {
+	border-top: 0;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+#modal-form .nav-tabs > li.active > a,
+#modal-form .nav-tabs > li.active > a:hover,
+#modal-form .nav-tabs > li.active > a:focus {
+	border-bottom-left-radius: 0;
+}
 
 /* General buttons */
 

@@ -3,7 +3,7 @@
 <div class="proposal_left_column col-sm-9 col-xs-12">
 <div class="proposal_left_column_inner">
 {% if object.can_straw_vote and not user.id %}
-<div class="text-center" style="margin-bottom: 10px;">
+<div class="text-center clear" style="margin-bottom: 10px;">
 	<a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-warning">{% trans "Login to vote" %}</a>
 </div>
 {% endif %}
