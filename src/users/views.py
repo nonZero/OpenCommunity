@@ -3,13 +3,16 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.db.utils import IntegrityError
 from django.http.response import HttpResponse, HttpResponseForbidden, \
     HttpResponseBadRequest, Http404, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.template import RequestContext
+from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
@@ -22,7 +25,7 @@ from ocd.base_views import CommunityMixin
 from users import models
 from default_roles import DefaultGroups
 from users.forms import InvitationForm, QuickSignupForm, ImportInvitationsForm
-from users.models import Invitation, OCUser, Membership
+from users.models import Invitation, OCUser, Membership, EmailStatus
 import json
 import time
 

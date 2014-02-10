@@ -160,6 +160,22 @@ ul.errorlist li {
 .proposal-form-bg+.modal-dialog .modal-header .close {
 	color: #6C6C6E;
 }
+.participants-body-form .list-group-item:first-child {
+	border-top: 0;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+#upcoming-meeting #issues-order.nav-tabs > li.active > a,
+#upcoming-meeting #issues-order.nav-tabs > li.active > a:hover,
+#upcoming-meeting #issues-order.nav-tabs > li.active > a:focus {
+	background: #f5f6de;
+}
 
 /* General buttons */
 
@@ -1197,6 +1213,9 @@ form.delete-invitation {
 	border-bottom: 1px solid #a3a3a3;
 	background: #e6e7c8;
 }
+.issue_main .issue_left_column {
+	margin-top: 25px;
+}
 
 .issue_main_siblings {
   margin-top:30px;
@@ -1712,6 +1731,9 @@ label[for=id_proposal-title] {
 	h5 {
 		margin-top: 10px;
 		margin-bottom: 10px;
+	}
+	.issue_main .issue_left_column {
+		margin-top: 0;
 	}
 
 }

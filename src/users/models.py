@@ -237,7 +237,8 @@ class Invitation(models.Model):
         verbose_name = _("Invitation")
         verbose_name_plural = _("Invitations")
 
-    DEFAULT_MESSAGE = _("INVITAION_DEFAULT_MESSAGE")
+    DEFAULT_MESSAGE = _("The system will allow you to take part in decision-making process of %s. "
+                        "Once Joined you'll be able to see the topics for the agenda at the next meeting, Summary decisions at previous meetings, and in the near future you will be able to discuss and influence them.")
 
     def __unicode__(self):
         return "%s: %s (%s)" % (self.community.name, self.email,

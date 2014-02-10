@@ -122,6 +122,7 @@ class CreateProposalBaseForm(forms.ModelForm):
             'title': forms.TextInput,
             'content': HTMLArea,
             'assigned_to_user': forms.HiddenInput(),
+            'assigned_to': forms.TextInput,
             'due_by': forms.DateInput,
         }
 
