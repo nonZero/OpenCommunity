@@ -25,6 +25,7 @@ from issues.models import IssueStatus, Issue
 from meetings.models import Meeting
 from ocd.base_views import ProtectedMixin, AjaxFormView
 from users.permissions import has_community_perm
+from django.views.generic.base import RedirectView
 
 
 class CommunityList(ListView):
@@ -286,3 +287,11 @@ class SumVotesView(View):
         c.voting_ends_at = datetime.datetime.now().replace(second=0)
         c.save()
         return HttpResponseRedirect(reverse('community', kwargs={'pk': pk}))
+
+
+class About(RedirectView):
+    
+    """ About the project page, for now just temporary redirect to Hasadna website """
+    
+    permanent = False
+    url = 'http://www.hasadna.org.il/projects/odc/'

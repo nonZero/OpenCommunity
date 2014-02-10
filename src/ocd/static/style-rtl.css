@@ -1467,7 +1467,7 @@ li.btn-tab span {
 	padding-left: 15px;
 }
 #meeting-detail .oc_detail_top.row.clear h5 a {
-	font-weight: bold;
+	/*font-weight: bold;*/
 	color: #6C6C6E;
 }
 .agendaitem-details .oc_detail_top,

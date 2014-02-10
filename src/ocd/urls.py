@@ -14,6 +14,8 @@ urlpatterns = patterns('',
 
     url(r'^$', communities.views.CommunityList.as_view(), name='home'),
 
+    url(r'^about/$', communities.views.About.as_view(), name='about'),
+
     url(r'^(?P<pk>\d+)/', include('communities.urls')),
 
     url(r'^(?P<community_id>\d+)/upcoming/close/$',
