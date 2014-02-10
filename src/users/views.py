@@ -178,6 +178,9 @@ class AutocompleteMemberName(MembershipMixin, ListView):
     
     def get_queryset(self):
         members = super(AutocompleteMemberName, self).get_queryset()
+        limit = self.request.GET.get('limit', '')
+        if limit == 'm':
+            members = members.filter(default_group_name='member')
         q = self.request.GET.get('q', '')
         if q:
             members = members.filter(

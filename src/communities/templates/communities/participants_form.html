@@ -15,9 +15,9 @@
 <div id="p_select" style="display:none;" >
 {% formfield form.upcoming_meeting_participants %}
 {% formfield form.upcoming_meeting_guests %}
-</div>  
+</div> 
 
-<div class="participants-body-form">
+<div class="participants-body-form"{% if not object.full_participants.count %} style="display: none;"{% endif %}>
 	<ul class="nav nav-tabs">
 		<li class="active">
 			<a href="#board" data-toggle="tab">{% trans "Board" %}</a>
@@ -36,11 +36,11 @@
 		<div class="tab-pane" id="members">
 			<ul class="list-group" id="members-list">
 				{% for member in object.meeting_participants.members %}
-				<li class="list-group-item">
+				<li class="list-group-item" data-uid="{{ member.id }}">
 					<div style="display: inline;line-height: 30px;">
 						{{ member.display_name }}
 					</div>
-					<button class="pull-right btn btn-danger btn-sm del_member">
+					<button type="button" class="pull-right btn btn-danger btn-sm del_member">
 						<i class="fa fa-trash-o"></i> {% trans "Delete" %}
 					</button>
 				</li>
@@ -66,7 +66,7 @@
 					<div style="display: inline;line-height: 30px;">
 						{{ guest }}
 					</div>
-					<button class="pull-right btn btn-danger btn-sm">
+					<button type="button" class="pull-right del_guest btn btn-danger btn-sm">
 						<i class="fa fa-trash-o"></i> {% trans "Delete" %}
 					</button>
 				</li>
@@ -146,7 +146,7 @@
 
 {% block scripts %}
     <script>
-      var typeahead_url = '{% url  "ac_user" community_id=object.id  %}';
+      var typeahead_url = '{% url  "ac_user" community_id=object.id  %}' + '?limit=m';
     </script>
     <script src="{{STATIC_URL}}js/participants.js"></script>
 {% endblock %}
