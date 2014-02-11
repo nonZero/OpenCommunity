@@ -230,6 +230,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
 )
 
+SESSION_REMEMBER_DAYS = 45
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 version_file = os.path.join(STATIC_ROOT, 'version.txt')
 if os.path.exists(version_file):
     with open(version_file) as f:

@@ -215,13 +215,15 @@ class IssueCompleteView(IssueMixin, SingleObjectMixin, View):
 
     def post(self, request, *args, **kwargs):
         o = self.get_object()
+        # TODO: verify that issue is in active meeting
         if request.POST.get('complete') == '1':
             o.completed = True
         elif request.POST.get('undo_complete') == '1':
             o.completed = False
             if o.status == IssueStatus.ARCHIVED:
                 o.status = o.statuses.OPEN
-        elif request.POST.get('archive') == '1':
+        elif request.POST.get('archive') == '1':    
+            # TODO: check if issue can be closed 
             o.completed = True
             o.status = IssueStatus.ARCHIVED
         o.save()
