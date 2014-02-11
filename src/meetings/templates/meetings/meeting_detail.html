@@ -75,8 +75,7 @@ id="meeting-detail"
                 {% if a.issue.active %}
 		        <div class="history_inner">
 	        		<div class="issue_header_history">
-                        <!-- <th class="count"><a href="{{ a.issue.get_absolute_url }}?m_id={{object.id}}">{{ forloop.counter }}</a></th> -->
-    			        <a class="three_dot_sentence level2" href="{{ a.issue.get_absolute_url }}?m_id={{object.id}}">{{ a.issue.title }}</a>
+    			        <a class="three_dot_sentence level2" href="{{ a.issue.get_absolute_url }}?m_id={{object.id}}#meeting-{{object.id}}">{{ a.issue.title }}</a>
 			        </div>
 	                {% if a.accepted_proposals.count %}
 					<div class="proposal_history_main clearfix">
