@@ -12,11 +12,17 @@
 
 {% block content %}
 
-    <form role="form" method="post" action="{% url 'django.contrib.auth.views.login' %}">
+    <form role="form" method="post" action="{% url 'ocd.views.login_user' %}">
         {% csrf_token %}
         <div class="form-group">
         {{ form }}
 		</div>
+
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" checked="checked" name="remember_me">{% trans "Remember me" %}
+            </label>
+        </div>
 		<a href="{% url "password_reset" %}">{% trans "forgot password" %}?</a>
         <div class="narrow">
         	<input type="submit" class="btn btn-oc btn-block" value="{% trans "Login" %}" />

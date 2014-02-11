@@ -121,7 +121,6 @@ class UpcomingMeetingParticipantsForm(forms.ModelForm):
                 board_in.append(b.id)
         self.fields['board'].choices = board_choices 
         self.initial['board'] = board_in
-        print 'board in: ', board_in
         self.fields['upcoming_meeting_participants'].queryset = self.instance.get_members()
         self.fields['upcoming_meeting_participants'].label = ""
         

@@ -26,7 +26,7 @@ urlpatterns = patterns('',
     url(r'^(?P<community_id>\d+)/issues/', include('issues.urls')),
     url(r'^(?P<community_id>\d+)/history/', include('meetings.urls')),
 
-    url(r'^login/$', 'django.contrib.auth.views.login', {
+    url(r'^login/$', 'ocd.views.login_user', {
                                          'template_name': 'login.html'},
                                                          name="login"),
 
