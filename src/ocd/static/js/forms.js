@@ -17,7 +17,7 @@ $.fn.enhanceHtml = function () {
         'border-top-left-radius': '0'
     });
     return this;
-}
+};
 
 
 $(function () {

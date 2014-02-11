@@ -60,7 +60,10 @@
 			</div>
 			<br />
 			<ul id="recommended-members" class="list-group">
-			{% for pre_mp in object.previous_member_participations %}
+				<li class="list-group-item active">
+					{% trans "Previous participants" %}
+				</li>
+				{% for pre_mp in object.previous_member_participations %}
 				<li class="list-group-item" data-uid="{{ pre_mp.id }}">
 					<div style="display: inline;line-height: 30px;">
 						{{ pre_mp.display_name }}
@@ -69,7 +72,7 @@
 						{% trans "Add" %}
 					</button>
 				</li>
-			{% endfor %}
+				{% endfor %}
 			</ul>
 		</div>
 		<div class="tab-pane" id="guests">

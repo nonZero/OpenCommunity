@@ -21,7 +21,9 @@
         },
         lists: {
               unordered: "רשימה",
-              ordered: "רשימה ממוספרת"
+              ordered: "רשימה ממוספרת",
+              outdent: "הזחה פנימה",
+              indent: "הזחה החוצה"
         },
         link: {
               insert: "הכנס קישור",

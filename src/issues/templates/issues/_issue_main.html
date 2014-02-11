@@ -27,7 +27,7 @@
                         {{ai.background|default_if_none:""|userhtml}}
                     </div>
                     {% if ai.attachments.count %}
-                        <ul style="clear: both;margin:0; list-style-type: none;">
+                        <ul style="clear: both; margin:0; list-style-type: none;">
                             {% for att in ai.attachments.all %}
                                 <li class="issue-attachments on filter-meeting-{{ai.meeting.id}} filter">
                                     <a href="{{ att.get_absolute_url }}" class="file_ext {{ att.get_icon }}">{{att.title}}</a>
@@ -49,7 +49,7 @@
                            {{object.abstract|default_if_none:""|userhtml}}
                     </div>
             </div>
-            <ul style="clear: both;margin:0">
+            <ul style="clear: both; margin:0; list-style-type: none;">
               {% for att in object.current_attachments.all %}
                   <li class="issue-attchments filter-upcoming filter">
                       <a href="{{ att.get_absolute_url }}" class="file_ext {{ att.get_icon }}">{{att.title}}</a>
@@ -69,7 +69,7 @@
         {% for ai in object.agenda_items.all %}
             {% if ai.proposals.count %}
                 <div class="filter-meeting-{{ai.meeting.id}} filter">
-                    {% for proposal in ai.proposals|dictsortreversed:"created_at" %}
+                    {% for proposal in ai.proposals|dictsort:"created_at" %}
                         {% include 'issues/_proposal.html' %}
                     {% endfor %}
                 </div>

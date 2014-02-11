@@ -3,20 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-11 12:43+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-02-11 14:58+0200\n"
+"PO-Revision-Date: 2014-02-11 15:00+0200\n"
+"Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
+"Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.6.3\n"
 
 #: .\forms.py:17
 msgid "Send to"
@@ -117,7 +117,7 @@ msgstr "קבוצה"
 
 #: .\models.py:122
 msgid "Is Absent"
-msgstr ""
+msgstr "נעדר"
 
 #: .\models.py:125
 msgid "Meeting Participant"
