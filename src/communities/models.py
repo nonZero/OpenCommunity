@@ -1,19 +1,20 @@
-import logging
-
 from django.conf import settings
 from django.db import models, transaction
+from django.db.models.aggregates import Count, Max
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-
 from issues.models import ProposalStatus, IssueStatus, VoteResult
-import issues.models as issues_models
 from meetings.models import MeetingParticipant
-import meetings.models as meetings_models
 from ocd.base_models import HTMLField, UIDMixin
 from ocd.email import send_mails
-from users.models import OCUser, Membership
 from users.default_roles import DefaultGroups
+from users.models import OCUser, Membership
+import issues.models as issues_models
+import logging
+import meetings.models as meetings_models
+
+
 
 
 logger = logging.getLogger(__name__)
@@ -178,6 +179,13 @@ class Community(UIDMixin):
 
         return meeting_participants
         
+    def previous_member_participations(self):
+        return OCUser.objects.filter(participations__meeting__community_id=self, \
+                                    memberships__default_group_name=DefaultGroups.MEMBER).annotate\
+                                    (meeting_participant=Count('participations'), \
+                                     last_meeting=Max('participations__meeting__held_at')).exclude(id__in=self.upcoming_meeting_participants.all())\
+                                     .order_by('-last_meeting','-meeting_participant')
+        
     def get_board_members(self):
         board_memberships = Membership.objects.filter(community=self) \
                             .exclude(default_group_name=DefaultGroups.MEMBER)
@@ -218,7 +226,7 @@ class Community(UIDMixin):
         from_email = "%s <%s>" % (sender.display_name, sender.email)
 
         recipient_list = set([sender.email])
-        open_invitation_list = set([sender.email])
+        open_invitation_list = set()
 
         if send_to == SendToOption.ALL_MEMBERS:
             recipient_list.update(list(
@@ -230,7 +238,8 @@ class Community(UIDMixin):
         elif send_to == SendToOption.BOARD_ONLY:
             recipient_list.update(list(
                         self.memberships.board().values_list('user__email', flat=True)))
-            open_invitation_email_list = self.invitations.exclude(default_group_name=DefaultGroups.MEMBER).values_list('email', flat=True) 
+            open_invitation_email_list = self.invitations.exclude(
+                default_group_name=DefaultGroups.MEMBER).values_list('email', flat=True)
             if open_invitation_email_list.count():
                 open_invitation_list.update(list(open_invitation_email_list))
 

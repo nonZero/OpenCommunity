@@ -55,6 +55,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog',
-        {'packages': ('issues',)}, 'jsi18n'),
+        {'packages': ('issues', 'communities',)}, 'jsi18n'),
 
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

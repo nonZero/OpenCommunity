@@ -14,7 +14,11 @@ ul.wysihtml5-toolbar > li {
 	float: left;
 	display: list-item;
 	list-style: none;
-	margin: 0 5px 10px 0;
+	margin: 4px;
+}
+#comments ul.wysihtml5-toolbar li {
+	margin: 0;
+	background: transparent;
 }
 
 ul.wysihtml5-toolbar a[data-wysihtml5-command=bold] {

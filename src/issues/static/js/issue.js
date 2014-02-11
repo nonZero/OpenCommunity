@@ -8,9 +8,7 @@ $(function() {
     }
 
     if ($('.htmlarea textarea').length) {
-        var editor = $('.htmlarea textarea').wysihtml5({
-            locale: "he-IL",
-        }).data('wysihtml5').editor;
+        var editor = $('.htmlarea textarea').ocdEditor().data('wysihtml5').editor;
 
         editor.on('input',  function() {
             refreshButtons(editor.getValue().trim() == '');

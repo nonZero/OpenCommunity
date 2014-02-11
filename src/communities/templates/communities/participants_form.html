@@ -58,6 +58,22 @@
 					</div>
 				</div>
 			</div>
+			<br />
+			<ul id="recommended-members" class="list-group">
+				<li class="list-group-item active">
+					{% trans "Previous participants" %}
+				</li>
+				{% for pre_mp in object.previous_member_participations %}
+				<li class="list-group-item" data-uid="{{ pre_mp.id }}">
+					<div style="display: inline;line-height: 30px;">
+						{{ pre_mp.display_name }}
+					</div>
+					<button type="button" class="pull-right btn btn-default btn-sm add-rec-member">
+						{% trans "Add" %}
+					</button>
+				</li>
+				{% endfor %}
+			</ul>
 		</div>
 		<div class="tab-pane" id="guests">
 			<ul class="list-group" id="guests-list">
@@ -67,7 +83,7 @@
 						{{ guest }}
 					</div>
 					<button type="button" class="pull-right btn btn-danger btn-sm del_guest">
-						<i class="fa fa-trash-o"></i>
+						<i class="fa fa-trash-o"></i> {% trans "Delete" %}
 					</button>
 				</li>
 				{% endfor %}
