@@ -8413,7 +8413,7 @@ wysihtml5.views.View = Base.extend(
     
     // --------- apply standard rules ---------
     dom.insertCSS(ADDITIONAL_CSS_RULES).into(this.element.ownerDocument);
-    
+
     // --------- :disabled styles ---------
     textareaElement.disabled = true;
     dom.copyStyles(BOX_FORMATTING).from(textareaElement).to(this.disabledStylesHost);

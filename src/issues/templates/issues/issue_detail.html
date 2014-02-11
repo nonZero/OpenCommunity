@@ -42,7 +42,7 @@ id="issue-detail"
                     {% for issue in meeting.get_active_issues %}
                     <li>
                         {% if object == issue %} <div class="pull-right" style="width: 15px;"><span class="active_issue pull-right"></span></div>{% endif %}
-                        <a href="{{ issue.get_absolute_url }}?m_id={{meeting.id}}">{{ issue }}</a>
+                        <a href="{{ issue.get_absolute_url }}?m_id={{meeting.id}}#meeting-{{meeting.id}}">{{ issue }}</a>
                     </li>
                     {% endfor %}
                 {% else %}
