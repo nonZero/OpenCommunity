@@ -278,6 +278,7 @@ class ImportInvitationsView(MembershipMixin, FormView):
                         continue
                     invitation = Invitation.objects.create( 
                         community=self.community,
+                        name=name,
                         email=email,
                         created_by=self.request.user,
                         default_group_name=role,
