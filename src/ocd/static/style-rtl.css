@@ -958,6 +958,9 @@ ul.proposals li.prop-content p {
 .issue_attachments a:hover.file_ext {
 	text-decoration: none;
 }
+li.issue-attachments {
+	list-style-type: none;
+}
 ul#invitations {
 	list-style-type: none;
 }

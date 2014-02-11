@@ -93,11 +93,11 @@
                             </div>
                         {% endif %}
                         
-                        {% if i.attachments.count and community.allow_links_in_emails %}
+                        {% if i.current_attachments.count and community.allow_links_in_emails %}
                          <div class="issue_attachments">
                             <p>{% trans 'Related files' %}:</p>
                             <ul>
-                            {% for att in i.attachments.all %}
+                            {% for att in i.current_attachments.all %}
                                 <li>                      
                                     <a href="{{base_url}}{{ att.get_absolute_url }}" class="file_ext"><img height="16" src="{{base_url}}{{ STATIC_URL }}images/icons/{{ att.get_icon }}.png" /> {{att.title}}</a>
                                 </li>
