@@ -12,7 +12,7 @@ User = get_user_model()
 from communities.models import Community
 
 
-class Test(TestCase):
+class CommunitiesTest(TestCase):
     def setUp(self):
         self.c1 = Community.objects.create(name='Public Community XYZZY', is_public=True)
         self.c2 = Community.objects.create(name='Private Community ABCDE', is_public=False)
