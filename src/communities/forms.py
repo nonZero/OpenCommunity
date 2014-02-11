@@ -94,7 +94,7 @@ class EditUpcomingMeetingSummaryForm(forms.ModelForm):
 
 class UpcomingMeetingParticipantsForm(forms.ModelForm):
 
-    board = forms.MultipleChoiceField(widget = OCCheckboxSelectMultiple)
+    board = forms.MultipleChoiceField(widget=OCCheckboxSelectMultiple, required=False)
 
     class Meta:
         model = Community
