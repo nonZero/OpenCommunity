@@ -5,7 +5,8 @@
 
 $.fn.ocdEditor = function () {
     this.wysihtml5({
-        locale: OCD.language == 'he' ? "he-IL" : 'en'
+        locale: OCD.language == 'he' ? "he-IL" : 'en',
+        stylesheets: OCD.language == 'he' ? [OCD.static + 'css/rtl.css'] : []
     });
     return this;
 };
