@@ -218,7 +218,7 @@ class Community(UIDMixin):
         from_email = "%s <%s>" % (sender.display_name, sender.email)
 
         recipient_list = set([sender.email])
-        open_invitation_list = set([sender.email])
+        open_invitation_list = set()
 
         if send_to == SendToOption.ALL_MEMBERS:
             recipient_list.update(list(
@@ -230,7 +230,8 @@ class Community(UIDMixin):
         elif send_to == SendToOption.BOARD_ONLY:
             recipient_list.update(list(
                         self.memberships.board().values_list('user__email', flat=True)))
-            open_invitation_email_list = self.invitations.exclude(default_group_name=DefaultGroups.MEMBER).values_list('email', flat=True) 
+            open_invitation_email_list = self.invitations.exclude(
+                default_group_name=DefaultGroups.MEMBER).values_list('email', flat=True)
             if open_invitation_email_list.count():
                 open_invitation_list.update(list(open_invitation_email_list))
 
