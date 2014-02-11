@@ -25,15 +25,15 @@
             <div class="container main-page">
                 <div class="row">
                     {% if messages %}
-                    <div class="col-xs-12">
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                                {{ message }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                   </div>
+					<div class="col-xs-12">
+						<ul class="messages">
+							{% for message in messages %}
+							<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+								{{ message }}
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
                     {% endif %}
                     <div class="col-xs-12">
                         <h2>
@@ -81,7 +81,7 @@
             $(function(){
                 $('.main-page').show();
                 $('body').trigger('ocd.show');
-            })
+            });
         </script>
 
     </body>

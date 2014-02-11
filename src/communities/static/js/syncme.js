@@ -33,7 +33,7 @@
                 }
                 $(this).bind('input', function() {
                     localStorage[key] = el.val();
-                })
+                });
                 $(window).bind('storage', function(e) {
                     if (e.originalEvent.key == key) {
                         el.val(e.originalEvent.newValue);
