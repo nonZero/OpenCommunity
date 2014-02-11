@@ -8,21 +8,23 @@ $(function() {
        var uid = $(this).val();
        var sel = $(this).is(':checked');
        $('#p_select input[value="' + uid + '"]').prop('checked', sel);
-    })
+    });
     
     // user autocomplete setup
+    var delete_text = gettext('Delete');
     var tpl = '<p>{{value}}</p>';
     var member_tpl = '<li class="list-group-item" data-uid="#ID#">' +
 					           '<div style="display: inline;line-height: 30px;">' +
 					           '#NAME#</div>' +
 					           '<button type="button" class="del_member pull-right btn btn-danger btn-sm">' +
-						         '<i class="fa fa-trash-o"></i>' +
+						         '<i class="fa fa-trash-o"></i> ' +
+						         delete_text +
 					           '</button></li>';
     var guest_tpl = '<li class="list-group-item" data-guest="#GUEST_RAW#">' +
         '<div style="display: inline;line-height: 30px;">' + 
                     '#G_DETAIL#</div>' + 
                 '<button type="button" class="pull-right btn btn-danger btn-sm del_guest">' +
-        '<i class="fa fa-trash-o"></i></button></li>';
+        '<i class="fa fa-trash-o"></i> ' + delete_text + '</button></li>';
 
     $("#add_member").typeahead({
       prefetch : typeahead_url,
@@ -45,7 +47,18 @@ $(function() {
             mem_list.append($(member_tpl.replace('#NAME#', new_name).replace('#ID#', uid)));
         }
         $('#add_member').data('uid', '').val('');
-    })
+   });
+    
+   $('#recommended-members').on('click', '.add-rec-member', function() {     
+        var uid = $(this).parent().data('uid');
+        $('#p_select input[value="' + uid + '"]').prop('checked', true);
+        var mem_list = $('ul#members-list');
+        var new_name = $(this).parent().find('div').text();
+        if(new_name && uid) {
+            mem_list.append($(member_tpl.replace('#NAME#', new_name).replace('#ID#', uid)));
+        }
+        $(this).parent().remove();
+   });
     
    $('#members').on('click', 'button.del_member', function(ev) { 
         var elem = $(this).closest('li');
