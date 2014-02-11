@@ -2,23 +2,41 @@
 
 // TODO: refactor all file.
 
-$(function() {
+
+$.fn.ocdEditor = function () {
+    this.wysihtml5({
+        locale: OCD.language == 'he' ? "he-IL" : 'en'
+    });
+    return this;
+};
+
+$.fn.enhanceHtml = function () {
+    this.find('.htmlarea textarea').ocdEditor().css({
+        'width': '100%',
+        'border-top-right-radius': '0',
+        'border-top-left-radius': '0'
+    });
+    return this;
+}
+
+
+$(function () {
 
     // make the whole proposal area clickable (link needed only in an issue page)
-    $('body').on('click', 'ul.prop-table.proposals', function() {
+    $('body').on('click', 'ul.prop-table.proposals', function () {
         var proposal_link = $(this).find('a');
-        if(proposal_link.length) {
+        if (proposal_link.length) {
             window.location = proposal_link.attr('href');
-        }   
+        }
     });
 
     // Force links in user content to open in a new window
-    $('body').on('click', '.userhtml a', function(event) {
+    $('body').on('click', '.userhtml a', function (event) {
         window.open($(this).prop('href'));
         return false;
     });
 
-    $("body").on('click', 'a,button', function() {
+    $("body").on('click', 'a,button', function () {
 
         if ($(this).data('rel') != 'form') {
             return;
@@ -29,15 +47,15 @@ $(function() {
 
         var origin = $(this);
 
-        $.get(url, function(html) {
+        $.get(url,function (html) {
             modal.html(html);
             initForm(modal, url, origin);
-            modal.modal({backdrop: 'static'}).one('hidden.bs.modal', function() {
+            modal.modal({backdrop: 'static'}).one('hidden.bs.modal', function () {
                 $(this).removeData('bs.modal').empty();
             });
-        }).fail(function() {
-            alert('Server Error, please reload page.');
-        });
+        }).fail(function () {
+                alert('Server Error, please reload page.');
+            });
 
         return false;
     });
@@ -47,16 +65,6 @@ $(function() {
     }
 
 });
-
-function enhanceHtml(form) {
-    form.find('.htmlarea textarea').wysihtml5({
-        locale : "he-IL"
-    }).css({
-        'width' : '100%',
-        'border-top-right-radius' : '0',
-        'border-top-left-radius' : '0'
-    });
-}
 
 
 /**
@@ -70,13 +78,11 @@ function initForm(modal, url, origin) {
 
     var form = modal.find('form');
 
-    enhanceHtml(form);
+    form.enhanceHtml().ajaxForm({
 
-    form.ajaxForm({
+        url: url,
 
-        url : url,
-
-        beforeSubmit : function() {
+        beforeSubmit: function () {
             form.find('input[type="submit"]').prop('disabled', true);
             if (form.find('input[type="file"]').length > 0) {
                 $('input#id_file').parent().find('span.loader').remove();
@@ -84,7 +90,7 @@ function initForm(modal, url, origin) {
             }
         },
 
-        success : function(resp) {
+        success: function (resp) {
             if (resp) {
 
                 var appendTo = $(origin).data('append-to');
@@ -111,11 +117,10 @@ function initForm(modal, url, origin) {
             }
         },
 
-        error : function(resp) {
+        error: function (resp) {
             if (resp.status == 403) {
                 var newEl = $(resp.responseText.trim());
-                form.html(newEl.find('form').html());
-                enhanceHtml(form);
+                form.html(newEl.find('form').html()).enhanceHtml();
             } else {
                 alert('Server Error! please try again or reload the page.');
                 form.find('input[type="submit"]').prop('disabled', false);

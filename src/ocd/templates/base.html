@@ -65,6 +65,12 @@
         {% block dialogs %}
         {% endblock %}
 
+        <script>
+            OCD = {
+                language: '{{ LANGUAGE_CODE }}'
+            };
+        </script>
+
         <script src="{{ STATIC_URL }}jquery-1.9.1.min.js"></script>
         <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
         <script src="{{ STATIC_URL }}js/csrf.js"></script>
