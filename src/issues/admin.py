@@ -137,21 +137,23 @@ class ProposalAdmin(admin.ModelAdmin):
     community.short_description = _("Community")
 
 
-class ProposalVoteAdmin(admin.ModelAdmin):
-
-    list_display = (
-                    'value',
-                    'user',
-                    'proposal'
-                    )
-    list_display_links = (
-                            'value',
-                            'user',
-                            'proposal'
-                          )
-    admin_order_field = 'proposal'
 
 site.register(models.Issue, IssueAdmin)
 site.register(models.Proposal, ProposalAdmin)
-site.register(models.ProposalVote, ProposalVoteAdmin)
+site.register(models.ProposalVote)
+
+class VoteResultAdmin(admin.ModelAdmin):
+
+    list_display = (
+                    'meeting',
+                    'proposal',
+                    'community_members',
+                    'votes_pro',
+                    'votes_con',
+                    )
+
+    ordering = ['proposal',]
+
+site.register(models.VoteResult, VoteResultAdmin)
+
 site.register(models.IssueComment, IssueCommentAdmin)

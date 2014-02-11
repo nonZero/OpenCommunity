@@ -12,11 +12,11 @@ LOGIN_ERROR = _("Please enter a correct %(username)s and password. "
 
 class InvitationForm(forms.ModelForm):
 
-    # name = forms.CharField(label=_('Name'))
     class Meta:
         model = Invitation
 
         fields = (
+                  'name',
                   'email',
                   'default_group_name',
                   'message',
@@ -24,15 +24,11 @@ class InvitationForm(forms.ModelForm):
 
         widgets = {
             'default_group_name': forms.Select,
+            'name': forms.TextInput,
             'email': forms.EmailInput,
             'message': HTMLArea,
         }
-
     
-    def __init__(self, *args, **kwargs):
-      super(InvitationForm, self).__init__(*args, **kwargs)
-      self.fields.insert(0, 'name', forms.CharField(label=_('Name'), required=False))
-        
     def clean_email(self):
         return self.cleaned_data.get("email").lower()
 
@@ -89,3 +85,11 @@ class OCPasswordResetConfirmForm(SetPasswordForm):
         super(OCPasswordResetConfirmForm, self).__init__(*args, **kwargs)
         self.fields['new_password1'].widget.attrs['class'] = u'form-control'
         self.fields['new_password2'].widget.attrs['class'] = u'form-control'
+
+
+class ImportInvitationsForm(forms.Form):
+    csv_file = forms.FileField(required=True)
+
+    def __init__(self, *args, **kwargs):
+        super(ImportInvitationsForm, self).__init__(*args, **kwargs)
+        self.fields['csv_file'].label = _("Upload CSV file to import")

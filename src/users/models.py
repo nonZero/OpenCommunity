@@ -213,6 +213,7 @@ class Invitation(models.Model):
                                    verbose_name=_("Created by"),
                                    related_name="invitations_created")
 
+    name = models.CharField(_("Name"), max_length=200, null=True, blank=True)
     email = models.EmailField(_("Email"))
     message = models.TextField(_("Message"), null=True, blank=True)
 
@@ -236,7 +237,8 @@ class Invitation(models.Model):
         verbose_name = _("Invitation")
         verbose_name_plural = _("Invitations")
 
-    DEFAULT_MESSAGE = _("INVITAION_DEFAULT_MESSAGE")
+    DEFAULT_MESSAGE = _("The system will allow you to take part in decision-making process of %s. "
+                        "Once Joined you'll be able to see the topics for the agenda at the next meeting, Summary decisions at previous meetings, and in the near future you will be able to discuss and influence them.")
 
     def __unicode__(self):
         return "%s: %s (%s)" % (self.community.name, self.email,
@@ -273,6 +275,6 @@ class Invitation(models.Model):
         except:
             logger.error("Invitation email sending failed", exc_info=True)
             self.error_count += 1
-            self.status = EmailStatus.ERROR
+            self.status = EmailStatus.FAILED
             self.save()
             return False

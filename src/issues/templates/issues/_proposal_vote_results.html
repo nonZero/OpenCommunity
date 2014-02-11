@@ -4,6 +4,7 @@
 {% if res.community_members %}
 <div class="row piechart" data-prop-id="{{ proposal.id }}" data-pro="{{ res.votes_pro }}" data-con="{{ res.votes_con }}" data-total="{{ res.community_members }}" >
 	<div class="col-xs-12 text-center chart_datetime">
+        {% if meeting %}
         {% with next_link=proposal|next_straw_results_link:meeting.id prev_link=proposal|prev_straw_results_link:meeting.id %}
             {% if prev_link %}
                 <a href="{{ prev_link }}" class="glyphicon glyphicon-circle-arrow-right" id="results_prev"  style="vertical-align: sub"></a>
@@ -20,7 +21,8 @@
                 <a href="{{ next_link }}" class="glyphicon glyphicon-circle-arrow-left" id="results_next"  style="vertical-align: sub"></a>
             {% endif %}
         {% endwith %}
-    </div>
+        {% endif %}
+   </div>
 
 	<div class="col-xs-6">
 		<p>

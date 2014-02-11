@@ -8,15 +8,15 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'MeetingParticipant.is_absent'
-        db.add_column(u'meetings_meetingparticipant', 'is_absent',
-                      self.gf('django.db.models.fields.BooleanField')(default=False),
+        # Adding field 'Invitation.name'
+        db.add_column(u'users_invitation', 'name',
+                      self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True),
                       keep_default=False)
 
 
     def backwards(self, orm):
-        # Deleting field 'MeetingParticipant.is_absent'
-        db.delete_column(u'meetings_meetingparticipant', 'is_absent')
+        # Deleting field 'Invitation.name'
+        db.delete_column(u'users_invitation', 'name')
 
 
     models = {
@@ -49,7 +49,7 @@ class Migration(SchemaMigration):
             'referendum_started_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'register_missing_board_members': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'straw_voting_enabled': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'uid': ('django.db.models.fields.CharField', [], {'default': "'i8eln7xny4j0c7an8k84ebps'", 'unique': 'True', 'max_length': '24'}),
+            'uid': ('django.db.models.fields.CharField', [], {'default': "'wc1a29yyijik8z3a4vt67log'", 'unique': 'True', 'max_length': '24'}),
             'upcoming_meeting_comments': ('ocd.base_models.HTMLField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_guests': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_is_published': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -70,66 +70,31 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        u'issues.issue': {
-            'Meta': {'ordering': "['order_in_upcoming_meeting', 'title']", 'object_name': 'Issue'},
-            'abstract': ('ocd.base_models.HTMLField', [], {'null': 'True', 'blank': 'True'}),
-            'active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'calculated_score': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'community': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'issues'", 'to': u"orm['communities.Community']"}),
-            'completed': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'content': ('ocd.base_models.HTMLField', [], {'null': 'True', 'blank': 'True'}),
+        u'users.invitation': {
+            'Meta': {'unique_together': "(('community', 'email'),)", 'object_name': 'Invitation'},
+            'code': ('django.db.models.fields.CharField', [], {'default': "'p8rohsf2lfni9pmrd5v2zflf980sxn2208ie7y7ujh9xj16b'", 'max_length': '48'}),
+            'community': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'invitations'", 'to': u"orm['communities.Community']"}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'issues_created'", 'to': u"orm['users.OCUser']"}),
+            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'invitations_created'", 'to': u"orm['users.OCUser']"}),
+            'default_group_name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
+            'error_count': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_published': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'length_in_minutes': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'order_by_votes': ('django.db.models.fields.IntegerField', [], {'default': '9999', 'null': 'True', 'blank': 'True'}),
-            'order_in_upcoming_meeting': ('django.db.models.fields.IntegerField', [], {'default': '9999', 'null': 'True', 'blank': 'True'}),
-            'status': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '300'}),
-            'uid': ('django.db.models.fields.CharField', [], {'default': "'07ygbaoo86famc91fn4lv31b'", 'unique': 'True', 'max_length': '24'})
+            'last_sent_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'message': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
+            'status': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
+            'times_sent': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'invitations'", 'null': 'True', 'to': u"orm['users.OCUser']"})
         },
-        u'meetings.agendaitem': {
-            'Meta': {'ordering': "('meeting__created_at', 'order')", 'unique_together': "(('meeting', 'issue'),)", 'object_name': 'AgendaItem'},
-            'background': ('ocd.base_models.HTMLField', [], {'null': 'True', 'blank': 'True'}),
-            'closed': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'issue': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'agenda_items'", 'to': u"orm['issues.Issue']"}),
-            'meeting': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'agenda'", 'to': u"orm['meetings.Meeting']"}),
-            'order': ('django.db.models.fields.PositiveIntegerField', [], {'default': '100'})
-        },
-        u'meetings.meeting': {
-            'Meta': {'ordering': "('-held_at',)", 'object_name': 'Meeting'},
-            'agenda_items': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "'meetings'", 'blank': 'True', 'through': u"orm['meetings.AgendaItem']", 'to': u"orm['issues.Issue']"}),
-            'comments': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'community': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'meetings'", 'to': u"orm['communities.Community']"}),
+        u'users.membership': {
+            'Meta': {'unique_together': "(('community', 'user'),)", 'object_name': 'Membership'},
+            'community': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'memberships'", 'to': u"orm['communities.Community']"}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'meetings_created'", 'to': u"orm['users.OCUser']"}),
-            'guests': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'held_at': ('django.db.models.fields.DateTimeField', [], {}),
+            'default_group_name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'location': ('django.db.models.fields.CharField', [], {'max_length': '300', 'null': 'True', 'blank': 'True'}),
-            'participants': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'participated_in_meeting'", 'symmetrical': 'False', 'through': u"orm['meetings.MeetingParticipant']", 'to': u"orm['users.OCUser']"}),
-            'scheduled_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            'summary': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '300', 'null': 'True', 'blank': 'True'}),
-            'uid': ('django.db.models.fields.CharField', [], {'default': "'hbym7js18dzp93xzciq2fy4o'", 'unique': 'True', 'max_length': '24'})
-        },
-        u'meetings.meetingexternalparticipant': {
-            'Meta': {'object_name': 'MeetingExternalParticipant'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'meeting': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['meetings.Meeting']"}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '200'})
-        },
-        u'meetings.meetingparticipant': {
-            'Meta': {'unique_together': "(('meeting', 'ordinal'), ('meeting', 'user'))", 'object_name': 'MeetingParticipant'},
-            'default_group_name': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
-            'display_name': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_absent': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'meeting': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'participations'", 'to': u"orm['meetings.Meeting']"}),
-            'ordinal': ('django.db.models.fields.PositiveIntegerField', [], {}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'participations'", 'to': u"orm['users.OCUser']"})
+            'invited_by': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'members_invited'", 'null': 'True', 'to': u"orm['users.OCUser']"}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'memberships'", 'to': u"orm['users.OCUser']"})
         },
         u'users.ocuser': {
             'Meta': {'object_name': 'OCUser'},
@@ -147,4 +112,4 @@ class Migration(SchemaMigration):
         }
     }
 
-    complete_apps = ['meetings']
+    complete_apps = ['users']

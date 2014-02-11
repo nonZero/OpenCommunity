@@ -23,12 +23,29 @@
 	width: 98%;
 }
 
+.issue_header_history {
+	padding: 10px 15px;
+	margin-left: 2%;
+	border-top: 1px solid #d4d5c8;
+	border-right: 1px solid #d4d5c8;
+	border-left: 1px solid #d4d5c8;
+	background-color: #f5f6de;
+	/*width: 98%;*/
+}
+.issue_header_history a {
+	color: #666;
+	text-decoration: none;
+}
 .issue_main {
 	padding: 0 2% 0 0;
 	border-right: 1px solid #a3a3a3;
 	border-bottom: 1px solid #a3a3a3;
 	background: #e6e7c8;
 }
+
+.issue_main_siblings {
+  margin-top:30px;
+} 
 
 .meeting_left_column {
 	border: 1px solid #cecfb3;
@@ -66,6 +83,58 @@
 	background: #e6e7c8;
 }
 
+.proposal_history_inner {
+	display: table;
+	background: #ffffff;
+	border: 1px solid #e2e2e2;
+	margin-bottom: 0;
+	padding: 0;
+	width: 100%;
+	list-style-type: none;
+}
+.proposal_history_inner:last-child {
+	margin-bottom: -20px;
+}
+.proposal-header {
+	padding: .7em 15px 0 15px;
+	word-break: break-word;
+}
+.proposal-footer {
+	padding: 0 15px .7em 15px;
+	word-break: break-word;
+}
+.proposal-undecided {
+	padding: 15px;
+	word-break: break-word;
+}
+.proposal_history_inner li {
+	color: #666;
+}
+.proposal_history_inner a {
+	display: block;
+	color: #6c6c6e;
+	font-size: 15px;
+	text-decoration: none;
+	overflow: hidden;
+	word-break: break-word;
+}
+.proposal_history_main {
+	padding: 0 2% 0 0;
+	border-right: 1px solid #d4d5c8;
+	border-bottom: 1px solid #d4d5c8;
+	background: #f5f6de;
+}
+.history_inner {
+	margin-bottom: 40px;
+} 
+.history_inner:last-child {
+	margin-bottom: 0;
+}
+.proposal-icon {
+	display: table-cell;
+	width: 40px;
+	background-color: #cacccd;
+}
 #issue_frame .meeting_header {
 	padding: 0 2% 0 0;
   background: none;
@@ -91,10 +160,6 @@
   background: none;
   border: none;
 }
-#issue-list #issues-order.nav-tabs {
-	display: inline-block;
-	width: 84%;
-}
 .proposal_left_column {
 	border-left: 1px solid #e2e2e2;
 	border-right: 1px solid #d4d5c8;
@@ -102,7 +167,17 @@
 	padding: 0 2% 0 0;
 	background: #f5f6de;
 }
-
+.nav-tabs > li.btn-tab > a {
+	color: #fff;
+	font-size: 14px !important;
+}
+li.btn-tab span {
+	display: none;
+}
+.nav-tabs > li.btn-tab > a:hover, .nav-tabs > li.btn-tab > a:focus {
+	background-color: #194e5c;
+	border-color: #194e5c;
+}
 .proposal_left_column_inner {
 	/*border: 1px solid #e2e2e2;*/
 	background-color: #FFFFFF;
@@ -382,9 +457,6 @@ h5 {
 }
 
 @media (min-width: 480px) {
-	#issue-list #issues-order.nav-tabs {
-		width: 81%;
-	}
 	.one_action_icon {
 		width: 77px;
 		display: inline-block;
@@ -394,7 +466,27 @@ h5 {
 	.one_action_icon span {
 		display: inline;
 	}
+ 
+  li.btn-tab span {
+    display: inline;
+ }
+
+.all-pro {
+	background: #a4cb53;
 }
+.all-con {
+	background: #d95e59;
+}
+
+.board_select {
+  margin: 8px 4px;
+}
+
+.board_select  ul {
+	list-style-type: none;
+	padding: 5px 5px 5px 0;
+}
+
 @media (min-width: 768px) {
 	.proposal_right_column {
 		background: #f5f6de;
@@ -435,13 +527,7 @@ h5 {
 		margin-top: 10px;
 		margin-bottom: 10px;
 	}
-	#issue-list #issues-order.nav-tabs {
-		width: 88%;
-	}
 }
 
 @media (min-width: 992px) {
-	#issue-list #issues-order.nav-tabs {
-		width: 91%;
-	}
 }

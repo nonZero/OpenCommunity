@@ -22,7 +22,9 @@ id="member-profile"
 	</p>
 	<h2>{% trans "Meetings participation" %}</h2>
 	<canvas class="pull-left" id="participationChart" height="40px" width="40px"></canvas>
-	<p>{{ object.meetings_participation_percantage }}%<br />{{ object.meetings_participation }} {% trans "Out of" %} {{ object.total_meetings }}</p>
+	{% if object.total_meetings.count %}
+		<p>{{ object.meetings_participation_percantage }}%<br />{{ object.meetings_participation }} {% trans "Out of" %} {{ object.total_meetings }}</p>
+	{% endif %}
 </div>
 <div class="col-xs-12 col-md-4">
 	<h2>{% trans "Tasks" %}</h2>
@@ -99,80 +101,89 @@ id="member-profile"
 		</li>
 	</ul>
 	<div class="tab-content">
-		<div class="tab-pane active" id="pro" style="background: #a4cb53;padding-bottom: 10px;">
-			{% if object.member_proposal_pro_votes.count %}
-			<p style="padding: 5px 15px 0 15px;">
-				{% widthratio object.member_proposal_pro_votes_accepted.count object.member_proposal_pro_votes.count 100 %}%
-				{% trans "of decisions voted for were accepted" %} ({{ object.member_proposal_pro_votes_accepted.count }})
-			</p>
-			{% for p in object.member_proposal_pro_votes %}
-		  		{% ifchanged p.proposal.issue.get_absolute_url %}
-		  		<a style="display: block;margin: 0 5%;background: #f5f6de;padding: 5px;text-decoration: none;color: #6C6C6E;" href="{{p.proposal.issue.get_absolute_url}}">{{p.proposal.issue.title}}</a>
-				{% endifchanged %}
-				<ul class="prop-table proposals" style="margin: 0 auto 10px auto;width: 90%;">
-				    <li class="drag-icon {% if p.proposal.type == 1 %}task-icon{% endif %}{% if p.proposal.type == 2 %}rule-icon{% endif %}{% if p.proposal.type == 3 %}general-icon{% endif %}"></li>
-				    <a href="{{p.proposal.get_absolute_url}}" style="text-decoration: none;color: #6C6C6E;">
-				    <li class="prop-title">{{p.proposal.title}}</li>
-				    <li class="prop-content">
-				        <p class="assign">
-				        	{% trans "By:" %} {{ p.proposal.created_by }}. {{ p.proposal.created_at|date:"d/m/Y" }}
-				        </p>
-				    </li>
-				    </a>
-				   <li class="check_box {% if p.proposal.status == p.proposal.statuses.ACCEPTED %}checked{% endif %}{% if p.proposal.status == p.proposal.statuses.REJECTED %}rejected{% endif %}"></li>
-				</ul>
-			{% endfor %}
-			{% endif %}
+		<div class="tab-pane active" id="pro" style="background: #a4cb53;padding: 10px;">
+			<div class="tab-content-pro">
+				{% if object.member_proposal_pro_votes.count %}
+				<p>
+					{% widthratio object.member_proposal_pro_votes_accepted.count object.member_proposal_pro_votes.count 100 %}%
+					{% trans "of decisions voted for were accepted" %} ({{ object.member_proposal_pro_votes_accepted.count }})
+				</p>
+				{% for p in object.member_proposal_pro_votes %}
+			  		{% ifchanged p.proposal.issue.get_absolute_url %}
+			  		<div style="height: 10px;"></div>
+			  		<a style="display: block;margin-left: 5%;background: #f5f6de;padding: 5px;text-decoration: none;color: #6C6C6E;" href="{{p.proposal.issue.get_absolute_url}}">{{p.proposal.issue.title}}</a>
+					{% endifchanged %}
+					<ul class="prop-table proposals" style="padding-right: 5%;background: #f5f6de;border: 0;">
+					    <li class="drag-icon {% if p.proposal.type == 1 %}task-icon{% endif %}{% if p.proposal.type == 2 %}rule-icon{% endif %}{% if p.proposal.type == 3 %}general-icon{% endif %}"></li>
+					    <a href="{{p.proposal.get_absolute_url}}" style="display: block;background: #fff;text-decoration: none;color: #6C6C6E;border-bottom: 1px solid #d8e0df;">
+					    <li class="prop-title">{{p.proposal.title}}</li>
+					    <li class="prop-content">
+					        <p class="assign">
+					        	{% trans "By:" %} {{ p.proposal.created_by }}. {{ p.proposal.created_at|date:"d/m/Y" }}
+					        </p>
+					    </li>
+					    </a>
+					   <li class="check_box {% if p.proposal.status == p.proposal.statuses.ACCEPTED %}checked{% endif %}{% if p.proposal.status == p.proposal.statuses.REJECTED %}rejected{% endif %}" style="background-color: #ffffff;border-bottom: 1px solid #d8e0df;"></li>
+					</ul>
+				{% endfor %}
+				{% endif %}
+			</div>
 		</div>
-		<div class="tab-pane" id="neutral" style="background: #ffffff;padding-bottom: 10px;">
-			{% if object.member_proposal_nut_votes.count %}
-			<p style="padding: 5px 15px 0 15px;">
-				{% widthratio object.member_proposal_nut_votes_accepted.count object.member_proposal_nut_votes.count 100 %}%
-				{% trans "of decisions didn't vote were accepted" %} ({{ object.member_proposal_nut_votes_accepted.count }})
-			</p>
-			{% for p in object.member_proposal_nut_votes %}
-				{% ifchanged p.proposal.issue.get_absolute_url %}
-		  		<a style="display: block;margin: 0 5%;background: #f5f6de;padding: 5px;text-decoration: none;color: #6C6C6E;" href="{{p.proposal.issue.get_absolute_url}}">{{p.proposal.issue.title}}</a>
-				{% endifchanged %}
-				<ul class="prop-table proposals" style="margin: 0 auto 10px auto;width: 90%;">
-				    <li class="drag-icon {% if p.proposal.type == 1 %}task-icon{% endif %}{% if p.proposal.type == 2 %}rule-icon{% endif %}{% if p.proposal.type == 3 %}general-icon{% endif %}"></li>
-				    <a href="{{p.proposal.get_absolute_url}}" style="text-decoration: none;color: #6C6C6E;">
-				    <li class="prop-title">{{p.proposal.title}}</li>
-				    <li class="prop-content">
-				        <p class="assign">
-				        	{% trans "By:" %} {{ p.proposal.created_by }}. {{ p.proposal.created_at|date:"d/m/Y" }}
-				        </p>
-				    </li>
-				    </a>
-					<li class="check_box {% if p.proposal.status == p.proposal.statuses.ACCEPTED %}checked{% endif %}{% if p.proposal.status == p.proposal.statuses.REJECTED %}rejected{% endif %}"></li>
-				</ul>
-			{% endfor %}
-			{% endif %}
+		<div class="tab-pane" id="neutral" style="background: #ffffff;padding: 10px;">
+			<div class="tab-content-neutral">
+				{% if object.member_proposal_nut_votes.count %}
+				<p>
+					{% widthratio object.member_proposal_nut_votes_accepted.count object.member_proposal_nut_votes.count 100 %}%
+					{% trans "of decisions didn't vote were accepted" %} ({{ object.member_proposal_nut_votes_accepted.count }})
+				</p>
+				{% for p in object.member_proposal_nut_votes %}
+					{% ifchanged p.proposal.issue.get_absolute_url %}
+			  		<div style="height: 10px;"></div>
+			  		<a style="display: block;margin-left: 5%;background: #f5f6de;padding: 5px;text-decoration: none;color: #6C6C6E;" href="{{p.proposal.issue.get_absolute_url}}">{{p.proposal.issue.title}}</a>
+					{% endifchanged %}
+					<ul class="prop-table proposals" style="padding-right: 5%;background: #f5f6de;border: 0;">
+					    <li class="drag-icon {% if p.proposal.type == 1 %}task-icon{% endif %}{% if p.proposal.type == 2 %}rule-icon{% endif %}{% if p.proposal.type == 3 %}general-icon{% endif %}"></li>
+					    <a href="{{p.proposal.get_absolute_url}}" style="display: block;background: #fff;text-decoration: none;color: #6C6C6E;border-bottom: 1px solid #d8e0df;">
+					    <li class="prop-title">{{p.proposal.title}}</li>
+					    <li class="prop-content">
+					        <p class="assign">
+					        	{% trans "By:" %} {{ p.proposal.created_by }}. {{ p.proposal.created_at|date:"d/m/Y" }}
+					        </p>
+					    </li>
+					    </a>
+						<li class="check_box {% if p.proposal.status == p.proposal.statuses.ACCEPTED %}checked{% endif %}{% if p.proposal.status == p.proposal.statuses.REJECTED %}rejected{% endif %}" style="background-color: #ffffff;border-bottom: 1px solid #d8e0df;"></li>
+					</ul>
+				{% endfor %}
+				{% endif %}
+			</div>
 		</div>
-		<div class="tab-pane" id="con" style="background: #d95e59;padding-bottom: 10px;">
-			{% if object.member_proposal_con_votes.count %}
-			<p style="padding: 5px 15px 0 15px;">
-				{% widthratio object.member_proposal_con_votes_accepted.count object.member_proposal_con_votes.count 100 %}%
-				{% trans "of decisions voted against were rejected" %} ({{ object.member_proposal_con_votes_accepted.count }})
-			</p>
-			{% for p in object.member_proposal_con_votes %}
-		  		{% ifchanged p.proposal.issue.get_absolute_url %}
-		  		<a style="display: block;margin: 0 5%;background: #f5f6de;padding: 5px;text-decoration: none;color: #6C6C6E;" href="{{p.proposal.issue.get_absolute_url}}">{{p.proposal.issue.title}}</a>
-				{% endifchanged %}
-				<ul class="prop-table proposals" style="margin: 0 auto 10px auto;width: 90%;">
-				    <li class="drag-icon {% if p.proposal.type == 1 %}task-icon{% endif %}{% if p.proposal.type == 2 %}rule-icon{% endif %}{% if p.proposal.type == 3 %}general-icon{% endif %}"></li>
-				    <a href="{{p.proposal.get_absolute_url}}" style="text-decoration: none;color: #6C6C6E;">
-				    <li class="prop-title">{{p.proposal.title}}</li>
-				    <li class="prop-content">
-				        <p class="assign">
-				        	{% trans "By:" %} {{ p.proposal.created_by }}. {{ p.proposal.created_at|date:"d/m/Y" }}
-				        </p>
-				    </li>
-				    </a>
-					<li class="check_box {% if p.proposal.status == p.proposal.statuses.ACCEPTED %}checked{% endif %}{% if p.proposal.status == p.proposal.statuses.REJECTED %}rejected{% endif %}"></li>
-				</ul>
-			{% endfor %}
-			{% endif %}
+		<div class="tab-pane" id="con" style="background: #d95e59;padding: 10px;">
+			<div class="tab-content-neutral">
+				{% if object.member_proposal_con_votes.count %}
+				<p>
+					{% widthratio object.member_proposal_con_votes_accepted.count object.member_proposal_con_votes.count 100 %}%
+					{% trans "of decisions voted against were rejected" %} ({{ object.member_proposal_con_votes_accepted.count }})
+				</p>
+				{% for p in object.member_proposal_con_votes %}
+			  		{% ifchanged p.proposal.issue.get_absolute_url %}
+			  		<div style="height: 10px;"></div>
+			  		<a style="display: block;margin-left: 5%;background: #f5f6de;padding: 5px;text-decoration: none;color: #6C6C6E;" href="{{p.proposal.issue.get_absolute_url}}">{{p.proposal.issue.title}}</a>
+					{% endifchanged %}
+					<ul class="prop-table proposals" style="padding-right: 5%;background: #f5f6de;border: 0;">
+					    <li class="drag-icon {% if p.proposal.type == 1 %}task-icon{% endif %}{% if p.proposal.type == 2 %}rule-icon{% endif %}{% if p.proposal.type == 3 %}general-icon{% endif %}"></li>
+					    <a href="{{p.proposal.get_absolute_url}}" style="display: block;background: #fff;text-decoration: none;color: #6C6C6E;border-bottom: 1px solid #d8e0df;">
+					    <li class="prop-title">{{p.proposal.title}}</li>
+					    <li class="prop-content">
+					        <p class="assign">
+					        	{% trans "By:" %} {{ p.proposal.created_by }}. {{ p.proposal.created_at|date:"d/m/Y" }}
+					        </p>
+					    </li>
+					    </a>
+						<li class="check_box {% if p.proposal.status == p.proposal.statuses.ACCEPTED %}checked{% endif %}{% if p.proposal.status == p.proposal.statuses.REJECTED %}rejected{% endif %}" style="background-color: #ffffff;border-bottom: 1px solid #d8e0df;"></li>
+					</ul>
+				{% endfor %}
+				{% endif %}
+			</div>
 		</div>
 	</div>
 </div>

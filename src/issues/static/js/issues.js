@@ -82,10 +82,16 @@ function init_user_autocomplete(ac_url) {
         engine : Hogan,
         template : tpl
     }).css('background-color', '#fff');
+
+   $("[id$='assigned_to']").on('typeahead:selected', function (object, datum) {
+        // console.log(datum);
+        $("[id$='assigned_to_user']").val(datum['user__id']);      
+        
+  });
 }
 
 function searchIssues(term, inp) {
-    var context = inp.closest('.tab-pane');
+    var context = inp.closest('[id^="by_"]');
     $(".issue-table tr", context).each(function() {
         $(this).toggle(!term || $('a', $(this)).text().indexOf(term) > 0);
     });
