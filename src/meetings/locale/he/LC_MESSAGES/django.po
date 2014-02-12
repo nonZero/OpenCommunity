@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-11 14:58+0200\n"
+"POT-Creation-Date: 2014-02-12 10:11+0200\n"
 "PO-Revision-Date: 2014-02-11 15:00+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -91,7 +91,7 @@ msgid "Agenda items"
 msgstr "סדר יום"
 
 #: .\models.py:71 .\templates\meetings\meeting_detail.html.py:60
-#: .\templates\meetings\meeting_detail.html.py:124
+#: .\templates\meetings\meeting_detail.html.py:123
 msgid "Participants"
 msgstr "משתתפים"
 
@@ -173,19 +173,19 @@ msgstr "טרם נקבע"
 msgid "Protocol"
 msgstr "פרוטוקול"
 
-#: .\templates\meetings\meeting_detail.html.py:94
+#: .\templates\meetings\meeting_detail.html.py:93
 msgid "Assigned to"
 msgstr "אחראי"
 
-#: .\templates\meetings\meeting_detail.html.py:97
+#: .\templates\meetings\meeting_detail.html.py:96
 msgid "Due by"
 msgstr "יעד"
 
-#: .\templates\meetings\meeting_detail.html.py:153
+#: .\templates\meetings\meeting_detail.html.py:152
 msgid "Meeting protocol"
 msgstr "פרוטוקול הפגישה"
 
-#: .\templates\meetings\meeting_detail.html.py:157
+#: .\templates\meetings\meeting_detail.html.py:156
 msgid "Close"
 msgstr "סגור"
 

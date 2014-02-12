@@ -67,6 +67,7 @@ class IssueList(IssueMixin, ListView):
 
 
     def post(self, request, *args, **kwargs):
+        # TODO: check post permission for user and for each issue
         send_issue_ranking(request)
         return json_response({'res': 'ok', })
 

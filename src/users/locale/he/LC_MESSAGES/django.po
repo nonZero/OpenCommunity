@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-11 14:58+0200\n"
-"PO-Revision-Date: 2014-02-09 23:02+0200\n"
+"POT-Creation-Date: 2014-02-12 10:11+0200\n"
+"PO-Revision-Date: 2014-02-12 10:16+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -28,6 +28,8 @@ msgid ""
 "password, but you can change the password using <a href=\"password/\">this "
 "form</a>."
 msgstr ""
+"סיסמאות אינם נשמרות כטקסט, אז אין אפשרות לראות את הסיסמא של המשתמש, אבל ניתן "
+"לשנות סיסמא בעזרת <a href=\"password/\">הקישור הזה</a>."
 
 #: .\default_roles.py:97
 msgid "member"
@@ -205,7 +207,7 @@ msgstr "יש בעיה בטופס. אנא בדוק את כתובת האימייל
 msgid "Oops. Something went wrong. Please try again."
 msgstr "אופס. משהו השתבש. אנה נסה שוב."
 
-#: .\views.py:299
+#: .\views.py:300
 #, python-format
 msgid "%d Invitations sent"
 msgstr "%d הזמנות נשלחו"

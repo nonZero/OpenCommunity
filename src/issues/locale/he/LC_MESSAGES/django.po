@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-11 14:58+0200\n"
+"POT-Creation-Date: 2014-02-12 10:11+0200\n"
 "PO-Revision-Date: 2014-02-09 14:57+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.6.3\n"
 
-#: .\admin.py:66 .\models.py:410 .\templates\issues\_issue_main.html.py:82
+#: .\admin.py:66 .\models.py:410 .\templates\issues\_issue_main.html.py:83
 #: .\templates\issues\proposal_detail.html.py:57
 msgid "Proposals"
 msgstr "הצעות החלטה"
@@ -52,7 +52,7 @@ msgstr "העלה קובץ"
 msgid "Create"
 msgstr "צור חדש"
 
-#: .\forms.py:140 .\forms.py:182 .\templates\issues\_issue_main.html.py:128
+#: .\forms.py:140 .\forms.py:182 .\templates\issues\_issue_main.html.py:129
 #: .\templates\issues\issuecomment_form.html.py:9
 msgid "Save"
 msgstr "שמירה"
@@ -274,7 +274,7 @@ msgid "Last edited by"
 msgstr "נערך לאחרונה על ידי"
 
 #: .\templates\issues\_issue-abstract.html.py:5
-#: .\templates\issues\_issue_main.html.py:48
+#: .\templates\issues\_issue_main.html.py:46
 #: .\templates\issues\issue_detail.html.py:20
 #: .\templates\issues\proposal_detail.html.py:29
 msgid "Upcoming Meeting"
@@ -289,28 +289,28 @@ msgstr "עריכה"
 msgid "Add attachment"
 msgstr "צרף קובץ"
 
-#: .\templates\issues\_issue_main.html.py:66
+#: .\templates\issues\_issue_main.html.py:67
 #: .\templates\issues\proposal_detail.html.py:47
 msgid "Decisions"
 msgstr "החלטות"
 
-#: .\templates\issues\_issue_main.html.py:100
+#: .\templates\issues\_issue_main.html.py:101
 msgid "Add Proposal"
 msgstr "הוסף הצעה"
 
-#: .\templates\issues\_issue_main.html.py:106
+#: .\templates\issues\_issue_main.html.py:107
 msgid "Summary"
 msgstr "סיכום"
 
-#: .\templates\issues\_issue_main.html.py:144
+#: .\templates\issues\_issue_main.html.py:145
 msgid "Complete discussion"
 msgstr "הדיון הושלם"
 
-#: .\templates\issues\_issue_main.html.py:156
+#: .\templates\issues\_issue_main.html.py:157
 msgid "Undo complete discussion"
 msgstr "החזר נושא לדיון"
 
-#: .\templates\issues\_issue_main.html.py:168
+#: .\templates\issues\_issue_main.html.py:169
 msgid "Archive issue"
 msgstr "העבר לארכיון"
 

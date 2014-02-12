@@ -28,13 +28,13 @@ class DefaultRoles(object):
                            'issues.viewopen_proposal',
                            'communities.viewupcoming_community',
                            'issues.vote',
+                           'issues.vote_ranking',
                           ]
 
     permissions[PARTICIPANT] = permissions[OBSERVER] + [
                             'issues.view_proposal_in_discussion',
                             'communities.viewupcoming_draft',
                             'issues.view_referendum_results',
-                            'issues.vote_ranking',
                           ]
      
     permissions[PROPOSER] = permissions[PARTICIPANT] + [

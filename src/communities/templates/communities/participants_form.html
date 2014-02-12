@@ -58,14 +58,14 @@
 					</div>
 				</div>
 			</div>
-			{% if object.previous_member_participations.count %}
+			{% if object.previous_members_participations.count %}
 			<br />
 			<h3>
 				{% trans "Previous participants" %}
 			</h3>
 			{% endif %}
 			<ul id="recommended-members" class="list-group" style="max-height: 256px; overflow: auto;">
-				{% for pre_mp in object.previous_member_participations %}
+				{% for pre_mp in object.previous_members_participations %}
 				<li class="list-group-item" data-uid="{{ pre_mp.id }}">
 					<div style="display: inline;line-height: 30px;">
 						{{ pre_mp.display_name }}
@@ -113,6 +113,24 @@
 					</div>
 				</div>
 			</div>
+			{% if object.previous_guests_participations %}
+			<br />
+			<h3>
+				{% trans "Previous participants" %}
+			</h3>
+			{% endif %}
+			<ul id="recommended-guests" class="list-group" style="max-height: 256px; overflow: auto;">
+				{% for pre_gp in object.previous_guests_participations %}
+				<li class="list-group-item">
+					<div style="display: inline;line-height: 30px;">
+						{{ pre_gp }}
+					</div>
+					<button type="button" class="pull-right btn btn-default btn-sm add-rec-guest">
+						{% trans "Add" %}
+					</button>
+				</li>
+				{% endfor %}
+			</ul>
 		</div>
 	</div>
 </div>
@@ -121,6 +139,9 @@
 {% block participants_list %}
 <div class="participants-body-list"{% if object.full_participants.count %} style="display: none;"{% endif %}>
 	<div class="panel panel-default">
+		{% if object.full_participants == 0 %}
+			<h4 class="text-center">{% trans "Please select participants for upcoming meeting" %}</h4>
+		{% endif %}
 		{% if object.meeting_participants.board %}
 		<div class="panel-heading">
 			<h3 class="panel-title">{% trans "Board" %}</h3>

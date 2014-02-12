@@ -98,6 +98,15 @@ $(function() {
         $('#guests input').val('');
     });
 
+	$('#recommended-guests').on('click', '.add-rec-guest', function() {
+        var guest_details = $(this).parent().find('div').text();
+        
+        $('ul#guests-list').append($(guest_tpl.replace('#G_DETAIL#', guest_details)));
+        var cur_guests = $('#id_upcoming_meeting_guests').val();
+        $('#id_upcoming_meeting_guests').val(cur_guests + '\n' + guest_details);
+        $(this).parent().remove();
+    });
+
     $('#guests').on('click', 'button.del_guest', function(ev) { 
         var elem = $(this).closest('li');
         var guest_txt = $(this).prev().text().replace(/[\t\n]/g, "");    
