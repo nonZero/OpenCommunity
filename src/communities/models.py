@@ -187,16 +187,15 @@ class Community(UIDMixin):
                                      .order_by('-last_meeting','-meeting_participant')
 
     def previous_guests_participations(self):
-        guests_list = Meeting.objects.values_list('guests', flat=True)
-        
+        guests_list = Meeting.objects.values_list('guests', flat=True) 
         prev_guests = []
+        upcoming_guests = self.upcoming_meeting_guests or ' '
         for guest in guests_list:
             if guest:
-                lines = guest.split('\n')
+                lines = guest.splitlines()
                 for line in lines:
-                    if line not in self.upcoming_meeting_guests:
+                    if not line in upcoming_guests:
                         prev_guests.append(line)
-        
         return set(prev_guests)
 
     def get_board_members(self):
