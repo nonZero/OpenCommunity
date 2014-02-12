@@ -5,6 +5,7 @@ from django.contrib.auth.views import redirect_to_login
 from django.http.response import HttpResponseForbidden, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
+from users.models import Membership
 from users.permissions import has_community_perm, get_community_perms
 import json
 
@@ -81,6 +82,7 @@ class CommunityMixin(ProtectedMixin):
     def get_context_data(self, **kwargs):
         context = super(CommunityMixin, self).get_context_data(**kwargs)
         context['community'] = self.community
+        context['is_member'] = Membership.objects.filter(community=self.community, user=self.request.user).exists() if self.request.user.id else False
         return context
 
 

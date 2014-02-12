@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from issues.models import ProposalStatus, IssueStatus, VoteResult
-from meetings.models import MeetingParticipant
+from meetings.models import MeetingParticipant, Meeting
 from ocd.base_models import HTMLField, UIDMixin
 from ocd.email import send_mails
 from users.default_roles import DefaultGroups
@@ -179,13 +179,25 @@ class Community(UIDMixin):
 
         return meeting_participants
         
-    def previous_member_participations(self):
+    def previous_members_participations(self):
         return OCUser.objects.filter(participations__meeting__community_id=self, \
                                     memberships__default_group_name=DefaultGroups.MEMBER).annotate\
                                     (meeting_participant=Count('participations'), \
                                      last_meeting=Max('participations__meeting__held_at')).exclude(id__in=self.upcoming_meeting_participants.all())\
                                      .order_by('-last_meeting','-meeting_participant')
+
+    def previous_guests_participations(self):
+        guests_list = Meeting.objects.values_list('guests', flat=True)
         
+        new_guests_list = []
+        for guest in guests_list:
+            if guest:
+                lines = guest.splitlines()
+                for line in lines:
+                    new_guests_list.append(line)
+        
+        return set(filter(None, new_guests_list))
+
     def get_board_members(self):
         board_memberships = Membership.objects.filter(community=self) \
                             .exclude(default_group_name=DefaultGroups.MEMBER)
@@ -202,7 +214,7 @@ class Community(UIDMixin):
     def full_participants(self):
         guests_count = len(self.upcoming_meeting_guests.splitlines()) \
                         if self.upcoming_meeting_guests else 0 
-        return guests_count + self.upcoming_meeting_participants.count() 
+        return guests_count + self.upcoming_meeting_participants.count()
 
     def send_mail(self, template, sender, send_to, data=None, base_url=None):
 
