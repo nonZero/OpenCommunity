@@ -252,50 +252,64 @@ class ImportInvitationsView(MembershipMixin, FormView):
         # CHOICES is a tuple of role names: (name, _(name))
         roles = dict(DefaultGroups.CHOICES)
         sent = 0
-
+        final_rows = []
+        partial = ''
+        composite = False
         for chunk in uploaded.chunks():
             rows = chunk.split('\n')
             for i, row in enumerate(rows):
-                words = row.split(',')
-                # print ' -- ', words[0], ' -- '
-                if i == 0:
-                    msg = words[0]
-                    try:
-                        msg = msg.decode(def_enc)
-                    except UnicodeDecodeError:
-                        def_enc = 'utf-8'
-                        msg = msg.decode(def_enc)
-                elif len(words) > 1:
-                    # print ' - '.join(row.split(','))
-                    name = words[0].decode(def_enc)
-                    email = words[1].decode(def_enc)
-                    try:
-                        role = words[2].strip().decode(def_enc)
-                        for k, v in roles.items():
-                            if v == role:
-                                role = k
-                    except:
-                        role = roles.keys()[0]
-                    if not role in roles.keys():
-                        role = roles.keys()[0]
+                if row.startswith('"'):
+                    composite = True
+                    partial = row[1:]
+                elif composite:
+                    partial += '\n' + row
+                    if row.endswith('",'):
+                        composite = False
+                        final_rows.append(partial[:-2])
+                else:
+                    final_rows.append(row)
+        
 
-                    v_err = self.validate_invitation(email)
-                    if v_err:
-                        continue
-                    invitation = Invitation.objects.create( 
-                        community=self.community,
-                        name=name,
-                        email=email,
-                        created_by=self.request.user,
-                        default_group_name=role,
-                        message=msg) 
-                    try:
-                        invitation.send(sender=self.request.user, recipient_name=name)
-                        # reduce email sending rate
-                        time.sleep(4)
-                        sent += 1
-                    except:
-                        pass
+        for i, row in enumerate(final_rows):
+            words = row.split(',')
+            # print ' -- ', words[0], ' -- '
+            if i == 0:
+                msg = row
+                try:
+                    msg = msg.decode(def_enc)
+                except UnicodeDecodeError:
+                    def_enc = 'utf-8'
+                    msg = msg.decode(def_enc)
+            elif len(words) > 1:
+                name = words[0].decode(def_enc)
+                email = words[1].decode(def_enc)
+                try:
+                    role = words[2].strip().decode(def_enc)
+                    for k, v in roles.items():
+                        if v == role:
+                            role = k
+                except:
+                    role = roles.keys()[0]
+                if not role in roles.keys():
+                    role = roles.keys()[0]
+
+                v_err = self.validate_invitation(email)
+                if v_err:
+                    continue
+                invitation = Invitation.objects.create( 
+                    community=self.community,
+                    name=name,
+                    email=email,
+                    created_by=self.request.user,
+                    default_group_name=role,
+                    message=msg) 
+                try:
+                    invitation.send(sender=self.request.user, recipient_name=name)
+                    # reduce email sending rate
+                    time.sleep(4)
+                    sent += 1
+                except:
+                    pass
 
         messages.success(self.request, _('%d Invitations sent') % (sent,))           
         return redirect(reverse('members', kwargs={'community_id': self.community.id}))
