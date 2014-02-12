@@ -57,13 +57,15 @@ $(function() {
         if(new_name && uid) {
             mem_list.append($(member_tpl.replace('#NAME#', new_name).replace('#ID#', uid)));
         }
-        $(this).parent().remove();
+        // $(this).parent().remove();
+        $(this).addClass('disabled');
    });
     
    $('#members').on('click', 'button.del_member', function(ev) { 
         var elem = $(this).closest('li');
         var uid = elem.data('uid');
         elem.remove();
+        $("#recommended-members").find("[data-uid='" + uid + "']").children('button').removeClass('disabled');
         $('#p_select input[value="' + uid + '"]').prop('checked', false);
     });
 

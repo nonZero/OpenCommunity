@@ -34,7 +34,8 @@ def user_votes_on_issue(context):
         user_id=user_id).count()
     # return "<span class='votes_count'>{0}</span>/<span class='proposal_count'>{1}</span>".format(votes_cnt, proposals.count())
     if votes_cnt == proposals.count():
-        return "<span class='badge no-vote-badge'>{0}/{1}</span>".format(votes_cnt, proposals.count())
+        return "<span></span>"
+#         return "<span class='badge no-vote-badge'>{0}/{1}</span>".format(votes_cnt, proposals.count())
     else:
         return "<span class='badge vote-badge'>{0}/{1}</span>".format(votes_cnt, proposals.count())
 
