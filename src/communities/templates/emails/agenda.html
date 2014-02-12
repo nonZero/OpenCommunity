@@ -106,13 +106,12 @@
                          </div>
                         {% endif %}
 
-                        {% if i.active_proposals.count %}
+                        {% if i.open_proposals.count %}
                             <h4 style="margin:0; background: #eee; padding: 2px">
                                 {% trans "Proposals" %}
                             </h4>
                             <ul>
-                                {% for p in i.active_proposals.all|dictsort:"created_at" %}
-                                    {% if not p.decided %}
+                                {% for p in i.open_proposals.all|dictsort:"created_at" %}
                                     <li style="padding:2px 0">
                                         {% if community.allow_links_in_emails %}
                                             <a href="{{base_url}}{{p.get_absolute_url}}">
@@ -139,7 +138,6 @@
                                             </div>
                                         {% endif %}
                                     </li>
-                                    {% endif %}
                                 {% endfor %}
                             </ul>
                         {% endif %}

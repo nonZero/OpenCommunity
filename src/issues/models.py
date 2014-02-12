@@ -82,6 +82,9 @@ class Issue(UIDMixin):
     def active_proposals(self):
         return self.proposals.filter(active=True)
 
+    def open_proposals(self):
+        return self.active_proposals().filter(status=Proposal.statuses.IN_DISCUSSION)
+
     def active_comments(self):
         return self.comments.filter(active=True)
         
