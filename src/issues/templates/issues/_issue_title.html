@@ -6,8 +6,8 @@
 		{% if cperms.issues.editopen_issue or object.created_by == user %}
 		<div class="pull-right">
 			<h5>
-				<a data-rel="form" data-replace=".issue-top" href="{{object.get_edit_url}}" title='{% trans "Edit" %}' style="color: #6C6C6E;"> <i class="fa fa-edit"></i> {% trans "Edit" %}</a>
-				<a data-rel="form" href="{{object.get_delete_url}}" title='{% trans "Delete" %}' style="color: #6C6C6E;"> <i class="fa fa-trash-o"></i> {% trans "Delete" %}</a>
+				<i class="fa fa-edit"></i> <a data-rel="form" data-replace=".issue-top" href="{{object.get_edit_url}}" title='{% trans "Edit" %}' style="color: #6C6C6E;">{% trans "Edit" %}</a>
+				<i class="fa fa-trash-o"></i> <a data-rel="form" href="{{object.get_delete_url}}" title='{% trans "Delete" %}' style="color: #6C6C6E;">{% trans "Delete" %}</a>
 			</h5>
 		</div>
 		{% endif %}

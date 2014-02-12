@@ -36,7 +36,7 @@ class Migration(SchemaMigration):
         u'communities.community': {
             'Meta': {'object_name': 'Community'},
             'allow_links_in_emails': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'board_name': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
+            'board_name': ('django.db.models.fields.CharField', [], {'default': "u'Board'", 'max_length': '200'}),
             'default_quorum': ('django.db.models.fields.PositiveSmallIntegerField', [], {'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_public': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'db_index': 'True'}),
@@ -47,8 +47,9 @@ class Migration(SchemaMigration):
             'referendum_ends_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'referendum_started': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'referendum_started_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'register_missing_board_members': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'straw_voting_enabled': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'uid': ('django.db.models.fields.CharField', [], {'default': "'meja4zf6lzwa90qsvbdxy7d5'", 'unique': 'True', 'max_length': '24'}),
+            'uid': ('django.db.models.fields.CharField', [], {'default': "'i8eln7xny4j0c7an8k84ebps'", 'unique': 'True', 'max_length': '24'}),
             'upcoming_meeting_comments': ('ocd.base_models.HTMLField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_guests': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_is_published': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -86,7 +87,7 @@ class Migration(SchemaMigration):
             'order_in_upcoming_meeting': ('django.db.models.fields.IntegerField', [], {'default': '9999', 'null': 'True', 'blank': 'True'}),
             'status': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '300'}),
-            'uid': ('django.db.models.fields.CharField', [], {'default': "'l87mcckifsr8pkv6yjqmf3qm'", 'unique': 'True', 'max_length': '24'})
+            'uid': ('django.db.models.fields.CharField', [], {'default': "'07ygbaoo86famc91fn4lv31b'", 'unique': 'True', 'max_length': '24'})
         },
         u'meetings.agendaitem': {
             'Meta': {'ordering': "('meeting__created_at', 'order')", 'unique_together': "(('meeting', 'issue'),)", 'object_name': 'AgendaItem'},
@@ -112,7 +113,7 @@ class Migration(SchemaMigration):
             'scheduled_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'summary': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '300', 'null': 'True', 'blank': 'True'}),
-            'uid': ('django.db.models.fields.CharField', [], {'default': "'a9k2mvu2aqcy76sn2qdrvdb6'", 'unique': 'True', 'max_length': '24'})
+            'uid': ('django.db.models.fields.CharField', [], {'default': "'hbym7js18dzp93xzciq2fy4o'", 'unique': 'True', 'max_length': '24'})
         },
         u'meetings.meetingexternalparticipant': {
             'Meta': {'object_name': 'MeetingExternalParticipant'},

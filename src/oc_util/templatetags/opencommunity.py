@@ -183,7 +183,9 @@ def board_vote(proposal, val, participants):
 
 def board_voters_on_proposal(proposal):
     if proposal.decided_at_meeting:
-        participants = proposal.decided_at_meeting.participants.all()
+        participations = proposal.decided_at_meeting.participations \
+                         .filter(is_absent=False) 
+        participants = [p.user for p in participations]
     else:
         participants = proposal.issue.community.upcoming_meeting_participants.all()
     
@@ -198,20 +200,17 @@ def board_votes_count(p):
 @register.filter
 def participants_by_vote(p, val):
     participants = board_voters_on_proposal(p)
-    
     if val == 'neut':
-        ret = []
         voter_ids = ProposalVoteBoard.objects.filter(proposal=p) \
                     .exclude(value=ProposalVoteValue.NEUTRAL) \
                     .values_list('user', flat=True)
         return [u for u in participants if u.id not in voter_ids]
-    
     elif val == 'pro':
-        vote = 1
+        vote = ProposalVoteValue.PRO
     elif val == 'con':
-        vote = -1 
+        vote = ProposalVoteValue.CON
     res = ProposalVoteBoard.objects.filter(proposal=p, value=vote, 
-                            user_id__in=participants.values_list('id', flat=True))
+                            user__in=participants)
     
     return [v.user for v in res]
 

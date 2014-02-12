@@ -1,8 +1,22 @@
-{% extends "dialog.html" %}
+{% extends "communities/participants_form.html" %}
 {% load i18n %}
 
 {% block page_header %}
     {% trans "Start Meeting" %}
 {% endblock %}
 
+
+
+{% block participants_list %} {% endblock %}  
 {% block btn_text %}{% trans "Start Meeting" %}{% endblock %}
+
+
+{% block scripts %}
+    {{ block.super }}
+    <script>
+        $(function() {
+            $('.participants-body-form').show();
+        });
+    </script>
+{% endblock %}   
+

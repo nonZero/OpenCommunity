@@ -466,10 +466,27 @@ h5 {
 	.one_action_icon span {
 		display: inline;
 	}
-	li.btn-tab span {
-		display: inline;
-	}
+ 
+  li.btn-tab span {
+    display: inline;
+ }
+
+.all-pro {
+	background: #a4cb53;
 }
+.all-con {
+	background: #d95e59;
+}
+
+.board_select {
+  margin: 8px 4px;
+}
+
+.board_select  ul {
+	list-style-type: none;
+	padding: 5px 5px 5px 0;
+}
+
 @media (min-width: 768px) {
 	.proposal_right_column {
 		background: #f5f6de;

@@ -1,30 +1,29 @@
-from communities.models import  SendToOption
+from communities.models import SendToOption
 from django.core import mail
 from django.test import TestCase
 from users import models
 from users.default_roles import DefaultGroups
 from users.models import OCUser
-from communities.tests.common import createTestCommunity
+from communities.tests.common import create_community
 
 
 class MailTest(TestCase):
-
     def setUp(self):
         roles = (
-                 [DefaultGroups.CHAIRMAN] +
-                 [DefaultGroups.SECRETARY] * 2 +
-                 [DefaultGroups.BOARD] * 5 +
-                 [DefaultGroups.MEMBER] * 10)
-        
-        (self.c,self.members,self.chairmen) = createTestCommunity(roles)
+            [DefaultGroups.CHAIRMAN] +
+            [DefaultGroups.SECRETARY] * 2 +
+            [DefaultGroups.BOARD] * 5 +
+            [DefaultGroups.MEMBER] * 10)
+
+        (self.c, self.members, self.chairmen) = create_community(roles)
 
         roles2 = (
-                 [DefaultGroups.CHAIRMAN] * 3 +
-                 [DefaultGroups.SECRETARY] * 4 +
-                 [DefaultGroups.BOARD] * 6 +
-                 [DefaultGroups.MEMBER] * 8)
-        
-        (self.c2,self.members2,self.chairmen) = createTestCommunity(roles2,community_name="Bar Inc.")
+            [DefaultGroups.CHAIRMAN] * 3 +
+            [DefaultGroups.SECRETARY] * 4 +
+            [DefaultGroups.BOARD] * 6 +
+            [DefaultGroups.MEMBER] * 8)
+
+        (self.c2, self.members2, self.chairmen) = create_community(roles2, community_name="Bar Inc.")
 
     def tearDown(self):
         mail.outbox = []

@@ -45,7 +45,6 @@ class IssueList(IssueMixin, ListView):
 
     def get_context_data(self, **kwargs):
         d = super(IssueList, self).get_context_data(**kwargs)
-        # print self.get_queryset(), d['community'].id
         available_ids = set([x.id for x in self.get_queryset()])
         if d['community'].issue_ranking_enabled:
             d['sorted_issues'] = super(IssueList, self).get_queryset().exclude(
@@ -67,7 +66,10 @@ class IssueList(IssueMixin, ListView):
         return d
 
 
+    required_permission_for_post = 'issues.vote_ranking'
+    
     def post(self, request, *args, **kwargs):
+        # TODO: check post permission for user and for each issue
         send_issue_ranking(request)
         return json_response({'res': 'ok', })
 
@@ -96,13 +98,6 @@ class IssueDetailView(IssueMixin, DetailView):
         return d
 
     required_permission_for_post = 'issues.add_issuecomment'
-
-    """ 
-    def get(self, request, *args, **kwargs):
-        if  self.request.GET.get('s', None) == '1':
-            self.template_name = 'issues/issue_detail_issue_list.html'
-        return super(IssueDetailView, self).get(request, *args, **kwargs)
-    """
 
 
     def post(self, request, *args, **kwargs):
@@ -223,9 +218,17 @@ class IssueCompleteView(IssueMixin, SingleObjectMixin, View):
 
     def post(self, request, *args, **kwargs):
         o = self.get_object()
-        o.completed = request.POST.get('enable') == '1'
-        if not o.completed and o.status == o.statuses.ARCHIVED:
-            o.status = o.statuses.OPEN
+        # TODO: verify that issue is in active meeting
+        if request.POST.get('complete') == '1':
+            o.completed = True
+        elif request.POST.get('undo_complete') == '1':
+            o.completed = False
+            if o.status == IssueStatus.ARCHIVED:
+                o.status = o.statuses.OPEN
+        elif request.POST.get('archive') == '1':    
+            # TODO: check if issue can be closed 
+            o.completed = True
+            o.status = IssueStatus.ARCHIVED
         o.save()
         return HttpResponse("-")
 
@@ -405,13 +408,6 @@ class ProposalDetailView(ProposalMixin, DetailView):
             group = ""
 
         is_current = o.issue.is_current
-        show_to_member = group == DefaultGroups.MEMBER and o.decided_at_meeting
-        show_to_board = group == DefaultGroups.BOARD and \
-                                 (is_current or o.decided_at_meeting)
-        show_to_chairman = group == DefaultGroups.CHAIRMAN and o.decided 
-
-        show_board_vote_result = board_votes.count() and \
-                                  (show_to_member or show_to_board or show_to_chairman)
         context['res'] = o.get_straw_results()
 
         results = VoteResult.objects.filter(proposal=o) \
@@ -428,6 +424,12 @@ class ProposalDetailView(ProposalMixin, DetailView):
                 context['meeting'] = None
 
 
+        show_to_member = group == DefaultGroups.MEMBER and o.decided_at_meeting
+        show_to_board = group == DefaultGroups.BOARD and \
+                                 (is_current or o.decided_at_meeting)
+        show_to_chairman = group == DefaultGroups.CHAIRMAN and o.decided 
+        show_board_vote_result = board_votes.count() and \
+                                  (show_to_member or show_to_board or show_to_chairman)
         context['issue_frame'] = self.request.GET.get('s', None)
         context['show_board_vote_result'] = show_board_vote_result 
         context['chairman_can_vote'] = is_current and not o.decided

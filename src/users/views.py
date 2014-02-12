@@ -1,26 +1,34 @@
-import time
-import json
-
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.db.utils import IntegrityError
-from django.http.response import HttpResponse, HttpResponseForbidden,\
-    HttpResponseBadRequest
+from django.http.response import HttpResponse, HttpResponseForbidden, \
+    HttpResponseBadRequest, Http404, HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.utils.translation import ugettext_lazy as _
+from django.template import RequestContext
+from django.template.loader import render_to_string
+from django.template.response import TemplateResponse
+from django.utils import timezone
 from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.translation import ugettext_lazy as _
+from django.views.decorators.csrf import csrf_protect
+from django.views.generic import FormView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView
 from django.views.generic.list import BaseListView, ListView
-from django.views.generic import FormView
-from django.template import RequestContext
-
+from ocd import settings
 from ocd.base_views import CommunityMixin
 from users import models
+from default_roles import DefaultGroups
 from users.forms import InvitationForm, QuickSignupForm, ImportInvitationsForm
-from users.models import Invitation, OCUser, Membership
+from users.models import Invitation, OCUser, Membership, EmailStatus
+import json
+import time
+
 
 class MembershipMixin(CommunityMixin):
 
@@ -105,8 +113,11 @@ class AcceptInvitationView(DetailView):
     form = None
 
     def get_form(self):
-        return QuickSignupForm(self.request.POST if
-                                    self.request.method == "POST" else None)
+        if self.request.method == "POST":
+            return QuickSignupForm(self.request.POST)
+        else:
+            return QuickSignupForm(initial={ \
+                                  'display_name': self.get_object().name})
 
     def get_context_data(self, **kwargs):
         d = super(AcceptInvitationView, self).get_context_data(**kwargs)
@@ -117,6 +128,14 @@ class AcceptInvitationView(DetailView):
         d['form'] = self.form if self.form else self.get_form()
         return d
 
+    def get(self, request, *args, **kwargs):
+        try:
+            self.object = self.get_object()
+        except Http404:
+            return render(request, 'users/invitation404.html', {'base_url': settings.HOST_URL})
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
+    
     def post(self, request, *args, **kwargs):
 
         i = self.get_object()
@@ -162,6 +181,9 @@ class AutocompleteMemberName(MembershipMixin, ListView):
     
     def get_queryset(self):
         members = super(AutocompleteMemberName, self).get_queryset()
+        limit = self.request.GET.get('limit', '')
+        if limit == 'm':
+            members = members.filter(default_group_name='member')
         q = self.request.GET.get('q', '')
         if q:
             members = members.filter(
@@ -225,8 +247,12 @@ class ImportInvitationsView(MembershipMixin, FormView):
     def form_valid(self, form):
         msg = 'def message'
         def_enc = 'windows-1255'
-        uploaded = form.cleaned_data['csv_file'] 
+        uploaded = form.cleaned_data['csv_file']
+
+        # CHOICES is a tuple of role names: (name, _(name))
+        roles = dict(DefaultGroups.CHOICES)
         sent = 0
+
         for chunk in uploaded.chunks():
             rows = chunk.split('\n')
             for i, row in enumerate(rows):
@@ -243,12 +269,22 @@ class ImportInvitationsView(MembershipMixin, FormView):
                     # print ' - '.join(row.split(','))
                     name = words[0].decode(def_enc)
                     email = words[1].decode(def_enc)
-                    role = words[2].strip().decode(def_enc)
+                    try:
+                        role = words[2].strip().decode(def_enc)
+                        for k, v in roles.items():
+                            if v == role:
+                                role = k
+                    except:
+                        role = roles.keys()[0]
+                    if not role in roles.keys():
+                        role = roles.keys()[0]
+
                     v_err = self.validate_invitation(email)
                     if v_err:
                         continue
                     invitation = Invitation.objects.create( 
                         community=self.community,
+                        name=name,
                         email=email,
                         created_by=self.request.user,
                         default_group_name=role,
@@ -259,7 +295,7 @@ class ImportInvitationsView(MembershipMixin, FormView):
                         time.sleep(4)
                         sent += 1
                     except:
-                      pass
+                        pass
 
         messages.success(self.request, _('%d Invitations sent') % (sent,))           
         return redirect(reverse('members', kwargs={'community_id': self.community.id}))
@@ -268,3 +304,53 @@ class ImportInvitationsView(MembershipMixin, FormView):
     @method_decorator(permission_required('is_superuser'))
     def dispatch(self, *args, **kwargs):
         return super(ImportInvitationsView, self).dispatch(*args, **kwargs)
+
+
+@csrf_protect
+def oc_password_reset(request, is_admin_site=False,
+                   template_name='registration/password_reset_form.html',
+                   email_template_name='registration/password_reset_email.html',
+                   subject_template_name='registration/password_reset_subject.txt',
+                   password_reset_form=PasswordResetForm,
+                   token_generator=default_token_generator,
+                   post_reset_redirect=None,
+                   from_email=None,
+                   current_app=None,
+                   extra_context=None):
+    if post_reset_redirect is None:
+        post_reset_redirect = reverse('django.contrib.auth.views.password_reset_done')
+    if request.method == "POST":
+        form = password_reset_form(request.POST)
+        email = request.POST['email']
+        from_email = request.POST['email']
+        try:
+            invitation = Invitation.objects.get(email=email)
+            extra_context = {
+                             'has_invitation': True,
+                             }
+            invitation.send(sender=invitation.created_by, 
+                            recipient_name=invitation.name)
+
+        except Invitation.DoesNotExist:        
+            if form.is_valid():
+                opts = {
+                    'use_https': request.is_secure(),
+                    'token_generator': token_generator,
+                    'from_email': from_email,
+                    'email_template_name': email_template_name,
+                    'subject_template_name': subject_template_name,
+                    'request': request,
+                }
+                if is_admin_site:
+                    opts = dict(opts, domain_override=request.get_host())
+                form.save(**opts)
+                return HttpResponseRedirect(post_reset_redirect)
+    else:
+        form = password_reset_form()
+    context = {
+        'form': form,
+    }
+    if extra_context is not None:
+        context.update(extra_context)
+    return TemplateResponse(request, template_name, context,
+                            current_app=current_app)

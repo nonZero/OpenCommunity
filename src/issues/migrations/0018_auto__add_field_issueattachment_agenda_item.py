@@ -7,6 +7,10 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
+    depends_on = (
+        ("meetings", "0002_auto__add_agendaitem__add_unique_agendaitem_meeting_issue"),
+    )
+
     def forwards(self, orm):
         # Adding field 'IssueAttachment.agenda_item'
         db.add_column(u'issues_issueattachment', 'agenda_item',

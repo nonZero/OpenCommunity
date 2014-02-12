@@ -14,6 +14,8 @@ urlpatterns = patterns('',
 
     url(r'^$', communities.views.CommunityList.as_view(), name='home'),
 
+    url(r'^about/$', communities.views.About.as_view(), name='about'),
+
     url(r'^(?P<pk>\d+)/', include('communities.urls')),
 
     url(r'^(?P<community_id>\d+)/upcoming/close/$',
@@ -24,7 +26,7 @@ urlpatterns = patterns('',
     url(r'^(?P<community_id>\d+)/issues/', include('issues.urls')),
     url(r'^(?P<community_id>\d+)/history/', include('meetings.urls')),
 
-    url(r'^login/$', 'django.contrib.auth.views.login', {
+    url(r'^login/$', 'ocd.views.login_user', {
                                          'template_name': 'login.html'},
                                                          name="login"),
 
@@ -36,7 +38,7 @@ urlpatterns = patterns('',
             name="accept_invitation"),
 
     url(r'^user/password/reset/$',
-        'django.contrib.auth.views.password_reset',
+        'users.views.oc_password_reset',
         {'post_reset_redirect': '/user/password/reset/done/',
          'password_reset_form': OCPasswordResetForm},
         name="password_reset"),
@@ -53,6 +55,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog',
-        {'packages': ('issues',)}, 'jsi18n'),
+        {'packages': ('issues', 'communities',)}, 'jsi18n'),
 
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

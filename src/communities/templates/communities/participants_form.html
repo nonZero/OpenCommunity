@@ -1,5 +1,5 @@
 {% extends "dialog.html" %}
-{% load i18n %}
+{% load i18n floppyforms %}
 
 {% block page_header %}
     <span class="participant-title">
@@ -10,11 +10,138 @@
 
 {% block content %}
 
+<form id="participants_form">
+
+<div id="p_select" style="display:none;" >
+{% formfield form.upcoming_meeting_participants %}
+{% formfield form.upcoming_meeting_guests %}
+</div> 
+
 <div class="participants-body-form"{% if not object.full_participants.count %} style="display: none;"{% endif %}>
-    {{form}}
+	<ul class="nav nav-tabs">
+		<li class="active">
+			<a href="#board" data-toggle="tab">{% trans "Board" %}</a>
+		</li>
+		<li>
+			<a href="#members" data-toggle="tab">{% trans "Members" %}</a>
+		</li>
+		<li>
+			<a href="#guests" data-toggle="tab">{% trans "Guests" %}</a>
+		</li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active" id="board">
+			<div class="board_select">{% formfield form.board %}</div>
+		</div>
+		<div class="tab-pane" id="members">
+			<ul class="list-group" id="members-list">
+				{% for member in object.meeting_participants.members %}
+				<li class="list-group-item" data-uid="{{ member.id }}">
+					<div style="display: inline;line-height: 30px;">
+						{{ member.display_name }}
+					</div>
+					<button type="button" class="pull-right btn btn-danger btn-sm del_member">
+						<i class="fa fa-trash-o"></i> {% trans "Delete" %}
+					</button>
+				</li>
+				{% endfor %}
+			</ul>
+			<div class="row">
+				<div class="form-group">
+					<div class="col-xs-8 col-sm-10">
+						<input type="text" class="form-control" id="add_member"/>
+					</div>
+					<div class="col-xs-4 col-sm-2">
+						<button type="button" class="btn btn-default" id="add_member_btn">
+							{% trans "Add" %}
+						</button>
+					</div>
+				</div>
+			</div>
+			{% if object.previous_members_participations.count %}
+			<br />
+			<h3>
+				{% trans "Previous participants" %}
+			</h3>
+			{% endif %}
+			<ul id="recommended-members" class="list-group" style="max-height: 256px; overflow: auto;">
+				{% for pre_mp in object.previous_members_participations %}
+				<li class="list-group-item" data-uid="{{ pre_mp.id }}">
+					<div style="display: inline;line-height: 30px;">
+						{{ pre_mp.display_name }}
+					</div>
+					<button type="button" class="pull-right btn btn-default btn-sm add-rec-member">
+						{% trans "Add" %}
+					</button>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="tab-pane" id="guests">
+			<ul class="list-group" id="guests-list">
+				{% for guest in object.get_guest_list %}
+				<li class="list-group-item">
+					<div style="display: inline;line-height: 30px;">
+						{{ guest }}
+					</div>
+					<button type="button" class="pull-right btn btn-danger btn-sm del_guest">
+						<i class="fa fa-trash-o"></i> {% trans "Delete" %}
+					</button>
+				</li>
+				{% endfor %}
+			</ul>
+			<div class="form-group">
+				<div class="row">
+					<label class="col-xs-2 control-label text-right">{% trans "Name" %}*</label>
+					<div class="col-xs-10">
+						<input type="text" class="form-control" id="guest_name" />
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<label class="col-xs-2 control-label text-right">{% trans "Email" %}</label>
+					<div class="col-xs-10">
+						<div class="input-group">
+							<input type="email" class="form-control" id="guest_email" />
+					    	<span class="input-group-btn">
+								<button class="btn btn-default" id="add_guest_btn" type="button">
+									{% trans "Add" %}
+								</button>
+							</span>
+    					</div>
+					</div>
+				</div>
+			</div>
+			{% if object.previous_guests_participations %}
+			<br />
+			<h3>
+				{% trans "Previous participants" %}
+			</h3>
+			{% endif %}
+			<ul id="recommended-guests" class="list-group" style="max-height: 256px; overflow: auto;">
+				{% for pre_gp in object.previous_guests_participations %}
+				<li class="list-group-item">
+					<div style="display: inline;line-height: 30px;">
+						{{ pre_gp }}
+					</div>
+					<button type="button" class="pull-right btn btn-default btn-sm add-rec-guest">
+						{% trans "Add" %}
+					</button>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
 </div>
+</form>
+
+{% block participants_list %}
 <div class="participants-body-list"{% if object.full_participants.count %} style="display: none;"{% endif %}>
 	<div class="panel panel-default">
+		{% if object.full_participants == 0 %}
+			<h4 class="text-center">{% trans "Please select participants for upcoming meeting" %}</h4>
+		{% endif %}
 		{% if object.meeting_participants.board %}
 		<div class="panel-heading">
 			<h3 class="panel-title">{% trans "Board" %}</h3>
@@ -23,7 +150,6 @@
 			{% for board in object.meeting_participants.board %}
 			<li class="list-group-item clearfix">
 				<span style="line-height: 2;">{{ board.display_name }}</span>
-        		<!-- <button data-action="{% url 'delete_participant' object.id board.id %}" class="pull-right btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> {% trans "Delete" %}</button> -->
 			</li>
 			{% endfor %}
 		</ul>
@@ -36,7 +162,6 @@
 			{% for member in object.meeting_participants.members %}
 			<li class="list-group-item clearfix">
 				<span style="line-height: 2;">{{ member.display_name }}</span>
-				<!-- <button data-action="{% url 'delete_participant' object.id member.id %}" class="pull-right btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> {% trans "Delete" %}</button> -->
 			</li>
 			{% endfor %}
 		</ul>
@@ -56,31 +181,18 @@
 	</div>
 </div>
 {% endblock %}
+{% endblock %}
 
-{% block page_scripts %}
-<script>
-	$(function() {
-		$('.participant-title button').on('click', function() {
-			$(".select-participants, .list-of-participants").toggle();
-			$(".participants-body-list, .participants-body-form").toggle();
-		});
-	}); 
-</script>
-<!-- <script>
-	$(function() {
-	    // Delete participant form
-	    $('.participants-body-list').on('click', '.delete-participant button', function() {
-	        var btn = $(this);
-	        var form = btn.closest('form');
-	        form.ajaxSubmit({
-	                            success: function(data) {
-	                                form.closest('li').hide('slow', function(){
-	                                    $(this).remove();
-	                                    });
-	                            }
-	                        });
-	        return false;
-	    });
-	}); 
-</script> -->
+{% block nofooter %}
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Cancel" %}</button>
+    <input type="submit" class="btn btn-oc" value="{% block btn_text %}{% trans "Save" %}{% endblock %}">
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+      var typeahead_url = '{% url  "ac_user" community_id=object.id  %}' + '?limit=m';
+    </script>
+    <script src="{{STATIC_URL}}js/participants.js"></script>
 {% endblock %}

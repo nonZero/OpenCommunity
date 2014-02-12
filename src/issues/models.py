@@ -82,6 +82,9 @@ class Issue(UIDMixin):
     def active_proposals(self):
         return self.proposals.filter(active=True)
 
+    def open_proposals(self):
+        return self.active_proposals().filter(status=Proposal.statuses.IN_DISCUSSION)
+
     def active_comments(self):
         return self.comments.filter(active=True)
         
@@ -134,8 +137,11 @@ class Issue(UIDMixin):
                self.community.upcoming_meeting_is_published and \
                self.proposals.open().count() > 0
 
-
+    @property
+    def current_attachments(self):
+        return self.attachments.filter(agenda_item__isnull=True)
         
+
 class IssueComment(UIDMixin):
     issue = models.ForeignKey(Issue, related_name="comments")
     active = models.BooleanField(default=True)
@@ -390,11 +396,12 @@ class Proposal(UIDMixin):
                                          null=True, blank=True,
                                          related_name="proposals_assigned")
     due_by = models.DateField(_("Due by"), null=True, blank=True)
-
+    """
     votes = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                    verbose_name=_("Votes"), blank=True,
                                    related_name="proposals",
                                    through="ProposalVote")
+    """                               
     votes_pro = models.PositiveIntegerField(_("Votes pro"), null=True, blank=True)
     votes_con = models.PositiveIntegerField(_("Votes con"), null=True, blank=True)
     community_members = models.PositiveIntegerField(_("Community members"),

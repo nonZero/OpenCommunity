@@ -42,7 +42,7 @@ id="issue-detail"
                     {% for issue in meeting.get_active_issues %}
                     <li>
                         {% if object == issue %} <div class="pull-right" style="width: 15px;"><span class="active_issue pull-right"></span></div>{% endif %}
-                        <a href="{{ issue.get_absolute_url }}?m_id={{meeting.id}}">{{ issue }}</a>
+                        <a href="{{ issue.get_absolute_url }}?m_id={{meeting.id}}#meeting-{{meeting.id}}">{{ issue }}</a>
                     </li>
                     {% endfor %}
                 {% else %}
@@ -58,7 +58,7 @@ id="issue-detail"
         {% endif %}
     </div>
 
-    <div class="issue_left_column col-sm-9 col-xs-12 {% if not object.completed and object.agenda_items.count > 1 %} tabs-margin{% endif %}" style="margin-bottom: -40px;">
+    <div class="issue_left_column col-sm-9 col-xs-12{% if not object.completed and object.agenda_items.count > 1 %} tabs-margin{% endif %}" style="margin-bottom: -40px;">
         <div class="issue_left_column_inner">
 
             {% with can_straw_vote=object.can_straw_vote %}
