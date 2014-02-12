@@ -219,7 +219,7 @@ msgstr "שלום"
 #: .\templates\emails\invitation.txt.py:4
 #, python-format
 msgid "This invitation is from %(u)s to join %(c)s."
-msgstr "זוהי הזמנה מ%(u)s להצטרף לקהילת %(c)s."
+msgstr "הוזמנת על ידי %(u)s להצטרף לקהילת %(c)s."
 
 #: .\templates\emails\invitation.txt.py:8
 msgid "Click here to join this community:"
