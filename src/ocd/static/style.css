@@ -159,6 +159,27 @@ ul.errorlist li {
 .proposal-form-bg+.modal-dialog .modal-header .close {
 	color: #6C6C6E;
 }
+.participants-body-form .list-group-item:first-child {
+	border-top: 0;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+.participants-body-form #recommended-members .list-group-item:first-child {
+	border-top: 1px solid #dddddd;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+#upcoming-meeting #issues-order.nav-tabs > li.active > a,
+#upcoming-meeting #issues-order.nav-tabs > li.active > a:hover,
+#upcoming-meeting #issues-order.nav-tabs > li.active > a:focus {
+	background: #f5f6de;
+}
 
 /* General buttons */
 
@@ -528,7 +549,7 @@ ul li.issue.oc_li a.addremove {
 
 .issue-abstract {
     padding: 5px 15px;
-    margin-bottom: 5px;
+    margin: 8px 0 5px 0;
 }
 
 .oc_detail_top {
@@ -941,6 +962,9 @@ ul.proposals li.prop-content p {
 .issue_attachments a:hover.file_ext {
 	text-decoration: none;
 }
+li.issue-attachments {
+	list-style-type: none;
+}
 ul#invitations {
 	list-style-type: none;
 }
@@ -1050,7 +1074,7 @@ form.delete-invitation {
 
 .piechart span span {
 	font-size: 1em;
-	width: auto;
+	width: 35px;
 	display: inline-block;
 }
 .for {
@@ -1195,6 +1219,9 @@ form.delete-invitation {
 	border-left: 1px solid #a3a3a3;
 	border-bottom: 1px solid #a3a3a3;
 	background: #e6e7c8;
+}
+.issue_main .issue_left_column {
+	margin-top: 25px;
 }
 
 .issue_main_siblings {
@@ -1447,7 +1474,7 @@ li.btn-tab span {
 	padding-right: 15px;
 }
 #meeting-detail .oc_detail_top.row.clear h5 a {
-	font-weight: bold;
+	/*font-weight: bold;*/
 	color: #6C6C6E;
 }
 .agendaitem-details .oc_detail_top,
@@ -1475,23 +1502,29 @@ label[for=id_proposal-title] {
 .board_vote h4,
 .board_vote p {
 	border-bottom: 1px solid #d8e0df;
-	padding-bottom: 10px;
+	padding: 10px 0;
+	margin: 0;
 }
 .board_vote ul {
-	padding: 0;
+	margin: 0;
+	padding: 10px;
 	list-style-type: none;
 }
 .prop-against {
 	padding: 0;
-	background: #d95e59;
 	border: 1px solid #d8e0df;
 	text-align: center;
 }
+.prop-against ul {
+	background: #d95e59;
+}
 .prop-infavor {
 	padding: 0;
-	background: #a4cb53;
 	border: 1px solid #d8e0df;
 	text-align: center;
+}
+.prop-infavor ul {
+	background: #a4cb53;
 }
 .prop-nutral {
 	padding: 0;
@@ -1711,6 +1744,9 @@ label[for=id_proposal-title] {
 	h5 {
 		margin-top: 10px;
 		margin-bottom: 10px;
+	}
+	.issue_main .issue_left_column {
+		margin-top: 0;
 	}
 
 }
