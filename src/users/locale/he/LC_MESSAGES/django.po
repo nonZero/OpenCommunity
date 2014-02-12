@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-12 10:11+0200\n"
-"PO-Revision-Date: 2014-02-12 10:16+0200\n"
+"POT-Creation-Date: 2014-02-13 00:50+0200\n"
+"PO-Revision-Date: 2014-02-13 00:51+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -218,8 +218,8 @@ msgstr "שלום"
 
 #: .\templates\emails\invitation.txt.py:4
 #, python-format
-msgid "This invitation is from %(u)s to join %(c)s."
-msgstr "הוזמנת על ידי %(u)s להצטרף לקהילת %(c)s."
+msgid "You were invited by %(u)s to join %(c)s."
+msgstr "הוזמנת על ידי %(u)s להצטרף לקהילה %(c)s."
 
 #: .\templates\emails\invitation.txt.py:8
 msgid "Click here to join this community:"
@@ -399,6 +399,9 @@ msgstr "הזמנה חדשה"
 #: .\templates\users\membership_list.html.py:49
 msgid "Invite"
 msgstr "הזמן"
+
+#~ msgid "This invitation is from %(u)s to join %(c)s."
+#~ msgstr "הוזמנת על ידי %(u)s להצטרף לקהילת %(c)s."
 
 #~ msgid "INVITAION_DEFAULT_MESSAGE"
 #~ msgstr ""

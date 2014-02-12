@@ -1598,6 +1598,10 @@ label[for=id_proposal-title] {
 .all-con {
 	background: #d95e59;
 }
+.twitter-typeahead {
+	width: 100%;
+	direction: rtl !important;
+}
 
 /* Footer */
 
