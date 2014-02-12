@@ -66,6 +66,8 @@ class IssueList(IssueMixin, ListView):
         return d
 
 
+    required_permission_for_post = 'issues.vote_ranking'
+    
     def post(self, request, *args, **kwargs):
         # TODO: check post permission for user and for each issue
         send_issue_ranking(request)

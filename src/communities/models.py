@@ -189,14 +189,15 @@ class Community(UIDMixin):
     def previous_guests_participations(self):
         guests_list = Meeting.objects.values_list('guests', flat=True)
         
-        new_guests_list = []
+        prev_guests = []
         for guest in guests_list:
             if guest:
-                lines = guest.splitlines()
+                lines = guest.split('\n')
                 for line in lines:
-                    new_guests_list.append(line)
+                    if line not in self.upcoming_meeting_guests:
+                        prev_guests.append(line)
         
-        return set(filter(None, new_guests_list))
+        return set(prev_guests)
 
     def get_board_members(self):
         board_memberships = Membership.objects.filter(community=self) \

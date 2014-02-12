@@ -93,17 +93,20 @@ $(function() {
             guest_details += ' [' + guest_email_inp.val() + ']';
         }
         $('ul#guests-list').append($(guest_tpl.replace('#G_DETAIL#', guest_details)));
-        var cur_guests = $('#id_upcoming_meeting_guests').val();
-        $('#id_upcoming_meeting_guests').val(cur_guests + '\n' + guest_details);
+        var cur_guests = $('#id_upcoming_meeting_guests').text();
+        var updated = (cur_guests.length == 0) ? guest_details 
+                                               : cur_guests + '\n' + guest_details;
+        $('#id_upcoming_meeting_guests').text(updated);
         $('#guests input').val('');
     });
 
 	$('#recommended-guests').on('click', '.add-rec-guest', function() {
-        var guest_details = $(this).parent().find('div').text();
-        
+        var guest_details = $(this).parent().find('div').text().replace(/[\n\r\t]/g, "");
         $('ul#guests-list').append($(guest_tpl.replace('#G_DETAIL#', guest_details)));
-        var cur_guests = $('#id_upcoming_meeting_guests').val();
-        $('#id_upcoming_meeting_guests').val(cur_guests + '\n' + guest_details);
+        var cur_guests = $('#id_upcoming_meeting_guests').text();
+        var updated = (cur_guests.length == 0) ? guest_details 
+                                               : cur_guests + '\n' + guest_details;
+        $('#id_upcoming_meeting_guests').text(updated);
         $(this).parent().remove();
     });
 
