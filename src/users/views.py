@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sites.models import get_current_site
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.db.utils import IntegrityError
@@ -263,9 +264,9 @@ class ImportInvitationsView(MembershipMixin, FormView):
                     partial = row[1:]
                 elif composite:
                     partial += '\n' + row
-                    if row.endswith('",'):
+                    if '"' in row:
                         composite = False
-                        final_rows.append(partial[:-2])
+                        final_rows.append(partial[:partial.rindex('"')])
                 else:
                     final_rows.append(row)
         
@@ -279,6 +280,7 @@ class ImportInvitationsView(MembershipMixin, FormView):
                     msg = msg.decode(def_enc)
                 except UnicodeDecodeError:
                     def_enc = 'utf-8'
+                    print 'UTF-8'
                     msg = msg.decode(def_enc)
             elif len(words) > 1:
                 name = words[0].decode(def_enc)
@@ -306,7 +308,7 @@ class ImportInvitationsView(MembershipMixin, FormView):
                 try:
                     invitation.send(sender=self.request.user, recipient_name=name)
                     # reduce email sending rate
-                    time.sleep(4)
+                    time.sleep(1)
                     sent += 1
                 except:
                     pass
@@ -336,7 +338,6 @@ def oc_password_reset(request, is_admin_site=False,
     if request.method == "POST":
         form = password_reset_form(request.POST)
         email = request.POST['email']
-        from_email = request.POST['email']
         try:
             invitation = Invitation.objects.get(email=email)
             extra_context = {
@@ -347,6 +348,8 @@ def oc_password_reset(request, is_admin_site=False,
 
         except Invitation.DoesNotExist:        
             if form.is_valid():
+                current_site = get_current_site(request)
+                from_email = "%s <%s>" % (current_site.name, settings.FROM_EMAIL)
                 opts = {
                     'use_https': request.is_secure(),
                     'token_generator': token_generator,
