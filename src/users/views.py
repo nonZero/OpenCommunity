@@ -307,8 +307,7 @@ class ImportInvitationsView(MembershipMixin, FormView):
                     message=msg) 
                 try:
                     invitation.send(sender=self.request.user, recipient_name=name)
-                    # reduce email sending rate
-                    time.sleep(1)
+                    # time.sleep(1)
                     sent += 1
                 except:
                     pass
