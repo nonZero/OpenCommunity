@@ -1,5 +1,5 @@
 {% extends "dialog.html" %}
-{% load i18n floppyforms %}
+{% load i18n floppyforms community_tags %}
 
 {% block page_header %}
     <span class="participant-title">
@@ -48,13 +48,15 @@
 			</ul>
 			<div class="row">
 				<div class="form-group">
-					<div class="col-xs-8 col-sm-10">
-						<input type="text" class="form-control" id="add_member"/>
-					</div>
-					<div class="col-xs-4 col-sm-2">
-						<button type="button" class="btn btn-default" id="add_member_btn">
-							{% trans "Add" %}
-						</button>
+					<div class="col-xs-12">
+						<div class="input-group">
+							<input type="text" class="form-control" id="add_member"/>
+					    	<span class="input-group-btn">
+								<button type="button" class="btn btn-default disabled" id="add_member_btn">
+									{% trans "Add" %}
+								</button>
+							</span>
+    					</div>
 					</div>
 				</div>
 			</div>
@@ -173,7 +175,7 @@
 		<ul class="list-group">
 			{% for i in object.get_guest_list %}
 			<li class="list-group-item">
-				{{ i }}
+				{{ i|remove_email }}
 			</li>
 			{% endfor %}
 		</ul>

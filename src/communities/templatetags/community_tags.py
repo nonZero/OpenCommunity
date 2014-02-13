@@ -64,3 +64,7 @@ def upcoming_status(community):
             rows[0] = _("Draft")
 
     return rows
+
+@register.filter
+def remove_email(args):
+    return args.split(' [')[0]

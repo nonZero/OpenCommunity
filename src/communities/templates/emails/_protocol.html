@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n community_tags %}
 
 <div{% if LANGUAGE_CODE == 'he' %} dir="rtl"{% endif %}
     style="font-family: Arial, Helvetica, sans-serif{% if LANGUAGE_CODE == 'he' %};direction:rtl{% endif %}">
@@ -61,7 +61,7 @@
                         <p>
                             <b>{% trans "Guests" %}:</b>
                             {% for x in guests %}
-                                {{ x }}{% if not forloop.last %},{% endif %}
+                                {{ x|remove_email }}{% if not forloop.last %},{% endif %}
                             {% endfor %}
                         </p>
                     {% endif %}

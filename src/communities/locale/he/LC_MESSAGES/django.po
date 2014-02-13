@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-12 10:11+0200\n"
+"POT-Creation-Date: 2014-02-13 00:49+0200\n"
 "PO-Revision-Date: 2014-02-12 10:12+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56,7 +56,7 @@ msgstr "לועד בלבד"
 msgid "All Members"
 msgstr "לכל חברי הקהילה"
 
-#: .\models.py:46 .\templates\communities\participants_form.html.py:95
+#: .\models.py:46 .\templates\communities\participants_form.html.py:97
 msgid "Name"
 msgstr "שם"
 
@@ -127,7 +127,7 @@ msgstr "שם הועד"
 #: .\models.py:94 .\models.py:163
 #: .\migrations\0011_auto__add_field_community_register_missing_board_members__chg_field_co.py:17
 #: .\templates\communities\participants_form.html.py:23
-#: .\templates\communities\participants_form.html.py:147
+#: .\templates\communities\participants_form.html.py:149
 msgid "Board"
 msgstr "ועד"
 
@@ -199,7 +199,7 @@ msgstr "פגישות"
 
 #: .\templates\_community_panel.html.py:23
 #: .\templates\communities\participants_form.html.py:26
-#: .\templates\communities\participants_form.html.py:159
+#: .\templates\communities\participants_form.html.py:161
 msgid "Members"
 msgstr "חברים"
 
@@ -265,41 +265,41 @@ msgid "Edit"
 msgstr "עריכה"
 
 #: .\templates\communities\participants_form.html.py:29
-#: .\templates\communities\participants_form.html.py:171
+#: .\templates\communities\participants_form.html.py:173
 #: .\templates\emails\_protocol.html.py:62
 msgid "Guests"
 msgstr "אורחים"
 
 #: .\templates\communities\participants_form.html.py:44
-#: .\templates\communities\participants_form.html.py:88
+#: .\templates\communities\participants_form.html.py:90
 msgid "Delete"
 msgstr "מחק"
 
 #: .\templates\communities\participants_form.html.py:56
-#: .\templates\communities\participants_form.html.py:74
-#: .\templates\communities\participants_form.html.py:109
-#: .\templates\communities\participants_form.html.py:129
+#: .\templates\communities\participants_form.html.py:76
+#: .\templates\communities\participants_form.html.py:111
+#: .\templates\communities\participants_form.html.py:131
 msgid "Add"
 msgstr "הוסף"
 
-#: .\templates\communities\participants_form.html.py:64
-#: .\templates\communities\participants_form.html.py:119
+#: .\templates\communities\participants_form.html.py:66
+#: .\templates\communities\participants_form.html.py:121
 msgid "Previous participants"
 msgstr "משתתפים מפגישות קודמות"
 
-#: .\templates\communities\participants_form.html.py:103
+#: .\templates\communities\participants_form.html.py:105
 msgid "Email"
 msgstr "אימייל"
 
-#: .\templates\communities\participants_form.html.py:143
+#: .\templates\communities\participants_form.html.py:145
 msgid "Please select participants for upcoming meeting"
 msgstr "בחר משתתפים לפגישה הקרובה"
 
-#: .\templates\communities\participants_form.html.py:188
+#: .\templates\communities\participants_form.html.py:190
 msgid "Cancel"
 msgstr "ביטול"
 
-#: .\templates\communities\participants_form.html.py:189
+#: .\templates\communities\participants_form.html.py:191
 #: .\templates\communities\upcoming.html.py:198
 msgid "Save"
 msgstr "שמירה"
@@ -432,12 +432,12 @@ msgid "Accepted Proposals"
 msgstr "החלטות שהתקבלו"
 
 #: .\templates\emails\_protocol.html.py:143
-#: .\templates\emails\agenda.html.py:130
+#: .\templates\emails\agenda.html.py:129
 msgid "Assigned to"
 msgstr "אחראי"
 
 #: .\templates\emails\_protocol.html.py:147
-#: .\templates\emails\agenda.html.py:134
+#: .\templates\emails\agenda.html.py:133
 msgid "Due by"
 msgstr "יעד"
 

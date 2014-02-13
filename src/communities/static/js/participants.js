@@ -32,7 +32,7 @@ $(function() {
         remote : typeahead_url + '&q=%QUERY',
         engine : Hogan,
         // template : tpl
-    }).css('background-color', '#fff');
+    }).css({'background-color': '#fff', 'direction': OCD.language == 'he' ? "rtl" : 'ltr'});
     
     $("#add_member").on('typeahead:selected', function (object, datum) {
         $(this).data('uid', datum['user__id']);
@@ -68,6 +68,16 @@ $(function() {
         $("#recommended-members").find("[data-uid='" + uid + "']").children('button').removeClass('disabled');
         $('#p_select input[value="' + uid + '"]').prop('checked', false);
     });
+
+// Hide and show add memeber button
+
+	$("#add_member").on('input', function() {
+		if ($(this).val() == "") {
+			$('#add_member_btn').addClass('disabled');
+		} else {
+			$('#add_member_btn').removeClass('disabled');
+		}
+	}); 
 
 	$('#guests').on('click', '#add_guest_btn', function() {
         var guest_name_inp = $('input#guest_name');
