@@ -14,7 +14,7 @@ id="issue-list"
     {% if community.issue_ranking_enabled %}
     <ul id="issues-order" class="nav nav-tabs">
         <li><a href="#by_time" data-toggle="tab">{% trans "By time" %}</a></li>
-        {% if cperms.issues.vote_ranking %}
+        {% if cperms.issues.vote_ranking and my_vote %}
             <li><a href="#my_vote" data-toggle="tab">{% trans "My vote" %}</a></li>
         {% endif %}
         <li><a href="#by_rank" data-toggle="tab">{% trans "By rank" %}</a></li>
