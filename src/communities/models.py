@@ -180,23 +180,37 @@ class Community(UIDMixin):
         return meeting_participants
         
     def previous_members_participations(self):
-        return OCUser.objects.filter(participations__meeting__community_id=self, \
+        participations = MeetingParticipant.objects.filter( \
+                                    default_group_name=DefaultGroups.MEMBER,                     
+                                    meeting__community=self) \
+                                    .order_by('-meeting__held_at')
+
+        return list(set([p.user for p in participations]) - \
+                    set(self.upcoming_meeting_participants.all()))
+                         
+                                    
+                                            
+                                                
+        """                             
                                     memberships__default_group_name=DefaultGroups.MEMBER).annotate\
                                     (meeting_participant=Count('participations'), \
                                      last_meeting=Max('participations__meeting__held_at')).exclude(id__in=self.upcoming_meeting_participants.all())\
                                      .order_by('-last_meeting','-meeting_participant')
+        """
+
 
     def previous_guests_participations(self):
-        guests_list = Meeting.objects.values_list('guests', flat=True) 
-        prev_guests = []
+        guests_list = Meeting.objects.filter(community=self) \
+                                     .values_list('guests', flat=True)
+                                                   
+        prev_guests = set()
         upcoming_guests = self.upcoming_meeting_guests or ' '
         for guest in guests_list:
             if guest:
-                lines = guest.splitlines()
-                for line in lines:
-                    if not line in upcoming_guests:
-                        prev_guests.append(line)
-        return set(prev_guests)
+                prev_guests.update(guest.splitlines())
+        prev_guests.difference_update(upcoming_guests.splitlines())
+        return prev_guests
+
 
     def get_board_members(self):
         board_memberships = Membership.objects.filter(community=self) \

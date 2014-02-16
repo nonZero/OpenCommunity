@@ -382,7 +382,39 @@ class ProposalDetailView(ProposalMixin, DetailView):
     def get_required_permission_for_post(self):
         o = self.get_object()
         return 'issues.acceptclosed_proposal' if o.decided_at_meeting else 'issues.acceptopen_proposal'
-    
+
+    def board_votes_dict(self):
+        total_votes = 0
+        votes_dict = { 'sums': {}, 'total': total_votes, 'per_user': {} }
+        pro_count = 0
+        con_count = 0
+        neut_count = 0        
+        board_attending = self.community.meeting_participants()['board']
+                        
+        for u in board_attending:
+            vote = ProposalVoteBoard.objects.filter(proposal=self.get_object, 
+                                                    user=u)
+            if vote.exists():
+                votes_dict['per_user'][u] = vote[0].value
+                if vote[0].value == 1:
+                    pro_count += 1
+                    total_votes += 1
+                elif vote[0].value == -1:
+                    con_count += 1
+                    total_votes += 1
+                elif vote[0].value == 0:
+                    neut_count += 1
+                
+            else:
+                votes_dict['per_user'][u] = 0
+                neut_count += 1
+            
+        votes_dict['sums']['pro_count'] = pro_count
+        votes_dict['sums']['con_count'] = con_count
+        votes_dict['sums']['neut_count'] = neut_count
+        votes_dict['total'] = total_votes
+        return votes_dict
+
 
     def get_context_data(self, **kwargs):
         """add meeting for the latest straw voting result
@@ -434,7 +466,8 @@ class ProposalDetailView(ProposalMixin, DetailView):
         context['issue_frame'] = self.request.GET.get('s', None)
         context['show_board_vote_result'] = show_board_vote_result 
         context['chairman_can_vote'] = is_current and not o.decided
-        
+        context['board_votes'] = self.board_votes_dict()
+        context['board_attending'] = self.community.meeting_participants()['board']
         return context
 
     def post(self, request, *args, **kwargs):
@@ -560,6 +593,7 @@ class ProposalVoteView(CommunityMixin, DetailView):
                                          {
                                              'proposal': proposal,
                                              'community': self.community,
+                                             'board_attending': self.community.meeting_participants()['board'],
                                          })
             })
 
@@ -578,10 +612,11 @@ class ProposalVoteView(CommunityMixin, DetailView):
                                              'community': self.community,
                                          }),
             'sum': render_to_string('issues/_member_vote_sum.html',
-                                     {
-                                         'proposal': proposal,
-                                         'community': self.community,
-                                     })
+              {
+                  'proposal': proposal,
+                  'community': self.community,
+                  'board_attending': self.community.meeting_participants()['board']
+              })
         })
 
 class MultiProposalVoteView(CommunityMixin, DetailView):
@@ -611,10 +646,11 @@ class MultiProposalVoteView(CommunityMixin, DetailView):
                                              'community': self.community,
                                          }),
                 'sum': render_to_string('issues/_member_vote_sum.html',
-                                         {
-                                             'proposal': proposal,
-                                             'community': self.community,
-                                         })
+                    {
+                        'proposal': proposal,
+                        'community': self.community,
+                        'board_attending': self.community.meeting_participants()['board'],
+                    })
             })
 
         else:
@@ -636,6 +672,7 @@ class MultiProposalVoteView(CommunityMixin, DetailView):
                                      {
                                          'proposal': proposal,
                                          'community': self.community,
+                                         'board_attending': self.community.meeting_participants()['board'],
                                      })
         })
 
