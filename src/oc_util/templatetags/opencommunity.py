@@ -188,8 +188,8 @@ def board_voters_on_proposal(proposal):
         c = proposal.issue.community
         board_attn = c.memberships.board().filter(
                     user__in=c.upcoming_meeting_participants.all())
-        participants = [b.user for b in board_attn]
-    
+        
+    participants = [b.user for b in board_attn]
     return participants 
 
 
