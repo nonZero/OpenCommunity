@@ -358,3 +358,38 @@ class RatedOrders(TestCase):
                          {2: 5},
                          {3: 0}]
         )
+
+    def test_results_sum_and_normalization(self):
+        """Check new normalization"""
+        
+        com = Community.objects.get(name='com1')
+        usr = OCUser.objects.get(email='a@b.com')
+        graph = IssuesGraph.objects.get(community=com)
+        
+        #create issues
+        issue_a = Issue.objects.create(community=com, created_by=usr, title='issue_a')
+        issue_b = Issue.objects.create(community=com, created_by=usr, title='issue_b')
+        issue_c = Issue.objects.create(community=com, created_by=usr, title='issue_c')
+        
+        #add issues as graph nodes
+        graph.add_node(issue_a)
+        graph.add_node(issue_b)
+        graph.add_node(issue_c)
+        
+        # Generate data
+        input=[
+            {'count': 5, 'ballot': [[issue_a.id],[issue_b.id], [issue_c.id]]},
+        ]
+        
+        # add ballots to graph
+        user_vote(com,input)
+
+        #calculate results
+        output = graph.get_schulze_npr_order_and_rating_bottom_up_sum()
+        # Run tests
+        normalized_output = graph.normalize_ordered_rating_bottom_up_sum(output, 2, 5)
+        self.assertEqual(normalized_output,
+                        [{1: 5},
+                         {2: 3},
+                         {3: 2}]
+        )

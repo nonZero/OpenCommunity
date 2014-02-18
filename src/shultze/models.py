@@ -186,6 +186,16 @@ class IssuesGraph(models.Model):
             rated_order.append({c1: running_sum})
         return rated_order[::-1]
 
+    @staticmethod
+    def normalize_ordered_rating_bottom_up_sum(rated_order, votes_range_min, votes_range_max):
+        votes_range = votes_range_max - votes_range_min
+        for rated_candidate in rated_order:
+            candidate_id = rated_candidate.keys()[0]
+            candidate_rating = rated_candidate[candidate_id]
+            candidate_votes = candidate_rating/votes_range + votes_range_min
+            rated_candidate[candidate_id] = candidate_votes
+        return rated_order
+
 
 class IssueNode(models.Model):
     """
