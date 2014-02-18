@@ -14,16 +14,16 @@ from shultze.models import IssuesGraph, IssueEdge
 
 class GraphToResults(TestCase):
     def setUp(self):
-        com = Community.objects.create(name='com1')
-        usr = OCUser.objects.create_user('a@b.com')
-        graph = IssuesGraph.objects.create(community=com)
+        self.com = Community.objects.create(name='com1')
+        self.usr = OCUser.objects.create_user('a@b.com')
+        self.graph = IssuesGraph.objects.create(community=self.com)
 
     def test_simple_example(self):
         """Check basic logic from graph to Schulze NPR"""
         
-        com = Community.objects.get(name='com1')
-        usr = OCUser.objects.get(email='a@b.com')
-        graph = IssuesGraph.objects.get(community=com)
+        com = self.com
+        usr = self.usr
+        graph = self.graph
         
         #create issues
         issue_a = Issue.objects.create(community=com, created_by=usr, title='issue_a')
@@ -68,16 +68,16 @@ class GraphToResults(TestCase):
 
 class BallotsIO(TestCase):
     def setUp(self):
-        com = Community.objects.create(name='com1')
-        usr = OCUser.objects.create_user('a@b.com')
-        graph = IssuesGraph.objects.create(community=com)
-
+        self.com = Community.objects.create(name='com1')
+        self.usr = OCUser.objects.create_user('a@b.com')
+        self.graph = IssuesGraph.objects.create(community=self.com)
+    
     def test_vote_reversal(self):
         """Check voting reversibility"""
         
-        com = Community.objects.get(name='com1')
-        usr = OCUser.objects.get(email='a@b.com')
-        graph = IssuesGraph.objects.get(community=com)
+        com = self.com
+        usr = self.usr
+        graph = self.graph
         
         #create issues
         issue_a = Issue.objects.create(community=com, created_by=usr, title='issue_a')
@@ -133,16 +133,16 @@ class BallotsIO(TestCase):
 
 class BallotsToResults(TestCase):
     def setUp(self):
-        com = Community.objects.create(name='com1')
-        usr = OCUser.objects.create_user('a@b.com')
-        graph = IssuesGraph.objects.create(community=com)
+        self.com = Community.objects.create(name='com1')
+        self.usr = OCUser.objects.create_user('a@b.com')
+        self.graph = IssuesGraph.objects.create(community=self.com)
 
     def test_single_voter(self):
         """Check basic logic from ballot to Schulze NPR"""
         
-        com = Community.objects.get(name='com1')
-        usr = OCUser.objects.get(email='a@b.com')
-        graph = IssuesGraph.objects.get(community=com)
+        com = self.com
+        usr = self.usr
+        graph = self.graph
         
         #create issues
         issue_a = Issue.objects.create(community=com, created_by=usr, title='issue_a')
@@ -184,9 +184,9 @@ class BallotsToResults(TestCase):
     def test_nonproportionality(self):
         """Check nonproportionality case from ballot to Schulze NPR"""
         
-        com = Community.objects.get(name='com1')
-        usr = OCUser.objects.get(email='a@b.com')
-        graph = IssuesGraph.objects.get(community=com)
+        com = self.com
+        usr = self.usr
+        graph = self.graph
         
         #create issues
         issue_a = Issue.objects.create(community=com, created_by=usr, title='issue_a')
@@ -229,16 +229,16 @@ class BallotsToResults(TestCase):
 
 class Itamar(TestCase):
     def setUp(self):
-        com = Community.objects.create(name='com1')
-        usr = OCUser.objects.create_user('a@b.com')
-        graph = IssuesGraph.objects.create(community=com)
+        self.com = Community.objects.create(name='com1')
+        self.usr = OCUser.objects.create_user('a@b.com')
+        self.graph = IssuesGraph.objects.create(community=self.com)
     
     def test_results(self):
         """Check results for Itamar's example"""
         
-        com = Community.objects.get(name='com1')
-        usr = OCUser.objects.get(email='a@b.com')
-        graph = IssuesGraph.objects.get(community=com)
+        com = self.com
+        usr = self.usr
+        graph = self.graph
         
         #create issues
         issue_a = Issue.objects.create(community=com, created_by=usr, title='issue_a')
@@ -280,16 +280,16 @@ class Itamar(TestCase):
 
 class RatedOrders(TestCase):
     def setUp(self):
-        com = Community.objects.create(name='com1')
-        usr = OCUser.objects.create_user('a@b.com')
-        graph = IssuesGraph.objects.create(community=com)
+        self.com = Community.objects.create(name='com1')
+        self.usr = OCUser.objects.create_user('a@b.com')
+        self.graph = IssuesGraph.objects.create(community=self.com)
 
     def test_results(self):
         """Check order rating"""
         
-        com = Community.objects.get(name='com1')
-        usr = OCUser.objects.get(email='a@b.com')
-        graph = IssuesGraph.objects.get(community=com)
+        com = self.com
+        usr = self.usr
+        graph = self.graph
         
         #create issues
         issue_a = Issue.objects.create(community=com, created_by=usr, title='issue_a')
@@ -328,9 +328,9 @@ class RatedOrders(TestCase):
     def test_results_sum_and_normalization(self):
         """Check order rating after bottom->up sum and normalization"""
         
-        com = Community.objects.get(name='com1')
-        usr = OCUser.objects.get(email='a@b.com')
-        graph = IssuesGraph.objects.get(community=com)
+        com = self.com
+        usr = self.usr
+        graph = self.graph
         
         #create issues
         issue_a = Issue.objects.create(community=com, created_by=usr, title='issue_a')
@@ -362,9 +362,9 @@ class RatedOrders(TestCase):
     def test_results_sum_and_normalization(self):
         """Check new normalization"""
         
-        com = Community.objects.get(name='com1')
-        usr = OCUser.objects.get(email='a@b.com')
-        graph = IssuesGraph.objects.get(community=com)
+        com = self.com
+        usr = self.usr
+        graph = self.graph
         
         #create issues
         issue_a = Issue.objects.create(community=com, created_by=usr, title='issue_a')

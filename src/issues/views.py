@@ -637,4 +637,3 @@ class MultiProposalVoteView(CommunityMixin, DetailView):
                                          'community': self.community,
                                      })
         })
-

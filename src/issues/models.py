@@ -203,6 +203,11 @@ class IssueComment(UIDMixin):
         return "edit_issue_comment", (self.issue.community.id, self.id)
 
 
+    @models.permalink
+    def get_absolute_url(self):
+        return "issue", (str(self.issue.community.pk), str(self.issue.pk),)
+
+
 class IssueCommentRevision(models.Model):
     """ Holds data for historical comments """
     comment = models.ForeignKey(IssueComment, related_name='revisions')
