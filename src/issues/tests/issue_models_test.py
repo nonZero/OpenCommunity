@@ -3,11 +3,11 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from issues.models import Issue, Proposal
+
 User = get_user_model()
 
 
 class IssuesTest(TestCase):
-
     def setUp(self):
         self.c = Community.objects.create(name="TEST COMMUNITY")
         self.u = User.objects.create(email="testuser@foo.com")

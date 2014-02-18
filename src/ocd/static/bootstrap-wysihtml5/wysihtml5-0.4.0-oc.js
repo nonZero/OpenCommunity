@@ -8314,7 +8314,7 @@ wysihtml5.views.View = Base.extend(
         "width", "height"
       ],
       ADDITIONAL_CSS_RULES = [
-        "html                 { height: 100%; direction: rtl;}",
+        "html                 { height: 100%; }",
         "body                 { height: 100%; padding: 1px 0 0 0; margin: -1px 0 0 0; }",
         "body > p:first-child { margin-top: 0; }",
         "._wysihtml5-temp     { display: none; }",
@@ -8413,7 +8413,7 @@ wysihtml5.views.View = Base.extend(
     
     // --------- apply standard rules ---------
     dom.insertCSS(ADDITIONAL_CSS_RULES).into(this.element.ownerDocument);
-    
+
     // --------- :disabled styles ---------
     textareaElement.disabled = true;
     dom.copyStyles(BOX_FORMATTING).from(textareaElement).to(this.disabledStylesHost);

@@ -1,0 +1,11 @@
+{% load i18n opencommunity %}
+
+<div class="col-xs-4 text-center" style="background: #a4cb53;">
+	<h5>{{ proposal|participants_by_vote:'pro'|length }} - {% widthratio proposal|participants_by_vote:'pro'|length proposal.issue.community.upcoming_meeting_participants.count 100 %}%</h5>
+</div>
+<div class="col-xs-4 text-center" style="background: #ffffff;">
+	<h5>{{ proposal|participants_by_vote:'neut'|length }} - {% widthratio proposal|participants_by_vote:'neut'|length proposal.issue.community.upcoming_meeting_participants.count 100 %}%</h5>
+</div>
+<div class="col-xs-4 text-center" style="background: #d95e59;">
+	<h5>{{ proposal|participants_by_vote:'con'|length }} - {% widthratio proposal|participants_by_vote:'con'|length proposal.issue.community.upcoming_meeting_participants.count 100 %}%</h5>
+</div>

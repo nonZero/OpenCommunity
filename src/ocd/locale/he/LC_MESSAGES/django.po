@@ -1,4 +1,3 @@
-# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
@@ -7,146 +6,148 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-08 00:17+0200\n"
-"PO-Revision-Date: 2014-01-08 00:33+0200\n"
+"POT-Creation-Date: 2014-02-12 10:11+0200\n"
+"PO-Revision-Date: 2014-02-12 10:13+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: he\n"
 "X-Generator: Poedit 1.6.3\n"
 
-#: .\base_models.py:12
+#: base_models.py:12
 msgid "HTML content"
 msgstr "תוכן HTML"
 
-#: .\templates\404.html.py:6
+#: templates/404.html:6
 msgid "Page not found"
 msgstr "דף לא נמצא"
 
-#: .\templates\_navbar.html.py:11 .\templates\_navbar.html.py:21
-#: .\templates\base.html.py:8
+#: templates/_navbar.html:11 templates/_navbar.html.py:21
+#: templates/base.html:8
 msgid "Open Community"
 msgstr "קהילה פתוחה"
 
 #: .\templates\_navbar.html.py:28 .\templates\login.html.py:10
-#: .\templates\login.html.py:22
+#: .\templates\login.html.py:28
 msgid "Login"
 msgstr "כניסה"
 
-#: .\templates\base.html.py:41
+#: templates/base.html:40
 msgid "Page Title"
 msgstr "כותרת עמוד"
 
-#: .\templates\base.html.py:54
+#: templates/base.html:50
 msgid "Attention"
 msgstr "שים לב"
 
-#: .\templates\base.html.py:61 .\templates\dialog.html.py:25
+#: templates/base.html:57 templates/dialog.html:25
 msgid "Close"
 msgstr "סגור"
 
-#: .\templates\dialog.html.py:26
+#: templates/dialog.html:26
 msgid "Save"
 msgstr "שמור"
 
-#: .\templates\login.html.py:20
+#: .\templates\login.html.py:23
+msgid "Remember me"
+msgstr "זכור אותי"
+
+#: .\templates\login.html.py:26
 msgid "forgot password"
 msgstr "שכחת סיסמא"
 
-#: .\templates\admin\base_site.html.py:5
+#: templates/admin/base_site.html:5
 msgid "Open Community admin"
 msgstr "ניהול קהילה פתוחה"
 
-#: .\templates\admin\base_site.html.py:8
+#: templates/admin/base_site.html:8
 msgid "Open Community Administration"
 msgstr "קהילה פתוחה: פאנל ניהול"
 
-#: .\templates\admin\base_site.html.py:12
+#: templates/admin/base_site.html:12
 msgid "Home"
 msgstr "בית"
 
-#: .\templates\registration\password_reset_complete.html.py:4
+#: templates/registration/password_reset_complete.html:4
 msgid "Password reset complete"
 msgstr "איפוס סיסמא הושלם"
 
-#: .\templates\registration\password_reset_complete.html.py:9
+#: templates/registration/password_reset_complete.html:9
 msgid "Your password has been set.  You may go ahead and log in now."
 msgstr "סיסמא חדשה הוגדרה. כעת ניתן להכנס למערכת."
 
-#: .\templates\registration\password_reset_complete.html.py:13
+#: templates/registration/password_reset_complete.html:13
 msgid "Log in"
 msgstr "כניסה"
 
-#: .\templates\registration\password_reset_confirm.html.py:10
-#: .\templates\registration\password_reset_form.html.py:4
+#: templates/registration/password_reset_confirm.html:10
+#: templates/registration/password_reset_form.html:4
 msgid "Password reset"
 msgstr "איפוס סיסמא"
 
-#: .\templates\registration\password_reset_confirm.html.py:13
+#: templates/registration/password_reset_confirm.html:13
 msgid ""
 "Please enter your new password twice so we can verify you typed it in "
 "correctly."
 msgstr "אנא הכנס את הסיסמא החדשה פעמיים, בכדי לוודא שאין שגיאות."
 
-#: .\templates\registration\password_reset_confirm.html.py:20
+#: templates/registration/password_reset_confirm.html:20
 msgid "New password:"
 msgstr "סיסמא חדשה:"
 
-#: .\templates\registration\password_reset_confirm.html.py:25
+#: templates/registration/password_reset_confirm.html:25
 msgid "Confirm password:"
 msgstr "אימות סיסמא:"
 
-#: .\templates\registration\password_reset_confirm.html.py:28
+#: templates/registration/password_reset_confirm.html:28
 msgid "Change my password"
 msgstr "שנה את הסיסמא שלי"
 
-#: .\templates\registration\password_reset_confirm.html.py:33
+#: templates/registration/password_reset_confirm.html:33
 msgid "Password reset unsuccessful"
 msgstr "איפוס סיסמא ניכשל"
 
-#: .\templates\registration\password_reset_confirm.html.py:36
+#: templates/registration/password_reset_confirm.html:36
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used.  Please request a new password reset."
 msgstr "קישור לא תקין לאיפוס סיסמא, כנראה בגלל שימוש בעבר, אנא בקש קישור חדש."
 
-#: .\templates\registration\password_reset_confirm.html.py:39
+#: templates/registration/password_reset_confirm.html:39
 msgid "Reset password"
 msgstr "אפס סיסמא"
 
-#: .\templates\registration\password_reset_done.html.py:4
-#: .\templates\registration\password_reset_done.html.py:6
+#: templates/registration/password_reset_done.html:4
+#: templates/registration/password_reset_done.html:6
 msgid "Password reset successful"
 msgstr "איפוס סיסמא הצליח"
 
-#: .\templates\registration\password_reset_done.html.py:11
+#: templates/registration/password_reset_done.html:11
 msgid ""
 "We've emailed you instructions for setting your password to the email "
 "address you submitted. You should be receiving it shortly."
 msgstr "אימייל עם הדרכה לאיפוס הסיסמא נשלח אליך לכתובת מייל שסיפקת."
 
-#: .\templates\registration\password_reset_email.html.py:3
-msgid ""
-"You're receiving this email because you requested a password reset for your "
-"user account at Open Community."
-msgstr "אתה מקבל מייל זה בגלל שביקשת לאפס את סיסמת חשבונך באתר קהילה פתוחה."
+#: templates/registration/password_reset_email.html:3
+msgid "Hello"
+msgstr "שלום"
 
-#: .\templates\registration\password_reset_email.html.py:5
+#: templates/registration/password_reset_email.html:5
 msgid "Please go to the following page and choose a new password:"
-msgstr "גש לדף הבא ובחר סיסמא חדשה:"
+msgstr "בדף הבא ניתן לבחור סיסמא חדשה:"
 
-#: .\templates\registration\password_reset_email.html.py:9
+#: templates/registration/password_reset_email.html:9
 msgid "Your username/email, in case you've forgotten:"
 msgstr "שם המשתמש/אימייל, למקרה ששכחת:"
 
-#: .\templates\registration\password_reset_email.html.py:11
+#: templates/registration/password_reset_email.html:11
 msgid "Thanks for using our site!"
 msgstr "תודה שהשתמשת באתר שלנו!"
 
-#: .\templates\registration\password_reset_form.html.py:8
+#: templates/registration/password_reset_form.html:8
 msgid ""
 "Forgotten your password? Enter your email address below, and we'll email "
 "instructions for setting a new one."
@@ -154,13 +155,35 @@ msgstr ""
 "שכחת סיסמא? הכנס את כתובת המייל שלך למטה, ונשלח לך מייל עם הסבר כיצד להגדיר "
 "סיסמא חדשה."
 
-#: .\templates\registration\password_reset_form.html.py:15
+#: templates/registration/password_reset_form.html:16
+msgid "An invitation has been sent to this email account"
+msgstr "הזמנה נשלחה לאימייל הזה"
+
+#: templates/registration/password_reset_form.html:17
+msgid "Please approve the invitation in order to choose a password"
+msgstr "אנא אשר/י את ההזמנה ע\"י לחיצה על הקישור בתוך המייל לבחירת סיסמה"
+
+#: templates/registration/password_reset_form.html:23
 msgid "Email address:"
 msgstr "כתובת אימייל:"
 
-#: .\templates\registration\password_reset_form.html.py:18
+#: templates/registration/password_reset_form.html:26
 msgid "Reset my password"
 msgstr "אפס סיסמא"
+
+#~ msgid ""
+#~ "You're receiving this email because you requested a password reset for "
+#~ "your user account at Open Community."
+#~ msgstr "אתה מקבל מייל זה בגלל שביקשת לאפס את סיסמת חשבונך באתר קהילה פתוחה."
+
+#~ msgid "Click"
+#~ msgstr "לחצ/י"
+
+#~ msgid "Here"
+#~ msgstr "כאן"
+
+#~ msgid "to accept invitation"
+#~ msgstr "לקבלת ההזמנה"
 
 #~ msgid "Issues"
 #~ msgstr "נושאים לדיון"

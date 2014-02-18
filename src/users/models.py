@@ -1,4 +1,3 @@
-from collections import defaultdict
 from django.conf import settings
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, \
     PermissionsMixin
@@ -7,7 +6,11 @@ from django.db import models
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from issues.models import Proposal, ProposalVote, ProposalVoteValue, \
+    ProposalStatus
+from meetings.models import MeetingParticipant
 from users.default_roles import DefaultGroups
+import datetime
 import logging
 import random
 import string
@@ -100,17 +103,6 @@ class OCUser(AbstractBaseUser, PermissionsMixin):
         send_mail(subject, message, from_email, [self.email])
 
 
-
-
-
-
-
-
-
-
-
-
-
 class MembershipManager(models.Manager):
     def board(self):
         return self.get_query_set().exclude(
@@ -143,8 +135,51 @@ class Membership(models.Model):
         return "%s: %s (%s)" % (self.community.name, self.user.display_name,
                                 self.get_default_group_name_display())
 
+    @models.permalink
+    def get_absolute_url(self):
+        return "member_profile", (self.community.id, self.id)
+
     def get_permissions(self):
         return DefaultGroups.permissions[self.default_group_name]
+    
+    def total_meetings(self):
+        return self.community.meetings.count()
+        
+    def meetings_participation(self):
+        return MeetingParticipant.objects.filter(user=self.user).count()
+    
+    def meetings_participation_percantage(self):
+        return round((float(self.meetings_participation()) / float(self.total_meetings())) * 100.0)
+
+    def member_tasks(self):
+        return Proposal.objects.filter(assigned_to_user=self.user).all()
+
+    def member_open_tasks(self):
+        return Proposal.objects.filter(assigned_to_user=self.user, due_by__gte=datetime.date.today(), active=True)
+
+    def member_close_tasks(self):
+        return Proposal.objects.filter(assigned_to_user=self.user, active=True, status=ProposalStatus.ACCEPTED)
+
+    def member_late_tasks(self):
+        return Proposal.objects.filter(assigned_to_user=self.user, due_by__lte=datetime.date.today(), status=ProposalStatus.IN_DISCUSSION)
+
+    def member_proposal_pro_votes(self):
+        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.PRO).exclude(proposal__status=ProposalStatus.IN_DISCUSSION)
+
+    def member_proposal_pro_votes_accepted(self):
+        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.PRO).exclude(proposal__status=ProposalStatus.IN_DISCUSSION).exclude(proposal__status=ProposalStatus.REJECTED)
+
+    def member_proposal_con_votes(self):
+        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.CON).exclude(proposal__status=ProposalStatus.IN_DISCUSSION)
+
+    def member_proposal_con_votes_accepted(self):
+        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.CON).exclude(proposal__status=ProposalStatus.IN_DISCUSSION).exclude(proposal__status=ProposalStatus.ACCEPTED)
+
+    def member_proposal_nut_votes(self):
+        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.NEUTRAL).exclude(proposal__status=ProposalStatus.IN_DISCUSSION)
+
+    def member_proposal_nut_votes_accepted(self):
+        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.NEUTRAL).exclude(proposal__status=ProposalStatus.IN_DISCUSSION).exclude(proposal__status=ProposalStatus.REJECTED)
 
 CODE_CHARS = string.lowercase + string.digits
 
@@ -178,6 +213,7 @@ class Invitation(models.Model):
                                    verbose_name=_("Created by"),
                                    related_name="invitations_created")
 
+    name = models.CharField(_("Name"), max_length=200, null=True, blank=True)
     email = models.EmailField(_("Email"))
     message = models.TextField(_("Message"), null=True, blank=True)
 
@@ -201,7 +237,8 @@ class Invitation(models.Model):
         verbose_name = _("Invitation")
         verbose_name_plural = _("Invitations")
 
-    DEFAULT_MESSAGE = _("INVITAION_DEFAULT_MESSAGE")
+    DEFAULT_MESSAGE = _("The system will allow you to take part in decision-making process of %s. "
+                        "Once Joined you'll be able to see the topics for the agenda at the next meeting, Summary decisions at previous meetings, and in the near future you will be able to discuss and influence them.")
 
     def __unicode__(self):
         return "%s: %s (%s)" % (self.community.name, self.email,
@@ -210,6 +247,7 @@ class Invitation(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return "accept_invitation", (self.code,)
+
 
     def send(self, sender, recipient_name='', base_url=None):
 
@@ -225,7 +263,7 @@ class Invitation(models.Model):
 
         message = render_to_string("emails/invitation.txt", d)
         recipient_list = [self.email]
-        from_email = "%s <%s>" % (sender.get_full_name(), sender.email)
+        from_email = "%s <%s>" % (self.community.name, settings.FROM_EMAIL)
         self.last_sent_at = timezone.now()
 
         try:
@@ -237,6 +275,6 @@ class Invitation(models.Model):
         except:
             logger.error("Invitation email sending failed", exc_info=True)
             self.error_count += 1
-            self.status = EmailStatus.ERROR
+            self.status = EmailStatus.FAILED
             self.save()
             return False

@@ -11,7 +11,6 @@
 
         <link href="{{ STATIC_URL }}bootstrap/css/bootstrap{% if LANGUAGE_CODE == 'he' %}-rtl{% endif %}.css" rel="stylesheet">
         <link href="{{ STATIC_URL }}style{% if LANGUAGE_CODE == 'he' %}-rtl{% endif %}.css" rel="stylesheet">
-        <link href="{{ STATIC_URL }}new_style{% if LANGUAGE_CODE == 'he' %}-rtl{% endif %}.css" rel="stylesheet">
         <link href="{{ STATIC_URL }}fonts/alef/alef.css" rel="stylesheet" />
         <link href="{{ STATIC_URL }}font-awesome-4.0.3/css/font-awesome.css" rel="stylesheet" />
         <link href="{{ STATIC_URL }}bootstrap-wysihtml5/bootstrap-wysihtml5{% if LANGUAGE_CODE == 'he' %}-rtl{% endif %}.css" rel="stylesheet" />
@@ -23,26 +22,23 @@
     <body {% block extra-page-id %}{% endblock %}>
         <div class="notmodal">
             {% include '_navbar.html' %}
-            <div class="container">
+            <div class="container main-page">
                 <div class="row">
                     {% if messages %}
-                    <div class="col-xs-12">
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                                {{ message }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                   </div>
+					<div class="col-xs-12">
+						<ul class="messages">
+							{% for message in messages %}
+							<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+								{{ message }}
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
                     {% endif %}
                     <div class="col-xs-12">
                         <h2>
                             {% block page_header %}{% trans "Page Title" %}{% endblock %}
                         </h2>
-                        <div class="btn-group btn-group-justified">
-                            {% block pagemenu %}{% endblock %}
-                        </div>
                         {% block content %}
                         {% endblock %}
                     </div>
@@ -69,6 +65,13 @@
         {% block dialogs %}
         {% endblock %}
 
+        <script>
+            OCD = {
+                language: '{{ LANGUAGE_CODE }}',
+                static: '{{ STATIC_URL }}'
+            };
+        </script>
+
         <script src="{{ STATIC_URL }}jquery-1.9.1.min.js"></script>
         <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
         <script src="{{ STATIC_URL }}js/csrf.js"></script>
@@ -80,8 +83,13 @@
             <script src="{{STATIC_URL}}bootstrap-wysihtml5/locales/bootstrap-wysihtml5.he-IL.js"></script>
         {% endif %}
         {% block scripts %}
-
         {% endblock %}
+        <script>
+            $(function(){
+                $('.main-page').show();
+                $('body').trigger('ocd.show');
+            });
+        </script>
 
     </body>
 </html>

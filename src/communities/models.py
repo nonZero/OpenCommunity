@@ -1,16 +1,20 @@
 from django.conf import settings
 from django.db import models, transaction
+from django.db.models.aggregates import Count, Max
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from issues.models import ProposalStatus, IssueStatus, VoteResult
-from meetings.models import MeetingParticipant
+from meetings.models import MeetingParticipant, Meeting
 from ocd.base_models import HTMLField, UIDMixin
 from ocd.email import send_mails
+from users.default_roles import DefaultGroups
 from users.models import OCUser, Membership
 import issues.models as issues_models
 import logging
 import meetings.models as meetings_models
+
+
 
 
 logger = logging.getLogger(__name__)
@@ -87,7 +91,8 @@ class Community(UIDMixin):
     upcoming_meeting_summary = HTMLField(_("Upcoming meeting summary"),
                                          null=True, blank=True)
 
-    board_name = models.CharField(_("Board Name"), max_length=200)
+    board_name = models.CharField(_("Board Name"), default=_("Board"), 
+                                  max_length=200)
     
     straw_voting_enabled = models.BooleanField(_("Straw voting enabled"),
                                         default=False)
@@ -112,6 +117,9 @@ class Community(UIDMixin):
 
     allow_links_in_emails = models.BooleanField(_("Allow links inside emails"),   
                                         default=True)
+    
+    register_missing_board_members = models.BooleanField(_("Resister missing board members"), 
+                                                         default=False)
 
     class Meta:
         verbose_name = _("Community")
@@ -156,6 +164,47 @@ class Community(UIDMixin):
 
     def get_members(self):
         return OCUser.objects.filter(memberships__community=self)
+        
+    def meeting_participants(self):
+
+        meeting_participants = {'board': [], 'members': [],}
+
+        board_ids = [m.user.id for m in self.memberships.board()]
+
+        for u in self.upcoming_meeting_participants.all():
+            if u.id in board_ids:
+                meeting_participants['board'].append(u)
+            else:
+                meeting_participants['members'].append(u)
+
+        return meeting_participants
+        
+    def previous_members_participations(self):
+        return OCUser.objects.filter(participations__meeting__community_id=self, \
+                                    memberships__default_group_name=DefaultGroups.MEMBER).annotate\
+                                    (meeting_participant=Count('participations'), \
+                                     last_meeting=Max('participations__meeting__held_at')).exclude(id__in=self.upcoming_meeting_participants.all())\
+                                     .order_by('-last_meeting','-meeting_participant')
+
+    def previous_guests_participations(self):
+        guests_list = Meeting.objects.values_list('guests', flat=True) 
+        prev_guests = []
+        upcoming_guests = self.upcoming_meeting_guests or ' '
+        for guest in guests_list:
+            if guest:
+                lines = guest.splitlines()
+                for line in lines:
+                    if not line in upcoming_guests:
+                        prev_guests.append(line)
+        return set(prev_guests)
+
+    def get_board_members(self):
+        board_memberships = Membership.objects.filter(community=self) \
+                            .exclude(default_group_name=DefaultGroups.MEMBER)
+        return [m.user for m in board_memberships]
+
+    def get_none_board_members(self):
+        return Membership.objects.filter(community=self, default_group_name=DefaultGroups.MEMBER)
 
     def get_guest_list(self):
         if not self.upcoming_meeting_guests:
@@ -165,7 +214,7 @@ class Community(UIDMixin):
     def full_participants(self):
         guests_count = len(self.upcoming_meeting_guests.splitlines()) \
                         if self.upcoming_meeting_guests else 0 
-        return guests_count + self.upcoming_meeting_participants.count() 
+        return guests_count + self.upcoming_meeting_participants.count()
 
     def send_mail(self, template, sender, send_to, data=None, base_url=None):
 
@@ -189,13 +238,23 @@ class Community(UIDMixin):
         from_email = "%s <%s>" % (sender.display_name, sender.email)
 
         recipient_list = set([sender.email])
+        open_invitation_list = set()
 
         if send_to == SendToOption.ALL_MEMBERS:
             recipient_list.update(list(
                       self.memberships.values_list('user__email', flat=True)))
+            open_invitation_email_list = self.invitations.values_list('email', flat=True) 
+            if open_invitation_email_list.count():
+                open_invitation_list.update(list(open_invitation_email_list))
+  
         elif send_to == SendToOption.BOARD_ONLY:
             recipient_list.update(list(
                         self.memberships.board().values_list('user__email', flat=True)))
+            open_invitation_email_list = self.invitations.exclude(
+                default_group_name=DefaultGroups.MEMBER).values_list('email', flat=True)
+            if open_invitation_email_list.count():
+                open_invitation_list.update(list(open_invitation_email_list))
+
         elif send_to == SendToOption.ONLY_ATTENDEES:
             recipient_list.update(list(
                        self.upcoming_meeting_participants.values_list(
@@ -204,6 +263,9 @@ class Community(UIDMixin):
         logger.info("Sending agenda to %d users" % len(recipient_list))
 
         send_mails(from_email, recipient_list, subject, message, html_message)
+        
+        if open_invitation_list:
+            send_mails(from_email, open_invitation_list, subject, message, html_message)
 
         return len(recipient_list)
 
@@ -222,10 +284,7 @@ class Community(UIDMixin):
     def has_straw_votes(self):
         if not self.straw_voting_enabled or self.straw_vote_ended:
             return False
-        for i in self.upcoming_issues():
-            if i.proposals.open().count():
-                return True
-        return False
+        return self.upcoming_proposals_any({'is_open': True})
         
         
     def sum_vote_results(self, only_when_over=True):
@@ -235,19 +294,53 @@ class Community(UIDMixin):
         if only_when_over and time_till_close.total_seconds() > 0:
             return
         
-        un_summed_proposals = issues_models.Proposal.objects.filter(
+        proposals_to_sum = issues_models.Proposal.objects.filter(
                         # votes_pro=None,
                         status=ProposalStatus.IN_DISCUSSION,
                         issue__status=IssueStatus.IN_UPCOMING_MEETING,
                         issue__community_id=self.id)
-        if un_summed_proposals.count() == 0:
-            return
         member_count = self.get_members().count()
-        for prop in un_summed_proposals:
+        for prop in proposals_to_sum:
             prop.do_votes_summation(member_count)
 
+   
+    def _get_upcoming_proposals(self):   
+        proposals = []
+        upcoming = self.upcoming_issues()
+        for issue in upcoming:
+            proposals.extend([p for p in issue.proposals.all() if p.active]) 
+        return proposals
 
+
+    def upcoming_proposals_any(self, prop_dict):
+        """ test multiple properties against proposals belonging to the upcoming meeting
+            return True if any of the proposals passes the tests
+        """  
+        proposals = self._get_upcoming_proposals()
+        test_attrs = lambda p:  [getattr(p, k) == val for k, val in prop_dict.items()]
+        for p in proposals:
+            if all(test_attrs(p)):
+                return True
+        return False
+    
+
+    def _register_absents(self, meeting, meeting_participants):
+        board_members = [mm.user for mm in Membership.objects.board() \
+                          .filter(community=self, user__is_active=True)]
+        absents = set(board_members) - set(meeting_participants)
+        ordinal_base = len(meeting_participants)
+        for i, a in enumerate(absents):
+            try:
+                mm = a.memberships.get(community=self)
+            except Membership.DoesNotExist:
+                mm = None
+            MeetingParticipant.objects.create(meeting=meeting, user=a,
+                display_name=a.display_name,         
+                ordinal=ordinal_base + i,
+                is_absent=True, 
+                default_group_name=mm.default_group_name if mm else None)   
             
+
     def close_meeting(self, m, user):
         """
         Creates a :model:`meetings.Meeting` instance, with corresponding
@@ -308,11 +401,13 @@ class Community(UIDMixin):
                     c.meeting = m
                     c.save()
 
-                meetings_models.AgendaItem.objects.create(
+                ai = meetings_models.AgendaItem.objects.create(
                                               meeting=m, issue=issue, order=i,
                                               background=issue.abstract,
                                               closed=issue.completed)
 
+                issue.attachments.filter(active=True, agenda_item__isnull=True) \
+                                          .update(agenda_item = ai) 
                 issue.is_published = True
                 issue.abstract = None
 
@@ -321,9 +416,8 @@ class Community(UIDMixin):
                     issue.order_in_upcoming_meeting = None
 
                 issue.save()
-
-            for i, p in enumerate(self.upcoming_meeting_participants.all()):
-
+            meeting_participants = self.upcoming_meeting_participants.all()
+            for i, p in enumerate(meeting_participants):
                 try:
                     mm = p.memberships.get(community=self)
                 except Membership.DoesNotExist:
@@ -332,7 +426,8 @@ class Community(UIDMixin):
                 MeetingParticipant.objects.create(meeting=m, ordinal=i, user=p,
                       display_name=p.display_name,
                       default_group_name=mm.default_group_name if mm else None)
-
+            
+            self._register_absents(m, meeting_participants)    
             self.upcoming_meeting_participants = []
 
         return m

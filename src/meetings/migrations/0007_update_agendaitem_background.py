@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
+import logging
 from django.db import models, transaction
 from south.db import db
 from south.v2 import DataMigration
 
+logger = logging.getLogger(__name__)
 
 class Migration(DataMigration):
 
     def forwards(self, orm):
-        print "Migrating Issue abstracts..."
+        logger.debug("Migrating Issue abstracts...")
         n = 0
         for i in orm['issues.Issue'].objects.filter(is_published=True
                                                     ).exclude(abstract=None):
@@ -22,7 +24,7 @@ class Migration(DataMigration):
                 i.save()
                 n += 1
 
-        print "...migrated %d Issue abstracts" % n
+        logger.debug("...migrated %d Issue abstracts" % n)
 
     def backwards(self, orm):
         "Write your backwards methods here."

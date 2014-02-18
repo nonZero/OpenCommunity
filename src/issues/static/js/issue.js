@@ -8,9 +8,7 @@ $(function() {
     }
 
     if ($('.htmlarea textarea').length) {
-        var editor = $('.htmlarea textarea').wysihtml5({
-            locale: "he-IL",
-        }).data('wysihtml5').editor;
+        var editor = $('.htmlarea textarea').ocdEditor().data('wysihtml5').editor;
 
         editor.on('input',  function() {
             refreshButtons(editor.getValue().trim() == '');
@@ -36,7 +34,6 @@ $(function() {
 
     // Delete and undelete comment form
     $('#comments').on('click', '.delete-comment button', function() {
-        console.log('1');
         var btn = $(this);
         var form = btn.closest('form');
         var extra = {};
@@ -96,10 +93,27 @@ $(function() {
         return false;
     });
 
-    $('#issue-complete').ajaxForm({
+    $('#issue-complete,#issue-archive').ajaxForm({
         success: function(data) {
-            history.back();
+           window.history.back(); 
         }
     });
+    
+    $('#issue-undo-complete').ajaxForm({
+        success: function(data) {
+            var target = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            window.location = target;
+        }
 
+    });
+
+    // fill empty file title upon file selection
+    $('body').on('change', 'input#id_file', function() {
+        var title_inp = $(this).closest('form').find('input#id_title');
+        if(title_inp.val().length > 0)
+            return;
+        var full_filename = $(this).val();
+        var base_filename = '';
+        title_inp.val(base_filename);
+      })
 });

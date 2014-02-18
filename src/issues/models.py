@@ -1,18 +1,13 @@
 from django.conf import settings
 from django.db import models, transaction
-from django.db.models import Sum
 from django.utils import timezone
 from django.utils.text import get_valid_filename
-
 from django.utils.translation import ugettext, ugettext_lazy as _
 from ocd.base_models import HTMLField, UIDMixin, UIDManager
-from ocd.validation import enhance_html
 from ocd.storages import uploads_storage
-
+from ocd.validation import enhance_html
 import meetings
-from datetime import datetime, timedelta
 import os.path
-
 
 
 class IssueStatus(object):
@@ -87,11 +82,14 @@ class Issue(UIDMixin):
     def active_proposals(self):
         return self.proposals.filter(active=True)
 
+    def open_proposals(self):
+        return self.active_proposals().filter(status=Proposal.statuses.IN_DISCUSSION)
+
     def active_comments(self):
         return self.comments.filter(active=True)
         
     def new_comments(self):
-        return self.comments.filter(active=True, meeting_id=None)
+        return self.comments.filter(meeting_id=None)
 
     def historical_comments(self):
         return self.comments.filter(active=True).exclude(meeting_id=None)
@@ -114,7 +112,7 @@ class Issue(UIDMixin):
                                   ProposalStatus.ACCEPTED,
                                   ProposalStatus.REJECTED
                               ])
-        return decided_at_current or self.new_comments()
+        return decided_at_current or self.new_comments().filter(active=True)
 
 
     @property
@@ -139,8 +137,11 @@ class Issue(UIDMixin):
                self.community.upcoming_meeting_is_published and \
                self.proposals.open().count() > 0
 
-
+    @property
+    def current_attachments(self):
+        return self.attachments.filter(agenda_item__isnull=True)
         
+
 class IssueComment(UIDMixin):
     issue = models.ForeignKey(Issue, related_name="comments")
     active = models.BooleanField(default=True)
@@ -222,6 +223,8 @@ def issue_attachment_path(instance, filename):
 
 class IssueAttachment(UIDMixin):
     issue = models.ForeignKey(Issue, related_name="attachments")
+    agenda_item = models.ForeignKey('meetings.AgendaItem', null=True, blank=True,
+                                    related_name="attachments")
     file = models.FileField(_("File"), storage=uploads_storage, max_length=200,
                             upload_to=issue_attachment_path)
     title = models.CharField(_("Title"), max_length=100)
@@ -295,8 +298,29 @@ class ProposalVoteValue(object):
 
 class ProposalVote(models.Model):
     proposal = models.ForeignKey("Proposal", verbose_name=_("Proposal"))
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"))
-    value = models.SmallIntegerField(choices=ProposalVoteValue.CHOICES, verbose_name=_("Vote"))
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
+                              related_name="votes")
+    value = models.SmallIntegerField(choices=ProposalVoteValue.CHOICES, 
+                                     default=ProposalVoteValue.NEUTRAL,
+                                     verbose_name=_("Vote"))
+
+    class Meta:
+        unique_together = (("proposal", "user"),)
+        verbose_name = _("Proposal Vote")
+        verbose_name_plural = _("Proposal Votes")
+
+
+    def __unicode__(self):
+        return "%s - %s" % (self.proposal.issue.title, self.user.display_name)
+
+
+class ProposalVoteBoard(models.Model):
+    proposal = models.ForeignKey("Proposal", verbose_name=_("Proposal"))
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
+                              related_name="board_votes")
+    value = models.SmallIntegerField(choices=ProposalVoteValue.CHOICES, 
+                                     default=ProposalVoteValue.NEUTRAL,
+                                     verbose_name=_("Vote"))
 
     class Meta:
         unique_together = (("proposal", "user"),)
@@ -372,11 +396,12 @@ class Proposal(UIDMixin):
                                          null=True, blank=True,
                                          related_name="proposals_assigned")
     due_by = models.DateField(_("Due by"), null=True, blank=True)
-
+    """
     votes = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                    verbose_name=_("Votes"), blank=True,
                                    related_name="proposals",
                                    through="ProposalVote")
+    """                               
     votes_pro = models.PositiveIntegerField(_("Votes pro"), null=True, blank=True)
     votes_con = models.PositiveIntegerField(_("Votes con"), null=True, blank=True)
     community_members = models.PositiveIntegerField(_("Community members"),
@@ -401,8 +426,7 @@ class Proposal(UIDMixin):
     @property
     def can_vote(self):
         """ Returns True if the proposal, issue and meeting are open """
-        return self.is_open and self.issue.is_upcoming and \
-                   self.issue.community.upcoming_meeting_started
+        return self.is_open and self.issue.is_current
 
     @property
     def has_votes(self):
@@ -441,7 +465,39 @@ class Proposal(UIDMixin):
                 except VoteResult.DoesNotExist:
                     return None
 
-                    
+    @property
+    def board_vote_result(self):
+        total_votes = 0
+        votes_dict = { 'sums': {}, 'total': total_votes, 'per_user': {} }
+        pro_count = 0
+        con_count = 0
+        neut_count = 0
+        
+        users = self.issue.community.upcoming_meeting_participants.all()
+        for u in users:
+            vote = ProposalVoteBoard.objects.filter(proposal=self, user=u)
+            if vote.exists():
+                votes_dict['per_user'][u] = vote[0].value
+                if vote[0].value == 1:
+                    pro_count += 1
+                    total_votes += 1
+                elif vote[0].value == -1:
+                    con_count += 1
+                    total_votes += 1
+                elif vote[0].value == 0:
+                    neut_count += 1
+                
+            else:
+                votes_dict['per_user'][u] = 0
+                neut_count += 1
+            
+        votes_dict['sums']['pro_count'] = pro_count
+        votes_dict['sums']['con_count'] = con_count
+        votes_dict['sums']['neut_count'] = neut_count
+        votes_dict['total'] = total_votes
+        return votes_dict
+           
+
     def do_votes_summation(self, members_count):
 
         pro_votes = ProposalVote.objects.filter(proposal=self,
@@ -498,7 +554,7 @@ class Proposal(UIDMixin):
 
         
 class VoteResult(models.Model):
-    """ straw vote result """
+    """ straw vote result per proposal, per meeting """
     proposal = models.ForeignKey(Proposal, related_name="results",
                                  verbose_name=_("Proposal"))
     meeting = models.ForeignKey('meetings.Meeting', verbose_name=_("Meeting"))

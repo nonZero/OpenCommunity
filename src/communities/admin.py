@@ -20,6 +20,7 @@ class CommunityAdmin(ModelAdmin):
               'straw_voting_enabled',
               'issue_ranking_enabled',
               'allow_links_in_emails',
+              'register_missing_board_members',
               )
 
     inlines = [CommunityMembershipInline]

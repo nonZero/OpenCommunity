@@ -141,4 +141,19 @@ class ProposalAdmin(admin.ModelAdmin):
 site.register(models.Issue, IssueAdmin)
 site.register(models.Proposal, ProposalAdmin)
 site.register(models.ProposalVote)
+
+class VoteResultAdmin(admin.ModelAdmin):
+
+    list_display = (
+                    'meeting',
+                    'proposal',
+                    'community_members',
+                    'votes_pro',
+                    'votes_con',
+                    )
+
+    ordering = ['proposal',]
+
+site.register(models.VoteResult, VoteResultAdmin)
+
 site.register(models.IssueComment, IssueCommentAdmin)

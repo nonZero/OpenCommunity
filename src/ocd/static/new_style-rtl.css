@@ -23,12 +23,29 @@
 	width: 98%;
 }
 
+.issue_header_history {
+	padding: 10px 15px;
+	margin-left: 2%;
+	border-top: 1px solid #d4d5c8;
+	border-right: 1px solid #d4d5c8;
+	border-left: 1px solid #d4d5c8;
+	background-color: #f5f6de;
+	/*width: 98%;*/
+}
+.issue_header_history a {
+	color: #666;
+	text-decoration: none;
+}
 .issue_main {
 	padding: 0 2% 0 0;
 	border-right: 1px solid #a3a3a3;
 	border-bottom: 1px solid #a3a3a3;
 	background: #e6e7c8;
 }
+
+.issue_main_siblings {
+  margin-top:30px;
+} 
 
 .meeting_left_column {
 	border: 1px solid #cecfb3;
@@ -66,6 +83,58 @@
 	background: #e6e7c8;
 }
 
+.proposal_history_inner {
+	display: table;
+	background: #ffffff;
+	border: 1px solid #e2e2e2;
+	margin-bottom: 0;
+	padding: 0;
+	width: 100%;
+	list-style-type: none;
+}
+.proposal_history_inner:last-child {
+	margin-bottom: -20px;
+}
+.proposal-header {
+	padding: .7em 15px 0 15px;
+	word-break: break-word;
+}
+.proposal-footer {
+	padding: 0 15px .7em 15px;
+	word-break: break-word;
+}
+.proposal-undecided {
+	padding: 15px;
+	word-break: break-word;
+}
+.proposal_history_inner li {
+	color: #666;
+}
+.proposal_history_inner a {
+	display: block;
+	color: #6c6c6e;
+	font-size: 15px;
+	text-decoration: none;
+	overflow: hidden;
+	word-break: break-word;
+}
+.proposal_history_main {
+	padding: 0 2% 0 0;
+	border-right: 1px solid #d4d5c8;
+	border-bottom: 1px solid #d4d5c8;
+	background: #f5f6de;
+}
+.history_inner {
+	margin-bottom: 40px;
+} 
+.history_inner:last-child {
+	margin-bottom: 0;
+}
+.proposal-icon {
+	display: table-cell;
+	width: 40px;
+	background-color: #cacccd;
+}
 #issue_frame .meeting_header {
 	padding: 0 2% 0 0;
   background: none;
@@ -91,7 +160,6 @@
   background: none;
   border: none;
 }
-
 .proposal_left_column {
 	border-left: 1px solid #e2e2e2;
 	border-right: 1px solid #d4d5c8;
@@ -99,7 +167,17 @@
 	padding: 0 2% 0 0;
 	background: #f5f6de;
 }
-
+.nav-tabs > li.btn-tab > a {
+	color: #fff;
+	font-size: 14px !important;
+}
+li.btn-tab span {
+	display: none;
+}
+.nav-tabs > li.btn-tab > a:hover, .nav-tabs > li.btn-tab > a:focus {
+	background-color: #194e5c;
+	border-color: #194e5c;
+}
 .proposal_left_column_inner {
 	/*border: 1px solid #e2e2e2;*/
 	background-color: #FFFFFF;
@@ -266,6 +344,47 @@ label[for=id_proposal-title] {
 #issue-detail-siblings .btn-group-justified {
 	margin-bottom: 0;
 }
+.board_vote {
+	border: 1px solid #d8e0df;
+	padding: 10px;
+}
+.board_vote h4,
+.board_vote p {
+	border-bottom: 1px solid #d8e0df;
+	padding-bottom: 10px;
+}
+.board_vote ul {
+	padding: 0;
+	list-style-type: none;
+}
+.prop-against {
+	padding: 0;
+	background: #d95e59;
+	border: 1px solid #d8e0df;
+	text-align: center;
+}
+.prop-infavor {
+	padding: 0;
+	background: #a4cb53;
+	border: 1px solid #d8e0df;
+	text-align: center;
+}
+.prop-nutral {
+	padding: 0;
+	border: 1px solid #d8e0df;
+	text-align: center;
+}
+.radio input[type="radio"], .radio-inline input[type="radio"] {
+	float: none;
+}
+.user_vote_line {
+	border-bottom: 1px dotted #d8e0df;	
+}
+.board_vote .col-xs-4,
+.board_vote .col-xs-12 {
+	padding-right: 0;
+	padding-left: 0;
+}
 /* TODO Without CSS */
 
 /*#issue-list nav.oc_navbar ul li:nth-child(1) a {
@@ -318,6 +437,55 @@ h5 {
 	margin-bottom: 10px;
 	border-bottom: 1px solid #ccc;
 }
+.member_tasks {
+	background: #ffffff;
+	border-right: 1px solid #dddddd;
+	border-left: 1px solid #dddddd;
+	border-bottom: 1px solid #dddddd;
+	padding: 10px;
+}
+.task_devider {
+	border-bottom: 1px solid #dddddd;
+	margin-bottom: 10px;
+}
+.task_devider:last-child {
+	border-bottom: 0;
+	margin-bottom: 0;
+}
+#member-profile .nav > li > a {
+	padding: 10px 10px;
+}
+
+@media (min-width: 480px) {
+	.one_action_icon {
+		width: 77px;
+		display: inline-block;
+		vertical-align: top;
+		line-height: 42px;
+	}
+	.one_action_icon span {
+		display: inline;
+	}
+ 
+  li.btn-tab span {
+    display: inline;
+ }
+
+.all-pro {
+	background: #a4cb53;
+}
+.all-con {
+	background: #d95e59;
+}
+
+.board_select {
+  margin: 8px 4px;
+}
+
+.board_select  ul {
+	list-style-type: none;
+	padding: 5px 5px 5px 0;
+}
 
 @media (min-width: 768px) {
 	.proposal_right_column {
@@ -359,4 +527,7 @@ h5 {
 		margin-top: 10px;
 		margin-bottom: 10px;
 	}
+}
+
+@media (min-width: 992px) {
 }

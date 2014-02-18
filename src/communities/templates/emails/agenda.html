@@ -14,7 +14,7 @@
     	</div>
     	{% endif %}
         <h1 style="margin:0 0 1em 0; text-align: center; padding: 4px">
-            {{community}}{% if community.official_identifier %} {{ community.official_identifier }}{% endif %}
+            {{community}} - {{ community.board_name }} {% if community.official_identifier %} <br/> {{ community.official_identifier }}{% endif %}
         </h1>
         <h1 style="margin:0; background: #ddd;padding: 4px"
         >{% trans "Agenda" %}
@@ -36,10 +36,10 @@
                     {% endif %}
                 </i>
             </p>
-            <p>
+            <p style="height: 18px;">
                 {% if community.allow_links_in_emails %}
-                  {% if community.has_straw_votes %}
-                      <a href="{{base_url}}{{community.get_absolute_url}}">{% trans "Enter site and vote on proposals" %}</a>
+                  {% if community.straw_voting_enabled and can_straw_vote %}
+                  <a href="{{base_url}}{{community.get_absolute_url}}"><strong>{% trans "Enter site and vote on proposals" %}</strong></a>
                   {% else %}
                       <a href="{{base_url}}{{community.get_absolute_url}}">{% trans "View online" %}</a>
                   {% endif %}
@@ -65,7 +65,7 @@
         </div>
 
                 <h2 style="margin:12px 0 0 0; background:#eee; padding:6px 3px 3px"
-                >{% trans "The following issues will be discussed in the next meeting" %}</h2>
+                >{% trans "Issues " %}</h2>
             <div style="padding:12px 6px">
                 {% if community.allow_links_in_emails %}
                     ({% trans "click links for more details" %})
@@ -93,11 +93,11 @@
                             </div>
                         {% endif %}
                         
-                        {% if i.attachments.count and community.allow_links_in_emails %}
+                        {% if i.current_attachments.count and community.allow_links_in_emails %}
                          <div class="issue_attachments">
                             <p>{% trans 'Related files' %}:</p>
                             <ul>
-                            {% for att in i.attachments.all %}
+                            {% for att in i.current_attachments.all %}
                                 <li>                      
                                     <a href="{{base_url}}{{ att.get_absolute_url }}" class="file_ext"><img height="16" src="{{base_url}}{{ STATIC_URL }}images/icons/{{ att.get_icon }}.png" /> {{att.title}}</a>
                                 </li>
@@ -106,45 +106,41 @@
                          </div>
                         {% endif %}
 
-                        {% with proposals=i.active_proposals.count %}
-                            {% if proposals %}
-                                <h4 style="margin:0; background: #eee; padding: 2px">
-                                    {% trans "Proposals" %}
-                                </h4>
-                                <ul>
-                                    {% for p in i.active_proposals.all %}
-                                        {% if not p.decided %}
-                                        <li style="padding:2px 0">
-                                            {% if community.allow_links_in_emails %}
-                                                <a href="{{base_url}}{{p.get_absolute_url}}">
-                                                    {% if p.type != 3 %}
-                                                        {{ p.get_type_display }}:
-                                                    {% endif %}
-                                                  {{p.title}}
-                                                </a>
-                                            {% else %}
-                                                  {{p.title}}
-                                            {% endif %}
-
-	                                        {% if p.assigned_to %}
-	                                            &nbsp;
-	                                            <b>{% trans "Assigned to" %}</b>: {{p.assigned_to}}
-	                                        {% endif %}
-	                                        {% if p.due_by %}
-	                                            &nbsp;
-	                                            <b>{% trans "Due by" %}</b>: {{p.due_by}}
-	                                        {% endif %}
-	                                        {% if p.content %}
-	                                            <div class="proposal_content">
-	                                                {{p.content|safe}}
-	                                            </div>
-	                                        {% endif %}
-                                        </li>
+                        {% if i.open_proposals.count %}
+                            <h4 style="margin:0; background: #eee; padding: 2px">
+                                {% trans "Proposals" %}
+                            </h4>
+                            <ul>
+                                {% for p in i.open_proposals.all|dictsort:"created_at" %}
+                                    <li style="padding:2px 0">
+                                        {% if community.allow_links_in_emails %}
+                                            <a href="{{base_url}}{{p.get_absolute_url}}">
+                                                {% if p.type != 3 %}
+                                                    {{ p.get_type_display }}:
+                                                {% endif %}
+                                              {{p.title}}
+                                            </a>
+                                        {% else %}
+                                              {{p.title}}
                                         {% endif %}
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                        {% endwith %}
+
+                                        {% if p.assigned_to %}
+                                            &nbsp;
+                                            <b>{% trans "Assigned to" %}</b>: {{p.assigned_to}}
+                                        {% endif %}
+                                        {% if p.due_by %}
+                                            &nbsp;
+                                            <b>{% trans "Due by" %}</b>: {{p.due_by}}
+                                        {% endif %}
+                                        {% if p.content %}
+                                            <div class="proposal_content">
+                                                {{p.content|safe}}
+                                            </div>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
                     </article>
         
                 {% endfor %}
