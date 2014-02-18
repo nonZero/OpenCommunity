@@ -10,7 +10,7 @@
 	</a>
 
 	{% if cperms.community.editagenda_community and not i.changed_in_current and not i.completed %}
-		<div class="timer" data-url="{% url 'issue_set_length' community.id i.id %}"{% if not object.upcoming_meeting_started and i.is_upcoming %} style="left: 100px;"{% endif %}>
+		<div class="timer{% if not object.upcoming_meeting_started and i.is_upcoming %} timer_extra{% endif %}" data-url="{% url 'issue_set_length' community.id i.id %}">
 			<span data-strict="{{i.length_in_minutes|minutes_strict}}">{{i.length_in_minutes|minutes|default:'--:--'}}</span>
     </div>
     {% if not object.upcoming_meeting_started and i.is_upcoming and i.can_straw_vote %}

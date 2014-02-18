@@ -488,6 +488,9 @@ ul li.issue.oc_li a.addremove {
     font-weight: bold;
     cursor: pointer;
 }
+.timer_extra {
+	right: 100px;
+}
 .user_votes_on_issue {
 	position: absolute;
 	top: 10px;
@@ -1068,7 +1071,7 @@ form.delete-invitation {
 .piechart a {
    font-size: 1.1em;
    vertical-align: top;
-   color: #000;
+   color: #6C6C6E;
    text-decoration: none;
 }
 
@@ -1094,7 +1097,8 @@ form.delete-invitation {
 .chart_datetime {
 	border-bottom: 1px solid #d8e0df;
 	padding-bottom: 10px;
-	margin-bottom: 10px;	
+	margin-bottom: 10px;
+	color: #6C6C6E;	
 }
 
 /* Votes */
@@ -1596,6 +1600,9 @@ label[for=id_proposal-title] {
 }
 .all-con {
 	background: #d95e59;
+}
+.twitter-typeahead {
+	width: 100%;
 }
 
 /* Footer */
