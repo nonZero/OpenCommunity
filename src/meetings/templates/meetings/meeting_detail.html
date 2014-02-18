@@ -4,6 +4,10 @@
 {% load letter_tag %}
 {% load opencommunity community_tags %}
 
+{% block title %}
+	<title>{{ object.community.name }} - {{ object.title|default:_("Summary") }}</title>
+{% endblock %}
+
 {% block extra-page-id %}
 id="meeting-detail"
 {% endblock %}

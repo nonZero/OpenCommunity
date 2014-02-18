@@ -63,6 +63,8 @@ class MembershipList(MembershipMixin, ListView):
         d['form'] = InvitationForm(initial={'message':
                                             Invitation.DEFAULT_MESSAGE %
                                             self.community.get_board_name()})
+        d['board_list'] = Membership.objects.board()
+        d['member_list'] = Membership.objects.none_board()
 
         return d
 

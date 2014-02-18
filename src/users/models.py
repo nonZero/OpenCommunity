@@ -108,6 +108,10 @@ class MembershipManager(models.Manager):
         return self.get_query_set().exclude(
                                     default_group_name=DefaultGroups.MEMBER)
 
+    def none_board(self):
+        return self.get_query_set().filter(
+                                    default_group_name=DefaultGroups.MEMBER)
+
 
 class Membership(models.Model):
     community = models.ForeignKey('communities.Community', verbose_name=_("Community"),

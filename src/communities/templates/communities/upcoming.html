@@ -2,6 +2,10 @@
 {% load i18n %}
 {% load opencommunity community_tags %}
 
+{% block title %}
+	<title>{{ object.name }} - {{ object.upcoming_meeting_title|default:_("Upcoming Meeting") }}</title>
+{% endblock %}
+
 {% block extra-page-id %}
 	id="upcoming-meeting"
 {% endblock %}

@@ -5,6 +5,12 @@
 id="proposal-detail"
 {% endblock %}
 
+{% block title %}
+	<title>
+		{{ object.issue.community.name }} - {{ object.title }}  
+	</title>
+{% endblock %}
+
 {% block page_header %}
     {% if issue_frame %}
     <span class="visible-xs">
