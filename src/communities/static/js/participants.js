@@ -12,14 +12,14 @@ $(function () {
         if (!(id in selectedMembers)) {
             selectedMembers[id] = true;
             mem_list.append($(member_tpl.replace('#NAME#', label).replace('#ID#', id)));
-        }
-    }
+        };
+    };
 
     var delMember = function (id) {
         $("#recommended-members").find("[data-uid='" + id + "']").children('button').removeClass('disabled');
         $('#p_select input[value="' + id + '"]').prop('checked', false);
         delete selectedMembers[id];
-    }
+    };
 
     $('.participant-title button').on('click', function () {
         $(".select-participants, .list-of-participants").toggle();
@@ -67,12 +67,8 @@ $(function () {
 
     $('#recommended-members').on('click', '.add-rec-member', function () {
         var uid = $(this).parent().data('uid');
-        $('#p_select input[value="' + uid + '"]').prop('checked', true);
-        var mem_list = $('ul#members-list');
-        var new_name = $(this).parent().find('div').text();
-        if (new_name && uid) {
-            mem_list.append($(member_tpl.replace('#NAME#', new_name).replace('#ID#', uid)));
-        }
+		var new_name = $(this).parent().find('div').text();
+		addMember(uid, new_name);
         // $(this).parent().remove();
         $(this).addClass('disabled');
     });
@@ -135,6 +131,7 @@ $(function () {
             : cur_guests + '\n' + guest_details;
         $('#id_upcoming_meeting_guests').text(updated);
         $(this).parent().remove();
+        $('#guests h3').toggle($('#recommended-guests li').length);
     });
 
     $('#guests').on('click', 'button.del_guest', function (ev) {
