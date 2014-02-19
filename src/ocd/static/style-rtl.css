@@ -1606,6 +1606,19 @@ label[for=id_proposal-title] {
 	width: 100%;
 	direction: rtl !important;
 }
+.member_vote_part {
+	display: block;
+	margin-left: 5%;
+	background: #f5f6de;
+	padding: 5px;
+	text-decoration: none;
+	color: #6C6C6E;
+}
+ul.prop-table.prop-pad {
+	padding-right: 5%;
+	background: #f5f6de;
+	border: 0;
+}
 
 /* Footer */
 

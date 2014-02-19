@@ -29,8 +29,8 @@
 		{% endif %}
 		{% if object.upcoming_meeting_started %}
 			<div class="agenda_plus_minus
-			{% if i.completed %}tick{% else %}
-			{% if i.changed_in_current %}cog{% endif %}
+			{% if i.completed and cperms.issues.view_update_status %}tick{% else %}
+			{% if i.changed_in_current and cperms.issues.view_update_status %}cog{% endif %}
 			{% endif %}"></div>
 		{% endif %}
 	{% endif %}

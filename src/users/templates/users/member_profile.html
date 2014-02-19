@@ -22,7 +22,7 @@ id="member-profile"
 	</p>
 	<h2>{% trans "Meetings participation" %}</h2>
 	<canvas class="pull-left" id="participationChart" height="40px" width="40px"></canvas>
-	{% if object.total_meetings.count %}
+	{% if object.total_meetings %}
 		<p>{{ object.meetings_participation_percantage }}%<br />{{ object.meetings_participation }} {% trans "Out of" %} {{ object.total_meetings }}</p>
 	{% endif %}
 </div>
@@ -111,9 +111,9 @@ id="member-profile"
 				{% for p in object.member_proposal_pro_votes %}
 			  		{% ifchanged p.proposal.issue.get_absolute_url %}
 			  		<div style="height: 10px;"></div>
-			  		<a style="display: block;margin-left: 5%;background: #f5f6de;padding: 5px;text-decoration: none;color: #6C6C6E;" href="{{p.proposal.issue.get_absolute_url}}">{{p.proposal.issue.title}}</a>
+			  		<a class="member_vote_part" href="{{p.proposal.issue.get_absolute_url}}">{{p.proposal.issue.title}}</a>
 					{% endifchanged %}
-					<ul class="prop-table proposals" style="padding-right: 5%;background: #f5f6de;border: 0;">
+					<ul class="prop-table proposals prop-pad">
 					    <li class="drag-icon {% if p.proposal.type == 1 %}task-icon{% endif %}{% if p.proposal.type == 2 %}rule-icon{% endif %}{% if p.proposal.type == 3 %}general-icon{% endif %}"></li>
 					    <a href="{{p.proposal.get_absolute_url}}" style="display: block;background: #fff;text-decoration: none;color: #6C6C6E;border-bottom: 1px solid #d8e0df;">
 					    <li class="prop-title">{{p.proposal.title}}</li>
@@ -139,9 +139,9 @@ id="member-profile"
 				{% for p in object.member_proposal_nut_votes %}
 					{% ifchanged p.proposal.issue.get_absolute_url %}
 			  		<div style="height: 10px;"></div>
-			  		<a style="display: block;margin-left: 5%;background: #f5f6de;padding: 5px;text-decoration: none;color: #6C6C6E;" href="{{p.proposal.issue.get_absolute_url}}">{{p.proposal.issue.title}}</a>
+			  		<a class="member_vote_part" href="{{p.proposal.issue.get_absolute_url}}">{{p.proposal.issue.title}}</a>
 					{% endifchanged %}
-					<ul class="prop-table proposals" style="padding-right: 5%;background: #f5f6de;border: 0;">
+					<ul class="prop-table proposals prop-pad">
 					    <li class="drag-icon {% if p.proposal.type == 1 %}task-icon{% endif %}{% if p.proposal.type == 2 %}rule-icon{% endif %}{% if p.proposal.type == 3 %}general-icon{% endif %}"></li>
 					    <a href="{{p.proposal.get_absolute_url}}" style="display: block;background: #fff;text-decoration: none;color: #6C6C6E;border-bottom: 1px solid #d8e0df;">
 					    <li class="prop-title">{{p.proposal.title}}</li>
@@ -167,9 +167,9 @@ id="member-profile"
 				{% for p in object.member_proposal_con_votes %}
 			  		{% ifchanged p.proposal.issue.get_absolute_url %}
 			  		<div style="height: 10px;"></div>
-			  		<a style="display: block;margin-left: 5%;background: #f5f6de;padding: 5px;text-decoration: none;color: #6C6C6E;" href="{{p.proposal.issue.get_absolute_url}}">{{p.proposal.issue.title}}</a>
+			  		<a class="member_vote_part" href="{{p.proposal.issue.get_absolute_url}}">{{p.proposal.issue.title}}</a>
 					{% endifchanged %}
-					<ul class="prop-table proposals" style="padding-right: 5%;background: #f5f6de;border: 0;">
+					<ul class="prop-table proposals prop-pad">
 					    <li class="drag-icon {% if p.proposal.type == 1 %}task-icon{% endif %}{% if p.proposal.type == 2 %}rule-icon{% endif %}{% if p.proposal.type == 3 %}general-icon{% endif %}"></li>
 					    <a href="{{p.proposal.get_absolute_url}}" style="display: block;background: #fff;text-decoration: none;color: #6C6C6E;border-bottom: 1px solid #d8e0df;">
 					    <li class="prop-title">{{p.proposal.title}}</li>

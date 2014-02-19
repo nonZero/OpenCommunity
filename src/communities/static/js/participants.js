@@ -120,6 +120,7 @@ $(function() {
                                                : cur_guests + '\n' + guest_details;
         $('#id_upcoming_meeting_guests').text(updated);
         $(this).parent().remove();
+        $('#guests h3').toggle($('#recommended-guests li').length);
     });
 
     $('#guests').on('click', 'button.del_guest', function(ev) { 
@@ -134,6 +135,6 @@ $(function() {
         if(end_idx != -1) {
             text_without += guests.slice(end_idx + 1);
         }
-        $('#id_upcoming_meeting_guests').text(text_without.replace('\n\n', '\n'));         
+        $('#id_upcoming_meeting_guests').text(text_without.replace('\n\n', '\n'));
     });
-}); 
+});
