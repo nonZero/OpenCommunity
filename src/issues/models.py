@@ -321,6 +321,8 @@ class ProposalVoteBoard(models.Model):
     value = models.SmallIntegerField(choices=ProposalVoteValue.CHOICES, 
                                      default=ProposalVoteValue.NEUTRAL,
                                      verbose_name=_("Vote"))
+    voted_by_chairman = models.BooleanField(default=False,
+                                            verbose_name=_("Voted by chairman"))
 
     class Meta:
         unique_together = (("proposal", "user"),)
@@ -464,6 +466,14 @@ class Proposal(UIDMixin):
                     return res
                 except VoteResult.DoesNotExist:
                     return None
+
+    def board_vote_by_member(self, user_id):
+        try:
+            vote = ProposalVoteBoard.objects.get(user_id=user_id, proposal=self)
+            return vote.value
+        except ProposalVoteBoard.DoesNotExist:
+            return None
+    
 
     @property
     def board_vote_result(self):

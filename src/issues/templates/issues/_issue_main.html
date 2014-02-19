@@ -90,7 +90,7 @@
                 {% include 'issues/_proposal.html' %}
                 {% if can_straw_vote and not proposal.decided and cperms.issues.vote and user|member_of:community %}
                     <div class="issue_proposal_vote">
-                        {% include 'issues/_vote.html' %}
+                        {% include 'issues/_straw_vote.html' %}
                     </div>
                 {% endif %}
             {% endfor %}

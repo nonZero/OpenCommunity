@@ -396,7 +396,7 @@ class ProposalDetailView(ProposalMixin, DetailView):
             vote = ProposalVoteBoard.objects.filter(proposal=self.get_object, 
                                                     user=u)
             if vote.exists():
-                votes_dict['per_user'][u] = vote[0].value
+                votes_dict['per_user'][u] = vote[0]
                 if vote[0].value == 1:
                     pro_count += 1
                     total_votes += 1
@@ -407,7 +407,7 @@ class ProposalDetailView(ProposalMixin, DetailView):
                     neut_count += 1
                 
             else:
-                votes_dict['per_user'][u] = 0
+                votes_dict['per_user'][u] = None 
                 neut_count += 1
             
         votes_dict['sums']['pro_count'] = pro_count
@@ -465,6 +465,7 @@ class ProposalDetailView(ProposalMixin, DetailView):
         show_board_vote_result = board_votes.count() and \
                                   (show_to_member or show_to_board or show_to_chairman)
         context['issue_frame'] = self.request.GET.get('s', None)
+        context['user_vote'] = o.board_vote_by_member(self.request.user.id)
         context['show_board_vote_result'] = show_board_vote_result 
         context['chairman_can_vote'] = is_current and not o.decided
         context['board_votes'] = self.board_votes_dict()
@@ -561,64 +562,73 @@ class ProposalVoteView(CommunityMixin, DetailView):
     model = models.Proposal
 
     def post(self, request, *args, **kwargs):
-        
-        if request.POST.get('user'):
-            voter_id = request.POST['user']
+
+        is_board = request.POST.get('board', False)
+        user_id = request.POST.get('user', request.user.id)
+        voter_id = request.user.id
+        by_chairman = voter_id != user_id
+        val = request.POST['val']
+        if is_board:
+            # vote for board member by chairman or board member
             vote_class = ProposalVoteBoard
         else:
-            voter_id = request.user.id
+            # straw vote by member
             vote_class = ProposalVote
 
         proposal = self.get_object()
         pid = proposal.id
-
-        val = request.POST['val']
+        vote_panel_tpl = 'issues/_vote_panel.html' if val == 'reset' \
+                            else 'issues/_vote_reset_panel.html'
+    
+        res_panel_tpl = 'issues/_board_vote_res.html' if is_board \
+                            else 'issues/_vote_reset_panel.html' 
+        
 
         value = ''
-        if val == 'pro':
-            value = ProposalVoteValue.PRO
-        elif val == 'con':
-            value = ProposalVoteValue.CON
-        elif val == 'reset':
+        if val == 'reset':
             vote = get_object_or_404(vote_class,
                                      proposal_id=pid, user_id=voter_id)
             vote.delete()
-            return json_response({
-                'result': 'ok',
-                'html': render_to_string('issues/_vote_panel.html',
-                                         {
-                                             'proposal': proposal,
-                                             'community': self.community,
-                                         }),
-                'sum': render_to_string('issues/_member_vote_sum.html',
-                                         {
-                                             'proposal': proposal,
-                                             'community': self.community,
-                                             'board_attending': self.community.meeting_participants()['board'],
-                                         })
-            })
-
+            return vote_response
+        elif val == 'pro':
+            value = ProposalVoteValue.PRO
+        elif val == 'con':
+            value = ProposalVoteValue.CON
+        elif val == 'neut':
+            value = ProposalVoteValue.NEUTRAL
         else:
             return HttpResponseBadRequest('vote value not valid')
         
         vote, created = vote_class.objects.get_or_create(proposal_id=pid, 
                                                          user_id=voter_id)
         vote.value=value
+        if is_board:
+            vote.voted_by_chairman = by_chairman
         vote.save()
-        return json_response({
-            'result': 'ok',
-            'html': render_to_string('issues/_vote_reset_panel.html',
-                                        {
+        dd = render_to_string(res_panel_tpl, 
+                                         {
+                                             'proposal': proposal,
+                                              'community': self.community,
+                                             'board_attending': self.community.meeting_participants()['board'],
+                                         })
+        print dd
+        print '========> ', res_panel_tpl, proposal.id
+        vote_response = json_response({
+                'result': 'ok',
+                'html': render_to_string(vote_panel_tpl,
+                                         {
                                              'proposal': proposal,
                                              'community': self.community,
                                          }),
-            'sum': render_to_string('issues/_member_vote_sum.html',
-              {
-                  'proposal': proposal,
-                  'community': self.community,
-                  'board_attending': self.community.meeting_participants()['board']
-              })
-        })
+                'sum': render_to_string(res_panel_tpl, 
+                                         {
+                                             'proposal': proposal,
+                                              'community': self.community,
+                                             'board_attending': self.community.meeting_participants()['board'],
+                                         })
+            })
+        return vote_response
+
 
 class MultiProposalVoteView(CommunityMixin, DetailView):
     required_permission_for_post = 'issues.vote'
