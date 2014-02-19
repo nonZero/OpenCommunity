@@ -87,10 +87,12 @@
 	
 	{% if show_board_vote_result %}
 	    <div class="board_vote clearfix">
-          {% include 'issues/_board_vote_res.html' %}
-      </div>
+		<h2>{% trans "Chairman Vote" %}</h2>
+			{% include 'issues/_board_vote_res.html' %}
+		</div>
 	{% endif %}
 	{% if cperms.issues.proposal_board_vote and chairman_can_vote %}
+	  <h2>{% trans "Vote" %} {{ object.issue.community.board_name|default:_("Board") }}</h2>
 	  <div class="board_vote clearfix">
 		<div class="col-xs-12 clearfix" style="border-bottom: 1px solid">
 			<div class="col-xs-4"></div>
