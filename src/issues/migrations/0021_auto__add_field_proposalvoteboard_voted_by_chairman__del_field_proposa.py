@@ -8,16 +8,22 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'ProposalVote.registered_by'
-        db.add_column(u'issues_proposalvote', 'registered_by',
-                      self.gf('django.db.models.fields.related.ForeignKey')(related_name='reg_votes', null=True, to=orm['users.OCUser']),
+        # Adding field 'ProposalVoteBoard.voted_by_chairman'
+        db.add_column(u'issues_proposalvoteboard', 'voted_by_chairman',
+                      self.gf('django.db.models.fields.BooleanField')(default=False),
                       keep_default=False)
+
+        # Deleting field 'ProposalVote.registered_by'
+        db.delete_column(u'issues_proposalvote', 'registered_by_id')
 
 
     def backwards(self, orm):
-        # Adding field 'ProposalVote.registered_by_chairman'
-        db.add_column(u'issues_proposalvote', 'registered_by_chairman',
-                      self.gf('django.db.models.fields.BooleanField')(default=False),
+        # Deleting field 'ProposalVoteBoard.voted_by_chairman'
+        db.delete_column(u'issues_proposalvoteboard', 'voted_by_chairman')
+
+        # Adding field 'ProposalVote.registered_by'
+        db.add_column(u'issues_proposalvote', 'registered_by',
+                      self.gf('django.db.models.fields.related.ForeignKey')(related_name='reg_votes', null=True, to=orm['users.OCUser']),
                       keep_default=False)
 
 
@@ -51,7 +57,7 @@ class Migration(SchemaMigration):
             'referendum_started_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'register_missing_board_members': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'straw_voting_enabled': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'uid': ('django.db.models.fields.CharField', [], {'default': "'mi85e24o1mh3903z43eril0l'", 'unique': 'True', 'max_length': '24'}),
+            'uid': ('django.db.models.fields.CharField', [], {'default': "'8ss9xg6py1tr7asukfzpw9hc'", 'unique': 'True', 'max_length': '24'}),
             'upcoming_meeting_comments': ('ocd.base_models.HTMLField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_guests': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_is_published': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -89,7 +95,7 @@ class Migration(SchemaMigration):
             'order_in_upcoming_meeting': ('django.db.models.fields.IntegerField', [], {'default': '9999', 'null': 'True', 'blank': 'True'}),
             'status': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '300'}),
-            'uid': ('django.db.models.fields.CharField', [], {'default': "'hbnr6aoxmxd2lifr7vnicfe5'", 'unique': 'True', 'max_length': '24'})
+            'uid': ('django.db.models.fields.CharField', [], {'default': "'kstj75bu4i734by716uu15nh'", 'unique': 'True', 'max_length': '24'})
         },
         u'issues.issueattachment': {
             'Meta': {'ordering': "('created_at',)", 'object_name': 'IssueAttachment'},
@@ -102,7 +108,7 @@ class Migration(SchemaMigration):
             'issue': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'attachments'", 'to': u"orm['issues.Issue']"}),
             'ordinal': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'uid': ('django.db.models.fields.CharField', [], {'default': "'kd21uiyaokuz45xqsufe099j'", 'unique': 'True', 'max_length': '24'})
+            'uid': ('django.db.models.fields.CharField', [], {'default': "'80g5lq23tgedz98ssgabxtfh'", 'unique': 'True', 'max_length': '24'})
         },
         u'issues.issuecomment': {
             'Meta': {'ordering': "('created_at',)", 'object_name': 'IssueComment'},
@@ -116,7 +122,7 @@ class Migration(SchemaMigration):
             'last_edited_by': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'issue_comments_last_edited'", 'null': 'True', 'to': u"orm['users.OCUser']"}),
             'meeting': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['meetings.Meeting']", 'null': 'True', 'blank': 'True'}),
             'ordinal': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'uid': ('django.db.models.fields.CharField', [], {'default': "'5otap4901lk77hq7vmrrk4zp'", 'unique': 'True', 'max_length': '24'}),
+            'uid': ('django.db.models.fields.CharField', [], {'default': "'0bu4wwd6ngzt3m6x00sczibc'", 'unique': 'True', 'max_length': '24'}),
             'version': ('django.db.models.fields.PositiveIntegerField', [], {'default': '1'})
         },
         u'issues.issuecommentrevision': {
@@ -151,7 +157,7 @@ class Migration(SchemaMigration):
             'status': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '300'}),
             'type': ('django.db.models.fields.PositiveIntegerField', [], {}),
-            'uid': ('django.db.models.fields.CharField', [], {'default': "'kf10h0s4tybec5hd0z80shzp'", 'unique': 'True', 'max_length': '24'}),
+            'uid': ('django.db.models.fields.CharField', [], {'default': "'wb2zbjmalurj1fjsg8y7m6ns'", 'unique': 'True', 'max_length': '24'}),
             'votes_con': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
             'votes_pro': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'})
         },
@@ -159,16 +165,16 @@ class Migration(SchemaMigration):
             'Meta': {'unique_together': "(('proposal', 'user'),)", 'object_name': 'ProposalVote'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'proposal': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['issues.Proposal']"}),
-            'registered_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'reg_votes'", 'null': 'True', 'to': u"orm['users.OCUser']"}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'votes'", 'to': u"orm['users.OCUser']"}),
-            'value': ('django.db.models.fields.SmallIntegerField', [], {})
+            'value': ('django.db.models.fields.SmallIntegerField', [], {'default': '0'})
         },
         u'issues.proposalvoteboard': {
             'Meta': {'unique_together': "(('proposal', 'user'),)", 'object_name': 'ProposalVoteBoard'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'proposal': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['issues.Proposal']"}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'board_votes'", 'to': u"orm['users.OCUser']"}),
-            'value': ('django.db.models.fields.SmallIntegerField', [], {})
+            'value': ('django.db.models.fields.SmallIntegerField', [], {'default': '0'}),
+            'voted_by_chairman': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
         },
         u'issues.voteresult': {
             'Meta': {'unique_together': "(('proposal', 'meeting'),)", 'object_name': 'VoteResult'},
@@ -203,7 +209,7 @@ class Migration(SchemaMigration):
             'scheduled_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'summary': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '300', 'null': 'True', 'blank': 'True'}),
-            'uid': ('django.db.models.fields.CharField', [], {'default': "'f158xwg5otenxoxf5dupf7nq'", 'unique': 'True', 'max_length': '24'})
+            'uid': ('django.db.models.fields.CharField', [], {'default': "'h7mb8vik0b7142s3r5h1s96j'", 'unique': 'True', 'max_length': '24'})
         },
         u'meetings.meetingparticipant': {
             'Meta': {'unique_together': "(('meeting', 'ordinal'), ('meeting', 'user'))", 'object_name': 'MeetingParticipant'},

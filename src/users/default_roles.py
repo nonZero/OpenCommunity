@@ -28,6 +28,7 @@ class DefaultRoles(object):
                            'issues.viewopen_proposal',
                            'communities.viewupcoming_community',
                            'issues.vote',
+                           'issues.proposal_board_vote_self',
                            'issues.vote_ranking',
                           ]
 

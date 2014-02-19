@@ -5,7 +5,8 @@ $(function() {
     function do_members_vote(vote_url, vote_value, user_id) {
         $.post(vote_url, {
             val : vote_value,
-            user : user_id
+            user : user_id,
+            board: '1',
         }, function(data) {
             if (data['result'] == 'ok') {
                 $('#member_vote_sum').html(data['sum']);
