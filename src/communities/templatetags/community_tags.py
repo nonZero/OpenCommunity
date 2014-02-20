@@ -11,7 +11,7 @@ def display_upcoming_time(community):
     """ display only date if hour information if not set (remains at default '00:00)
     """
     if not community.upcoming_meeting_scheduled_at:
-        return _("--/--/----")
+        return _("--/--/--")
     when = timezone.localtime(community.upcoming_meeting_scheduled_at)
     t = when.timetz()
     if t.hour == 0 and t.minute == 0:

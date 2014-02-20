@@ -147,25 +147,29 @@ class Membership(models.Model):
         return DefaultGroups.permissions[self.default_group_name]
     
     def total_meetings(self):
+        """ In the future we'll check since joined to community or rejoined """
         return self.community.meetings.count()
         
     def meetings_participation(self):
-        return MeetingParticipant.objects.filter(user=self.user).count()
+        """ In the future we'll check since joined to community or rejoined """
+        return MeetingParticipant.objects.filter(user=self.user, is_absent=False).count()
     
     def meetings_participation_percantage(self):
+        """ In the future we'll check since joined to community or rejoined """
         return round((float(self.meetings_participation()) / float(self.total_meetings())) * 100.0)
 
-    def member_tasks(self):
-        return Proposal.objects.filter(assigned_to_user=self.user).all()
+#     def member_tasks(self):
+#         return Proposal.objects.filter(assigned_to_user=self.user).all()
 
     def member_open_tasks(self):
-        return Proposal.objects.filter(assigned_to_user=self.user, due_by__gte=datetime.date.today(), active=True)
+        return Proposal.objects.filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, due_by__gte=datetime.date.today(), active=True)
 
     def member_close_tasks(self):
-        return Proposal.objects.filter(assigned_to_user=self.user, active=True, status=ProposalStatus.ACCEPTED)
+        """ Need to create a field to determine closed tasks """
+        return Proposal.objects.filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, active=True)
 
     def member_late_tasks(self):
-        return Proposal.objects.filter(assigned_to_user=self.user, due_by__lte=datetime.date.today(), status=ProposalStatus.IN_DISCUSSION)
+        return Proposal.objects.filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, due_by__lte=datetime.date.today(), active=True)
 
     def member_proposal_pro_votes(self):
         return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.PRO).exclude(proposal__status=ProposalStatus.IN_DISCUSSION)
