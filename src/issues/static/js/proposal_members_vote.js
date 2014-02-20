@@ -8,7 +8,7 @@ $(function() {
             user : user_id,
             board: '1',
         }, function(data) {
-            if (data['result'] == 'ok') {
+            if (data['result'] == 'ok' && data['sum'] != undefined) {
                 $('#member_vote_sum').html(data['sum']);
             }
         });
@@ -18,7 +18,7 @@ $(function() {
             val : vote_value,
             users : JSON.stringify(user_ids)
         }, function(data) {
-            if (data['result'] == 'ok') {
+            if (data['result'] == 'ok' && data['sum'] != undefined) {
                 $('#member_vote_sum').html(data['sum']);
             }
         });

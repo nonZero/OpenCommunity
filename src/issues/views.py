@@ -609,21 +609,23 @@ class ProposalVoteView(CommunityMixin, DetailView):
         if is_board:
             vote.voted_by_chairman = by_chairman
         vote.save()
-        vote_response = json_response({
+        vote_response = {
                 'result': 'ok',
                 'html': render_to_string(vote_panel_tpl,
                                          {
                                              'proposal': proposal,
                                              'community': self.community,
                                          }),
-                'sum': render_to_string(res_panel_tpl, 
-                                         {
-                                             'proposal': proposal,
-                                              'community': self.community,
-                                             'board_attending': self.community.meeting_participants()['board'],
-                                         })
-            })
-        return vote_response
+            }
+
+        if not (is_board and by_chairman):
+            vote_response['sum'] = render_to_string(res_panel_tpl, 
+                    {
+                        'proposal': proposal,
+                        'community': self.community,
+                        'board_attending': self.community.meeting_participants()['board'],
+                    })
+        return json_response(vote_response)
 
 
 class MultiProposalVoteView(CommunityMixin, DetailView):
@@ -680,11 +682,5 @@ class MultiProposalVoteView(CommunityMixin, DetailView):
                                              'proposal': proposal,
                                              'community': self.community,
                                          }),
-            'sum': render_to_string('issues/_member_vote_sum.html',
-                                     {
-                                         'proposal': proposal,
-                                         'community': self.community,
-                                         'board_attending': self.community.meeting_participants()['board'],
-                                     })
         })
 
