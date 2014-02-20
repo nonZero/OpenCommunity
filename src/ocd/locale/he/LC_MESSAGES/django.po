@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-13 00:50+0200\n"
-"PO-Revision-Date: 2014-02-12 10:13+0200\n"
+"POT-Creation-Date: 2014-02-20 17:31+0200\n"
+"PO-Revision-Date: 2014-02-20 17:29+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.3\n"
+"X-Generator: Poedit 1.6.4\n"
 
 #: .\base_models.py:12
 msgid "HTML content"
@@ -26,24 +26,24 @@ msgid "Page not found"
 msgstr "דף לא נמצא"
 
 #: .\templates\_navbar.html.py:11 .\templates\_navbar.html.py:21
-#: .\templates\base.html.py:8
-msgid "Open Community"
-msgstr "קהילה פתוחה"
+#: .\templates\base.html.py:9
+msgid "DemOS"
+msgstr "DemOS"
 
 #: .\templates\_navbar.html.py:28 .\templates\login.html.py:10
 #: .\templates\login.html.py:28
 msgid "Login"
 msgstr "כניסה"
 
-#: .\templates\base.html.py:40
-msgid "Page Title"
+#: .\templates\base.html.py:42
+msgid "Page title"
 msgstr "כותרת עמוד"
 
-#: .\templates\base.html.py:50
+#: .\templates\base.html.py:52
 msgid "Attention"
 msgstr "שים לב"
 
-#: .\templates\base.html.py:57 .\templates\dialog.html.py:25
+#: .\templates\base.html.py:59 .\templates\dialog.html.py:25
 msgid "Close"
 msgstr "סגור"
 
@@ -170,6 +170,9 @@ msgstr "כתובת אימייל:"
 #: .\templates\registration\password_reset_form.html.py:26
 msgid "Reset my password"
 msgstr "אפס סיסמא"
+
+#~ msgid "Open Community"
+#~ msgstr "קהילה פתוחה"
 
 #~ msgid ""
 #~ "You're receiving this email because you requested a password reset for "

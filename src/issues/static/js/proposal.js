@@ -37,7 +37,7 @@ $(function () {
                         current.removeClass('vote_marked');
                     }
                     elem.addClass('vote_marked');
-                    $('.board_vote').replaceWith(data['sum'])
+                    $('.board_vote').replaceWith(data['sum']);
                 }
                 else {
                     btn_div.replaceWith(data['html']);
@@ -92,19 +92,19 @@ $(function () {
         $('.proposal_right_column,.proposal_left_column').css('height', 'auto');
         if (!$('.proposal_right_column').is(":visible")) {
             return;
-        }
+        };
         var issue_h = $('.proposal_right_column').outerHeight();
         var proposal_h = $('.proposal_left_column').outerHeight();
         if ((issue_h + 20) < proposal_h) {
             $('.proposal_right_column').outerHeight(proposal_h - 20);
             return;
-        }
+        };
         if (issue_h > proposal_h) {
             $('.proposal_left_column').outerHeight(issue_h + 20);
             return;
-        }
+        };
 
-    }
+    };
 
     $('body').on('ocd.show', function () {
         fixHeights();
@@ -112,6 +112,6 @@ $(function () {
 
     $(window).resize(function () {
         fixHeights();
-    })
+    });
 
 });

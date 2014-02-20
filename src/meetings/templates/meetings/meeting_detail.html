@@ -27,7 +27,7 @@ id="meeting-detail"
 		<ul>
     	{% if community.upcoming_meeting_scheduled_at %}
           <li class="active">
-            <h4><a href="{{community.get_upcoming_absolute_url}}">{% trans "Upcoming Meeting" %}</a></h4>
+            <h4><a href="{{community.get_upcoming_absolute_url}}">{% trans "Upcoming meeting" %}</a></h4>
             <h5><i class="fa fa-calendar"></i> {{ community|display_upcoming_time }}
             <i class="fa fa-map-marker"></i> {{ community.upcoming_meeting_location|default:_("Not set yet") }}</h5>
           </li>

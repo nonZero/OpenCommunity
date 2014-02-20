@@ -3,8 +3,8 @@
 
 {% block page_header %}
     <span class="participant-title">
-    	<span class="select-participants"{% if not object.full_participants.count %} style="display: none;"{% endif %}>{% trans "Select Participants" %} <button type="button" class="btn btn-default">{% trans "List" %}</button></span>
-    	<span class="list-of-participants"{% if object.full_participants.count %} style="display: none;"{% endif %}>{% trans "List of Participants" %} <button type="button" class="btn btn-default">{% trans "Edit" %}</button></span>
+    	<span class="select-participants"{% if not object.full_participants.count %} style="display: none;"{% endif %}>{% trans "Select participants" %} <button type="button" class="btn btn-default">{% trans "List" %}</button></span>
+    	<span class="list-of-participants"{% if object.full_participants.count %} style="display: none;"{% endif %}>{% trans "List of participants" %} <button type="button" class="btn btn-default">{% trans "Edit" %}</button></span>
 	</span>
 {% endblock %}
 

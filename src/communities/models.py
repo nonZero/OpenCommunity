@@ -28,26 +28,26 @@ class SendToOption(object):
     ALL_MEMBERS = 4
 
     choices = (
-               (ONLY_ME, _("Only Me (review)")),
+               (ONLY_ME, _("Me only (review)")),
                (ONLY_ATTENDEES, _("Only attendees")),
-               (BOARD_ONLY, _("The Board")),
-               (ALL_MEMBERS, _("All Members")),
+               (BOARD_ONLY, _("The board")),
+               (ALL_MEMBERS, _("All members")),
               )
 
     publish_choices = (
-               (ONLY_ME, _("Only Me (review)")),
-               (BOARD_ONLY, _("The Board")),
-               (ALL_MEMBERS, _("All Members")),
+               (ONLY_ME, _("Me only (review)")),
+               (BOARD_ONLY, _("The board")),
+               (ALL_MEMBERS, _("All members")),
               )
 
               
 class Community(UIDMixin):
 
     name = models.CharField(max_length=200, verbose_name=_("Name"))
-    is_public = models.BooleanField(_("Public Community"), default=False,
+    is_public = models.BooleanField(_("Public community"), default=False,
                                     db_index=True)
-    logo = models.ImageField(upload_to='community_logo', verbose_name=_("Community Logo"), blank=True, null=True)
-    official_identifier = models.CharField(max_length=300, verbose_name=_("Community Identifier"), blank=True, null=True)
+    logo = models.ImageField(upload_to='community_logo', verbose_name=_("Community logo"), blank=True, null=True)
+    official_identifier = models.CharField(max_length=300, verbose_name=_("Community identifier"), blank=True, null=True)
 
     upcoming_meeting_started = models.BooleanField(
                                         _("Meeting started"),
@@ -91,7 +91,7 @@ class Community(UIDMixin):
     upcoming_meeting_summary = HTMLField(_("Upcoming meeting summary"),
                                          null=True, blank=True)
 
-    board_name = models.CharField(_("Board Name"), default=_("Board"), 
+    board_name = models.CharField(_("Board name"), default=_("Board"), 
                                   max_length=200)
     
     straw_voting_enabled = models.BooleanField(_("Straw voting enabled"),

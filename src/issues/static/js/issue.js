@@ -115,5 +115,5 @@ $(function() {
         var full_filename = $(this).val();
         var base_filename = '';
         title_inp.val(base_filename);
-      })
+     });
 });

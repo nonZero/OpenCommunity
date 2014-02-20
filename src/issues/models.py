@@ -384,7 +384,7 @@ class Proposal(UIDMixin):
     types = ProposalType
 
     title = models.CharField(_("Title"), max_length=300)
-    content = HTMLField(_("Content"), null=True, blank=True)
+    content = HTMLField(_("Details"), null=True, blank=True)
 
     status = models.IntegerField(choices=ProposalStatus.choices,
                                  default=ProposalStatus.IN_DISCUSSION)

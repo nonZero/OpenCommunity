@@ -91,13 +91,13 @@ id="member-profile"
 	<h2>{% trans "Summary of votes participation" %}</h2>
 	<ul class="nav nav-tabs">
 		<li class="active">
-			<a href="#pro" data-toggle="tab" style="background: #a4cb53;">{% trans "Pro" %} ({{ object.member_proposal_pro_votes.count }})</a>
+			<a href="#pro" data-toggle="tab" style="background: #a4cb53;">{% trans "For" %} ({{ object.member_proposal_pro_votes.count }})</a>
 		</li>
 		<li>
-			<a href="#neutral" data-toggle="tab" style="background: #ffffff;">{% trans "Neutral" %} ({{ object.member_proposal_nut_votes.count }})</a>
+			<a href="#neutral" data-toggle="tab" style="background: #ffffff;">{% trans "Abstain" %} ({{ object.member_proposal_nut_votes.count }})</a>
 		</li>
 		<li>
-			<a href="#con" data-toggle="tab" style="background: #d95e59;">{% trans "Con" %} ({{ object.member_proposal_con_votes.count }})</a>
+			<a href="#con" data-toggle="tab" style="background: #d95e59;">{% trans "Against" %} ({{ object.member_proposal_con_votes.count }})</a>
 		</li>
 	</ul>
 	<div class="tab-content">

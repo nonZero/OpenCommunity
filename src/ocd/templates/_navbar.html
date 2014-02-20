@@ -8,7 +8,7 @@
 		<span class="navbar-brand"> {% if community %}
 		{{community}}{% if community.board_name %} - {{community.board_name}}{% endif %}
 		{% else %}
-		{% trans "Open Community" %}
+		{% trans "DemOS" %}
 		{% endif %} </span>
 	</div>
 	<div class="navbar-collapse collapse oc-panel">
@@ -18,7 +18,7 @@
 		<ul class="nav navbar-nav navbar-right">
 		{% if user.is_authenticated %}
 			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">{% if user.display_name %}{{user.display_name}}{% else %}{% trans "Open Community" %}{% endif %} <b class="caret"></b></a>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">{% if user.display_name %}{{user.display_name}}{% else %}{% trans "DemOS" %}{% endif %} <b class="caret"></b></a>
 				<ul class="dropdown-menu">
 					{% include '_user_panel.html' %}
 				</ul>

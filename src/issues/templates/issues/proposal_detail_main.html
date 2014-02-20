@@ -53,7 +53,7 @@
         {% if object.type == 1 %}
             {% if object.assigned_to %}
     			<div class="pull-left">
-              <h5><i class="fa fa-hand-o-left"></i> {% trans "Assigned to" %}: {{ object.assigned_to }}&nbsp;&nbsp;</h5>
+              <h5><i class="fa fa-hand-o-{% if LANGUAGE_CODE == 'he' %}left{% else %}right{% endif %}"></i> {% trans "Assigned to" %}: {{ object.assigned_to }}&nbsp;&nbsp;</h5>
 	        	</div>
             {% if object.assigned_to and object.due_by %}{% endif %}
             {% endif %}
@@ -96,17 +96,17 @@
 			<div class="col-xs-8">
 				<div class="col-xs-4 text-center" style="background: #a4cb53;">
 					<h5 style="margin:5px 0">
-						<button class="btn btn-default btn-sm all-pro" data-value="pro" data-href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}">{% trans "Pro" %}</button>
+						<button class="btn btn-default btn-sm all-pro" data-value="pro" data-href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}">{% trans "For" %}</button>
 					</h5>
 				</div>
 				<div class="col-xs-4 text-center" style="background: #ffffff;">
 					<h5 style="margin:5px 0">
-						<button class="btn btn-default btn-sm all-neutral" data-value="reset" data-href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}">{% trans "Neutral" %}</button>
+						<button class="btn btn-default btn-sm all-neutral" data-value="reset" data-href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}">{% trans "Abstain" %}</button>
 					</h5>
 				</div>
 				<div class="col-xs-4 text-center" style="background: #d95e59;">
 					<h5 style="margin:5px 0">
-						<button class="btn btn-default btn-sm all-con" data-value="con" data-href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}">{% trans "Con" %}</button>
+						<button class="btn btn-default btn-sm all-con" data-value="con" data-href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}">{% trans "Against" %}</button>
 					</h5>
 				</div>
 			</div>
