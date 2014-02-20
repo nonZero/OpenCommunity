@@ -5,7 +5,7 @@
 	{% if cperms.community.editagenda_community %}
 		<div class="grab"></div>
 	{% endif %}
-	<a href="{{i.get_absolute_url}}"{% if not object.upcoming_meeting_is_published %} style="margin-left: 100px;"{% endif %}>
+	<a href="{{i.get_absolute_url}}"{% if not object.upcoming_meeting_is_published %} style="margin-{% if LANGUAGE_CODE == 'he' %}left{% else %}right{% endif %}: 100px;"{% endif %}>
 		{{i.title}}
 	</a>
 
