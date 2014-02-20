@@ -274,6 +274,22 @@ class Community(UIDMixin):
                        self.upcoming_meeting_participants.values_list(
                                                           'email', flat=True)))
 
+        if send_to != SendToOption.ONLY_ME:
+            guest_emails = []
+            guests = data['object'].guests if data.has_key('object') \
+                     else self.upcoming_meeting_guests 
+            if guests:
+                for line in guests.splitlines():
+                    if '[' in line:
+                        from_idx = line.find('[')
+                        to_idx = line.find(']', from_idx + 1)
+                        try:
+                            guest_emails.append(line[from_idx+1:to_idx])
+                        except:
+                            pass
+                # add meeting guests to recipient_list
+                recipient_list.update(guest_emails)
+
         logger.info("Sending agenda to %d users" % len(recipient_list))
 
         send_mails(from_email, recipient_list, subject, message, html_message)
@@ -404,12 +420,15 @@ class Community(UIDMixin):
 
                 for p in issue.proposals.all():
                     if p.votes_pro is not None:
-                        VoteResult.objects.create(
-                            proposal=p,
-                            meeting=m,
-                            votes_pro=p.votes_pro,
-                            votes_con=p.votes_con,
-                            community_members=p.community_members)
+                        try:
+                            VoteResult.objects.create(
+                                proposal=p,
+                                meeting=m,
+                                votes_pro=p.votes_pro,
+                                votes_con=p.votes_con,
+                                community_members=p.community_members)
+                        except:
+                            pass
                             
                 for c in issue.comments.filter(meeting=None):
                     c.meeting = m
