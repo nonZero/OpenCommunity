@@ -18,7 +18,7 @@ from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, 
 from issues.models import ProposalType, Issue, IssueStatus, ProposalVote, \
     ProposalVoteBoard, ProposalVoteValue, VoteResult
 from meetings.models import Meeting
-from oc_util.templatetags.opencommunity import minutes
+from oc_util.templatetags.opencommunity import minutes, board_voters_on_proposal
 from ocd.base_views import CommunityMixin, AjaxFormView, json_response
 from ocd.validation import enhance_html
 from shultze_vote import send_issue_ranking
@@ -434,8 +434,7 @@ class ProposalDetailView(ProposalMixin, DetailView):
             participants = o.issue.community.upcoming_meeting_participants.all()
 
          
-        board_votes = ProposalVoteBoard.objects.filter(proposal=o).exclude( \
-                                    value=ProposalVoteValue.NEUTRAL)
+        board_votes = ProposalVoteBoard.objects.filter(proposal=o)
         try:
             group = self.request.user.memberships.get(community=self.issue.community).default_group_name
         except:
@@ -459,17 +458,22 @@ class ProposalDetailView(ProposalMixin, DetailView):
 
 
         show_to_member = group == DefaultGroups.MEMBER and o.decided_at_meeting
-        show_to_board = group == DefaultGroups.BOARD and \
-                                 (is_current or o.decided_at_meeting)
+        show_to_board = (group == DefaultGroups.BOARD or \
+                         group == DefaultGroups.SECRETARY) and \
+                        (is_current or o.decided_at_meeting)
         show_to_chairman = group == DefaultGroups.CHAIRMAN and o.decided 
         show_board_vote_result = board_votes.count() and \
                                   (show_to_member or show_to_board or show_to_chairman)
+        board_attending = board_voters_on_proposal(o)
         context['issue_frame'] = self.request.GET.get('s', None)
         context['user_vote'] = o.board_vote_by_member(self.request.user.id)
-        context['show_board_vote_result'] = show_board_vote_result 
+        context['show_board_vote_result'] = show_board_vote_result
         context['chairman_can_vote'] = is_current and not o.decided
         context['board_votes'] = self.board_votes_dict()
-        context['board_attending'] = self.community.meeting_participants()['board']
+        context['can_board_vote_self'] = is_current and not o.decided and \
+                                      (group == DefaultGroups.BOARD or \
+                                       group == DefaultGroups.SECRETARY) and \
+                                      self.request.user in board_attending
         return context
 
     def post(self, request, *args, **kwargs):
@@ -605,14 +609,6 @@ class ProposalVoteView(CommunityMixin, DetailView):
         if is_board:
             vote.voted_by_chairman = by_chairman
         vote.save()
-        dd = render_to_string(res_panel_tpl, 
-                                         {
-                                             'proposal': proposal,
-                                              'community': self.community,
-                                             'board_attending': self.community.meeting_participants()['board'],
-                                         })
-        print dd
-        print '========> ', res_panel_tpl, proposal.id
         vote_response = json_response({
                 'result': 'ok',
                 'html': render_to_string(vote_panel_tpl,
@@ -647,6 +643,9 @@ class MultiProposalVoteView(CommunityMixin, DetailView):
         elif val == 'con':
             value = ProposalVoteValue.CON
         elif val == 'reset':
+            value = ProposalVoteValue.NEUTRAL
+
+            """
             ProposalVoteBoard.objects.filter(proposal_id=pid,
                                         user_id__in=voter_ids).delete()
             return json_response({
@@ -663,6 +662,7 @@ class MultiProposalVoteView(CommunityMixin, DetailView):
                         'board_attending': self.community.meeting_participants()['board'],
                     })
             })
+            """
 
         else:
             return HttpResponseBadRequest('vote value not valid')
@@ -671,6 +671,7 @@ class MultiProposalVoteView(CommunityMixin, DetailView):
             vote, created = ProposalVoteBoard.objects.get_or_create(
                         proposal_id=pid, user_id=user_id)
             vote.value = value
+            vote.voted_by_chairman = True
             vote.save()
         return json_response({
             'result': 'ok',

@@ -35,7 +35,7 @@ $(function() {
 	$(".container").on("click", ".all-pro,.all-con,.all-neutral", function(event) {
 		var vote_value = $(this).data('value');
 		var target = $(this).data('href') + "multi/";
-		var user_ids = $.map($('input[value="' + vote_value + '"]').prop("checked", "1"), function(obj) {
+		var user_ids = $.map($('fieldset:not([disabled]) input[value="' + vote_value + '"]').prop("checked", "1"), function(obj) {
 			return $(obj).attr('name').substr(11);
 		});
 		all_members_vote(target, vote_value, user_ids);

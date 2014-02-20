@@ -182,6 +182,7 @@ def board_vote(proposal, val, participants):
 """
 
 def board_voters_on_proposal(proposal):
+    """ potential board voters """
     if proposal.decided_at_meeting:
         board_attn = proposal.decided_at_meeting.participations.board() 
     else:
