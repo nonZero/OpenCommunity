@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-20 17:31+0200\n"
+"POT-Creation-Date: 2014-02-22 10:29+0200\n"
 "PO-Revision-Date: 2014-02-20 17:24+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -348,12 +348,6 @@ msgstr "כל הפגישות"
 msgid "Login to vote"
 msgstr "הכנס בכדי להצביע"
 
-#: .\templates\communities\upcoming.html.py:79
-#: .\templates\emails\_protocol.html.py:37
-#: .\templates\emails\agenda.html.py:57 .\templatetags\community_tags.py:14
-msgid "Not set yet"
-msgstr "טרם נקבע"
-
 #: .\templates\communities\upcoming.html.py:81
 #: .\templates\emails\_protocol.html.py:54
 msgid "Participants"
@@ -423,6 +417,11 @@ msgstr "לצפיה באתר"
 msgid "Meeting details"
 msgstr "פרטי הפגישה"
 
+#: .\templates\emails\_protocol.html.py:37
+#: .\templates\emails\agenda.html.py:57
+msgid "Not set yet"
+msgstr "טרם נקבע"
+
 #: .\templates\emails\_protocol.html.py:74
 msgid "Issues & Decisions"
 msgstr "נושאים והחלטות"
@@ -485,6 +484,10 @@ msgstr "סדר יום לפגישה הקרובה"
 #: .\templates\emails\protocol_draft_title.txt.py:3
 msgid "Meeting summary draft"
 msgstr "טיוטת סיכום פגישה"
+
+#: .\templatetags\community_tags.py:14
+msgid "--/--/--"
+msgstr ""
 
 #: .\templatetags\community_tags.py:38
 msgid "Started"

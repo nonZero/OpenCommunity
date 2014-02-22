@@ -598,7 +598,7 @@ class ProposalVoteView(CommunityMixin, DetailView):
             value = ProposalVoteValue.PRO
         elif val == 'con':
             value = ProposalVoteValue.CON
-        elif val == 'neut':
+        elif val == 'reset':
             value = ProposalVoteValue.NEUTRAL
         else:
             return HttpResponseBadRequest('vote value not valid')
@@ -682,5 +682,11 @@ class MultiProposalVoteView(CommunityMixin, DetailView):
                                              'proposal': proposal,
                                              'community': self.community,
                                          }),
+            'sum': render_to_string('issues/_member_vote_sum.html',
+                {
+                    'proposal': proposal,
+                    'community': self.community,
+                    'board_attending': self.community.meeting_participants()['board'],
+                })
         })
 

@@ -80,6 +80,7 @@
         {% endif %}
         {% if proposal.can_show_straw_votes %}
             <div id="results_container">
+            	<h2>{% trans "Straw vote result" %}</h2>
                 {% include 'issues/_proposal_vote_results.html' %}
             </div>
         {% endif %}
@@ -128,7 +129,7 @@
 					<div class="col-xs-4 text-center" style="background: #ffffff;">
 						<div class="radio-inline">
 							<label>
-								<input type="radio" data-href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}" name="votesRadios{{key.id}}" value="neut" {% if vote and vote.value == 0 %}checked="checked"{% endif %}>
+								<input type="radio" data-href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}" name="votesRadios{{key.id}}" value="reset" {% if vote and vote.value == 0 %}checked="checked"{% endif %}>
 							</label>
 						</div>
 					</div>

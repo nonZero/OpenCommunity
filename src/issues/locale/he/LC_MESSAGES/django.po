@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-20 17:31+0200\n"
-"PO-Revision-Date: 2014-02-20 17:29+0200\n"
+"POT-Creation-Date: 2014-02-22 10:29+0200\n"
+"PO-Revision-Date: 2014-02-22 10:30+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -179,7 +179,7 @@ msgid "User"
 msgstr "משתמש"
 
 #: .\models.py:305 .\models.py:323
-#: .\templates\issues\proposal_detail_main.html.py:92
+#: .\templates\issues\proposal_detail_main.html.py:93
 msgid "Vote"
 msgstr "הצבעה"
 
@@ -269,14 +269,14 @@ msgstr "פגישה"
 #: .\templates\issues\_board_vote_self.html.py:6
 #: .\templates\issues\_proposal_vote_results.html.py:29
 #: .\templates\issues\_vote_panel.html.py:4
-#: .\templates\issues\proposal_detail_main.html.py:99
+#: .\templates\issues\proposal_detail_main.html.py:100
 msgid "For"
 msgstr "בעד"
 
 #: .\templates\issues\_absent_member_vote.html.py:8
 #: .\templates\issues\_board_vote_res.html.py:19
 #: .\templates\issues\_board_vote_self.html.py:9
-#: .\templates\issues\proposal_detail_main.html.py:104
+#: .\templates\issues\proposal_detail_main.html.py:105
 msgid "Abstain"
 msgstr "נמנע"
 
@@ -285,7 +285,7 @@ msgstr "נמנע"
 #: .\templates\issues\_board_vote_self.html.py:12
 #: .\templates\issues\_proposal_vote_results.html.py:31
 #: .\templates\issues\_vote_panel.html.py:7
-#: .\templates\issues\proposal_detail_main.html.py:109
+#: .\templates\issues\proposal_detail_main.html.py:110
 msgid "Against"
 msgstr "נגד"
 
@@ -533,15 +533,19 @@ msgstr "ההצעה נדחתה"
 msgid "Cancel approval"
 msgstr "בטל"
 
-#: .\templates\issues\proposal_detail_main.html.py:92
+#: .\templates\issues\proposal_detail_main.html.py:83
+msgid "Straw vote result"
+msgstr "תוצאות הצבעת קש"
+
+#: .\templates\issues\proposal_detail_main.html.py:93
 msgid "Board"
 msgstr "ועד"
 
-#: .\templates\issues\proposal_detail_main.html.py:163
+#: .\templates\issues\proposal_detail_main.html.py:164
 msgid "Accept proposal"
 msgstr "קבל את ההחלטה"
 
-#: .\templates\issues\proposal_detail_main.html.py:168
+#: .\templates\issues\proposal_detail_main.html.py:169
 msgid "Reject proposal"
 msgstr "דחה הצעה"
 

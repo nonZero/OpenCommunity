@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-20 17:31+0200\n"
+"POT-Creation-Date: 2014-02-22 10:29+0200\n"
 "PO-Revision-Date: 2014-02-20 17:31+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -94,19 +94,19 @@ msgstr "משתמש"
 msgid "users"
 msgstr "משתמשים"
 
-#: .\models.py:117 .\models.py:212
+#: .\models.py:117 .\models.py:216
 msgid "Community"
 msgstr "קהילה"
 
-#: .\models.py:119 .\models.py:226
+#: .\models.py:119 .\models.py:230
 msgid "User"
 msgstr "משתמש"
 
-#: .\models.py:121 .\models.py:229
+#: .\models.py:121 .\models.py:233
 msgid "Group"
 msgstr "קבוצה"
 
-#: .\models.py:125 .\models.py:215
+#: .\models.py:125 .\models.py:219
 msgid "Created at"
 msgstr "נוצר בתאריך"
 
@@ -122,59 +122,59 @@ msgstr "חבר קהילה"
 msgid "Community Members"
 msgstr "חברי קהילה"
 
-#: .\models.py:204
+#: .\models.py:208
 msgid "Pending"
 msgstr "ממתין למשלוח"
 
-#: .\models.py:205
+#: .\models.py:209
 msgid "Sent"
 msgstr "נשלח"
 
-#: .\models.py:206
+#: .\models.py:210
 msgid "Failed"
 msgstr "נכשל"
 
-#: .\models.py:217
+#: .\models.py:221
 msgid "Created by"
 msgstr "נוצר על ידי"
 
-#: .\models.py:220
+#: .\models.py:224
 msgid "Name"
 msgstr "שם"
 
-#: .\models.py:221 .\templates\users\member_profile.html.py:21
+#: .\models.py:225 .\templates\users\member_profile.html.py:21
 msgid "Email"
 msgstr "דואל"
 
-#: .\models.py:222
+#: .\models.py:226
 msgid "Message"
 msgstr "הודעה"
 
-#: .\models.py:232
+#: .\models.py:236
 msgid "Status"
 msgstr "סטאטוס"
 
-#: .\models.py:234
+#: .\models.py:238
 msgid "Times Sent"
 msgstr "מספר הפעמים שההזמנה נשלחה"
 
-#: .\models.py:235
+#: .\models.py:239
 msgid "Error count"
 msgstr "מספר הפעימים שהמשלוח נכשל"
 
-#: .\models.py:236
+#: .\models.py:240
 msgid "Sent at"
 msgstr "נשלח לאחרונה ב"
 
-#: .\models.py:241
+#: .\models.py:245
 msgid "Invitation"
 msgstr "הזמנה"
 
-#: .\models.py:242 .\templates\users\membership_list.html.py:57
+#: .\models.py:246 .\templates\users\membership_list.html.py:57
 msgid "Invitations"
 msgstr "הזמנות"
 
-#: .\models.py:244
+#: .\models.py:248
 #, python-format
 msgid ""
 "The system will allow you to take part in the decision making process of %s. "
@@ -186,7 +186,7 @@ msgstr ""
 "אחרי אישור ההצטרפות ניתן לראות את הנושאים לדיון, את סדר היום לישיבה הקרובה, "
 "ואת סיכום ההחלטות מהישיבות הקודמות, ובעתיד ניתן יהיה גם לדון ולהשפיע עליהם."
 
-#: .\models.py:261
+#: .\models.py:265
 #, python-format
 msgid "Invitation to %s"
 msgstr "הזמנה לקהילה %s"
@@ -217,8 +217,8 @@ msgid "Hello"
 msgstr "שלום"
 
 #: .\templates\emails\invitation.txt.py:4
-#, python-format
-msgid "You were invited by %(u)s to join %(c)s."
+#, fuzzy, python-format
+msgid "You were invited by %(u|safe)s to join %(c|safe)s."
 msgstr "הוזמנת על ידי %(u)s להצטרף לקהילה %(c)s."
 
 #: .\templates\emails\invitation.txt.py:8
