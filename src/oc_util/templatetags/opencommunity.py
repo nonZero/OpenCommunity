@@ -203,10 +203,13 @@ def board_votes_count(p):
 def board_by_vote(p, val):
     participants = board_voters_on_proposal(p)
     if val == 'neut':
+        """
         voter_ids = ProposalVoteBoard.objects.filter(proposal=p) \
                     .exclude(value=ProposalVoteValue.NEUTRAL) \
                     .values_list('user', flat=True)
         return [u for u in participants if u.id not in voter_ids]
+        """
+        vote = ProposalVoteValue.NEUTRAL
     elif val == 'pro':
         vote = ProposalVoteValue.PRO
     elif val == 'con':

@@ -466,6 +466,7 @@ class ProposalDetailView(ProposalMixin, DetailView):
                                   (show_to_member or show_to_board or show_to_chairman)
         board_attending = board_voters_on_proposal(o)
         context['issue_frame'] = self.request.GET.get('s', None)
+        context['board_attending'] = board_attending
         context['user_vote'] = o.board_vote_by_member(self.request.user.id)
         context['show_board_vote_result'] = show_board_vote_result
         context['chairman_can_vote'] = is_current and not o.decided
@@ -587,24 +588,23 @@ class ProposalVoteView(CommunityMixin, DetailView):
         res_panel_tpl = 'issues/_board_vote_res.html' if is_board \
                             else 'issues/_vote_reset_panel.html' 
         
-
         value = ''
         if val == 'reset':
             vote = get_object_or_404(vote_class,
-                                     proposal_id=pid, user_id=voter_id)
+                                     proposal_id=pid, user_id=user_id)
             vote.delete()
             return vote_response
         elif val == 'pro':
             value = ProposalVoteValue.PRO
         elif val == 'con':
             value = ProposalVoteValue.CON
-        elif val == 'reset':
+        elif val == 'neut':
             value = ProposalVoteValue.NEUTRAL
         else:
             return HttpResponseBadRequest('vote value not valid')
         
         vote, created = vote_class.objects.get_or_create(proposal_id=pid, 
-                                                         user_id=voter_id)
+                                                         user_id=user_id)
         vote.value=value
         if is_board:
             vote.voted_by_chairman = by_chairman
@@ -612,18 +612,18 @@ class ProposalVoteView(CommunityMixin, DetailView):
         vote_response = {
                 'result': 'ok',
                 'html': render_to_string(vote_panel_tpl,
-                                         {
-                                             'proposal': proposal,
-                                             'community': self.community,
-                                         }),
-            }
-
-        if not (is_board and by_chairman):
-            vote_response['sum'] = render_to_string(res_panel_tpl, 
                     {
                         'proposal': proposal,
                         'community': self.community,
-                        'board_attending': self.community.meeting_participants()['board'],
+                    }),
+            }
+
+        if is_board and by_chairman:
+            vote_response['sum'] = render_to_string('issues/_member_vote_sum.html', 
+                    {
+                        'proposal': proposal,
+                        'community': self.community,
+                        'board_attending': board_voters_on_proposal(proposal),
                     })
         return json_response(vote_response)
 
@@ -644,7 +644,7 @@ class MultiProposalVoteView(CommunityMixin, DetailView):
             value = ProposalVoteValue.PRO
         elif val == 'con':
             value = ProposalVoteValue.CON
-        elif val == 'reset':
+        elif val == 'neut':
             value = ProposalVoteValue.NEUTRAL
 
             """
@@ -657,12 +657,6 @@ class MultiProposalVoteView(CommunityMixin, DetailView):
                                              'proposal': proposal,
                                              'community': self.community,
                                          }),
-                'sum': render_to_string('issues/_member_vote_sum.html',
-                    {
-                        'proposal': proposal,
-                        'community': self.community,
-                        'board_attending': self.community.meeting_participants()['board'],
-                    })
             })
             """
 
@@ -678,15 +672,15 @@ class MultiProposalVoteView(CommunityMixin, DetailView):
         return json_response({
             'result': 'ok',
             'html': render_to_string('issues/_vote_reset_panel.html',
-                                        {
-                                             'proposal': proposal,
-                                             'community': self.community,
-                                         }),
+                                {
+                                      'proposal': proposal,
+                                      'community': self.community,
+                                  }),
             'sum': render_to_string('issues/_member_vote_sum.html',
                 {
                     'proposal': proposal,
                     'community': self.community,
-                    'board_attending': self.community.meeting_participants()['board'],
+                    'board_attending': board_voters_on_proposal(proposal),
                 })
         })
 
