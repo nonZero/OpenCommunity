@@ -587,12 +587,26 @@ class ProposalVoteView(CommunityMixin, DetailView):
     
         res_panel_tpl = 'issues/_board_vote_res.html' if is_board \
                             else 'issues/_vote_reset_panel.html' 
-        
+        vote_response = {
+                'result': 'ok',
+                'html': render_to_string(res_panel_tpl,
+                    {
+                        'proposal': proposal,
+                        'community': self.community,
+                    }),
+        }
+
         value = ''
         if val == 'reset':
             vote = get_object_or_404(vote_class,
                                      proposal_id=pid, user_id=user_id)
             vote.delete()
+            vote_response['html'] = render_to_string(res_panel_tpl,
+                    {
+                        'proposal': proposal,
+                        'community': self.community,
+                    })
+ 
             return vote_response
         elif val == 'pro':
             value = ProposalVoteValue.PRO
@@ -609,15 +623,11 @@ class ProposalVoteView(CommunityMixin, DetailView):
         if is_board:
             vote.voted_by_chairman = by_chairman
         vote.save()
-        vote_response = {
-                'result': 'ok',
-                'html': render_to_string(vote_panel_tpl,
-                    {
-                        'proposal': proposal,
-                        'community': self.community,
-                    }),
-            }
-
+        vote_response['html'] = render_to_string(res_panel_tpl,
+                {
+                    'proposal': proposal,
+                    'community': self.community,
+                })
         if is_board and by_chairman:
             vote_response['sum'] = render_to_string('issues/_member_vote_sum.html', 
                     {

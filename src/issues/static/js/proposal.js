@@ -37,7 +37,7 @@ $(function () {
                         current.removeClass('vote_marked');
                     }
                     elem.addClass('vote_marked');
-                    $('.board_vote').replaceWith(data['sum']);
+                    $('.board_vote').replaceWith(data['html']);
                 }
                 else {
                     btn_div.replaceWith(data['html']);
