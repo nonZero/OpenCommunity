@@ -601,13 +601,13 @@ class ProposalVoteView(CommunityMixin, DetailView):
             vote = get_object_or_404(vote_class,
                                      proposal_id=pid, user_id=user_id)
             vote.delete()
-            vote_response['html'] = render_to_string(res_panel_tpl,
+            vote_response['html'] = render_to_string(vote_panel_tpl,
                     {
                         'proposal': proposal,
                         'community': self.community,
                     })
  
-            return vote_response
+            return json_response(vote_response)
         elif val == 'pro':
             value = ProposalVoteValue.PRO
         elif val == 'con':
