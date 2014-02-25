@@ -398,12 +398,7 @@ class Proposal(UIDMixin):
                                          null=True, blank=True,
                                          related_name="proposals_assigned")
     due_by = models.DateField(_("Due by"), null=True, blank=True)
-    """
-    votes = models.ManyToManyField(settings.AUTH_USER_MODEL,
-                                   verbose_name=_("Votes"), blank=True,
-                                   related_name="proposals",
-                                   through="ProposalVote")
-    """                               
+    task_completed = models.BooleanField(_("Completed"), default=False)
     votes_pro = models.PositiveIntegerField(_("Votes pro"), null=True, blank=True)
     votes_con = models.PositiveIntegerField(_("Votes con"), null=True, blank=True)
     community_members = models.PositiveIntegerField(_("Community members"),
