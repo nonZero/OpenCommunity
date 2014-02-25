@@ -158,33 +158,37 @@ class Membership(models.Model):
         """ In the future we'll check since joined to community or rejoined """
         return round((float(self.meetings_participation()) / float(self.total_meetings())) * 100.0)
 
-#     def member_tasks(self):
-#         return Proposal.objects.filter(assigned_to_user=self.user).all()
-
     def member_open_tasks(self):
-        return Proposal.objects.filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, due_by__gte=datetime.date.today(), active=True)
+        return Proposal.objects.filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, due_by__gte=datetime.date.today(), active=True, task_completed=False)
 
     def member_close_tasks(self):
         """ Need to create a field to determine closed tasks """
-        return Proposal.objects.filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, active=True)
+        return Proposal.objects.filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, active=True, task_completed=True)
 
     def member_late_tasks(self):
-        return Proposal.objects.filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, due_by__lte=datetime.date.today(), active=True)
+        return Proposal.objects.filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, due_by__lte=datetime.date.today(), active=True, task_completed=False)
 
-    def member_proposal_pro_votes(self):
-        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.PRO).exclude(proposal__status=ProposalStatus.IN_DISCUSSION)
+    def member_votes_dict(self):
+        res = {'pro': [], 'neut': [], 'con': []}
+        votes = self.user.votes.select_related('proposal') \
+                .filter(proposal__issue__community_id=self.community_id,
+                        proposal__active=True) \
+                .order_by('proposal__issue__created_at', 'proposal__id')
+        for v in votes:
+            if v.value == ProposalVoteValue.NEUTRAL:
+                key = 'neut'
+            elif v.value == ProposalVoteValue.PRO:
+                key = 'pro'
+            elif v.value == ProposalVoteValue.CON:
+                key = 'con'
+            res[key].append(v.proposal)
+        return res
 
     def member_proposal_pro_votes_accepted(self):
         return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.PRO).exclude(proposal__status=ProposalStatus.IN_DISCUSSION).exclude(proposal__status=ProposalStatus.REJECTED)
 
-    def member_proposal_con_votes(self):
-        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.CON).exclude(proposal__status=ProposalStatus.IN_DISCUSSION)
-
     def member_proposal_con_votes_accepted(self):
         return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.CON).exclude(proposal__status=ProposalStatus.IN_DISCUSSION).exclude(proposal__status=ProposalStatus.ACCEPTED)
-
-    def member_proposal_nut_votes(self):
-        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.NEUTRAL).exclude(proposal__status=ProposalStatus.IN_DISCUSSION)
 
     def member_proposal_nut_votes_accepted(self):
         return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.NEUTRAL).exclude(proposal__status=ProposalStatus.IN_DISCUSSION).exclude(proposal__status=ProposalStatus.REJECTED)
