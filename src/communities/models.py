@@ -8,6 +8,7 @@ from issues.models import ProposalStatus, IssueStatus, VoteResult
 from meetings.models import MeetingParticipant, Meeting
 from ocd.base_models import HTMLField, UIDMixin
 from ocd.email import send_mails
+from ocd.views import get_guests_emails
 from users.default_roles import DefaultGroups
 from users.models import OCUser, Membership
 import issues.models as issues_models
@@ -225,12 +226,13 @@ class Community(UIDMixin):
             return []
         return filter(None, [s.strip() for s in self.upcoming_meeting_guests.splitlines()])
 
+
     def full_participants(self):
         guests_count = len(self.upcoming_meeting_guests.splitlines()) \
                         if self.upcoming_meeting_guests else 0 
         return guests_count + self.upcoming_meeting_participants.count()
 
-    def send_mail(self, template, sender, send_to, data=None, base_url=None):
+    def send_mail(self, template, sender, send_to, data=None, base_url=None, with_guests=False):
 
         if not base_url:
             base_url = settings.HOST_URL
@@ -275,20 +277,9 @@ class Community(UIDMixin):
                                                           'email', flat=True)))
 
         if send_to != SendToOption.ONLY_ME:
-            guest_emails = []
-            guests = data['object'].guests if data.has_key('object') \
-                     else self.upcoming_meeting_guests 
-            if guests:
-                for line in guests.splitlines():
-                    if '[' in line:
-                        from_idx = line.find('[')
-                        to_idx = line.find(']', from_idx + 1)
-                        try:
-                            guest_emails.append(line[from_idx+1:to_idx])
-                        except:
-                            pass
-                # add meeting guests to recipient_list
-                recipient_list.update(guest_emails)
+            guests_text = meeting.guests if meeting else self.upcoming_meeting_guests
+            # add meeting guests to recipient_list
+            recipient_list.update(get_guests_emails(guests_text))
 
         logger.info("Sending agenda to %d users" % len(recipient_list))
 
