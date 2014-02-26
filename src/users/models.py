@@ -196,10 +196,10 @@ class Membership(models.Model):
         return res
 
     def member_proposal_pro_votes_accepted(self):
-        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.PRO).exclude(proposal__status=ProposalStatus.IN_DISCUSSION).exclude(proposal__status=ProposalStatus.REJECTED)
+        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.PRO, proposal__status=ProposalStatus.ACCEPTED)
 
-    def member_proposal_con_votes_accepted(self):
-        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.CON).exclude(proposal__status=ProposalStatus.IN_DISCUSSION).exclude(proposal__status=ProposalStatus.ACCEPTED)
+    def member_proposal_con_votes_rejected(self):
+        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.CON, proposal__status=ProposalStatus.REJECTED)
 
     def member_proposal_nut_votes_accepted(self):
         return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.NEUTRAL).exclude(proposal__status=ProposalStatus.IN_DISCUSSION).exclude(proposal__status=ProposalStatus.REJECTED)

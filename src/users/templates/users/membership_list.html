@@ -23,11 +23,11 @@ id="members-list"
 	<ul class="list-group">
 		{% for board in board_list %}
 		<li class="list-group-item">
-			{# <a href="{{ board.get_absolute_url }}" style="color: #333333;"> #}
+			<a href="{{ board.get_absolute_url }}" style="color: #333333;">
 				{{ board.user.display_name }}
 				({{ board.get_default_group_name_display }})<br />
 				<span style="font-size: 12px;">{{ board.user.email }}</span>
-			{# </a> #}
+			</a>
 		</li>
 		{% endfor %}
 	</ul>

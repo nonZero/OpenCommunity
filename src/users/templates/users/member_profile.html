@@ -91,13 +91,13 @@ id="member-profile"
 	<h2>{% trans "Summary of votes participation" %}</h2>
 	<ul class="nav nav-tabs">
 		<li class="active">
-			<a href="#pro" data-toggle="tab" style="background: #a4cb53;">{% trans "For" %} ({{ object.member_votes_dict.pro|length }})</a>
+			<a href="#pro" data-toggle="tab" style="background: #a4cb53;">{% trans "For" %} ({{ object.member_votes_dict.pro_count }})</a>
 		</li>
 		<li>
-			<a href="#neutral" data-toggle="tab" style="background: #ffffff;">{% trans "Abstain" %} ({{ object.member_votes_dict.neut|length }})</a>
+			<a href="#neutral" data-toggle="tab" style="background: #ffffff;">{% trans "Abstain" %} ({{ object.member_votes_dict.neut_count }})</a>
 		</li>
 		<li>
-			<a href="#con" data-toggle="tab" style="background: #d95e59;">{% trans "Against" %} ({{ object.member_votes_dict.con|length }})</a>
+			<a href="#con" data-toggle="tab" style="background: #d95e59;">{% trans "Against" %} ({{ object.member_votes_dict.con_count }})</a>
 		</li>
 	</ul>
 	<div class="tab-content">
@@ -167,8 +167,8 @@ id="member-profile"
 			<div class="tab-content-neutral">
 				{% if object.member_votes_dict.con_count %}
 				<p>
-					{% widthratio object.member_proposal_con_votes_accepted.count object.member_votes_dict.con_count 100 %}%
-					{% trans "of decisions voted against were rejected" %} ({{ object.member_proposal_con_votes_accepted.count }})
+					{% widthratio object.member_proposal_con_votes_rejected.count object.member_votes_dict.con_count 100 %}%
+					{% trans "of decisions voted against were rejected" %} ({{ object.member_proposal_con_votes_rejected.count }})
 				</p>
 				{% for issue,proposals in object.member_votes_dict.con.items %}
 				<div class="member_proposals_outer">

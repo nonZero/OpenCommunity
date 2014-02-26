@@ -112,6 +112,26 @@ id="issue-detail"
                             {% endif %}
                         {% endif %}
                     {% endif %}
+					{% if cperms.meetings.add_meeting %}
+						{% if object.completed and object.is_current or object.is_archived %}
+						<form id="issue-undo-complete"  method="post" action="{% url 'issue_complete' community.id issue.id %}">
+							{% csrf_token %}
+							<input name="undo_complete" type="hidden" value="1"/>
+							<button class="close-issue-btn btn btn-oc btn-sm">
+								{% trans "Undo complete discussion" %}
+							</button>
+						</form>
+	
+						{% elif not object.is_archived and object.in_closed_meeting %}
+						<form id="issue-archive" method="post" action="{% url 'issue_complete' community.id issue.id %}">
+							{% csrf_token %}
+							<input name="archive" type="hidden" value="1"/>
+							<button class="close-issue-btn btn btn-oc btn-sm">
+								{% trans "Archive issue" %}
+							</button>
+						</form>
+						{% endif %}
+					{% endif %}
                 </div>
             {% endif %}
 			{% for ai in object.agenda_items.all reversed %}

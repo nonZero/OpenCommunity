@@ -229,6 +229,8 @@ class AutocompleteMemberName(MembershipMixin, ListView):
         
 class MemberProfile(MembershipMixin, DetailView):
     
+    required_permission = 'users.show_member_profile'
+    
     model = models.Membership
     template_name = "users/member_profile.html"
     
