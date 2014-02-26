@@ -50,6 +50,9 @@ urlpatterns = patterns('',
     url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/delete/$',
         views.ProposalDeleteView.as_view(), name="proposal_delete"),
 
+    url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/task_completed/$',
+        views.ProposalCompletedTaskView.as_view(), name="task_completed"),
+
     url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/edit-task/$',
         views.ProposalEditTaskView.as_view(), name="proposal_edit_task"),
 

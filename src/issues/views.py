@@ -23,6 +23,7 @@ from ocd.base_views import CommunityMixin, AjaxFormView, json_response
 from ocd.validation import enhance_html
 from shultze_vote import send_issue_ranking
 from users.default_roles import DefaultGroups
+from users.permissions import has_community_perm
 from users.models import Membership
 
 
@@ -370,6 +371,13 @@ class ProposalMixin(IssueMixin):
         return get_object_or_404(models.Issue, community=self.community,
                                  pk=self.kwargs['issue_id'])
 
+    def _can_complete_task(self):
+        o = self.get_object()
+        if self.request.user == o.assigned_to_user:
+            return True
+        return has_community_perm(self.request.user, self.community, 
+                              'issues.edittask_proposal')
+
     def get_queryset(self):
         return models.Proposal.objects.filter(issue=self.issue)
 
@@ -477,13 +485,13 @@ class ProposalDetailView(ProposalMixin, DetailView):
                                       self.request.user in board_attending
         return context
 
+
     def post(self, request, *args, **kwargs):
         """ Used to change a proposal status (accept/reject) 
             or a proposal's property completed/not completed
         """
         p = self.get_object()
         v = request.POST.get('accepted', None)
-        completed = request.POST.get('completed', None)
         if v:
             v = int(v)
             if v not in [
@@ -494,9 +502,6 @@ class ProposalDetailView(ProposalMixin, DetailView):
                 return HttpResponseBadRequest("Bad value for accepted POST parameter")
 
             p.status = v
-            p.save()
-        elif completed:
-            p.task_completed = completed == '1'
             p.save()
         return redirect(p.issue)
 
@@ -529,15 +534,16 @@ class ProposalEditTaskView(ProposalMixin, UpdateView):
 class ProposalCompletedTaskView(ProposalMixin, UpdateView):
     """ update a task as completed / un-completed
     """
+    
     def post(self, request, *args, **kwargs):
-        if request.POST.get(''):
-            pass
-        else:
-            pass
-
-    def get_required_permission(self):
-        o = self.get_object()
-        return 'issues.editclosed_proposal' if o.decided_at_meeting else 'issues.editopen_proposal'
+        if not self._can_complete_task():
+            return HttpResponseForbidden("403 Unauthorized")
+        p = self.get_object()
+        completed = request.POST.get('completed', None)
+        if completed:
+            p.task_completed = completed == '1'
+            p.save()
+            return redirect(p.issue)
 
 
 class ProposalDeleteView(AjaxFormView, ProposalMixin, DeleteView):

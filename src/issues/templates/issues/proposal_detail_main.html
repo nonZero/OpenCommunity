@@ -33,7 +33,7 @@
                   
                   {% if object.status == object.statuses.ACCEPTED and object.is_task %}
                   {% if cperms.issues.edittask_proposal or object.assigned_to_user == user %}
-                      <form id="task-completed-form" method="post">
+                  <form id="task-completed-form" method="post" action="{% url 'task_completed' community_id=community.id  issue_id=object.issue.id pk=object.id %}" >
                           {% csrf_token %}
                           <div class="text-center">
                               {% if object.task_completed %}
