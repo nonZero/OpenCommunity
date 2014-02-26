@@ -1617,11 +1617,22 @@ label[for=id_proposal-title] {
 	padding: 5px;
 	text-decoration: none;
 	color: #6C6C6E;
+	position: relative;
+	margin-bottom: -20px;
 }
 ul.prop-table.prop-pad {
-	padding-right: 5%;
-	background: #f5f6de;
 	border: 0;
+}
+.member_proposals_outer {
+	 background: #f5f6de;
+	 position: relative;
+	 margin-left: 5%;
+	 margin-bottom: 30px;
+}
+.member_proposals_inner {
+	 position: relative;
+	 right: 5%;
+	 bottom: -20px;
 }
 
 /* Footer */

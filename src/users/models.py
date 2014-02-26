@@ -169,7 +169,10 @@ class Membership(models.Model):
         return Proposal.objects.filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, due_by__lte=datetime.date.today(), active=True, task_completed=False)
 
     def member_votes_dict(self):
-        res = {'pro': [], 'neut': [], 'con': []}
+        res = {'pro': {}, 'neut': {}, 'con': {}}
+        pro_count = 0
+        con_count = 0
+        neut_count = 0
         votes = self.user.votes.select_related('proposal') \
                 .filter(proposal__issue__community_id=self.community_id,
                         proposal__active=True) \
@@ -177,11 +180,19 @@ class Membership(models.Model):
         for v in votes:
             if v.value == ProposalVoteValue.NEUTRAL:
                 key = 'neut'
+                neut_count += 1
             elif v.value == ProposalVoteValue.PRO:
                 key = 'pro'
+                pro_count += 1
             elif v.value == ProposalVoteValue.CON:
                 key = 'con'
-            res[key].append(v.proposal)
+                con_count += 1
+            issue_key = v.proposal.issue
+            p_list = res[key].setdefault(issue_key, [])
+            p_list.append(v.proposal)
+        res['pro_count'] = pro_count      
+        res['con_count'] = con_count
+        res['neut_count'] = neut_count
         return res
 
     def member_proposal_pro_votes_accepted(self):
