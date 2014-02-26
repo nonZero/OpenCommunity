@@ -1112,7 +1112,7 @@ form.delete-invitation {
 	font-weight: bold;
 }
 .vote_marked {
-border: 2px solid #333;
+	border: 2px solid #333;
 }
 .issue_proposal_vote .change_vote {
 	margin-top: -10px;
@@ -1506,7 +1506,7 @@ label[for=id_proposal-title] {
 .board_vote {
 	border: 1px solid #d8e0df;
 	padding: 10px;
-  clear: both;
+	clear: both;
 }
 .board_vote h4,
 .board_vote p {
