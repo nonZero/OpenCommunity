@@ -159,7 +159,7 @@ class Membership(models.Model):
         return round((float(self.meetings_participation()) / float(self.total_meetings())) * 100.0)
 
     def member_open_tasks(self):
-        return Proposal.objects.filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, due_by__gte=datetime.date.today(), active=True, task_completed=False)
+        return Proposal.objects.filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, active=True, task_completed=False).exclude(due_by__lte=datetime.date.today())
 
     def member_close_tasks(self):
         """ Need to create a field to determine closed tasks """
@@ -173,7 +173,7 @@ class Membership(models.Model):
         pro_count = 0
         con_count = 0
         neut_count = 0
-        votes = self.user.votes.select_related('proposal') \
+        votes = self.user.board_votes.select_related('proposal') \
                 .filter(proposal__issue__community_id=self.community_id,
                         proposal__active=True) \
                 .order_by('proposal__issue__created_at', 'proposal__id')

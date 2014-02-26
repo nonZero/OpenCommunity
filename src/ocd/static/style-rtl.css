@@ -1590,8 +1590,14 @@ label[for=id_proposal-title] {
 	padding: 10px;
 }
 .task_devider {
+	display: block;
 	border-bottom: 1px solid #dddddd;
 	margin-bottom: 10px;
+	color: #333333;
+}
+.task_devider:hover {
+	text-decoration: none;
+	color: #333333;
 }
 .task_devider:last-child {
 	border-bottom: 0;

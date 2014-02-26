@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-26 15:07+0200\n"
-"PO-Revision-Date: 2014-02-26 15:08+0200\n"
+"POT-Creation-Date: 2014-02-26 17:51+0200\n"
+"PO-Revision-Date: 2014-02-26 17:51+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -179,7 +179,6 @@ msgid "User"
 msgstr "משתמש"
 
 #: .\models.py:305 .\models.py:323
-#: .\templates\issues\proposal_detail_main.html.py:112
 msgid "Vote"
 msgstr "הצבעה"
 
@@ -235,7 +234,7 @@ msgid "Details"
 msgstr "פירוט"
 
 #: .\models.py:394 .\templates\issues\_proposal.html.py:19
-#: .\templates\issues\proposal_detail_main.html.py:75
+#: .\templates\issues\proposal_detail_main.html.py:81
 msgid "Assigned to"
 msgstr "אחראי"
 
@@ -244,7 +243,7 @@ msgid "Assigned to user"
 msgstr "אחראי"
 
 #: .\models.py:400 .\templates\issues\_proposal.html.py:22
-#: .\templates\issues\proposal_detail_main.html.py:81
+#: .\templates\issues\proposal_detail_main.html.py:87
 msgid "Due by"
 msgstr "יעד"
 
@@ -274,14 +273,14 @@ msgstr "פגישה"
 #: .\templates\issues\_board_vote_self.html.py:6
 #: .\templates\issues\_proposal_vote_results.html.py:29
 #: .\templates\issues\_vote_panel.html.py:4
-#: .\templates\issues\proposal_detail_main.html.py:119
+#: .\templates\issues\proposal_detail_main.html.py:125
 msgid "For"
 msgstr "בעד"
 
 #: .\templates\issues\_absent_member_vote.html.py:8
 #: .\templates\issues\_board_vote_res.html.py:19
 #: .\templates\issues\_board_vote_self.html.py:9
-#: .\templates\issues\proposal_detail_main.html.py:124
+#: .\templates\issues\proposal_detail_main.html.py:130
 msgid "Abstain"
 msgstr "נמנע"
 
@@ -290,13 +289,19 @@ msgstr "נמנע"
 #: .\templates\issues\_board_vote_self.html.py:12
 #: .\templates\issues\_proposal_vote_results.html.py:31
 #: .\templates\issues\_vote_panel.html.py:7
-#: .\templates\issues\proposal_detail_main.html.py:129
+#: .\templates\issues\proposal_detail_main.html.py:135
 msgid "Against"
 msgstr "נגד"
 
-#: .\templates\issues\_board_vote_res.html.py:4
-msgid "Chairman Vote"
-msgstr "הצבעת יו\"ר"
+#: .\templates\issues\_board_vote_res.html.py:3
+#: .\templates\issues\proposal_detail_main.html.py:118
+msgid "Vote by the"
+msgstr "הצבעה על ידי"
+
+#: .\templates\issues\_board_vote_res.html.py:3
+#: .\templates\issues\proposal_detail_main.html.py:118
+msgid "Board"
+msgstr "ועד"
 
 #: .\templates\issues\_comment.html.py:32
 #: .\templates\issues\_comment.html.py:41
@@ -342,19 +347,19 @@ msgid "Complete discussion"
 msgstr "הדיון הושלם"
 
 #: .\templates\issues\_issue_title.html.py:9
-#: .\templates\issues\proposal_detail_main.html.py:58
+#: .\templates\issues\proposal_detail_main.html.py:64
 msgid "Edit"
 msgstr "עריכה"
 
 #: .\templates\issues\_issue_title.html.py:10
 #: .\templates\issues\issue_confirm_delete.html.py:5
 #: .\templates\issues\proposal_confirm_delete.html.py:5
-#: .\templates\issues\proposal_detail_main.html.py:60
+#: .\templates\issues\proposal_detail_main.html.py:66
 msgid "Delete"
 msgstr "מחיקה"
 
 #: .\templates\issues\_issue_title.html.py:17
-#: .\templates\issues\proposal_detail_main.html.py:70
+#: .\templates\issues\proposal_detail_main.html.py:76
 msgid "By:"
 msgstr "מאת:"
 
@@ -539,6 +544,7 @@ msgid "Cancel approval"
 msgstr "בטל"
 
 #: .\templates\issues\proposal_detail_main.html.py:41
+#: .\templates\issues\proposal_detail_main.html.py:54
 msgid "Task completed"
 msgstr "המשימה הושלמה"
 
@@ -547,32 +553,32 @@ msgid "Cancel completed"
 msgstr "בטל השלמה"
 
 #: .\templates\issues\proposal_detail_main.html.py:46
+#: .\templates\issues\proposal_detail_main.html.py:56
 msgid "Task not completed"
-msgstr "המשימה טרם הושלמה"
+msgstr "משימה לביצוע"
 
 #: .\templates\issues\proposal_detail_main.html.py:48
 msgid "Complete task"
 msgstr "השלם משימה"
 
-#: .\templates\issues\proposal_detail_main.html.py:102
+#: .\templates\issues\proposal_detail_main.html.py:108
 msgid "Straw vote result"
-msgstr "תוצאות הצבעת קש"
+msgstr "תוצאות הצבעת שבשבת"
 
-#: .\templates\issues\proposal_detail_main.html.py:112
-msgid "Board"
-msgstr "ועד"
-
-#: .\templates\issues\proposal_detail_main.html.py:183
+#: .\templates\issues\proposal_detail_main.html.py:189
 msgid "Accept proposal"
 msgstr "קבל את ההחלטה"
 
-#: .\templates\issues\proposal_detail_main.html.py:188
+#: .\templates\issues\proposal_detail_main.html.py:194
 msgid "Reject proposal"
 msgstr "דחה הצעה"
 
 #: .\templates\issues\proposal_form.html.py:14
 msgid "Edit proposal"
 msgstr "עריכת הצעת החלטה"
+
+#~ msgid "Chairman Vote"
+#~ msgstr "הצבעת יו\"ר"
 
 #~ msgid "Create Issue"
 #~ msgstr "נושא חדש"

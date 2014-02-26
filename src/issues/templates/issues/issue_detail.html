@@ -117,7 +117,7 @@ id="issue-detail"
 						<form id="issue-undo-complete"  method="post" action="{% url 'issue_complete' community.id issue.id %}">
 							{% csrf_token %}
 							<input name="undo_complete" type="hidden" value="1"/>
-							<button class="close-issue-btn btn btn-oc btn-sm">
+							<button class="close-issue-btn btn btn-default btn-sm">
 								{% trans "Undo complete discussion" %}
 							</button>
 						</form>
@@ -126,7 +126,7 @@ id="issue-detail"
 						<form id="issue-archive" method="post" action="{% url 'issue_complete' community.id issue.id %}">
 							{% csrf_token %}
 							<input name="archive" type="hidden" value="1"/>
-							<button class="close-issue-btn btn btn-oc btn-sm">
+							<button class="close-issue-btn btn btn-default btn-sm">
 								{% trans "Archive issue" %}
 							</button>
 						</form>

@@ -42,7 +42,7 @@ id="member-profile"
 	<div class="tab-content">
 		<div class="tab-pane active member_tasks" id="late">
 			{% for p in object.member_late_tasks %}
-			<div class="task_devider">
+			<a href="{{ p.get_absolute_url }}" class="task_devider">
 				<p>
 					<b>{{ p.title }}</b>
 				</p>
@@ -52,12 +52,12 @@ id="member-profile"
 				<p>
 					{{ p.content|safe }}
 				</p>
-			</div>
+			</a>
 			{% endfor %}
 		</div>
 		<div class="tab-pane member_tasks" id="open">
 			{% for p in object.member_open_tasks %}
-			<div class="task_devider">
+			<a href="{{ p.get_absolute_url }}" class="task_devider">
 				<p>
 					<b>{{ p.title }}</b>
 				</p>
@@ -67,12 +67,12 @@ id="member-profile"
 				<p>
 					{{ p.content|safe }}
 				</p>
-			</div>
+			</a>
 			{% endfor %}
 		</div>
 		<div class="tab-pane member_tasks" id="close">
 			{% for p in object.member_close_tasks %}
-			<div class="task_devider">
+			<a href="{{ p.get_absolute_url }}" class="task_devider">
 				<p>
 					<b>{{ p.title }}</b>
 				</p>
@@ -82,7 +82,7 @@ id="member-profile"
 				<p>
 					{{ p.content|safe }}
 				</p>
-			</div>
+			</a>
 			{% endfor %}
 		</div>
 	</div>
