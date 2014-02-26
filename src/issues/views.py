@@ -1,8 +1,6 @@
-import mimetypes
-import json
-
 from django.db.models.aggregates import Max
-from django.http.response import HttpResponse, HttpResponseBadRequest
+from django.http.response import HttpResponse, HttpResponseBadRequest, \
+    HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render, redirect
 from django.template import RequestContext
 from django.template.loader import render_to_string
@@ -10,7 +8,6 @@ from django.views.generic import ListView
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-
 from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
     UpdateIssueForm, EditProposalTaskForm, AddAttachmentForm, \
@@ -23,8 +20,12 @@ from ocd.base_views import CommunityMixin, AjaxFormView, json_response
 from ocd.validation import enhance_html
 from shultze_vote import send_issue_ranking
 from users.default_roles import DefaultGroups
-from users.permissions import has_community_perm
 from users.models import Membership
+from users.permissions import has_community_perm
+import json
+import mimetypes
+
+
 
 
 class IssueMixin(CommunityMixin):
@@ -543,7 +544,7 @@ class ProposalCompletedTaskView(ProposalMixin, UpdateView):
         if completed:
             p.task_completed = completed == '1'
             p.save()
-            return redirect(p.issue)
+            return redirect(p)
 
 
 class ProposalDeleteView(AjaxFormView, ProposalMixin, DeleteView):

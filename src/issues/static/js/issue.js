@@ -96,7 +96,7 @@ $(function() {
     $('#issue-complete,#issue-archive').ajaxForm({
         success: function(data) {
         	location.reload();
-			// window.history.back(); 
+			// window.history.back();
         }
     });
     

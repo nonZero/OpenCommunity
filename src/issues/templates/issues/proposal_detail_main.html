@@ -30,28 +30,27 @@
 	                    <a href="#" class="unaccept btn btn-warning btn-md" data-value="{{object.statuses.IN_DISCUSSION}}">{% trans "Cancel approval" %}</a>
 	                {% endif %}
                   
-                  
-                  {% if object.status == object.statuses.ACCEPTED and object.is_task %}
-                  {% if cperms.issues.edittask_proposal or object.assigned_to_user == user %}
-                  <form id="task-completed-form" method="post" action="{% url 'task_completed' community_id=community.id  issue_id=object.issue.id pk=object.id %}" >
-                          {% csrf_token %}
-                          <div class="text-center">
-                              {% if object.task_completed %}
-                              <button class="btn btn-default " name="completed" value="0" style="border-bottom: 5px solid #d95e59">
-                                  {% trans "Cancel completed" %}
-                              </button>
-                              {% else %}
-                              <button class="btn btn-default" name="completed" value="1" style="border-bottom: 5px solid #a4cb53">
-                                  {% trans "Task completed" %}
-                              </button>
-                              {% endif %}
-                          </div>
-                      </form>
-                      {% endif %}
-                  {% endif %}
 	            </div>
 	        {% endif %}
 	    {% endif %}
+          {% if object.status == object.statuses.ACCEPTED and object.is_task %}
+              {% if cperms.issues.edittask_proposal or object.assigned_to_user == user %}
+                  <form class="form-inline" role="form" id="task-completed-form" method="post" action="{% url 'task_completed' community_id=community.id  issue_id=object.issue.id pk=object.id %}" style="margin: 5px 0;">
+                      {% csrf_token %}
+                      {% if object.task_completed %}
+                      <i class="fa fa-check-circle"></i> {% trans "Task completed" %}!
+                      <button class="btn btn-oc btn-sm" name="completed" value="0">
+                          {% trans "Cancel completed" %}
+                      </button>
+                      {% else %}
+                      <i class="fa fa-times-circle"></i> {% trans "Task not completed" %}!
+                      <button class="btn btn-oc btn-sm" name="completed" value="1">
+                          {% trans "Complete task" %}
+                      </button>
+                      {% endif %}
+                  </form>
+              {% endif %}
+          {% endif %}
 		{% if cperms.issues.editclosed_proposal or object.is_open %}
 			{% if cperms.issues.editopen_proposal or object.created_by == user %}
 				<div class="col-xs-12 text-right">
