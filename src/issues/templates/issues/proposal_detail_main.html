@@ -29,6 +29,26 @@
 	                {% if object.can_vote and cperms.issues.acceptopen_proposal %}
 	                    <a href="#" class="unaccept btn btn-warning btn-md" data-value="{{object.statuses.IN_DISCUSSION}}">{% trans "Cancel approval" %}</a>
 	                {% endif %}
+                  
+                  
+                  {% if object.status == object.statuses.ACCEPTED and object.is_task %}
+                  {% if cperms.issues.edittask_proposal or object.assigned_to_user == user %}
+                      <form id="task-completed-form" method="post">
+                          {% csrf_token %}
+                          <div class="text-center">
+                              {% if object.task_completed %}
+                              <button class="btn btn-default " name="completed" value="0" style="border-bottom: 5px solid #d95e59">
+                                  {% trans "Cancel completed" %}
+                              </button>
+                              {% else %}
+                              <button class="btn btn-default" name="completed" value="1" style="border-bottom: 5px solid #a4cb53">
+                                  {% trans "Task completed" %}
+                              </button>
+                              {% endif %}
+                          </div>
+                      </form>
+                      {% endif %}
+                  {% endif %}
 	            </div>
 	        {% endif %}
 	    {% endif %}

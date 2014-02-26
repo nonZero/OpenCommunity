@@ -478,19 +478,26 @@ class ProposalDetailView(ProposalMixin, DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
-        """ Used to change a proposal status (accept/reject) """
+        """ Used to change a proposal status (accept/reject) 
+            or a proposal's property completed/not completed
+        """
         p = self.get_object()
-        v = int(request.POST['accepted'])
-        if v not in [
-                     p.statuses.ACCEPTED,
-                     p.statuses.REJECTED,
-                     p.statuses.IN_DISCUSSION
-                     ]:
-            return HttpResponseBadRequest("Bad value for accepted POST parameter")
+        v = request.POST.get('accepted', None)
+        completed = request.POST.get('completed', None)
+        if v:
+            v = int(v)
+            if v not in [
+                        p.statuses.ACCEPTED,
+                        p.statuses.REJECTED,
+                        p.statuses.IN_DISCUSSION
+                        ]:
+                return HttpResponseBadRequest("Bad value for accepted POST parameter")
 
-        p.status = v
-        p.save()
-
+            p.status = v
+            p.save()
+        elif completed:
+            p.task_completed = completed == '1'
+            p.save()
         return redirect(p.issue)
 
 
@@ -513,6 +520,20 @@ class ProposalEditTaskView(ProposalMixin, UpdateView):
 
     def get_queryset(self):
         return super(ProposalEditTaskView, self).get_queryset().filter(type=ProposalType.TASK)
+
+    def get_required_permission(self):
+        o = self.get_object()
+        return 'issues.editclosed_proposal' if o.decided_at_meeting else 'issues.editopen_proposal'
+
+
+class ProposalCompletedTaskView(ProposalMixin, UpdateView):
+    """ update a task as completed / un-completed
+    """
+    def post(self, request, *args, **kwargs):
+        if request.POST.get(''):
+            pass
+        else:
+            pass
 
     def get_required_permission(self):
         o = self.get_object()
