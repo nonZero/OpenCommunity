@@ -145,7 +145,7 @@
 					{{ key.display_name }}
 				</div>
 				<div class="col-xs-8">
-          <fieldset {% if vote and not vote.voted_by_chairman %} disabled{% endif %}>
+          <fieldset data-uid="{{ key.id }}" {% if vote and not vote.voted_by_chairman %} disabled{% endif %}>
           <div class="col-xs-4 text-center" style="background: #a4cb53;">
 						<div class="radio-inline">
 							<label>

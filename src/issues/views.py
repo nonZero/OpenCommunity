@@ -590,7 +590,38 @@ class VoteResultsView(CommunityMixin, DetailView):
         return HttpResponse(panel)
 
 
-class ProposalVoteView(CommunityMixin, DetailView):
+class ProposalVoteMixin(CommunityMixin):
+    def _do_vote(self, vote_class, pid, user_id, value, is_board, by_chairman):
+        vote, created = vote_class.objects.get_or_create(proposal_id=pid, 
+                                                         user_id=user_id)
+        if not created and by_chairman and not vote.voted_by_chairman:
+            # don't allow chairman vote override a board member existing vote!
+            return (vote, False)
+        vote.value=value
+        if is_board:
+            vote.voted_by_chairman = by_chairman
+        vote.save()
+        return (vote, True)
+
+    def _vote_values_map(self, key):
+        vote_map = {
+            'pro': 1,
+            'con': -1,
+            'neut': 0,
+            'reset': -2,
+        }
+        if type(key) != int:
+            try:
+                return vote_map[key]
+            except KeyError:
+                return None
+        else:
+            for k, val in vote_map.items():
+                if key == val:
+                    return k
+        return None
+
+class ProposalVoteView(ProposalVoteMixin, DetailView):
     required_permission_for_post = 'issues.vote'
     model = models.Proposal
 
@@ -636,77 +667,57 @@ class ProposalVoteView(CommunityMixin, DetailView):
                     })
  
             return json_response(vote_response)
-        elif val == 'pro':
-            value = ProposalVoteValue.PRO
-        elif val == 'con':
-            value = ProposalVoteValue.CON
-        elif val == 'neut':
-            value = ProposalVoteValue.NEUTRAL
         else:
+            value = self._vote_values_map(val)
+        if value == None:
             return HttpResponseBadRequest('vote value not valid')
         
-        vote, created = vote_class.objects.get_or_create(proposal_id=pid, 
-                                                         user_id=user_id)
-        vote.value=value
-        if is_board:
-            vote.voted_by_chairman = by_chairman
-        vote.save()
-        vote_response['html'] = render_to_string(res_panel_tpl,
-                {
-                    'proposal': proposal,
-                    'community': self.community,
-                })
-        if is_board and by_chairman:
-            vote_response['sum'] = render_to_string('issues/_member_vote_sum.html', 
+        vote, valid = self._do_vote(vote_class, pid, user_id, value, 
+                                    is_board, by_chairman)
+        if valid:
+            vote_response['html'] = render_to_string(res_panel_tpl,
                     {
                         'proposal': proposal,
                         'community': self.community,
-                        'board_attending': board_voters_on_proposal(proposal),
                     })
+            if is_board and by_chairman:
+                vote_response['sum'] = render_to_string('issues/_member_vote_sum.html', 
+                        {
+                            'proposal': proposal,
+                            'community': self.community,
+                            'board_attending': board_voters_on_proposal(proposal),
+                        })
+        else:
+            vote_response['result'] = 'err'
+            vote_response['override_fail'] = [{'uid': user_id,
+                                               'val': self._vote_values_map(vote.value),
+                                             }]
+
         return json_response(vote_response)
 
 
-class MultiProposalVoteView(CommunityMixin, DetailView):
+class MultiProposalVoteView(ProposalVoteMixin, DetailView):
     required_permission_for_post = 'issues.vote'
     model = models.Proposal
 
     def post(self, request, *args, **kwargs): 
-        voter_ids = json.loads(request.POST['users'])
+        voted_ids = json.loads(request.POST['users'])
         proposal = self.get_object()
         pid = proposal.id
 
         val = request.POST['val']
 
-        value = ''
-        if val == 'pro':
-            value = ProposalVoteValue.PRO
-        elif val == 'con':
-            value = ProposalVoteValue.CON
-        elif val == 'neut':
-            value = ProposalVoteValue.NEUTRAL
-
-            """
-            ProposalVoteBoard.objects.filter(proposal_id=pid,
-                                        user_id__in=voter_ids).delete()
-            return json_response({
-                'result': 'ok',
-                'html': render_to_string('issues/_vote_panel.html',
-                                         {
-                                             'proposal': proposal,
-                                             'community': self.community,
-                                         }),
-            })
-            """
-
-        else:
+        value = self._vote_values_map(val)
+        if value == None:
             return HttpResponseBadRequest('vote value not valid')
 
-        for user_id in voter_ids:
-            vote, created = ProposalVoteBoard.objects.get_or_create(
-                        proposal_id=pid, user_id=user_id)
-            vote.value = value
-            vote.voted_by_chairman = True
-            vote.save()
+        vote_failed = []
+        for user_id in voted_ids:
+            vote, valid = self._do_vote(ProposalVoteBoard, pid, 
+                                       user_id, value, True, True)
+            if not valid:
+                vote_failed.append({'uid': user_id, 'val': self._vote_values_map(vote.value), })
+
         return json_response({
             'result': 'ok',
             'html': render_to_string('issues/_vote_reset_panel.html',
@@ -714,6 +725,7 @@ class MultiProposalVoteView(CommunityMixin, DetailView):
                                       'proposal': proposal,
                                       'community': self.community,
                                   }),
+            'override_fail': vote_failed,
             'sum': render_to_string('issues/_member_vote_sum.html',
                 {
                     'proposal': proposal,
