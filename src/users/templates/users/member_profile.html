@@ -46,9 +46,11 @@ id="member-profile"
 				<p>
 					<b>{{ p.title }}</b>
 				</p>
+				{% if p.due_by %}
 				<p>
 					<span class="glyphicon glyphicon-calendar"></span> {% trans "Due by" %}: {{ p.due_by }}
 				</p>
+				{% endif %}
 				<p>
 					{{ p.content|safe }}
 				</p>
@@ -61,9 +63,11 @@ id="member-profile"
 				<p>
 					<b>{{ p.title }}</b>
 				</p>
+				{% if p.due_by %}
 				<p>
 					<span class="glyphicon glyphicon-calendar"></span> {% trans "Due by" %}: {{ p.due_by }}
 				</p>
+				{% endif %}
 				<p>
 					{{ p.content|safe }}
 				</p>
@@ -76,9 +80,11 @@ id="member-profile"
 				<p>
 					<b>{{ p.title }}</b>
 				</p>
+				{% if p.due_by %}
 				<p>
 					<span class="glyphicon glyphicon-calendar"></span> {% trans "Due by" %}: {{ p.due_by }}
 				</p>
+				{% endif %}
 				<p>
 					{{ p.content|safe }}
 				</p>
@@ -185,7 +191,7 @@ id="member-profile"
 					        </p>
 					    </li>
 					    </a>
-						<li class="check_box {% if p.status == p.statuses.ACCEPTED %}checked{% endif %}{% if p.status == p.statuses.REJECTED %}rejected{% endif %}" style="background-color: #ffffff;border-bottom: 1px solid #d8e0df;"></li>
+						<li class="check_box {% if p.status == p.statuses.ACCEPTED %}checked{% elif p.status == p.statuses.REJECTED %}rejected{% endif %}" style="background-color: #ffffff;border-bottom: 1px solid #d8e0df;"></li>
 					</ul>
 					{% endfor %}
 					</div>
