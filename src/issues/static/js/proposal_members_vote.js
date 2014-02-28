@@ -20,14 +20,6 @@ function do_members_vote(vote_url, vote_value, user_id) {
         board: '1',
     }, function(data) {
         vote_response(data);
-            /*
-            var existing = data['existing_val'];
-            var user_row = r_btn.closest('fieldset')
-            var sel = $('input[value="' + existing + '"]', user_row); 
-            sel.prop('checked',  true);
-            user_row.prop('disabled', true);
-            */
-        
     });
 }
 
