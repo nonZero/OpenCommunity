@@ -176,7 +176,7 @@ class Membership(models.Model):
         votes = self.user.board_votes.select_related('proposal') \
                 .filter(proposal__issue__community_id=self.community_id,
                         proposal__active=True) \
-                .order_by('proposal__issue__created_at', 'proposal__id')
+                .exclude(proposal__status=ProposalStatus.IN_DISCUSSION).order_by('proposal__issue__created_at', 'proposal__id')
         for v in votes:
             if v.value == ProposalVoteValue.NEUTRAL:
                 key = 'neut'
@@ -196,13 +196,13 @@ class Membership(models.Model):
         return res
 
     def member_proposal_pro_votes_accepted(self):
-        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.PRO, proposal__status=ProposalStatus.ACCEPTED)
+        return self.user.board_votes.select_related('proposal').filter(proposal__issue__community_id=self.community_id, proposal__active=True, value=ProposalVoteValue.PRO, proposal__status=ProposalStatus.ACCEPTED)
 
     def member_proposal_con_votes_rejected(self):
-        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.CON, proposal__status=ProposalStatus.REJECTED)
+        return self.user.board_votes.select_related('proposal').filter(proposal__issue__community_id=self.community_id, proposal__active=True, value=ProposalVoteValue.CON, proposal__status=ProposalStatus.REJECTED)
 
     def member_proposal_nut_votes_accepted(self):
-        return ProposalVote.objects.filter(user=self.user, value=ProposalVoteValue.NEUTRAL).exclude(proposal__status=ProposalStatus.IN_DISCUSSION).exclude(proposal__status=ProposalStatus.REJECTED)
+        return self.user.board_votes.select_related('proposal').filter(proposal__issue__community_id=self.community_id, proposal__active=True,  value=ProposalVoteValue.NEUTRAL, proposal__status=ProposalStatus.ACCEPTED)
 
 CODE_CHARS = string.lowercase + string.digits
 
