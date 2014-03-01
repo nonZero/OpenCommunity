@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-26 17:51+0200\n"
+"POT-Creation-Date: 2014-03-01 07:53+0200\n"
 "PO-Revision-Date: 2014-02-20 17:31+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -344,43 +344,43 @@ msgstr "פתוחות"
 msgid "Close"
 msgstr "סגורות"
 
-#: .\templates\users\member_profile.html.py:50
-#: .\templates\users\member_profile.html.py:65
-#: .\templates\users\member_profile.html.py:80
+#: .\templates\users\member_profile.html.py:51
+#: .\templates\users\member_profile.html.py:68
+#: .\templates\users\member_profile.html.py:85
 msgid "Due by"
 msgstr "יעד"
 
-#: .\templates\users\member_profile.html.py:91
+#: .\templates\users\member_profile.html.py:97
 msgid "Summary of votes participation"
 msgstr "סיכום ההצבעות בהם השתתף"
 
-#: .\templates\users\member_profile.html.py:94
+#: .\templates\users\member_profile.html.py:100
 msgid "For"
 msgstr "בעד"
 
-#: .\templates\users\member_profile.html.py:97
+#: .\templates\users\member_profile.html.py:103
 msgid "Abstain"
 msgstr "נמנע"
 
-#: .\templates\users\member_profile.html.py:100
+#: .\templates\users\member_profile.html.py:106
 msgid "Against"
 msgstr "נגד"
 
-#: .\templates\users\member_profile.html.py:109
+#: .\templates\users\member_profile.html.py:115
 msgid "of decisions voted for were accepted"
 msgstr "מההחלטות בהם הצביע 'בעד' התקבלו"
 
-#: .\templates\users\member_profile.html.py:122
-#: .\templates\users\member_profile.html.py:153
-#: .\templates\users\member_profile.html.py:184
+#: .\templates\users\member_profile.html.py:128
+#: .\templates\users\member_profile.html.py:159
+#: .\templates\users\member_profile.html.py:190
 msgid "By:"
 msgstr "מאת:"
 
-#: .\templates\users\member_profile.html.py:140
+#: .\templates\users\member_profile.html.py:146
 msgid "of decisions didn't vote were accepted"
 msgstr "מההחלטות בהם לא הצביע התקבלו"
 
-#: .\templates\users\member_profile.html.py:171
+#: .\templates\users\member_profile.html.py:177
 msgid "of decisions voted against were rejected"
 msgstr "מההחלטות בהם הצביע 'נגד' נדחו"
 

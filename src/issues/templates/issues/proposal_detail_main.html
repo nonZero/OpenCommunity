@@ -18,9 +18,9 @@
 					{% if object.status == object.statuses.ACCEPTED %}
 						{% if object.is_task and not object.can_vote %}
 							{% if object.task_completed %}
-								<i class="fa fa-check-circle"></i> {% trans "Task completed" %}!
+								<i class="fa fa-check-square-o"></i> {% trans "Task completed" %}!
 							{% else %}
-								<i class="fa fa-times-circle"></i> {% trans "Task not completed" %}!
+								<i class="fa fa-square-o"></i> {% trans "Open task!" %}
 							{% endif %}
 						{% else %}
 							<i class="fa fa-check-circle"></i> {% trans "Proposal accepted" %}!
@@ -40,8 +40,8 @@
 							<form class="form-inline" role="form" id="task-completed-form" method="post" action="{% url 'task_completed' community_id=community.id  issue_id=object.issue.id pk=object.id %}" style="margin: 5px 0; display: inline-block;">
 								{% csrf_token %}
 								{% if object.task_completed %}
-									<button class="btn btn-oc btn-sm" name="completed" value="0">
-										{% trans "Cancel completed" %}
+									<button class="btn btn-default btn-sm" name="completed" value="0">
+										{% trans "Open task" %}
 									</button>
 								{% else %}
 									<button class="btn btn-oc btn-sm" name="completed" value="1">
@@ -102,8 +102,6 @@
     {% with proposal=object c=proposal.issue.community %}
         {% if proposal.can_straw_vote and cperms.issues.vote and user|member_of:c %}
             {% include 'issues/_straw_vote.html' %}
-        {% elif can_board_vote_self %}
-            {% include 'issues/_board_vote_self.html' %}
         {% endif %}
         {% if proposal.can_show_straw_votes %}
             <div id="results_container" class="clear">
@@ -111,9 +109,13 @@
                 {% include 'issues/_proposal_vote_results.html' %}
             </div>
         {% endif %}
+        {% if can_board_vote_self %}
+            {% include 'issues/_board_vote_self.html' %}
+        {% endif %}
 	{% endwith %}
 	
 	{% if show_board_vote_result %}
+			<h2 class="clear">{% trans "Vote by the" %} {{ object.issue.community.board_name|default:_("Board") }}</h2>
 			{% include 'issues/_board_vote_res.html' %}
 	{% endif %}
 	{% if cperms.issues.proposal_board_vote and chairman_can_vote %}
