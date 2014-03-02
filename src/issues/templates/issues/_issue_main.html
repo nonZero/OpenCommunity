@@ -92,7 +92,11 @@
                     <div class="issue_proposal_vote">
                         {% include 'issues/_straw_vote.html' %}
                     </div>
-                {% endif %}
+                {% elif can_board_vote_self %}
+	                <div class="issue_proposal_vote">
+			            {% include 'issues/_board_vote_self.html' %}
+		            </div>
+        		{% endif %}
             {% endfor %}
         </div>
 
