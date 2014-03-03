@@ -96,6 +96,12 @@ class OCUser(AbstractBaseUser, PermissionsMixin):
         # The user is identified by their email address
         return self.display_name
 
+    def get_default_group(self, community):
+        try:
+            return self.memberships.get(community=community).default_group_name
+        except Membership.DoesNotExist:
+            return ""
+
     def email_user(self, subject, message, from_email=None):
         """
         Sends an email to this User.

@@ -95,7 +95,8 @@ $(function() {
 
     $('#issue-complete,#issue-archive').ajaxForm({
         success: function(data) {
-        	location.reload();
+            var target = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            window.location = target;
 			// window.history.back();
         }
     });

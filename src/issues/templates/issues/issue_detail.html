@@ -114,7 +114,7 @@ id="issue-detail"
                     {% endif %}
                 </div>
             {% endif %}
-            {% if cperms.meetings.add_meeting and not object.is_upcoming %}
+            {% if cperms.meetings.add_meeting %}
                 <div class="text-right col-xs-12 filter filter-upcoming" style="font-size: 14px;">
 					{% if object.completed and object.is_current or object.is_archived %}
 						<form id="issue-undo-complete"  method="post" action="{% url 'issue_complete' community.id issue.id %}">
@@ -124,7 +124,7 @@ id="issue-detail"
 								{% trans "Undo complete discussion" %}
 							</button>
 						</form>
-					{% elif not object.is_archived and object.in_closed_meeting %}
+					{% elif not object.is_current and not object.is_archived and object.in_closed_meeting %}
 						<form id="issue-archive" method="post" action="{% url 'issue_complete' community.id issue.id %}">
 							{% csrf_token %}
 							<input name="archive" type="hidden" value="1"/>

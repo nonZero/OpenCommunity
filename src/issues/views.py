@@ -98,7 +98,17 @@ class IssueDetailView(IssueMixin, DetailView):
         if self.request.GET.get('s', None) == '1':
             d['all_issues'] = self.get_queryset().exclude(
                  status=IssueStatus.ARCHIVED).order_by('-created_at')
+        o = self.get_object()
+        group = self.request.user.get_default_group(o.community)
+
+        if group == DefaultGroups.BOARD or \
+           group == DefaultGroups.SECRETARY:
+            if o.is_current and self.request.user in \
+               o.community.upcoming_meeting_participants.all():
+                d['can_board_vote_self'] = True
+        
         return d
+
 
     required_permission_for_post = 'issues.add_issuecomment'
 
@@ -630,7 +640,8 @@ class ProposalVoteView(ProposalVoteMixin, DetailView):
         is_board = request.POST.get('board', False)
         user_id = request.POST.get('user', request.user.id)
         voter_id = request.user.id
-        by_chairman = voter_id != user_id
+        by_chairman = request.user.get_default_group(self.community) == \
+                      DefaultGroups.CHAIRMAN
         val = request.POST['val']
         if is_board:
             # vote for board member by chairman or board member
