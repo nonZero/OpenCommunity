@@ -15,40 +15,47 @@
 	        {% if object.status == object.statuses.ACCEPTED or object.status == object.statuses.REJECTED %}
 	            <div class="{{object.get_status_class}}">
 	                
-	                {% if object.status == object.statuses.ACCEPTED %}
-	                    <i class="fa fa-check-circle"></i> {% trans "Proposal accepted" %}!
-	                {% endif %}
-	                {% if object.status == object.statuses.REJECTED %}
-	                    <i class="fa fa-times-circle"></i> {% trans "Proposal rejected" %}!
-	                {% endif %}
+					{% if object.status == object.statuses.ACCEPTED %}
+						{% if object.is_task and not object.can_vote %}
+							{% if object.task_completed %}
+								<i class="fa fa-check-square-o"></i> {% trans "Task completed" %}!
+							{% else %}
+								<i class="fa fa-square-o"></i> {% trans "Open task!" %}
+							{% endif %}
+						{% else %}
+							<i class="fa fa-check-circle"></i> {% trans "Proposal accepted" %}!
+						{% endif %}
+					{% endif %}
+
+					{% if object.status == object.statuses.REJECTED %}
+						<i class="fa fa-times-circle"></i> {% trans "Proposal rejected" %}!
+					{% endif %}
 	                
-	                {% if object.decided_at_meeting %}
-	                	<a href="{{ object.decided_at_meeting.get_absolute_url }}" class="text-center" style="display: block;">({{ object.decided_at_meeting.get_title_or_date }})</a>
-	                {% endif %}
-	        
 	                {% if object.can_vote and cperms.issues.acceptopen_proposal %}
 	                    <a href="#" class="unaccept btn btn-warning btn-md" data-value="{{object.statuses.IN_DISCUSSION}}">{% trans "Cancel approval" %}</a>
 	                {% endif %}
-                  
-                  
-                  {% if object.status == object.statuses.ACCEPTED and object.is_task %}
-                  {% if cperms.issues.edittask_proposal or object.assigned_to_user == user %}
-                  <form id="task-completed-form" method="post" action="{% url 'task_completed' community_id=community.id  issue_id=object.issue.id pk=object.id %}" >
-                          {% csrf_token %}
-                          <div class="text-center">
-                              {% if object.task_completed %}
-                              <button class="btn btn-default " name="completed" value="0" style="border-bottom: 5px solid #d95e59">
-                                  {% trans "Cancel completed" %}
-                              </button>
-                              {% else %}
-                              <button class="btn btn-default" name="completed" value="1" style="border-bottom: 5px solid #a4cb53">
-                                  {% trans "Task completed" %}
-                              </button>
-                              {% endif %}
-                          </div>
-                      </form>
-                      {% endif %}
-                  {% endif %}
+
+					{% if not object.can_vote and object.is_task %}
+						{% if cperms.issues.edittask_proposal or object.assigned_to_user == user %}
+							<form class="form-inline" role="form" id="task-completed-form" method="post" action="{% url 'task_completed' community_id=community.id  issue_id=object.issue.id pk=object.id %}" style="margin: 5px 0; display: inline-block;">
+								{% csrf_token %}
+								{% if object.task_completed %}
+									<button class="btn btn-default btn-sm" name="completed" value="0">
+										{% trans "Open task" %}
+									</button>
+								{% else %}
+									<button class="btn btn-oc btn-sm" name="completed" value="1">
+										{% trans "Complete task" %}
+									</button>
+								{% endif %}
+							</form>
+						{% endif %}
+					{% endif %}
+
+	                {% if object.decided_at_meeting %}
+	                	<a href="{{ object.decided_at_meeting.get_absolute_url }}" class="text-center" style="display: block;">({{ object.decided_at_meeting.get_title_or_date }})</a>
+	                {% endif %}
+
 	            </div>
 	        {% endif %}
 	    {% endif %}
@@ -95,22 +102,24 @@
     {% with proposal=object c=proposal.issue.community %}
         {% if proposal.can_straw_vote and cperms.issues.vote and user|member_of:c %}
             {% include 'issues/_straw_vote.html' %}
-        {% elif can_board_vote_self %}
-            {% include 'issues/_board_vote_self.html' %}
         {% endif %}
         {% if proposal.can_show_straw_votes %}
-            <div id="results_container">
+            <div id="results_container" class="clear">
             	<h2>{% trans "Straw vote result" %}</h2>
                 {% include 'issues/_proposal_vote_results.html' %}
             </div>
         {% endif %}
+        {% if can_board_vote_self %}
+            {% include 'issues/_board_vote_self.html' %}
+        {% endif %}
 	{% endwith %}
 	
 	{% if show_board_vote_result %}
+			<h2 class="clear">{% trans "Vote by the" %} {{ object.issue.community.board_name|default:_("Board") }}</h2>
 			{% include 'issues/_board_vote_res.html' %}
 	{% endif %}
 	{% if cperms.issues.proposal_board_vote and chairman_can_vote %}
-	  <h2>{% trans "Vote" %} {{ object.issue.community.board_name|default:_("Board") }}</h2>
+	  <h2>{% trans "Vote by the" %} {{ object.issue.community.board_name|default:_("Board") }}</h2>
 	  <div class="board_vote clearfix">
 		<div class="col-xs-12 clearfix" style="border-bottom: 1px solid">
 			<div class="col-xs-4"></div>
@@ -138,7 +147,7 @@
 					{{ key.display_name }}
 				</div>
 				<div class="col-xs-8">
-          <fieldset {% if vote and not vote.voted_by_chairman %} disabled{% endif %}>
+          <fieldset data-uid="{{ key.id }}" {% if vote and not vote.voted_by_chairman and user != key %} disabled{% endif %}>
           <div class="col-xs-4 text-center" style="background: #a4cb53;">
 						<div class="radio-inline">
 							<label>

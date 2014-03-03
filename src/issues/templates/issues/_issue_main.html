@@ -92,7 +92,11 @@
                     <div class="issue_proposal_vote">
                         {% include 'issues/_straw_vote.html' %}
                     </div>
-                {% endif %}
+                {% elif can_board_vote_self %}
+	                <div class="issue_proposal_vote">
+			            {% include 'issues/_board_vote_self.html' %}
+		            </div>
+        		{% endif %}
             {% endfor %}
         </div>
 
@@ -147,31 +151,6 @@
           </div>
         </form>
         <br/>
-        
-        {% elif object.completed and object.is_current or object.is_archived %}
-        <form id="issue-undo-complete"  method="post" action="{% url 'issue_complete' community.id issue.id %}">
-          {% csrf_token %}
-          <input name="undo_complete" type="hidden" value="1"/>
-          <div class="narrow">
-              <button class="close-issue-btn btn btn-oc btn-block btn-lg">
-                {% trans "Undo complete discussion" %}
-              </button>
-          </div>
-        </form>
-        <br/>
-        
-        {% elif not object.is_archived and object.in_closed_meeting %}
-        <form id="issue-archive" method="post" action="{% url 'issue_complete' community.id issue.id %}">
-          {% csrf_token %}
-          <input name="archive" type="hidden" value="1"/>
-          <div class="narrow">
-              <button class="close-issue-btn btn btn-oc btn-block btn-lg">
-                  {% trans "Archive issue" %}
-              </button>
-          </div>
-        </form>
-        <br/>
         {% endif %}
-
     {% endif %}
 </div>

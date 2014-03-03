@@ -1,12 +1,12 @@
 {% load i18n opencommunity %}
        
 <div class="board_vote clearfix">
-	<h2>{% trans "Chairman Vote" %}</h2>
      <div class="col-xs-4 prop-infavor">
 			<h4>{% trans "For" %}</h4>
 			<p>
 				{{ proposal|board_by_vote:'pro'|length }} - {% widthratio proposal|board_by_vote:'pro'|length proposal|board_votes_count 100 %}%
 			</p>
+			{% if proposal|board_by_vote:'pro'|length %}
 			<ul>
   				{% for u in proposal|board_by_vote:'pro' %}
 				<li>
@@ -14,12 +14,14 @@
 				</li>
 				{% endfor %}
 			</ul>
+			{% endif %}
 		</div>
 		<div class="col-xs-4 prop-nutral">
 			<h4>{% trans "Abstain" %}</h4>
 			<p>
 				{{ proposal|board_by_vote:'neut'|length }} - {% widthratio proposal|board_by_vote:'neut'|length proposal|board_votes_count 100 %}%
 			</p>
+			{% if proposal|board_by_vote:'neut'|length %}
 			<ul>
   				{% for u in proposal|board_by_vote:'neut' %}
 				<li>
@@ -27,12 +29,14 @@
 				</li>
 				{% endfor %}
 			</ul>
+			{% endif %}
 		</div>
 		<div class="col-xs-4 prop-against">
 			<h4>{% trans "Against" %}</h4>
 			<p>
 				{{ proposal|board_by_vote:'con'|length }} - {% widthratio proposal|board_by_vote:'con'|length proposal|board_votes_count 100 %}%
 			</p>
+			{% if proposal|board_by_vote:'con'|length %}
 			<ul>
   				{% for u in proposal|board_by_vote:'con' %}
 				<li>
@@ -40,5 +44,6 @@
 				</li>
 				{% endfor %}
 			</ul>
+			{% endif %}
     </div>
 </div>   

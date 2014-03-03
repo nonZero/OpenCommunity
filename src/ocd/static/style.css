@@ -1110,6 +1110,9 @@ form.delete-invitation {
 	font-size: 16px;
 	font-weight: bold;
 }
+.vote_marked {
+	border: 2px solid #333;
+}
 .issue_proposal_vote .change_vote {
 	margin-top: -10px;
 }
@@ -1502,6 +1505,7 @@ label[for=id_proposal-title] {
 .board_vote {
 	border: 1px solid #d8e0df;
 	padding: 10px;
+	clear: both;
 }
 .board_vote h4,
 .board_vote p {
@@ -1585,8 +1589,14 @@ label[for=id_proposal-title] {
 	padding: 10px;
 }
 .task_devider {
+	display: block;
 	border-bottom: 1px solid #dddddd;
 	margin-bottom: 10px;
+	color: #333333;
+}
+.task_devider:hover {
+	text-decoration: none;
+	color: #333333;
 }
 .task_devider:last-child {
 	border-bottom: 0;
@@ -1611,11 +1621,22 @@ label[for=id_proposal-title] {
 	padding: 5px;
 	text-decoration: none;
 	color: #6C6C6E;
+	position: relative;
+	margin-bottom: -20px;
 }
 ul.prop-table.prop-pad {
-	padding-left: 5%;
-	background: #f5f6de;
 	border: 0;
+}
+.member_proposals_outer {
+	 background: #f5f6de;
+	 position: relative;
+	 margin-right: 5%;
+	 margin-bottom: 30px;
+}
+.member_proposals_inner {
+	 position: relative;
+	 left: 5%;
+	 bottom: -20px;
 }
 
 /* Footer */

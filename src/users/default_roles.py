@@ -79,6 +79,7 @@ class DefaultRoles(object):
                            'issues.editopen_proposal',
                            'issues.editclosed_proposal',
                            'issues.acceptclosed_proposal',
+                           'users.show_member_profile',
                           ]
 
 
