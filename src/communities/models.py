@@ -276,8 +276,8 @@ class Community(UIDMixin):
 
         if send_to != SendToOption.ONLY_ME:
             guest_emails = []
-            guests = data['object'].guests if data.has_key('object') \
-                     else self.upcoming_meeting_guests 
+            guests = d['object'].guests if 'object' in d \
+                else self.upcoming_meeting_guests
             if guests:
                 for line in guests.splitlines():
                     if '[' in line:
