@@ -99,7 +99,9 @@ class IssueDetailView(IssueMixin, DetailView):
             d['all_issues'] = self.get_queryset().exclude(
                  status=IssueStatus.ARCHIVED).order_by('-created_at')
         o = self.get_object()
-        group = self.request.user.get_default_group(o.community)
+        group = self.request.user.get_default_group(o.community) \
+                if request.user.is_authenticated() \
+                else ''
 
         if group == DefaultGroups.BOARD or \
            group == DefaultGroups.SECRETARY:
@@ -490,9 +492,10 @@ class ProposalDetailView(ProposalMixin, DetailView):
                          group == DefaultGroups.SECRETARY) and \
                         (is_current or o.decided_at_meeting)
         show_to_chairman = group == DefaultGroups.CHAIRMAN and o.decided 
-        show_board_vote_result = board_votes.exclude(
+        show_board_vote_result = o.register_board_votes and \
+                                 board_votes.exclude(
                                    value=ProposalVoteValue.NEUTRAL).count() and \
-                                  (show_to_member or show_to_board or show_to_chairman)
+                                 (show_to_member or show_to_board or show_to_chairman)
         context['issue_frame'] = self.request.GET.get('s', None)
         context['board_attending'] = board_attending
         context['user_vote'] = o.board_vote_by_member(self.request.user.id)
@@ -660,7 +663,9 @@ class ProposalVoteView(ProposalVoteMixin, DetailView):
         is_board = request.POST.get('board', False)
         user_id = request.POST.get('user', request.user.id)
         voter_id = request.user.id
-        voter_group = request.user.get_default_group(self.community)
+        voter_group = self.request.user.get_default_group(self.community) \
+                if request.user.is_authenticated() \
+                else ''
         val = request.POST['val']
         if is_board:
             # vote for board member by chairman or board member
@@ -735,6 +740,9 @@ class MultiProposalVoteView(ProposalVoteMixin, DetailView):
         voted_ids = json.loads(request.POST['users'])
         proposal = self.get_object()
         pid = proposal.id
+        voter_group = self.request.user.get_default_group(self.community) \
+                if request.user.is_authenticated() \
+                else ''
 
         val = request.POST['val']
 
@@ -745,7 +753,7 @@ class MultiProposalVoteView(ProposalVoteMixin, DetailView):
         vote_failed = []
         for user_id in voted_ids:
             vote, valid = self._do_vote(ProposalVoteBoard, proposal, 
-                                       user_id, value, True, True)
+                                       user_id, value, True, voter_group)
             if valid == ProposalVoteMixin.VOTE_OVERRIDE_ERR:
                 vote_failed.append({'uid': user_id, 'val': self._vote_values_map(vote.value), })
 
@@ -766,3 +774,15 @@ class MultiProposalVoteView(ProposalVoteMixin, DetailView):
         })
 
 
+class ChangeBoardVoteStatusView(ProposalMixin, UpdateView): 
+    required_permission_for_post = 'issues.chairman_vote'
+    model = models.Proposal
+
+    def post(self, request, *args, **kwargs):
+        p = self.get_object()
+        if request.POST.get('val', None):
+            p.register_board_votes = request.POST.get('val') == '1'
+            p.save()
+            return json_response({'result': 'ok'})
+        else:
+            return json_response({'result': 'err'})

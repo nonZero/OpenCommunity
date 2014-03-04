@@ -70,4 +70,7 @@ urlpatterns = patterns('',
 
     url(r'^vote_res_panel/(?P<pk>\d+)/$',
         views.VoteResultsView.as_view(), name="vote_results_panel"),
+    
+    url(r'^(?P<issue_id>\d+)/set_register_votes/(?P<pk>\d+)/$',
+        views.ChangeBoardVoteStatusView.as_view(), name="set_register_votes"),
 )
