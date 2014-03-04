@@ -43,7 +43,7 @@
           <div id="issue-abstract" style="clear: both;">
            {% if object.abstract %}
                 <div class="issue-abstract filter-upcoming filter">
-                    <a class="filter" href="{{community.get_absolute_url}}">{% trans "Upcoming meeting" %}</a>
+                    <a class="filter filter-subtitle" href="{{community.get_absolute_url}}">{% trans "Upcoming meeting" %}</a>
                         {{object.abstract|default_if_none:""|userhtml}}
                 </div>
             {% endif %}
