@@ -100,7 +100,7 @@ class IssueDetailView(IssueMixin, DetailView):
                  status=IssueStatus.ARCHIVED).order_by('-created_at')
         o = self.get_object()
         group = self.request.user.get_default_group(o.community) \
-                if request.user.is_authenticated() \
+                if self.request.user.is_authenticated() \
                 else ''
 
         if group == DefaultGroups.BOARD or \
@@ -663,7 +663,7 @@ class ProposalVoteView(ProposalVoteMixin, DetailView):
         is_board = request.POST.get('board', False)
         user_id = request.POST.get('user', request.user.id)
         voter_id = request.user.id
-        voter_group = self.request.user.get_default_group(self.community) \
+        voter_group = request.user.get_default_group(self.community) \
                 if request.user.is_authenticated() \
                 else ''
         val = request.POST['val']
@@ -740,7 +740,7 @@ class MultiProposalVoteView(ProposalVoteMixin, DetailView):
         voted_ids = json.loads(request.POST['users'])
         proposal = self.get_object()
         pid = proposal.id
-        voter_group = self.request.user.get_default_group(self.community) \
+        voter_group = request.user.get_default_group(self.community) \
                 if request.user.is_authenticated() \
                 else ''
 
