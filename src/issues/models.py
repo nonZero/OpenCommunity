@@ -403,6 +403,7 @@ class Proposal(UIDMixin):
     votes_con = models.PositiveIntegerField(_("Votes con"), null=True, blank=True)
     community_members = models.PositiveIntegerField(_("Community members"),
                                                     null=True, blank=True)
+    register_board_votes = models.BooleanField(default=False)
     objects = ProposalManager()
 
     class Meta:
