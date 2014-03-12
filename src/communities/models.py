@@ -277,7 +277,7 @@ class Community(UIDMixin):
                                                           'email', flat=True)))
 
         if send_to != SendToOption.ONLY_ME:
-            guests_text = meeting.guests if meeting else self.upcoming_meeting_guests
+            guests_text = self.upcoming_meeting_guests
             # add meeting guests to recipient_list
             recipient_list.update(get_guests_emails(guests_text))
 
@@ -343,7 +343,7 @@ class Community(UIDMixin):
             if all(test_attrs(p)):
                 return True
         return False
-    
+
 
     def _register_absents(self, meeting, meeting_participants):
         board_members = [mm.user for mm in Membership.objects.board() \
@@ -356,11 +356,10 @@ class Community(UIDMixin):
             except Membership.DoesNotExist:
                 mm = None
             MeetingParticipant.objects.create(meeting=meeting, user=a,
-                display_name=a.display_name,         
+                display_name=a.display_name,
                 ordinal=ordinal_base + i,
-                is_absent=True, 
-                default_group_name=mm.default_group_name if mm else None)   
-            
+                is_absent=True,
+                default_group_name=mm.default_group_name if mm else None)
 
     def close_meeting(self, m, user):
         """
@@ -436,7 +435,6 @@ class Community(UIDMixin):
                 issue.abstract = None
 
                 if issue.completed:
-                    issue.status = issue.statuses.ARCHIVED
                     issue.order_in_upcoming_meeting = None
 
                 issue.save()
