@@ -6,6 +6,7 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 from ocd.base_models import HTMLField, UIDMixin, UIDManager
 from ocd.storages import uploads_storage
 from ocd.validation import enhance_html
+from taggit.managers import TaggableManager
 import meetings
 import os.path
 
@@ -403,6 +404,7 @@ class Proposal(UIDMixin):
     votes_con = models.PositiveIntegerField(_("Votes con"), null=True, blank=True)
     community_members = models.PositiveIntegerField(_("Community members"),
                                                     null=True, blank=True)
+    tags = TaggableManager(_("Tags"), blank=True)
     objects = ProposalManager()
 
     class Meta:

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load opencommunity %}
+
+{% block extra-page-id %}
+id="procedure-list"
+{% endblock %}
+
+{% block title %}
+	<title>{{ community.name }} - {% trans "Procedure Book" %}</title>
+{% endblock %}
+
+{% block page_header %}
+{% endblock %}
+
+{% block content %}
+	<h1>{% trans "Procedure Book" %}</h1>
+    
+  <div class="row">
+      <div class="col-xs-12 form-group">
+          <input type="text" class="form-control issue-search" placeholder="{% trans "Search by keywords" %}">
+      </div>
+  </div>
+  <div class="row">
+      <div id="tags" class="col-xs-12">
+          <strong>{% trans 'Tags' %}: </strong>
+          {% for t in all_tags %}
+            <span>
+              <a href="{% url 'procedures' community_id=community.id %}?tag={{ t.name }}">{{ t.name }}</a>
+            </span> /    
+          {% endfor %}
+      </div>
+  </div>
+  
+    <ul id="procedure-order" class="nav nav-tabs">
+        <li class="pull-left"><span style="padding: 10px 0 0 20px; display:block; position: relative; font-weight: bold;">{% trans 'Sort by' %}:</span></li>
+        <li><a href="#by_tag" data-toggle="tab">{% trans "Tags" %}</a></li>
+        <li><a href="#by_title" data-toggle="tab">{% trans "Procedure name" %}</a></li>
+        <li><a href="#by_date" data-toggle="tab">{% trans "Approval date" %}</a></li>
+    </ul>
+
+    
+    <div class="tab-content clearfix" style="clear: both; padding-top: 10px;">
+        {% for p in procedure_list %}
+            {% include "issues/_procedure.html" %}
+        {% endfor %}
+    </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{{STATIC_URL}}js/jquery.tinysort.min.js"></script>
+<script>
+  function sort_procedures(by) {
+    if(by == '#by_tag') {
+        console.log('tag');
+    } 
+    else if(by == '#by_title') {
+      $('.tab-content ul').tsort('li.order', {data: 'title'}); 
+    }
+    else if(by == '#by_date') {
+      $('.tab-content ul').tsort('li.order', {data: 'date'});     
+    }
+
+  }
+  
+  $(function() {
+      $('#procedure-order').on('click', 'a', function() {
+          sort_procedures($(this).attr('href'));
+        });
+  });
+
+</script>
+
+{% endblock %}

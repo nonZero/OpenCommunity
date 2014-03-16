@@ -70,4 +70,10 @@ urlpatterns = patterns('',
 
     url(r'^vote_res_panel/(?P<pk>\d+)/$',
         views.VoteResultsView.as_view(), name="vote_results_panel"),
+    
+    url(r'^assignments/$',
+        views.AssignmentsView.as_view(), name="assignments"),
+    
+    url(r'^procedures/$',
+        views.ProceduresView.as_view(), name="procedures"),
 )

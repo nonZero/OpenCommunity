@@ -1,0 +1,18 @@
+{% load i18n %}
+{% load opencommunity %}
+
+<ul class="prop-table proposals">
+  <a href="{{p.get_absolute_url}}" style="display: none;"></a>
+    <li class="drag-icon rule-icon order"
+    data-title="{{p.title}}"
+    data-date="{{p.decided_at_meeting.held_at|date:'Y-m-d'}}"
+    data-tags=""></li>
+    <li class="prop-title">
+    	{{p.title}}
+    </li>
+    <li class="prop-content">
+        <div>{% trans 'Procedure approval date' %}: {{ p.decided_at_meeting.held_at|date:"DATE_FORMAT" }} </div>
+        <div>{{p.content|userhtml}}</div>
+    </li>
+</ul>
+

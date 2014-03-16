@@ -30,41 +30,6 @@
     
 <script>
 
-	function refreshProposalForm() {
-
-		// prevent html5 required field
-		$('#id_proposal-type').val() == '';
-
-		// hide task related fields
-		var els = $('#id_proposal-assigned_to').parent().parent();
-		var els1 = $('#id_proposal-due_by').parent().parent();
-		if ($('#id_proposal-type').val() == '1') {
-			els.show();
-			els1.show();
-		} else {
-			els.hide();
-			els1.hide();
-		}
-
-	}
-
-
-	function refreshProposalEditForm() {
-
-		// prevent html5 required field
-		$('#id_type').val() == '';
-		// hide task related fields
-		if ($('#id_type').val() == '1') {
-			$('#id_assigned_to').closest('.form-group').show()
-         $('#id_due_by').closest('.form-group').show()
-		} else {
-         $('#id_assigned_to').closest('.form-group').hide()
-			$('#id_due_by').closest('.form-group').hide()
-		}
-
-	}
-	
-
     $(function() {
         /* a map between proposal type, to order of appearance (tab index) */
         var type_idx_map = {

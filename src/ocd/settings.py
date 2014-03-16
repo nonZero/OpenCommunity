@@ -161,6 +161,7 @@ INSTALLED_APPS = (
     'django_nose',
     'django_extensions',
     'debug_toolbar',
+    'taggit',
 
     'oc_util',
     'users',
