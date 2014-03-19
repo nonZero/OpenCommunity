@@ -281,22 +281,7 @@ class Community(UIDMixin):
                                                           'email', flat=True)))
 
         if send_to != SendToOption.ONLY_ME:
-            guest_emails = []
-            guests = d['object'].guests if 'object' in d \
-                else self.upcoming_meeting_guests
-            # add meeting guests to recipient_list
-            recipient_list.update(get_guests_emails(guests_text))
-            if guests:
-                for line in guests.splitlines():
-                    if '[' in line:
-                        from_idx = line.find('[')
-                        to_idx = line.find(']', from_idx + 1)
-                        try:
-                            guest_emails.append(line[from_idx+1:to_idx])
-                        except:
-                            pass
-                # add meeting guests to recipient_list
-                recipient_list.update(guest_emails)
+            recipient_list.update(get_guests_emails(self.upcoming_meeting_guests))
 
         logger.info("Sending agenda to %d users" % len(recipient_list))
 
