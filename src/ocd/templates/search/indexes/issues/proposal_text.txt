@@ -1,0 +1,2 @@
+{% if object.title %}{{ object.title }}{% endif %}
+{% if object.content %}{{ object.content|striptags }}{% endif %}

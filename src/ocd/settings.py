@@ -162,7 +162,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'debug_toolbar',
     'taggit',
-
+    'haystack',
     'oc_util',
     'users',
     'communities',
@@ -174,6 +174,16 @@ INSTALLED_APPS = (
 
 
 AUTH_USER_MODEL = 'users.OCUser'
+
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
+    },
+}
+
+HAYSTACK_CUSTOM_HIGHLIGHTER = 'ocd.custom_highlighting.MyHighlighter'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
