@@ -181,9 +181,12 @@ class Membership(models.Model):
         neut_count = 0
         votes = self.user.board_votes.select_related('proposal') \
                 .filter(proposal__issue__community_id=self.community_id,
+                        proposal__register_board_votes=True,
                         proposal__active=True) \
-                .exclude(proposal__status=ProposalStatus.IN_DISCUSSION).order_by('proposal__issue__created_at', 'proposal__id')
+                .exclude(proposal__status=ProposalStatus.IN_DISCUSSION).order_by('-proposal__issue__created_at', 'proposal__id')
         for v in votes:
+            if not v.proposal.register_board_votes:
+                continue
             if v.value == ProposalVoteValue.NEUTRAL:
                 key = 'neut'
                 neut_count += 1
@@ -196,19 +199,25 @@ class Membership(models.Model):
             issue_key = v.proposal.issue
             p_list = res[key].setdefault(issue_key, [])
             p_list.append(v.proposal)
-        res['pro_count'] = pro_count      
+        res['pro_count'] = pro_count
         res['con_count'] = con_count
         res['neut_count'] = neut_count
         return res
 
+    def _user_board_votes(self):
+        return self.user.board_votes.select_related('proposal').filter(proposal__issue__community_id=self.community_id, 
+                                                                       proposal__active=True,
+                                                                       proposal__register_board_votes=True)
     def member_proposal_pro_votes_accepted(self):
-        return self.user.board_votes.select_related('proposal').filter(proposal__issue__community_id=self.community_id, proposal__active=True, value=ProposalVoteValue.PRO, proposal__status=ProposalStatus.ACCEPTED)
-
+        return self._user_board_votes().filter(value=ProposalVoteValue.PRO, 
+                                              proposal__status=ProposalStatus.ACCEPTED)
     def member_proposal_con_votes_rejected(self):
-        return self.user.board_votes.select_related('proposal').filter(proposal__issue__community_id=self.community_id, proposal__active=True, value=ProposalVoteValue.CON, proposal__status=ProposalStatus.REJECTED)
+        return self._user_board_votes().filter(value=ProposalVoteValue.CON,
+                                              proposal__status=ProposalStatus.REJECTED)
 
     def member_proposal_nut_votes_accepted(self):
-        return self.user.board_votes.select_related('proposal').filter(proposal__issue__community_id=self.community_id, proposal__active=True,  value=ProposalVoteValue.NEUTRAL, proposal__status=ProposalStatus.ACCEPTED)
+        return self._user_board_votes().filter(value=ProposalVoteValue.NEUTRAL,
+                                              proposal__status=ProposalStatus.ACCEPTED)
 
 CODE_CHARS = string.lowercase + string.digits
 

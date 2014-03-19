@@ -21,6 +21,7 @@ class CommunityAdmin(ModelAdmin):
               'issue_ranking_enabled',
               'allow_links_in_emails',
               'register_missing_board_members',
+              'email_invitees',
               )
 
     inlines = [CommunityMembershipInline]

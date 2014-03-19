@@ -103,6 +103,10 @@ class Meeting(UIDMixin):
     def get_participations(self):
         return self.participations.filter(is_absent=False)
         
+    def get_participants(self):
+        participations = self.get_participations()
+        return [p.user for p in participations]
+
     @models.permalink
     def get_absolute_url(self):
         return ("meeting", (str(self.community.pk), str(self.pk),))
