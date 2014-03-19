@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.db.models.aggregates import Max
 from django.http.response import HttpResponse, HttpResponseBadRequest, \
     HttpResponseRedirect
-from django.shortcuts import render, redirect, render_to_response
+from django.shortcuts import render, redirect, render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.utils import timezone
@@ -21,11 +21,18 @@ from communities.forms import EditUpcomingMeetingForm, \
     PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm, \
     EditUpcomingMeetingSummaryForm
 from communities.models import SendToOption
-from issues.models import IssueStatus, Issue
+from haystack.query import SearchQuerySet
+from issues.models import IssueStatus, Issue, Proposal, ProposalType, ProposalStatus
 from meetings.models import Meeting
 from ocd.base_views import ProtectedMixin, AjaxFormView
 from users.permissions import has_community_perm
 from django.views.generic.base import RedirectView
+from haystack.views import SearchView
+from ocd.base_views import CommunityMixin
+from django.contrib.auth.views import redirect_to_login
+from django.http.response import HttpResponseForbidden, HttpResponse
+from users.models import Membership
+from forms import CommunitySearchForm
 
 
 class CommunityList(ListView):
@@ -295,3 +302,129 @@ class About(RedirectView):
     
     permanent = False
     url = 'http://www.hasadna.org.il/projects/odc/'
+
+
+class AssignmentsView(CommunityMixin, ListView):
+    pass
+
+
+class ProceduresView(ListView):
+    # required_permission = 'issues.viewopen_issue'
+    model = Proposal
+    template_name = 'communities/procedure_list.html'
+    context_object_name = 'procedure_list'
+
+    def get(self, request, *args, **kwargs):
+        self.community = get_object_or_404(models.Community, pk=kwargs['pk'])
+        return super(ProceduresView, self).get(request, *args, **kwargs)
+
+
+    def get_queryset(self):
+        """
+        """
+        term = self.request.GET.get('q', '').strip()
+        if term:
+            #qs = qs.filter(tags__name__in=[tag,])
+            sqs = SearchQuerySet()
+            sqs = sqs.auto_query(term)
+            sqs = sqs.load_all()
+            return sqs
+        else:
+            qs = super(ProceduresView, self).get_queryset().filter(
+                active=True, issue__community=self.community,
+                status=Proposal.statuses.ACCEPTED,
+                type=ProposalType.RULE).order_by('title')
+            return qs
+
+    def get_context_data(self, **kwargs):
+        def _sort_by_popularity(a, b):
+            return cmp(a[1], b[1])
+
+        d = super(ProceduresView, self).get_context_data(**kwargs)
+        alltags = {}
+        for p in self.get_queryset():
+            for t in p.tags.names():
+                n = alltags.setdefault(t, 0)
+                alltags[t] = n + 1
+        sorted_tags = sorted(alltags.items(), _sort_by_popularity, reverse=True) 
+        d['sorted_tags'] = sorted_tags
+        return d
+
+
+class CommunitySearchView(SearchView):
+    def __call__(self, request, pk):
+        self.community = get_object_or_404(models.Community, pk=pk)
+        self.searchqueryset = SearchQuerySet().filter(community=pk)
+        self.form_class = CommunitySearchForm
+        if not self.community.is_public:
+            if not request.user.is_authenticated():
+                return redirect_to_login(request.build_absolute_uri())
+            if not request.user.is_superuser:
+                try:
+                    m = request.user.memberships.get(community=self.community)
+                    pass
+                except Membership.DoesNotExist:
+                    return HttpResponseForbidden("403 Unauthorized")
+
+        return super(CommunitySearchView, self).__call__(request)
+    # def extra_context(self):
+        # return {}
+
+
+class ProcedureSearchView(SearchView):
+    def __call__(self, request, pk):
+        self.community = get_object_or_404(models.Community, pk=pk)
+        self.searchqueryset = SearchQuerySet().filter(
+                    community=pk,
+                    type=ProposalType.RULE,
+                    active=True,
+                    status=ProposalStatus.ACCEPTED
+                    )
+        if not self.community.is_public:
+            if not request.user.is_authenticated():
+                return redirect_to_login(request.build_absolute_uri())
+            if not request.user.is_superuser:
+                try:
+                    m = request.user.memberships.get(community=self.community)
+                    pass
+                except Membership.DoesNotExist:
+                    return HttpResponseForbidden("403 Unauthorized")
+
+        return super(ProcedureSearchView, self).__call__(request)
+
+    def get_query(self):
+        q = super(ProcedureSearchView, self).get_query()
+        if not q:
+            print 'empty'
+            return '*'
+        else:
+            print q
+            return q
+
+
+        
+    def extra_context(self):
+        def _sort_by_popularity(a, b):
+            return cmp(a[1], b[1])
+
+        d = super(ProcedureSearchView, self).extra_context()
+        alltags = {}
+        qs = Proposal.objects.filter(
+              active=True, issue__community=self.community,
+              status=Proposal.statuses.ACCEPTED,
+              type=ProposalType.RULE).order_by('title')
+        for p in qs:
+            for t in p.tags.names():
+                n = alltags.setdefault(t, 0)
+                alltags[t] = n + 1
+        sorted_tags = sorted(alltags.items(), _sort_by_popularity, reverse=True) 
+        d['sorted_tags'] = sorted_tags
+        return d
+    # def extra_context(self):
+        # return {}
+
+
+def search_view_factory(view_class=SearchView, *args, **kwargs):
+    def search_view(request, *a, **kw):
+        return view_class(*args, **kwargs)(request, *a, **kw)
+    return search_view

@@ -746,32 +746,3 @@ class MultiProposalVoteView(ProposalVoteMixin, DetailView):
         })
 
 
-class AssignmentsView(CommunityMixin, ListView):
-    pass
-
-
-class ProceduresView(CommunityMixin, ListView):
-    # required_permission = 'issues.viewopen_issue'
-    model = Proposal
-    template_name = 'issues/procedure_list.html'
-    context_object_name = 'procedure_list'
-
-    def get_queryset(self):
-        qs = super(ProceduresView, self).get_queryset().filter(
-              active=True, issue__community=self.community,
-              status=Proposal.statuses.ACCEPTED,
-              type=ProposalType.RULE).order_by('title')
-        tag = self.request.GET.get('tag', '')
-        if tag:
-            qs = qs.filter(tags__name__in=[tag,])
-        return qs
-
-
-    def get_context_data(self, **kwargs):
-        d = super(ProceduresView, self).get_context_data(**kwargs)
-        alltags = set()
-        for p in self.get_queryset():
-            for t in p.tags.all():
-                alltags.add(t)
-        d['all_tags'] = alltags
-        return d    

@@ -77,9 +77,9 @@ class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
 
     def form_valid(self, form):
         # archive selected issues 
+        m = self.community.close_meeting(form.instance, self.request.user)
         Issue.objects.filter(id__in=form.cleaned_data['issues']).update(
                   completed=True, status=IssueStatus.ARCHIVED)
-        m = self.community.close_meeting(form.instance, self.request.user)
         total = self.community.send_mail('protocol', self.request.user,
                             form.cleaned_data['send_to'], {'object': m})
         messages.info(self.request, _("Sending to %d users") % total)
