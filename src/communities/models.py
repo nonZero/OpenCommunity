@@ -118,7 +118,9 @@ class Community(UIDMixin):
 
     allow_links_in_emails = models.BooleanField(_("Allow links inside emails"),   
                                         default=True)
-    
+   
+    email_invitees = models.BooleanField(_("Send mails to invitees"), default=False)
+
     register_missing_board_members = models.BooleanField(_("Resister missing board members"), 
                                                          default=False)
 
@@ -259,17 +261,19 @@ class Community(UIDMixin):
         if send_to == SendToOption.ALL_MEMBERS:
             recipient_list.update(list(
                       self.memberships.values_list('user__email', flat=True)))
-            open_invitation_email_list = self.invitations.values_list('email', flat=True) 
-            if open_invitation_email_list.count():
-                open_invitation_list.update(list(open_invitation_email_list))
+            if self.email_invitees:
+                open_invitation_email_list = self.invitations.values_list('email', flat=True) 
+                if open_invitation_email_list.count():
+                    open_invitation_list.update(list(open_invitation_email_list))
   
         elif send_to == SendToOption.BOARD_ONLY:
             recipient_list.update(list(
                         self.memberships.board().values_list('user__email', flat=True)))
-            open_invitation_email_list = self.invitations.exclude(
-                default_group_name=DefaultGroups.MEMBER).values_list('email', flat=True)
-            if open_invitation_email_list.count():
-                open_invitation_list.update(list(open_invitation_email_list))
+            if self.email_invitees:
+                open_invitation_email_list = self.invitations.exclude(
+                    default_group_name=DefaultGroups.MEMBER).values_list('email', flat=True)
+                if open_invitation_email_list.count():
+                    open_invitation_list.update(list(open_invitation_email_list))
 
         elif send_to == SendToOption.ONLY_ATTENDEES:
             recipient_list.update(list(
@@ -280,7 +284,6 @@ class Community(UIDMixin):
             guests_text = self.upcoming_meeting_guests
             # add meeting guests to recipient_list
             recipient_list.update(get_guests_emails(guests_text))
-
         logger.info("Sending agenda to %d users" % len(recipient_list))
 
         send_mails(from_email, recipient_list, subject, message, html_message)

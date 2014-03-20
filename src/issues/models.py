@@ -410,6 +410,7 @@ class Proposal(UIDMixin):
     community_members = models.PositiveIntegerField(_("Community members"),
                                                     null=True, blank=True)
     tags = TaggableManager(_("Tags"), blank=True)
+    register_board_votes = models.BooleanField(default=False)
     objects = ProposalManager()
 
     class Meta:

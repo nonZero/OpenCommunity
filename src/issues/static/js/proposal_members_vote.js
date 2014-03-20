@@ -5,12 +5,14 @@ function vote_response(data) {
         $('#member_vote_sum').html(data['sum']);
     }
     var failed = data['override_fail'];
-    $.each(failed, function(i, value) {
-        var user_row = $('fieldset[data-uid="' + value['uid'] + '"]');
-        var sel = $('input[value="' + value['val'] + '"]', user_row); 
-        sel.prop('checked',  true);
-        user_row.prop('disabled', true);
-    });
+    if(failed) {
+        $.each(failed, function(i, value) {
+            var user_row = $('fieldset[data-uid="' + value['uid'] + '"]');
+            var sel = $('input[value="' + value['val'] + '"]', user_row); 
+            sel.prop('checked',  true);
+            user_row.prop('disabled', true);
+        });
+    }
 }
 
 function do_members_vote(vote_url, vote_value, user_id) {
@@ -54,5 +56,25 @@ $(function() {
 		});
 		all_members_vote(target, vote_value, user_ids);
 	}); 
+  
+  $('#reg_board_vote').change(function(ev) {
+      var register_votes = '0';
+      if ($(this).prop('checked')) {
+        register_votes = '1';
+      }
+      $.post($(this).data('url'), {
+          val: register_votes,
+      }, function(data) {
+        if(register_votes == '1') {
+            $('#chairman_vote_panel').show();         
+        }
+        else {     
+            $('#chairman_vote_panel').hide();         
+        }
+    });
+  });
 
+  if(! $('#reg_board_vote').prop('checked')) {
+    $('#chairman_vote_panel').hide();         
+  }
 });

@@ -38,19 +38,9 @@ urlpatterns = patterns('',
         views.ProtocolDraftPreviewView.as_view(),
         name='preview_ongoing_protocol'),
 
-    url(r'^assignments/$',
-        views.AssignmentsView.as_view(), name="assignments"),
-
-    url(r'^procedures/$',
-        views.ProceduresView.as_view(), name="procedures"),
-
     url(r'^search/$', views.search_view_factory(
           template='communities/community_search.html',
           view_class=views.CommunitySearchView
        ), name='community_search'),
 
-    url(r'^search_procedures/$', views.search_view_factory(
-          template='communities/procedure_list.html',
-          view_class=views.ProcedureSearchView  
-       ), name='procedure_search'),
 )

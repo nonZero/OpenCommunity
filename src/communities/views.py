@@ -135,7 +135,6 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
         return d
 
 
-
 class PublishUpcomingMeetingPreviewView(CommunityModelMixin, DetailView):
 
     required_permission = 'communities.viewupcoming_community'
@@ -303,52 +302,6 @@ class About(RedirectView):
     permanent = False
     url = 'http://www.hasadna.org.il/projects/odc/'
 
-
-class AssignmentsView(CommunityMixin, ListView):
-    pass
-
-
-class ProceduresView(ListView):
-    # required_permission = 'issues.viewopen_issue'
-    model = Proposal
-    template_name = 'communities/procedure_list.html'
-    context_object_name = 'procedure_list'
-
-    def get(self, request, *args, **kwargs):
-        self.community = get_object_or_404(models.Community, pk=kwargs['pk'])
-        return super(ProceduresView, self).get(request, *args, **kwargs)
-
-
-    def get_queryset(self):
-        """
-        """
-        term = self.request.GET.get('q', '').strip()
-        if term:
-            #qs = qs.filter(tags__name__in=[tag,])
-            sqs = SearchQuerySet()
-            sqs = sqs.auto_query(term)
-            sqs = sqs.load_all()
-            return sqs
-        else:
-            qs = super(ProceduresView, self).get_queryset().filter(
-                active=True, issue__community=self.community,
-                status=Proposal.statuses.ACCEPTED,
-                type=ProposalType.RULE).order_by('title')
-            return qs
-
-    def get_context_data(self, **kwargs):
-        def _sort_by_popularity(a, b):
-            return cmp(a[1], b[1])
-
-        d = super(ProceduresView, self).get_context_data(**kwargs)
-        alltags = {}
-        for p in self.get_queryset():
-            for t in p.tags.names():
-                n = alltags.setdefault(t, 0)
-                alltags[t] = n + 1
-        sorted_tags = sorted(alltags.items(), _sort_by_popularity, reverse=True) 
-        d['sorted_tags'] = sorted_tags
-        return d
 
 
 class CommunitySearchView(SearchView):
