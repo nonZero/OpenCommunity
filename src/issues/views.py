@@ -22,6 +22,10 @@ from shultze_vote import send_issue_ranking
 from users.default_roles import DefaultGroups
 from users.models import Membership
 from users.permissions import has_community_perm
+from haystack.views import SearchView
+from haystack.query import SearchQuerySet
+from haystack.inputs import AutoQuery
+from haystack.utils import Highlighter
 import json
 import mimetypes
 
@@ -306,7 +310,7 @@ class AttachmentCreateView(AjaxFormView, IssueMixin, CreateView):
         return super(AttachmentCreateView, self).form_valid(form)
 
 
-class AttachmentDeleteView(DeleteView, AjaxFormView):
+class AttachmentDeleteView(AjaxFormView, CommunityMixin, DeleteView):
     model = models.IssueAttachment
     required_permission = 'issues.editopen_issue'
 
@@ -794,9 +798,12 @@ class AssignmentsView(CommunityMixin, ListView):
 
 class ProceduresView(ProposalMixin, ListView):
     # required_permission = 'issues.viewopen_issue'
-    template_name = 'communities/procedure_list.html'
+    template_name = 'issues/procedure_list.html'
     context_object_name = 'procedure_list'
+    paginate_by = 75
 
+    def __init__(self, **kwargs):
+        self.order_by = 'date'
 
     def _get_procedure_queryset(self):
         qs = Proposal.objects.filter(
@@ -807,17 +814,19 @@ class ProceduresView(ProposalMixin, ListView):
 
 
     def get_queryset(self):
-        """
-        """
         term = self.request.GET.get('q', '').strip()
+        if not term:
+            # try search by tag
+            term = self.request.GET.get('t', '').strip()
+        self.order_by = self.request.GET.get('ord', 'date') 
+        ord_term = 'created_at' if self.order_by == 'date' else 'title'
+        sqs = SearchQuerySet().filter(
+            active=True, community=self.community.id,
+            status=Proposal.statuses.ACCEPTED,
+            type=ProposalType.RULE).order_by(ord_term)
         if term:
-            #qs = qs.filter(tags__name__in=[tag,])
-            sqs = SearchQuerySet().filter()
-            sqs = sqs.auto_query(term)
-            sqs = sqs.load_all()
-            return sqs
-        else:
-            return self._get_procedure_queryset() 
+            sqs = sqs.filter(content=AutoQuery(term)).order_by(ord_term)
+        return sqs.load_all()
 
 
     def get_context_data(self, **kwargs):
@@ -831,6 +840,13 @@ class ProceduresView(ProposalMixin, ListView):
                 n = alltags.setdefault(t, 0)
                 alltags[t] = n + 1
         sorted_tags = sorted(alltags.items(), _sort_by_popularity, reverse=True) 
+        search_query = self.request.GET.get('q', '').strip()
+        tag_query = self.request.GET.get('t', '').strip()
         d['sorted_tags'] = sorted_tags
+        d['query'] = search_query or tag_query
+        d['ord'] = self.order_by
+        d['extra_arg'] = '&ord=' + self.order_by + '&q=' + d['query']
+        d['ord'] = self.order_by
+        d['tags_as_links'] = not search_query or len(d['object_list']) == 0
         return d
 

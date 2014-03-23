@@ -22,7 +22,7 @@ from communities.forms import EditUpcomingMeetingForm, \
     EditUpcomingMeetingSummaryForm
 from communities.models import SendToOption
 from haystack.query import SearchQuerySet
-from issues.models import IssueStatus, Issue, Proposal, ProposalType, ProposalStatus
+from issues.models import IssueStatus, Issue, Proposal
 from meetings.models import Meeting
 from ocd.base_views import ProtectedMixin, AjaxFormView
 from users.permissions import has_community_perm
@@ -320,62 +320,7 @@ class CommunitySearchView(SearchView):
                     return HttpResponseForbidden("403 Unauthorized")
 
         return super(CommunitySearchView, self).__call__(request)
-    # def extra_context(self):
-        # return {}
-
-
-class ProcedureSearchView(SearchView):
-    def __call__(self, request, pk):
-        self.community = get_object_or_404(models.Community, pk=pk)
-        self.searchqueryset = SearchQuerySet().filter(
-                    community=pk,
-                    type=ProposalType.RULE,
-                    active=True,
-                    status=ProposalStatus.ACCEPTED
-                    )
-        if not self.community.is_public:
-            if not request.user.is_authenticated():
-                return redirect_to_login(request.build_absolute_uri())
-            if not request.user.is_superuser:
-                try:
-                    m = request.user.memberships.get(community=self.community)
-                    pass
-                except Membership.DoesNotExist:
-                    return HttpResponseForbidden("403 Unauthorized")
-
-        return super(ProcedureSearchView, self).__call__(request)
-
-    def get_query(self):
-        q = super(ProcedureSearchView, self).get_query()
-        if not q:
-            print 'empty'
-            return '*'
-        else:
-            print q
-            return q
-
-
         
-    def extra_context(self):
-        def _sort_by_popularity(a, b):
-            return cmp(a[1], b[1])
-
-        d = super(ProcedureSearchView, self).extra_context()
-        alltags = {}
-        qs = Proposal.objects.filter(
-              active=True, issue__community=self.community,
-              status=Proposal.statuses.ACCEPTED,
-              type=ProposalType.RULE).order_by('title')
-        for p in qs:
-            for t in p.tags.names():
-                n = alltags.setdefault(t, 0)
-                alltags[t] = n + 1
-        sorted_tags = sorted(alltags.items(), _sort_by_popularity, reverse=True) 
-        d['sorted_tags'] = sorted_tags
-        return d
-    # def extra_context(self):
-        # return {}
-
 
 def search_view_factory(view_class=SearchView, *args, **kwargs):
     def search_view(request, *a, **kw):
