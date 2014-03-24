@@ -29,10 +29,10 @@ id="member-profile"
 <div class="col-xs-12 col-md-4">
 	<h2>{% trans "Tasks" %}</h2>
 	<ul class="nav nav-tabs">
-		<li class="active">
+		<li{% if object.member_late_tasks.count %} class="active"{% endif %}>
 			<a href="#late" data-toggle="tab">{% trans "Late" %} ({{ object.member_late_tasks.count }})</a>
 		</li>
-		<li>
+		<li{% if not object.member_late_tasks.count %} class="active"{% endif %}>
 			<a href="#open" data-toggle="tab">{% trans "Open" %} ({{ object.member_open_tasks.count }})</a>
 		</li>
 		<li>
@@ -40,7 +40,7 @@ id="member-profile"
 		</li>
 	</ul>
 	<div class="tab-content">
-		<div class="tab-pane active member_tasks" id="late">
+		<div class="tab-pane {% if object.member_late_tasks.count %}active{% endif %} member_tasks" id="late">
 			{% for p in object.member_late_tasks %}
 			<a href="{{ p.get_absolute_url }}" class="task_devider">
 				<p>
@@ -57,7 +57,7 @@ id="member-profile"
 			</a>
 			{% endfor %}
 		</div>
-		<div class="tab-pane member_tasks" id="open">
+		<div class="tab-pane {% if not object.member_late_tasks.count %}active{% endif %} member_tasks" id="open">
 			{% for p in object.member_open_tasks %}
 			<a href="{{ p.get_absolute_url }}" class="task_devider">
 				<p>

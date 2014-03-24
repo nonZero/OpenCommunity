@@ -154,7 +154,7 @@ class Membership(models.Model):
     
     def total_meetings(self):
         """ In the future we'll check since joined to community or rejoined """
-        return self.community.meetings.count()
+        return self.community.meetings.filter(held_at__gte=self.created_at).count()
         
     def meetings_participation(self):
         """ In the future we'll check since joined to community or rejoined """
