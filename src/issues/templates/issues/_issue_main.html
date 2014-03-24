@@ -40,14 +40,8 @@
                     {% endif %}
                {% endif %}
             {% endfor %}
-          <div id="issue-abstract" style="clear: both;">
-           {% if object.abstract %}
-                <div class="issue-abstract filter-upcoming filter">
-                    <a class="filter filter-subtitle" href="{{community.get_absolute_url}}">{% trans "Upcoming meeting" %}</a>
-                        {{object.abstract|default_if_none:""|userhtml}}
-                </div>
-            {% endif %}
-          </div> 
+
+          {% include "issues/_issue-abstract.html" %}
 
           {% if object.current_attachments.count %}
             <ul style="clear: both; margin:0; list-style-type: none;">
