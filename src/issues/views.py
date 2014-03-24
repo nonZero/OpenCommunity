@@ -22,6 +22,10 @@ from shultze_vote import send_issue_ranking
 from users.default_roles import DefaultGroups
 from users.models import Membership
 from users.permissions import has_community_perm
+from haystack.views import SearchView
+from haystack.query import SearchQuerySet
+from haystack.inputs import AutoQuery
+from haystack.utils import Highlighter
 import json
 import mimetypes
 
@@ -306,7 +310,7 @@ class AttachmentCreateView(AjaxFormView, IssueMixin, CreateView):
         return super(AttachmentCreateView, self).form_valid(form)
 
 
-class AttachmentDeleteView(DeleteView, AjaxFormView):
+class AttachmentDeleteView(AjaxFormView, CommunityMixin, DeleteView):
     model = models.IssueAttachment
     required_permission = 'issues.editopen_issue'
 
@@ -774,7 +778,6 @@ class MultiProposalVoteView(ProposalVoteMixin, DetailView):
         })
 
 
-
 class ChangeBoardVoteStatusView(ProposalMixin, UpdateView): 
     required_permission_for_post = 'issues.chairman_vote'
     model = models.Proposal
@@ -787,3 +790,62 @@ class ChangeBoardVoteStatusView(ProposalMixin, UpdateView):
             return json_response({'result': 'ok'})
         else:
             return json_response({'result': 'err'})
+
+
+class AssignmentsView(CommunityMixin, ListView):
+    pass
+
+
+class ProceduresView(ProposalMixin, ListView):
+    # required_permission = 'issues.viewopen_issue'
+    template_name = 'issues/procedure_list.html'
+    context_object_name = 'procedure_list'
+    paginate_by = 75
+
+    def __init__(self, **kwargs):
+        self.order_by = 'date'
+
+    def _get_procedure_queryset(self):
+        qs = Proposal.objects.filter(
+            active=True, issue__community=self.community,
+            status=Proposal.statuses.ACCEPTED,
+            type=ProposalType.RULE).order_by('title')
+        return qs
+
+
+    def get_queryset(self):
+        term = self.request.GET.get('q', '').strip()
+        if not term:
+            # try search by tag
+            term = self.request.GET.get('t', '').strip()
+        self.order_by = self.request.GET.get('ord', 'date') 
+        ord_term = 'created_at' if self.order_by == 'date' else 'title'
+        sqs = SearchQuerySet().filter(
+            active=True, community=self.community.id,
+            status=Proposal.statuses.ACCEPTED,
+            type=ProposalType.RULE).order_by(ord_term)
+        if term:
+            sqs = sqs.filter(content=AutoQuery(term)).order_by(ord_term)
+        return sqs.load_all()
+
+
+    def get_context_data(self, **kwargs):
+        def _sort_by_popularity(a, b):
+            return cmp(a[1], b[1])
+
+        d = super(ProceduresView, self).get_context_data(**kwargs)
+        alltags = {}
+        for p in self._get_procedure_queryset():
+            for t in p.tags.names():
+                n = alltags.setdefault(t, 0)
+                alltags[t] = n + 1
+        sorted_tags = sorted(alltags.items(), _sort_by_popularity, reverse=True) 
+        search_query = self.request.GET.get('q', '').strip()
+        tag_query = self.request.GET.get('t', '').strip()
+        d['sorted_tags'] = sorted_tags
+        d['query'] = search_query or tag_query
+        d['ord'] = self.order_by
+        d['extra_arg'] = '&ord=' + self.order_by + '&q=' + d['query']
+        d['ord'] = self.order_by
+        d['tags_as_links'] = not search_query or len(d['object_list']) == 0
+        return d
