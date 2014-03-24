@@ -8,6 +8,7 @@ from issues.models import ProposalStatus, IssueStatus, VoteResult
 from meetings.models import MeetingParticipant, Meeting
 from ocd.base_models import HTMLField, UIDMixin
 from ocd.email import send_mails
+from ocd.views import get_guests_emails
 from users.default_roles import DefaultGroups
 from users.models import OCUser, Membership
 import issues.models as issues_models
@@ -117,7 +118,9 @@ class Community(UIDMixin):
 
     allow_links_in_emails = models.BooleanField(_("Allow links inside emails"),   
                                         default=True)
-    
+   
+    email_invitees = models.BooleanField(_("Send mails to invitees"), default=False)
+
     register_missing_board_members = models.BooleanField(_("Resister missing board members"), 
                                                          default=False)
 
@@ -225,12 +228,13 @@ class Community(UIDMixin):
             return []
         return filter(None, [s.strip() for s in self.upcoming_meeting_guests.splitlines()])
 
+
     def full_participants(self):
         guests_count = len(self.upcoming_meeting_guests.splitlines()) \
                         if self.upcoming_meeting_guests else 0 
         return guests_count + self.upcoming_meeting_participants.count()
 
-    def send_mail(self, template, sender, send_to, data=None, base_url=None):
+    def send_mail(self, template, sender, send_to, data=None, base_url=None, with_guests=False):
 
         if not base_url:
             base_url = settings.HOST_URL
@@ -257,17 +261,19 @@ class Community(UIDMixin):
         if send_to == SendToOption.ALL_MEMBERS:
             recipient_list.update(list(
                       self.memberships.values_list('user__email', flat=True)))
-            open_invitation_email_list = self.invitations.values_list('email', flat=True) 
-            if open_invitation_email_list.count():
-                open_invitation_list.update(list(open_invitation_email_list))
+            if self.email_invitees:
+                open_invitation_email_list = self.invitations.values_list('email', flat=True) 
+                if open_invitation_email_list.count():
+                    open_invitation_list.update(list(open_invitation_email_list))
   
         elif send_to == SendToOption.BOARD_ONLY:
             recipient_list.update(list(
                         self.memberships.board().values_list('user__email', flat=True)))
-            open_invitation_email_list = self.invitations.exclude(
-                default_group_name=DefaultGroups.MEMBER).values_list('email', flat=True)
-            if open_invitation_email_list.count():
-                open_invitation_list.update(list(open_invitation_email_list))
+            if self.email_invitees:
+                open_invitation_email_list = self.invitations.exclude(
+                    default_group_name=DefaultGroups.MEMBER).values_list('email', flat=True)
+                if open_invitation_email_list.count():
+                    open_invitation_list.update(list(open_invitation_email_list))
 
         elif send_to == SendToOption.ONLY_ATTENDEES:
             recipient_list.update(list(
@@ -275,21 +281,9 @@ class Community(UIDMixin):
                                                           'email', flat=True)))
 
         if send_to != SendToOption.ONLY_ME:
-            guest_emails = []
-            guests = d['object'].guests if 'object' in d \
-                else self.upcoming_meeting_guests
-            if guests:
-                for line in guests.splitlines():
-                    if '[' in line:
-                        from_idx = line.find('[')
-                        to_idx = line.find(']', from_idx + 1)
-                        try:
-                            guest_emails.append(line[from_idx+1:to_idx])
-                        except:
-                            pass
-                # add meeting guests to recipient_list
-                recipient_list.update(guest_emails)
-
+            guests_text = self.upcoming_meeting_guests
+            # add meeting guests to recipient_list
+            recipient_list.update(get_guests_emails(guests_text))
         logger.info("Sending agenda to %d users" % len(recipient_list))
 
         send_mails(from_email, recipient_list, subject, message, html_message)
@@ -352,7 +346,7 @@ class Community(UIDMixin):
             if all(test_attrs(p)):
                 return True
         return False
-    
+
 
     def _register_absents(self, meeting, meeting_participants):
         board_members = [mm.user for mm in Membership.objects.board() \
@@ -365,11 +359,10 @@ class Community(UIDMixin):
             except Membership.DoesNotExist:
                 mm = None
             MeetingParticipant.objects.create(meeting=meeting, user=a,
-                display_name=a.display_name,         
+                display_name=a.display_name,
                 ordinal=ordinal_base + i,
-                is_absent=True, 
-                default_group_name=mm.default_group_name if mm else None)   
-            
+                is_absent=True,
+                default_group_name=mm.default_group_name if mm else None)
 
     def close_meeting(self, m, user):
         """
@@ -445,7 +438,6 @@ class Community(UIDMixin):
                 issue.abstract = None
 
                 if issue.completed:
-                    issue.status = issue.statuses.ARCHIVED
                     issue.order_in_upcoming_meeting = None
 
                 issue.save()

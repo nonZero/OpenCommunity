@@ -6,6 +6,7 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 from ocd.base_models import HTMLField, UIDMixin, UIDManager
 from ocd.storages import uploads_storage
 from ocd.validation import enhance_html
+from taggit.managers import TaggableManager
 import meetings
 import os.path
 
@@ -201,6 +202,11 @@ class IssueComment(UIDMixin):
     @models.permalink
     def get_edit_url(self):
         return "edit_issue_comment", (self.issue.community.id, self.id)
+
+
+    @models.permalink
+    def get_absolute_url(self):
+        return "issue", (str(self.issue.community.pk), str(self.issue.pk),)
 
 
 class IssueCommentRevision(models.Model):
@@ -403,6 +409,7 @@ class Proposal(UIDMixin):
     votes_con = models.PositiveIntegerField(_("Votes con"), null=True, blank=True)
     community_members = models.PositiveIntegerField(_("Community members"),
                                                     null=True, blank=True)
+    tags = TaggableManager(_("Tags"), blank=True)
     register_board_votes = models.BooleanField(default=False)
     objects = ProposalManager()
 

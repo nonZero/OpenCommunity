@@ -1392,6 +1392,13 @@ li.btn-tab span {
 .active_proposal {
 	border-left: 20px solid #ffffff !important;
 }
+#proc_tags {
+  float: right;
+}
+#proc_tags .title {
+   font-weight: bold;
+   margin-left: 3em;
+}
 
 .three_dot_sentence {
 	white-space: nowrap;

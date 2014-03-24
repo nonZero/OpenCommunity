@@ -109,7 +109,7 @@
                 {% include 'issues/_proposal_vote_results.html' %}
             </div>
         {% endif %}
-        {% if can_board_vote_self %}
+        {% if can_board_vote_self and not proposal.decided %}
             {% include 'issues/_board_vote_self.html' %}
         {% endif %}
 	{% endwith %}
