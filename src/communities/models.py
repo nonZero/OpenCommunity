@@ -281,9 +281,8 @@ class Community(UIDMixin):
                                                           'email', flat=True)))
 
         if send_to != SendToOption.ONLY_ME:
-            guests_text = self.upcoming_meeting_guests
-            # add meeting guests to recipient_list
-            recipient_list.update(get_guests_emails(guests_text))
+            recipient_list.update(get_guests_emails(self.upcoming_meeting_guests))
+
         logger.info("Sending agenda to %d users" % len(recipient_list))
 
         send_mails(from_email, recipient_list, subject, message, html_message)
