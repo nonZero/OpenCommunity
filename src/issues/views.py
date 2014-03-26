@@ -28,7 +28,7 @@ from haystack.inputs import AutoQuery
 from haystack.utils import Highlighter
 import json
 import mimetypes
-
+from datetime import date
 
 
 
@@ -792,12 +792,47 @@ class ChangeBoardVoteStatusView(ProposalMixin, UpdateView):
             return json_response({'result': 'err'})
 
 
-class AssignmentsView(CommunityMixin, ListView):
-    pass
+class AssignmentsView(ProposalMixin, ListView):
+    required_permission = 'issues.viewopen_issue'
+    template_name = 'issues/assignment_list.html'
+    paginate_by = 75 
+
+
+    def _get_order(self):
+        order_by = self.request.GET.get('ord', 'date') 
+        if order_by == 'date':
+            order_by = '-due_by'
+        return order_by
+
+
+    def get_queryset(self):
+        term = self.request.GET.get('q', '').strip()
+        sqs = SearchQuerySet().filter(
+            active=True, community=self.community.id,
+            status=Proposal.statuses.ACCEPTED,
+            type=ProposalType.TASK).order_by(self._get_order())
+        if term:
+            sqs = sqs.filter(content=AutoQuery(term)) \
+                     .filter_or(assignee__contains=term)
+        return sqs.load_all()
+
+
+    def get_context_data(self, **kwargs):
+        def _sort_by_completion_status(a, b):
+            return cmp(a[1], b[1])
+
+        d = super(AssignmentsView, self).get_context_data(**kwargs)
+        search_query = self.request.GET.get('q', '').strip()
+        d['passed'] = [p for p in list(self.get_queryset()) if \
+                        not p.object.task_completed and p.due_by.date() < date.today()]
+        d['query'] = search_query
+        d['ord'] = self._get_order()
+        d['extra_arg'] = '&ord=' + d['ord'] + '&q=' + d['query']
+        return d
 
 
 class ProceduresView(ProposalMixin, ListView):
-    # required_permission = 'issues.viewopen_issue'
+    required_permission = 'issues.viewopen_issue'
     template_name = 'issues/procedure_list.html'
     context_object_name = 'procedure_list'
     paginate_by = 75
@@ -809,9 +844,8 @@ class ProceduresView(ProposalMixin, ListView):
         qs = Proposal.objects.filter(
             active=True, issue__community=self.community,
             status=Proposal.statuses.ACCEPTED,
-            type=ProposalType.RULE).order_by('title')
+            type=ProposalType.RULE)
         return qs
-
 
     def get_queryset(self):
         term = self.request.GET.get('q', '').strip()
@@ -819,15 +853,14 @@ class ProceduresView(ProposalMixin, ListView):
             # try search by tag
             term = self.request.GET.get('t', '').strip()
         self.order_by = self.request.GET.get('ord', 'date') 
-        ord_term = 'created_at' if self.order_by == 'date' else 'title'
+        ord_term = '-decided_at' if self.order_by == 'date' else 'title'
         sqs = SearchQuerySet().filter(
             active=True, community=self.community.id,
             status=Proposal.statuses.ACCEPTED,
             type=ProposalType.RULE).order_by(ord_term)
         if term:
-            sqs = sqs.filter(content=AutoQuery(term)).order_by(ord_term)
+            sqs = sqs.filter(content=AutoQuery(term))
         return sqs.load_all()
-
 
     def get_context_data(self, **kwargs):
         def _sort_by_popularity(a, b):
@@ -844,8 +877,8 @@ class ProceduresView(ProposalMixin, ListView):
         tag_query = self.request.GET.get('t', '').strip()
         d['sorted_tags'] = sorted_tags
         d['query'] = search_query or tag_query
-        d['ord'] = self.order_by
         d['extra_arg'] = '&ord=' + self.order_by + '&q=' + d['query']
         d['ord'] = self.order_by
-        d['tags_as_links'] = not search_query or len(d['object_list']) == 0
+        d['active_tag'] = tag_query
+        d['tags_as_links'] = (not search_query and d['is_paginated']) or len(d['object_list']) == 0
         return d
