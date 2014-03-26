@@ -1,10 +1,10 @@
 from django.core.urlresolvers import reverse
 from django.test.testcases import TestCase
 
-from communities.tests.common import CommunitiesMixin
+from communities.tests.common import CommunitiesTestMixin
 
 
-class CommunitiesTest(CommunitiesMixin, TestCase):
+class CommunitiesTest(CommunitiesTestMixin, TestCase):
     def visit_home(self, user=None):
         response = self.visit(reverse('home'), user)
         self.assertContains(response, self.c1.name)

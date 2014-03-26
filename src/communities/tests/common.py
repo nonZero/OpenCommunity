@@ -39,7 +39,7 @@ def create_sample_community():
         [DefaultGroups.MEMBER] * 10))
 
 
-class CommunitiesMixin(object):
+class CommunitiesTestMixin(object):
     @classmethod
     def create_member(cls, username, community=None):
         u = User.objects.create_user(
@@ -51,7 +51,7 @@ class CommunitiesMixin(object):
 
     @classmethod
     def setUpClass(cls):
-        super(CommunitiesMixin, cls).setUpClass()
+        super(CommunitiesTestMixin, cls).setUpClass()
         cls.c1 = Community.objects.create(name='Public Community XYZZY',
                                           is_public=True)
         cls.c2 = Community.objects.create(name='Private Community ABCDE',
@@ -60,6 +60,14 @@ class CommunitiesMixin(object):
         cls.not_a_member = cls.create_member("foo")
         cls.c1member = cls.create_member("bar", cls.c1)
         cls.c2member = cls.create_member("baz", cls.c2)
+
+
+    @classmethod
+    def tearDownClass(cls):
+        Membership.objects.all().delete()
+        Community.objects.all().delete()
+        User.objects.all().delete()
+        super(CommunitiesTestMixin, cls).tearDownClass()
 
 
     def visit(self, url, user=None, success=True):
