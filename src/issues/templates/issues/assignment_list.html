@@ -33,15 +33,16 @@ id="procedure-list"
 
     <!-- ul id="assignment-order" class="nav nav-tabs">
         <li class="pull-left"><span style="padding: 10px 0 0 20px; display:block; position: relative; font-weight: bold;">{% trans 'Sort by' %}:</span></li>
-        <li {% if 'due' in ord %}class="active"{% endif %}><a href="{% if is_paginated %}{{ request.path }}?q={{ query }}&ord=date{% else %}#by_due_date{% endif %}" {% if not is_paginated %}data-toggle="tab" {% endif %}>{% trans "Due Date" %}</a></li>
-        <li {% if ord == 'assignee' %}class="active"{% endif %}><a href="{% if is_paginated %}{{ request.path }}?q={{ query }}&ord=assignee{% else %}#by_person{% endif %}" {% if not is_paginated %}data-toggle="tab" {% endif %}>{% trans "Assigned To" %}</a></li>
-        <li {% if ord == 'title' %}class="active"{% endif %}><a href="{% if is_paginated %}{{ request.path }}?q={{ query }}&ord=title{% else %}#by_title{% endif %}" {% if not is_paginated %}data-toggle="tab" {% endif %}>{% trans "Assignment Title" %}</a></li>
+        <li {% if 'due' in ord %}class="active"{% endif %}><a href="{% if filter_as_link %}{{ request.path }}?q={{ query }}&ord=date{% else %}#by_due_date{% endif %}" {% if not filter_as_link %}data-toggle="tab" {% endif %}>{% trans "Due Date" %}</a></li>
+     <li {% if ord == 'assignee' %}class="active"{% endif %}><a href="{% if filter_as_link %}{{ request.path }}?q={{ query }}&ord=assignee{% else %}#by_person{% endif %}" {% if not filter_as_link %}data-toggle="tab" {% endif %}>{% trans "Assigned To" %}</a></li>
+        <li {% if ord == 'title' %}class="active"{% endif %}><a href="{% if filter_as_link %}{{ request.path }}?q={{ query }}&ord=title{% else %}#by_title{% endif %}" {% if not filter_as_link %}data-toggle="tab" {% endif %}>{% trans "Assignment Title" %}</a></li>
     </ul -->
 
-    <ul id="assignment-by-status" class="nav nav-tabs">
-        <li {% if status == 'passed' %}class="active"{% endif %} data-filter="late"><a href="{% if is_paginated %}{{ request.path }}?q={{ query }}&status=passed{% else %}#passed{% endif %}" {% if not is_paginated %}data-toggle="tab" {% endif %}>{% trans "Late" %}</a></li>
-        <li {% if status == 'opened' %}class="active"{% endif %} data-filter="open"><a href="{% if is_paginated %}{{ request.path }}?q={{ query }}&status=opened{% else %}#opened{% endif %}" {% if not is_paginated %}data-toggle="tab" {% endif %}>{% trans "Open" %}</a></li>
-        <li {% if status == 'closed' %}class="active"{% endif %} data-filter="completed"><a href="{% if is_paginated %}{{ request.path }}?q={{ query }}&status=closed{% else %}#closed{% endif %}" {% if not is_paginated %}data-toggle="tab" {% endif %}>{% trans "Completed" %}</a></li>
+    <ul id="assignment-by-status" class="nav nav-tabs">    
+        <li {% if not status %}class="active"{% endif %} data-filter="all"><a href="{% if filter_as_link %}{{ request.path }}?q={{ query }}{% else %}#all{% endif %}" {% if not filter_as_link %}data-toggle="tab" {% endif %}>{% trans "All" %}</a></li>
+        <li {% if status == 'late' %}class="active"{% endif %} data-filter="late"><a href="{% if filter_as_link %}{{ request.path }}?q={{ query }}&status=late{% else %}#passed{% endif %}" {% if not filter_as_link %}data-toggle="tab" {% endif %}>{% trans "Late" %}</a></li>
+        <li {% if status == 'opened' %}class="active"{% endif %} data-filter="opened"><a href="{% if filter_as_link %}{{ request.path }}?q={{ query }}&status=opened{% else %}#opened{% endif %}" {% if not filter_as_link %}data-toggle="tab" {% endif %}>{% trans "Open" %}</a></li>
+        <li {% if status == 'completed' %}class="active"{% endif %} data-filter="completed"><a href="{% if filter_as_link %}{{ request.path }}?q={{ query }}&status=completed{% else %}#closed{% endif %}" {% if not filter_as_link %}data-toggle="tab" {% endif %}>{% trans "Completed" %}</a></li>
     </ul>
 
     
@@ -70,21 +71,28 @@ id="procedure-list"
         }
 
     }
-    var d = new Date(); 
     $(function() {
-        {% if not is_paginated %}
             /*
             $('#assignment-order').on('click', 'a', function() {
                 sort_assignments($(this).attr('href'));
             });
             */
-                $('#assignment-by-status').on('click', 'a', function() {
-                    var t = $(this).parent().data('filter');
-                    $('.assignment').hide();
-                    $('.assignment li[data-status="' + t + '"]').closest('ul').show();
-                });  
-            
-        {% endif %}
+        $('#assignment-by-status').on('click', 'a', function() {
+            if($(this).attr('href')[0] != '#') {
+                console.log($(this).attr('href')) 
+                return(true);
+            }
+            else {
+              var t = $(this).parent().data('filter');
+              if(t == 'all') {
+                 $('.assignment').show();
+              }
+              else {  
+                $('.assignment').hide();
+                $('.assignment li[data-status="' + t + '"]').closest('ul').show();
+              }
+          }});  
+    
   });
 
 </script>

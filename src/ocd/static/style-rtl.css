@@ -1679,6 +1679,12 @@ label[for=id_proposal-title] {
 ul.prop-table.prop-pad {
 	border: 0;
 }
+ul.prop-table .prop-content span {
+  font-weight: bold;
+}
+.indent-1 {
+  margin-right: 12px;  
+}
 .member_proposals_outer {
 	 background: #f5f6de;
 	 position: relative;

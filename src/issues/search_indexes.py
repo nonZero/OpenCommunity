@@ -25,7 +25,7 @@ class ProposalIndex(indexes.ModelSearchIndex, indexes.Indexable):
     type = IntegerField(model_attr='type')
     decided_at = DateTimeField()
     assignee = CharField()
-    due_by = DateField(model_attr='due_by', default=date.today()+timedelta(days=365))
+    due_by = DateField(model_attr='due_by', null=True)
 
     def get_model(self):
         return Proposal
