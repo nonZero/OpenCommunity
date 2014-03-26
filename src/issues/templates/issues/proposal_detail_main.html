@@ -86,10 +86,28 @@
             {% endif %}
             {% if object.due_by %}
     			  <div class="pull-left">
-                    <h5><i class="fa fa-calendar"></i> {% trans "Due by" %}: {{ object.due_by|date:"d/m/Y" }}</h5>
+                    <h5><i class="fa fa-calendar"></i> {% trans "Due by" %}: {{ object.due_by|date:"d/m/Y" }}&nbsp;&nbsp;</h5>
 	        	</div>
             {% endif %}
+			<div class="pull-left">
+                <h5><i class="fa fa-list"></i> {% trans "Task" %}</h5>
+        	</div>
         {% endif %}
+	    {% if object.type == 2 %}
+			<div class="pull-left">
+                <h5><i class="fa fa-book"></i> {% trans "Rule" %}</h5>
+        	</div>
+			{% if object.tags.count %}
+			<div class="pull-left">
+                <h5>,&nbsp;&nbsp;{% trans "Tags" %}: {{ object.tags.names|join:", " }}</h5>
+        	</div>
+        	{% endif %}
+    	{% endif %}
+	    {% if object.type == 3 %}
+			<div class="pull-left">
+                <h5><i class="fa fa-file"></i> {% trans "General" %}</h5>
+        	</div>
+    	{% endif %}
     	<div class="col-xs-12" style="border-top: 1px solid; clear: both;margin-bottom: 10px;"></div>
 		<h5 style="clear: both;">
 		    {% if object.content %}
