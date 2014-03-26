@@ -41,11 +41,11 @@
         <li class="active"><a href="?q={{ query }}&amp;type=issue">{% trans "Issues" %}</a></li>
         <li><a href="?q={{ query }}&amp;type=proposal">{% trans "Proposals" %}</a></li>
       {% elif type == 'proposal' %}
-        <li><a href="#">{% trans "All" %}</a></li>
+        <li><a href="?q={{ query }}">{% trans "All" %}</a></li>
         <li><a href="?q={{ query }}&amp;type=issue">{% trans "Issues" %}</a></li>
         <li class="active"><a href="?q={{ query }}&amp;type=proposal">{% trans "Proposals" %}</a></li>
       {% else %}
-        <li class="active"><a href="#">{% trans "All" %}</a></li>
+        <li class="active"><a href="?q={{ query }}">{% trans "All" %}</a></li>
         <li><a href="?q={{ query }}&amp;type=issue">{% trans "Issues" %}</a></li>
         <li><a href="?q={{ query }}&amp;type=proposal">{% trans "Proposals" %}</a></li>
       {% endif %}
