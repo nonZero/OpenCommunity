@@ -75,7 +75,16 @@
     </div>
 	<div class="oc_detail_top row clear" style="margin-right: -5px;margin-left: -5px;border:0;background: none;">
         <div class="pull-left">
-            <h5><i class="fa fa-user"></i> {% trans "By:" %} {{ object.created_by }}. {{ object.created_at|date:"d/m/Y" }}&nbsp;&nbsp;</h5>
+            <h5>
+			    {% if object.type == 1 %}
+	                <i class="fa fa-list"></i> {% trans "Task" %}
+			    {% elif object.type == 2 %}
+	                <i class="fa fa-book"></i> {% trans "Rule" %}
+			    {% elif object.type == 3 %}
+	                <i class="fa fa-file"></i> {% trans "General" %}
+		    	{% endif %}
+            	<i class="fa fa-user"></i> {% trans "By:" %} {{ object.created_by }}. {{ object.created_at|date:"d/m/Y" }}&nbsp;&nbsp;
+        	</h5>
         </div>
         {% if object.type == 1 %}
             {% if object.assigned_to %}
@@ -89,23 +98,10 @@
                     <h5><i class="fa fa-calendar"></i> {% trans "Due by" %}: {{ object.due_by|date:"d/m/Y" }}&nbsp;&nbsp;</h5>
 	        	</div>
             {% endif %}
-			<div class="pull-left">
-                <h5><i class="fa fa-list"></i> {% trans "Task" %}</h5>
-        	</div>
         {% endif %}
-	    {% if object.type == 2 %}
+	    {% if object.type == 2 and object.tags.count %}
 			<div class="pull-left">
-                <h5><i class="fa fa-book"></i> {% trans "Rule" %}</h5>
-        	</div>
-			{% if object.tags.count %}
-			<div class="pull-left">
-                <h5>,&nbsp;&nbsp;{% trans "Tags" %}: {{ object.tags.names|join:", " }}</h5>
-        	</div>
-        	{% endif %}
-    	{% endif %}
-	    {% if object.type == 3 %}
-			<div class="pull-left">
-                <h5><i class="fa fa-file"></i> {% trans "General" %}</h5>
+                <h5><i class="fa fa-tags"></i> {% trans "Tags" %}: {{ object.tags.names|join:", " }}</h5>
         	</div>
     	{% endif %}
     	<div class="col-xs-12" style="border-top: 1px solid; clear: both;margin-bottom: 10px;"></div>
