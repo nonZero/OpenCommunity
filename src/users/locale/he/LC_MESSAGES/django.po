@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-26 10:48+0200\n"
+"POT-Creation-Date: 2014-03-26 23:20+0200\n"
 "PO-Revision-Date: 2014-02-20 17:31+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -199,15 +199,15 @@ msgstr "משתמש זה כבר חבר בקהילה"
 msgid "This user is already invited to this community."
 msgstr "משתמש זה כבר הוזמן לקהילה"
 
-#: .\views.py:77 .\tests\invitation_test.py:80
+#: .\views.py:78 .\tests\invitation_test.py:80
 msgid "Form error. Please supply a valid email."
 msgstr "יש בעיה בטופס. אנא בדוק את כתובת האימייל"
 
-#: .\views.py:176
+#: .\views.py:177
 msgid "Oops. Something went wrong. Please try again."
 msgstr "אופס. משהו השתבש. אנה נסה שוב."
 
-#: .\views.py:319
+#: .\views.py:320
 #, python-format
 msgid "%d Invitations sent"
 msgstr "%d הזמנות נשלחו"
@@ -389,10 +389,6 @@ msgstr "מההחלטות בהם הצביע 'נגד' נדחו"
 msgid "Members"
 msgstr "חברים"
 
-#: .\templates\users\membership_list.html.py:22
-msgid "Board"
-msgstr "ועד"
-
 #: .\templates\users\membership_list.html.py:51
 msgid "No members."
 msgstr "אין חברים בקהילה"
@@ -404,6 +400,9 @@ msgstr "הזמנה חדשה"
 #: .\templates\users\membership_list.html.py:68
 msgid "Invite"
 msgstr "הזמן"
+
+#~ msgid "Board"
+#~ msgstr "ועד"
 
 #~ msgid "Join Open Community"
 #~ msgstr "הצטרף לקהילה פתוחה"

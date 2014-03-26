@@ -817,6 +817,15 @@ ul.prop-table {
 	background: #ffffff;
 	list-style-type: none;
 }
+ul.issue-table {
+	display: table;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border: 1px solid #d8e0df;
+	background: #f5f6de;
+	list-style-type: none;
+}
 #issue-detail-siblings ul.prop-table,
 #issue-detail ul.prop-table {
 	cursor: pointer;
@@ -837,6 +846,12 @@ ul.proposals li.prop-title {
 	padding: .7em 15px 0 15px;
 	word-break: break-word;
 	font-weight: bold;
+}
+ul.proposals li.issue-title {
+	font-size: 18px;
+	padding: .7em 15px 0 15px;
+	word-break: break-word;
+	font-weight: normal;
 }
 a ul.proposals li.prop-title {
 	color: #6c6c6e;
