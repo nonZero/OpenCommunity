@@ -795,14 +795,30 @@ class ChangeBoardVoteStatusView(ProposalMixin, UpdateView):
 class AssignmentsView(ProposalMixin, ListView):
     required_permission = 'issues.viewopen_issue'
     template_name = 'issues/assignment_list.html'
-    paginate_by = 75 
+    paginate_by = 2
 
+    def __init__(self, **kwargs):
+        super(AssignmentsView, self).__init__(**kwargs)
+        self.status = ''
 
     def _get_order(self):
         order_by = self.request.GET.get('ord', 'date') 
         if order_by == 'date':
             order_by = '-due_by'
         return order_by
+
+    def _add_status_qs(self, sqs):
+        self.status = self.request.GET.get('status', '')
+        if self.status:
+            if self.status == 'completed':
+                sqs = sqs.filter(task_completed=True)
+            else:
+                sqs = sqs.filter(task_completed=False)
+                if self.status == 'opened':
+                    sqs = sqs.exclude(due_by__lt=date.today())
+                elif self.status == 'late':
+                    sqs = sqs.filter(due_by__lt=date.today())
+        return sqs
 
 
     def get_queryset(self):
@@ -811,6 +827,7 @@ class AssignmentsView(ProposalMixin, ListView):
             active=True, community=self.community.id,
             status=Proposal.statuses.ACCEPTED,
             type=ProposalType.TASK).order_by(self._get_order())
+        sqs = self._add_status_qs(sqs)
         if term:
             sqs = sqs.filter(content=AutoQuery(term)) \
                      .filter_or(assignee__contains=term)
@@ -818,16 +835,16 @@ class AssignmentsView(ProposalMixin, ListView):
 
 
     def get_context_data(self, **kwargs):
-        def _sort_by_completion_status(a, b):
-            return cmp(a[1], b[1])
-
         d = super(AssignmentsView, self).get_context_data(**kwargs)
         search_query = self.request.GET.get('q', '').strip()
-        d['passed'] = [p for p in list(self.get_queryset()) if \
-                        not p.object.task_completed and p.due_by.date() < date.today()]
+        d['late'] = [p.id for p in list(self.get_queryset()) \
+                        if not p.object.task_completed and p.due_by \
+                        and p.due_by.date() < date.today()]
         d['query'] = search_query
         d['ord'] = self._get_order()
-        d['extra_arg'] = '&ord=' + d['ord'] + '&q=' + d['query']
+        d['status'] = self.status
+        d['filter_as_link'] = d['is_paginated'] or d['status']
+        d['extra_arg'] = '&ord=' + d['ord'] + '&q=' + d['query'] + '&status=' + self.status
         return d
 
 
@@ -839,6 +856,7 @@ class ProceduresView(ProposalMixin, ListView):
 
     def __init__(self, **kwargs):
         self.order_by = 'date'
+        super(ProceduresView, self).__init__(**kwargs)
 
     def _get_procedure_queryset(self):
         qs = Proposal.objects.filter(

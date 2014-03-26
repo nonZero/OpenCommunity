@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-26 10:48+0200\n"
+"POT-Creation-Date: 2014-03-26 12:56+0200\n"
 "PO-Revision-Date: 2014-03-01 07:54+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,7 +61,7 @@ msgstr "שמירה"
 msgid "Add"
 msgstr "הוספה"
 
-#: .\models.py:22
+#: models.py:22 templates/issues/assignment_list.html:44
 msgid "Open"
 msgstr "הצעה פתוחה"
 
@@ -250,10 +250,9 @@ msgstr "אחראי"
 msgid "Due by"
 msgstr "יעד"
 
-#: .\models.py:407
-#, fuzzy
+#: models.py:407 templates/issues/assignment_list.html:45
 msgid "Completed"
-msgstr "הדיון הושלם"
+msgstr "הושלמו"
 
 #: .\models.py:408 .\models.py:574
 msgid "Votes pro"
@@ -267,8 +266,7 @@ msgstr "הצבעות נגד"
 msgid "Community members"
 msgstr "חברי קהילה"
 
-#: .\models.py:412 .\templates\issues\procedure_list.html.py:36
-#: .\templates\issues\proposal_detail_main.html.py:102
+#: models.py:412 templates/issues/procedure_list.html:38
 msgid "Tags"
 msgstr "תגיות"
 
@@ -384,9 +382,38 @@ msgstr "הצבעת על ההצעה"
 msgid "Change your vote"
 msgstr "שנה הצבעה"
 
-#: .\templates\issues\issue_confirm_delete.html.py:12
-#: .\templates\issues\issueattachment_confirm_delete.html.py:11
-#: .\templates\issues\proposal_confirm_delete.html.py:12
+#: templates/issues/assignment_list.html:15
+#: templates/issues/assignment_list.html:22
+msgid "Assignment Tracking"
+msgstr "מעקב משימות"
+
+#: templates/issues/assignment_list.html:26
+msgid "Search by keywords or assigned person"
+msgstr "חיפוש משימה לפי מילת מפתח או שם אחראי"
+
+#: templates/issues/assignment_list.html:35
+#: templates/issues/procedure_list.html:57
+msgid "Sort by"
+msgstr "מיון"
+
+#: templates/issues/assignment_list.html:38
+msgid "Assignment Title"
+msgstr "שם משימה"
+
+#: templates/issues/assignment_list.html:42
+#: templates/issues/issue_detail.html:99
+#: templates/issues/issue_detail_issue_list.html:44
+#: templates/issues/procedure_list.html:39
+msgid "All"
+msgstr "הכל"
+
+#: templates/issues/assignment_list.html:43
+msgid "Late"
+msgstr "באיחור"
+
+#: templates/issues/issue_confirm_delete.html:12
+#: templates/issues/issueattachment_confirm_delete.html:11
+#: templates/issues/proposal_confirm_delete.html:12
 msgid "Are you sure?"
 msgstr "האם אתה בטוח?תאריך קביעת נוהל"
 
@@ -428,13 +455,8 @@ msgstr "בפגישה הקרובה"
 msgid "Next"
 msgstr "הבאה"
 
-#: .\templates\issues\issue_detail.html.py:99
-#: .\templates\issues\issue_detail_issue_list.html.py:44
-msgid "All"
-msgstr "הכל"
-
-#: .\templates\issues\issue_detail.html.py:107
-#: .\templates\issues\issue_list_frame.html.py:45
+#: templates/issues/issue_detail.html:107
+#: templates/issues/issue_list_frame.html:45
 msgid "Closed"
 msgstr "סגור"
 
@@ -529,17 +551,9 @@ msgstr "בטל עריכה"
 msgid "Procedure Book"
 msgstr "ספר נהלים"
 
-#: .\templates\issues\procedure_list.html.py:26
-msgid "Search by keywords"
-msgstr "חיפוש"
-
 #: .\templates\issues\procedure_list.html.py:46
 msgid "All Tags"
 msgstr "כל התגיות"
-
-#: .\templates\issues\procedure_list.html.py:52
-msgid "Sort by"
-msgstr "מיון"
 
 #: .\templates\issues\procedure_list.html.py:53
 msgid "Procedure Approval Date"
@@ -550,6 +564,12 @@ msgid "Procedure Name"
 msgstr "שם נוהל"
 
 #: .\templates\issues\procedure_list.html.py:60
+#: templates/issues/procedure_list.html:27
+msgid "Search by keywords"
+msgstr "חיפוש"
+
+
+#: templates/issues/procedure_list.html:65
 msgid "Results"
 msgstr "תוצאות"
 
@@ -610,6 +630,10 @@ msgstr "דחה הצעה"
 #: .\templates\issues\proposal_form.html.py:14
 msgid "Edit proposal"
 msgstr "עריכת הצעת החלטה"
+
+
+#~ msgid "Assignee"
+#~ msgstr "אחראי"
 
 #~ msgid "Complete discussion"
 #~ msgstr "הדיון הושלם"
