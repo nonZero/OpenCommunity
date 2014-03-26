@@ -16,9 +16,7 @@ class Migration(SchemaMigration):
 
     def backwards(self, orm):
         # Adding field 'ProposalVote.registered_by_chairman'
-        db.add_column(u'issues_proposalvote', 'registered_by_chairman',
-                      self.gf('django.db.models.fields.BooleanField')(default=False),
-                      keep_default=False)
+        db.delete_column(u'issues_proposalvote', 'registered_by')
 
 
     models = {
