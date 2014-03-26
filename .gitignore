@@ -46,4 +46,4 @@ Boaz-Chen_OPEN-COMMUNITY/
 /.idea/
 build
 media/community_logo
-src/ocd/whoosh_index/
+whoosh_index/

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-23 06:51+0200\n"
+"POT-Creation-Date: 2014-03-23 22:41+0200\n"
 "PO-Revision-Date: 2014-03-01 07:54+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -262,7 +262,7 @@ msgstr "הצבעות נגד"
 msgid "Community members"
 msgstr "חברי קהילה"
 
-#: models.py:412 templates/issues/procedure_list.html:31
+#: models.py:412 templates/issues/procedure_list.html:36
 msgid "Tags"
 msgstr "תגיות"
 
@@ -294,6 +294,16 @@ msgstr "נמנע"
 #: templates/issues/_vote_panel.html:7
 msgid "Against"
 msgstr "נגד"
+
+#: templates/issues/_assignment.html:14
+#: templates/issues/assignment_list.html:36
+msgid "Due Date"
+msgstr "תאריך יעד"
+
+#: templates/issues/_assignment.html:15
+#: templates/issues/assignment_list.html:37
+msgid "Assigned To"
+msgstr "אחראי"
 
 #: templates/issues/_comment.html:32 templates/issues/_comment.html.py:41
 msgid "at"
@@ -350,7 +360,7 @@ msgstr "מחיקה"
 msgid "By:"
 msgstr "מאת:"
 
-#: templates/issues/_procedure.html:13
+#: templates/issues/_procedure.html:14
 msgid "Procedure approval date"
 msgstr "תאריך קביעת נוהל"
 
@@ -377,6 +387,24 @@ msgstr "הצבעת על ההצעה"
 #: templates/issues/_vote_reset_panel.html:7
 msgid "Change your vote"
 msgstr "שנה הצבעה"
+
+#: templates/issues/assignment_list.html:15
+#: templates/issues/assignment_list.html:22
+msgid "Assignment Tracking"
+msgstr "מעקב משימות"
+
+#: templates/issues/assignment_list.html:26
+msgid "Search by keywords or assigned person"
+msgstr "חיפוש משימה לפי מילת מפתח או שם אחראי"
+
+#: templates/issues/assignment_list.html:35
+#: templates/issues/procedure_list.html:52
+msgid "Sort by"
+msgstr "מיון"
+
+#: templates/issues/assignment_list.html:38
+msgid "Assignment Title"
+msgstr "שם משימה"
 
 #: templates/issues/issue_confirm_delete.html:12
 #: templates/issues/issueattachment_confirm_delete.html:11
@@ -515,32 +543,28 @@ msgstr "צרף"
 msgid "Cencel edit"
 msgstr "בטל עריכה"
 
-#: templates/issues/procedure_list.html:10
-#: templates/issues/procedure_list.html:17
+#: templates/issues/procedure_list.html:15
+#: templates/issues/procedure_list.html:22
 msgid "Procedure Book"
 msgstr "ספר נהלים"
 
-#: templates/issues/procedure_list.html:21
+#: templates/issues/procedure_list.html:26
 msgid "Search by keywords"
 msgstr "חיפוש"
 
-#: templates/issues/procedure_list.html:41
+#: templates/issues/procedure_list.html:46
 msgid "All Tags"
 msgstr "כל התגיות"
 
-#: templates/issues/procedure_list.html:47
-msgid "Sort by"
-msgstr "מיון"
-
-#: templates/issues/procedure_list.html:48
+#: templates/issues/procedure_list.html:53
 msgid "Procedure Approval Date"
 msgstr "תאריך קביעת נוהל"
 
-#: templates/issues/procedure_list.html:49
+#: templates/issues/procedure_list.html:54
 msgid "Procedure Name"
 msgstr "שם נוהל"
 
-#: templates/issues/procedure_list.html:55
+#: templates/issues/procedure_list.html:60
 msgid "Results"
 msgstr "תוצאות"
 
@@ -601,6 +625,10 @@ msgstr "דחה הצעה"
 #: templates/issues/proposal_form.html:14
 msgid "Edit proposal"
 msgstr "עריכת הצעת החלטה"
+
+#, fuzzy
+#~ msgid "Assignee"
+#~ msgstr "אחראי"
 
 #~ msgid "Complete discussion"
 #~ msgstr "הדיון הושלם"

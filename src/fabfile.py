@@ -312,3 +312,11 @@ def push_key(key_file):
     with open(key_file) as f:
         key_text = f.read()
     append('~/.ssh/authorized_keys', key_text)
+    
+
+@task
+def rebuild_index():
+    """Rebuilds haystack search indexes for project"""
+    with virtualenv(env.code_dir):
+        run("python manage.py rebuild_index --noinput")
+        run("sudo chown -v {} whoosh_index whoosh_index/*".format(env.ocuser))
