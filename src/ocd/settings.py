@@ -178,7 +178,7 @@ AUTH_USER_MODEL = 'users.OCUser'
 
 HAYSTACK_CONNECTIONS = {
     'default': {
-        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'ENGINE': 'ocd.custom_whoosh_backend.MyWhooshEngine',
         'PATH': os.path.join(PROJECT_DIR, 'whoosh_index'),
     },
 }

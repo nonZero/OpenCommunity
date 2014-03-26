@@ -36,9 +36,19 @@
         </table>
 		
     <ul class="nav nav-tabs">
-      <li class="active"><a href="#" data-toggle="tab">{% trans "All" %}</a></li>
-      <li><a href="?q={{ query }}&amp;models=issues.issue" data-toggle="tab">{% trans "Issues" %}</a></li>
-      <li><a href="?q={{ query }}&amp;models=issues.proposal" data-toggle="tab">{% trans "Proposals" %}</a></li>
+      {% if type == 'issue' %}
+        <li><a href="?q={{ query }}">{% trans "All" %}</a></li>
+        <li class="active"><a href="?q={{ query }}&amp;type=issue">{% trans "Issues" %}</a></li>
+        <li><a href="?q={{ query }}&amp;type=proposal">{% trans "Proposals" %}</a></li>
+      {% elif type == 'proposal' %}
+        <li><a href="?q={{ query }}">{% trans "All" %}</a></li>
+        <li><a href="?q={{ query }}&amp;type=issue">{% trans "Issues" %}</a></li>
+        <li class="active"><a href="?q={{ query }}&amp;type=proposal">{% trans "Proposals" %}</a></li>
+      {% else %}
+        <li class="active"><a href="?q={{ query }}">{% trans "All" %}</a></li>
+        <li><a href="?q={{ query }}&amp;type=issue">{% trans "Issues" %}</a></li>
+        <li><a href="?q={{ query }}&amp;type=proposal">{% trans "Proposals" %}</a></li>
+      {% endif %}
     </ul>
 
         {% if query %}

@@ -292,6 +292,8 @@ class About(RedirectView):
 class CommunitySearchView(CommunityModelMixin, DetailView):
     template_name = 'search/search.html'
     paginate_by = 20
+    model_names = {'proposal': Proposal,
+              'issue': Issue}
 
     def paginate(self, sqs):
         try:
@@ -316,6 +318,9 @@ class CommunitySearchView(CommunityModelMixin, DetailView):
     def get_term(self):
         return self.request.GET.get('q', '').strip()
 
+    def get_model(self):
+        return self.request.GET.get('type', '').strip()
+
     def get_sqs(self):
         return SearchQuerySet().filter(community=self.community.id)
 
@@ -324,13 +329,19 @@ class CommunitySearchView(CommunityModelMixin, DetailView):
         if not term:
             return super(CommunitySearchView, self).get(request, *args, **kwargs)
         sqs = self.get_sqs()
+        model_name = self.get_model()
+        model = self.model_names.get(model_name)
+        if model:
+            sqs = sqs.models(model)
         sqs = sqs.auto_query(term)
         sqs = sqs.load_all()
         page = self.paginate(sqs)
-#        assert False, page.object_list
         self.object = self.get_object()
         context = self.get_context_data(object=self.object, query=term, paginator=page.paginator, page=page,
             **kwargs)
+        if model_name in self.model_names.keys():
+            context['type'] = model_name
+#        assert False, model_name
         return self.render_to_response(context)
 
     def get_context_data(self, **kwargs):
