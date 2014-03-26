@@ -336,5 +336,5 @@ def push_key(key_file):
 def rebuild_index():
     """Rebuilds haystack search indexes for project"""
     with virtualenv(env.code_dir):
-        run("python manage.py rebuild_index --noinput")
+        run("cd src && python manage.py rebuild_index --noinput")
         run("sudo chown -v {} whoosh_index whoosh_index/*".format(env.ocuser))
