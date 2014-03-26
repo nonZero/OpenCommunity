@@ -12,14 +12,12 @@ User = get_user_model()
 
 
 class IssuesUITest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.community, cls.members, cls.chairmen = create_sample_community()
+
     def setUp(self):
-        self.community, self.members, self.chairmen = create_sample_community()
-
         self.client = Client()
-
-
-    def tearDown(self):
-        pass
 
     def login_chairmen(self):
         self.client.login(username=self.chairmen[0].email,
