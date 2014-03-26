@@ -807,7 +807,7 @@ class AssignmentsView(ProposalMixin, ListView):
 
     def get_queryset(self):
         term = self.request.GET.get('q', '').strip()
-        sqs = SearchQuerySet().filter(
+        sqs = SearchQuerySet().models(Proposal).filter(
             active=True, community=self.community.id,
             status=Proposal.statuses.ACCEPTED,
             type=ProposalType.TASK).order_by(self._get_order())

@@ -11,7 +11,22 @@
 {% block content %}
     <form method="get" action=".">
         <table>
-            {{ form.as_table }}
+            <form class="" role="search">
+                <div class="form-group">
+                    <div class="input-group input-group-lg">
+                        <input id="q" type="search" class="form-control"
+                               name="q"
+                               placeholder="Search query (or Item number to jump)"
+                               value="{{ query }}"
+                               autofocus="1"/>
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-primary">
+                                Search
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </form>
             <tr>
                 <td>&nbsp;</td>
                 <td>
@@ -28,7 +43,7 @@
 
         {% if query %}
             <h3>{% trans "Results" %}</h3>
-
+            {{ page }}
             {% for result in page.object_list %}
                 {{ result.verbose_name }}
                 <p>
