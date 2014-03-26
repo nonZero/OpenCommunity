@@ -3,8 +3,7 @@ from django.test.testcases import TestCase
 
 from communities.tests.common import create_sample_community
 from django.utils import timezone
-from django.utils.unittest.case import skip
-from issues.consts import IssueStatus
+from issues.models import IssueStatus
 from meetings.models import Meeting
 
 

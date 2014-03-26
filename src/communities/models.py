@@ -184,13 +184,6 @@ class Community(UIDMixin):
         return list(set([p.user for p in participations]) - \
                     set(self.upcoming_meeting_participants.all()))
 
-        """                             
-                                    memberships__default_group_name=DefaultGroups.MEMBER).annotate\
-                                    (meeting_participant=Count('participations'), \
-                                     last_meeting=Max('participations__meeting__held_at')).exclude(id__in=self.upcoming_meeting_participants.all())\
-                                     .order_by('-last_meeting','-meeting_participant')
-        """
-
 
     def previous_guests_participations(self):
         guests_list = Meeting.objects.filter(community=self) \
