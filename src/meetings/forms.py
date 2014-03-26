@@ -56,7 +56,7 @@ class CloseMeetingForm(forms.ModelForm):
             choice_txt = issue.title
             alert_txt = self._get_issue_alert(issue)
             if alert_txt:
-                choice_txt += u'<h4>{0}</h4>'.format(alert_txt)
+                choice_txt += u'<span class="help-text">{0}</span>'.format(alert_txt)
             issues_op.append((issue.id, mark_safe(choice_txt),))
             init_vals.append(issue.id)
         self.fields['issues'].choices = issues_op 

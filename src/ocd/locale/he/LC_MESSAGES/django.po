@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-01 07:53+0200\n"
+"POT-Creation-Date: 2014-03-26 10:48+0200\n"
 "PO-Revision-Date: 2014-02-20 17:29+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,19 +21,54 @@ msgstr ""
 msgid "HTML content"
 msgstr "תוכן HTML"
 
-#: .\templates\404.html.py:6
-msgid "Page not found"
-msgstr "דף לא נמצא"
+#: .\templates\404.html.py:5
+#, fuzzy
+msgid "DemOS 404"
+msgstr "DemOS"
+
+#: .\templates\404.html.py:16 .\templates\404.html.py:28
+#: .\templates\404.html.py:41
+msgid "Oops..."
+msgstr ""
+
+#: .\templates\404.html.py:19
+msgid "We couldn't find the requested community"
+msgstr ""
+
+#: .\templates\404.html.py:21 .\templates\404.html.py:33
+#: .\templates\404.html.py:46
+msgid "You can go to"
+msgstr ""
+
+#: .\templates\404.html.py:21
+msgid "Main page"
+msgstr ""
+
+#: .\templates\404.html.py:31
+msgid "We couldn't find the requested issue"
+msgstr ""
+
+#: .\templates\404.html.py:44
+msgid "We couldn't find the requested proposal"
+msgstr ""
+
+#: .\templates\404.html.py:53
+msgid "Sorry"
+msgstr ""
+
+#: .\templates\404.html.py:56
+msgid "You don't have permission to view that page"
+msgstr ""
+
+#: .\templates\404.html.py:58 .\templates\_navbar.html.py:28
+#: .\templates\login.html.py:10 .\templates\login.html.py:28
+msgid "Login"
+msgstr "כניסה"
 
 #: .\templates\_navbar.html.py:11 .\templates\_navbar.html.py:21
 #: .\templates\base.html.py:9
 msgid "DemOS"
 msgstr "DemOS"
-
-#: .\templates\_navbar.html.py:28 .\templates\login.html.py:10
-#: .\templates\login.html.py:28
-msgid "Login"
-msgstr "כניסה"
 
 #: .\templates\base.html.py:42
 msgid "Page title"
@@ -171,6 +206,41 @@ msgstr "כתובת אימייל:"
 msgid "Reset my password"
 msgstr "אפס סיסמא"
 
+#: .\templates\search\search.html.py:9
+msgid "Search"
+msgstr ""
+
+#: .\templates\search\search.html.py:24
+msgid "All"
+msgstr ""
+
+#: .\templates\search\search.html.py:25
+msgid "Issues"
+msgstr "נושאים לדיון"
+
+#: .\templates\search\search.html.py:26
+msgid "Proposals"
+msgstr ""
+
+#: .\templates\search\search.html.py:30
+msgid "Results"
+msgstr ""
+
+#: .\templates\search\search.html.py:44
+msgid "No results found."
+msgstr ""
+
+#: .\templates\search\search.html.py:48
+msgid "Previous"
+msgstr ""
+
+#: .\templates\search\search.html.py:50
+msgid "Next"
+msgstr ""
+
+#~ msgid "Page not found"
+#~ msgstr "דף לא נמצא"
+
 #~ msgid "Open Community"
 #~ msgstr "קהילה פתוחה"
 
@@ -187,9 +257,6 @@ msgstr "אפס סיסמא"
 
 #~ msgid "to accept invitation"
 #~ msgstr "לקבלת ההזמנה"
-
-#~ msgid "Issues"
-#~ msgstr "נושאים לדיון"
 
 #~ msgid "Upcoming Meeting"
 #~ msgstr "הפגישה הקרובה"
