@@ -5,7 +5,9 @@
 
         <meta charset="utf-8">
 
-        <title>{% trans "Open Community" %}</title>
+        {% block title %}
+        	<title>{% trans "DemOS" %}</title>
+        {% endblock %}
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -37,7 +39,7 @@
                     {% endif %}
                     <div class="col-xs-12">
                         <h2>
-                            {% block page_header %}{% trans "Page Title" %}{% endblock %}
+                            {% block page_header %}{% trans "Page title" %}{% endblock %}
                         </h2>
                         {% block content %}
                         {% endblock %}

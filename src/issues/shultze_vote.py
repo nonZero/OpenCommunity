@@ -6,7 +6,7 @@ from ocd.base_views import json_response
 import json
 
 
-def user_vote(community_id, current_vote, prev_vote):
+def user_vote(community_id, current_vote, prev_vote=[]):
     try:
         g = IssuesGraph.objects.get(community_id=community_id)
     except IssuesGraph.DoesNotExist:

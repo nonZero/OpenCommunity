@@ -18,6 +18,13 @@
 {% endif %}
 {% endcomment %}
 
+{% if cperms.issues.viewopen_issue %}
+    <li class="just_slash hidden-xs">/</li>
+    <li><a href="{% url 'procedures' community.id %}">{% trans "Procedures" %}</a></li>
+    <li class="just_slash hidden-xs">/</li>
+    <li><a href="{% url 'assignments' community.id %}">{% trans "Assignments" %}</a></li>
+{% endif %}
+
 {% if cperms.community.invite_member %}
     <li class="just_slash hidden-xs">/</li>
     <li><a href="{% url 'members' community.id %}">{% trans "Members" %}</a></li>

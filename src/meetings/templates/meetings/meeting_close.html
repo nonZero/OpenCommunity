@@ -17,6 +17,14 @@
 
         {{ form }}
 
+        <div class="alerts">
+            {% if no_participants %} 
+            <p>{% trans 'No participants selected' %}!</p>
+            {% endif %}
+                
+            <p><b>{% trans "Please note, editing the meeting's information is not possible after close" %}</b></p>
+        </div>
+
     {% endwith %}
 
 {% endblock %}

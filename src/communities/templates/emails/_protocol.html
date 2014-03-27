@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n community_tags %}
 
 <div{% if LANGUAGE_CODE == 'he' %} dir="rtl"{% endif %}
     style="font-family: Arial, Helvetica, sans-serif{% if LANGUAGE_CODE == 'he' %};direction:rtl{% endif %}">
@@ -30,7 +30,7 @@
            
 
             <div style="border: solid 1px #ccc; margin: 4px 0;padding: 0"> 
-                <h2 style="margin:0; background: #ddd;padding: 4px">{% trans "Meeting Details" %}</h2>
+                <h2 style="margin:0; background: #ddd;padding: 4px">{% trans "Meeting details" %}</h2>
 
                 <div style="margin:0; padding: 4px">
                     <b>{% trans "Scheduled at" %}:</b>
@@ -61,7 +61,7 @@
                         <p>
                             <b>{% trans "Guests" %}:</b>
                             {% for x in guests %}
-                                {{ x }}{% if not forloop.last %},{% endif %}
+                                {{ x|remove_email }}{% if not forloop.last %},{% endif %}
                             {% endfor %}
                         </p>
                     {% endif %}
@@ -122,7 +122,7 @@
                     {% if a.proposals %}
                         {% if a.accepted_proposals %}  
                             <h4 style="margin:0; background: #eee; padding: 2px">
-                                {% trans "Accepted Proposals" %}
+                                {% trans "Accepted proposals" %}
                             </h4>
                             <ul>
                                 {% for p in a.accepted_proposals.all|dictsort:"created_at" %}
@@ -156,7 +156,7 @@
                         {% endif %}
                         {% if a.rejected_proposals %}
                             <h4 style="margin:0; background: #eee; padding: 2px">
-                                {% trans "Rejected Proposals" %}
+                                {% trans "Rejected proposals" %}
                             </h4>
                             <ul>
                                 {% for n in a.rejected_proposals.all|dictsort:"created_at" %}

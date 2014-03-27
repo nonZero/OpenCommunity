@@ -2,12 +2,16 @@
 {% load i18n %}
 {% load opencommunity community_tags %}
 
+{% block title %}
+	<title>{{ object.name }} - {{ object.upcoming_meeting_title|default:_("Upcoming meeting") }}</title>
+{% endblock %}
+
 {% block extra-page-id %}
 	id="upcoming-meeting"
 {% endblock %}
 
 {% block page_header %}
-<span class="show_meetings visible-xs" style="cursor: pointer;">{% trans "All Meetings" %}</span>
+<span class="show_meetings visible-xs" style="cursor: pointer;">{% trans "All meetings" %}</span>
 {% endblock %}
 
 {% block meeting %}
@@ -15,9 +19,9 @@
 		<ul>
     	{% if object.upcoming_meeting_scheduled_at %}
           <li class="active">
-            <h4><a href="{{object.get_absolute_url}}">{% trans "Upcoming Meeting" %}</a></h4>
+            <h4><a href="{{object.get_absolute_url}}">{% trans "Upcoming meeting" %}</a></h4>
             <h5 style="font-weight: normal;"><i class="fa fa-calendar"></i> {{ object|display_upcoming_time }}
-            <i class="fa fa-map-marker"></i> {{ object.upcoming_meeting_location|default:_("Not set yet") }}</h5>
+            {% if object.upcoming_meeting_location %}<i class="fa fa-map-marker"></i> {{ object.upcoming_meeting_location }}{% endif %}</h5>
           </li>
       	{% endif %}
 		{% if object.meetings.count %}
@@ -55,7 +59,7 @@
 					{{object.upcoming_meeting_title}}
 				{% endif %}
 			{% else %}
-				{% trans "Upcoming Meeting" %}
+				{% trans "Upcoming meeting" %}
 			{% endif %}
 			</h1>
 		</div>
@@ -72,7 +76,7 @@
 			<div class="oc_detail_top row clear" style="border:0;background: none;">
 				<h5 class="pull-left" style="line-height: 1.3;">
 	        		<i class="fa fa-calendar"></i> {{ object|display_upcoming_time }}
-					<i class="fa fa-map-marker"></i> {{object.upcoming_meeting_location|default:_("Not set yet")}}
+					{% if object.upcoming_meeting_location %}<i class="fa fa-map-marker"></i> {{ object.upcoming_meeting_location }}{% endif %}
 				{% if cperms.community.editparticipants_community and community.upcoming_meeting_started %}
 					<i class="fa fa-group"></i> <a data-rel="form" href="{% url "upcoming_edit_participants" community.id  %}" style="color: #6C6C6E;">{% trans "Participants" %}: {{object.full_participants}}</a>
 				{% endif %}
@@ -84,13 +88,13 @@
                             <form method="post" action="{% url "upcoming_end" community.id  %}">
                                 {% csrf_token %}
                                 <button class="btn btn-default" style="border: 0; outline: none;background: 0;padding: 0;">
-                                    <i class="fa fa-undo"></i> <span>{% trans "Undo Start Meeting" %}</span>
+                                    <i class="fa fa-undo"></i> <span>{% trans "Undo start meeting" %}</span>
                                 </button>
                             </form>
                         {% else %}
                             <button class="btn btn-default" style="border: 0; outline: none;background: 0;padding: 0;"
                                     data-rel="form" data-url="{% url "upcoming_start" community.id  %}" >
-                                    <i class="fa fa-play-circle"></i> <span>{% trans "Start Meeting" %}</span>
+                                    <i class="fa fa-play-circle"></i> <span>{% trans "Start meeting" %}</span>
                             </button>
                         {% endif %}
                     </h5>
@@ -106,12 +110,12 @@
 			<div id="agenda-container" class="agenda-list clear">
 				<h2 class="pull-left"> {% trans "Agenda items" %} <span class="loader"> <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/> </span></h2>
 				{% if cperms.community.editagenda_community %}
-					<a class="btn btn-oc pull-right" data-rel="form" href="{% url "issue_create_upcoming" community.id %}"> <i class="fa fa-plus"></i> <span>{% trans "Create Issue" %}</span></a>
+					<a class="btn btn-oc pull-right" data-rel="form" href="{% url "issue_create_upcoming" community.id %}"> <i class="fa fa-plus"></i> <span>{% trans "New issue" %}</span></a>
 				{% endif %}
 				{% if object.has_straw_votes and cperms.issues.vote and object.upcoming_meeting_is_published and user.id %}
 					<h2 class="pull-right">
 						<span class="badge vote-badge">
-							{% trans "Total proposals/Votes" %}
+							{% trans "All proposals / Voted" %}
 						</span>
 					</h2>
 				{% endif %}	
@@ -141,9 +145,9 @@
 
 			{% if cperms.community.editagenda_community %}
 			<div style="margin: 1em auto;text-align: center;clear: both;">
-				<a data-rel="form" href="{% url "upcoming_publish" community.id  %}" class="btn btn-oc"> {% if object.upcoming_meeting_started %} <i class="fa fa-envelope-o"></i> <span>{% trans "Summary Draft" %}</span> {% else %} <i class="fa fa-envelope-o"></i> <span>{% trans "Publish Agenda" %}</span> {% endif %}</a>
+				<a data-rel="form" href="{% url "upcoming_publish" community.id  %}" class="btn btn-oc"> {% if object.upcoming_meeting_started %} <i class="fa fa-envelope-o"></i> <span>{% trans "Summary draft" %}</span> {% else %} <i class="fa fa-envelope-o"></i> <span>{% trans "Publish the agenda" %}</span> {% endif %}</a>
 			{% if object.upcoming_meeting_started and cperms.meetings.add_meeting %}
-				<a href="{% url "upcoming_close" community.id %}" data-rel="form" class="btn btn-warning" style="margin: 0 20px;"> {% trans "Close Meeting" %} </a>
+				<a href="{% url "upcoming_close" community.id %}" data-rel="form" class="btn btn-warning" style="margin: 0 20px;"> {% trans "Close meeting" %} </a>
 			{% endif %}
 			</div>
 			{% endif %}
@@ -153,10 +157,10 @@
         <div id="available-agenda" class="agenda-list">
         
         {% if community.issue_ranking_enabled %}
-            <h2 class="pull-left">{% trans "Available Issues" %}</h2>
+            <h2 class="pull-left">{% trans "Additional issues" %}</h2>
             <ul id="issues-order" class="nav nav-tabs pull-right">
                 <li class="active"><a href="by_time" data-toggle="tab">{% trans "By time" %}</a></li>
-                <li><a href="by_rank" data-toggle="tab">{% trans "By rank" %}</a></li>
+                <li><a href="by_rank" data-toggle="tab">{% trans "By priority" %}</a></li>
             </ul>    
             <div style="clear: both;">
                 <div class="tab-pane active"> 
@@ -169,7 +173,7 @@
             </div>
 
         {% else %}
-              <h2>{% trans "Available Issues" %}</h2>
+              <h2>{% trans "Additional issues" %}</h2>
               <ul id="available" class="nav nav-pills nav-stacked">
                 {% for i in community.available_issues %}
                   {% include "communities/_issue.html" %}

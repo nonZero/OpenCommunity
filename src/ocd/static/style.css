@@ -268,7 +268,7 @@ ul.errorlist li {
 	margin-bottom: 10px;
 }
 .accept_reject_btns {
-    max-width: 300px;
+    max-width: 330px;
 }
 .edit-comment button {
 	background: url(images/comment_edit_pencil.png) no-repeat;
@@ -487,6 +487,9 @@ ul li.issue.oc_li a.addremove {
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
+}
+.timer_extra {
+	right: 100px;
 }
 .user_votes_on_issue {
 	position: absolute;
@@ -1068,7 +1071,7 @@ form.delete-invitation {
 .piechart a {
    font-size: 1.1em;
    vertical-align: top;
-   color: #000;
+   color: #6C6C6E;
    text-decoration: none;
 }
 
@@ -1094,7 +1097,8 @@ form.delete-invitation {
 .chart_datetime {
 	border-bottom: 1px solid #d8e0df;
 	padding-bottom: 10px;
-	margin-bottom: 10px;	
+	margin-bottom: 10px;
+	color: #6C6C6E;	
 }
 
 /* Votes */
@@ -1105,6 +1109,9 @@ form.delete-invitation {
 	color: #666;
 	font-size: 16px;
 	font-weight: bold;
+}
+.vote_marked {
+	border: 2px solid #333;
 }
 .issue_proposal_vote .change_vote {
 	margin-top: -10px;
@@ -1498,6 +1505,7 @@ label[for=id_proposal-title] {
 .board_vote {
 	border: 1px solid #d8e0df;
 	padding: 10px;
+	clear: both;
 }
 .board_vote h4,
 .board_vote p {
@@ -1581,8 +1589,14 @@ label[for=id_proposal-title] {
 	padding: 10px;
 }
 .task_devider {
+	display: block;
 	border-bottom: 1px solid #dddddd;
 	margin-bottom: 10px;
+	color: #333333;
+}
+.task_devider:hover {
+	text-decoration: none;
+	color: #333333;
 }
 .task_devider:last-child {
 	border-bottom: 0;
@@ -1596,6 +1610,33 @@ label[for=id_proposal-title] {
 }
 .all-con {
 	background: #d95e59;
+}
+.twitter-typeahead {
+	width: 100%;
+}
+.member_vote_part {
+	display: block;
+	margin-right: 5%;
+	background: #f5f6de;
+	padding: 5px;
+	text-decoration: none;
+	color: #6C6C6E;
+	position: relative;
+	margin-bottom: -20px;
+}
+ul.prop-table.prop-pad {
+	border: 0;
+}
+.member_proposals_outer {
+	 background: #f5f6de;
+	 position: relative;
+	 margin-right: 5%;
+	 margin-bottom: 30px;
+}
+.member_proposals_inner {
+	 position: relative;
+	 left: 5%;
+	 bottom: -20px;
 }
 
 /* Footer */

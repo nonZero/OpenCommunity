@@ -103,10 +103,20 @@ class Meeting(UIDMixin):
     def get_participations(self):
         return self.participations.filter(is_absent=False)
         
+    def get_participants(self):
+        participations = self.get_participations()
+        return [p.user for p in participations]
+
     @models.permalink
     def get_absolute_url(self):
         return ("meeting", (str(self.community.pk), str(self.pk),))
 
+
+class BoardParticipantsManager(models.Manager):
+    def board(self):
+        return self.get_query_set().exclude(
+                                    default_group_name=DefaultGroups.MEMBER,
+                                    is_absent=True)
 
 class MeetingParticipant(models.Model):
     meeting = models.ForeignKey(Meeting, verbose_name=_("Meeting"), 
@@ -120,7 +130,8 @@ class MeetingParticipant(models.Model):
                                           choices=DefaultGroups.CHOICES,
                                           null=True, blank=True)
     is_absent = models.BooleanField(_("Is Absent"), default=False)
-
+    objects = BoardParticipantsManager()
+    
     class Meta:
         verbose_name = _("Meeting Participant")
         verbose_name_plural = _("Meeting Participants")

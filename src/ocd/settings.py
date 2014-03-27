@@ -161,7 +161,8 @@ INSTALLED_APPS = (
     'django_nose',
     'django_extensions',
     'debug_toolbar',
-
+    'taggit',
+    'haystack',
     'oc_util',
     'users',
     'communities',
@@ -173,6 +174,17 @@ INSTALLED_APPS = (
 
 
 AUTH_USER_MODEL = 'users.OCUser'
+
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'ocd.custom_whoosh_backend.MyWhooshEngine',
+        'PATH': os.path.join(PROJECT_DIR, 'whoosh_index'),
+    },
+}
+
+HAYSTACK_CUSTOM_HIGHLIGHTER = 'ocd.custom_highlighting.MyHighlighter'
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -211,7 +223,7 @@ LOGIN_URL = "/login/"
 LOGOUT_URL = "/logout/"
 
 FORMAT_MODULE_PATH = "ocd.formats"
-DATE_FORMAT_OCSHORTDATE = "M j"
+DATE_FORMAT_OCSHORTDATE = "j.n"
 DATE_FORMAT_OCSHORTTIME = "H:i"
 # DATETIME_FORMAT = '%d/%m/%Y %H:%M'
 

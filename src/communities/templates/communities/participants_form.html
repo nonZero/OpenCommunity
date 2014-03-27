@@ -1,10 +1,10 @@
 {% extends "dialog.html" %}
-{% load i18n floppyforms %}
+{% load i18n floppyforms community_tags %}
 
 {% block page_header %}
     <span class="participant-title">
-    	<span class="select-participants"{% if not object.full_participants.count %} style="display: none;"{% endif %}>{% trans "Select Participants" %} <button type="button" class="btn btn-default">{% trans "List" %}</button></span>
-    	<span class="list-of-participants"{% if object.full_participants.count %} style="display: none;"{% endif %}>{% trans "List of Participants" %} <button type="button" class="btn btn-default">{% trans "Edit" %}</button></span>
+    	<span class="select-participants"{% if not object.full_participants.count %} style="display: none;"{% endif %}>{% trans "Select participants" %} <button type="button" class="btn btn-default">{% trans "List" %}</button></span>
+    	<span class="list-of-participants"{% if object.full_participants.count %} style="display: none;"{% endif %}>{% trans "List of participants" %} <button type="button" class="btn btn-default">{% trans "Edit" %}</button></span>
 	</span>
 {% endblock %}
 
@@ -48,14 +48,9 @@
 			</ul>
 			<div class="row">
 				<div class="form-group">
-					<div class="col-xs-8 col-sm-10">
-						<input type="text" class="form-control" id="add_member"/>
-					</div>
-					<div class="col-xs-4 col-sm-2">
-						<button type="button" class="btn btn-default" id="add_member_btn">
-							{% trans "Add" %}
-						</button>
-					</div>
+					<div class="col-xs-12">
+                        <input type="text" class="form-control" id="add_member"/>
+                    </div>
 				</div>
 			</div>
 			{% if object.previous_members_participations.count %}
@@ -173,7 +168,7 @@
 		<ul class="list-group">
 			{% for i in object.get_guest_list %}
 			<li class="list-group-item">
-				{{ i }}
+				{{ i|remove_email }}
 			</li>
 			{% endfor %}
 		</ul>

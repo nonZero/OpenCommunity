@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sites.models import get_current_site
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.db.utils import IntegrityError
@@ -62,6 +63,9 @@ class MembershipList(MembershipMixin, ListView):
         d['form'] = InvitationForm(initial={'message':
                                             Invitation.DEFAULT_MESSAGE %
                                             self.community.get_board_name()})
+        d['board_list'] = Membership.objects.board().filter(community=self.community)
+        d['member_list'] = Membership.objects.none_board().filter(community=self.community)
+        d['board_name'] = self.community.board_name
 
         return d
 
@@ -226,6 +230,8 @@ class AutocompleteMemberName(MembershipMixin, ListView):
         
 class MemberProfile(MembershipMixin, DetailView):
     
+    required_permission = 'users.show_member_profile'
+    
     model = models.Membership
     template_name = "users/member_profile.html"
     
@@ -252,50 +258,64 @@ class ImportInvitationsView(MembershipMixin, FormView):
         # CHOICES is a tuple of role names: (name, _(name))
         roles = dict(DefaultGroups.CHOICES)
         sent = 0
-
+        final_rows = []
+        partial = ''
+        composite = False
         for chunk in uploaded.chunks():
             rows = chunk.split('\n')
             for i, row in enumerate(rows):
-                words = row.split(',')
-                # print ' -- ', words[0], ' -- '
-                if i == 0:
-                    msg = words[0]
-                    try:
-                        msg = msg.decode(def_enc)
-                    except UnicodeDecodeError:
-                        def_enc = 'utf-8'
-                        msg = msg.decode(def_enc)
-                elif len(words) > 1:
-                    # print ' - '.join(row.split(','))
-                    name = words[0].decode(def_enc)
-                    email = words[1].decode(def_enc)
-                    try:
-                        role = words[2].strip().decode(def_enc)
-                        for k, v in roles.items():
-                            if v == role:
-                                role = k
-                    except:
-                        role = roles.keys()[0]
-                    if not role in roles.keys():
-                        role = roles.keys()[0]
+                if row.startswith('"'):
+                    composite = True
+                    partial = row[1:]
+                elif composite:
+                    partial += '\n' + row
+                    if '"' in row:
+                        composite = False
+                        final_rows.append(partial[:partial.rindex('"')])
+                else:
+                    final_rows.append(row)
+        
 
-                    v_err = self.validate_invitation(email)
-                    if v_err:
-                        continue
-                    invitation = Invitation.objects.create( 
-                        community=self.community,
-                        name=name,
-                        email=email,
-                        created_by=self.request.user,
-                        default_group_name=role,
-                        message=msg) 
-                    try:
-                        invitation.send(sender=self.request.user, recipient_name=name)
-                        # reduce email sending rate
-                        time.sleep(4)
-                        sent += 1
-                    except:
-                        pass
+        for i, row in enumerate(final_rows):
+            words = row.split(',')
+            # print ' -- ', words[0], ' -- '
+            if i == 0:
+                msg = row
+                try:
+                    msg = msg.decode(def_enc)
+                except UnicodeDecodeError:
+                    def_enc = 'utf-8'
+                    print 'UTF-8'
+                    msg = msg.decode(def_enc)
+            elif len(words) > 1:
+                name = words[0].decode(def_enc)
+                email = words[1].decode(def_enc)
+                try:
+                    role = words[2].strip().decode(def_enc)
+                    for k, v in roles.items():
+                        if v == role:
+                            role = k
+                except:
+                    role = roles.keys()[0]
+                if not role in roles.keys():
+                    role = roles.keys()[0]
+
+                v_err = self.validate_invitation(email)
+                if v_err:
+                    continue
+                invitation = Invitation.objects.create( 
+                    community=self.community,
+                    name=name,
+                    email=email,
+                    created_by=self.request.user,
+                    default_group_name=role,
+                    message=msg) 
+                try:
+                    invitation.send(sender=self.request.user, recipient_name=name)
+                    # time.sleep(1)
+                    sent += 1
+                except:
+                    pass
 
         messages.success(self.request, _('%d Invitations sent') % (sent,))           
         return redirect(reverse('members', kwargs={'community_id': self.community.id}))
@@ -321,8 +341,22 @@ def oc_password_reset(request, is_admin_site=False,
         post_reset_redirect = reverse('django.contrib.auth.views.password_reset_done')
     if request.method == "POST":
         form = password_reset_form(request.POST)
+        if form.is_valid():
+            current_site = get_current_site(request)
+            from_email = "%s <%s>" % (current_site.name, settings.FROM_EMAIL)
+            opts = {
+                'use_https': request.is_secure(),
+                'token_generator': token_generator,
+                'from_email': from_email,
+                'email_template_name': email_template_name,
+                'subject_template_name': subject_template_name,
+                'request': request,
+            }
+            if is_admin_site:
+                opts = dict(opts, domain_override=request.get_host())
+            form.save(**opts)
+            return HttpResponseRedirect(post_reset_redirect)
         email = request.POST['email']
-        from_email = request.POST['email']
         try:
             invitation = Invitation.objects.get(email=email)
             extra_context = {
@@ -330,21 +364,10 @@ def oc_password_reset(request, is_admin_site=False,
                              }
             invitation.send(sender=invitation.created_by, 
                             recipient_name=invitation.name)
-
-        except Invitation.DoesNotExist:        
-            if form.is_valid():
-                opts = {
-                    'use_https': request.is_secure(),
-                    'token_generator': token_generator,
-                    'from_email': from_email,
-                    'email_template_name': email_template_name,
-                    'subject_template_name': subject_template_name,
-                    'request': request,
-                }
-                if is_admin_site:
-                    opts = dict(opts, domain_override=request.get_host())
-                form.save(**opts)
-                return HttpResponseRedirect(post_reset_redirect)
+            # TODO: redirect to message 
+#             return HttpResponseRedirect(reverse('invitation_sent'))
+        except Invitation.DoesNotExist:
+            pass
     else:
         form = password_reset_form()
     context = {
