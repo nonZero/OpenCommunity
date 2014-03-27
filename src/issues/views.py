@@ -795,7 +795,7 @@ class ChangeBoardVoteStatusView(ProposalMixin, UpdateView):
 class AssignmentsView(ProposalMixin, ListView):
     required_permission = 'issues.viewopen_issue'
     template_name = 'issues/assignment_list.html'
-    paginate_by = 2
+    paginate_by = 75
 
     def __init__(self, **kwargs):
         super(AssignmentsView, self).__init__(**kwargs)
