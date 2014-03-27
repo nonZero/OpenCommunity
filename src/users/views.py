@@ -65,6 +65,7 @@ class MembershipList(MembershipMixin, ListView):
                                             self.community.get_board_name()})
         d['board_list'] = Membership.objects.board().filter(community=self.community)
         d['member_list'] = Membership.objects.none_board().filter(community=self.community)
+        d['board_name'] = self.community.board_name
 
         return d
 
