@@ -36,11 +36,11 @@ id="procedure-list"
   <div class="row">
       <div id="proc_tags" class="col-xs-12">
           <span class="title">{% trans 'Tags' %} :</span>
-          <a id="all_tags" {% if not active_tag %}class="marked"{% endif %} href="{% if tags_as_links %}/{% else %}#{% endif %}">{% trans 'All' %}</a> /  
+          <a id="all_tags" {% if not active_tag %}class="badge"{% endif %} href="{% if tags_as_links %}/{% else %}#{% endif %}">{% trans 'All' %}</a> /  
           {% for t in sorted_tags %}
              {% if forloop.counter > 10 %} <span class="hidden-tag"> {% endif %}  
               <a 
-                  class="{% if active_tag == t.0 %}marked {% endif %}"
+                  class="{% if active_tag == t.0 %}badge {% endif %}"
                   href="{% if tags_as_links %}{{ request.path }}?t={{ t.0 }}{% else %}#{% endif %}" data-tag="{{ t.0 }}">{{ t.0 }}
              </a>
               {% if not forloop.last %} / {% endif %} 
@@ -98,8 +98,8 @@ id="procedure-list"
             });
             {% if not tags_as_links %}    
                 $('#proc_tags').on('click', 'a:not(#more_tags)', function() {
-                    $('a.marked').removeClass('marked');
-                    $(this).addClass('marked');
+                    $('a.badge').removeClass('badge');
+                    $(this).addClass('badge');
                     var t = $(this).data('tag');
                     if(t) {
                         $('.procedure').hide();
@@ -112,8 +112,8 @@ id="procedure-list"
                 });
                 $('a#all_tags').click(function() {
                     console.log('---------------');
-                    $('a.marked').removeClass('marked');
-                    $(this).addClass('marked');
+                    $('a.badge').removeClass('badge');
+                    $(this).addClass('badge');
                     $('.procedure').show();
                 });
             

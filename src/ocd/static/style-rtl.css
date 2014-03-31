@@ -1437,6 +1437,7 @@ li.btn-tab span {
 }
 #proc_tags {
   float: right;
+  line-height: 2em;
 }
 #proc_tags .title {
    font-weight: bold;

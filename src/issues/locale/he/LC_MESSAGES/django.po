@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-26 23:33+0200\n"
+"POT-Creation-Date: 2014-03-31 21:12+0300\n"
 "PO-Revision-Date: 2014-03-01 07:54+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,7 +61,7 @@ msgstr "שמירה"
 msgid "Add"
 msgstr "הוספה"
 
-#: .\models.py:21 .\templates\issues\assignment_list.html.py:43
+#: .\models.py:21 .\templates\issues\assignment_list.html.py:44
 msgid "Open"
 msgstr "הצעה פתוחה"
 
@@ -242,7 +242,7 @@ msgstr "אחראי"
 msgid "Due by"
 msgstr "יעד"
 
-#: .\models.py:413 .\templates\issues\assignment_list.html.py:44
+#: .\models.py:413 .\templates\issues\assignment_list.html.py:45
 #, fuzzy
 msgid "Completed"
 msgstr "הדיון הושלם"
@@ -408,6 +408,13 @@ msgid "Assignment Title"
 msgstr "אחראי"
 
 #: .\templates\issues\assignment_list.html.py:42
+#: .\templates\issues\issue_detail.html.py:99
+#: .\templates\issues\issue_detail_issue_list.html.py:44
+#: .\templates\issues\procedure_list.html.py:39
+msgid "All"
+msgstr "הכל"
+
+#: .\templates\issues\assignment_list.html.py:43
 #, fuzzy
 msgid "Late"
 msgstr "ב"
@@ -455,12 +462,6 @@ msgstr "בפגישה הקרובה"
 #: .\templates\issues\issue_detail_issue_list.html.py:21
 msgid "Next"
 msgstr "הבאה"
-
-#: .\templates\issues\issue_detail.html.py:99
-#: .\templates\issues\issue_detail_issue_list.html.py:44
-#: .\templates\issues\procedure_list.html.py:39
-msgid "All"
-msgstr "הכל"
 
 #: .\templates\issues\issue_detail.html.py:107
 #: .\templates\issues\issue_list_frame.html.py:45
