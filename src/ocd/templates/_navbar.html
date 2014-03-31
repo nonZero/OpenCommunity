@@ -17,7 +17,7 @@
 		</ul>
 		{% if community.id %}
 		<form class="navbar-form navbar-left" role="search" method="get" action="{% url 'community_search' community.id %}">
-			<div class="form-group">
+			<div class="form-group search_fix">
 				<input id="q" type="search" name="q" class="form-control input-sm" placeholder="{% trans 'General search text...' %}" value="{{ query }}">
 			</div>
 			<button type="submit" class="btn btn-primary btn-sm">

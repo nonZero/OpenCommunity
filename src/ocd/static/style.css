@@ -321,7 +321,7 @@ nav.oc_navbar {
 .nav > li > a {
         padding: 10px 15px;
 }
-#issue-list .nav > li > a {
+#issue-list .nav.nav-tabs > li > a {
         padding: 10px;
 }
 #issue-list  .nav-tabs > li.active > a,

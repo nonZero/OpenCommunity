@@ -322,7 +322,7 @@ nav.oc_navbar {
 .nav > li > a {
         padding: 10px 15px;
 }
-#issue-list .nav > li > a {
+#issue-list .nav.nav-tabs > li > a {
         padding: 10px;
 }
 #issue-list  .nav-tabs > li.active > a,
@@ -389,6 +389,11 @@ p.user_nav {
 #login-page #login_navbar {
 	display: none;
 }
+.search_fix {
+	width: 80%;
+	float: right;
+}
+
 /* List */
 
 .oc_li {
@@ -1847,6 +1852,10 @@ ul.prop-table .prop-content span {
 	}
 	.issue_main .issue_left_column {
 		margin-top: 0;
+	}
+	.search_fix {
+		width: auto;
+		float: none;
 	}
 
 }
