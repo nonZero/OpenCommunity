@@ -19,12 +19,12 @@ EMAIL_SUBJECT_PREFIX = '[OpenCommunity] '
 FROM_EMAIL = "noreply@opencommunity.dev"
 HOST_URL = "http://localhost:8000"
 
-MANAGERS = ADMINS
+MANAGERS = (('Boaz Chen', 'boaz.chen@gmail.com'),)
 
 DATABASES = {
     'default': {
         # engines: '.postgresql_psycopg2', '.mysql', '.sqlite3' or '.oracle'.
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', 
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'opencommunity',
         'USER': 'opencommunity',
         'PASSWORD': 'opencommunity',
@@ -72,8 +72,8 @@ UPLOAD_PATH = ABSDIR('uploads')
 
 UPLOAD_ALLOWED_EXTS = [
                        'pdf', 'txt', 'doc', 'docx', 'xls', 'xlsx', 'csv',
-                       'jpg', 'jpeg', 'gif', 'png', 'tiff', 'ppt', 'pptx', 
-                       'rtf', 'mp3', 'wav', 'flac', 'm4a', 'wma', 'aac', 
+                       'jpg', 'jpeg', 'gif', 'png', 'tiff', 'ppt', 'pptx',
+                       'rtf', 'mp3', 'wav', 'flac', 'm4a', 'wma', 'aac',
                        'fla', 'mp4', 'mov', 'avi', 'wmv',
                       ]
 
