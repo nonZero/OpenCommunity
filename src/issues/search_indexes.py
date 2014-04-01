@@ -3,6 +3,7 @@ from issues.models import Issue, Proposal
 from haystack.fields import IntegerField, CharField, BooleanField, DateField, DateTimeField
 from datetime import date, datetime, timedelta
 
+
 class IssueIndex(indexes.ModelSearchIndex, indexes.Indexable):
     community = IntegerField(model_attr='community_id')
     class Meta:

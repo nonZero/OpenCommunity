@@ -30,11 +30,12 @@
 			{% if paginator.count %}
                 ({% if paginator.num_pages > 1 %}{{ page.start_index }}
                     - {{ page.end_index }}
-                {% trans "of" %} {% endif %}{{ paginator.count }} {% trans "Results" %})
+                {% trans "of" %} {% endif %}{% if type %}{{ real_count }}{% else %}{{ paginator.count }}{% endif %} {% trans "Results" %})
             {% else %}
                 {% trans "No Results for" %} '{{ query }}'.
             {% endif %}
             {% for result in page.object_list %}
+                {% if result %}
  				<ul class="{% if result.content_type == 'issues.proposal' %}prop-table{% else %}issue-table{% endif %} proposals">
 				    {% if result.content_type == 'issues.proposal' %}<li class="drag-icon {% if result.object.type == 1 %}task-icon{% elif result.object.type == 2 %}rule-icon{% elif result.object.type == 3 %}general-icon{% endif %}"</li>{% endif %}
 				    <li class="{% if result.content_type == 'issues.proposal' %}prop-title{% else %}issue-title{% endif %}">
@@ -56,6 +57,7 @@
 	                    {% endwith %}
 				    </li>
 				</ul>
+                {% endif %}
             {% empty %}
                 <p>{% trans "No results found." %}</p>
             {% endfor %}

@@ -325,6 +325,7 @@ class CommunitySearchView(CommunityModelMixin, DetailView):
         return SearchQuerySet().filter(community=self.community.id)
 
     def get(self, request, *args, **kwargs):
+        #import ipdb;ipdb.set_trace()
         term = self.get_term()
         if not term:
             return super(CommunitySearchView, self).get(request, *args, **kwargs)
@@ -341,7 +342,8 @@ class CommunitySearchView(CommunityModelMixin, DetailView):
             **kwargs)
         if model_name in self.model_names.keys():
             context['type'] = model_name
-#        assert False, model_name
+            context['real_count'] = len([result for result in page.object_list if result])
+
         return self.render_to_response(context)
 
     def get_context_data(self, **kwargs):
