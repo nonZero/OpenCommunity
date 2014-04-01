@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from issues.models import ProposalStatus, IssueStatus, VoteResult
 from meetings.models import MeetingParticipant, Meeting
 from ocd.base_models import HTMLField, UIDMixin
-from ocd.email import send_mails
+from oc_util.email_util import send_mails
 from ocd.views import get_guests_emails
 from users.default_roles import DefaultGroups
 from users.models import OCUser, Membership
