@@ -12,7 +12,7 @@ class IssueIndex(indexes.ModelSearchIndex, indexes.Indexable):
     # Note that regular ``SearchIndex`` methods apply.
     def index_queryset(self, using=None):
         "Used when the entire index for model is updated."
-        return Issue.objects.all()
+        return Issue.objects.active()
 
 
 class ProposalIndex(indexes.ModelSearchIndex, indexes.Indexable):
@@ -32,7 +32,7 @@ class ProposalIndex(indexes.ModelSearchIndex, indexes.Indexable):
 
     def prepare_assignee(self, obj):
         return u'' if not obj.assigned_to_user else \
-                  obj.assigned_to_user.display_name 
+                  obj.assigned_to_user.display_name
 
     def prepare_decided_at(self, obj):
         return obj.created_at if not obj.decided_at_meeting \
@@ -41,4 +41,4 @@ class ProposalIndex(indexes.ModelSearchIndex, indexes.Indexable):
     # Note that regular ``SearchIndex`` methods apply.
     def index_queryset(self, using=None):
         "Used when the entire index for model is updated."
-        return Proposal.objects.all()
+        return Proposal.objects.active()
