@@ -114,6 +114,9 @@ class Community(UIDMixin):
     register_missing_board_members = models.BooleanField(
         _("Resister missing board members"), default=False)
 
+    inform_system_manager = models.BooleanField(
+        _('Inform System Manager'), default=False)
+
     class Meta:
         verbose_name = _("Community")
         verbose_name_plural = _("Communities")
@@ -277,6 +280,11 @@ class Community(UIDMixin):
             # add meeting guests to recipient_list
             recipient_list.update(get_guests_emails(guests_text))
         logger.info("Sending agenda to %d users" % len(recipient_list))
+
+        # send mail to system managers as applicable
+        if send_to != SendToOption.ONLY_ME and self.inform_system_manager and template in ('agenda', 'protocol'):
+            manager_emails = [manager[1] for manager in settings.MANAGERS]
+            recipient_list.update(manager_emails)
 
         send_mails(from_email, recipient_list, subject, message, html_message)
 
