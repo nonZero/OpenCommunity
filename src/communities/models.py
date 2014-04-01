@@ -282,7 +282,7 @@ class Community(UIDMixin):
         logger.info("Sending agenda to %d users" % len(recipient_list))
 
         # send mail to system managers as applicable
-        if send_to != SendToOption.ONLY_ME and self.inform_system_manager and template in ('agenda', 'protocol'):
+        if send_to != SendToOption.ONLY_ME and self.inform_system_manager and template in ('agenda', 'protocol', 'protocol_draft'):
             manager_emails = [manager[1] for manager in settings.MANAGERS]
             recipient_list.update(manager_emails)
 
