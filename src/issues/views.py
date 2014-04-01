@@ -900,3 +900,10 @@ class ProceduresView(ProposalMixin, ListView):
         d['active_tag'] = tag_query
         d['tags_as_links'] = (not search_query and d['is_paginated']) or len(d['object_list']) == 0
         return d
+
+
+    def AutoCompleteTagView(CommunityMixin, View):
+        def get(self, request, *args, **kwargs):
+            tag = request.GET.get('tag', '')
+            if tag:
+               pass 
