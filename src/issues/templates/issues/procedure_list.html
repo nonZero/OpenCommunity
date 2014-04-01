@@ -89,8 +89,9 @@ id="procedure-list"
         }
 
     }
-    
-    var visible_count = 10;
+
+    var TAGS_INCR_COUNT = 10
+    var visible_count = TAGS_INCR_COUNT;
     $(function() {
         {% if not is_paginated %}
             $('#procedure-order').on('click', 'a', function() {
@@ -107,11 +108,13 @@ id="procedure-list"
                     }
                 });  
                 $('a#more_tags').click(function() {
-                    $('span.hidden-tag').slice(0,10).removeClass('hidden-tag');
-                    visible_count += 10;                
+                    $('span.hidden-tag').slice(0,TAGS_INCR_COUNT).removeClass('hidden-tag');
+                    visible_count += TAGS_INCR_COUNT;                
+                    if($('span.hidden-tag').length == 0) {
+                        $(this).remove();
+                    }
                 });
                 $('a#all_tags').click(function() {
-                    console.log('---------------');
                     $('a.marked').removeClass('marked');
                     $(this).addClass('marked');
                     $('.procedure').show();

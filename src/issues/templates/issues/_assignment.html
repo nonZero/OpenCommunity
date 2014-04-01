@@ -3,16 +3,16 @@
 
 <ul class="prop-table proposals assignment">
     <li class="drag-icon task-icon order"
-    data-title="{{assgn.object.title}}"
-    data-status="{% if assgn.object.task_completed %}completed{% elif assgn in late %}late{% else %}open{% endif %}"
+    data-title="{{assgn.title}}"
+    data-status="{% if assgn.object.task_completed %}completed{% elif assgn.id in late %}late{% else %}opened{% endif %}"
     data-date="{{assgn.due_by|date:'Y-m-d'}}"
     ></li>
     <li class="prop-title">
       <a href="{{assgn.object.get_absolute_url}}">{{ assgn.object.title }}</a>
     </li>
     <li class="prop-content">
-        <div><span>{% trans 'Due Date' %}: {{ assgn.due_by|date:"DATE_FORMAT" }}</span>
-              <span>{% trans 'Assigned To' %}: {{ assgn.assignee}}</span>  
+        <div>{% if assgn.due_by %}<span>{% trans 'Due Date' %}:</span> {{ assgn.due_by|date:"DATE_FORMAT" }}<span class="indent-1"></span> {% endif %}
+            {% if assgn.assignee %}<span>{% trans 'Assigned To' %}:</span> {{ assgn.assignee}}{% endif %}  
        </div>
         <div>
         {% with assgn.object.content as res %}

@@ -133,7 +133,7 @@ class Membership(models.Model):
                                    verbose_name=_("Invited by"),
                                    related_name="members_invited", null=True,
                                    blank=True)
-
+    in_position_since = models.DateField(verbose_name=_("In position since"))
     objects = MembershipManager()
 
     class Meta:
