@@ -47,3 +47,8 @@ Boaz-Chen_OPEN-COMMUNITY/
 build
 media/community_logo
 whoosh_index/
+
+# editor files
+*.sublime-project
+*.sublime-workspace
+
