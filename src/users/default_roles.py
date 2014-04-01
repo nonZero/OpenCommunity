@@ -71,6 +71,7 @@ class DefaultRoles(object):
                            'meetings.add_meeting',  # == Close Meeting
                            'issues.edit_referendum',
                            'issues.chairman_vote',
+                           'users.show_member_profile',
                           ]
 
     permissions[MANAGER] = permissions[DECIDER] + [
@@ -80,7 +81,6 @@ class DefaultRoles(object):
                            'issues.editopen_proposal',
                            'issues.editclosed_proposal',
                            'issues.acceptclosed_proposal',
-                           'users.show_member_profile',
                           ]
 
 

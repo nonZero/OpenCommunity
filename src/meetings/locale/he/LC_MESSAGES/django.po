@@ -32,7 +32,7 @@ msgstr "לא התבצעו שינויים בנושא זה במהלך הפגישה
 
 #: .\forms.py:42
 msgid "Undecided proposals"
-msgstr "הצעה ללא החלטה"
+msgstr "הצעות ללא החלטה"
 
 #: .\models.py:11 .\models.py:78 .\models.py:122 .\models.py:149
 msgid "Meeting"
