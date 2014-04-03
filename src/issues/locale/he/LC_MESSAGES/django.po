@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-01 11:58+0300\n"
+"POT-Creation-Date: 2014-04-01 14:35+0300\n"
 "PO-Revision-Date: 2014-03-01 07:54+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -91,6 +91,8 @@ msgid "Created by"
 msgstr "נוצר על ידי"
 
 #: models.py:40 models.py:241 models.py:397
+#: templates/issues/assignment_list.html:38
+#: templates/issues/procedure_list.html:59
 msgid "Title"
 msgstr "כותרת"
 
@@ -355,9 +357,10 @@ msgstr "מחיקה"
 msgid "By:"
 msgstr "מאת:"
 
-#: templates/issues/_procedure.html:14
-msgid "Procedure approval date"
-msgstr "תאריך קביעת נוהל"
+#: templates/issues/_procedure.html:14 templates/issues/procedure_list.html:58
+msgctxt "rule creation date"
+msgid "Date"
+msgstr "תאריך החלטה"
 
 #: templates/issues/_proposal_vote_results.html:17
 msgid "Last vote"
@@ -385,7 +388,7 @@ msgstr "שנה הצבעה"
 
 #: templates/issues/assignment_list.html:15
 #: templates/issues/assignment_list.html:22
-msgid "Assignment Tracking"
+msgid "Task Tracking"
 msgstr "מעקב משימות"
 
 #: templates/issues/assignment_list.html:26
@@ -396,10 +399,6 @@ msgstr "חיפוש משימה לפי מילת מפתח או שם אחראי"
 #: templates/issues/procedure_list.html:57
 msgid "Sort by"
 msgstr "מיון"
-
-#: templates/issues/assignment_list.html:38
-msgid "Assignment Title"
-msgstr "שם משימה"
 
 #: templates/issues/assignment_list.html:42
 #: templates/issues/issue_detail.html:99
@@ -546,7 +545,7 @@ msgstr "בטל עריכה"
 
 #: templates/issues/procedure_list.html:15
 #: templates/issues/procedure_list.html:22
-msgid "Procedure Book"
+msgid "Rule Book"
 msgstr "ספר נהלים"
 
 #: templates/issues/procedure_list.html:27
@@ -556,14 +555,6 @@ msgstr "חיפוש"
 #: templates/issues/procedure_list.html:50
 msgid "more"
 msgstr "עוד"
-
-#: templates/issues/procedure_list.html:58
-msgid "Procedure Approval Date"
-msgstr "תאריך קביעת נוהל"
-
-#: templates/issues/procedure_list.html:59
-msgid "Procedure Name"
-msgstr "שם נוהל"
 
 #: templates/issues/procedure_list.html:65
 msgid "Results"
@@ -626,6 +617,23 @@ msgstr "דחה הצעה"
 #: templates/issues/proposal_form.html:14
 msgid "Edit proposal"
 msgstr "עריכת הצעת החלטה"
+
+#, fuzzy
+#~ msgid "Rule approval date"
+#~ msgstr "תאריך קביעת נוהל"
+
+#~ msgid "Assignment Title"
+#~ msgstr "שם משימה"
+
+#, fuzzy
+#~ msgid "Rule Approval Date"
+#~ msgstr "תאריך קביעת נוהל"
+
+#~ msgid "Procedure Book"
+#~ msgstr "ספר נהלים"
+
+#~ msgid "Procedure Name"
+#~ msgstr "שם נוהל"
 
 #~ msgid "All Tags"
 #~ msgstr "כל התגיות"

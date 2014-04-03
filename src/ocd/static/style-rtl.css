@@ -847,6 +847,9 @@ ul.proposals li.prop-title {
 	word-break: break-word;
 	font-weight: bold;
 }
+li.prop-title a {
+  color: #333;
+}
 ul.proposals li.issue-title {
 	font-size: 18px;
 	padding: .7em 15px 0 15px;
