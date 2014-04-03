@@ -848,7 +848,16 @@ class AssignmentsView(ProposalMixin, ListView):
         return d
 
 
-class ProceduresView(ProposalMixin, ListView):
+class RulesMixin(CommunityMixin):
+    def _get_rule_queryset(self):
+        qs = Proposal.objects.filter(
+            active=True, issue__community=self.community,
+            status=Proposal.statuses.ACCEPTED,
+            type=ProposalType.RULE)
+        return qs
+        
+
+class ProceduresView(RulesMixin, ProposalMixin, ListView):
     required_permission = 'issues.viewopen_issue'
     template_name = 'issues/procedure_list.html'
     context_object_name = 'procedure_list'
@@ -858,12 +867,6 @@ class ProceduresView(ProposalMixin, ListView):
         self.order_by = 'date'
         super(ProceduresView, self).__init__(**kwargs)
 
-    def _get_procedure_queryset(self):
-        qs = Proposal.objects.filter(
-            active=True, issue__community=self.community,
-            status=Proposal.statuses.ACCEPTED,
-            type=ProposalType.RULE)
-        return qs
 
     def get_queryset(self):
         term = self.request.GET.get('q', '').strip()
@@ -886,7 +889,7 @@ class ProceduresView(ProposalMixin, ListView):
 
         d = super(ProceduresView, self).get_context_data(**kwargs)
         alltags = {}
-        for p in self._get_procedure_queryset():
+        for p in self._get_rule_queryset():
             for t in p.tags.names():
                 n = alltags.setdefault(t, 0)
                 alltags[t] = n + 1
@@ -902,8 +905,24 @@ class ProceduresView(ProposalMixin, ListView):
         return d
 
 
-    def AutoCompleteTagView(CommunityMixin, View):
-        def get(self, request, *args, **kwargs):
-            tag = request.GET.get('tag', '')
-            if tag:
-               pass 
+class AutoCompleteTagView(CommunityMixin, View):
+    required_permission = 'issues.editopen_issue'
+
+    def get(self, request, *args, **kwargs):
+          tag = request.GET.get('tag', '')
+          tag = tag.split(',')[-1].strip()
+          print 'T: ', tag
+          if not tag:
+              return HttpResponse(json.dumps([]))
+          json_tags = []
+          tags = set()
+          proposals = Proposal.objects.filter(
+            active=True, issue__community=self.community,
+            type=ProposalType.RULE)
+          for p in proposals:
+              tags.update(t for t in p.tags.names() if t.startswith(tag))
+          for t in tags:
+              json_tags.append({'tokens':[t,], 'value': t})
+
+          # context = self.get_context_data(object_list=proposals)
+          return HttpResponse(json.dumps(json_tags), {'content_type': 'application/json'})

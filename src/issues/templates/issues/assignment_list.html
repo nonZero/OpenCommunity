@@ -12,14 +12,14 @@ id="procedure-list"
 
 
 {% block title %}
-	<title>{{ community.name }} - {% trans "Assignment Tracking" %}</title>
+	<title>{{ community.name }} - {% trans "Task Tracking" %}</title>
 {% endblock %}
 
 {% block page_header %}
 {% endblock %}
 
 {% block content %}
-<h1>{% trans "Assignment Tracking" %}</h1>
+<h1>{% trans "Task Tracking" %}</h1>
   <form method="get" action=".">
   <div class="row">
       <div class="col-xs-12 form-group">
@@ -35,7 +35,7 @@ id="procedure-list"
         <li class="pull-left"><span style="padding: 10px 0 0 20px; display:block; position: relative; font-weight: bold;">{% trans 'Sort by' %}:</span></li>
         <li {% if 'due' in ord %}class="active"{% endif %}><a href="{% if filter_as_link %}{{ request.path }}?q={{ query }}&ord=date{% else %}#by_due_date{% endif %}" {% if not filter_as_link %}data-toggle="tab" {% endif %}>{% trans "Due Date" %}</a></li>
      <li {% if ord == 'assignee' %}class="active"{% endif %}><a href="{% if filter_as_link %}{{ request.path }}?q={{ query }}&ord=assignee{% else %}#by_person{% endif %}" {% if not filter_as_link %}data-toggle="tab" {% endif %}>{% trans "Assigned To" %}</a></li>
-        <li {% if ord == 'title' %}class="active"{% endif %}><a href="{% if filter_as_link %}{{ request.path }}?q={{ query }}&ord=title{% else %}#by_title{% endif %}" {% if not filter_as_link %}data-toggle="tab" {% endif %}>{% trans "Assignment Title" %}</a></li>
+        <li {% if ord == 'title' %}class="active"{% endif %}><a href="{% if filter_as_link %}{{ request.path }}?q={{ query }}&ord=title{% else %}#by_title{% endif %}" {% if not filter_as_link %}data-toggle="tab" {% endif %}>{% trans "Title" %}</a></li>
     </ul -->
 
     <ul id="assignment-by-status" class="nav nav-tabs">    

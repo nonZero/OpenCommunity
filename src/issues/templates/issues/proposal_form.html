@@ -30,6 +30,62 @@
     
 <script>
 
+    function get_tag_start(q) {
+      var last_comma = q.lastIndexOf(',');
+      console.log(q);
+      return ('js');
+    }
+
+      /* 
+      .on('focus', function (event) {
+          existing_tags = $(this).val();
+          console.log('----------->> ' + existing_tags);
+      })
+*/
+    var existing_tags = '';
+    
+    function fix_tags(res) {
+        console.log(res);
+        $.each(res, function() {
+            if(existing_tags.length > 1) {
+                 existing_tags = existing_tags.replace(/\s*,\s*/, '');
+                 $(this)[0]['value'] = existing_tags + ',' + $(this)[0]['value'] ;
+            }
+        });
+
+        return(res)
+    }
+
+    function init_prop_autocomplete() {
+      var ac_url = '{% url "autocomplete_tag" community_id=community.id %}';
+      var ta = $('#id_proposal-tags').typeahead({
+            name: 'tags',
+            remote: {
+                url:  ac_url + '?tag=%QUERY',
+                //filter: fix_tags,
+            }
+        }).css('background-color', '#fff')
+ 
+      .on('typeahead:selected', function (event, datum) {
+          // existing_tags = event.target.value;
+          //datum['value'] = '---- ' ; //existing_tags + datum['value'];
+          //return(false);
+          
+          var tags_val = datum['value'];
+          var idx = existing_tags.lastIndexOf(',');
+          if(idx < 0) {
+              idx = existing_tags.length - 1;
+          }
+          if(tags_val.indexOf(existing_tags) == -1) {
+              tags_val = existing_tags.substring(0,idx) + ',' + tags_val;
+          }
+          console.log('>>> ' + existing_tags);
+          $(this).val(tags_val);
+          
+      });
+    }
+
+
     $(function() {
         /* a map between proposal type, to order of appearance (tab index) */
         var type_idx_map = {
@@ -39,7 +95,7 @@
         }
         var type_select = $('#id_proposal-type');
         type_select.closest('.form-group').hide();
-        
+        $('#id_proposal-tags').addClass('form-control');
         var sel_idx = 0;
         {% if object %}
             sel_idx = type_idx_map[{{ object.type }}]
@@ -48,7 +104,9 @@
         $("ul#proposal-type li")[sel_idx].click()
         var ac_url = '{% url "ac_user" community_id=community.id %}';
         init_user_autocomplete(ac_url);
-	});
+        /* init_prop_autocomplete(); */
+    
+      });
 </script>
 
 {% endblock %}
