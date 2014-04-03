@@ -176,6 +176,10 @@ msgid "Community"
 msgstr "קהילה"
 
 #: models.py:119
+msgid "Inform System Manager"
+msgstr ""
+
+#: models.py:122
 msgid "Communities"
 msgstr "קהילות"
 
