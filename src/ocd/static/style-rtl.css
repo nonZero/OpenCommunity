@@ -936,7 +936,7 @@ ul.proposals li.prop-content p {
 
 .alerts {
    color: #b94a48;
-   font-size: 13px;
+   font-weight: bold;
 }
 /* Issue detail comments */
 
