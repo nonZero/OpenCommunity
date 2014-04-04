@@ -929,6 +929,10 @@ ul.proposals li.prop-content p {
     padding: 1em 2em;
 }
 
+.alerts {
+   color: #b94a48;
+   font-size: 13px;
+}
 /* Issue detail comments */
 
 .comments {
