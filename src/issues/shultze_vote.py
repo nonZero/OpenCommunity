@@ -18,19 +18,28 @@ def user_vote(community_id, current_vote, prev_vote=[]):
 
 
 def set_issues_order_by_votes(community_id):
-    Issue.objects.filter(community_id=community_id).update( \
+    Issue.objects.filter(community_id=community_id).update(\
         order_by_votes=9999)
     try:
         g = IssuesGraph.objects.get(community_id=community_id)
     except IssuesGraph.DoesNotExist:
         raise
-    res = g.get_schulze_npr_results()
-    issues = Issue.objects.in_bulk(res['order'])
-    for idx, id in enumerate(res['order']):
-        issues[id].order_by_votes = idx
-        print '[', idx, '] ', issues[id]
+
+    order = g.get_schulze_npr_order_and_rating_bottom_up_sum()
+    min_obj = order[0].key()
+    max_obj = order[-1].key()
+    min_like = IssueRankingVote.objects.filter(issue__id=min_obj, rank__gt=1).annotate(c=Count('pk'))
+    max_like = IssueRankingVote.objects.filter(issue__id=max_obj, rank__gt=1).annotate(c=Count('pk'))
+    normorder = g.normalize_ordered_rating_bottom_up_sum(order, min_like, max_like)
+
+
+    # res = g.get_schulze_npr_results()
+    issues = Issue.objects.in_bulk(normorder.keys())
+    for id in normorder.keys():
+        issues[id].order_by_votes = normorder[id]
+        print issues[id].title, normorder[id]
         issues[id].save()
-        
+
 
 def send_issue_ranking(request):
     if request.POST:
