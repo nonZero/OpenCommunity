@@ -42,6 +42,7 @@
 		{% endif %}
 	</ul>
 	</div>
+	{% if community.id %}
 	<div id="toggle-search" class="hidden pull-right">
 		<form role="search" method="get" action="{% url 'community_search' community.id %}">
 			<div class="form-group">
@@ -49,4 +50,5 @@
 			</div>
 		</form>
 	</div>
+	{% endif %}
 </nav>
