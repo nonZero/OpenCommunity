@@ -950,6 +950,12 @@ ul.proposals li.prop-content p {
 /* Protocol & Agenda ajax preview */
 
 #protocolPreview {
+	text-align: center;
+	border-top: 1px solid #e5e5e5;
+	padding-top: 20px;
+	margin-top: 20px;
+}
+#protocolPreviewContent {
 	text-align: left;
 	padding-top: 20px;
 }
