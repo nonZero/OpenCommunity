@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-08 12:56+0300\n"
-"PO-Revision-Date: 2014-03-26 23:21+0200\n"
+"POT-Creation-Date: 2014-04-08 14:12+0300\n"
+"PO-Revision-Date: 2014-04-08 14:20+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -32,24 +32,24 @@ msgstr "אופס..."
 
 #: .\templates\404.html.py:19
 msgid "We couldn't find the requested community"
-msgstr ""
+msgstr "לא נמצאה הקהילה המבוקשת"
 
 #: .\templates\404.html.py:21 .\templates\404.html.py:33
 #: .\templates\404.html.py:46
 msgid "You can go to"
-msgstr ""
+msgstr "אתה יכול לגשת ל"
 
 #: .\templates\404.html.py:21
 msgid "Main page"
-msgstr ""
+msgstr "עמוד ראשי"
 
 #: .\templates\404.html.py:31
 msgid "We couldn't find the requested issue"
-msgstr ""
+msgstr "לא נמצא הנושא המבוקש"
 
 #: .\templates\404.html.py:44
 msgid "We couldn't find the requested proposal"
-msgstr ""
+msgstr "לא נמצאה ההצעה המבוקשת"
 
 #: .\templates\404.html.py:53
 msgid "Sorry"
@@ -211,12 +211,12 @@ msgstr "אפס סיסמא"
 
 #: .\templates\search\search.html.py:9
 msgid "Search"
-msgstr ""
+msgstr "חיפוש"
 
 #: .\templates\search\search.html.py:14 .\templates\search\search.html.py:18
 #: .\templates\search\search.html.py:22
 msgid "All"
-msgstr ""
+msgstr "הכל"
 
 #: .\templates\search\search.html.py:15 .\templates\search\search.html.py:19
 #: .\templates\search\search.html.py:23
@@ -226,7 +226,7 @@ msgstr "נושאים לדיון"
 #: .\templates\search\search.html.py:16 .\templates\search\search.html.py:20
 #: .\templates\search\search.html.py:24
 msgid "Proposals"
-msgstr ""
+msgstr "הצעות"
 
 #: .\templates\search\search.html.py:29
 msgid "Results for"
@@ -246,11 +246,11 @@ msgstr "לא נמצאו תוצאות"
 
 #: .\templates\search\search.html.py:48
 msgid "Assigned to"
-msgstr ""
+msgstr "אחראי"
 
 #: .\templates\search\search.html.py:51
 msgid "Due by"
-msgstr ""
+msgstr "תאריך יעד"
 
 #: .\templates\search\search.html.py:62
 msgid "No results found."

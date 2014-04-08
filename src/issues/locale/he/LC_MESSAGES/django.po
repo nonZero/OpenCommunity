@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-08 12:56+0300\n"
-"PO-Revision-Date: 2014-03-01 07:54+0200\n"
+"POT-Creation-Date: 2014-04-08 14:12+0300\n"
+"PO-Revision-Date: 2014-04-08 14:26+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -245,9 +245,8 @@ msgid "Due by"
 msgstr "יעד"
 
 #: .\models.py:421 .\templates\issues\assignment_list.html.py:45
-#, fuzzy
 msgid "Completed"
-msgstr "הדיון הושלם"
+msgstr "הושלם"
 
 #: .\models.py:422 .\models.py:585
 msgid "Votes pro"
@@ -298,11 +297,10 @@ msgstr "נגד"
 #: .\templates\issues\_assignment.html.py:14
 #: .\templates\issues\assignment_list.html.py:36
 msgid "Due Date"
-msgstr ""
+msgstr "תאריך יעד"
 
 #: .\templates\issues\_assignment.html.py:15
 #: .\templates\issues\assignment_list.html.py:37
-#, fuzzy
 msgid "Assigned To"
 msgstr "אחראי"
 
@@ -363,10 +361,9 @@ msgstr "מאת:"
 
 #: .\templates\issues\_procedure.html.py:14
 #: .\templates\issues\procedure_list.html.py:58
-#, fuzzy
 msgctxt "rule creation date"
 msgid "Date"
-msgstr "ב"
+msgstr "תאריך"
 
 #: .\templates\issues\_proposal_vote_results.html.py:17
 msgid "Last vote"
@@ -395,12 +392,11 @@ msgstr "שנה הצבעה"
 #: .\templates\issues\assignment_list.html.py:15
 #: .\templates\issues\assignment_list.html.py:22
 msgid "Task Tracking"
-msgstr ""
+msgstr "מעקב משימות"
 
 #: .\templates\issues\assignment_list.html.py:26
-#, fuzzy
 msgid "Search by keywords or assigned person"
-msgstr "חיפוש"
+msgstr "חפש באמצעות מילות מפתח או שם אחראי"
 
 #: .\templates\issues\assignment_list.html.py:35
 #: .\templates\issues\procedure_list.html.py:57
@@ -415,9 +411,8 @@ msgid "All"
 msgstr "הכל"
 
 #: .\templates\issues\assignment_list.html.py:43
-#, fuzzy
 msgid "Late"
-msgstr "ב"
+msgstr "באיחור"
 
 #: .\templates\issues\issue_confirm_delete.html.py:12
 #: .\templates\issues\issueattachment_confirm_delete.html.py:11
@@ -556,9 +551,8 @@ msgstr "בטל עריכה"
 
 #: .\templates\issues\procedure_list.html.py:15
 #: .\templates\issues\procedure_list.html.py:22
-#, fuzzy
 msgid "Rule Book"
-msgstr "נוהל"
+msgstr "ספר נהלים"
 
 #: .\templates\issues\procedure_list.html.py:27
 msgid "Search by keywords"
@@ -566,7 +560,7 @@ msgstr "חיפוש"
 
 #: .\templates\issues\procedure_list.html.py:50
 msgid "more"
-msgstr ""
+msgstr "עוד"
 
 #: .\templates\issues\procedure_list.html.py:65
 msgid "Results"

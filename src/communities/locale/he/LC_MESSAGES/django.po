@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-08 12:55+0300\n"
-"PO-Revision-Date: 2014-03-26 15:44+0200\n"
+"POT-Creation-Date: 2014-04-08 14:12+0300\n"
+"PO-Revision-Date: 2014-04-08 14:18+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -173,7 +173,7 @@ msgstr "רישום חברי ועד חסרים"
 
 #: .\models.py:118
 msgid "Inform System Manager"
-msgstr ""
+msgstr "להודיע למנהל המערכת"
 
 #: .\models.py:121
 msgid "Community"
@@ -219,13 +219,12 @@ msgid "Meetings"
 msgstr "פגישות"
 
 #: .\templates\_community_panel.html.py:23
-#, fuzzy
 msgid "Rules"
-msgstr "תוצאות"
+msgstr "נהלים"
 
 #: .\templates\_community_panel.html.py:25
 msgid "Tasks"
-msgstr ""
+msgstr "משימות"
 
 #: .\templates\_community_panel.html.py:30
 #: .\templates\communities\participants_form.html.py:26
@@ -403,14 +402,12 @@ msgid "Close"
 msgstr "סגור"
 
 #: .\templates\communities\publish_upcoming.html.py:27
-#, fuzzy
 msgid "Print protocol"
-msgstr "הצגת פרוטוקול"
+msgstr "הדפס פרוטוקול"
 
 #: .\templates\communities\publish_upcoming.html.py:29
-#, fuzzy
 msgid "Print draft"
-msgstr "הצגת סדר יום"
+msgstr "הדפס סדר יום"
 
 #: .\templates\communities\start_meeting.html.py:5
 #: .\templates\communities\start_meeting.html.py:11

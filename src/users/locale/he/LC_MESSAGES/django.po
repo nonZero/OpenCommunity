@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-08 12:56+0300\n"
-"PO-Revision-Date: 2014-02-20 17:31+0200\n"
+"POT-Creation-Date: 2014-04-08 14:12+0300\n"
+"PO-Revision-Date: 2014-04-08 14:21+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -116,7 +116,7 @@ msgstr "הוזמן על ידי"
 
 #: .\models.py:137
 msgid "In position since"
-msgstr ""
+msgstr "מכהן מתאריך"
 
 #: .\models.py:142
 msgid "Community Member"
