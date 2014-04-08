@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-08 14:12+0300\n"
+"POT-Creation-Date: 2014-04-08 22:19+0300\n"
 "PO-Revision-Date: 2014-04-08 14:18+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -265,13 +265,6 @@ msgstr "בכדי לצפות בקהילות שלך, עליך להכנס למער�
 msgid "All Communities"
 msgstr "כל הקהילות"
 
-#: .\templates\communities\community_list.html.py:55
-#: .\templates\emails\agenda.html.py:33
-#: .\templates\emails\agenda_title.txt.py:3
-#: .\templatetags\community_tags.py:40
-msgid "Version"
-msgstr "גרסא"
-
 #: .\templates\communities\community_search.html.py:9
 msgid "Search"
 msgstr "חפש"
@@ -524,6 +517,12 @@ msgstr "הצעות החלטה שנדחו"
 #: .\templates\emails\agenda.html.py:32
 msgid "Published at"
 msgstr "פורסם ב -"
+
+#: .\templates\emails\agenda.html.py:33
+#: .\templates\emails\agenda_title.txt.py:3
+#: .\templatetags\community_tags.py:40
+msgid "Version"
+msgstr "גרסא"
 
 #: .\templates\emails\agenda.html.py:35 .\templatetags\community_tags.py:61
 msgid "Draft"
