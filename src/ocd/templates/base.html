@@ -90,8 +90,10 @@
             $(function(){
                 $('.main-page').show();
                 $('body').trigger('ocd.show');
+				$('.search-icon').on('click', function() {
+					$('#toggle-search').toggleClass('hidden');
+				});
             });
         </script>
-
     </body>
 </html>

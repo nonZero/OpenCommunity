@@ -119,12 +119,19 @@ ul.errorlist li {
 	list-style-type: none;
 }
 .form-group input.form-control.issue-search {
-	border-radius: 15px;
+	/*border-radius: 15px;*/
 	padding-right: 40px;
 	background-image: url('images/search.png');
 	background-repeat: no-repeat;
 	background-position: right;
 	font-size: 18px;
+}
+.form-group input.form-control.general-search {
+	padding-right: 35px;
+	background-image: url('images/search.png');
+	background-repeat: no-repeat;
+	background-position: right;
+	background-size: 35px;
 }
 .field-upcoming_meeting_participants ul {
 	list-style-type: none;
@@ -388,6 +395,39 @@ p.user_nav {
 #login-page #login_navbar {
 	display: none;
 }
+@media (min-width: 992px) {
+	.user-icon, .search_sm, #toggle-search {
+		display: none !important;
+	}
+}
+@media (min-width: 0px) and (max-width: 767px) {
+	.search_sm, .user-icon, #toggle-search {
+		display: none !important;
+	}
+}
+@media (min-width: 768px) and (max-width: 991px) {
+	.user-name {
+		display: none !important;
+	}
+}
+@media (min-width: 768px) and (max-width: 991px) {
+	.search_lg {
+		display: none !important;
+	}
+}
+.search-icon {
+	width: 30px;
+	height: 35px;
+	background: url('images/search1.png') no-repeat;
+	display: inline-block;
+	background-position: center;
+	cursor: pointer;
+	background-size: 20px;
+}
+.navbar-collapse.oc-panel {
+	max-height: 1000px;
+}
+
 /* List */
 
 .oc_li {
