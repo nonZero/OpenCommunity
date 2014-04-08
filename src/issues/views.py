@@ -795,14 +795,30 @@ class ChangeBoardVoteStatusView(ProposalMixin, UpdateView):
 class AssignmentsView(ProposalMixin, ListView):
     required_permission = 'issues.viewopen_issue'
     template_name = 'issues/assignment_list.html'
-    paginate_by = 75 
+    paginate_by = 75
 
+    def __init__(self, **kwargs):
+        super(AssignmentsView, self).__init__(**kwargs)
+        self.status = ''
 
     def _get_order(self):
         order_by = self.request.GET.get('ord', 'date') 
         if order_by == 'date':
             order_by = '-due_by'
         return order_by
+
+    def _add_status_qs(self, sqs):
+        self.status = self.request.GET.get('status', '')
+        if self.status:
+            if self.status == 'completed':
+                sqs = sqs.filter(task_completed=True)
+            else:
+                sqs = sqs.filter(task_completed=False)
+                if self.status == 'opened':
+                    sqs = sqs.exclude(due_by__lt=date.today())
+                elif self.status == 'late':
+                    sqs = sqs.filter(due_by__lt=date.today())
+        return sqs
 
 
     def get_queryset(self):
@@ -811,6 +827,7 @@ class AssignmentsView(ProposalMixin, ListView):
             active=True, community=self.community.id,
             status=Proposal.statuses.ACCEPTED,
             type=ProposalType.TASK).order_by(self._get_order())
+        sqs = self._add_status_qs(sqs)
         if term:
             sqs = sqs.filter(content=AutoQuery(term)) \
                      .filter_or(assignee__contains=term)
@@ -818,20 +835,29 @@ class AssignmentsView(ProposalMixin, ListView):
 
 
     def get_context_data(self, **kwargs):
-        def _sort_by_completion_status(a, b):
-            return cmp(a[1], b[1])
-
         d = super(AssignmentsView, self).get_context_data(**kwargs)
         search_query = self.request.GET.get('q', '').strip()
-        d['passed'] = [p for p in list(self.get_queryset()) if \
-                        not p.object.task_completed and p.due_by.date() < date.today()]
+        d['late'] = [p.id for p in list(self.get_queryset()) \
+                        if not p.object.task_completed and p.due_by \
+                        and p.due_by.date() < date.today()]
         d['query'] = search_query
         d['ord'] = self._get_order()
-        d['extra_arg'] = '&ord=' + d['ord'] + '&q=' + d['query']
+        d['status'] = self.status
+        d['filter_as_link'] = d['is_paginated'] or d['status']
+        d['extra_arg'] = '&ord=' + d['ord'] + '&q=' + d['query'] + '&status=' + self.status
         return d
 
 
-class ProceduresView(ProposalMixin, ListView):
+class RulesMixin(CommunityMixin):
+    def _get_rule_queryset(self):
+        qs = Proposal.objects.filter(
+            active=True, issue__community=self.community,
+            status=Proposal.statuses.ACCEPTED,
+            type=ProposalType.RULE)
+        return qs
+        
+
+class ProceduresView(RulesMixin, ProposalMixin, ListView):
     required_permission = 'issues.viewopen_issue'
     template_name = 'issues/procedure_list.html'
     context_object_name = 'procedure_list'
@@ -839,13 +865,8 @@ class ProceduresView(ProposalMixin, ListView):
 
     def __init__(self, **kwargs):
         self.order_by = 'date'
+        super(ProceduresView, self).__init__(**kwargs)
 
-    def _get_procedure_queryset(self):
-        qs = Proposal.objects.filter(
-            active=True, issue__community=self.community,
-            status=Proposal.statuses.ACCEPTED,
-            type=ProposalType.RULE)
-        return qs
 
     def get_queryset(self):
         term = self.request.GET.get('q', '').strip()
@@ -868,7 +889,7 @@ class ProceduresView(ProposalMixin, ListView):
 
         d = super(ProceduresView, self).get_context_data(**kwargs)
         alltags = {}
-        for p in self._get_procedure_queryset():
+        for p in self._get_rule_queryset():
             for t in p.tags.names():
                 n = alltags.setdefault(t, 0)
                 alltags[t] = n + 1
@@ -882,3 +903,26 @@ class ProceduresView(ProposalMixin, ListView):
         d['active_tag'] = tag_query
         d['tags_as_links'] = (not search_query and d['is_paginated']) or len(d['object_list']) == 0
         return d
+
+
+class AutoCompleteTagView(CommunityMixin, View):
+    required_permission = 'issues.editopen_issue'
+
+    def get(self, request, *args, **kwargs):
+          tag = request.GET.get('tag', '')
+          tag = tag.split(',')[-1].strip()
+          print 'T: ', tag
+          if not tag:
+              return HttpResponse(json.dumps([]))
+          json_tags = []
+          tags = set()
+          proposals = Proposal.objects.filter(
+            active=True, issue__community=self.community,
+            type=ProposalType.RULE)
+          for p in proposals:
+              tags.update(t for t in p.tags.names() if t.startswith(tag))
+          for t in tags:
+              json_tags.append({'tokens':[t,], 'value': t})
+
+          # context = self.get_context_data(object_list=proposals)
+          return HttpResponse(json.dumps(json_tags), {'content_type': 'application/json'})

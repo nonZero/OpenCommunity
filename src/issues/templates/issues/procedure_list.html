@@ -12,14 +12,14 @@ id="procedure-list"
 
 
 {% block title %}
-	<title>{{ community.name }} - {% trans "Procedure Book" %}</title>
+	<title>{{ community.name }} - {% trans "Rule Book" %}</title>
 {% endblock %}
 
 {% block page_header %}
 {% endblock %}
 
 {% block content %}
-<h1>{% trans "Procedure Book" %}</h1>
+<h1>{% trans "Rule Book" %}</h1>
   <form method="get" action=".">
   <div class="row">
       <div class="col-xs-12 form-group">
@@ -54,9 +54,9 @@ id="procedure-list"
   {% endif %}
 
     <ul id="procedure-order" class="nav nav-tabs">
-        <li class="pull-left"><span style="padding: 10px 0 0 20px; display:block; position: relative; font-weight: bold;">{% trans 'Sort by' %}:</span></li>
-        <li {% if ord == 'date' %}class="active"{% endif %}><a href="{% if is_paginated %}{{ request.path }}?q={{ query }}&ord=date{% else %}#by_date{% endif %}" {% if not is_paginated %}data-toggle="tab" {% endif %}>{% trans "Procedure Approval Date" %}</a></li>
-        <li {% if ord == 'title' %}class="active"{% endif %}><a href="{% if is_paginated %}{{ request.path }}?q={{ query }}&ord=title{% else %}#by_title{% endif %}" {% if not is_paginated %}data-toggle="tab" {% endif %}>{% trans "Procedure Name" %}</a></li>
+        <li class="pull-left"><span style="padding: 10px 0 0 2px; display:block; position: relative; font-weight: bold;">{% trans 'Sort by' %}:</span></li>
+        <li {% if ord == 'date' %}class="active"{% endif %}><a href="{% if is_paginated %}{{ request.path }}?q={{ query }}&ord=date{% else %}#by_date{% endif %}" {% if not is_paginated %}data-toggle="tab" {% endif %}>{% trans "Date" context "rule creation date" %}</a></li>
+        <li {% if ord == 'title' %}class="active"{% endif %}><a href="{% if is_paginated %}{{ request.path }}?q={{ query }}&ord=title{% else %}#by_title{% endif %}" {% if not is_paginated %}data-toggle="tab" {% endif %}>{% trans "Title" %}</a></li>
     </ul>
 
     
@@ -89,8 +89,9 @@ id="procedure-list"
         }
 
     }
-    
-    var visible_count = 10;
+
+    var TAGS_INCR_COUNT = 10
+    var visible_count = TAGS_INCR_COUNT;
     $(function() {
         {% if not is_paginated %}
             $('#procedure-order').on('click', 'a', function() {
@@ -107,13 +108,15 @@ id="procedure-list"
                     }
                 });  
                 $('a#more_tags').click(function() {
-                    $('span.hidden-tag').slice(0,10).removeClass('hidden-tag');
-                    visible_count += 10;                
+                    $('span.hidden-tag').slice(0,TAGS_INCR_COUNT).removeClass('hidden-tag');
+                    visible_count += TAGS_INCR_COUNT;                
+                    if($('span.hidden-tag').length == 0) {
+                        $(this).remove();
+                    }
                 });
                 $('a#all_tags').click(function() {
-                    console.log('---------------');
                     $('a.marked').removeClass('marked');
-                    $(this).addClass('marked')
+                    $(this).addClass('marked');
                     $('.procedure').show();
                 });
             

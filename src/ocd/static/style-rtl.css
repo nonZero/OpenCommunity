@@ -817,6 +817,15 @@ ul.prop-table {
 	background: #ffffff;
 	list-style-type: none;
 }
+ul.issue-table {
+	display: table;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border: 1px solid #d8e0df;
+	background: #f5f6de;
+	list-style-type: none;
+}
 #issue-detail-siblings ul.prop-table,
 #issue-detail ul.prop-table {
 	cursor: pointer;
@@ -837,6 +846,15 @@ ul.proposals li.prop-title {
 	padding: .7em 15px 0 15px;
 	word-break: break-word;
 	font-weight: bold;
+}
+li.prop-title a {
+  color: #333;
+}
+ul.proposals li.issue-title {
+	font-size: 18px;
+	padding: .7em 15px 0 15px;
+	word-break: break-word;
+	font-weight: normal;
 }
 a ul.proposals li.prop-title {
 	color: #6c6c6e;
@@ -911,6 +929,10 @@ ul.proposals li.prop-content p {
     padding: 1em 2em;
 }
 
+.alerts {
+   color: #b94a48;
+   font-weight: bold;
+}
 /* Issue detail comments */
 
 .comments {
@@ -1663,6 +1685,12 @@ label[for=id_proposal-title] {
 }
 ul.prop-table.prop-pad {
 	border: 0;
+}
+ul.prop-table .prop-content span {
+  font-weight: bold;
+}
+.indent-1 {
+  margin-right: 12px;  
 }
 .member_proposals_outer {
 	 background: #f5f6de;

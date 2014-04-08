@@ -7,26 +7,19 @@
 
 {% block content %}
 
-    {% with community.issues_ready_to_close as issues %}
-
-        {% if not issues %}
-            <div>
-                {% trans "No decisions were made in this meeting."%}
-            </div>
+    <div class="alerts">
+        {% if no_participants %} 
+            <p>{% trans 'No participants selected for meeting' %}!</p>
         {% endif %}
+    </div>
 
+    {% with community.issues_ready_to_close as issues %}
         {{ form }}
-
-        <div class="alerts">
-            {% if no_participants %} 
-            <p>{% trans 'No participants selected' %}!</p>
-            {% endif %}
-                
-            <p><b>{% trans "Please note, editing the meeting's information is not possible after close" %}</b></p>
-        </div>
-
     {% endwith %}
 
+     <div class="alerts">
+        <p><b>{% trans "Please note, editing the meeting's information is not possible after close" %}!</b></p>
+     </div>
 {% endblock %}
 
 {% block nofooter %}

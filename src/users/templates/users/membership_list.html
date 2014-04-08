@@ -19,7 +19,7 @@ id="members-list"
 {% if object_list %}
 
 <div class="col-xs-12 col-sm-6">
-	<h2>{% trans "Board" %}</h2>
+	<h2>{{ board_name }}</h2>
 	<ul class="list-group">
 		{% for board in board_list %}
 		<li class="list-group-item">
