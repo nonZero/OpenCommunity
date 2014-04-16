@@ -263,6 +263,7 @@ class ProtocolDraftPreviewView(CommunityModelMixin, DetailView):
     template_name = "emails/protocol_draft.html"
 
     def get_context_data(self, **kwargs):
+        #import ipdb;ipdb.set_trace()
         d = super(ProtocolDraftPreviewView, self).get_context_data(**kwargs)
         meeting_time = self.community.upcoming_meeting_scheduled_at
         if not meeting_time:

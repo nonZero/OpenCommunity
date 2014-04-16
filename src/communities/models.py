@@ -176,6 +176,13 @@ class Community(UIDMixin):
             else:
                 meeting_participants['members'].append(u)
 
+        # doing it simply like this, as I'd need to refactor models
+        # just to order in the way that is now required.
+        for index, item in enumerate(meeting_participants['board']):
+            if item.get_default_group(self) == DefaultGroups.MEMBER:
+                meeting_participants['board'].insert(0,
+                    meeting_participants['board'].pop(index))
+
         return meeting_participants
 
     def previous_members_participations(self):
@@ -204,7 +211,18 @@ class Community(UIDMixin):
     def get_board_members(self):
         board_memberships = Membership.objects.filter(community=self) \
             .exclude(default_group_name=DefaultGroups.MEMBER)
-        return [m.user for m in board_memberships]
+
+        # doing it simply like this, as I'd need to refactor models
+        # just to order in the way that is now required.
+        board = [m.user for m in board_memberships]
+        for index, item in enumerate(board):
+            if item.get_default_group(self) == DefaultGroups.MEMBER:
+                board.insert(0, board.pop(index))
+
+        return board
+
+    def get_board_count(self):
+        return len(self.get_board_members())
 
     def get_none_board_members(self):
         return Membership.objects.filter(community=self,
