@@ -46,15 +46,15 @@
                     </div>
                 </div>
             </div>
-    
+
             <div data-role="popup" id="popup" data-dismissible="true" style="display:none">
                 <div data-role="header" data-theme="a" class="ui-bar-a ui-corner-top ui-header">
                     <h3>{% trans "Attention" %}</h3>
                 </div>
                 <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
-    
+
                     <div id="popup-content"></div>
-    
+
                     <a href="#" data-role="button" data-rel="back"
                     data-theme="c">{% trans "Close" %}</a>
                 </div>
@@ -116,5 +116,8 @@
 				});
             });
         </script>
+        {% if not debug %}
+        {% include 'partials/analytics.html' %}
+        {% endif %}
     </body>
 </html>
