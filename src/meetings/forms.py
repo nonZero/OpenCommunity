@@ -51,13 +51,15 @@ class CloseMeetingForm(forms.ModelForm):
         issues = kwargs.pop('issues')
         super(CloseMeetingForm, self).__init__(*args, **kwargs)
         issues_op = []
-        init_vals = []
+        init_vals = []  # issues which 'archive' checkbox should be checked
         for issue in issues:
             choice_txt = issue.title
             alert_txt = self._get_issue_alert(issue)
             if alert_txt:
                 choice_txt += u'<span class="help-text">{0}</span>'.format(alert_txt)
+            else:
+                # mark as ready for archive only when no alerts exist
+                init_vals.append(issue.id) 
             issues_op.append((issue.id, mark_safe(choice_txt),))
-            init_vals.append(issue.id)
         self.fields['issues'].choices = issues_op 
         self.fields['issues'].initial = init_vals

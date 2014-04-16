@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-26 23:33+0200\n"
+"POT-Creation-Date: 2014-04-08 22:20+0300\n"
 "PO-Revision-Date: 2014-03-26 10:51+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,7 +32,7 @@ msgstr "לא התבצעו שינויים בנושא זה במהלך הפגישה
 
 #: .\forms.py:42
 msgid "Undecided proposals"
-msgstr "הצעה ללא החלטה"
+msgstr "הצעות ללא החלטה"
 
 #: .\models.py:11 .\models.py:78 .\models.py:122 .\models.py:149
 msgid "Meeting"
@@ -154,28 +154,25 @@ msgid "Sending to %d users"
 msgstr "שולח ל-%d משתמשים"
 
 #: .\templates\meetings\meeting_close.html.py:5
-#: .\templates\meetings\meeting_close.html.py:38
+#: .\templates\meetings\meeting_close.html.py:31
 msgid "Close meeting"
 msgstr "סגור פגישה"
 
-#: .\templates\meetings\meeting_close.html.py:14
-msgid "No decisions were made in this meeting."
-msgstr "בפגישה זו לא התקבלו החלטות"
-
-#: .\templates\meetings\meeting_close.html.py:22
-msgid "No participants selected"
+#: .\templates\meetings\meeting_close.html.py:12
+#, fuzzy
+msgid "No participants selected for meeting"
 msgstr "לא נבחרו משתתפים"
 
-#: .\templates\meetings\meeting_close.html.py:25
+#: .\templates\meetings\meeting_close.html.py:21
 msgid ""
 "Please note, editing the meeting's information is not possible after close"
 msgstr "שים לב, לא תתאפשר עריכת מידע בנוגע לפגישה לאחר סגירתה"
 
-#: .\templates\meetings\meeting_close.html.py:35
+#: .\templates\meetings\meeting_close.html.py:28
 msgid "Preview protocol"
 msgstr "פרוטוקול הפגישה"
 
-#: .\templates\meetings\meeting_close.html.py:37
+#: .\templates\meetings\meeting_close.html.py:30
 msgid "Cancel"
 msgstr "ביטול"
 
@@ -262,6 +259,9 @@ msgstr "ט"
 #: .\templatetags\letter_tag.py:5
 msgid "j"
 msgstr "י"
+
+#~ msgid "No decisions were made in this meeting."
+#~ msgstr "בפגישה זו לא התקבלו החלטות"
 
 #~ msgid "Create Issue"
 #~ msgstr "נושא חדש"

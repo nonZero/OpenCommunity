@@ -133,7 +133,8 @@ class Membership(models.Model):
                                    verbose_name=_("Invited by"),
                                    related_name="members_invited", null=True,
                                    blank=True)
-
+    in_position_since = models.DateField(auto_now_add = True,
+                                         verbose_name=_("In position since"))
     objects = MembershipManager()
 
     class Meta:
@@ -154,7 +155,7 @@ class Membership(models.Model):
     
     def total_meetings(self):
         """ In the future we'll check since joined to community or rejoined """
-        return self.community.meetings.filter(held_at__gte=self.created_at).count()
+        return self.community.meetings.filter(held_at__gte=self.in_position_since).count()
         
     def meetings_participation(self):
         """ In the future we'll check since joined to community or rejoined """

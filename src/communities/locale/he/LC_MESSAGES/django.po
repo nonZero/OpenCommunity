@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-26 23:32+0200\n"
-"PO-Revision-Date: 2014-03-26 15:44+0200\n"
+"POT-Creation-Date: 2014-04-08 22:19+0300\n"
+"PO-Revision-Date: 2014-04-08 14:18+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -124,7 +124,7 @@ msgstr "סיכום הפגישה הקרובה"
 msgid "Board name"
 msgstr "שם הועד"
 
-#: .\models.py:84 .\models.py:159
+#: .\models.py:84 .\models.py:162
 #: .\migrations\0011_auto__add_field_community_register_missing_board_members__chg_field_co.py:17
 #: .\templates\communities\participants_form.html.py:23
 #: .\templates\communities\participants_form.html.py:142
@@ -172,10 +172,14 @@ msgid "Resister missing board members"
 msgstr "רישום חברי ועד חסרים"
 
 #: .\models.py:118
+msgid "Inform System Manager"
+msgstr "להודיע למנהל המערכת"
+
+#: .\models.py:121
 msgid "Community"
 msgstr "קהילה"
 
-#: .\models.py:119
+#: .\models.py:122
 msgid "Communities"
 msgstr "קהילות"
 
@@ -214,15 +218,15 @@ msgstr "היסטוריה"
 msgid "Meetings"
 msgstr "פגישות"
 
-#: .\templates\_community_panel.html.py:22
-msgid "Procedures"
+#: .\templates\_community_panel.html.py:23
+msgid "Rules"
 msgstr "נהלים"
 
-#: .\templates\_community_panel.html.py:24
-msgid "Assignments"
+#: .\templates\_community_panel.html.py:25
+msgid "Tasks"
 msgstr "משימות"
 
-#: .\templates\_community_panel.html.py:28
+#: .\templates\_community_panel.html.py:30
 #: .\templates\communities\participants_form.html.py:26
 #: .\templates\communities\participants_form.html.py:154
 msgid "Members"
@@ -260,13 +264,6 @@ msgstr "בכדי לצפות בקהילות שלך, עליך להכנס למער�
 #: .\templates\communities\community_list.html.py:43
 msgid "All Communities"
 msgstr "כל הקהילות"
-
-#: .\templates\communities\community_list.html.py:55
-#: .\templates\emails\agenda.html.py:33
-#: .\templates\emails\agenda_title.txt.py:3
-#: .\templatetags\community_tags.py:40
-msgid "Version"
-msgstr "גרסא"
 
 #: .\templates\communities\community_search.html.py:9
 msgid "Search"
@@ -397,6 +394,14 @@ msgstr "הצגת סדר יום"
 msgid "Close"
 msgstr "סגור"
 
+#: .\templates\communities\publish_upcoming.html.py:27
+msgid "Print protocol"
+msgstr "הדפס פרוטוקול"
+
+#: .\templates\communities\publish_upcoming.html.py:29
+msgid "Print draft"
+msgstr "הדפס סדר יום"
+
 #: .\templates\communities\start_meeting.html.py:5
 #: .\templates\communities\start_meeting.html.py:11
 #: .\templates\communities\upcoming.html.py:97
@@ -513,6 +518,12 @@ msgstr "הצעות החלטה שנדחו"
 msgid "Published at"
 msgstr "פורסם ב -"
 
+#: .\templates\emails\agenda.html.py:33
+#: .\templates\emails\agenda_title.txt.py:3
+#: .\templatetags\community_tags.py:40
+msgid "Version"
+msgstr "גרסא"
+
 #: .\templates\emails\agenda.html.py:35 .\templatetags\community_tags.py:61
 msgid "Draft"
 msgstr "טיוטה"
@@ -560,6 +571,12 @@ msgstr "הצבעה פעילה"
 #: .\templatetags\community_tags.py:58
 msgid "Published"
 msgstr "פורסם"
+
+#~ msgid "Procedures"
+#~ msgstr "נהלים"
+
+#~ msgid "Assignments"
+#~ msgstr "משימות"
 
 #~ msgid "Additional Issues"
 #~ msgstr "נושאים נוספים"

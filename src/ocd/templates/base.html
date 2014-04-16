@@ -46,15 +46,15 @@
                     </div>
                 </div>
             </div>
-    
+
             <div data-role="popup" id="popup" data-dismissible="true" style="display:none">
                 <div data-role="header" data-theme="a" class="ui-bar-a ui-corner-top ui-header">
                     <h3>{% trans "Attention" %}</h3>
                 </div>
                 <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
-    
+
                     <div id="popup-content"></div>
-    
+
                     <a href="#" data-role="button" data-rel="back"
                     data-theme="c">{% trans "Close" %}</a>
                 </div>
@@ -66,29 +66,27 @@
 
         {% block dialogs %}
         {% endblock %}
-        <footer class="footer">
-          <div class="container">
-            <p class="pull-right">
-              <a href="{% url 'about' %}">{% trans "About" %}</a>
-              &nbsp;|&nbsp;
-              <a href="#">{% trans "Back to top" %}</a>
-            </p>
-            <p>
-              <a href="http://www.hasadna.org.il">
-                <canvas class="hasadnaLogo" width="16" height="16"></canvas>
-                {% trans "An eKnight from The Public Knowledge Workshop" %}
-              </a>
-            </p>
-          {% if version %}
-            <p class="version text-center">{% trans "Version" %}: 
-                <span dir="ltr">{{ version }}</span>
-            </p>
-          {% else %}
-            <p class="version text-center">{% trans "DEVELOPMENT SERVER" %}</p>
-          {% endif %}
-          </div>
-        </footer>
-
+		<footer class="footer">
+			<div class="container">
+				<p class="pull-right">
+					<a href="{% url 'about' %}">{% trans "About" %}</a>
+					&nbsp;|&nbsp;
+					<a href="#">{% trans "Back to top" %}</a>
+				</p>
+				<p>
+					<a href="http://www.hasadna.org.il"> <canvas class="hasadnaLogo" width="16" height="16"></canvas> {% trans "An eKnight from The Public Knowledge Workshop" %} </a>
+				</p>
+				{% if version %}
+				<p class="version text-center">
+					{% trans "Version" %}: <span dir="ltr">{{ version }}</span>
+				</p>
+				{% else %}
+				<p class="version text-center">
+					{% trans "DEVELOPMENT SERVER" %}
+				</p>
+				{% endif %}
+			</div>
+		</footer>
         <script>
             OCD = {
                 language: '{{ LANGUAGE_CODE }}',
@@ -113,8 +111,13 @@
             $(function(){
                 $('.main-page').show();
                 $('body').trigger('ocd.show');
+				$('.search-icon').on('click', function() {
+					$('#toggle-search').toggleClass('hidden');
+				});
             });
         </script>
-
+        {% if not debug %}
+        {% include 'partials/analytics.html' %}
+        {% endif %}
     </body>
 </html>

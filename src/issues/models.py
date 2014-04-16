@@ -28,7 +28,15 @@ class IssueStatus(object):
     NOT_IS_UPCOMING = (OPEN, ARCHIVED)
 
 
+class IssueManager(UIDManager):
+    def active(self):
+        return self.get_query_set().filter(active=True)
+
+
 class Issue(UIDMixin):
+
+    objects = IssueManager()
+
     active = models.BooleanField(_("Active"), default=True)
     community = models.ForeignKey('communities.Community',
                                   related_name="issues")

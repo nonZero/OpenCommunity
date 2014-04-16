@@ -112,7 +112,7 @@
 				{% if cperms.community.editagenda_community %}
 					<a class="btn btn-oc pull-right" data-rel="form" href="{% url "issue_create_upcoming" community.id %}"> <i class="fa fa-plus"></i> <span>{% trans "New issue" %}</span></a>
 				{% endif %}
-				{% if object.has_straw_votes and cperms.issues.vote and object.upcoming_meeting_is_published and user.id %}
+				{% if object.has_straw_votes and cperms.issues.vote and object.upcoming_meeting_is_published and user.id and not cperms.community.editagenda_community %}
 					<h2 class="pull-right">
 						<span class="badge vote-badge">
 							{% trans "All proposals / Voted" %}
@@ -166,7 +166,7 @@
                 <div class="tab-pane active"> 
                     <ul id="available" class="nav nav-pills nav-stacked">
                     {% for i in community.available_issues %}
-                        {% include "communities/_issue.html" %}
+                        {% include "communities/_additional_issue.html" %}
                     {% endfor %}
                     </ul>  
                 </div>
@@ -176,7 +176,7 @@
               <h2>{% trans "Additional issues" %}</h2>
               <ul id="available" class="nav nav-pills nav-stacked">
                 {% for i in community.available_issues %}
-                  {% include "communities/_issue.html" %}
+                  {% include "communities/_additional_issue.html" %}
                 {% endfor %}
              </ul> 
         {% endif %}
@@ -225,5 +225,14 @@
 			$('.meeting_left_column').outerHeight(Meeting+20);
 		};
 	});
+	function printProtocol() {
+		var printContent = document.getElementById('protocolPreviewContent');
+		var WinPrint = window.open('', '', 'letf=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+		WinPrint.document.write(printContent.innerHTML);
+		WinPrint.document.close();
+		WinPrint.focus();
+		WinPrint.print();
+		WinPrint.close();
+	};
 </script>
 {% endblock %}

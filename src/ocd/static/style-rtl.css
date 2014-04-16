@@ -120,12 +120,19 @@ ul.errorlist li {
 	list-style-type: none;
 }
 .form-group input.form-control.issue-search {
-	border-radius: 15px;
+	/*border-radius: 15px;*/
 	padding-left: 40px;
 	background-image: url('images/search.png');
 	background-repeat: no-repeat;
 	background-position: left;
 	font-size: 18px;
+}
+.form-group input.form-control.general-search {
+	padding-left: 35px;
+	background-image: url('images/search.png');
+	background-repeat: no-repeat;
+	background-position: left;
+	background-size: 35px;
 }
 .field-upcoming_meeting_participants ul {
 	list-style-type: none;
@@ -322,7 +329,7 @@ nav.oc_navbar {
 .nav > li > a {
         padding: 10px 15px;
 }
-#issue-list .nav > li > a {
+#issue-list .nav.nav-tabs > li > a {
         padding: 10px;
 }
 #issue-list  .nav-tabs > li.active > a,
@@ -389,6 +396,39 @@ p.user_nav {
 #login-page #login_navbar {
 	display: none;
 }
+@media (min-width: 992px) {
+	.user-icon, .search_sm, #toggle-search {
+		display: none !important;
+	}
+}
+@media (min-width: 0px) and (max-width: 767px) {
+	.search_sm, .user-icon, #toggle-search {
+		display: none !important;
+	}
+}
+@media (min-width: 768px) and (max-width: 991px) {
+	.user-name {
+		display: none !important;
+	}
+}
+@media (min-width: 768px) and (max-width: 991px) {
+	.search_lg {
+		display: none !important;
+	}
+}
+.search-icon {
+	width: 30px;
+	height: 35px;
+	background: url('images/search1.png') no-repeat;
+	display: inline-block;
+	background-position: center;
+	cursor: pointer;
+	background-size: 20px;
+}
+.navbar-collapse.oc-panel {
+	max-height: 1000px;
+}
+
 /* List */
 
 .oc_li {
@@ -442,7 +482,15 @@ ul li.issue.oc_li a.addremove {
 	width: 100%;
 	height: 100%;
 }
-
+.available-issue-date {
+	width: 35px;
+	position: absolute;
+	height: 100%;
+	background: #999999;
+	color: #fff;
+	text-align: center;
+	padding: 10px 0;
+}
 
 #agenda li .grab {
     width: 40px;
@@ -847,6 +895,9 @@ ul.proposals li.prop-title {
 	word-break: break-word;
 	font-weight: bold;
 }
+li.prop-title a {
+  color: #333;
+}
 ul.proposals li.issue-title {
 	font-size: 18px;
 	padding: .7em 15px 0 15px;
@@ -911,6 +962,12 @@ ul.proposals li.prop-content p {
 /* Protocol & Agenda ajax preview */
 
 #protocolPreview {
+	text-align: center;
+	border-top: 1px solid #e5e5e5;
+	padding-top: 20px;
+	margin-top: 20px;
+}
+#protocolPreviewContent {
 	text-align: right;
 	padding-top: 20px;
 }
@@ -926,6 +983,10 @@ ul.proposals li.prop-content p {
     padding: 1em 2em;
 }
 
+.alerts {
+   color: #b94a48;
+   font-weight: bold;
+}
 /* Issue detail comments */
 
 .comments {
@@ -1437,6 +1498,7 @@ li.btn-tab span {
 }
 #proc_tags {
   float: right;
+  line-height: 2em;
 }
 #proc_tags .title {
    font-weight: bold;
@@ -1679,6 +1741,12 @@ label[for=id_proposal-title] {
 ul.prop-table.prop-pad {
 	border: 0;
 }
+ul.prop-table .prop-content span {
+  font-weight: bold;
+}
+.indent-1 {
+  margin-right: 12px;  
+}
 .member_proposals_outer {
 	 background: #f5f6de;
 	 position: relative;
@@ -1695,6 +1763,9 @@ ul.prop-table.prop-pad {
 
 .version {
 	margin-top: 15px;
+}
+.footer {
+	padding-top: 30px;
 }
 
 /* RESPONSIVE */
@@ -1840,6 +1911,10 @@ ul.prop-table.prop-pad {
 	}
 	.issue_main .issue_left_column {
 		margin-top: 0;
+	}
+	.search_fix {
+		width: auto;
+		float: none;
 	}
 
 }
