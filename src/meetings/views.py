@@ -76,7 +76,7 @@ class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
 
 
     def form_valid(self, form):
-        # archive selected issues 
+        # archive selected issues
         m = self.community.close_meeting(form.instance, self.request.user)
         Issue.objects.filter(id__in=form.cleaned_data['issues']).update(
                   completed=True, status=IssueStatus.ARCHIVED)
