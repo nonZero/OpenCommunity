@@ -5,6 +5,9 @@
 	{% if cperms.community.editagenda_community %}
 		<div class="grab"></div>
 	{% endif %}
+	<div class="available-issue-date">
+		{{ i.created_at|ocshortdate }}
+	</div>
 	<a href="{{i.get_absolute_url}}"{% if not object.upcoming_meeting_is_published %} style="margin-{% if LANGUAGE_CODE == 'he' %}left{% else %}right{% endif %}: 100px;"{% endif %}>
 		{{i.title}}
 	</a>

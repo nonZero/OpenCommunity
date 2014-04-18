@@ -159,7 +159,8 @@ class Membership(models.Model):
         
     def meetings_participation(self):
         """ In the future we'll check since joined to community or rejoined """
-        return MeetingParticipant.objects.filter(user=self.user, is_absent=False).count()
+        return MeetingParticipant.objects.filter(user=self.user, is_absent=False,
+                                                 meeting__held_at__gte=self.in_position_since).count()
     
     def meetings_participation_percantage(self):
         """ In the future we'll check since joined to community or rejoined """
@@ -181,10 +182,11 @@ class Membership(models.Model):
         con_count = 0
         neut_count = 0
         votes = self.user.board_votes.select_related('proposal') \
-                .filter(proposal__issue__community_id=self.community_id,
-                        proposal__register_board_votes=True,
-                        proposal__active=True) \
-                .exclude(proposal__status=ProposalStatus.IN_DISCUSSION).order_by('-proposal__issue__created_at', 'proposal__id')
+              .filter(proposal__issue__community_id=self.community_id,
+                      proposal__register_board_votes=True,
+                      proposal__active=True,
+                      proposal__decided_at_meeting__held_at__gte=self.in_position_since) \
+              .exclude(proposal__status=ProposalStatus.IN_DISCUSSION).order_by('-proposal__issue__created_at', 'proposal__id')
         for v in votes:
             if not v.proposal.register_board_votes:
                 continue
@@ -207,8 +209,10 @@ class Membership(models.Model):
 
     def _user_board_votes(self):
         return self.user.board_votes.select_related('proposal').filter(proposal__issue__community_id=self.community_id, 
-                                                                       proposal__active=True,
-                                                                       proposal__register_board_votes=True)
+                      proposal__active=True,
+                      proposal__register_board_votes=True,
+                      proposal__decided_at_meeting__held_at__gte=self.in_position_since) 
+
     def member_proposal_pro_votes_accepted(self):
         return self._user_board_votes().filter(value=ProposalVoteValue.PRO, 
                                               proposal__status=ProposalStatus.ACCEPTED)

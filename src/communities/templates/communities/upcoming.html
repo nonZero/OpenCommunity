@@ -166,7 +166,7 @@
                 <div class="tab-pane active"> 
                     <ul id="available" class="nav nav-pills nav-stacked">
                     {% for i in community.available_issues %}
-                        {% include "communities/_additional_issue.html" %}
+                        {% include "communities/_issue.html" %}
                     {% endfor %}
                     </ul>  
                 </div>
@@ -176,7 +176,7 @@
               <h2>{% trans "Additional issues" %}</h2>
               <ul id="available" class="nav nav-pills nav-stacked">
                 {% for i in community.available_issues %}
-                  {% include "communities/_additional_issue.html" %}
+                  {% include "communities/_issue.html" %}
                 {% endfor %}
              </ul> 
         {% endif %}

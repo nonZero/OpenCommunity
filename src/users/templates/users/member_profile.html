@@ -9,13 +9,16 @@ id="member-profile"
 {% endblock %}
 
 {% block content %}
+{% if not belongs_to_board  %}
+    <h3> {% trans 'No data available' %} </h3>
+{% else %}
 <div class="col-xs-12 col-md-4">
 	<h1>{{ object.user.display_name }}</h1>
 	<p>
 		{% trans "Position" %}: {% trans object.default_group_name %}
 	</p>
 	<p>
-		{% trans "Serves since" %}: {{ object.created_at|date:"d F Y" }}
+		{% trans "Serves since" %}: {{ object.in_position_since|date:"d F Y" }}
 	</p>
 	<p>
 		{% trans "Email" %}: {{ object.user.email }}
@@ -202,6 +205,7 @@ id="member-profile"
 		</div>
 	</div>
 </div>
+{% endif %}
 {% endblock %}
 
 {% block scripts %}

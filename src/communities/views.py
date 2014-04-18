@@ -204,8 +204,6 @@ class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):
         if not c.upcoming_meeting_started and form.cleaned_data['send_to'] != SendToOption.ONLY_ME:
             if form.cleaned_data['send_to'] == SendToOption.ALL_MEMBERS:
                 c.upcoming_meeting_is_published = True
-            else:
-                c.upcoming_meeting_is_published = False
             c.upcoming_meeting_published_at = datetime.datetime.now()
             c.upcoming_meeting_version += 1
 

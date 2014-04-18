@@ -492,6 +492,9 @@ ul li.issue.oc_li a.addremove {
 	padding: 10px 0;
 }
 
+#agenda .available-issue-date {
+  display: none;
+}
 #agenda li .grab {
     width: 40px;
     background: url('images/drag-handle.png') center no-repeat;
