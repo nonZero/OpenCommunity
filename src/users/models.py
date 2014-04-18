@@ -133,7 +133,7 @@ class Membership(models.Model):
                                    verbose_name=_("Invited by"),
                                    related_name="members_invited", null=True,
                                    blank=True)
-    in_position_since = models.DateField(auto_now_add = True,
+    in_position_since = models.DateField(default=datetime.date.today(),
                                          verbose_name=_("In position since"))
     objects = MembershipManager()
 
