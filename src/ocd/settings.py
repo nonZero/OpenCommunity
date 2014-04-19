@@ -240,10 +240,24 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.tz',
     'django.core.context_processors.request',
     'django.contrib.messages.context_processors.messages',
+    'ocd.context_processors.analytics',
 )
 
 SESSION_REMEMBER_DAYS = 45
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Made accessible to templates via the analytics context processor `analytics`
+OPENCOMMUNITY_ANALYTICS = {
+    'piwik': {
+        'host': 'visitors.hasadna.org.il/',
+        'id': '3'
+    },
+    # Uncomment & configure for Google Analytics tracking
+    # 'ga': {
+    #     'id': 'UA-00000000-0'
+    #     'url': 'domain.com'
+    # }
+}
 
 version_file = os.path.join(STATIC_ROOT, 'version.txt')
 if os.path.exists(version_file):
