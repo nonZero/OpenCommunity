@@ -393,3 +393,38 @@ class RatedOrders(TestCase):
                          {2: 3},
                          {3: 2}]
         )
+
+    def test_results_sum_and_normalization_single_voter(self):
+        """Check normalization with a single voter usecase"""
+
+        com = self.com
+        usr = self.usr
+        graph = self.graph
+
+        #create issues
+        issue_a = Issue.objects.create(community=com, created_by=usr, title='issue_a')
+        issue_b = Issue.objects.create(community=com, created_by=usr, title='issue_b')
+        issue_c = Issue.objects.create(community=com, created_by=usr, title='issue_c')
+
+        #add issues as graph nodes
+        graph.add_node(issue_a)
+        graph.add_node(issue_b)
+        graph.add_node(issue_c)
+
+        # Generate data
+        input=[
+            {'count': 1, 'ballot': [[issue_a.id],[issue_b.id], [issue_c.id]]},
+            ]
+
+        # add ballots to graph
+        user_vote(com,input)
+
+        #calculate results
+        output = graph.get_schulze_npr_order_and_rating_bottom_up_sum()
+        # Run tests
+        normalized_output = graph.normalize_ordered_rating_bottom_up_sum(output, 0, 1)
+        self.assertEqual(normalized_output,
+            [{1: 1},
+             {2: 1},
+             {3: 0}]
+        )

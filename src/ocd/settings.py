@@ -26,8 +26,8 @@ DATABASES = {
         # engines: '.postgresql_psycopg2', '.mysql', '.sqlite3' or '.oracle'.
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'opencommunity',
-        'USER': 'opencommunity',
-        'PASSWORD': 'opencommunity',
+        'USER': 'postgres',
+        'PASSWORD': 'peta2drs',
         'HOST': 'localhost',
         'PORT': '',
     }
