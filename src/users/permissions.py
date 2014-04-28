@@ -1,6 +1,7 @@
-from users.default_roles import DefaultGroups, ALL_PERMISSIONS
-from users.models import Membership
 from collections import defaultdict
+
+from acl.default_roles import DefaultGroups, ALL_PERMISSIONS
+from users.models import Membership
 
 
 """

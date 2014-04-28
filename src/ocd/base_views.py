@@ -1,13 +1,15 @@
+import json
+
 from communities.models import Community
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import redirect_to_login
+from django.core.exceptions import PermissionDenied
 from django.http.response import HttpResponseForbidden, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from users.models import Membership
 from users.permissions import has_community_perm, get_community_perms
-import json
 
 
 def json_response(content, *args, **kwargs):
@@ -16,14 +18,13 @@ def json_response(content, *args, **kwargs):
 
 
 class LoginRequiredMixin(object):
-
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
+        return super(LoginRequiredMixin, self).dispatch(request, *args,
+                                                        **kwargs)
 
 
 class ProtectedMixin(object):
-
     required_permission = None
     required_permission_for_post = None
 
@@ -41,7 +42,8 @@ class ProtectedMixin(object):
         if not has_community_perm(request.user, self.community, perm):
             if settings.DEBUG:
                 return HttpResponseForbidden("403 %s" % perm)
-            return HttpResponseForbidden("403 Unauthorized")  # TODO: raise PermissionDenied
+            return HttpResponseForbidden(
+                "403 Unauthorized")  # TODO: raise PermissionDenied
 
         if request.method == "POST":
             if hasattr(self, 'get_required_permission_for_post'):
@@ -70,19 +72,21 @@ class ProtectedMixin(object):
 
 
 class CommunityMixin(ProtectedMixin):
-
     _community = None
 
     @property
     def community(self):
         if not self._community:
-            self._community = get_object_or_404(Community, pk=self.kwargs['community_id'])
+            self._community = get_object_or_404(Community, pk=self.kwargs[
+                'community_id'])
         return self._community
 
     def get_context_data(self, **kwargs):
         context = super(CommunityMixin, self).get_context_data(**kwargs)
         context['community'] = self.community
-        context['is_member'] = Membership.objects.filter(community=self.community, user=self.request.user).exists() if self.request.user.id else False
+        context['is_member'] = Membership.objects.filter(
+            community=self.community,
+            user=self.request.user).exists() if self.request.user.id else False
         return context
 
 
@@ -105,3 +109,14 @@ class AjaxFormView(object):
         resp = super(AjaxFormView, self).form_invalid(form)
         resp.status_code = 403
         return resp
+
+
+class SuperUserRequiredMixin(object):
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            raise PermissionDenied()
+        return super(SuperUserRequiredMixin, self).dispatch(request, *args,
+                                                        **kwargs)
+
+

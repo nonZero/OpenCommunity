@@ -4,6 +4,10 @@ from django.contrib.admin.options import ModelAdmin, TabularInline
 from users.models import Membership
 
 
+class CommunityGroupInline(TabularInline):
+    model = models.CommunityGroup
+
+
 class CommunityMembershipInline(TabularInline):
     model = Membership
     fk_name = 'community'
@@ -24,7 +28,23 @@ class CommunityAdmin(ModelAdmin):
               'email_invitees',
               )
 
-    inlines = [CommunityMembershipInline]
+    inlines = [
+        CommunityGroupInline,
+        CommunityMembershipInline,
+    ]
+
+# class CommunityGroupRoleInline(TabularInline):
+#     model = models.CommunityGroupRole
+
+class CommunityGroupAdmin(ModelAdmin):
+    pass
+    # inlines = [
+    #     CommunityGroupRoleInline,
+    # ]
+
+
 
 
 site.register(models.Community, CommunityAdmin)
+site.register(models.CommunityGroup, CommunityGroupAdmin)
+# site.register(models.CommunityGroupRole)

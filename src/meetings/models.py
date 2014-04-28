@@ -4,7 +4,7 @@ from django.utils.formats import date_format
 from django.utils.translation import ugettext_lazy as _
 from issues.models import Issue, ProposalStatus
 from ocd.base_models import UIDMixin, HTMLField
-from users.default_roles import DefaultGroups
+from acl.default_roles import DefaultGroups
 
 
 class AgendaItem(models.Model):

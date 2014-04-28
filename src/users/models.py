@@ -1,3 +1,8 @@
+import datetime
+import logging
+import random
+import string
+
 from django.conf import settings
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, \
     PermissionsMixin
@@ -6,14 +11,11 @@ from django.db import models
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from issues.models import Proposal, ProposalVote, ProposalVoteValue, \
+from issues.models import Proposal, ProposalVoteValue, \
     ProposalStatus
 from meetings.models import MeetingParticipant
-from users.default_roles import DefaultGroups
-import datetime
-import logging
-import random
-import string
+from acl.default_roles import DefaultGroups
+
 
 CODE_LENGTH = 48
 

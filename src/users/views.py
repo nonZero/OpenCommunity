@@ -1,34 +1,28 @@
+import json
+
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.models import get_current_site
-from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
-from django.db.utils import IntegrityError
-from django.http.response import HttpResponse, HttpResponseForbidden, \
-    HttpResponseBadRequest, Http404, HttpResponseRedirect
+from django.http.response import HttpResponse, HttpResponseBadRequest, Http404, HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.template import RequestContext
-from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
-from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic import FormView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView
-from django.views.generic.list import BaseListView, ListView
+from django.views.generic.list import ListView
 from ocd import settings
 from ocd.base_views import CommunityMixin
 from users import models
-from default_roles import DefaultGroups
+from acl.default_roles import DefaultGroups
 from users.forms import InvitationForm, QuickSignupForm, ImportInvitationsForm
-from users.models import Invitation, OCUser, Membership, EmailStatus
-import json
-import time
+from users.models import Invitation, OCUser, Membership
 
 
 class MembershipMixin(CommunityMixin):

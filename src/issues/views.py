@@ -1,3 +1,7 @@
+import json
+import mimetypes
+from datetime import date
+
 from django.db.models.aggregates import Max
 from django.http.response import HttpResponse, HttpResponseBadRequest, \
     HttpResponseForbidden
@@ -19,17 +23,10 @@ from oc_util.templatetags.opencommunity import minutes, board_voters_on_proposal
 from ocd.base_views import CommunityMixin, AjaxFormView, json_response
 from ocd.validation import enhance_html
 from shultze_vote import send_issue_ranking
-from users.default_roles import DefaultGroups
-from users.models import Membership
+from acl.default_roles import DefaultGroups
 from users.permissions import has_community_perm
-from haystack.views import SearchView
 from haystack.query import SearchQuerySet
 from haystack.inputs import AutoQuery
-from haystack.utils import Highlighter
-import json
-import mimetypes
-from datetime import date
-
 
 
 class IssueMixin(CommunityMixin):

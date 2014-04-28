@@ -1,4 +1,5 @@
 import logging
+from acl.models import Role
 
 from django.conf import settings
 from django.db import models, transaction
@@ -10,7 +11,7 @@ from meetings.models import MeetingParticipant, Meeting
 from ocd.base_models import HTMLField, UIDMixin
 from oc_util.email_util import send_mails
 from ocd.views import get_guests_emails
-from users.default_roles import DefaultGroups
+from acl.default_roles import DefaultGroups
 from users.models import OCUser, Membership
 import issues.models as issues_models
 import meetings.models as meetings_models
@@ -493,3 +494,37 @@ class Community(UIDMixin):
             }
 
         return [as_agenda_item(x) for x in self.upcoming_issues()]
+
+
+class CommunityGroup(models.Model):
+    community = models.ForeignKey(Community, related_name="groups", )
+    title = models.CharField(max_length=200)
+    role = models.ForeignKey(Role)
+
+    class Meta:
+        verbose_name = _('Group')
+        verbose_name_plural = _('Groups')
+        order_with_respect_to = 'community'
+        unique_together = (
+            ('community', 'title'),
+        )
+
+    def __unicode__(self):
+        return self.title
+#
+#
+# class CommunityGroupRole(models.Model):
+#     group = models.ForeignKey(CommunityGroup, related_name='roles')
+#     code = models.CharField(max_length=50, choices=DefaultRoles.choices)
+#
+#     class Meta:
+#         verbose_name = _('Group Role')
+#         verbose_name_plural = _('Group Roles')
+#         unique_together = (
+#             ('group', 'code'),
+#         )
+#
+#     def __unicode__(self):
+#         return u"{}: {}".format(self.group, self.get_code_display())
+#
+

@@ -1,10 +1,9 @@
-import logging
 from django.contrib.auth import get_user_model
 
 from django.core.urlresolvers import reverse
 from django.test.client import Client
 from django.test.testcases import TestCase
-from users.default_roles import DefaultGroups
+from acl.default_roles import DefaultGroups
 from users.models import Membership
 
 User = get_user_model()

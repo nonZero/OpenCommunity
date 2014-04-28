@@ -1,6 +1,6 @@
 from django.core import mail
 from django.test import TestCase
-from users.default_roles import DefaultGroups
+from acl.default_roles import DefaultGroups
 from users.models import Invitation, Membership, OCUser
 from communities.tests.common import create_sample_community
 from django.core.urlresolvers import reverse

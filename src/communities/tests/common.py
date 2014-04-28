@@ -1,9 +1,8 @@
 from collections import namedtuple
 
 from django.contrib.auth import get_user_model
-
 from communities.models import Community
-from users.default_roles import DefaultGroups
+from acl.default_roles import DefaultGroups
 from users.models import OCUser, Membership
 
 PASSWORD = 'secret'

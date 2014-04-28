@@ -1,5 +1,5 @@
 from django.test import TestCase
-from users.default_roles import DefaultGroups
+from acl.default_roles import DefaultGroups
 from communities.tests.common import create_community
 
 
