@@ -139,9 +139,15 @@
 		{% endif %}
 		{% if object.meeting_participants.board %}
 		<div class="panel-heading">
-			<h3 class="panel-title">{% trans "Board" %}</h3>
+      <h3 class="panel-title">{{ object.board_name }}</h3>
 		</div>
 		<ul class="list-group">
+			{% for chairman in object.meeting_participants.chairmen %}
+			  <li class="list-group-item clearfix">
+          <span style="line-height: 2;">{{ chairman.display_name }}</span>
+			  </li>
+      {% endfor %}
+
 			{% for board in object.meeting_participants.board %}
 			<li class="list-group-item clearfix">
 				<span style="line-height: 2;">{{ board.display_name }}</span>
