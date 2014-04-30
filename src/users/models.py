@@ -160,7 +160,7 @@ class Membership(models.Model):
     def meetings_participation(self):
         """ In the future we'll check since joined to community or rejoined """
         return MeetingParticipant.objects.filter(user=self.user, is_absent=False,
-                                                 community=self.community,
+                                                 meeting__community=self.community,
                                                  meeting__held_at__gte=self.in_position_since).count()
     
     def meetings_participation_percantage(self):
