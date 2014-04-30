@@ -241,6 +241,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.contrib.messages.context_processors.messages',
     'ocd.context_processors.analytics',
+    'ocd.context_processors.smart_404',
 )
 
 SESSION_REMEMBER_DAYS = 45
