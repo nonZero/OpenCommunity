@@ -12,9 +12,9 @@
 
 {% block content %}
 
-	{% if 404.type %}
+	{% if not_found.type %}
 
-		{% if 404.type == 'no_community' %}
+		{% if not_found.type == 'no_community' %}
 		<div class="section_1">
 			<img src="{{ STATIC_URL }}images/404.png" >
 			<div id="t1">
@@ -24,13 +24,13 @@
 				{% trans "We couldn't find the requested community" %}.
 				<br>
 				<a id="backBtn">{% trans "You can go to" %}
-					<a id="ct1" href="{{ 404.redirect_url }}">{% trans "Main page" %}</a>.
+					<a id="ct1" href="{{ not_found.redirect_url }}">{% trans "Main page" %}</a>.
 				</a>
 			</div>
 		</div>
 		{% endif %}
 
-		{% if 404.type == 'no_issue' %}
+		{% if not_found.type == 'no_issue' %}
 		<div class="section_1">
 			<img src="{{ STATIC_URL }}images/404.png" >
 			<div id="t1">
@@ -40,13 +40,13 @@
 				{% trans "We couldn't find the requested issue" %}.
 				<br>
 				<a id="backBtn">{% trans "You can go to" %}
-					<a id="ct1" href="{{ 404.redirect_url }}">קהילת בלה בלה </a>.
+					<a id="ct1" href="{{ not_found.redirect_url }}">קהילת בלה בלה </a>.
 				</a>
 			</div>
 		</div>
 		{% endif %}
 
-		{% if 404.type == 'no_procedure' %}
+		{% if not_found.type == 'no_procedure' %}
 		<div class="section_1">
 			<img src="{{ STATIC_URL }}images/404.png" >
 			<div id="t1">
@@ -56,7 +56,7 @@
 				{% trans "We couldn't find the requested procedure" %}.
 				<br>
 				<a id="backBtn">{% trans "You can go to" %}
-					<a id="ct1" href="{{ 404.redirect_url }}">נושא בלה בלה</a>.
+					<a id="ct1" href="{{ not_found.redirect_url }}">נושא בלה בלה</a>.
 				</a>
 			</div>
 		</div>

@@ -45,4 +45,4 @@ def smart_404(request):
         except Community.DoesNotExist:
             not_found['type'] = 'no_community'
 
-    return not_found
+    return {'not_found': not_found}
