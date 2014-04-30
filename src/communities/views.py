@@ -1,6 +1,6 @@
 import datetime
 import json
-
+from itertools import chain
 from django.conf import settings
 from django.contrib import messages
 from django.core.paginator import Paginator, InvalidPage
@@ -268,6 +268,11 @@ class ProtocolDraftPreviewView(CommunityModelMixin, DetailView):
         if not meeting_time:
             meeting_time = datetime.datetime.now()
         d['meeting_time'] = meeting_time.replace(second=0)
+
+        agenda_items = d['object'].draft_agenda()
+        item_attachments = [item['issue'].current_attachments() for item in agenda_items]
+        d['attachments'] = list(chain.from_iterable(item_attachments))
+
         return d
 
 
