@@ -56,11 +56,14 @@
                 <div style="margin:0; padding: 4px">
                     <p>
                         <b>{{ community.board_name }}:</b>
-                        {% for u in board_participants %}
+                        {% for u in community.meeting_participants.chairmen %}
+                          {{ u }},
+                        {% endfor %}
+                        {% for u in community.meeting_participants.board %}
                             {{ u }}{% if not forloop.last %},{% endif %}
                         {% endfor %}
-                        {% trans ' from ' %}<b>{{ board_count }}</b>
-                        {% trans ' board members.' %}
+                        ({% trans 'from ' %}<b>{{ board_count }}</b>
+                        {% trans ' board members.' %})
                     </p>
                     <p>
                         <b>{% trans "Guests" %}:</b>

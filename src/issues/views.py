@@ -290,6 +290,7 @@ class IssueDeleteView(AjaxFormView, IssueMixin, DeleteView):
         o = self.get_object()
         o.active = False
         o.save()
+        o.active_proposals().update(active=False)
         return HttpResponse("-")
 
 
@@ -396,7 +397,7 @@ class ProposalMixin(IssueMixin):
                               'issues.edittask_proposal')
 
     def get_queryset(self):
-        return models.Proposal.objects.filter(issue=self.issue)
+        return models.Proposal.objects.filter(issue=self.issue, active=True)
 
 
 class ProposalDetailView(ProposalMixin, DetailView):

@@ -112,7 +112,7 @@ class Community(UIDMixin):
                                          default=False)
 
     register_missing_board_members = models.BooleanField(
-        _("Resister missing board members"), default=False)
+        _("Register missing board members"), default=False)
 
     inform_system_manager = models.BooleanField(
         _('Inform System Manager'), default=False)
@@ -166,13 +166,16 @@ class Community(UIDMixin):
 
     def meeting_participants(self):
 
-        meeting_participants = {'board': [], 'members': [], }
+        meeting_participants = {'chairmen': [], 'board': [], 'members': [], }
 
         board_ids = [m.user.id for m in self.memberships.board()]
 
         for u in self.upcoming_meeting_participants.all():
             if u.id in board_ids:
-                meeting_participants['board'].append(u)
+                if u.get_default_group(self) == DefaultGroups.CHAIRMAN:
+                    meeting_participants['chairmen'].append(u)
+                else:
+                    meeting_participants['board'].append(u)
             else:
                 meeting_participants['members'].append(u)
 
