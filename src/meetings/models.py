@@ -100,6 +100,12 @@ class Meeting(UIDMixin):
     def get_title_or_shortdate(self):
         return self.title or self.held_at.strftime('%d/%m/%Y')
 
+    def get_title_and_shortdate(self):
+        if self.title:
+            return self.held_at.strftime('%d/%m/%Y') + " - " + self.title
+        else:
+            return self.held_at.strftime('%d/%m/%Y')
+        
     def get_participations(self):
         return self.participations.filter(is_absent=False)
 

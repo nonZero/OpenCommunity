@@ -88,7 +88,7 @@ id="issue-detail"
                               <li{% if meeting == ai.meeting %} class="active"{% endif %}>
                                   <a role="menuitem" href="#meeting-{{ai.meeting.id}}" data-toggle="filter"
                                       data-show=".filter-meeting-{{ai.meeting.id}}">
-                                      {{ai.meeting.get_title_or_shortdate}}
+                                      {{ai.meeting.get_title_and_shortdate}}
                                   </a>
                               </li>
                           {% endfor %}
@@ -137,7 +137,7 @@ id="issue-detail"
             {% endif %}
 			{% for ai in object.agenda_items.all reversed %}
 			    <div class="text-right col-xs-12 filter-meeting-{{ai.meeting.id}} filter filter-all" style="font-size: 14px;padding-left: 40px;">
-			        <a href="{{ai.meeting.get_absolute_url}}">{{ai.meeting.get_title_or_shortdate}}</a>
+			        <a href="{{ai.meeting.get_absolute_url}}">{{ai.meeting.get_title_and_shortdate}}</a>
 			    </div>
 		    {% endfor %}
 

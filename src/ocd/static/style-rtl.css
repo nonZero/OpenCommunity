@@ -1507,7 +1507,9 @@ li.btn-tab span {
    font-weight: bold;
    margin-left: 3em;
 }
-
+.tags {
+	text-align: left;
+}
 .three_dot_sentence {
 	white-space: nowrap;
 	text-overflow: ellipsis;
