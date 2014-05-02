@@ -92,7 +92,7 @@ id="issue-list"
             <table id="voted_order" class="table table-condensed issue-table">
                 {% for object in sorted_issues %}
                     <tr class="issue-list">
-                        <td class="issue_date">{{ object.order_by_votes }}</td>
+                        <td class="issue_date">{{ object.order_by_votes|floatformat }}</td>
                         <td class="issue_title left_arrow"><a href="{{ object.get_absolute_url }}?s=1"> {{ object.title }}</a></td>
                     </tr>
                 {% endfor %}

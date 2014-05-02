@@ -193,7 +193,7 @@ class IssuesGraph(models.Model):
         for rated_candidate in rated_order:
             candidate_id = rated_candidate.keys()[0]
             candidate_rating = rated_candidate[candidate_id]
-            candidate_votes = math.ceil(candidate_rating*(votes_range/max_shulze) + votes_range_min)
+            candidate_votes = candidate_rating*(votes_range/max_shulze) + votes_range_min
             rated_candidate[candidate_id] = candidate_votes
         return rated_order
 
