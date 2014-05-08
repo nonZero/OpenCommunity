@@ -490,8 +490,9 @@ ul li.issue.oc_li a.addremove {
 	text-align: center;
 	padding: 10px 0;
 }
-
-
+#agenda .available-issue-date {
+  display: none;
+}
 #agenda li .grab {
     width: 40px;
     background: url('images/drag-handle.png') center no-repeat;
@@ -895,6 +896,9 @@ ul.proposals li.prop-title {
 	word-break: break-word;
 	font-weight: bold;
 }
+li.prop-title a {
+  color: #333;
+}
 ul.proposals li.issue-title {
 	font-size: 18px;
 	padding: .7em 15px 0 15px;
@@ -978,6 +982,10 @@ ul.proposals li.prop-content p {
     background: #FFF3A5;
     border: 2px solid #777;
     padding: 1em 2em;
+}
+.alerts {
+   color: #b94a48;
+   font-weight: bold;
 }
 
 /* Issue detail comments */
@@ -1494,6 +1502,9 @@ li.btn-tab span {
    font-weight: bold;
    margin-right: 3em;
 }
+.tags {
+	text-align: right;
+}
 .three_dot_sentence {
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -1899,6 +1910,10 @@ ul.prop-table .prop-content span {
 	}
 	.issue_main .issue_left_column {
 		margin-top: 0;
+	}
+	.search_fix {
+		width: auto;
+		float: none;
 	}
 
 }

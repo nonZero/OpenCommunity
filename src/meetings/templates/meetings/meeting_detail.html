@@ -155,6 +155,11 @@ id="meeting-detail"
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">{% trans "Meeting protocol" %}</h4>
       </div>
+  		<div id="protocolPreview">
+  		<button type="button" class="btn btn-default hidden-print protocol-print-btn" onclick="printProtocol();">
+  			<span class="glyphicon glyphicon-print"></span> {% trans "Print protocol" %}
+		</button>
+     </div>
       <div id="meeting-protocol-preview" class="modal-body"></div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
@@ -179,19 +184,28 @@ id="meeting-detail"
 		var meeting = $('.meeting_right_column').outerHeight();
 		var upcoming = $('.meeting_left_column').outerHeight();
 		if (meeting > upcoming) {
-			$('.meeting_left_column').outerHeight(meeting+20);
+			$('.meeting_left_column').outerHeight(meeting + 20);
 		};
-  }
+	}
 
 	$(function() {
 		$('.show_meetings').on('click', function() {
 			$(".main_meeting_content, .small_meetings").toggle();
 			$(".meeting_left_column").css('background', 'transparent');
 		});
-    $('body').on('ocd.show', function () {
-       set_meeting_height();
-     });
+		$('body').on('ocd.show', function() {
+			set_meeting_height();
+		});
 	});
+	function printProtocol() {
+		var printContent = document.getElementById('meeting-protocol-preview');
+		var WinPrint = window.open('', '', 'letf=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+		WinPrint.document.write(printContent.innerHTML);
+		WinPrint.document.close();
+		WinPrint.focus();
+		WinPrint.print();
+		WinPrint.close();
+	};
 </script>
 
 {% endblock %}

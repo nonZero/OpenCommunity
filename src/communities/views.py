@@ -127,7 +127,7 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
         .exclude(status=IssueStatus.ARCHIVED)
         for i in open_issues.order_by('-created_at'):
             sorted_issues['by_time'].append(i.id)
-        for i in open_issues.order_by('order_by_votes'):
+        for i in open_issues.order_by('-order_by_votes'):
             sorted_issues['by_rank'].append(i.id)
         d['sorted'] = json.dumps(sorted_issues)
         return d

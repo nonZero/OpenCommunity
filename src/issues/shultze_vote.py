@@ -26,18 +26,17 @@ def set_issues_order_by_votes(community_id):
         raise
 
     order = g.get_schulze_npr_order_and_rating_bottom_up_sum()
-    min_obj = order[0].key()
-    max_obj = order[-1].key()
-    min_like = IssueRankingVote.objects.filter(issue__id=min_obj, rank__gt=1).annotate(c=Count('pk'))
-    max_like = IssueRankingVote.objects.filter(issue__id=max_obj, rank__gt=1).annotate(c=Count('pk'))
-    normorder = g.normalize_ordered_rating_bottom_up_sum(order, min_like, max_like)
+    min_obj = order[0].keys()[0]
+    max_obj = order[-1].keys()[0]
+    min_likes = IssueRankingVote.objects.filter(issue__id=min_obj, rank__gt=1).count()
+    max_likes = IssueRankingVote.objects.filter(issue__id=max_obj, rank__gt=1).count()
+    normorder = g.normalize_ordered_rating_bottom_up_sum(order, min_likes, max_likes)
 
-
-    # res = g.get_schulze_npr_results()
-    issues = Issue.objects.in_bulk(normorder.keys())
-    for id in normorder.keys():
-        issues[id].order_by_votes = normorder[id]
-        print issues[id].title, normorder[id]
+    issues = Issue.objects.in_bulk([i.keys()[0] for i in normorder])
+    for id_entry in normorder:
+        id = id_entry.keys()[0]
+        issues[id].order_by_votes = id_entry[id]
+        print issues[id].title, id_entry[id]
         issues[id].save()
 
 
