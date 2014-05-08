@@ -59,7 +59,7 @@ class Issue(UIDMixin):
 
     order_in_upcoming_meeting = models.IntegerField(
         _("Order in upcoming meeting"), default=9999, null=True, blank=True)
-    order_by_votes = models.IntegerField(
+    order_by_votes = models.FloatField(
         _("Order in upcoming meeting by votes"), default=9999, null=True,
         blank=True)
 

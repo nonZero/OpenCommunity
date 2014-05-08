@@ -54,7 +54,7 @@ class IssueList(IssueMixin, ListView):
         available_ids = set([x.id for x in self.get_queryset()])
         if d['community'].issue_ranking_enabled:
             d['sorted_issues'] = super(IssueList, self).get_queryset().exclude(
-                                    status=IssueStatus.ARCHIVED).order_by('order_by_votes')
+                                    status=IssueStatus.ARCHIVED).order_by('-order_by_votes')
             if d['cperms']['issues'].has_key('vote_ranking') and \
                                      self.request.user.is_authenticated():    
                 my_ranking = models.IssueRankingVote.objects.filter(
