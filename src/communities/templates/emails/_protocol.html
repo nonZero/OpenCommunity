@@ -49,7 +49,7 @@
                 </div>
             </div>
 
-            {% if participants or guests %}
+            {% if participants.count or guests %}
             <div style="border: solid 1px #ccc; margin: 4px 0;padding: 0">
                 <h2 style="margin:0; background: #ddd;padding: 4px">{% trans "Participants" %}</h2>
 
@@ -69,7 +69,7 @@
                         <b>{% trans "Guests" %}:</b>
                         {% if member_participants %}
                             {% for u in member_participants %}
-                                {{ u }}{% if not forloop.last %},{% endif %}
+                                {{ u }}{% if not forloop.last or guests %},{% endif %}
                             {% endfor %}
                         {% endif %}
                         {% if guests %}

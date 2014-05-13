@@ -1772,6 +1772,9 @@ ul.prop-table .prop-content span {
 .footer {
 	padding-top: 30px;
 }
+.footer .container {
+  display: none;
+}
 
 /* RESPONSIVE */
 

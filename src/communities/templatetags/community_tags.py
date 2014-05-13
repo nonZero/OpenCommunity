@@ -64,4 +64,4 @@ def upcoming_status(community):
 
 @register.filter
 def remove_email(args):
-    return args.split(' [')[0]
+    return args.split('[')[0]
