@@ -131,15 +131,12 @@ id="meeting-detail"
                     {% for p in object.get_participations %}
                     <li class="list-group-item">
                         {{p.display_name}}
-                        {% if p.default_group_name %}
-                        ({{p.get_default_group_name_display}})
-                        {% endif %}
                     </li>
                     {% endfor %}
         
                     {% for g in guest_list %}
                     <li class="list-group-item">
-                        {{g}}
+                        {{g|remove_email}}
                     </li>
                     {% endfor %}
                 </ul>

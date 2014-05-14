@@ -49,17 +49,15 @@
                 </div>
             </div>
 
-            {% if participants.count or guests %}
             <div style="border: solid 1px #ccc; margin: 4px 0;padding: 0">
                 <h2 style="margin:0; background: #ddd;padding: 4px">{% trans "Participants" %}</h2>
-
                 <div style="margin:0; padding: 4px">
                     <p>
                         <b>{{ community.board_name }}:</b>
-                        {% for u in community.meeting_participants.chairmen %}
+                        {% for u in participants.chairmen %}
                           {{ u }},
                         {% endfor %}
-                        {% for u in community.meeting_participants.board %}
+                        {% for u in participants.board %}
                             {{ u }}{% if not forloop.last %},{% endif %}
                         {% endfor %}
                         ({% trans 'from ' %}<b>{{ board_count }}</b>
@@ -67,8 +65,8 @@
                     </p>
                     <p>
                         <b>{% trans "Guests" %}:</b>
-                        {% if member_participants %}
-                            {% for u in member_participants %}
+                        {% if participants.members %}
+                            {% for u in participants.members %}
                                 {{ u }}{% if not forloop.last or guests %},{% endif %}
                             {% endfor %}
                         {% endif %}
@@ -80,7 +78,6 @@
                     </p>
                 </div>
             </div>
-            {% endif %}
         </div>
 
         <h2 style="margin:12px 0 0 0; background:#eee; padding:6px 3px 3px">

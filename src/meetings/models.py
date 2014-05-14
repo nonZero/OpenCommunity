@@ -128,7 +128,7 @@ class Meeting(UIDMixin):
         # doing it simply like this, as I'd need to refactor models
         # just to order in the way that is now required.
         for index, item in enumerate(meeting_participants['board']):
-            if item.get_default_group(self) == DefaultGroups.MEMBER:
+            if item.get_default_group(self) == DefaultGroups.CHAIRMAN:
                 meeting_participants['board'].insert(0,
                     meeting_participants['board'].pop(index))
 
