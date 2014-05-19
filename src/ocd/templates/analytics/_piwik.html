@@ -1,16 +1,2 @@
 <!-- Piwik -->
-<script>
-  var _paq = _paq || [];
-  _paq.push(['setCustomVariable', 1, "Community", "{{ community.name }}", "page"]);
-  _paq.push(['trackPageView']);
-  _paq.push(['enableLinkTracking']);
-  (function() {
-    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://{{ analytics.piwik.host }}";
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
-    _paq.push(['setSiteId', {{ analytics.piwik.id }}]);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
-    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-  })();
-</script>
-<noscript><p><img src="http://visitors.hasadna.org.il/piwik.php?idsite={{ analytics.piwik.id }}" style="border:0;" alt="" /></p></noscript>
 <!-- End Piwik -->

@@ -1,3 +1,4 @@
+from itertools import chain
 from django.contrib import messages
 from django.http.response import HttpResponse
 from django.utils import timezone
@@ -44,6 +45,13 @@ class MeetingDetailView(MeetingMixin, DetailView):
 class MeetingProtocolView(MeetingMixin, DetailView):
     required_permission = 'meetings.view_meeting'
     template_name = "emails/protocol.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(MeetingProtocolView, self).get_context_data(**kwargs)
+        agenda_items = context['object'].agenda.all()
+        item_attachments = [item.issue.current_attachments(item) for item in agenda_items]
+        context['attachments'] = list(chain.from_iterable(item_attachments))
+        return context
 
 
 class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):

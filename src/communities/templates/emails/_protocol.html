@@ -49,17 +49,15 @@
                 </div>
             </div>
 
-            {% if participants or guests %}
             <div style="border: solid 1px #ccc; margin: 4px 0;padding: 0">
                 <h2 style="margin:0; background: #ddd;padding: 4px">{% trans "Participants" %}</h2>
-
                 <div style="margin:0; padding: 4px">
                     <p>
                         <b>{{ community.board_name }}:</b>
-                        {% for u in community.meeting_participants.chairmen %}
+                        {% for u in participants.chairmen %}
                           {{ u }},
                         {% endfor %}
-                        {% for u in community.meeting_participants.board %}
+                        {% for u in participants.board %}
                             {{ u }}{% if not forloop.last %},{% endif %}
                         {% endfor %}
                         ({% trans 'from ' %}<b>{{ board_count }}</b>
@@ -67,9 +65,9 @@
                     </p>
                     <p>
                         <b>{% trans "Guests" %}:</b>
-                        {% if member_participants %}
-                            {% for u in member_participants %}
-                                {{ u }}{% if not forloop.last %},{% endif %}
+                        {% if participants.members %}
+                            {% for u in participants.members %}
+                                {{ u }}{% if not forloop.last or guests %},{% endif %}
                             {% endfor %}
                         {% endif %}
                         {% if guests %}
@@ -80,7 +78,6 @@
                     </p>
                 </div>
             </div>
-            {% endif %}
         </div>
 
         <h2 style="margin:12px 0 0 0; background:#eee; padding:6px 3px 3px">
@@ -102,8 +99,7 @@
                         {% endif %}
                     </h3>
 
-                    {% if a.comments.count or a.issue.current_attachments.count %}
-
+                    {% if a.comments.count %}
                       {% if a.comments.count %}
                         {% for c in a.comments.all %}
                             <p style="padding:0; margin: 3px;">
@@ -116,20 +112,21 @@
                             </p>
                         {% endfor %}
                       {% endif %}
+                    {% endif %}
 
-                      {% if a.issue.current_attachments.count and community.allow_links_in_emails %}
-                         <div class="issue_attachments">
-                         <p>{% trans 'Related files' %}:</p>
-                         <ul>
-                         {% for att in a.issue.current_attachments.all %}
-                            <li>
-                                <a href="{{base_url}}{{ att.get_absolute_url }}" class="file_ext"><img height="16" src="{{base_url}}{{ STATIC_URL }}images/icons/{{ att.get_icon }}.png" /> {{att.title}}</a>
-                            </li>
-                         {% endfor %}
-                         </ul>
-                         </div>
-                      {% endif %}
-
+                    {% if attachments %}
+                     <div class="issue_attachments">
+                     <p>{% trans 'Related files' %}:</p>
+                     <ul>
+                     {% for att in attachments %}
+                        <li>
+                            <a href="{{base_url}}{{ att.get_absolute_url }}" class="file_ext">
+                                <img height="16" src="{{base_url}}{{ STATIC_URL }}images/icons/{{ att.get_icon }}.png" /> {{att.title}}
+                            </a>
+                        </li>
+                     {% endfor %}
+                     </ul>
+                     </div>
                     {% endif %}
 
                     {% if a.proposals %}

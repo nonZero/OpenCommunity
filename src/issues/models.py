@@ -150,8 +150,10 @@ class Issue(UIDMixin):
                self.community.upcoming_meeting_is_published and \
                self.proposals.open().count() > 0
 
-    @property
-    def current_attachments(self):
+    def current_attachments(self, agenda_item=None):
+        """If we have an agenda item then filter on that, else, isnull"""
+        if agenda_item:
+            return self.attachments.filter(agenda_item=agenda_item)
         return self.attachments.filter(agenda_item__isnull=True)
 
 
