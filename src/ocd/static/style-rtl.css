@@ -1577,6 +1577,10 @@ li.btn-tab span {
 	overflow: hidden;
 	color: #555555;
 }
+#issue-detail .issue_left_column_inner .nav.nav-tabs .dropdown-menu {
+	left: 0;
+	right: auto;
+}
 .issue_left_column_inner .nav > li > a {
 	padding: 2px 15px;
 	color: #6C6C6E;
@@ -1772,8 +1776,18 @@ ul.prop-table .prop-content span {
 .footer {
 	padding-top: 30px;
 }
-.footer .container {
+/*.footer .container {
   display: none;
+}*/
+@media (min-width: 768px) {
+	.hidden-footer {
+		display: inline;
+	}
+}
+@media (max-width: 767px) {
+	.hidden-footer {
+		display: none;
+	}
 }
 
 /* RESPONSIVE */

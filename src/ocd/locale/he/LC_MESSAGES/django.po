@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-08 22:20+0300\n"
-"PO-Revision-Date: 2014-04-08 22:22+0200\n"
+"POT-Creation-Date: 2014-05-19 23:05+0300\n"
+"PO-Revision-Date: 2014-05-19 23:06+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15,54 +15,77 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Generator: Poedit 1.6.5\n"
 
 #: .\base_models.py:12
 msgid "HTML content"
 msgstr "תוכן HTML"
 
+#: .\templates\403.html.py:5
+#, fuzzy
+msgid "DemOS 403"
+msgstr "DemOS 404"
+
+#: .\templates\403.html.py:16
+msgid "Sorry"
+msgstr "סליחה"
+
+#: .\templates\403.html.py:19
+msgid "You don't have permission to view that page"
+msgstr "אין לך הרשאה לצפיה בדף זה"
+
+#: .\templates\403.html.py:21 .\templates\_navbar.html.py:40
+#: .\templates\login.html.py:10 .\templates\login.html.py:28
+msgid "Login"
+msgstr "כניסה"
+
 #: .\templates\404.html.py:5
 msgid "DemOS 404"
 msgstr "DemOS 404"
 
-#: .\templates\404.html.py:16 .\templates\404.html.py:28
-#: .\templates\404.html.py:41
+#: .\templates\404.html.py:22 .\templates\404.html.py:38
+#: .\templates\404.html.py:54 .\templates\404.html.py:70
+#: .\templates\500.html.py:34
 msgid "Oops..."
 msgstr "אופס..."
 
-#: .\templates\404.html.py:19
+#: .\templates\404.html.py:25
 msgid "We couldn't find the requested community"
 msgstr "לא נמצאה הקהילה המבוקשת"
 
-#: .\templates\404.html.py:21 .\templates\404.html.py:33
-#: .\templates\404.html.py:46
+#: .\templates\404.html.py:27 .\templates\404.html.py:43
+#: .\templates\404.html.py:59 .\templates\404.html.py:75
+#: .\templates\500.html.py:39
 msgid "You can go to"
 msgstr "אתה יכול לגשת ל"
 
-#: .\templates\404.html.py:21
+#: .\templates\404.html.py:28 .\templates\404.html.py:76
+#: .\templates\500.html.py:39
 msgid "Main page"
 msgstr "עמוד ראשי"
 
-#: .\templates\404.html.py:31
+#: .\templates\404.html.py:41
 msgid "We couldn't find the requested issue"
 msgstr "לא נמצא הנושא המבוקש"
 
-#: .\templates\404.html.py:44
-msgid "We couldn't find the requested proposal"
+#: .\templates\404.html.py:57
+#, fuzzy
+msgid "We couldn't find the requested procedure"
+msgstr "לא נמצא הנושא המבוקש"
+
+#: .\templates\404.html.py:73
+#, fuzzy
+msgid "We couldn't find the page you were looking for"
 msgstr "לא נמצאה ההצעה המבוקשת"
 
-#: .\templates\404.html.py:53
-msgid "Sorry"
-msgstr "סליחה"
+#: .\templates\500.html.py:4
+#, fuzzy
+msgid "DemOS 500"
+msgstr "DemOS 404"
 
-#: .\templates\404.html.py:56
-msgid "You don't have permission to view that page"
-msgstr "אין לך הרשאה לצפיה בדף זה"
-
-#: .\templates\404.html.py:58 .\templates\_navbar.html.py:40
-#: .\templates\login.html.py:10 .\templates\login.html.py:28
-msgid "Login"
-msgstr "כניסה"
+#: .\templates\500.html.py:37
+msgid "The server is playing up."
+msgstr ""
 
 #: .\templates\_navbar.html.py:11 .\templates\_navbar.html.py:33
 #: .\templates\base.html.py:9
@@ -94,8 +117,12 @@ msgid "Back to top"
 msgstr "לראש העמוד"
 
 #: .\templates\base.html.py:77
-msgid "An eKnight from The Public Knowledge Workshop"
-msgstr "חשמביר מבית הסדנא לידע ציבורי"
+msgid "An eKnight"
+msgstr "חשביר"
+
+#: .\templates\base.html.py:77
+msgid "from Hasadna"
+msgstr "מבית הסדנא"
 
 #: .\templates\base.html.py:81
 msgid "Version"
@@ -283,6 +310,9 @@ msgstr "הקודם"
 #: .\templates\search\search.html.py:72
 msgid "Next"
 msgstr "הבא"
+
+#~ msgid "An eKnight from The Public Knowledge Workshop"
+#~ msgstr "חשמביר מבית הסדנא לידע ציבורי"
 
 #~ msgid "Page not found"
 #~ msgstr "דף לא נמצא"
