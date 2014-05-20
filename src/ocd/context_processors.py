@@ -16,7 +16,7 @@ def analytics(request):
 def smart_404(request):
 
     """Returns a 404 message that tries to help the user."""
-    import ipdb;ipdb.set_trace()
+
     base_url = settings.HOST_URL
 
     not_found = {
