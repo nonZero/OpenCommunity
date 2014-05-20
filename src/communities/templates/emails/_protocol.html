@@ -63,6 +63,7 @@
                         ({% trans 'from ' %}<b>{{ board_count }}</b>
                         {% trans ' board members.' %})
                     </p>
+                    {% if participants.members or guests %}
                     <p>
                         <b>{% trans "Guests" %}:</b>
                         {% if participants.members %}
@@ -76,6 +77,7 @@
                             {% endfor %}
                         {% endif %}
                     </p>
+                    {% endif %}
                 </div>
             </div>
         </div>
