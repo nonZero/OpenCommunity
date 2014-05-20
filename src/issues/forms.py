@@ -11,22 +11,16 @@ class CreateIssueForm(forms.ModelForm):
 
     class Meta:
         model = models.Issue
-        fields = (
-                   'title',
-                   'abstract',
-                   )
-
-        widgets = {
-            'title': forms.TextInput,
-            'abstract': HTMLArea,
-        }
+        fields = ('title', 'abstract', 'access')
+        widgets = {'title': forms.TextInput, 'abstract': HTMLArea,
+                   'access': forms.Select}
 
     def __init__(self, *args, **kwargs):
 
         super(CreateIssueForm, self).__init__(*args, **kwargs)
 
-        self.new_proposal = CreateProposalBaseForm(prefix='proposal',
-                                   data=self.data if self.is_bound else None)
+        self.new_proposal = CreateProposalBaseForm(
+            prefix='proposal', data=self.data if self.is_bound else None)
         self.new_proposal.fields['type'].required = False
 
     def is_valid(self):
@@ -47,13 +41,8 @@ class CreateIssueForm(forms.ModelForm):
 class UpdateIssueForm(forms.ModelForm):
     class Meta:
         model = models.Issue
-        fields = (
-                   'title',
-                   )
-
-        widgets = {
-            'title': forms.TextInput,
-        }
+        fields = ('title', 'access')
+        widgets = {'title': forms.TextInput, 'access': forms.Select}
 
 
 class UpdateIssueAbstractForm(forms.ModelForm):
@@ -106,7 +95,7 @@ class AddAttachmentForm(AddAttachmentBaseForm):
 
 
 class CreateProposalBaseForm(forms.ModelForm):
-    
+
     class Meta:
         model = models.Proposal
         fields = (
@@ -117,6 +106,7 @@ class CreateProposalBaseForm(forms.ModelForm):
                    'assigned_to_user',
                    'assigned_to',
                    'due_by',
+                   'access'
                    )
         widgets = {
             'type': forms.Select,
@@ -125,6 +115,7 @@ class CreateProposalBaseForm(forms.ModelForm):
             'assigned_to_user': forms.HiddenInput(),
             'assigned_to': forms.TextInput,
             'due_by': forms.DateInput,
+            'access': forms.Select
         }
 
 
@@ -143,7 +134,7 @@ class EditProposalForm(CreateProposalForm):
         super(EditProposalForm, self).__init__(*args, **kwargs)
         self.fields['type'].initial = self.instance.type
 
-    
+
 class EditProposalTaskForm(EditProposalForm):
 
     class Meta:
