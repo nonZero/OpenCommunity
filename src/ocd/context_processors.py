@@ -33,15 +33,15 @@ def smart_404(request):
 
             if path_arguments[1] == 'issues':
                 not_found['type'] = 'no_issue'
-                not_found['redirect_url'] = base_url + str(c.pk) + '/issues/'
+                not_found['redirect_url'] = base_url + '/' + str(c.pk) + '/issues/'
 
                 if path_arguments[2] == 'procedures':
                     not_found['type'] = 'no_procedure'
-                    not_found['redirect_url'] = base_url + str(c.pk) + '/issues/procedures/'
+                    not_found['redirect_url'] = base_url + '/' + str(c.pk) + '/issues/procedures/'
 
             else:
                 not_found['type'] = 'no_community_route'
-                not_found['redirect_url'] = base_url + str(c.pk) + '/'
+                not_found['redirect_url'] = base_url + '/' + str(c.pk) + '/'
 
         except Community.DoesNotExist:
             not_found['type'] = 'no_community'

@@ -24,9 +24,9 @@
 			<div id="t2">
 				{% trans "We couldn't find the requested community" %}.
 				<br>
-				<a id="backBtn">{% trans "You can go to the" %}
+				<span id="backBtn">{% trans "You can go to the" %}
 					<a id="ct1" href="{{ not_found.redirect_url }}"> {% trans "Main page" %}</a>.
-				</a>
+				</span>
 			</div>
 		</div>
 		{% endif %}
@@ -40,9 +40,9 @@
 			<div id="t2">
 				{% trans "We couldn't find exactly what you were looking for" %}.
 				<br>
-				<a id="backBtn">{% trans "You can go to the" %}
+				<span id="backBtn">{% trans "You can go to the" %}
 					<a id="ct1" href="{{ not_found.redirect_url }}"> {% trans "Community page" %}</a>.
-				</a>
+				</span>
 			</div>
 		</div>
 		{% endif %}
@@ -56,9 +56,9 @@
 			<div id="t2">
 				{% trans "We couldn't find the requested issue" %}.
 				<br>
-				<a id="backBtn">{% trans "You can go to the" %}
+				<span id="backBtn">{% trans "You can go to the" %}
 					<a id="ct1" href="{{ not_found.redirect_url }}"> {% trans "Issues page" %}</a>.
-				</a>
+				</span>
 			</div>
 		</div>
 		{% endif %}
@@ -72,9 +72,9 @@
 			<div id="t2">
 				{% trans "We couldn't find the requested procedure" %}.
 				<br>
-				<a id="backBtn">{% trans "You can go to the" %}
+				<span id="backBtn">{% trans "You can go to the" %}
 					<a id="ct1" href="{{ not_found.redirect_url }}"> {% trans "Procedures page" %}</a>.
-				</a>
+				</span>
 			</div>
 		</div>
 		{% endif %}
@@ -88,9 +88,9 @@
 		<div id="t2">
 			{% trans "We couldn't find the page you were looking for" %}.
 			<br>
-			<a id="backBtn">{% trans "You can go to" %}
+			<span id="backBtn">{% trans "You can go to" %}
 				<a id="ct1" href="{{ not_found.redirect_url }}">{% trans "Main page" %}</a>.
-			</a>
+			</span>
 		</div>
 	</div>
 	{% endif %}
