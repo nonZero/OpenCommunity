@@ -101,9 +101,6 @@ def enprod():
 
     env.gunicorn_port = 9001
 
-    env.github_user = 'yaniv14'
-    env.clone_url = "https://github.com/%s/OpenCommunity.git" % env.github_user
-
 
 @task
 def host_type():
@@ -330,7 +327,7 @@ def push_key(key_file):
     with open(key_file) as f:
         key_text = f.read()
     append('~/.ssh/authorized_keys', key_text)
-    
+
 
 @task
 def rebuild_index():
