@@ -15,9 +15,9 @@ def analytics(request):
 
 def smart_404(request):
 
-    """"""
-
-    base_url = 'https://www.demos.org.il/'
+    """Returns a 404 message that tries to help the user."""
+    import ipdb;ipdb.set_trace()
+    base_url = settings.HOST_URL
 
     not_found = {
         'type': None,
@@ -40,7 +40,8 @@ def smart_404(request):
                     not_found['redirect_url'] = base_url + str(c.pk) + '/issues/procedures/'
 
             else:
-                not_found['type'] = 'no_community'
+                not_found['type'] = 'no_community_route'
+                not_found['redirect_url'] = base_url + str(c.pk) + '/'
 
         except Community.DoesNotExist:
             not_found['type'] = 'no_community'
