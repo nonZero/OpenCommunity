@@ -71,7 +71,6 @@ class ConfidentialManager(models.Manager):
                              'a community object.')
 
         qs = self.get_query_set()
-        # import ipdb;ipdb.set_trace()
 
         if user.is_superuser:
             return qs
@@ -83,9 +82,7 @@ class ConfidentialManager(models.Manager):
             memberships = user.memberships.filter(community=community)
             lookup = [m.default_group_name for m in memberships]
             if DefaultGroups.MEMBER in lookup and len(lookup) == 1:
-                qs.filter(is_confidential=False)
-
-            return qs
+                return qs.filter(is_confidential=False)
 
 
 class ConfidentialSearchQuerySet(SearchQuerySet):
