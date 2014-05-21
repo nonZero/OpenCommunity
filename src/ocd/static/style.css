@@ -1930,6 +1930,16 @@ ul.prop-table .prop-content span {
 
 }
 
+.is_confidential {
+	background: repeating-linear-gradient(
+				  45deg,
+				  #F7ACAC,
+				  #F7ACAC 5px,
+				  #F8E2E2 5px,
+				  #F8E2E2 25px
+				);
+}
+
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
 
