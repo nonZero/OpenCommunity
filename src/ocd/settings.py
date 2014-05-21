@@ -247,6 +247,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 SESSION_REMEMBER_DAYS = 45
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
+gettext = lambda s: s
+
 # Made accessible to templates via the analytics context processor `analytics`
 OPENCOMMUNITY_ANALYTICS = {
     'piwik': {
@@ -259,6 +261,12 @@ OPENCOMMUNITY_ANALYTICS = {
     #     'url': 'domain.com'
     # }
 }
+
+OPENCOMMUNITY_DEFAULT_CONFIDENTIAL_REASONS = [
+    gettext('Personal Privacy'),
+    gettext('Commercial Interests'),
+    gettext('Security Concerns'),
+]
 
 version_file = os.path.join(STATIC_ROOT, 'version.txt')
 if os.path.exists(version_file):
