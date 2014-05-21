@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-20 14:22+0300\n"
+"POT-Creation-Date: 2014-05-20 18:50+0300\n"
 "PO-Revision-Date: 2014-05-19 23:06+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,6 +20,28 @@ msgstr ""
 #: base_models.py:12
 msgid "HTML content"
 msgstr "תוכן HTML"
+
+#: base_models.py:73 base_models.py:94
+msgid "Is Confidential"
+msgstr ""
+
+#: base_models.py:102
+msgid ""
+"Models that implement the ConfidentialByRelationMixin must declare a valid "
+"field which can pass on confidentiality."
+msgstr ""
+
+#: settings.py:266
+msgid "Personal Privacy"
+msgstr ""
+
+#: settings.py:267
+msgid "Commercial Interests"
+msgstr ""
+
+#: settings.py:268
+msgid "Security Concerns"
+msgstr ""
 
 #: templates/403.html:5
 #, fuzzy
