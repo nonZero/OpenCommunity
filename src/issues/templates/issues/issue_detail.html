@@ -50,7 +50,7 @@ id="issue-detail"
                     </li>
                     {% endfor %}
                 {% else %}
-                    {% for i in object.community.upcoming_issues|dictsort:"order_in_upcoming_meeting" %}
+                    {% for i in upcoming_issues|dictsort:"order_in_upcoming_meeting" %}
                     <li>
                         {% if object == i %} <div class="pull-right" style="width: 15px;"><span class="active_issue pull-right"></span></div>{% endif %}
                         <a href="{{ i.get_absolute_url }}" class="{% if i.is_confidential %}is_confidential_text {% endif %}">{{ i }}</a>

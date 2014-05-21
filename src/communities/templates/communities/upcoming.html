@@ -66,13 +66,13 @@
 	</div>
 	{% if cperms.communities.viewupcoming_community %}
 		{% if cperms.communities.viewupcoming_draft or object.upcoming_meeting_is_published %}
-	
+
 			{% if object.straw_voting_enabled and not object.straw_vote_ended and not user.id %}
 			<div class="text-center clear" style="margin-bottom: 10px;">
 				<a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-warning">{% trans "Login to vote" %}</a>
 			</div>
 			{% endif %}
-	
+
 			<div class="oc_detail_top row clear" style="border:0;background: none;">
 				<h5 class="pull-left" style="line-height: 1.3;">
 	        		<i class="fa fa-calendar"></i> {{ object|display_upcoming_time }}
@@ -99,14 +99,14 @@
                         {% endif %}
                     </h5>
 				{% endif %}
-								
+
 				<h5 style="clear: both;border-top: 1px solid;padding-top: 10px;">
 				{% if object.upcoming_meeting_comments %}
 				    {{object.upcoming_meeting_comments|userhtml}}
 				{% endif %}
 				</h5>
 			</div>
-	
+
 			<div id="agenda-container" class="agenda-list clear">
 				<h2 class="pull-left"> {% trans "Agenda items" %} <span class="loader"> <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/> </span></h2>
 				{% if cperms.community.editagenda_community %}
@@ -118,17 +118,17 @@
 							{% trans "All proposals / Voted" %}
 						</span>
 					</h2>
-				{% endif %}	
-	
+				{% endif %}
+
 				<ul id="agenda" class="nav nav-pills nav-stacked clear">
-					{% for i in object.upcoming_issues %}
+					{% for i in upcoming_issues %}
 						{% include "communities/_issue.html" %}
 					{% endfor %}
 				</ul>
 			</div>
-	
+
 			{% if object.upcoming_meeting_started and cperms.community.editupcoming_community %}
-			
+
 				<h2 class="pull-left">{% trans "Summary" %}</h2>
 				<div class="push pull-right">
 					<a data-rel="form" href="{% url "upcoming_edit_summary" community.id %}" class="clear" style="padding: 9px;display: inline-block;">
@@ -140,7 +140,7 @@
 						{{object.upcoming_meeting_summary|userhtml}}
 					</div>
 				{% endif %}
-			
+
 			{% endif %}
 
 			{% if cperms.community.editagenda_community %}
@@ -151,46 +151,46 @@
 			{% endif %}
 			</div>
 			{% endif %}
-	
-	
+
+
         {% if cperms.community.editagenda_community %}
         <div id="available-agenda" class="agenda-list">
-        
+
         {% if community.issue_ranking_enabled %}
             <h2 class="pull-left">{% trans "Additional issues" %}</h2>
             <ul id="issues-order" class="nav nav-tabs pull-right">
                 <li class="active"><a href="by_time" data-toggle="tab">{% trans "By time" %}</a></li>
                 <li><a href="by_rank" data-toggle="tab">{% trans "By priority" %}</a></li>
-            </ul>    
+            </ul>
             <div style="clear: both;">
-                <div class="tab-pane active"> 
+                <div class="tab-pane active">
                     <ul id="available" class="nav nav-pills nav-stacked">
-                    {% for i in community.available_issues %}
+                    {% for i in available_issues %}
                         {% include "communities/_issue.html" %}
                     {% endfor %}
-                    </ul>  
+                    </ul>
                 </div>
             </div>
 
         {% else %}
               <h2>{% trans "Additional issues" %}</h2>
               <ul id="available" class="nav nav-pills nav-stacked">
-                {% for i in community.available_issues %}
+                {% for i in available_issues %}
                   {% include "communities/_issue.html" %}
                 {% endfor %}
-             </ul> 
+             </ul>
         {% endif %}
-        
+
 				</div>
-        {% endif %}	
+        {% endif %}
 		{% else %}
-	
+
 			<div class="notice text-center" style="clear:both;">
 				{% trans "Agenda not yet published" %}.
 			</div>
-	
+
 		{% endif %}
-	
+
 	{% endif %}
 </div>
 {% endblock %}
@@ -205,7 +205,7 @@
 			$(".main_meeting_content, .small_meetings").toggle();
 			$(".meeting_left_column").toggleClass("paper_bg");
 		});
-    
+
     issue_sort = JSON.parse('{{ sorted|safe }}');
     $('a[href="by_time"]').click(function (e) {
       e.preventDefault();

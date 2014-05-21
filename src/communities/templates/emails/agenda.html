@@ -20,7 +20,7 @@
         >{% trans "Agenda" %}
             {% if community.upcoming_meeting_title %}
               -
-              {{community.upcoming_meeting_title}} 
+              {{community.upcoming_meeting_title}}
             {% endif %}
 
         </h1>
@@ -43,10 +43,10 @@
                   {% else %}
                       <a href="{{base_url}}{{community.get_absolute_url}}">{% trans "View online" %}</a>
                   {% endif %}
-                {% endif %}  
+                {% endif %}
             </p>
 
-            <div style="border: solid 1px #ccc; margin: 4px 0;padding: 0"> 
+            <div style="border: solid 1px #ccc; margin: 4px 0;padding: 0">
                 <h2 style="margin:0; background: #ddd;padding: 4px">{% trans "Meeting details" %}</h2>
 
                 <div style="margin:0; padding: 4px">
@@ -69,17 +69,17 @@
             <div style="padding:12px 6px">
                 {% if community.allow_links_in_emails %}
                     ({% trans "click links for more details" %})
-                {% endif %} 
-        
-                {% for i in community.upcoming_issues %}
+                {% endif %}
+
+                {% for i in upcoming_issues %}
                     <article style="border: solid 1px #ccc; margin-top: 12px;">
-        
+
                         <h3 style="margin:0; background: #ddd;padding: 4px; font-size: 20px;">
                         {% if community.allow_links_in_emails %}
                             <a href="{{base_url}}{{i.get_absolute_url}}">
                                 {{i.title}}
                             </a>
-                        {% else %}    
+                        {% else %}
                             {{i.title}}
                         {% endif %}
                             {% if i.length_in_minutes %}
@@ -92,13 +92,13 @@
                                 {{i.abstract|safe}}
                             </div>
                         {% endif %}
-                        
+
                         {% if i.current_attachments.count and community.allow_links_in_emails %}
                          <div class="issue_attachments">
                             <p>{% trans 'Related files' %}:</p>
                             <ul>
                             {% for att in i.current_attachments.all %}
-                                <li>                      
+                                <li>
                                     <a href="{{base_url}}{{ att.get_absolute_url }}" class="file_ext"><img height="16" src="{{base_url}}{{ STATIC_URL }}images/icons/{{ att.get_icon }}.png" /> {{att.title}}</a>
                                 </li>
                             {% endfor %}
@@ -142,14 +142,14 @@
                             </ul>
                         {% endif %}
                     </article>
-        
+
                 {% endfor %}
-        
+
             </div>
         </div>
     </div>
 
-        
+
 
 {% endblock %}
 
