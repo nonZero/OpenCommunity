@@ -18,12 +18,12 @@ from meetings.models import Meeting
 from oc_util.templatetags.opencommunity import minutes, board_voters_on_proposal
 from ocd.base_views import CommunityMixin, AjaxFormView, json_response
 from ocd.validation import enhance_html
+from ocd.base_managers import ConfidentialSearchQuerySet
 from shultze_vote import send_issue_ranking
 from users.default_roles import DefaultGroups
 from users.models import Membership
 from users.permissions import has_community_perm
 from haystack.views import SearchView
-from haystack.query import SearchQuerySet
 from haystack.inputs import AutoQuery
 from haystack.utils import Highlighter
 import json
@@ -55,7 +55,7 @@ class ProposalMixin(IssueMixin):
     @property
     def issue(self):
         return get_object_or_404(models.Issue, community=self.community,
-                                 pk=self.kwargs['issue_id'])
+                                 pk=self.kwargs['pk'])
 
     def _can_complete_task(self):
         o = self.get_object()
@@ -141,6 +141,13 @@ class IssueDetailView(IssueMixin, DetailView):
             if o.is_current and self.request.user in \
                o.community.upcoming_meeting_participants.all():
                 d['can_board_vote_self'] = True
+
+        # import ipdb;ipdb.set_trace()
+        d['proposals'] = self.object.proposals.object_access_control(
+                user=self.request.user, community=self.community).open()
+
+        d['upcoming_issues'] = self.object.community.upcoming_issues(
+                user=self.request.user, community=self.community)
 
         return d
 
@@ -373,23 +380,17 @@ class AttachmentDownloadView(CommunityMixin, SingleObjectMixin, View):
         return response
 
 
-class ProposalCreateView(AjaxFormView, IssueMixin, CreateView):
-    model = models.Proposal
+class ProposalCreateView(AjaxFormView, ProposalMixin, CreateView):
 
     def get_required_permission(self):
         return 'issues.editclosedproposal' if \
-            self.get_object().status == IssueStatus.ARCHIVED \
+            self.issue.status == IssueStatus.ARCHIVED \
             else 'issues.add_proposal'
 
     form_class = CreateProposalForm
 
-    @property
-    def issue(self):
-        return get_object_or_404(models.Issue, community=self.community, pk=self.kwargs['pk'])
-
     def get_context_data(self, **kwargs):
         context = super(ProposalCreateView, self).get_context_data(**kwargs)
-
         context['issue'] = self.issue
 
         return context
@@ -399,7 +400,7 @@ class ProposalCreateView(AjaxFormView, IssueMixin, CreateView):
         form.instance.issue = self.issue
         self.object = form.save()
         return render(self.request, 'issues/_proposal.html',
-                                  self.get_context_data(proposal=self.object))
+                      self.get_context_data(proposal=self.object))
 
     def get_success_url(self):
         return self.issue.get_absolute_url()
@@ -407,6 +408,7 @@ class ProposalCreateView(AjaxFormView, IssueMixin, CreateView):
     def get_form_kwargs(self):
         d = super(ProposalCreateView, self).get_form_kwargs()
         d['prefix'] = 'proposal'
+        d['initial'] = {'issue': self.issue}
         return d
 
 
@@ -834,7 +836,8 @@ class AssignmentsView(ProposalMixin, ListView):
 
     def get_queryset(self):
         term = self.request.GET.get('q', '').strip()
-        sqs = SearchQuerySet().models(Proposal).filter(
+        sqs = ConfidentialSearchQuerySet().models(Proposal).object_access_control(
+            user=self.request.user, community=self.community).filter(
             active=True, community=self.community.id,
             status=Proposal.statuses.ACCEPTED,
             type=ProposalType.TASK).order_by(self._get_order())
@@ -886,7 +889,8 @@ class ProceduresView(RulesMixin, ProposalMixin, ListView):
             term = self.request.GET.get('t', '').strip()
         self.order_by = self.request.GET.get('ord', 'date')
         ord_term = '-decided_at' if self.order_by == 'date' else 'title'
-        sqs = SearchQuerySet().filter(
+        sqs = ConfidentialSearchQuerySet().object_access_control(
+            user=self.request.user, community=self.community).filter(
             active=True, community=self.community.id,
             status=Proposal.statuses.ACCEPTED,
             type=ProposalType.RULE).order_by(ord_term)

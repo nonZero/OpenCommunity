@@ -26,7 +26,7 @@ from haystack.inputs import AutoQuery
 from issues.models import IssueStatus, Issue, Proposal
 from meetings.models import Meeting
 from ocd.base_views import ProtectedMixin, AjaxFormView
-from ocd.base_models import ConfidentialSearchQuerySet
+from ocd.base_managers import ConfidentialSearchQuerySet
 from users.permissions import has_community_perm
 from django.views.generic.base import RedirectView
 from haystack.views import SearchView

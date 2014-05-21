@@ -1,17 +1,49 @@
 from django.conf import settings
 from django.db import models, transaction
-from django.db.models.signals import post_save, pre_save
+from django.db.models.signals import post_save
+from django.db.models.query import QuerySet
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.text import get_valid_filename
 from django.utils.translation import ugettext, ugettext_lazy as _
-from ocd.base_models import (HTMLField, UIDMixin, UIDManager,
-                             ConfidentialMixin, ConfidentialManager)
+from ocd.base_models import HTMLField, UIDMixin, UIDManager, ConfidentialMixin
+from ocd.base_managers import ConfidentialQuerySetMixin, ActiveQuerySetMixin
 from ocd.storages import uploads_storage
 from ocd.validation import enhance_html
 from taggit.managers import TaggableManager
 import meetings
 import os.path
+
+
+class IssueManager(ConfidentialQuerySetMixin, ActiveQuerySetMixin, UIDManager):
+    pass
+
+
+class ProposalQuerySetMixin(ActiveQuerySetMixin):
+
+    """Exposes methods that can be used on both the manager and the queryset.
+
+    This allows us to chain custom methods.
+
+    """
+
+    def open(self):
+        return self.filter(active=True,
+                           decided_at_meeting_id=None).order_by("created_at")
+
+    def closed(self):
+        return self.filter(active=True).exclude(decided_at_meeting_id=None)
+
+
+class ProposalQuerySet(QuerySet, ProposalQuerySetMixin):
+    """Queryset used by the Porposal Manager."""
+
+
+class ProposalManager(models.Manager, ConfidentialQuerySetMixin,
+                      ProposalQuerySetMixin):
+
+    def get_query_set(self):
+        return ProposalQuerySet(self.model, using=self._db)
 
 
 class IssueStatus(object):
@@ -29,11 +61,6 @@ class IssueStatus(object):
 
     IS_UPCOMING = (IN_UPCOMING_MEETING, IN_UPCOMING_MEETING_COMPLETED)
     NOT_IS_UPCOMING = (OPEN, ARCHIVED)
-
-
-class IssueManager(ConfidentialManager, UIDManager):
-    def active(self):
-        return self.get_query_set().filter(active=True)
 
 
 class Issue(UIDMixin, ConfidentialMixin):
@@ -389,20 +416,6 @@ class ProposalType(object):
     )
 
 
-class ProposalManager(ConfidentialManager, UIDManager):
-    def active(self):
-        return self.get_query_set().filter(active=True)
-
-    def open(self):
-        return self.get_query_set().filter(active=True,
-                                           decided_at_meeting_id=None).order_by(
-            "created_at")
-
-    def closed(self):
-        return self.get_query_set().filter(active=True).exclude(
-            decided_at_meeting_id=None)
-
-
 class ProposalStatus(object):
     IN_DISCUSSION = 1
     ACCEPTED = 2
@@ -416,6 +429,8 @@ class ProposalStatus(object):
 
 
 class Proposal(UIDMixin, ConfidentialMixin):
+
+    objects = ProposalManager()
 
     issue = models.ForeignKey(Issue, related_name="proposals")
     active = models.BooleanField(_("Active"), default=True)
@@ -452,8 +467,6 @@ class Proposal(UIDMixin, ConfidentialMixin):
                                                     null=True, blank=True)
     tags = TaggableManager(_("Tags"), blank=True)
     register_board_votes = models.BooleanField(default=False)
-
-    objects = ProposalManager()
 
     class Meta:
         verbose_name = _("Proposal")
@@ -603,8 +616,8 @@ class Proposal(UIDMixin, ConfidentialMixin):
             return "rejected"
         return ""
 
-    def clean(self):
-            super(Proposal, self).clean()
+    def enforce_confidential_rules(self):
+            super(Proposal, self).enforce_confidential_rules()
 
             if self.issue.is_confidential is True:
                 self.is_confidential = True
