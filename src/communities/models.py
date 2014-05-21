@@ -317,7 +317,6 @@ class Community(UIDMixin):
 
         return len(recipient_list)
 
-
     @property
     def straw_vote_ended(self):
         if not self.upcoming_meeting_is_published:
