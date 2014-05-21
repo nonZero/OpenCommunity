@@ -55,9 +55,14 @@ class MeetingProtocolView(MeetingMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(MeetingProtocolView, self).get_context_data(**kwargs)
-        agenda_items = context['object'].agenda.all()
-        item_attachments = [item.issue.current_attachments(item) for item in agenda_items]
-        context['attachments'] = list(chain.from_iterable(item_attachments))
+
+        agenda_items = context['object'].agenda.object_access_control(
+            user=self.request.user, community=self.community).all()
+        attachments = [item.issue.current_attachments(item) for
+                       item in agenda_items]
+
+        context['agenda_items'] = agenda_items
+        context['attachments'] = list(chain.from_iterable(attachments))
         return context
 
 
@@ -92,7 +97,7 @@ class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
 
     def form_valid(self, form):
         # archive selected issues
-        m = self.community.close_meeting(form.instance, self.request.user)
+        m = self.community.close_meeting(form.instance, self.request.user, self.community)
         Issue.objects.filter(id__in=form.cleaned_data['issues']).update(
                   completed=True, status=IssueStatus.ARCHIVED)
         total = self.community.send_mail('protocol', self.request.user,

@@ -130,6 +130,12 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
         for i in open_issues.order_by('-order_by_votes'):
             sorted_issues['by_rank'].append(i.id)
         d['sorted'] = json.dumps(sorted_issues)
+
+        d['upcoming_issues'] = self.object.upcoming_issues(
+            user=self.request.user, community=self.community)
+        d['available_issues'] = self.object.available_issues(
+            user=self.request.user, community=self.community)
+
         return d
 
 
@@ -139,8 +145,11 @@ class PublishUpcomingMeetingPreviewView(CommunityModelMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         d = super(PublishUpcomingMeetingPreviewView, self).get_context_data(**kwargs)
-        d['can_straw_vote'] = self.community.upcoming_proposals_any({'is_open': True})\
+        d['can_straw_vote'] = self.community.upcoming_proposals_any(
+            {'is_open': True}, user=self.request.user, community=self.community)\
         and self.community.upcoming_meeting_is_published
+        d['upcoming_issues'] = self.object.upcoming_issues(
+            user=self.request.user, community=self.community)
         return d
 
 
@@ -262,15 +271,29 @@ class ProtocolDraftPreviewView(CommunityModelMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         d = super(ProtocolDraftPreviewView, self).get_context_data(**kwargs)
+
         meeting_time = self.community.upcoming_meeting_scheduled_at
         if not meeting_time:
             meeting_time = datetime.datetime.now()
+
+        draft_agenda_payload = []
+        issue_status = IssueStatus.IS_UPCOMING
+        issues = self.community.issues.filter(active=True,
+                                              status__in=(issue_status)).order_by(
+                                              'order_in_upcoming_meeting')
+
+        for issue in issues:
+            proposals = issue.proposals.object_access_control(
+                user=self.request.user, community=self.community)
+            draft_agenda_payload.append({'issue': issue, 'proposals': proposals})
+
+        agenda_items = d['object'].draft_agenda(draft_agenda_payload)
+        item_attachments = [item['issue'].current_attachments() for
+                            item in agenda_items]
+
         d['meeting_time'] = meeting_time.replace(second=0)
-
-        agenda_items = d['object'].draft_agenda()
-        item_attachments = [item['issue'].current_attachments() for item in agenda_items]
+        d['agenda_items'] = agenda_items
         d['attachments'] = list(chain.from_iterable(item_attachments))
-
         return d
 
 
