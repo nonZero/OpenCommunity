@@ -8,23 +8,39 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'Proposal.access'
-        db.add_column(u'issues_proposal', 'access',
-                      self.gf('django.db.models.fields.CharField')(default='open', max_length=15),
+        # Adding field 'Proposal.confidential_reason'
+        db.add_column(u'issues_proposal', 'confidential_reason',
+                      self.gf('django.db.models.fields.related.ForeignKey')(to=orm['communities.CommunityConfidentialReason'], null=True),
                       keep_default=False)
 
-        # Adding field 'Issue.access'
-        db.add_column(u'issues_issue', 'access',
-                      self.gf('django.db.models.fields.CharField')(default='open', max_length=15),
+        # Adding field 'Proposal.is_confidential'
+        db.add_column(u'issues_proposal', 'is_confidential',
+                      self.gf('django.db.models.fields.BooleanField')(default=False),
+                      keep_default=False)
+
+        # Adding field 'Issue.confidential_reason'
+        db.add_column(u'issues_issue', 'confidential_reason',
+                      self.gf('django.db.models.fields.related.ForeignKey')(to=orm['communities.CommunityConfidentialReason'], null=True),
+                      keep_default=False)
+
+        # Adding field 'Issue.is_confidential'
+        db.add_column(u'issues_issue', 'is_confidential',
+                      self.gf('django.db.models.fields.BooleanField')(default=False),
                       keep_default=False)
 
 
     def backwards(self, orm):
-        # Deleting field 'Proposal.access'
-        db.delete_column(u'issues_proposal', 'access')
+        # Deleting field 'Proposal.confidential_reason'
+        db.delete_column(u'issues_proposal', 'confidential_reason_id')
 
-        # Deleting field 'Issue.access'
-        db.delete_column(u'issues_issue', 'access')
+        # Deleting field 'Proposal.is_confidential'
+        db.delete_column(u'issues_proposal', 'is_confidential')
+
+        # Deleting field 'Issue.confidential_reason'
+        db.delete_column(u'issues_issue', 'confidential_reason_id')
+
+        # Deleting field 'Issue.is_confidential'
+        db.delete_column(u'issues_issue', 'is_confidential')
 
 
     models = {
@@ -59,7 +75,7 @@ class Migration(SchemaMigration):
             'referendum_started_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'register_missing_board_members': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'straw_voting_enabled': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'uid': ('django.db.models.fields.CharField', [], {'default': "'9n5zbtgtlxlvv7jpjvfjmcwg'", 'unique': 'True', 'max_length': '24'}),
+            'uid': ('django.db.models.fields.CharField', [], {'default': "'u8r90b2g0cshvwfrftadakt2'", 'unique': 'True', 'max_length': '24'}),
             'upcoming_meeting_comments': ('ocd.base_models.HTMLField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_guests': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_is_published': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -73,6 +89,12 @@ class Migration(SchemaMigration):
             'upcoming_meeting_version': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'voting_ends_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'})
         },
+        u'communities.communityconfidentialreason': {
+            'Meta': {'ordering': "['community']", 'unique_together': "(('community', 'title'),)", 'object_name': 'CommunityConfidentialReason'},
+            'community': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'confidential_reasons'", 'to': u"orm['communities.Community']"}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+        },
         u'contenttypes.contenttype': {
             'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
             'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
@@ -83,22 +105,23 @@ class Migration(SchemaMigration):
         u'issues.issue': {
             'Meta': {'ordering': "['order_in_upcoming_meeting', 'title']", 'object_name': 'Issue'},
             'abstract': ('ocd.base_models.HTMLField', [], {'null': 'True', 'blank': 'True'}),
-            'access': ('django.db.models.fields.CharField', [], {'default': "'open'", 'max_length': '15'}),
             'active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'calculated_score': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'community': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'issues'", 'to': u"orm['communities.Community']"}),
             'completed': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'confidential_reason': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['communities.CommunityConfidentialReason']", 'null': 'True'}),
             'content': ('ocd.base_models.HTMLField', [], {'null': 'True', 'blank': 'True'}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'issues_created'", 'to': u"orm['users.OCUser']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'is_confidential': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'is_published': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'length_in_minutes': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'order_by_votes': ('django.db.models.fields.IntegerField', [], {'default': '9999', 'null': 'True', 'blank': 'True'}),
+            'order_by_votes': ('django.db.models.fields.FloatField', [], {'default': '9999', 'null': 'True', 'blank': 'True'}),
             'order_in_upcoming_meeting': ('django.db.models.fields.IntegerField', [], {'default': '9999', 'null': 'True', 'blank': 'True'}),
             'status': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '300'}),
-            'uid': ('django.db.models.fields.CharField', [], {'default': "'m2pso12qmhintlzep1ffuj02'", 'unique': 'True', 'max_length': '24'})
+            'uid': ('django.db.models.fields.CharField', [], {'default': "'zwnvm5islajd558us24hqypa'", 'unique': 'True', 'max_length': '24'})
         },
         u'issues.issueattachment': {
             'Meta': {'ordering': "('created_at',)", 'object_name': 'IssueAttachment'},
@@ -111,7 +134,7 @@ class Migration(SchemaMigration):
             'issue': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'attachments'", 'to': u"orm['issues.Issue']"}),
             'ordinal': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'uid': ('django.db.models.fields.CharField', [], {'default': "'15qzi85e1wfd7c1jzi1aknbk'", 'unique': 'True', 'max_length': '24'})
+            'uid': ('django.db.models.fields.CharField', [], {'default': "'i89lzauxd93zz95sfvs1u6qw'", 'unique': 'True', 'max_length': '24'})
         },
         u'issues.issuecomment': {
             'Meta': {'ordering': "('created_at',)", 'object_name': 'IssueComment'},
@@ -125,7 +148,7 @@ class Migration(SchemaMigration):
             'last_edited_by': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'issue_comments_last_edited'", 'null': 'True', 'to': u"orm['users.OCUser']"}),
             'meeting': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['meetings.Meeting']", 'null': 'True', 'blank': 'True'}),
             'ordinal': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'uid': ('django.db.models.fields.CharField', [], {'default': "'j4jb93t1ug5qbnoacpxwu74i'", 'unique': 'True', 'max_length': '24'}),
+            'uid': ('django.db.models.fields.CharField', [], {'default': "'9hcduhjs36qdxnm7g7yvfyh8'", 'unique': 'True', 'max_length': '24'}),
             'version': ('django.db.models.fields.PositiveIntegerField', [], {'default': '1'})
         },
         u'issues.issuecommentrevision': {
@@ -146,24 +169,25 @@ class Migration(SchemaMigration):
         },
         u'issues.proposal': {
             'Meta': {'object_name': 'Proposal'},
-            'access': ('django.db.models.fields.CharField', [], {'default': "'open'", 'max_length': '15'}),
             'active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'assigned_to': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'assigned_to_user': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'proposals_assigned'", 'null': 'True', 'to': u"orm['users.OCUser']"}),
             'community_members': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'confidential_reason': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['communities.CommunityConfidentialReason']", 'null': 'True'}),
             'content': ('ocd.base_models.HTMLField', [], {'null': 'True', 'blank': 'True'}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'proposals_created'", 'to': u"orm['users.OCUser']"}),
             'decided_at_meeting': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['meetings.Meeting']", 'null': 'True', 'blank': 'True'}),
             'due_by': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'is_confidential': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'issue': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'proposals'", 'to': u"orm['issues.Issue']"}),
             'register_board_votes': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'status': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
             'task_completed': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '300'}),
             'type': ('django.db.models.fields.PositiveIntegerField', [], {}),
-            'uid': ('django.db.models.fields.CharField', [], {'default': "'1vffmnlhuhemhpawuj1vipft'", 'unique': 'True', 'max_length': '24'}),
+            'uid': ('django.db.models.fields.CharField', [], {'default': "'kyxpgmv73q9uegtypxk9e4t8'", 'unique': 'True', 'max_length': '24'}),
             'votes_con': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
             'votes_pro': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'})
         },
@@ -196,6 +220,7 @@ class Migration(SchemaMigration):
             'background': ('ocd.base_models.HTMLField', [], {'null': 'True', 'blank': 'True'}),
             'closed': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'is_confidential': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'issue': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'agenda_items'", 'to': u"orm['issues.Issue']"}),
             'meeting': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'agenda'", 'to': u"orm['meetings.Meeting']"}),
             'order': ('django.db.models.fields.PositiveIntegerField', [], {'default': '100'})
@@ -215,7 +240,7 @@ class Migration(SchemaMigration):
             'scheduled_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'summary': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '300', 'null': 'True', 'blank': 'True'}),
-            'uid': ('django.db.models.fields.CharField', [], {'default': "'n3usczibboq34rj2x2xummj7'", 'unique': 'True', 'max_length': '24'})
+            'uid': ('django.db.models.fields.CharField', [], {'default': "'pi3mnz1gybasr87tibl5704m'", 'unique': 'True', 'max_length': '24'})
         },
         u'meetings.meetingparticipant': {
             'Meta': {'unique_together': "(('meeting', 'ordinal'), ('meeting', 'user'))", 'object_name': 'MeetingParticipant'},

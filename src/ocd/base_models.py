@@ -58,3 +58,95 @@ class UIDMixin(models.Model):
 
     class Meta:
         abstract = True
+
+
+class ConfidentialManager(models.Manager):
+
+    def object_access_control(self, user=None, community=None):
+
+        if not user or not community:
+            raise ValueError('The access validator requires both a user and '
+                             'a community object.')
+
+        qs = self.get_query_set()
+        # import ipdb;ipdb.set_trace()
+
+        if user.is_superuser:
+            return qs
+
+        elif user.is_anonymous():
+            return qs.filter(is_confidential=False)
+
+        else:
+            memberships = user.memberships.filter(community=community)
+            # lookup = [m.default_group_name for m in memberships]
+            # if DefaultGroups.MEMBER in lookup and len(lookup) == 1:
+            #     qs.filter(is_confidential=False)
+
+            return qs.filter(is_confidential=False)
+
+
+class ConfidentialMixin(models.Model):
+
+    class Meta:
+        abstract = True
+
+    confidential_reason = models.ForeignKey(
+        'communities.CommunityConfidentialReason',
+        blank=True,
+        null=True,)
+
+    is_confidential = models.BooleanField(
+        _('Is Confidential'),
+        default=False,
+        editable=False,)
+
+    def clean(self):
+        if self.confidential_reason:
+            self.is_confidential = True
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        return super(ConfidentialMixin, self).save(*args, **kwargs)
+
+
+class ConfidentialByRelationMixin(models.Model):
+
+    confidential_from = None
+
+    class Meta:
+        abstract = True
+
+    is_confidential = models.BooleanField(
+        _('Is Confidential'),
+        default=False,
+        editable=False,)
+
+    def clean(self):
+        if not self.confidential_from:
+            # if the model is misconfigured in any way with respect to
+            # confidentiality, we want to raise an error here.
+            raise ValueError(_('Models that implement the '
+                               'ConfidentialByRelationMixin must declare a '
+                               'valid field which can pass on '
+                               'confidentiality.'))
+
+        else:
+            # things seem good, so let's apply the confidential object logic.
+            confidential_relation = getattr(self, self.confidential_from)
+
+            if confidential_relation.is_confidential is True:
+                # when the confidential_relation is True, this *must* be true.
+                self.is_confidential = True
+
+            elif hasattr(self, 'confidential_reason'):
+                # we have a model that implements both ConfidentialMixin
+                # and ConfidentialByRelationMixin. This means an object can be
+                # confidential even if the confidential_relation is not,
+                # according to our logic. Proposal is an example of this.
+                if self.confidential_reason:
+                    self.is_confidential = True
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        return super(ConfidentialByRelationMixin, self).save(*args, **kwargs)

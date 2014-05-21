@@ -3,11 +3,21 @@ from django.db import models
 from django.utils.formats import date_format
 from django.utils.translation import ugettext_lazy as _
 from issues.models import Issue, ProposalStatus
-from ocd.base_models import UIDMixin, HTMLField
+from ocd.base_models import (UIDMixin, HTMLField, ConfidentialByRelationMixin,
+                             ConfidentialManager)
 from users.default_roles import DefaultGroups
 
 
-class AgendaItem(models.Model):
+class AgendaItemManager(ConfidentialManager):
+    """Manage queries over AgendaItem."""
+
+
+class AgendaItem(ConfidentialByRelationMixin):
+
+    confidential_from = 'issue'
+
+    objects = ConfidentialManager()
+
     meeting = models.ForeignKey('Meeting', verbose_name=_("Meeting"),
                                 related_name="agenda")
     issue = models.ForeignKey(Issue, verbose_name=_("Issue"),
@@ -105,7 +115,7 @@ class Meeting(UIDMixin):
             return self.held_at.strftime('%d/%m/%Y') + " - " + self.title
         else:
             return self.held_at.strftime('%d/%m/%Y')
-        
+
     def get_participations(self):
         return self.participations.filter(is_absent=False)
 
@@ -144,6 +154,7 @@ class BoardParticipantsManager(models.Manager):
         return self.get_query_set().exclude(
                                     default_group_name=DefaultGroups.MEMBER,
                                     is_absent=True)
+
 
 class MeetingParticipant(models.Model):
     meeting = models.ForeignKey(Meeting, verbose_name=_("Meeting"),

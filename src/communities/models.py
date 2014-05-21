@@ -1,10 +1,11 @@
 import logging
-
 from django.conf import settings
 from django.db import models, transaction
 from django.template.loader import render_to_string
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext, ugettext_lazy as _
 from issues.models import ProposalStatus, IssueStatus, VoteResult
 from meetings.models import MeetingParticipant, Meeting
 from ocd.base_models import HTMLField, UIDMixin
@@ -522,3 +523,44 @@ class Community(UIDMixin):
             }
 
         return [as_agenda_item(x) for x in self.upcoming_issues()]
+
+
+class CommunityConfidentialReason(models.Model):
+
+    """The set of reasons a community can declare an object confidential.
+
+    A default set of reasons is populated when a community is created.
+
+    This default set can be extended or modified.
+
+    """
+
+    class Meta:
+        ordering = ['community']
+        verbose_name = _('Confidential Reason')
+        verbose_name_plural = _('Confidential Reasons')
+        unique_together = (('community', 'title'),)
+
+    community = models.ForeignKey(
+        Community,
+        related_name='confidential_reasons',
+        help_text=_('A reason that can be used for marking items as '
+                    'confidential in your community.'),)
+
+    title = models.CharField(
+        _('Name'),
+        max_length=255,
+        help_text=_('The title to give this reason.'),)
+
+    def __unicode__(self):
+        return self.title
+
+
+@receiver(post_save, sender=Community)
+def set_default_confidental_reasons(sender, instance, created,
+                                    dispatch_uid='set_default_confidental_reasons',
+                                    **kwargs):
+    if created:
+        for reason in settings.OPENCOMMUNITY_DEFAULT_CONFIDENTIAL_REASONS:
+            CommunityConfidentialReason.objects.create(community=instance,
+                                                       title=ugettext(reason))
