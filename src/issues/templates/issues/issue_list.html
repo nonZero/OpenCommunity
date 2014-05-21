@@ -36,7 +36,7 @@ id="issue-list"
 	{% endif %}
     {% if community.issue_ranking_enabled %}
     <div class="tab-content clearfix" style="clear: both; padding-top: 10px;">
-        <div id="by_time" class="tab-pane"> 
+        <div id="by_time" class="tab-pane">
             <div class="row">
                 <!-- <h2 class="col-xs-3 col-sm-1">{% trans "Search" %}:</h2> -->
                 <div class="form-group {% if community.issue_ranking_enabled %}col-xs-12{% else %}col-xs-9 pull-left{% endif %}">
@@ -65,23 +65,23 @@ id="issue-list"
                     {% include "issues/_issue_sort.html" %}
                 {% endfor %}
             </ul>
-            
+
             <div class="narrow">
 				<a id="do_ranking_vote" href="{% url 'issues' community.id %}" data-rel="formo" class="btn btn-warning btn-block btn-lg ">{% trans 'Submit' %}</a>
             </div>
-            
+
             <h2>{% trans "Other issues" %}</h2>
-        
+
             <ul id="voted_out" class="nav nav-pills nav-stacked">
                 {% for i in my_non_ranked %}
                     {% include "issues/_issue_sort.html" %}
                 {% endfor %}
             </ul>
             {% endwith %}
-        </div>  
+        </div>
         {% endif %}
 
-        <div id="by_rank" class="tab-pane"> 
+        <div id="by_rank" class="tab-pane">
             {% with can_sort=False %}
 
             <div class="row">
@@ -99,20 +99,20 @@ id="issue-list"
             </table>
 
             {% endwith %}
-        </div>    
+        </div>
     </div>
     {% else %}
-        <div id="by_time"> 
+        <div id="by_time">
             <div class="row">
                 <div class="form-group {% if not cperms.issues.add_issue %}col-xs-12{% else %}col-xs-9 pull-left{% endif %}">
                     <input type="text" class="form-control issue-search" placeholder="{% trans "Search the agenda" %}">
                 </div>
-            </div>    
+            </div>
             <table class="table table-condensed issue-table">
                 {% for object in object_list %}
                     <tr class="issue-list">
                         <td class="issue_date">{{ object.created_at|ocshortdate }}</td>
-                        <td class="issue_title left_arrow"><a href="{{ object.get_absolute_url }}?s=1"> {{ object.title }}</a></td>
+                        <td class="{% if object.is_confidential %}is_confidential {% endif %}issue_title left_arrow"><a href="{{ object.get_absolute_url }}?s=1"> {{ object.title }}</a></td>
                     </tr>
                 {% endfor %}
             </table>
@@ -163,7 +163,7 @@ id="issue-list"
         $('input.issue-search').bind('input', function() {
             searchIssues($(this).val().trim(), $(this));
         });
-        
+
         $('#ordered').sortable({
             containment: $('#ordered').parent().parent(),
             opacity: 0.6,
@@ -185,7 +185,7 @@ id="issue-list"
             el.addClass('loading');
             $("#ordered").append(el);
             // activate send button
-            enable_send_button(); 
+            enable_send_button();
         });
 
         $('body').on('click', '#do_ranking_vote', function(event) {
@@ -198,8 +198,8 @@ id="issue-list"
             $.post(url, {
                             new_order: JSON.stringify(order_list),
                             community_id: '{{ community.id }}',
-                    }, 
-                    function(p){ 
+                    },
+                    function(p){
                         // disable_send_button();
                       });
 
@@ -207,7 +207,7 @@ id="issue-list"
         });
 
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            var tab_id = $(e.target).attr('href'); 
+            var tab_id = $(e.target).attr('href');
             $.cookie('issue-tab', tab_id);
         });
 	});
