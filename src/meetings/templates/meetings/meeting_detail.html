@@ -75,7 +75,7 @@ id="meeting-detail"
         </div>
 
         <div class="history_meetings">
-            {% for a in object.agenda.all %}
+            {% for a in agenda_items %}
                 {% if a.issue.active %}
 		        <div class="history_inner">
 	        		<div class="issue_header_history">
@@ -133,7 +133,7 @@ id="meeting-detail"
                         {{p.display_name}}
                     </li>
                     {% endfor %}
-        
+
                     {% for g in guest_list %}
                     <li class="list-group-item">
                         {{g|remove_email}}
@@ -174,7 +174,7 @@ id="meeting-detail"
 		success : function(result) {
 			$("#meeting-protocol-preview").html(result);
 		}
-	}); 
+	});
 </script>
 <script>
 	function set_meeting_height() {

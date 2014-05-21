@@ -29,6 +29,11 @@ class MeetingList(MeetingMixin, RedirectView):
         if o:
             return o.get_absolute_url()
 
+    def get_context_data(self, **kwargs):
+        context = super(MeetingDetailView, self).get_context_data(**kwargs)
+
+        return context
+
 
 class MeetingDetailView(MeetingMixin, DetailView):
     required_permission = 'meetings.view_meeting'
@@ -39,6 +44,8 @@ class MeetingDetailView(MeetingMixin, DetailView):
         d['guest_list'] = o.get_guest_list()
         d['total_participants'] = len(d['guest_list']) + o.participations \
                                     .filter(is_absent=False).count()
+        d['agenda_items'] = self.object.agenda.object_access_control(
+            user=self.request.user, community=self.community).all()
         return d
 
 

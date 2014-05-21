@@ -119,7 +119,12 @@ class IssueDetailView(IssueMixin, DetailView):
         d['proposal_form'] = forms.CreateProposalForm()
         if m_id:
             d['meeting'] = get_object_or_404(Meeting, id=m_id,
-                                            community=self.community)
+                                             community=self.community)
+            a = d['meeting'].agenda.object_access_control(
+                user=self.request.user, community=self.community).all()
+            d['meeting_active_issues'] = [ai.issue for ai in a if
+                                          ai.issue.active]
+
         else:
             d['meeting'] = None
 
