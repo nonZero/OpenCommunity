@@ -4,6 +4,7 @@ from issues import models
 from issues.models import ProposalType
 from ocd.formfields import HTMLArea
 from users.models import OCUser
+from communities.models import CommunityConfidentialReason
 import floppyforms as forms
 
 
