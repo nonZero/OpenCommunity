@@ -11,9 +11,9 @@ class CreateIssueForm(forms.ModelForm):
 
     class Meta:
         model = models.Issue
-        fields = ('title', 'abstract', 'access')
+        fields = ('title', 'abstract', 'confidential_reason')
         widgets = {'title': forms.TextInput, 'abstract': HTMLArea,
-                   'access': forms.Select}
+                   'confidential_reason': forms.Select}
 
     def __init__(self, *args, **kwargs):
 
@@ -41,8 +41,8 @@ class CreateIssueForm(forms.ModelForm):
 class UpdateIssueForm(forms.ModelForm):
     class Meta:
         model = models.Issue
-        fields = ('title', 'access')
-        widgets = {'title': forms.TextInput, 'access': forms.Select}
+        fields = ('title', 'confidential_reason')
+        widgets = {'title': forms.TextInput, 'confidential_reason': forms.Select}
 
 
 class UpdateIssueAbstractForm(forms.ModelForm):
@@ -106,7 +106,7 @@ class CreateProposalBaseForm(forms.ModelForm):
                    'assigned_to_user',
                    'assigned_to',
                    'due_by',
-                   'access'
+                   'confidential_reason'
                    )
         widgets = {
             'type': forms.Select,
@@ -115,7 +115,7 @@ class CreateProposalBaseForm(forms.ModelForm):
             'assigned_to_user': forms.HiddenInput(),
             'assigned_to': forms.TextInput,
             'due_by': forms.DateInput,
-            'access': forms.Select
+            'confidential_reason': forms.Select
         }
 
 
