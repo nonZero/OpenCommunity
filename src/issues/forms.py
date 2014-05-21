@@ -98,16 +98,10 @@ class CreateProposalBaseForm(forms.ModelForm):
 
     class Meta:
         model = models.Proposal
-        fields = (
-                   'type',
-                   'title',
-                   'content',
-                   'tags',
-                   'assigned_to_user',
-                   'assigned_to',
-                   'due_by',
-                   'confidential_reason'
-                   )
+
+        fields = ('type', 'title', 'content', 'tags', 'assigned_to_user',
+                  'assigned_to', 'due_by', 'confidential_reason')
+
         widgets = {
             'type': forms.Select,
             'title': forms.TextInput,
