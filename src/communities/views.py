@@ -100,7 +100,7 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
             add_to_meeting = request.POST['set'] == "0"
             issue.status = IssueStatus.IN_UPCOMING_MEETING if add_to_meeting\
             else IssueStatus.OPEN
-            last = self.get_object().upcoming_issues().aggregate(
+            last = self.get_object().upcoming_issues(user=self.request.user, community=self.community).aggregate(
                 last=Max('order_in_upcoming_meeting'))['last']
             issue.order_in_upcoming_meeting = (last or 0) + 1
             issue.save()
@@ -110,7 +110,7 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
 
         if 'issues[]' in request.POST:
             issues = [int(x) for x in request.POST.getlist('issues[]')]
-            qs = self.get_object().upcoming_issues()
+            qs = self.get_object().upcoming_issues(user=self.request.user, community=self.community)
             for i, iid in enumerate(issues):
                 qs.filter(id=iid).update(order_in_upcoming_meeting=i)
 
