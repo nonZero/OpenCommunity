@@ -18,7 +18,7 @@ class MeetingMixin(CommunityMixin):
     model = models.Meeting
 
     def get_queryset(self):
-        return models.Meeting.objects.filter(community=self.community)
+        return self.model.objects.filter(community=self.community)
 
 
 class MeetingList(MeetingMixin, RedirectView):
