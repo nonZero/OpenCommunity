@@ -23,10 +23,10 @@ from communities.forms import EditUpcomingMeetingForm,\
     EditUpcomingMeetingSummaryForm
 from communities.models import SendToOption
 from haystack.inputs import AutoQuery
-from haystack.query import SearchQuerySet
 from issues.models import IssueStatus, Issue, Proposal
 from meetings.models import Meeting
 from ocd.base_views import ProtectedMixin, AjaxFormView
+from ocd.base_models import ConfidentialSearchQuerySet
 from users.permissions import has_community_perm
 from django.views.generic.base import RedirectView
 from haystack.views import SearchView
@@ -325,7 +325,9 @@ class CommunitySearchView(CommunityModelMixin, DetailView):
         return self.request.GET.get('type', '').strip()
 
     def get_sqs(self):
-        return SearchQuerySet().filter(community=self.community.id)
+        return ConfidentialSearchQuerySet().object_access_control(user=self.request.user,
+                                                      community=self.community).filter(
+                                                      community=self.community.id)
 
     def get(self, request, *args, **kwargs):
         #import ipdb;ipdb.set_trace()

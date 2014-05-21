@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from haystack.query import SearchQuerySet
 from ocd.validation import enhance_html
+from users.default_roles import DefaultGroups
 import random
 import string
 
@@ -79,11 +81,39 @@ class ConfidentialManager(models.Manager):
 
         else:
             memberships = user.memberships.filter(community=community)
-            # lookup = [m.default_group_name for m in memberships]
-            # if DefaultGroups.MEMBER in lookup and len(lookup) == 1:
-            #     qs.filter(is_confidential=False)
+            lookup = [m.default_group_name for m in memberships]
+            if DefaultGroups.MEMBER in lookup and len(lookup) == 1:
+                qs.filter(is_confidential=False)
+
+            return qs
+
+
+class ConfidentialSearchQuerySet(SearchQuerySet):
+
+    def object_access_control(self, user=None, community=None, **kwargs):
+
+        if not user or not community:
+            raise ValueError('The access validator requires both a user and '
+                             'a community object.')
+
+        qs = self._clone()
+        # import ipdb;ipdb.set_trace()
+
+        if user.is_superuser:
+            return qs
+
+        elif user.is_anonymous():
+            return qs.filter(is_confidential=False)
+
+        else:
+            memberships = user.memberships.filter(community=community)
+            lookup = [m.default_group_name for m in memberships]
+            if DefaultGroups.MEMBER in lookup and len(lookup) == 1:
+                qs.filter(is_confidential=False)
 
             return qs.filter(is_confidential=False)
+
+        return qs
 
 
 class ConfidentialMixin(models.Model):
