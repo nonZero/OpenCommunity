@@ -1940,6 +1940,10 @@ ul.prop-table .prop-content span {
 				);
 }
 
+.is_confidential_text {
+	color: red !important;
+}
+
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
 
