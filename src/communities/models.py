@@ -133,16 +133,17 @@ class Community(UIDMixin):
     def get_upcoming_absolute_url(self):
         return "community", (str(self.pk),)
 
-    def upcoming_issues(self, upcoming=True):
+    def upcoming_issues(self, user=None, community=None, upcoming=True):
         l = issues_models.IssueStatus.IS_UPCOMING if upcoming else \
             issues_models.IssueStatus.NOT_IS_UPCOMING
-        return self.issues.filter(active=True, status__in=(l)
+        return self.issues.object_access_control(user=user,
+            community=community).filter(active=True, status__in=(l)
         ).order_by('order_in_upcoming_meeting')
 
-    def available_issues(self):
-        return self.issues.filter(active=True,
-                                  status=issues_models.IssueStatus.OPEN
-        ).order_by('-created_at')
+    def available_issues(self, user=None, community=None):
+        return self.issues.object_access_control(user=user,
+            community=community).filter(
+            active=True, status=issues_models.IssueStatus.OPEN).order_by('-created_at')
 
     def available_issues_by_rank(self):
         return self.issues.filter(active=True,
@@ -351,19 +352,19 @@ class Community(UIDMixin):
             prop.do_votes_summation(member_count)
 
 
-    def _get_upcoming_proposals(self):
+    def _get_upcoming_proposals(self, user=None, community=None):
         proposals = []
-        upcoming = self.upcoming_issues()
+        upcoming = self.upcoming_issues(user=user, community=community)
         for issue in upcoming:
             proposals.extend([p for p in issue.proposals.all() if p.active])
         return proposals
 
 
-    def upcoming_proposals_any(self, prop_dict):
+    def upcoming_proposals_any(self, prop_dict, user=None, community=None):
         """ test multiple properties against proposals belonging to the upcoming meeting
             return True if any of the proposals passes the tests
         """
-        proposals = self._get_upcoming_proposals()
+        proposals = self._get_upcoming_proposals(user=user, community=community)
         test_attrs = lambda p: [getattr(p, k) == val for k, val in
                                 prop_dict.items()]
         for p in proposals:
@@ -388,7 +389,7 @@ class Community(UIDMixin):
                                               is_absent=True,
                                               default_group_name=mm.default_group_name if mm else None)
 
-    def close_meeting(self, m, user):
+    def close_meeting(self, m, user, community):
         """
         Creates a :model:`meetings.Meeting` instance, with corresponding
         :model:`meetings.AgenddItem`s.
@@ -423,7 +424,7 @@ class Community(UIDMixin):
             self.voting_ends_at = None
             self.save()
 
-            for i, issue in enumerate(self.upcoming_issues()):
+            for i, issue in enumerate(self.upcoming_issues(user=user, community=community)):
 
                 proposals = issue.proposals.filter(
                     active=True,
@@ -496,33 +497,39 @@ class Community(UIDMixin):
         }
 
 
-    def draft_agenda(self):
+    def draft_agenda(self, payload):
         """ prepares a fake agenda item list for 'protocol_draft' template. """
 
-        def as_agenda_item(issue):
+        # payload should be a list of dicts. Each dict has these keys:
+        #   * issue
+        #   * proposals
+        #
+        # The values are querysets
+
+        def as_agenda_item(obj):
             return {
-                'issue': issue,
+                'issue': obj['issue'],
 
                 'proposals':
-                    issue.proposals.filter(decided_at_meeting=None,
-                                           active=True)
-                    .exclude(status=ProposalStatus.IN_DISCUSSION),
+                    obj['proposals'].filter(decided_at_meeting=None,
+                                            active=True).exclude(
+                                            status=ProposalStatus.IN_DISCUSSION),
 
                 'accepted_proposals':
-                    issue.proposals.filter(decided_at_meeting=None,
-                                           active=True,
-                                           status=ProposalStatus.ACCEPTED),
+                    obj['proposals'].filter(decided_at_meeting=None,
+                                            active=True,
+                                            status=ProposalStatus.ACCEPTED),
 
                 'rejected_proposals':
-                    issue.proposals.filter(decided_at_meeting=None,
-                                           active=True,
-                                           status=ProposalStatus.REJECTED),
+                    obj['proposals'].filter(decided_at_meeting=None,
+                                            active=True,
+                                            status=ProposalStatus.REJECTED),
 
                 'comments':
-                    issue.comments.filter(meeting=None, active=True),
+                    obj['issue'].comments.filter(meeting=None, active=True),
             }
 
-        return [as_agenda_item(x) for x in self.upcoming_issues()]
+        return [as_agenda_item(x) for x in payload]
 
 
 class CommunityConfidentialReason(models.Model):
