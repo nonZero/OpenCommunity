@@ -1,4 +1,5 @@
-/*##################################################################*/
+-        font-size: 22px;
+ -        line-height:29px;/*##################################################################*/
 /* Tablet - portrait ###############################################*/
 /*##################################################################*/
 
@@ -9,8 +10,8 @@
         line-height:50px;
     }
     blockquote p {
-        font-size: 42px;
-        line-height: 1.5em;
+        font-size: 22px;
+        line-height: 29em;
     }
 
     blockquote p.first {
@@ -28,7 +29,7 @@
 @media (min-width:768px) {
     blockquote p.first {
 		font-size: 42px;
-		line-height: 2em;
+		line-height: 1.5em;
     }
 }
 @media (min-width:768px) and (max-width: 992px) {
@@ -77,9 +78,14 @@
         line-height:37px;
     }
 
-    blockquote p {
-        font-size: 42px;
+    blockquote p.first {
+        font-size: 28px;
         line-height: 1.5em;
+    }
+
+    blockquote p {
+        font-size: 22px;
+        line-height: 29px;
     }
     #tool_boxes ul li {
 		width: 90%;
