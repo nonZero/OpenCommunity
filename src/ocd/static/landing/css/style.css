@@ -1,0 +1,1502 @@
+body {    
+    margin-top:77px;
+    text-rendering: optimizeLegibility; 
+    -webkit-font-smoothing: antialiased; 
+    font-family: "Droid Sans";  
+}
+
+/* TYPOGRAPHY */
+h1 {
+    font-family: 'Droid Serif', sans-serif;
+    font-weight:700;
+    text-align:center;
+    text-transform: uppercase;
+	letter-spacing: 4px;
+	font-size: 60px;
+    line-height:80px;
+    margin:0px;
+    padding:0px;
+}
+
+h2 {
+    font-family: 'Droid Serif', sans-serif;
+    font-weight:700;
+    text-align:center;
+    text-transform: uppercase;
+	font-size: 48px;
+    line-height:72px;
+    margin:0px;
+    padding:0px;
+}
+
+h3 {
+    font-family: 'Droid Serif', sans-serif;
+    font-weight:700;
+    text-align:center;
+    text-transform: uppercase;
+	font-size: 36px;
+    line-height:54px;
+    margin:0px;
+    padding:0px;
+}
+
+h4 {
+    font-family: 'Droid Serif', sans-serif;
+    font-weight:700;
+    text-align:center;
+    text-transform: uppercase;
+	font-size: 18px;
+    line-height:27px;
+    margin:0px;
+    padding:0px;
+}
+
+a {
+    color:#0070aa;
+}
+
+a:hover {
+    color:#0070aa;
+}
+
+p {
+    font-family: 'Droid Sans', sans-serif;
+    font-weight:400;
+    text-align:center;
+	font-size: 16px;
+    line-height:25px;
+    margin:0px;
+    padding:0px;
+    margin-top:25px;
+    opacity:0.7;
+}
+
+blockquote p {
+    font-family: 'Droid Sans', serif;
+    font-weight:400;
+    font-style:normal;
+    text-align:center;
+    font-size: 24px;
+    line-height:36px;
+    margin:0px;
+    padding:0px;
+    opacity:1;
+}
+
+blockquote  {
+    margin:0px;
+    padding:0px;
+}
+
+.tlt  {
+    font-family: 'Droid Serif', sans-serif;
+    font-weight:700;
+    text-align:center;
+    text-transform: none;
+	letter-spacing: 4px;
+	font-size: 60px;
+    line-height:80px;
+    margin:0px;
+    padding:0px;
+    color:white;
+	list-style-type: none;
+}
+
+
+/* //TYPOGRAPHY */
+
+
+
+
+/*##################################################################*/
+/* NAVIGATION - Desktop ############################################*/
+/*##################################################################*/
+
+nav {
+    position:fixed;
+    margin:0px;
+    padding:0px;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 77px;
+    background-color:white;
+    -webkit-box-shadow: 0px 1px 0px 0px rgba(23, 23, 23, 0.24);
+    box-shadow: 0px 1px 0px 0px rgba(23, 23, 23, 0.24);
+    z-index:200;
+}
+
+nav #logo {    
+    padding:0px; 
+    display: inline-block;
+}
+
+nav #logo a {
+    outline: none;
+    color: #000;
+    font-family: "Droid Serif";
+    font-weight: bold;
+    font-size: 30px;
+    height: 77px;
+    line-height: 77px;
+}
+nav #logo a:hover{
+	text-decoration: none;
+}
+
+
+#navigation {
+    float:right;
+    
+}
+
+#navigation ul {
+    float:right;
+    list-style: none;
+}
+
+#navigation ul li {
+    float:left;   
+}
+
+#navigation a {
+    font-family: 'Droid Serif', sans-serif;
+    font-weight:700;
+	position: relative;
+	display: inline-block;
+	outline: none;
+	color: #6e6e6e;
+	text-decoration: none;
+	text-transform: uppercase;
+	letter-spacing: 0,5px;
+	font-size: 13px;
+    margin-left:42px;
+    margin-top:15px;
+}
+
+#navigation a:hover,
+#navigation a:focus {
+	outline: none;
+}
+
+#navigation a {
+	-webkit-transition: color 0.3s;
+	-moz-transition: color 0.3s;
+	transition: color 0.3s;
+}
+
+#navigation a:focus::before,
+#navigation a:hover::before
+{
+	color: #0070aa;
+	
+}
+
+#navigation a:hover,
+#navigation a:focus {
+	color: #0070aa;
+}
+
+#sections .current a {
+    color: #0070aa;    
+}
+
+/* //NAVIGATION - Desktop*/
+
+
+
+/*##################################################################*/
+/* NAVIGATION - Mobile ############################################*/
+/*##################################################################*/
+
+.cbp-spmenu {
+	background: #3c3f41;
+	position: fixed;
+    width: 240px;
+	height: 100%;
+	top: 0;
+	z-index: 1000;
+    right: -240px;
+    text-align:center;
+}
+
+.cbp-spmenu h3 {
+    font-family: 'Droid Serif', sans-serif;
+    text-transform: uppercase;
+    font-weight:700;
+	color: #2d2e30;
+	font-size: 20px;
+	padding: 20px;
+	margin: 0;
+	font-weight: 300;
+	background: #3c3f41;
+}
+
+.cbp-spmenu a {
+    text-decoration: none;
+    font-family: 'Droid Serif', sans-serif;
+    text-transform: uppercase;
+    font-weight:700;
+	display: block;
+	color: #fff;
+	font-size: 15px;
+    border-bottom: 1px solid #434546;
+	padding-left: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.cbp-spmenu a:hover {
+	background: #2d2e30;
+}
+
+.cbp-spmenu a:active {
+	background: #2d2e30;
+	color: #8d9b9f;
+}
+
+.cbp-spmenu.cbp-spmenu-open {
+	right: 0px;
+}
+
+.cbp-spmenu {
+	-webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+}
+
+#navigation_mobile { 
+    float:right;
+    display: inline-block;
+}
+#cbp-spmenu ul{
+    list-style: none;
+    padding-left:0px;   
+}
+
+#showLeft {
+    float:right;
+    margin-top:19px;
+}
+
+.button_nav {
+	background-color:#ffffff;
+/* 	-webkit-border-top-left-radius:100px;
+	-moz-border-radius-topleft:100px;
+	border-top-left-radius:100px;
+	-webkit-border-top-right-radius:100px;
+	-moz-border-radius-topright:100px;
+	border-top-right-radius:100px;
+	-webkit-border-bottom-right-radius:100px;
+	-moz-border-radius-bottomright:100px;
+	border-bottom-right-radius:100px;
+	-webkit-border-bottom-left-radius:100px;
+	-moz-border-radius-bottomleft:100px;
+	border-bottom-left-radius:100px; */
+	text-indent:0;
+	border: 0;
+	/* border:2px solid #0071aa; */
+	display:inline-block;
+	color:#0071aa;
+	font-family:Arial;
+	font-size:20px;
+	font-weight:bold;
+	font-style:normal;
+	height:auto;
+	width:auto;
+	text-decoration:none;
+	text-align:center;
+    padding:5px;
+    padding-top:8px;
+    width:39px;
+    outline: none;
+    
+}
+
+.button_nav:hover {
+	/* background-color:#f7f9fa; */
+}
+
+.button_nav:active {
+	position:relative;
+	top:1px;
+    
+}
+
+/* //NAVIGATION - Mobile*/
+
+/*##################################################################*/
+/* HOME ############################################################*/
+/*##################################################################*/
+
+#home {
+    height:500px;
+    width:100%;
+    background-color: #0070aa;
+    overflow-y:hidden;
+    text-align:center;
+    position:relative;
+}
+
+#home h1, #home blockquote {
+    color:white;
+}
+#home blockquote {
+    margin-top:80px;
+    margin-bottom: 10px;
+}
+
+/* Button Learn More */
+
+.btn {
+	border: none;
+	font-family: 'Droid Serif', sans-serif;
+    font-weight:400;
+	font-size: 14px;
+	color: white;
+	background: none;
+	cursor: pointer;
+	padding: 17px 35px;
+	display: inline-block;
+	margin: 100px 0px 0px 0px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	outline: none;
+	position: relative;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+    z-index:90;
+    opacity:0;
+}
+
+.anim {
+    margin-top: 60px;
+    opacity:1;    
+}
+
+.btn:after {
+	content: '';
+	position: absolute;
+	z-index: -1;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.btn:before {
+	font-family: 'unicons';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	position: relative;
+	-webkit-font-smoothing: antialiased;
+}
+
+.icon-arrow:before {
+	content: "\e096";
+}
+
+.btn-arrow {
+    border-radius: 50px;
+	border: 2px solid #fff;
+	color: #fff;
+	overflow: hidden;
+    -webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.btn-arrow:active {
+	background: #0070aa;
+	top: 2px;
+}
+
+.btn-arrow span {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	-webkit-transition: all 0.3s;
+	-webkit-backface-visibility: hidden;
+	-moz-transition: all 0.3s;
+	-moz-backface-visibility: hidden;
+	transition: all 0.3s;
+	backface-visibility: hidden;
+}
+
+.btn-arrow:before {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	line-height: 2.5;
+	font-size: 180%;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.btn-arrow:active:before {
+	color: #004a70;
+}
+
+.btn-arrowb:hover span {
+	-webkit-transform: translateY(200%);
+	-moz-transform: translateY(200%);
+	-ms-transform: translateY(200%);
+	transform: translateY(200%);
+}
+
+.btn-arrowb:before {
+	left: 0;
+	top: -100%;
+}
+
+.btn-arrowb:hover:before {
+	top: -2px;
+}
+/* //Button Learn More */
+
+#navigation a.btn-login {
+	color: #333;
+	text-align: center;
+	vertical-align: middle;
+	cursor: pointer;
+	border: 1px solid #ccc;
+	margin-top: 6px;
+	white-space: nowrap;
+	padding: 6px 12px;
+	font-size: 14px;
+	border-radius: 4px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+/*##################################################################*/
+/* ABOUT ###########################################################*/
+/*##################################################################*/
+
+#aboutcontainer{
+	background-color: #000;
+    background-image: url(../images/OccupyWallSt99-thin.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 297px;
+
+}
+#about {
+    display:block;
+    position:relative;
+    z-index:120;
+    padding-top:100px;
+    text-align:center;
+    padding-bottom:100px;
+    opacity: 0;  
+}
+
+#about h2, #about blockquote p, #about p {
+    color:#000;
+    padding: 5px 10px;
+    line-height: 1.6em;
+}
+
+
+/*##################################################################*/
+/* Clients #########################################################*/
+/*##################################################################*/
+
+
+#clients {
+    width:100%;
+    background-color: white;
+    background-image: url(../images/clients_bg.jpg);
+    background-repeat:no-repeat;
+    background-position:top;
+    opacity: 0;    
+}
+
+#clients h3 {
+    color:#4c4c4c;
+    margin-bottom:80px;    
+}
+
+#clients .client_logo {
+    border-style:solid;
+    border-width:4px;
+    border-color: #d2d2d2;
+    margin: 0 auto 30px auto;    
+}
+
+#client_logos {
+    margin-bottom:110px;
+}
+
+
+/*##################################################################*/
+/* SERVICES ########################################################*/
+/*##################################################################*/
+
+
+#services {
+    padding-top: 110px;
+    padding-bottom: 50px;
+    background-color:#0070aa;
+    background-image: url(../images/discussion.jpg );
+    background-position: center;
+    background-repeat: no-repeat;
+    display:block;
+    position:relative;
+    z-index:120;
+    padding-top:90px;
+    text-align:center;      
+}
+
+#services h2, #services p {
+    color:white;   
+}    
+
+#service_boxes {
+    margin-top:100px;
+}
+
+#service_boxes ul {
+	list-style:none; /* removes the default bullet */
+	padding-left: 20px;    
+    text-align:left;
+    width:450px;
+    margin: 0 auto;
+    color:white;    
+}
+
+#service_boxes ul li {
+    position: relative;
+    line-height: 35px;
+    padding-left: 10px;    
+}
+
+#service_boxes ul li:before {
+    position: absolute;
+    font-family: 'unicons';
+    font-size:18px;
+    vertical-align: bottom;
+    top:7px;
+    margin: 0 0px 0 -30px;      
+}
+
+#service_boxes li:before {
+    content: "\e049";
+}
+
+#service_boxes li:before, #service_boxes li:after {
+    color: white;
+    padding-right:10px;        
+}
+
+.service_box {
+    margin-bottom:60px;        
+}
+
+.animbox {
+	border: none;
+	font-family: 'Droid Serif', sans-serif;
+    font-weight:400;
+	font-size: 14px;
+	color: white;
+	background: none;
+	cursor: default;
+	padding: 17px 35px;
+    width: 250px;
+	display: inline-block;
+	margin-top:0px;
+    margin-bottom: 30px;
+
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	outline: none;
+	position: relative;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+    z-index:90;    
+}
+
+.animbox:after {
+	content: '';
+	position: absolute;
+	z-index: -1;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.animbox:before {
+	font-family: 'unicons';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	position: relative;
+	-webkit-font-smoothing: antialiased;
+}
+
+.icon-design:before {
+	content: "\e066";
+    margin-top:1px;
+}
+
+.icon-develop:before {
+	content: "\e07b";
+    margin-top:4px;
+}
+
+.icon-print:before {
+	content: "\e08a";
+}
+
+.animbox-icon {
+    border-radius: 0px;
+	border: 2px solid rgba(255, 255, 255, .5);
+	color: #fff;
+	overflow: hidden;
+    -webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.animbox-icon span {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	-webkit-transition: all 0.3s;
+	-webkit-backface-visibility: hidden;
+	-moz-transition: all 0.3s;
+	-moz-backface-visibility: hidden;
+	transition: all 0.3s;
+	backface-visibility: hidden;
+}
+
+.animbox-icon:before {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	line-height: 2.5;
+	font-size: 180%;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.service_box:hover .animbox-iconb span {
+	-webkit-transform: translateY(200%);
+	-moz-transform: translateY(200%);
+	-ms-transform: translateY(200%);
+	transform: translateY(200%);
+}
+
+.animbox-iconb:before {
+	left: 0;
+	top: -100%;
+}
+
+.service_box:hover .animbox-iconb:before {
+	top: -2px;
+}
+
+/*##################################################################*/
+/* //SERVICES ######################################################*/
+/*##################################################################*/
+
+/*##################################################################*/
+/* ourtool ########################################################*/
+/*##################################################################*/
+
+
+#ourtool {
+    background-image: url(../images/our-tool-bg.jpg);
+    background-position: top center;
+    background-repeat: repeat-x;
+    display:block;
+    position:relative;
+    z-index:120;
+    padding-top:480px;
+    padding-bottom: 100px;
+    text-align:center;     
+}
+
+#ourtool h2, #ourtool p {
+    color:#000;   
+}    
+#ourtool p {
+	font-size: 1.5em;
+	font-weight: bold;
+}    
+
+#tool_boxes {
+    margin-top:50px;
+}
+
+#tool_boxes ul {
+	list-style:none; /* removes the default bullet */
+    margin: 0 auto;
+    text-align: center;
+}
+
+#tool_boxes ul li {
+    position: relative;
+    float: left;
+    text-align: center;
+    background-color: #f5f5f5;
+    border-radius: 3px;
+    border: 1px solid #eee;
+    padding: 30px 20px;
+    margin: 0 5px 10px;
+    width: 30%;
+    font-size:2em;
+    list-style: none;
+ 	margin-bottom: 10px;
+	height: 225px;
+}
+#tool_boxes ul li span{
+	display: block;
+}
+
+
+#tool_boxes li:before, #tool_boxes li:after {
+    color: white;
+    padding-right:10px;        
+}
+
+.tool_box {
+    margin-bottom:	20px;        
+}
+
+.animbox {
+	border: none;
+	font-family: 'Droid Serif', sans-serif;
+    font-weight:400;
+	font-size: 14px;
+	color: white;
+	background: none;
+	cursor: default;
+	padding: 17px 35px;
+    width: 250px;
+	display: inline-block;
+	margin-top:0px;
+    margin-bottom: 30px;
+
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	outline: none;
+	position: relative;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+    z-index:90;    
+}
+
+.animbox:after {
+	content: '';
+	position: absolute;
+	z-index: -1;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.animbox:before {
+	font-family: 'unicons';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	position: relative;
+	-webkit-font-smoothing: antialiased;
+}
+
+.icon-design:before {
+	content: "\e066";
+    margin-top:1px;
+}
+
+.icon-develop:before {
+	content: "\e07b";
+    margin-top:4px;
+}
+
+.icon-print:before {
+	content: "\e08a";
+}
+
+.animbox-icon {
+    border-radius: 0px;
+	border: 2px solid rgba(255, 255, 255, .5);
+	color: #fff;
+	overflow: hidden;
+    -webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.animbox-icon span {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	-webkit-transition: all 0.3s;
+	-webkit-backface-visibility: hidden;
+	-moz-transition: all 0.3s;
+	-moz-backface-visibility: hidden;
+	transition: all 0.3s;
+	backface-visibility: hidden;
+}
+
+.animbox-icon:before {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	line-height: 2.5;
+	font-size: 180%;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.tool_box:hover .animbox-iconb span {
+	-webkit-transform: translateY(200%);
+	-moz-transform: translateY(200%);
+	-ms-transform: translateY(200%);
+	transform: translateY(200%);
+}
+
+.animbox-iconb:before {
+	left: 0;
+	top: -100%;
+}
+
+.tool_box:hover .animbox-iconb:before {
+	top: -2px;
+}
+
+/*##################################################################*/
+/* //ourtool ######################################################*/
+/*##################################################################*/
+
+/*##################################################################*/
+/* process #######################################################*/
+/*##################################################################*/
+
+#process{
+padding-bottom: 80px;	
+}
+
+#process h2{
+background-color: #000;
+color: #fff;
+padding: 20px 0;
+margin-bottom: 30px;
+}
+
+#process h3{
+	text-transform: none;
+	line-height: 2.2em;
+	color: #000;
+}
+#process p{
+	color: #000;
+	margin: 0 0 25px 0;
+	font-size: 20px;
+}
+
+
+
+
+.arrow_box {
+	position: relative;
+	background: #88b7d5;
+	border: 4px solid #c2e1f5;
+	margin-bottom: 35px;
+}
+.arrow_box_last {
+	position: relative;
+	background: #88b7d5;
+	border: 4px solid #c2e1f5;
+	margin-bottom: 35px;
+}
+.arrow_box:after, .arrow_box:before {
+	top: 100%;
+	left: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.arrow_box:after {
+	border-color: rgba(136, 183, 213, 0);
+	border-top-color: #88b7d5;
+	border-width: 30px;
+	margin-left: -30px;
+}
+.arrow_box:before {
+	border-color: rgba(194, 225, 245, 0);
+	border-top-color: #c2e1f5;
+	border-width: 36px;
+	margin-left: -36px;
+}
+
+/*##################################################################*/
+/* //process #######################################################*/
+/*##################################################################*/
+
+
+/*##################################################################*/
+/* PORTFOLIO #######################################################*/
+/*##################################################################*/
+
+#folio {
+    margin-top:2px;
+    padding-top: 30px;
+    padding-bottom: 50px;
+    background-color:white;
+    display:block;
+    position:relative;
+    z-index:120;
+    text-align:center;      
+}
+
+#folio p {
+    margin-bottom: 30px;
+}
+
+.grid {
+	max-width: 75em;
+	list-style: none;
+	margin: 40px auto;
+	padding: 0;
+}
+
+.grid li {
+	display: block;
+	float: left;
+	padding: 7px;
+	width: 33%;
+	opacity: 0;
+}
+
+.grid li.shown,
+.no-js .grid li,
+.no-cssanimations .grid li {
+	opacity: 1;
+}
+
+.grid li a,
+.grid li img {
+    padding:0px;
+	outline: none;
+	border: none;
+	display: block;
+	max-width: 100%;
+    cursor:url(../images/cursor.png),pointer;
+    background-color:white;
+    -webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;    
+}
+
+/* Appearing effect */
+.grid.effect li.animate {
+	-webkit-transform: translateY(200px);
+	-moz-transform: translateY(200px);
+	transform: translateY(200px);
+	-webkit-animation: moveUp 0.65s ease forwards;
+	-moz-animation: moveUp 0.65s ease forwards;
+	animation: moveUp 0.65s ease forwards;
+}
+
+@-webkit-keyframes moveUp {
+	to { -webkit-transform: translateY(0); opacity: 1; }
+}
+
+@-moz-keyframes moveUp {
+	to { -moz-transform: translateY(0); opacity: 1; }
+}
+
+@keyframes moveUp {
+	to { transform: translateY(0); opacity: 1; }
+}
+
+.grid li img:hover {
+    opacity:0.2    
+}
+
+
+/*##################################################################*/
+/* Modal Box #######################################################*/
+/*##################################################################*/
+
+.md-modal {
+    position:fixed;
+    top: 0;
+	left: 0;
+	width: 100%;
+	min-width: 320px;
+	height: auto;
+    z-index: 2000;
+	visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+ 
+.md-show {
+    visibility: visible;    
+}
+
+.md-content {
+    padding-top:40px;
+    text-align:center;
+    overflow-y:scroll;    
+}
+
+.md-content img {
+    width:70%;
+    max-width:1000px;
+    margin:0 auto;
+    display:block;
+    height:auto;
+}
+
+.md-content h3 {
+    width:70%;
+    max-width:700px;
+    margin-bottom:30px;
+    margin-top:40px;
+    margin-left:auto;
+    margin-right:auto;
+    padding-right:10px;
+    padding-left:10px;    
+}
+
+.md-content p {
+    margin-bottom:30px;
+    margin-top:30px;
+    margin-left:auto;
+    margin-right:auto;
+    width:70%;
+    max-width:700px;
+    padding-right:10px;
+    padding-left:10px;   
+}
+
+.md-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    opacity: 1;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    transition: all 0.3s;
+}
+ 
+.md-show ~ .md-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+.md-effect-1 .md-content {
+	-webkit-transform: scale(0.8);
+	-moz-transform: scale(0.8);
+	-ms-transform: scale(0.8);
+	transform: scale(0.8);
+	opacity: 0;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.md-show.md-effect-1 ~ .md-overlay {
+	background: white;
+} 
+
+.md-effect-1 .md-content h3,
+.md-effect-1 .md-content {
+	background: transparent;
+}
+
+.md-show.md-effect-1 .md-content {
+	-webkit-transform: scale(1);
+	-moz-transform: scale(1);
+	-ms-transform: scale(1);
+	transform: scale(1);
+	opacity: 1;
+}
+
+.videoWrapper {
+	position: relative;	
+}
+
+.videoWrapper iframe {
+	position: relative;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: auto;
+    max-width:800px;    
+}
+
+.video{
+    width:70%;
+    max-width:800px;
+    margin: 0 auto;
+    padding-left:20px;
+    padding-right:20px;
+}
+
+.video iframe {
+    border:0;
+}
+
+
+/*##################################################################*/
+/* TEAM ############################################################*/
+/*##################################################################*/
+
+#team {
+    padding-top: 60px;
+    padding-bottom: 90px;
+    background-color:red;
+    background-image: url(../images/contact-bg.jpg);
+    background-position: top center;
+    background-repeat:repeat;
+    display:block;
+    position:relative;
+    z-index:120;
+    text-align:center;      
+}
+
+#hasadna{
+	margin: 20px 50px 0;
+	background-color: #fff;
+	padding: 10px;
+	text-align: left;
+	font-size: 1.1em;
+	border-radius: 5px;
+	min-height: 80px;
+}
+#hasadna img{
+	width: 70px;
+	height: 70px;
+	float:left;
+	padding: 0 10px 10px 0;
+}
+
+#team h2, #team h4, #team p {
+    color:white;   
+}    
+
+#team p {
+    margin-top:0px;
+    margin-bottom:0px;
+}   
+
+.member_photo {
+    width: 140px;
+    height: 140px;
+    margin: 60px auto;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -ms-transition: all 0.2s;
+    transition: all 0.2s;
+}
+
+.team_box:hover .member_photo {
+    width: 160px;
+    height: 160px;
+    margin-bottom:50px;
+    margin-top:50px;
+}
+
+.border {
+	border: 2px dashed rgba(255, 255, 255, .5);
+}
+
+.team_box a {
+	color: #fff;
+	text-decoration: none;
+}
+
+
+
+/*##################################################################*/
+/* CONTACT #########################################################*/
+/*##################################################################*/
+
+
+
+#contact {
+    margin-top:2px;
+    padding-top: 90px;
+    padding-bottom: 50px;
+    background-color:white;
+    display:block;
+    position:relative;
+    z-index:120;
+    text-align:center;      
+}
+
+#contact p {
+    margin-bottom: 30px;
+}
+
+
+/* Send Button */
+
+.btn-blue {
+	border: none;
+	font-family: 'Droid Serif', sans-serif;
+    font-weight:400;
+	font-size: 14px;
+	color: blue;
+	background: none;
+	cursor: pointer;
+	padding: 17px 35px;
+	display: inline-block;
+	margin: 0px;
+    width:100%;
+    max-width: 300px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	outline: none;
+	position: relative;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+    z-index:90;
+    opacity:1;
+}
+
+.btn-blue:after {
+	content: '';
+	position: absolute;
+	z-index: -1;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+    
+}
+.btn-blue:before {
+	font-family: 'unicons';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	position: relative;
+    margin-top:2px;
+	-webkit-font-smoothing: antialiased;
+}
+
+.icon-mail:before {
+	content: "\e053";
+    
+}
+
+.btn-send {
+    border-radius: 50px;
+	border: 2px solid #0070aa;
+	color: #0070aa;
+	overflow: hidden;
+    -webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.btn-send:active {
+	background: #0070aa;
+	top: 2px;
+}
+
+.btn-send span {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	-webkit-transition: all 0.3s;
+	-webkit-backface-visibility: hidden;
+	-moz-transition: all 0.3s;
+	-moz-backface-visibility: hidden;
+	transition: all 0.3s;
+	backface-visibility: hidden;
+}
+
+.btn-send:before {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	line-height: 2.5;
+	font-size: 180%;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.btn-send:active:before {
+	color: #004a70;
+}
+
+.btn-sendb:hover span {
+	-webkit-transform: translateY(200%);
+	-moz-transform: translateY(200%);
+	-ms-transform: translateY(200%);
+	transform: translateY(200%);
+}
+
+.btn-sendb:before {
+	left: 0;
+	top: -100%;
+}
+
+.btn-sendb:hover:before {
+	top: -2px;
+}
+
+
+/* Contact Form */
+
+#contact form {
+    margin-top: 40px;
+}
+
+#contact form input[type="text"],
+#contact form input[type="email"]{
+    width: 100%;
+    max-width: 300px;
+    height: 57px;
+    margin-bottom: 20px;
+    padding: 0 20px;
+    border-style: solid;
+    border-color:#d2d2d2;
+    border-radius: 2px;
+    box-shadow: none;
+    font-family: 'Droid Sans', sans-serif;
+    font-weight:400;
+    text-align:left;
+	font-size: 14px;
+    line-height:25px;    
+}
+
+#alert {
+    padding:20px;
+    margin-bottom:20px;
+    margin-top:20px;
+    text-shadow:0 1px 0 rgba(255, 255, 255, 0.5);
+    background-color:#fcf8e3;
+    border:1px solid #fbeed5;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+}
+
+
+#message {
+    display: none;
+}
+
+#message ul.unordered {
+    padding: 0;
+}
+
+#message ul.unordered li {
+    padding: 0 0 0 20px;
+}
+#message ul.unordered li p {
+    padding: 3px 0;
+    margin: 0;
+}
+
+#message .alert-danger p {
+    color: #B94A48;
+}
+
+.contact_info {
+    margin-top: 70px;
+    padding-bottom: 60px;
+}
+.contact_details{
+	padding-top: 100px;
+}
+.contact_details span{
+    color: #d2d2d2;
+    font-size:30px;    
+}
+.contact_details p{
+    margin-top:60px;
+    padding-bottom: 70px;
+}
+
+
+
+/* Social Icons */
+
+.social_icons {
+    text-align:center;
+    margin-top:20px;
+}
+
+.social_icons ul {
+    display: inline-block;
+    margin: 0px; 
+    padding: 0px;
+    /* For IE, the outcast */
+    zoom:1;
+    *display: inline;
+}
+
+.social_icons li {
+    float:left;
+    padding: 0 7px;
+    list-style:none;        
+}
+
+.social_icons li a span{
+    font-size: 15px;
+    color:#0070aa;
+}
+
+.social_icons li a {
+	color: #fff;
+}
+
+.social_icons li a:hover {
+    text-decoration:none;
+    color: #000 !important;       
+}
+
+/*##################################################################*/
+/* FOOTER #########################################################*/
+/*##################################################################*/
+
+#footer {
+    background-color:#3e3e3e;
+    padding-top:38px;
+    padding-bottom:38px;
+}
+#footer p {
+    color:#d6d6d6;
+    margin:0px;
+    padding:0px;
+}
