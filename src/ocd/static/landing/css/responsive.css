@@ -9,13 +9,13 @@
         line-height:50px;
     }
     blockquote p {
-        font-size: 19px;
-        line-height:29px;
+        font-size: 42px;
+        line-height: 1.5em;
     }
 
     blockquote p.first {
-		font-size: 25px;
-		line-height: 2em;
+		font-size: 42px;
+		line-height: 1.5em;
     }
     #tool_boxes ul li span {
 		font-size: 0.7em;
@@ -23,27 +23,27 @@
 	#tool_boxes ul li {
 		height: 200px;
 	}
-  
+
 }
 @media (min-width:768px) {
     blockquote p.first {
-		font-size: 52px;
+		font-size: 42px;
 		line-height: 2em;
     }
 }
 @media (min-width:768px) and (max-width: 992px) {
 
-    
+
     .service_box p {
         width:220px;
-        margin: 0 auto;    
+        margin: 0 auto;
     }
-    
+
     #service_boxes ul {
         width:220px;
 
     }
-    
+
     .animbox {
         width: 220px;
     }
@@ -66,20 +66,20 @@
         font-size: 25px;
         line-height:30px;
     }
-    
+
     h2 {
         font-size: 35px;
         line-height:52px;
     }
-    
+
     h3 {
         font-size: 25px;
         line-height:37px;
     }
-    
+
     blockquote p {
-        font-size: 22px;
-        line-height:29px;
+        font-size: 42px;
+        line-height: 1.5em;
     }
     #tool_boxes ul li {
 		width: 90%;
@@ -90,30 +90,30 @@
         height:400px;
         background-color: #0070aa;
     }
-    
+
     #home blockquote {
         margin-top:115px;
     }
-    
+
     #clients {
         height:450  px;
     }
-    
+
     #clients .client_logo {
         border-width:2px;
     }
     .md-content {
-    padding-top:10px;     
-    }    
+    padding-top:10px;
+    }
     .md-content h3, .md-content p{
     margin-bottom:10px;
     margin-top:10px;
-    width:90%;    
+    width:90%;
     }
-    
+
     .flex-direction-nav li .next {right: 20px}
     .flex-direction-nav li .prev {left: 20px}
-    
+
     .contact_details p{
     margin-top:20px;
     margin-bottom: 50px;
@@ -130,19 +130,19 @@
 /*##################################################################*/
 
 @media all and (-webkit-min-device-pixel-ratio: 2), all and (-moz-min-device-pixel-ratio: 1.5), all and (min-device-pixel-ratio: 2), all and (-o-min-device-pixel-ratio: 2/1) {
-    #home {    
+    #home {
 
     }
-    
+
     #clients {
         background: url(../images/clients_bg_402x.jpg);
         background-size: 1000px 500px;
         background-position:top;
         background-repeat:no-repeat;
     }
-    
 
-      
+
+
 }
 
 
@@ -151,7 +151,7 @@
 /*##################################################################*/
 
 @media (max-width: 479px) and (-webkit-min-device-pixel-ratio: 2), all and (-moz-min-device-pixel-ratio: 1.5), all and (min-device-pixel-ratio: 2), all and (-o-min-device-pixel-ratio: 2/1) {
-  #home {    
+  #home {
 
   }
 }

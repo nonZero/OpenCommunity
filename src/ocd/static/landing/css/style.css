@@ -1,8 +1,12 @@
-body {    
+body {
     margin-top:77px;
-    text-rendering: optimizeLegibility; 
-    -webkit-font-smoothing: antialiased; 
-    font-family: "Droid Sans";  
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Droid Sans";
+}
+
+ul {
+    list-style-type: none;
 }
 
 /* TYPOGRAPHY */
@@ -76,8 +80,8 @@ blockquote p {
     font-weight:400;
     font-style:normal;
     text-align:center;
-    font-size: 24px;
-    line-height:36px;
+    font-size: 42px;
+    line-height:1.5em;
     margin:0px;
     padding:0px;
     opacity:1;
@@ -126,8 +130,8 @@ nav {
     z-index:200;
 }
 
-nav #logo {    
-    padding:0px; 
+nav #logo {
+    padding:0px;
     display: inline-block;
 }
 
@@ -147,7 +151,7 @@ nav #logo a:hover{
 
 #navigation {
     float:right;
-    
+
 }
 
 #navigation ul {
@@ -156,7 +160,7 @@ nav #logo a:hover{
 }
 
 #navigation ul li {
-    float:left;   
+    float:left;
 }
 
 #navigation a {
@@ -189,7 +193,7 @@ nav #logo a:hover{
 #navigation a:hover::before
 {
 	color: #0070aa;
-	
+
 }
 
 #navigation a:hover,
@@ -198,7 +202,7 @@ nav #logo a:hover{
 }
 
 #sections .current a {
-    color: #0070aa;    
+    color: #0070aa;
 }
 
 /* //NAVIGATION - Desktop*/
@@ -265,13 +269,13 @@ nav #logo a:hover{
 	transition: all 0.3s ease;
 }
 
-#navigation_mobile { 
+#navigation_mobile {
     float:right;
     display: inline-block;
 }
 #cbp-spmenu ul{
     list-style: none;
-    padding-left:0px;   
+    padding-left:0px;
 }
 
 #showLeft {
@@ -310,7 +314,7 @@ nav #logo a:hover{
     padding-top:8px;
     width:39px;
     outline: none;
-    
+
 }
 
 .button_nav:hover {
@@ -320,7 +324,7 @@ nav #logo a:hover{
 .button_nav:active {
 	position:relative;
 	top:1px;
-    
+
 }
 
 /* //NAVIGATION - Mobile*/
@@ -372,7 +376,7 @@ nav #logo a:hover{
 
 .anim {
     margin-top: 60px;
-    opacity:1;    
+    opacity:1;
 }
 
 .btn:after {
@@ -495,7 +499,7 @@ nav #logo a:hover{
     padding-top:100px;
     text-align:center;
     padding-bottom:100px;
-    opacity: 0;  
+    opacity: 0;
 }
 
 #about h2, #about blockquote p, #about p {
@@ -516,19 +520,19 @@ nav #logo a:hover{
     background-image: url(../images/clients_bg.jpg);
     background-repeat:no-repeat;
     background-position:top;
-    opacity: 0;    
+    opacity: 0;
 }
 
 #clients h3 {
     color:#4c4c4c;
-    margin-bottom:80px;    
+    margin-bottom:80px;
 }
 
 #clients .client_logo {
     border-style:solid;
     border-width:4px;
     border-color: #d2d2d2;
-    margin: 0 auto 30px auto;    
+    margin: 0 auto 30px auto;
 }
 
 #client_logos {
@@ -552,12 +556,12 @@ nav #logo a:hover{
     position:relative;
     z-index:120;
     padding-top:90px;
-    text-align:center;      
+    text-align:center;
 }
 
 #services h2, #services p {
-    color:white;   
-}    
+    color:white;
+}
 
 #service_boxes {
     margin-top:100px;
@@ -565,17 +569,17 @@ nav #logo a:hover{
 
 #service_boxes ul {
 	list-style:none; /* removes the default bullet */
-	padding-left: 20px;    
+	padding-left: 20px;
     text-align:left;
     width:450px;
     margin: 0 auto;
-    color:white;    
+    color:white;
 }
 
 #service_boxes ul li {
     position: relative;
     line-height: 35px;
-    padding-left: 10px;    
+    padding-left: 10px;
 }
 
 #service_boxes ul li:before {
@@ -584,7 +588,7 @@ nav #logo a:hover{
     font-size:18px;
     vertical-align: bottom;
     top:7px;
-    margin: 0 0px 0 -30px;      
+    margin: 0 0px 0 -30px;
 }
 
 #service_boxes li:before {
@@ -593,11 +597,11 @@ nav #logo a:hover{
 
 #service_boxes li:before, #service_boxes li:after {
     color: white;
-    padding-right:10px;        
+    padding-right:10px;
 }
 
 .service_box {
-    margin-bottom:60px;        
+    margin-bottom:60px;
 }
 
 .animbox {
@@ -621,7 +625,7 @@ nav #logo a:hover{
 	-webkit-transition: all 0.3s;
 	-moz-transition: all 0.3s;
 	transition: all 0.3s;
-    z-index:90;    
+    z-index:90;
 }
 
 .animbox:after {
@@ -726,16 +730,16 @@ nav #logo a:hover{
     z-index:120;
     padding-top:480px;
     padding-bottom: 100px;
-    text-align:center;     
+    text-align:center;
 }
 
 #ourtool h2, #ourtool p {
-    color:#000;   
-}    
+    color:#000;
+}
 #ourtool p {
 	font-size: 1.5em;
 	font-weight: bold;
-}    
+}
 
 #tool_boxes {
     margin-top:50px;
@@ -769,11 +773,11 @@ nav #logo a:hover{
 
 #tool_boxes li:before, #tool_boxes li:after {
     color: white;
-    padding-right:10px;        
+    padding-right:10px;
 }
 
 .tool_box {
-    margin-bottom:	20px;        
+    margin-bottom:	20px;
 }
 
 .animbox {
@@ -797,7 +801,7 @@ nav #logo a:hover{
 	-webkit-transition: all 0.3s;
 	-moz-transition: all 0.3s;
 	transition: all 0.3s;
-    z-index:90;    
+    z-index:90;
 }
 
 .animbox:after {
@@ -893,7 +897,7 @@ nav #logo a:hover{
 /*##################################################################*/
 
 #process{
-padding-bottom: 80px;	
+padding-bottom: 80px;
 }
 
 #process h2{
@@ -970,7 +974,7 @@ margin-bottom: 30px;
     display:block;
     position:relative;
     z-index:120;
-    text-align:center;      
+    text-align:center;
 }
 
 #folio p {
@@ -1009,7 +1013,7 @@ margin-bottom: 30px;
     background-color:white;
     -webkit-transition: all 0.3s;
 	-moz-transition: all 0.3s;
-	transition: all 0.3s;    
+	transition: all 0.3s;
 }
 
 /* Appearing effect */
@@ -1035,7 +1039,7 @@ margin-bottom: 30px;
 }
 
 .grid li img:hover {
-    opacity:0.2    
+    opacity:0.2
 }
 
 
@@ -1056,15 +1060,15 @@ margin-bottom: 30px;
 	-moz-backface-visibility: hidden;
 	backface-visibility: hidden;
 }
- 
+
 .md-show {
-    visibility: visible;    
+    visibility: visible;
 }
 
 .md-content {
     padding-top:40px;
     text-align:center;
-    overflow-y:scroll;    
+    overflow-y:scroll;
 }
 
 .md-content img {
@@ -1083,7 +1087,7 @@ margin-bottom: 30px;
     margin-left:auto;
     margin-right:auto;
     padding-right:10px;
-    padding-left:10px;    
+    padding-left:10px;
 }
 
 .md-content p {
@@ -1094,7 +1098,7 @@ margin-bottom: 30px;
     width:70%;
     max-width:700px;
     padding-right:10px;
-    padding-left:10px;   
+    padding-left:10px;
 }
 
 .md-overlay {
@@ -1111,7 +1115,7 @@ margin-bottom: 30px;
     -ms-transition: all 0.3s;
     transition: all 0.3s;
 }
- 
+
 .md-show ~ .md-overlay {
     opacity: 1;
     visibility: visible;
@@ -1130,7 +1134,7 @@ margin-bottom: 30px;
 
 .md-show.md-effect-1 ~ .md-overlay {
 	background: white;
-} 
+}
 
 .md-effect-1 .md-content h3,
 .md-effect-1 .md-content {
@@ -1146,7 +1150,7 @@ margin-bottom: 30px;
 }
 
 .videoWrapper {
-	position: relative;	
+	position: relative;
 }
 
 .videoWrapper iframe {
@@ -1155,7 +1159,7 @@ margin-bottom: 30px;
 	left: 0;
 	width: 100%;
 	height: auto;
-    max-width:800px;    
+    max-width:800px;
 }
 
 .video{
@@ -1185,7 +1189,7 @@ margin-bottom: 30px;
     display:block;
     position:relative;
     z-index:120;
-    text-align:center;      
+    text-align:center;
 }
 
 #hasadna{
@@ -1205,13 +1209,13 @@ margin-bottom: 30px;
 }
 
 #team h2, #team h4, #team p {
-    color:white;   
-}    
+    color:white;
+}
 
 #team p {
     margin-top:0px;
     margin-bottom:0px;
-}   
+}
 
 .member_photo {
     width: 140px;
@@ -1255,7 +1259,7 @@ margin-bottom: 30px;
     display:block;
     position:relative;
     z-index:120;
-    text-align:center;      
+    text-align:center;
 }
 
 #contact p {
@@ -1296,7 +1300,7 @@ margin-bottom: 30px;
 	-webkit-transition: all 0.3s;
 	-moz-transition: all 0.3s;
 	transition: all 0.3s;
-    
+
 }
 .btn-blue:before {
 	font-family: 'unicons';
@@ -1313,7 +1317,7 @@ margin-bottom: 30px;
 
 .icon-mail:before {
 	content: "\e053";
-    
+
 }
 
 .btn-send {
@@ -1396,7 +1400,7 @@ margin-bottom: 30px;
     font-weight:400;
     text-align:left;
 	font-size: 14px;
-    line-height:25px;    
+    line-height:25px;
 }
 
 #alert {
@@ -1441,7 +1445,7 @@ margin-bottom: 30px;
 }
 .contact_details span{
     color: #d2d2d2;
-    font-size:30px;    
+    font-size:30px;
 }
 .contact_details p{
     margin-top:60px;
@@ -1459,7 +1463,7 @@ margin-bottom: 30px;
 
 .social_icons ul {
     display: inline-block;
-    margin: 0px; 
+    margin: 0px;
     padding: 0px;
     /* For IE, the outcast */
     zoom:1;
@@ -1469,7 +1473,7 @@ margin-bottom: 30px;
 .social_icons li {
     float:left;
     padding: 0 7px;
-    list-style:none;        
+    list-style:none;
 }
 
 .social_icons li a span{
@@ -1483,7 +1487,7 @@ margin-bottom: 30px;
 
 .social_icons li a:hover {
     text-decoration:none;
-    color: #000 !important;       
+    color: #000 !important;
 }
 
 /*##################################################################*/

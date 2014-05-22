@@ -4,6 +4,7 @@
     <title>DemOS - An operating system for democracies that strengthens communities by engaging and empowering individuals.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
     <!-- CSS Files comes here -->
     <link href="{{ STATIC_URL }}landing/css/bootstrap.css" rel="stylesheet" media="screen">
     <link href="{{ STATIC_URL }}landing/css/style.css" rel="stylesheet" media="screen">
@@ -38,13 +39,15 @@
                     <div id="logo"><a href="#home">DemOS</a></div>
 
                     <div id="navigation" class="visible-md visible-lg">
-                        <ul id="sections">
+                        <ul>
+                            <span id="sections">
                             <li class="current"><a href="#home">top</a></li>
                             <li><a href="#about">The Problem</a></li>
                             <li><a href="#services">The Solution</a></li>
                             <li><a href="#ourtool">Our Tool</a></li>
                             <li><a href="#team">Our Team</a></li>
-                            <li><a href="login/" class="btn-login">כניסה</a></li>
+                            </span>
+                            <li><a href="login/" class="login-action btn-login">Login</a></li>
                         </ul>
                     </div>
                     <div id="navigation_mobile" class="visible-sm visible-xs">
@@ -59,13 +62,15 @@
     <!-- MOBILE NAV -->
     <div class="cbp-spmenu visible-sm visible-xs" id="cbp-spmenu">
         <h3>Menu</h3>
-        <ul id="sections_mobile">
-                            <li class="current"><a href="#home">top</a></li>
-                            <li><a href="#about">The Problem</a></li>
-                            <li><a href="#services">The Solution</a></li>
-                            <li><a href="#ourtool">Our Tool</a></li>
-                            <li><a href="#team">Our Team</a></li>
-                            <li><a href="login/" class="btn-login">כניסה</a></li>
+        <ul>
+            <span id="sections_mobile">
+            <li class="current"><a href="#home">top</a></li>
+            <li><a href="#about">The Problem</a></li>
+            <li><a href="#services">The Solution</a></li>
+            <li><a href="#ourtool">Our Tool</a></li>
+            <li><a href="#team">Our Team</a></li>
+            </span>
+            <li><a href="login/" class="btn-login">כניסה</a></li>
         </ul>
     </div>
 
@@ -88,7 +93,7 @@
                         <p>that strengthens communities by</p>
                     </blockquote>
                         <div class="tlt">
-                        <ul class="texts" >
+                        <ul class="texts">
                             <li>Engaging Crowds</li>
                             <li>Empowering Individuals</li>
                             <li>Decentralizing Democracy</li>
@@ -141,7 +146,7 @@
             <div class="row">
                 <div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
 
-                <div style="height:350px"></div>
+                <div style="height:80px"></div>
 
                 </div>
             </div>
@@ -190,11 +195,12 @@
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 tool_box">
                         <ul>
                             <li><i class="fa fa-comments fa-2x"></i> <span>Converging Discussions</span></li>
-                            <li><i class="fa fa-file-text-o fa-2x"></i> <span>Publication and monitoring</span></li>
-                            <li><i class="fa fa-comment-o fa-2x"></i> <span>Solution suggestion</span></li>
+                            <li><i class="fa fa-list fa-2x"></i> <span>Agenda Setting</span></li>
+                            <li><i class="fa fa-bolt fa-2x"></i> <span>Solution suggestion</span></li>
                             <li><i class="fa fa-thumbs-o-up fa-2x"></i> <span>Prioritization</span></li>
                             <li><i class="fa fa-gavel fa-2x"></i> <span>Voting</span></li>
-                            <li><i class="fa fa-list fa-2x"></i> <span>Agenda Setting</span></li>
+                            <li><i class="fa fa-book fa-2x"></i> <span>Publication and monitoring</span></li>
+
                         </ul>
                     </div>
                 </div>
@@ -279,7 +285,7 @@
                             <li class="social_icon"><a href="https://twitter.com/boazchen"><i class="fa fa-twitter-square fa-lg"></i></a></li>
                             <li class="social_icon"><a href="https://www.facebook.com/boaz.chen"><i class="fa fa-facebook-square fa-lg"></i></a></li>
                             <li class="social_icon"><a href="http://il.linkedin.com/in/boazchen"><i class="fa fa-linkedin-square fa-lg"></i></a></li>
-                            <li class="social_icon"><a href="mailto:boaz@demos.org.il"><i class="fa fa-envelope fa-lg"></i> boaz@demos.org.il</a></li>
+                            <li class="social_icon"><a href="mailto:boaz@demos.org.il"><i class="fa fa-envelope fa-lg"></i></a></li>
                         </ul>
                     </div>
                 </div>
@@ -353,6 +359,9 @@
             maxDuration : 0.7,
             viewportFactor : 0.2
         } );
+        // $('#navigation').onePageNav({
+        //     filter: ':not(.login-action)'
+        // });
     </script>
     <script src="{{ STATIC_URL }}landing/js/cssParser.js"></script>
     <script src="{{ STATIC_URL }}landing/js/modalEffects.js"></script>
