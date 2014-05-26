@@ -37,6 +37,11 @@ from users.models import Membership
 from forms import CommunitySearchForm
 
 
+class LandingPage(TemplateView):
+
+    template_name = 'communities/landing.html'
+
+
 class CommunityList(ListView):
     model = models.Community
 

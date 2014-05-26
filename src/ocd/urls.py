@@ -12,7 +12,9 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 
-    url(r'^$', communities.views.CommunityList.as_view(), name='home'),
+    url(r'^$', communities.views.LandingPage.as_view(), name='landing'),
+
+    url(r'^communities/$', communities.views.CommunityList.as_view(), name='home'),
 
     url(r'^about/$', communities.views.About.as_view(), name='about'),
 
