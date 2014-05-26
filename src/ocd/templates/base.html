@@ -76,6 +76,7 @@
 				<p>
 					<a href="http://www.hasadna.org.il" style="vertical-align: top;"> <canvas class="hasadnaLogo" width="16" height="16"></canvas> <span class="hidden-footer" style="vertical-align: top;">{% trans "An eKnight" %} </span>{% trans "from Hasadna" %} </a>
 				</p>
+                {% block version_data %}
 				{% if version %}
 				<p class="version text-center">
 					{% trans "Version" %}: <span dir="ltr">{{ version }}</span>
@@ -85,6 +86,7 @@
 					{% trans "DEVELOPMENT SERVER" %}
 				</p>
 				{% endif %}
+                {% endblock version_data %}
 			</div>
 		</footer>
         <script>
