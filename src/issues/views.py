@@ -55,7 +55,7 @@ class ProposalMixin(IssueMixin):
     @property
     def issue(self):
         return get_object_or_404(models.Issue, community=self.community,
-                                 pk=self.kwargs['pk'])
+                                 pk=self.kwargs['issue_id'])
 
     def _can_complete_task(self):
         o = self.get_object()
