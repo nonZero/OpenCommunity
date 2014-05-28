@@ -22,6 +22,7 @@ from communities.forms import EditUpcomingMeetingForm,\
     PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm,\
     EditUpcomingMeetingSummaryForm
 from communities.models import SendToOption
+from communities.notifications import send_mail
 from haystack.inputs import AutoQuery
 from issues.models import IssueStatus, Issue, Proposal
 from meetings.models import Meeting
@@ -226,10 +227,12 @@ class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):
         template = 'protocol_draft' if c.upcoming_meeting_started else 'agenda'
         tpl_data = {
             'meeting_time': datetime.datetime.now().replace(second=0),
-            'can_straw_vote': c.upcoming_proposals_any({'is_open': True})\
+            'can_straw_vote': c.upcoming_proposals_any({'is_open': True},
+                                                       user=self.request.user,
+                                                       community=self.object)\
             and c.upcoming_meeting_is_published,
         }
-        total = c.send_mail(template, self.request.user, form.cleaned_data['send_to'], tpl_data)
+        total = send_mail(c, template, self.request.user, form.cleaned_data['send_to'], tpl_data)
         messages.info(self.request, _("Sending to %d users") % total)
 
         return resp
@@ -358,7 +361,6 @@ class CommunitySearchView(CommunityModelMixin, DetailView):
                                                       community=self.community.id)
 
     def get(self, request, *args, **kwargs):
-        #import ipdb;ipdb.set_trace()
         term = self.get_term()
         if not term:
             return super(CommunitySearchView, self).get(request, *args, **kwargs)

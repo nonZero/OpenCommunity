@@ -30,6 +30,12 @@ class ConfidentialQuerySetMixin(object):
             raise ValueError('The object access control method requires '
                              'both a user and a community object.')
 
+        # A hack to work with sending emails, where we have recipients
+        # who are ot actually users, but we still want to run them through
+        # object access control
+        if isinstance(user, dict) and user.get('_is_mock'):
+            return self.filter(is_confidential=False)
+
         if user.is_superuser:
             return self.all()
 
@@ -37,10 +43,14 @@ class ConfidentialQuerySetMixin(object):
             return self.filter(is_confidential=False)
 
         else:
+            # we have a membership. return according to member's level.
+            # TODO: hook properly into permission system.
             memberships = user.memberships.filter(community=community)
             lookup = [m.default_group_name for m in memberships]
             if DefaultGroups.MEMBER in lookup and len(lookup) == 1:
                 return self.filter(is_confidential=False)
+            else:
+                return self.all()
 
 
 class ConfidentialQuerySet(QuerySet, ConfidentialQuerySetMixin):

@@ -11,6 +11,7 @@ from issues.models import Issue, IssueStatus
 from meetings import models
 from meetings.forms import CloseMeetingForm
 from ocd.base_views import AjaxFormView
+from communities.notifications import send_mail
 
 
 class MeetingMixin(CommunityMixin):
@@ -87,11 +88,14 @@ class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
         d = super(MeetingCreateView, self).get_context_data(**kwargs)
         participants = self.community.upcoming_meeting_participants.all()
         d['no_participants'] = True if not participants else False
+        d['issues_ready_to_close'] = self.community.issues_ready_to_close(
+            user=self.request.user, community=self.community)
         return d
 
     def get_form_kwargs(self):
         kwargs = super(MeetingCreateView, self).get_form_kwargs()
-        kwargs['issues'] = self.community.upcoming_issues()
+        kwargs['issues'] = self.community.upcoming_issues(
+            user=self.request.user, community=self.community)
         return kwargs
 
 
@@ -100,7 +104,7 @@ class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
         m = self.community.close_meeting(form.instance, self.request.user, self.community)
         Issue.objects.filter(id__in=form.cleaned_data['issues']).update(
                   completed=True, status=IssueStatus.ARCHIVED)
-        total = self.community.send_mail('protocol', self.request.user,
-                            form.cleaned_data['send_to'], {'object': m})
+        total = send_mail(self.community, 'protocol', self.request.user,
+                           form.cleaned_data['send_to'], {'meeting': m})
         messages.info(self.request, _("Sending to %d users") % total)
         return HttpResponse(m.get_absolute_url())
