@@ -136,14 +136,25 @@ class Community(UIDMixin):
     def upcoming_issues(self, user=None, community=None, upcoming=True):
         l = issues_models.IssueStatus.IS_UPCOMING if upcoming else \
             issues_models.IssueStatus.NOT_IS_UPCOMING
-        return self.issues.object_access_control(user=user,
-            community=community).filter(active=True, status__in=(l)
-        ).order_by('order_in_upcoming_meeting')
+
+        if self.issues.all():
+            rv = self.issues.object_access_control(
+                user=user, community=community).filter(
+                active=True, status__in=(l)).order_by(
+                'order_in_upcoming_meeting')
+        else:
+            rv = None
+        return rv
 
     def available_issues(self, user=None, community=None):
-        return self.issues.object_access_control(user=user,
-            community=community).filter(
-            active=True, status=issues_models.IssueStatus.OPEN).order_by('-created_at')
+        if self.issues.all():
+            rv = self.issues.object_access_control(
+                user=user, community=community).filter(
+                active=True, status=issues_models.IssueStatus.OPEN).order_by(
+                '-created_at')
+        else:
+            rv = None
+        return rv
 
     def available_issues_by_rank(self):
         return self.issues.filter(active=True,
