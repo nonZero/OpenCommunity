@@ -36,7 +36,7 @@ id="issue-detail"
                     {% if object == i %}
                         <div class="pull-right" style="width: 15px;"><span class="{% if i.is_confidential %}is_confidential {% endif %}active_sibling pull-right"></span></div>
                     {% endif %}
-                    <a href="{{ i.get_absolute_url }}?s=1" class="{% if i.is_confidential %}is_confidential_text {% endif %}">{{ i.title }}</a>
+                    <a href="{{ i.get_absolute_url }}?s=1">{{ i.title }}</a>
                 </li>
                 {% endfor %}
             </ul>
@@ -46,14 +46,14 @@ id="issue-detail"
                     {% for issue in meeting_active_issues %}
                     <li>
                         {% if object == issue %} <div class="pull-right" style="width: 15px;"><span class="active_issue pull-right"></span></div>{% endif %}
-                        <a href="{{ issue.get_absolute_url }}?m_id={{meeting.id}}#meeting-{{meeting.id}}" class="{% if issue.is_confidential %}is_confidential_text {% endif %}">{{ issue }}</a>
+                        <a href="{{ issue.get_absolute_url }}?m_id={{meeting.id}}#meeting-{{meeting.id}}">{{ issue }}</a>
                     </li>
                     {% endfor %}
                 {% else %}
                     {% for i in upcoming_issues|dictsort:"order_in_upcoming_meeting" %}
                     <li>
                         {% if object == i %} <div class="pull-right" style="width: 15px;"><span class="active_issue pull-right"></span></div>{% endif %}
-                        <a href="{{ i.get_absolute_url }}" class="{% if i.is_confidential %}is_confidential_text {% endif %}">{{ i }}</a>
+                        <a href="{{ i.get_absolute_url }}">{{ i }}</a>
                     </li>
                     {% endfor %}
                 {% endif %}

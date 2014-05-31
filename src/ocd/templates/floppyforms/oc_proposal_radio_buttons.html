@@ -1,0 +1,28 @@
+{% load i18n %}
+
+<a href="#" class="btn btn-default pull-right proposal-btn-confidential" style="background-color: transparent;">
+		<i class="fa fa-unlock"></i>
+</a>
+<div class="btn-group-vertical proposal-confidential-options pull-right" data-toggle="buttons" style="display: none;">
+	{% for group_name, choices in optgroups %}{% for choice in choices %}
+	<label class="btn btn-default oc-radio-btn" for="{{ attrs.id }}_{{ forloop.counter }}">
+		<input type="radio" value="{{ choice.0 }}" name="{{ name }}" id="{{ attrs.id }}_{{ forloop.counter }}">
+		{{ choice.1 }} </label>
+	{% endfor %}{% endfor %}
+</div>
+<div class="clear"></div>
+<script>
+	$('a.proposal-btn-confidential').on('click', function() {
+		$(this).next('.proposal-confidential-options').show();
+	});
+	$('.proposal-confidential-options label').on('click', function() {
+		if ($(this).find('input').val() == 0) {
+			$('.proposal-btn-confidential').html('<i class="fa fa-unlock"></i>');
+			$('#proposal-section').css('background-image', 'none');
+		} else {
+			$('.proposal-btn-confidential').html('<i class="fa fa-lock"></i>');
+			$('#proposal-section').css('background-image', 'url("/static/images/prop-line-marks.png")');
+		};
+		$(this).parent().hide();
+	});
+</script>

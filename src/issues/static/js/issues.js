@@ -25,11 +25,13 @@ function init_proposal_tabs(with_issue) {
         }
         if (selected_idx == IDX_NONE) {
             type_select.val('');
+            $('#proposal-section a.proposal-btn-confidential').hide();
             proposal_controls.hide();
             task_controls.hide();
             tags_control.hide();
             $("[id^='id_proposal']").prop('required', false);
         } else {
+            $('#proposal-section a.proposal-btn-confidential').show();
             proposal_controls.show();
             if (selected_idx == IDX_ADMIN) {
                 type_select.val(TYPE_ADMIN);

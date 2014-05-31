@@ -40,14 +40,14 @@ id="proposal-detail"
     </div>
 
     <div class="issue_header">
-        <div class="issue_header_inner">
+        <div class="issue_header_inner{% if object.issue.is_confidential %} is_confidential{% endif %}">
             <a class="three_dot_sentence level2" href="{{object.issue.get_absolute_url}}?m_id={{meeting_context.id}}{{issue_frame|yesno:'&s=1,'}}">{{ object.issue.title }}</a>
         </div>
     </div>
 
 
 <div  class="proposal_main clearfix">    
-<div class="proposal_right_column col-sm-3 hidden-xs">
+<div class="proposal_right_column col-sm-3 hidden-xs{% if object.issue.is_confidential %} is_confidential prop-right-col-fix{% endif %}">
 	<ul class="issues_list">
         {% if object.issue.proposals.closed.count %}
           <h5>{% trans "Decisions" %}</h5>

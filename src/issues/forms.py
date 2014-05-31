@@ -1,10 +1,10 @@
+from communities.models import CommunityConfidentialReason
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from issues import models
 from issues.models import ProposalType
-from ocd.formfields import HTMLArea
+from ocd.formfields import HTMLArea, OCIssueRadioButtons, OCProposalRadioButtons
 from users.models import OCUser
-from communities.models import CommunityConfidentialReason
 import floppyforms as forms
 
 
@@ -12,9 +12,9 @@ class CreateIssueForm(forms.ModelForm):
 
     class Meta:
         model = models.Issue
-        fields = ('title', 'abstract', 'confidential_reason')
+        fields = ('confidential_reason', 'title', 'abstract')
         widgets = {'title': forms.TextInput, 'abstract': HTMLArea,
-                   'confidential_reason': forms.Select}
+                   'confidential_reason': OCIssueRadioButtons}
 
     def __init__(self, *args, **kwargs):
 
@@ -23,6 +23,7 @@ class CreateIssueForm(forms.ModelForm):
         self.new_proposal = CreateProposalBaseForm(
             prefix='proposal', data=self.data if self.is_bound else None)
         self.new_proposal.fields['type'].required = False
+        self.fields['confidential_reason'].empty_label = _('Not Confidential')
 
     def is_valid(self):
         valid = super(CreateIssueForm, self).is_valid()
@@ -100,8 +101,8 @@ class CreateProposalBaseForm(forms.ModelForm):
     class Meta:
         model = models.Proposal
 
-        fields = ('type', 'title', 'content', 'tags', 'assigned_to_user',
-                  'assigned_to', 'due_by', 'confidential_reason')
+        fields = ('confidential_reason', 'type', 'title', 'content', 'tags', 'assigned_to_user',
+                  'assigned_to', 'due_by')
 
         widgets = {
             'type': forms.Select,
@@ -110,8 +111,14 @@ class CreateProposalBaseForm(forms.ModelForm):
             'assigned_to_user': forms.HiddenInput(),
             'assigned_to': forms.TextInput,
             'due_by': forms.DateInput,
-            'confidential_reason': forms.Select
+            'confidential_reason': OCProposalRadioButtons
         }
+
+    def __init__(self, *args, **kwargs):
+
+        super(CreateProposalBaseForm, self).__init__(*args, **kwargs)
+
+        self.fields['confidential_reason'].empty_label = _('Not Confidential')
 
 
 class CreateProposalForm(CreateProposalBaseForm):

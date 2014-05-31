@@ -1941,6 +1941,30 @@ ul.prop-table .prop-content span {
 
 }
 
+.is_confidential {
+	background-image: url('images/line-marks.png') !important;
+	background-repeat: repeat;
+}
+.prop-right-col-fix {
+	background-position-x: 8px;
+}
+.is_confidential_text {
+	color: red !important;
+}
+.proposal-confidential-options,
+.issue-confidential-options {
+	position: absolute;
+	left: 0;
+	width: 100%;
+}
+label[for=id_confidential_reason],
+label[for=id_proposal-confidential_reason] {
+	display: none;
+}
+#proposal-section a.proposal-btn-confidential {
+	display: none;
+}
+
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
 
