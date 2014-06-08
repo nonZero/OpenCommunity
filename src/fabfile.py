@@ -178,6 +178,7 @@ APT_PACKAGES = [
     'libfreetype6',
     'libfreetype6-dev',
     'postfix',
+    'redis-server',
 ]
 
 
