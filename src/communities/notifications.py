@@ -35,6 +35,11 @@ def construct_mock_users(email_list, type):
 
     """
 
+    class MockUser(object):
+        def __init__(self, user_dict):
+            for k, v in user_dict.items():
+                setattr(self, k, v)
+
     users = []
 
     for email in email_list:
@@ -43,7 +48,7 @@ def construct_mock_users(email_list, type):
             'type': type,
             '_is_mock': True
         }
-        users.append(user)
+        users.append(MockUser(user))
 
     return users
 
