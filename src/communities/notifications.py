@@ -151,9 +151,10 @@ def send_mail(community, notification_type, sender, send_to, data=None,
 
             draft_agenda_payload = []
             issue_status = IssueStatus.IS_UPCOMING
-            issues = community.issues.filter(active=True,
-                                             status__in=(issue_status)).order_by(
-                                             'order_in_upcoming_meeting')
+            issues = community.issues.object_access_control(
+                    user=recipient, community=community).filter(
+                    active=True, status__in=(issue_status)).order_by(
+                    'order_in_upcoming_meeting')
 
             for issue in issues:
                 proposals = issue.proposals.object_access_control(
