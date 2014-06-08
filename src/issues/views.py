@@ -540,6 +540,9 @@ class ProposalDetailView(ProposalMixin, DetailView):
                                       (group == DefaultGroups.BOARD or \
                                        group == DefaultGroups.SECRETARY) and \
                                       self.request.user in board_attending
+        rel_proposals = self.object.issue.proposals
+        context['proposals'] = rel_proposals.object_access_control(
+            user=self.request.user, community=self.community)
         return context
 
 
