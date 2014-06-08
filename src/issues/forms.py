@@ -18,7 +18,7 @@ class CreateIssueForm(forms.ModelForm):
 
     def __init__(self, community=None, *args, **kwargs):
         super(CreateIssueForm, self).__init__(*args, **kwargs)
-        self.new_proposal = CreateProposalBaseForm(
+        self.new_proposal = CreateProposalBaseForm(community=community,
             prefix='proposal', data=self.data if self.is_bound else None)
         self.new_proposal.fields['type'].required = False
         self.fields['confidential_reason'].empty_label = _('Not Confidential')
