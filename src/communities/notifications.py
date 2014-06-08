@@ -70,7 +70,7 @@ def send_mail(community, notification_type, sender, send_to, data=None,
         r = [m.user for m in community.memberships.board()]
 
     elif send_to == SendToOption.ONLY_ATTENDEES:
-        r = [m.user for m in community.upcoming_meeting_participants.all()]
+        r = [user for user in community.upcoming_meeting_participants.all()]
 
     else:
         r = []
