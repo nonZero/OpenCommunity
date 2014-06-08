@@ -46,7 +46,8 @@ def construct_mock_users(email_list, type):
         user = {
             'email': email,
             'type': type,
-            '_is_mock': True
+            '_is_mock': True,
+            'is_superuser': False
         }
         users.append(MockUser(user))
 
