@@ -4,3 +4,14 @@ user = {{ocuser}}
 command = {{dir}}server.sh
 stdout_logfile = {{logdir}}opencommunity.log
 stderr_logfile = {{logdir}}opencommunity.log
+
+
+[program:{{ocuser}}-queue]
+directory = {{dir}}
+user = {{ocuser}}
+environment=PATH="{{venv_dir}}bin"
+command={{venv_dir}}bin/python manage.py rqworker default
+autostart=true
+autorestart=true
+stdout_logfile = {{logdir}}opencommunity_queue.log
+stderr_logfile = {{logdir}}opencommunity_queue.log
