@@ -30,7 +30,7 @@ class ConfidentialQuerySetMixin(object):
             raise ValueError('The object access control method requires '
                              'both a user and a community object.')
 
-        if user._is_mock:
+        if hasattr(user, '_is_mock') and user._is_mock is True:
             return self.filter(is_confidential=False)
 
         elif user.is_superuser:
