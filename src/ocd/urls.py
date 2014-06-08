@@ -56,6 +56,8 @@ urlpatterns = patterns('',
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
 
+    url(r'^django-rq/', include('django_rq.urls')),
+
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog',
         {'packages': ('issues', 'communities',)}, 'jsi18n'),
 
