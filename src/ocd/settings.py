@@ -283,6 +283,8 @@ OPENCOMMUNITY_DEFAULT_CONFIDENTIAL_REASONS = [
     gettext('Security Concerns'),
 ]
 
+OPENCOMMUNITY_ASYNC_NOTIFICATIONS = True
+
 version_file = os.path.join(STATIC_ROOT, 'version.txt')
 if os.path.exists(version_file):
     with open(version_file) as f:
