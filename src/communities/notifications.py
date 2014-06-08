@@ -199,7 +199,7 @@ def send_mail(community, notification_type, sender, send_to, data=None,
 
         msg = {}
         msg['subject'] = render_to_string("emails/{0}_title.txt".format(
-            notification_type)).strip()
+            notification_type), d).strip()
         msg['body'] = render_to_string("emails/{0}.txt".format(notification_type), d)
         as_html = render_to_string("emails/{0}.html".format(
             notification_type), d)
