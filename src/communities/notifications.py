@@ -191,11 +191,17 @@ def _base_send_mail(community, notification_type, sender, send_to, data=None,
             and community.upcoming_meeting_is_published
             upcoming_issues = community.upcoming_issues(user=recipient,
                                                         community=community)
+            issues = []
+
+            for i in upcoming_issues:
+                proposals = i.proposals.object_access_control(
+                    user=recipient, community=community)
+                issues.append({'issue': i, 'proposals': proposals})
 
             d.update({
                 'recipient': recipient,
                 'can_straw_vote': can_straw_vote,
-                'upcoming_issues': upcoming_issues
+                'issue_container': issues
             })
 
         msg = {}
