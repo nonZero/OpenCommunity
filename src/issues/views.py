@@ -215,6 +215,7 @@ class IssueCommentEditView(IssueCommentMixin, UpdateView):
 class IssueCreateView(AjaxFormView, IssueMixin, CreateView):
     form_class = CreateIssueForm
     template_name = "issues/issue_create_form.html"
+    reload_on_success = True
 
     def get_required_permission(self):
         return 'community.editagenda_community' if self.upcoming else 'issues.add_issue'
@@ -248,11 +249,15 @@ class IssueEditView(AjaxFormView, IssueMixin, UpdateView):
     required_permission = 'issues.editopen_issue'
 
     form_class = UpdateIssueForm
+    reload_on_success = True
 
     def form_valid(self, form):
-        self.object = form.save()
-        return render(self.request, 'issues/_issue_title.html',
-                      self.get_context_data())
+        if self.reload_on_success:
+            return super(IssueEditView, self).form_valid(form)
+        else:
+            self.object = form.save()
+            return render(self.request, 'issues/_issue_title.html',
+                          self.get_context_data())
 
 
 class IssueEditAbstractView(AjaxFormView, IssueMixin, UpdateView):
@@ -382,6 +387,8 @@ class AttachmentDownloadView(CommunityMixin, SingleObjectMixin, View):
 
 class ProposalCreateView(AjaxFormView, ProposalMixin, CreateView):
 
+    reload_on_success = True
+
     def get_required_permission(self):
         return 'issues.editclosedproposal' if \
             self.issue.status == IssueStatus.ARCHIVED \
@@ -398,9 +405,12 @@ class ProposalCreateView(AjaxFormView, ProposalMixin, CreateView):
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         form.instance.issue = self.issue
-        self.object = form.save()
-        return render(self.request, 'issues/_proposal.html',
-                      self.get_context_data(proposal=self.object))
+        if self.reload_on_success:
+            return super(ProposalCreateView, self).form_valid(form)
+        else:
+            self.object = form.save()
+            return render(self.request, 'issues/_proposal.html',
+                          self.get_context_data(proposal=self.object))
 
     def get_success_url(self):
         return self.issue.get_absolute_url()
@@ -454,13 +464,11 @@ class ProposalDetailView(ProposalMixin, DetailView):
         votes_dict['total'] = total_votes
         return votes_dict
 
-
     def _init_board_votes(self, board_attending):
         p = self.get_object()
         for b in board_attending:
             ProposalVoteBoard.objects.create(proposal=p, user=b,
                                              voted_by_chairman=True)
-
 
     def get_context_data(self, **kwargs):
         """add meeting for the latest straw voting result
@@ -559,6 +567,7 @@ class ProposalEditView(AjaxFormView, ProposalMixin, UpdateView):
         d = super(ProposalEditView, self).get_form_kwargs()
         d['prefix'] = 'proposal'
         return d
+
 
 class ProposalEditTaskView(ProposalMixin, UpdateView):
     form_class = EditProposalTaskForm
