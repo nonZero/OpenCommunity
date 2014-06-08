@@ -5,6 +5,7 @@ from itertools import chain
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from django_rq import job
 from communities.models import SendToOption
 from issues.models import IssueStatus
 
@@ -46,12 +47,13 @@ def construct_mock_users(email_list, type):
     return users
 
 
+@job
 def send_mail(community, notification_type, sender, send_to, data=None,
               base_url=None, with_guests=False):
 
     """Sends mail to community members, and applies object access control.
 
-    The type of email being sent is detected from the template_lookup.
+    The type of email being sent is detected from notification_type.
 
     """
 
