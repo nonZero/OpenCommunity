@@ -116,7 +116,7 @@ class IssueDetailView(IssueMixin, DetailView):
         d = super(IssueDetailView, self).get_context_data(**kwargs)
         m_id = self.request.GET.get('m_id', None)
         d['form'] = forms.CreateIssueCommentForm()
-        d['proposal_form'] = forms.CreateProposalForm()
+        d['proposal_form'] = forms.CreateProposalForm(community=self.community)
         if m_id:
             d['meeting'] = get_object_or_404(Meeting, id=m_id,
                                              community=self.community)
@@ -142,7 +142,6 @@ class IssueDetailView(IssueMixin, DetailView):
                o.community.upcoming_meeting_participants.all():
                 d['can_board_vote_self'] = True
 
-        # import ipdb;ipdb.set_trace()
         d['proposals'] = self.object.proposals.object_access_control(
                 user=self.request.user, community=self.community).open()
 
@@ -236,6 +235,10 @@ class IssueCreateView(AjaxFormView, IssueMixin, CreateView):
 
         return super(IssueCreateView, self).form_valid(form)
 
+    def get_form_kwargs(self):
+        kwargs = super(IssueCreateView, self).get_form_kwargs()
+        kwargs.update({'community': self.community})
+        return kwargs
 
     def get_success_url(self):
         url = super(IssueCreateView, self).get_success_url()
@@ -258,6 +261,11 @@ class IssueEditView(AjaxFormView, IssueMixin, UpdateView):
             self.object = form.save()
             return render(self.request, 'issues/_issue_title.html',
                           self.get_context_data())
+
+    def get_form_kwargs(self):
+        kwargs = super(IssueEditView, self).get_form_kwargs()
+        kwargs.update({'community': self.community})
+        return kwargs
 
 
 class IssueEditAbstractView(AjaxFormView, IssueMixin, UpdateView):
@@ -418,6 +426,7 @@ class ProposalCreateView(AjaxFormView, ProposalMixin, CreateView):
     def get_form_kwargs(self):
         d = super(ProposalCreateView, self).get_form_kwargs()
         d['prefix'] = 'proposal'
+        d['community'] = self.community
         d['initial'] = {'issue': self.issue}
         return d
 
@@ -566,6 +575,7 @@ class ProposalEditView(AjaxFormView, ProposalMixin, UpdateView):
     def get_form_kwargs(self):
         d = super(ProposalEditView, self).get_form_kwargs()
         d['prefix'] = 'proposal'
+        d['community'] = self.community
         return d
 
 
