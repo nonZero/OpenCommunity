@@ -5,7 +5,7 @@ from itertools import chain
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
-from django_rq import job
+import django_rq
 from communities.models import SendToOption
 from users.default_roles import DefaultGroups
 from issues.models import IssueStatus
@@ -54,9 +54,8 @@ def construct_mock_users(email_list, type):
     return users
 
 
-@job
-def send_mail(community, notification_type, sender, send_to, data=None,
-              base_url=None, with_guests=False):
+def _base_send_mail(community, notification_type, sender, send_to, data=None,
+                    base_url=None, with_guests=False):
 
     """Sends mail to community members, and applies object access control.
 
@@ -186,6 +185,7 @@ def send_mail(community, notification_type, sender, send_to, data=None,
             })
 
         elif notification_type == 'agenda':
+
             can_straw_vote = community.upcoming_proposals_any(
                  {'is_open': True}, user=recipient, community=community)\
             and community.upcoming_meeting_is_published
@@ -212,3 +212,14 @@ def send_mail(community, notification_type, sender, send_to, data=None,
         message.send()
 
     return len(recipients)
+
+
+def _async_send_mail(*args, **kwargs):
+    django_rq.enqueue(_base_send_mail, *args, **kwargs)
+    return True
+
+
+if not settings.OPENCOMMUNITY_ASYNC_NOTIFICATIONS:
+    send_mail = _base_send_mail
+else:
+    send_mail = _async_send_mail
