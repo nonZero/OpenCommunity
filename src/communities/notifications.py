@@ -7,6 +7,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django_rq import job
 from communities.models import SendToOption
+from users.default_roles import DefaultGroups
 from issues.models import IssueStatus
 
 
@@ -88,14 +89,14 @@ def send_mail(community, notification_type, sender, send_to, data=None,
             guests_text = community.upcoming_meeting_guests
             guest_emails = get_guests_emails(guests_text)
             guests = construct_mock_users(guest_emails, 'guest')
-            w.append(guests)
+            w.extend(guests)
 
         # Add system managers to the watcher_recipients list if applicable
         if community.inform_system_manager and \
            notification_type in ('agenda', 'protocol', 'protocol_draft'):
             manager_emails = [manager[1] for manager in settings.MANAGERS]
             managers = construct_mock_users(manager_emails, 'managers')
-            w.append(managers)
+            w.extend(managers)
 
         # Add pending invitees to the watcher_recipients list if applicable
         if community.email_invitees:
@@ -108,7 +109,7 @@ def send_mail(community, notification_type, sender, send_to, data=None,
             elif send_to == SendToOption.ALL_MEMBERS:
                 invitees = [i for i in community.invitations.all()]
 
-            w.append(invitees)
+            w.extend(invitees)
 
     watcher_recipients = set(w)
 
