@@ -86,14 +86,14 @@ def send_mail(community, notification_type, sender, send_to, data=None,
             guests_text = community.upcoming_meeting_guests
             guest_emails = get_guests_emails(guests_text)
             guests = construct_mock_users(guest_emails, 'guest')
-            w.update(guests)
+            w.append(guests)
 
         # Add system managers to the watcher_recipients list if applicable
         if community.inform_system_manager and \
            notification_type in ('agenda', 'protocol', 'protocol_draft'):
             manager_emails = [manager[1] for manager in settings.MANAGERS]
             managers = construct_mock_users(manager_emails, 'managers')
-            w.update(managers)
+            w.append(managers)
 
         # Add pending invitees to the watcher_recipients list if applicable
         if community.email_invitees:
@@ -106,7 +106,7 @@ def send_mail(community, notification_type, sender, send_to, data=None,
             elif send_to == SendToOption.ALL_MEMBERS:
                 invitees = [i for i in community.invitations.all()]
 
-            w.update(invitees)
+            w.append(invitees)
 
     watcher_recipients = set(w)
 
