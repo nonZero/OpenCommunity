@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-19 23:05+0300\n"
-"PO-Revision-Date: 2014-04-08 14:21+0200\n"
+"POT-Creation-Date: 2014-06-07 23:53+0300\n"
+"PO-Revision-Date: 2014-06-08 00:03+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Generator: Poedit 1.6.5\n"
 
 #: .\admin.py:42 .\forms.py:38
 msgid "Password"
@@ -318,7 +318,7 @@ msgstr "הצטרף לקהילה פתוחה"
 
 #: .\templates\users\member_profile.html.py:13
 msgid "No data available"
-msgstr ""
+msgstr "אין מידע זמין"
 
 #: .\templates\users\member_profile.html.py:18
 msgid "Position"
