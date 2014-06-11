@@ -178,6 +178,7 @@ APT_PACKAGES = [
     'libfreetype6',
     'libfreetype6-dev',
     'postfix',
+    'redis-server',
 ]
 
 
@@ -260,6 +261,7 @@ def supervisor_setup():
                             'dir': env.code_dir,
                             'ocuser': env.ocuser,
                             'logdir': env.log_dir,
+                            'venv_dir': env.venv_dir,
                         }, mode=0777, use_jinja=True, template_dir=CONF_DIR)
 
         run(

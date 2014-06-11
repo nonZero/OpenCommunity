@@ -601,7 +601,6 @@ class Proposal(UIDMixin, ConfidentialMixin):
                 (str(self.issue.community.pk), str(self.issue.pk),
                  str(self.pk)))
 
-
     @models.permalink
     def get_delete_url(self):
         return (
@@ -617,13 +616,15 @@ class Proposal(UIDMixin, ConfidentialMixin):
         return ""
 
     def enforce_confidential_rules(self):
-            super(Proposal, self).enforce_confidential_rules()
-
+        # override `enforce_confidential_rules` on ConfidentialMixin
+        # for the special logic required for Proposal objects
+        if self.confidential_reason is None:
             if self.issue.is_confidential is True:
                 self.is_confidential = True
-
-            elif self.confidential_reason is True:
-                self.is_confidential = True
+            else:
+                self.is_confidential = False
+        else:
+            self.is_confidential = True
 
 
 class VoteResult(models.Model):
@@ -659,7 +660,7 @@ class IssueRankingVote(models.Model):
 
 @receiver(post_save, sender=Issue)
 def set_confidential_on_relations(sender, instance, created,
-                                  dispath_uid='set_confidential_on_relations',
+                                  dispatch_uid='set_confidential_on_relations',
                                   **kwargs):
 
     # we need to ensure that relations implementing ConfidentialMixin or
@@ -667,17 +668,11 @@ def set_confidential_on_relations(sender, instance, created,
     # At present, these are Proposal and AgendaItem
 
     for agenda_item in instance.agenda_items.all():
-        # AgendaItem implements ConfidentialByRelationMixin, so we just need
-        # to ensure that its is_confidential tracks the issue's is_confidential
-        agenda_item.is_confidential = instance.is_confidential
+        # AgendaItem implements ConfidentialByRelationMixin,
+        # so we call save to trigger the tracking logic.
         agenda_item.save()
 
     for proposal in instance.proposals.all():
-        # Proposal implements ConfidentialMixin, so we need to determine if
-        # it tracks the issue's is_confidential or not, depending on if it
-        # has its own confidential_reason
-        if not proposal.confidential_reason:
-            proposal.is_confidential = instance.is_confidential
-        else:
-            proposal.is_confidential = True
+        # Proposal implements ConfidentialMixin, so we need to call save to
+        # trigger the confidential tracking logic.
         proposal.save()

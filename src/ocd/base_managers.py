@@ -30,13 +30,10 @@ class ConfidentialQuerySetMixin(object):
             raise ValueError('The object access control method requires '
                              'both a user and a community object.')
 
-        # A hack to work with sending emails, where we have recipients
-        # who are ot actually users, but we still want to run them through
-        # object access control
-        if isinstance(user, dict) and user.get('_is_mock'):
+        if hasattr(user, '_is_mock') and user._is_mock is True:
             return self.filter(is_confidential=False)
 
-        if user.is_superuser:
+        elif user.is_superuser:
             return self.all()
 
         elif user.is_anonymous():

@@ -5,7 +5,9 @@ from itertools import chain
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+import django_rq
 from communities.models import SendToOption
+from users.default_roles import DefaultGroups
 from issues.models import IssueStatus
 
 
@@ -33,25 +35,31 @@ def construct_mock_users(email_list, type):
 
     """
 
+    class MockUser(object):
+        def __init__(self, user_dict):
+            for k, v in user_dict.items():
+                setattr(self, k, v)
+
     users = []
 
     for email in email_list:
         user = {
             'email': email,
             'type': type,
-            '_is_mock': True
+            '_is_mock': True,
+            'is_superuser': False
         }
-        users.append(user)
+        users.append(MockUser(user))
 
     return users
 
 
-def send_mail(community, notification_type, sender, send_to, data=None,
-              base_url=None, with_guests=False):
+def _base_send_mail(community, notification_type, sender, send_to, data=None,
+                    base_url=None, with_guests=False):
 
     """Sends mail to community members, and applies object access control.
 
-    The type of email being sent is detected from the template_lookup.
+    The type of email being sent is detected from notification_type.
 
     """
 
@@ -68,7 +76,7 @@ def send_mail(community, notification_type, sender, send_to, data=None,
         r = [m.user for m in community.memberships.board()]
 
     elif send_to == SendToOption.ONLY_ATTENDEES:
-        r = [m.user for m in community.upcoming_meeting_participants.all()]
+        r = [user for user in community.upcoming_meeting_participants.all()]
 
     else:
         r = []
@@ -86,14 +94,14 @@ def send_mail(community, notification_type, sender, send_to, data=None,
             guests_text = community.upcoming_meeting_guests
             guest_emails = get_guests_emails(guests_text)
             guests = construct_mock_users(guest_emails, 'guest')
-            w.update(guests)
+            w.extend(guests)
 
         # Add system managers to the watcher_recipients list if applicable
         if community.inform_system_manager and \
            notification_type in ('agenda', 'protocol', 'protocol_draft'):
             manager_emails = [manager[1] for manager in settings.MANAGERS]
             managers = construct_mock_users(manager_emails, 'managers')
-            w.update(managers)
+            w.extend(managers)
 
         # Add pending invitees to the watcher_recipients list if applicable
         if community.email_invitees:
@@ -106,7 +114,7 @@ def send_mail(community, notification_type, sender, send_to, data=None,
             elif send_to == SendToOption.ALL_MEMBERS:
                 invitees = [i for i in community.invitations.all()]
 
-            w.update(invitees)
+            w.extend(invitees)
 
     watcher_recipients = set(w)
 
@@ -142,9 +150,10 @@ def send_mail(community, notification_type, sender, send_to, data=None,
 
             draft_agenda_payload = []
             issue_status = IssueStatus.IS_UPCOMING
-            issues = community.issues.filter(active=True,
-                                             status__in=(issue_status)).order_by(
-                                             'order_in_upcoming_meeting')
+            issues = community.issues.object_access_control(
+                    user=recipient, community=community).filter(
+                    active=True, status__in=(issue_status)).order_by(
+                    'order_in_upcoming_meeting')
 
             for issue in issues:
                 proposals = issue.proposals.object_access_control(
@@ -176,21 +185,28 @@ def send_mail(community, notification_type, sender, send_to, data=None,
             })
 
         elif notification_type == 'agenda':
+
             can_straw_vote = community.upcoming_proposals_any(
                  {'is_open': True}, user=recipient, community=community)\
             and community.upcoming_meeting_is_published
             upcoming_issues = community.upcoming_issues(user=recipient,
                                                         community=community)
+            issues = []
+
+            for i in upcoming_issues:
+                proposals = i.proposals.object_access_control(
+                    user=recipient, community=community)
+                issues.append({'issue': i, 'proposals': proposals})
 
             d.update({
                 'recipient': recipient,
                 'can_straw_vote': can_straw_vote,
-                'upcoming_issues': upcoming_issues
+                'issue_container': issues
             })
 
         msg = {}
         msg['subject'] = render_to_string("emails/{0}_title.txt".format(
-            notification_type)).strip()
+            notification_type), d).strip()
         msg['body'] = render_to_string("emails/{0}.txt".format(notification_type), d)
         as_html = render_to_string("emails/{0}.html".format(
             notification_type), d)
@@ -202,3 +218,14 @@ def send_mail(community, notification_type, sender, send_to, data=None,
         message.send()
 
     return len(recipients)
+
+
+def _async_send_mail(*args, **kwargs):
+    django_rq.enqueue(_base_send_mail, *args, **kwargs)
+    return True
+
+
+if not settings.OPENCOMMUNITY_ASYNC_NOTIFICATIONS:
+    send_mail = _base_send_mail
+else:
+    send_mail = _async_send_mail

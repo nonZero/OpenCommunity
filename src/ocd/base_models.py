@@ -77,7 +77,9 @@ class ConfidentialMixin(models.Model):
         editable=False,)
 
     def enforce_confidential_rules(self):
-        if self.confidential_reason:
+        if self.confidential_reason is None:
+            self.is_confidential = False
+        else:
             self.is_confidential = True
 
     def save(self, *args, **kwargs):
@@ -101,9 +103,8 @@ class ConfidentialByRelationMixin(models.Model):
         if not self.confidential_from:
             # if the model is misconfigured in any way with respect to
             # confidentiality, we want to raise an error here.
-            raise ValueError(_('Models that implement the '
-                               'ConfidentialByRelationMixin must declare a '
-                               'valid field which can pass on '
+            raise ValueError(_('Models with ConfidentialByRelationMixin must '
+                               'declare a valid field which can pass on'
                                'confidentiality.'))
 
         else:
@@ -113,14 +114,8 @@ class ConfidentialByRelationMixin(models.Model):
             if confidential_relation.is_confidential is True:
                 # when the confidential_relation is True, this *must* be true.
                 self.is_confidential = True
-
-            elif hasattr(self, 'confidential_reason'):
-                # we have a model that implements both ConfidentialMixin
-                # and ConfidentialByRelationMixin. This means an object can be
-                # confidential even if the confidential_relation is not,
-                # according to our logic. Proposal is an example of this.
-                if self.confidential_reason:
-                    self.is_confidential = True
+            else:
+                self.is_confidential = False
 
     def save(self, *args, **kwargs):
         self.enforce_confidential_rules()

@@ -16,14 +16,13 @@ class CreateIssueForm(forms.ModelForm):
         widgets = {'title': forms.TextInput, 'abstract': HTMLArea,
                    'confidential_reason': OCIssueRadioButtons}
 
-    def __init__(self, *args, **kwargs):
-
+    def __init__(self, community=None, *args, **kwargs):
         super(CreateIssueForm, self).__init__(*args, **kwargs)
-
-        self.new_proposal = CreateProposalBaseForm(
+        self.new_proposal = CreateProposalBaseForm(community=community,
             prefix='proposal', data=self.data if self.is_bound else None)
         self.new_proposal.fields['type'].required = False
         self.fields['confidential_reason'].empty_label = _('Not Confidential')
+        self.fields['confidential_reason'].queryset = community.confidential_reasons.all()
 
     def is_valid(self):
         valid = super(CreateIssueForm, self).is_valid()
@@ -44,7 +43,14 @@ class UpdateIssueForm(forms.ModelForm):
     class Meta:
         model = models.Issue
         fields = ('title', 'confidential_reason')
-        widgets = {'title': forms.TextInput, 'confidential_reason': forms.Select}
+        widgets = {
+            'title': forms.TextInput,
+            'confidential_reason': forms.Select
+        }
+
+    def __init__(self, community=None, *args, **kwargs):
+        super(UpdateIssueForm, self).__init__(*args, **kwargs)
+        self.fields['confidential_reason'].queryset = community.confidential_reasons.all()
 
 
 class UpdateIssueAbstractForm(forms.ModelForm):
@@ -114,11 +120,12 @@ class CreateProposalBaseForm(forms.ModelForm):
             'confidential_reason': OCProposalRadioButtons
         }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, community=None, *args, **kwargs):
 
         super(CreateProposalBaseForm, self).__init__(*args, **kwargs)
 
         self.fields['confidential_reason'].empty_label = _('Not Confidential')
+        self.fields['confidential_reason'].queryset = community.confidential_reasons.all()
 
 
 class CreateProposalForm(CreateProposalBaseForm):
