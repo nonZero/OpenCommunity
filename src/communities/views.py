@@ -273,8 +273,6 @@ class ProtocolDraftPreviewView(CommunityModelMixin, DetailView):
         d['meeting_time'] = meeting_time.replace(second=0)
 
         agenda_items = d['object'].draft_agenda()
-        item_attachments = [item['issue'].current_attachments() for item in agenda_items]
-        d['attachments'] = list(chain.from_iterable(item_attachments))
 
         return d
 
