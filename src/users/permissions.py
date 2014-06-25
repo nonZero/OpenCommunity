@@ -52,8 +52,4 @@ def get_community_perms(user, community):
     else:
         perms = get_community_permissions(user, community)
 
-    d = defaultdict(dict)
-    for s in perms:
-        m, p = s.split('.')
-        d[m][p] = True
-    return d
+    return perms

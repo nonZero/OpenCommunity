@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load i18n opencommunity %}
+
+{% block page_header %} {% trans "Groups" %} &gt; {{ object }}{% endblock %}
+
+
+{% block content %}
+
+    <a href="{% url 'group:update' community.id object.id %}">{% trans "Edit" %}</a>
+
+{% endblock %}

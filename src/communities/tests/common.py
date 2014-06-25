@@ -1,8 +1,9 @@
 from collections import namedtuple
+from acl.models import Role
 
 from django.contrib.auth import get_user_model
 from communities.models import Community
-from acl.default_roles import DefaultGroups
+from acl.default_roles import DefaultGroups, DefaultRoles
 from users.models import OCUser, Membership
 
 PASSWORD = 'secret'
@@ -51,6 +52,12 @@ class CommunitiesTestMixin(object):
     @classmethod
     def setUpClass(cls):
         super(CommunitiesTestMixin, cls).setUpClass()
+
+        cls.r1 = Role.objects.create(title="Role 1",
+                                     based_on=DefaultRoles.OBSERVER)
+        cls.r2 = Role.objects.create(title="Role 2",
+                                     based_on=DefaultRoles.DECIDER)
+
         cls.c1 = Community.objects.create(name='Public Community XYZZY',
                                           is_public=True)
         cls.c2 = Community.objects.create(name='Private Community ABCDE',

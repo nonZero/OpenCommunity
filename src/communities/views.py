@@ -4,37 +4,31 @@ import json
 from django.conf import settings
 from django.contrib import messages
 from django.core.paginator import Paginator, InvalidPage
-from django.core.urlresolvers import reverse_lazy, reverse
+from django.core.urlresolvers import reverse
+from django.db import IntegrityError
 from django.db.models.aggregates import Max
-from django.http.response import HttpResponse, HttpResponseBadRequest,\
+from django.forms import forms
+from django.http.response import HttpResponseBadRequest, \
     HttpResponseRedirect, Http404
-from django.shortcuts import render, redirect, render_to_response, get_object_or_404
-from django.template import RequestContext
-from django.template.loader import render_to_string
+from django.shortcuts import redirect
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import View, ListView, TemplateView
+from django.views.generic import View, ListView, CreateView
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import UpdateView, DeleteView
-
 from communities import models
-from communities.forms import EditUpcomingMeetingForm,\
-    PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm,\
-    EditUpcomingMeetingSummaryForm
+from communities.forms import EditUpcomingMeetingForm, \
+    PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm, \
+    EditUpcomingMeetingSummaryForm, GroupForm
 from communities.models import SendToOption
-from haystack.inputs import AutoQuery
 from haystack.query import SearchQuerySet
 from issues.models import IssueStatus, Issue, Proposal
 from meetings.models import Meeting
 from ocd.base_views import ProtectedMixin, AjaxFormView
 from users.permissions import has_community_perm
 from django.views.generic.base import RedirectView
-from haystack.views import SearchView
 from ocd.base_views import CommunityMixin
-from django.contrib.auth.views import redirect_to_login
-from django.http.response import HttpResponseForbidden, HttpResponse
-from users.models import Membership
-from forms import CommunitySearchForm
+from django.http.response import HttpResponse
 
 
 class CommunityList(ListView):
@@ -71,15 +65,16 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         if not has_community_perm(request.user, self.community,
-            'communities.viewupcoming_draft')\
-        and not self.community.upcoming_meeting_is_published:
+                                  'communities.viewupcoming_draft') \
+                and not self.community.upcoming_meeting_is_published:
             try:
-                last_meeting = Meeting.objects.filter(community=self.community)\
-                .latest('held_at')
+                last_meeting = Meeting.objects.filter(
+                    community=self.community) \
+                    .latest('held_at')
                 return HttpResponseRedirect(reverse('meeting',
-                    kwargs={
-                        'community_id': self.community.id,
-                        'pk': last_meeting.id}))
+                                                    kwargs={
+                                                        'community_id': self.community.id,
+                                                        'pk': last_meeting.id}))
             except Meeting.DoesNotExist:
                 pass
 
@@ -94,19 +89,20 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
             time.sleep(0.3)
 
         if 'issue' in request.POST:
-            issue = self.get_object().issues.get(id=int(request.POST.get('issue')))
+            issue = self.get_object().issues.get(
+                id=int(request.POST.get('issue')))
             if issue.changed_in_current():
                 return HttpResponseBadRequest("Can't remove this issue")
             add_to_meeting = request.POST['set'] == "0"
-            issue.status = IssueStatus.IN_UPCOMING_MEETING if add_to_meeting\
-            else IssueStatus.OPEN
+            issue.status = IssueStatus.IN_UPCOMING_MEETING if add_to_meeting \
+                else IssueStatus.OPEN
             last = self.get_object().upcoming_issues().aggregate(
                 last=Max('order_in_upcoming_meeting'))['last']
             issue.order_in_upcoming_meeting = (last or 0) + 1
             issue.save()
 
             return HttpResponse(json.dumps(int(add_to_meeting)),
-                content_type='application/json')
+                                content_type='application/json')
 
         if 'issues[]' in request.POST:
             issues = [int(x) for x in request.POST.getlist('issues[]')]
@@ -115,16 +111,16 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
                 qs.filter(id=iid).update(order_in_upcoming_meeting=i)
 
             return HttpResponse(json.dumps(True),
-                content_type='application/json')
+                                content_type='application/json')
 
         return HttpResponseBadRequest("Oops, bad request")
 
     def get_context_data(self, **kwargs):
         d = super(UpcomingMeetingView, self).get_context_data(**kwargs)
         sorted_issues = {'by_time': [], 'by_rank': []}
-        open_issues = Issue.objects.filter(active=True,\
-            community=self.community)\
-        .exclude(status=IssueStatus.ARCHIVED)
+        open_issues = Issue.objects.filter(active=True, \
+                                           community=self.community) \
+            .exclude(status=IssueStatus.ARCHIVED)
         for i in open_issues.order_by('-created_at'):
             sorted_issues['by_time'].append(i.id)
         for i in open_issues.order_by('order_by_votes'):
@@ -138,9 +134,11 @@ class PublishUpcomingMeetingPreviewView(CommunityModelMixin, DetailView):
     template_name = "emails/agenda.html"
 
     def get_context_data(self, **kwargs):
-        d = super(PublishUpcomingMeetingPreviewView, self).get_context_data(**kwargs)
-        d['can_straw_vote'] = self.community.upcoming_proposals_any({'is_open': True})\
-        and self.community.upcoming_meeting_is_published
+        d = super(PublishUpcomingMeetingPreviewView, self).get_context_data(
+            **kwargs)
+        d['can_straw_vote'] = self.community.upcoming_proposals_any(
+            {'is_open': True}) \
+            and self.community.upcoming_meeting_is_published
         return d
 
 
@@ -158,7 +156,8 @@ class EditUpcomingMeetingView(AjaxFormView, CommunityModelMixin, UpdateView):
         return form
 
 
-class EditUpcomingMeetingParticipantsView(AjaxFormView, CommunityModelMixin, UpdateView):
+class EditUpcomingMeetingParticipantsView(AjaxFormView, CommunityModelMixin,
+                                          UpdateView):
     reload_on_success = True
     required_permission = 'community.editparticipants_community'
     form_class = UpcomingMeetingParticipantsForm
@@ -166,8 +165,7 @@ class EditUpcomingMeetingParticipantsView(AjaxFormView, CommunityModelMixin, Upd
 
 
 class DeleteParticipantView(CommunityModelMixin, DeleteView):
-
-#     required_permission = ''
+    #     required_permission = ''
 
     def get(self, request, *args, **kwargs):
         return HttpResponse("?")
@@ -201,7 +199,8 @@ class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):
         c = self.object
 
         # increment agenda if publishing agenda.
-        if not c.upcoming_meeting_started and form.cleaned_data['send_to'] != SendToOption.ONLY_ME:
+        if not c.upcoming_meeting_started and form.cleaned_data[
+            'send_to'] != SendToOption.ONLY_ME:
             if form.cleaned_data['send_to'] == SendToOption.ALL_MEMBERS:
                 c.upcoming_meeting_is_published = True
             else:
@@ -214,10 +213,11 @@ class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):
         template = 'protocol_draft' if c.upcoming_meeting_started else 'agenda'
         tpl_data = {
             'meeting_time': datetime.datetime.now().replace(second=0),
-            'can_straw_vote': c.upcoming_proposals_any({'is_open': True})\
-            and c.upcoming_meeting_is_published,
+            'can_straw_vote': c.upcoming_proposals_any({'is_open': True}) \
+                and c.upcoming_meeting_is_published,
         }
-        total = c.send_mail(template, self.request.user, form.cleaned_data['send_to'], tpl_data)
+        total = c.send_mail(template, self.request.user,
+                            form.cleaned_data['send_to'], tpl_data)
         messages.info(self.request, _("Sending to %d users") % total)
 
         return resp
@@ -293,7 +293,7 @@ class CommunitySearchView(CommunityModelMixin, DetailView):
     template_name = 'search/search.html'
     paginate_by = 20
     model_names = {'proposal': Proposal,
-              'issue': Issue}
+                   'issue': Issue}
 
     def paginate(self, sqs):
         try:
@@ -327,7 +327,8 @@ class CommunitySearchView(CommunityModelMixin, DetailView):
     def get(self, request, *args, **kwargs):
         term = self.get_term()
         if not term:
-            return super(CommunitySearchView, self).get(request, *args, **kwargs)
+            return super(CommunitySearchView, self).get(request, *args,
+                                                        **kwargs)
         sqs = self.get_sqs()
         model_name = self.get_model()
         model = self.model_names.get(model_name)
@@ -337,14 +338,58 @@ class CommunitySearchView(CommunityModelMixin, DetailView):
         sqs = sqs.load_all()
         page = self.paginate(sqs)
         self.object = self.get_object()
-        context = self.get_context_data(object=self.object, query=term, paginator=page.paginator, page=page,
-            **kwargs)
+        context = self.get_context_data(object=self.object, query=term,
+                                        paginator=page.paginator, page=page,
+                                        **kwargs)
         if model_name in self.model_names.keys():
             context['type'] = model_name
-#        assert False, model_name
+        #        assert False, model_name
         return self.render_to_response(context)
 
     def get_context_data(self, **kwargs):
         d = super(CommunitySearchView, self).get_context_data(**kwargs)
         d['query'] = self.get_term()
         return d
+
+
+class GroupMixin(CommunityMixin):
+    model = models.CommunityGroup
+
+    required_permission = 'communities.manage_communitygroups'
+
+    def get_queryset(self):
+        return super(GroupMixin, self).get_queryset().filter(
+            community=self.community)
+
+
+class GroupListView(GroupMixin, ListView):
+    pass
+
+
+class GroupDetailView(GroupMixin, DetailView):
+    pass
+
+
+class GroupEditMixin(GroupMixin):
+    form_class = GroupForm
+
+    def get_success_url(self):
+        return reverse('group:list', args=(self.community.id,))
+
+    def form_valid(self, form):
+        try:
+            return super(GroupEditMixin, self).form_valid(form)
+        except IntegrityError:
+            form._errors[forms.NON_FIELD_ERRORS] = forms.ErrorList(
+                (_('Group already exists'),))
+            return self.form_invalid(form)
+
+
+class GroupUpdateView(GroupEditMixin, UpdateView):
+    pass
+
+
+class GroupCreateView(GroupEditMixin, CreateView):
+    def form_valid(self, form):
+        form.instance.community = self.community
+        return super(GroupCreateView, self).form_valid(form)

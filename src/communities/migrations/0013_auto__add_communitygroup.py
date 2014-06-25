@@ -7,12 +7,18 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
+    depends_on = (
+        ('acl', '0001_initial'),
+    )
+
+
     def forwards(self, orm):
         # Adding model 'CommunityGroup'
         db.create_table(u'communities_communitygroup', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('community', self.gf('django.db.models.fields.related.ForeignKey')(related_name='groups', to=orm['communities.Community'])),
             ('title', self.gf('django.db.models.fields.CharField')(max_length=200)),
+            ('role', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['acl.Role'])),
             ('_order', self.gf('django.db.models.fields.IntegerField')(default=0)),
         ))
         db.send_create_signal(u'communities', ['CommunityGroup'])
@@ -30,6 +36,14 @@ class Migration(SchemaMigration):
 
 
     models = {
+        u'acl.role': {
+            'Meta': {'object_name': 'Role'},
+            'based_on': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
+            'community': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['communities.Community']", 'null': 'True', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'ordinal': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'title': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '200'})
+        },
         u'auth.group': {
             'Meta': {'object_name': 'Group'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -60,7 +74,7 @@ class Migration(SchemaMigration):
             'referendum_started_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'register_missing_board_members': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'straw_voting_enabled': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'uid': ('django.db.models.fields.CharField', [], {'default': "'xu6sq034lube4mwcqp253df2'", 'unique': 'True', 'max_length': '24'}),
+            'uid': ('django.db.models.fields.CharField', [], {'default': "'lyxznb5lzefko6yklsxfnhoe'", 'unique': 'True', 'max_length': '24'}),
             'upcoming_meeting_comments': ('ocd.base_models.HTMLField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_guests': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'upcoming_meeting_is_published': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -79,6 +93,7 @@ class Migration(SchemaMigration):
             '_order': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'community': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'groups'", 'to': u"orm['communities.Community']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'role': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['acl.Role']"}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '200'})
         },
         u'contenttypes.contenttype': {

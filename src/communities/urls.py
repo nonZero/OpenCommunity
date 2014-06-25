@@ -40,4 +40,5 @@ urlpatterns = patterns('',
 
     url(r'^search/$', views.CommunitySearchView.as_view(), name='community_search'),
 
+
 )

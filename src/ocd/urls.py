@@ -10,7 +10,8 @@ import communities.views
 
 admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
 
     url(r'^$', communities.views.CommunityList.as_view(), name='home'),
 
@@ -23,6 +24,8 @@ urlpatterns = patterns('',
             MeetingCreateView.as_view(),
             name="upcoming_close"),
 
+    url(r'^(?P<community_id>\d+)/groups/', include('communities.group_urls',
+                                                   namespace="group")),
     url(r'^(?P<community_id>\d+)/members/', include('users.urls')),
     url(r'^(?P<community_id>\d+)/issues/', include('issues.urls')),
     url(r'^(?P<community_id>\d+)/history/', include('meetings.urls')),

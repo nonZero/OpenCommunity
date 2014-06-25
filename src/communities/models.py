@@ -1,7 +1,8 @@
 import logging
-from acl.models import Role
 
+from acl.models import Role
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.db import models, transaction
 from django.template.loader import render_to_string
 from django.utils import timezone
@@ -477,7 +478,7 @@ class Community(UIDMixin):
                 'proposals':
                     issue.proposals.filter(decided_at_meeting=None,
                                            active=True)
-                    .exclude(status=ProposalStatus.IN_DISCUSSION),
+                        .exclude(status=ProposalStatus.IN_DISCUSSION),
 
                 'accepted_proposals':
                     issue.proposals.filter(decided_at_meeting=None,
@@ -511,20 +512,6 @@ class CommunityGroup(models.Model):
 
     def __unicode__(self):
         return self.title
-#
-#
-# class CommunityGroupRole(models.Model):
-#     group = models.ForeignKey(CommunityGroup, related_name='roles')
-#     code = models.CharField(max_length=50, choices=DefaultRoles.choices)
-#
-#     class Meta:
-#         verbose_name = _('Group Role')
-#         verbose_name_plural = _('Group Roles')
-#         unique_together = (
-#             ('group', 'code'),
-#         )
-#
-#     def __unicode__(self):
-#         return u"{}: {}".format(self.group, self.get_code_display())
-#
 
+    def get_absolute_url(self):
+        return reverse("group:detail", args=(self.community.pk, self.pk))

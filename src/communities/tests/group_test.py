@@ -1,5 +1,7 @@
-from communities.models import CommunityGroup, CommunityGroupRole
+from acl.models import Role
+from communities.models import CommunityGroup
 from django.core.exceptions import ValidationError
+from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.db.utils import IntegrityError
 from django.test.testcases import TestCase
@@ -16,6 +18,7 @@ class CommunityGroupsTest(CommunitiesTestMixin, TestCase):
         g = CommunityGroup()
         g.community = self.c1
         g.title = "Group ABC"
+        g.role = self.r1
         g.full_clean()
         g.save()
 
@@ -23,6 +26,7 @@ class CommunityGroupsTest(CommunitiesTestMixin, TestCase):
             g = CommunityGroup()
             g.community = self.c1
             g.title = "Group ABC"
+            g.role = self.r1
             self.assertRaises(ValidationError, g.full_clean)
             self.assertRaises(IntegrityError, g.save)
 
@@ -30,33 +34,26 @@ class CommunityGroupsTest(CommunitiesTestMixin, TestCase):
         g = CommunityGroup()
         g.community = self.c1
         g.title = "Group DEF"
+        g.role = self.r1
         g.full_clean()
         g.save()
 
         self.assertEquals(2, CommunityGroup.objects.count())
 
-    def test_create_roles(self):
+    def test_visit_groups(self):
+        response = self.visit(reverse('groups', args=(self.c1.id,)))
+        # self.assertContains(response, self.c1.name)
+        # return response
+    #
+    # def visit_community(self, community, *args, **kwargs):
+    #     return self.visit(community.get_absolute_url(), *args, **kwargs)
+    #
+    # def test_homepage_anonymous(self):
+    #     response = self.visit_home()
+    #     self.assertNotContains(response, self.c2.name)
+    #
+    # def test_homepage_member(self):
+    #     response = self.visit_home(self.c2member)
+    #     self.assertContains(response, self.c2.name)
 
-        g = CommunityGroup()
-        g.community = self.c1
-        g.title = "Group ABC"
-        g.full_clean()
-        g.save()
 
-        self.assertEquals(0, CommunityGroupRole.objects.count())
-
-        r1 = CommunityGroupRole()
-        r1.group = g
-        r1.title = "Role #1"
-        r1.code = DefaultRoles.VIEWER
-        r1.full_clean()
-        r1.save()
-
-        r2 = CommunityGroupRole()
-        r2.group = g
-        r2.title = "Role #2"
-        r2.code = DefaultRoles.MANAGER
-        r2.full_clean()
-        r2.save()
-
-        self.assertEquals(2, CommunityGroupRole.objects.count())

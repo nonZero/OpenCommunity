@@ -4,7 +4,8 @@ from ocd.formfields import OCCheckboxSelectMultiple
 
 
 class RoleForm(forms.ModelForm):
-    perms = forms.MultipleChoiceField(choices=core_permissions.CHOICES,
+    perms = forms.MultipleChoiceField(required=False,
+                                      choices=core_permissions.CHOICES,
                                       widget=OCCheckboxSelectMultiple)
 
     class Meta:
