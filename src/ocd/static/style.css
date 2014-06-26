@@ -1933,6 +1933,10 @@ ul.prop-table .prop-content span {
 .is_confidential {
 	background-image: url('images/line-marks.png') !important;
 }
+.is_confidential_w_arrow {
+	background-image: url('images/line-marks.png'), url('images/arrow-left.png') !important;
+	background-repeat: repeat, no-repeat;
+}
 .prop-right-col-fix {
 	background-position-x: 8px;
 }

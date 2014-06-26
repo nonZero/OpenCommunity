@@ -14,15 +14,19 @@
 <script>
 	$('a.issue-btn-confidential').on('click', function() {
 		$(this).next('.issue-confidential-options').show();
+		$('#modal-form .htmlarea').css('margin-top', '75px');
 	});
 	$('.issue-confidential-options label').on('click', function() {
 		if ($(this).find('input').val() == 0) {
 			$('.issue-btn-confidential').html('<i class="fa fa-unlock"></i>');
 			$(this).closest('.modal-content').css('background-image', 'none');
+			$('.issue_left_column').removeClass('is_confidential');
 		} else {
 			$('.issue-btn-confidential').html('<i class="fa fa-lock"></i>');
 			$(this).closest('.modal-content').css('background-image', 'url("/static/images/line-marks.png")');
+			$('.issue_left_column').addClass('is_confidential');
 		};
+		$('#modal-form .htmlarea').css('margin-top', '0');
 		$(this).parent().hide();
 	});
 </script>

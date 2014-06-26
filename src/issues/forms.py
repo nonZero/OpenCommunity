@@ -42,14 +42,15 @@ class CreateIssueForm(forms.ModelForm):
 class UpdateIssueForm(forms.ModelForm):
     class Meta:
         model = models.Issue
-        fields = ('title', 'confidential_reason')
+        fields = ('confidential_reason', 'title')
         widgets = {
             'title': forms.TextInput,
-            'confidential_reason': forms.Select
+            'confidential_reason': OCIssueRadioButtons
         }
 
     def __init__(self, community=None, *args, **kwargs):
         super(UpdateIssueForm, self).__init__(*args, **kwargs)
+        self.fields['confidential_reason'].empty_label = _('Not Confidential')
         self.fields['confidential_reason'].queryset = community.confidential_reasons.all()
 
 
@@ -57,12 +58,18 @@ class UpdateIssueAbstractForm(forms.ModelForm):
     class Meta:
         model = models.Issue
         fields = (
-                   'abstract',
+                   'confidential_reason',
+                   'abstract'
                    )
 
         widgets = {
             'abstract': HTMLArea,
+            'confidential_reason': OCIssueRadioButtons
         }
+
+    def __init__(self, community=None, *args, **kwargs):
+        super(UpdateIssueAbstractForm, self).__init__(*args, **kwargs)
+        self.fields['confidential_reason'].empty_label = _('Not Confidential')
 
 
 class AddAttachmentBaseForm(forms.ModelForm):

@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load opencommunity highlight  %}
 
-<ul class="prop-table proposals assignment">
+<ul class="prop-table proposals assignment{% if assgn.object.is_confidential %} is_confidential{% endif %}">
     <li class="drag-icon task-icon order"
     data-title="{{assgn.title}}"
     data-status="{% if assgn.object.task_completed %}completed{% elif assgn.id in late %}late{% else %}opened{% endif %}"

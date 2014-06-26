@@ -47,7 +47,7 @@ id="issue-list"
             {% for object in object_list %}
                 <tr class="issue-list">
                     <td class="issue_date{% if object.is_confidential %} is_confidential{% endif %}">{{ object.created_at|ocshortdate }}</td>
-                    <td class="issue_title left_arrow{% if object.is_confidential %} is_confidential{% endif %}"><a href="{{ object.get_absolute_url }}?s=1"> {{ object.title }}</a></td>
+                    <td class="issue_title left_arrow{% if object.is_confidential %} is_confidential_w_arrow{% endif %}"><a href="{{ object.get_absolute_url }}?s=1"> {{ object.title }}</a></td>
                 </tr>
             {% endfor %}
             </table>
@@ -93,7 +93,7 @@ id="issue-list"
                 {% for object in sorted_issues %}
                     <tr class="issue-list">
                         <td class="issue_date{% if object.is_confidential %} is_confidential{% endif %}">{{ object.order_by_votes|floatformat }}</td>
-                        <td class="issue_title left_arrow{% if object.is_confidential %} is_confidential{% endif %}"><a href="{{ object.get_absolute_url }}?s=1"> {{ object.title }}</a></td>
+                        <td class="issue_title left_arrow{% if object.is_confidential %} is_confidential_w_arrow{% endif %}"><a href="{{ object.get_absolute_url }}?s=1"> {{ object.title }}</a></td>
                     </tr>
                 {% endfor %}
             </table>
