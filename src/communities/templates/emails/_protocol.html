@@ -61,7 +61,7 @@
                             {{ u }}{% if not forloop.last %},{% endif %}
                         {% endfor %}
                         ({% trans 'from ' %}<b>{{ board_count }}</b>
-                        {% trans ' board members.' %})
+                        {% trans ' members of' %} {{ community.board_name }})
                     </p>
                     {% if participants.members or guests %}
                     <p>
@@ -94,10 +94,10 @@
                     <h3 style="margin:0; background: #ddd;padding: 4px; font-size: 20px;">
                         {% if community.allow_links_in_emails %}
                         <a href="{{base_url}}{{a.issue.get_absolute_url}}">
-                            {{a.issue.title}}
+                            {{a.issue.title}}{% if a.issue.is_confidential %} [{% trans "Confidential" %} - {{ a.issue.confidential_reason }}]{% endif %}
                         </a>
                         {% else %}
-                            {{a.issue.title}}
+                            {{a.issue.title}}{% if a.issue.is_confidential %} [{% trans "Confidential" %} - {{ a.issue.confidential_reason }}]{% endif %}
                         {% endif %}
                     </h3>
 
@@ -144,10 +144,10 @@
                                             {% if p.type != 3 %}
                                                 {{ p.get_type_display }}:
                                             {% endif %}
-                                            {{p.title}}
+                                            {{p.title}}{% if p.is_confidential and not a.issue.is_confidential %} [{% trans "Confidential" %} - {{ p.confidential_reason }}]{% endif %}
                                         </a>
                                         {% else %}
-                                            {{p.title}}
+                                            {{p.title}}{% if p.is_confidential and not a.issue.is_confidential %} [{% trans "Confidential" %} - {{ p.confidential_reason }}]{% endif %}
                                         {% endif %}
                                         {% if p.assigned_to %}
                                             &nbsp;

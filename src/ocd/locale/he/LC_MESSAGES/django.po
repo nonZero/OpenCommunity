@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-07 23:53+0300\n"
-"PO-Revision-Date: 2014-06-17 09:02+0200\n"
+"POT-Creation-Date: 2014-07-01 16:58+0300\n"
+"PO-Revision-Date: 2014-07-01 14:25+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,27 +21,27 @@ msgstr ""
 msgid "HTML content"
 msgstr "תוכן HTML"
 
-#: .\base_models.py:75 .\base_models.py:96
+#: .\base_models.py:75 .\base_models.py:98
 msgid "Is Confidential"
 msgstr "חסוי"
 
-#: .\base_models.py:104
+#: .\base_models.py:106
 msgid ""
-"Models that implement the ConfidentialByRelationMixin must declare a valid "
-"field which can pass on confidentiality."
+"Models with ConfidentialByRelationMixin must declare a valid field which can "
+"pass onconfidentiality."
 msgstr ""
 
-#: .\settings.py:266
-msgid "Personal Privacy"
-msgstr "עיניינים אישיים"
+#: .\settings.py:281
+msgid "Privacy"
+msgstr "פרטיות"
 
-#: .\settings.py:267
-msgid "Commercial Interests"
-msgstr "עניינים מסחריים"
+#: .\settings.py:282
+msgid "Commercial"
+msgstr "מסחרי"
 
-#: .\settings.py:268
-msgid "Security Concerns"
-msgstr "מטעמי אבטחה"
+#: .\settings.py:283
+msgid "Security"
+msgstr "ביטחון"
 
 #: .\templates\403.html.py:5
 msgid "DemOS 403"

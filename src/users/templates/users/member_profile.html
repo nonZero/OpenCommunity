@@ -118,13 +118,13 @@ id="member-profile"
 					{% trans "of decisions voted for were accepted" %} ({{ object.member_proposal_pro_votes_accepted.count }})
 				</p>
 				{% for issue,proposals in object.member_votes_dict.pro.items %}
-					<div class="member_proposals_outer">
-			  		<a class="member_vote_part" href="{{issue.get_absolute_url}}">{{issue.title}}</a>
+					<div class="member_proposals_outer{% if issue.is_confidential %} is_confidential{% endif %}">
+			  		<a class="member_vote_part{% if issue.is_confidential %} is_confidential{% endif %}" href="{{issue.get_absolute_url}}">{{issue.title}}</a>
 						<div class="member_proposals_inner">
 							{% for p in proposals %}
 							<ul class="prop-table proposals prop-pad">
 							    <li class="drag-icon {% if p.type == 1 %}task-icon{% endif %}{% if p.type == 2 %}rule-icon{% endif %}{% if p.type == 3 %}general-icon{% endif %}"></li>
-							    <a href="{{p.get_absolute_url}}" style="display: block;background: #fff;text-decoration: none;color: #6C6C6E;border-bottom: 1px solid #d8e0df;">
+							    <a href="{{p.get_absolute_url}}"{% if p.is_confidential %} class="is_confidential"{% endif %} style="display: block;background: #fff;text-decoration: none;color: #6C6C6E;border-bottom: 1px solid #d8e0df;">
 							    <li class="prop-title">{{p.title}}</li>
 							    <li class="prop-content">
 							        <p class="assign">
@@ -132,7 +132,7 @@ id="member-profile"
 							        </p>
 							    </li>
 							    </a>
-							   <li class="check_box {% if p.status == p.statuses.ACCEPTED %}checked{% endif %}{% if p.status == p.statuses.REJECTED %}rejected{% endif %}" style="background-color: #ffffff;border-bottom: 1px solid #d8e0df;"></li>
+							   <li class="check_box{% if p.is_confidential %}_confidential{% endif %} {% if p.status == p.statuses.ACCEPTED %}checked{% if p.is_confidential %}_confidential{% endif %}{% endif %}{% if p.status == p.statuses.REJECTED %}rejected{% if p.is_confidential %}_confidential{% endif %}{% endif %}" style="background-color: #ffffff;border-bottom: 1px solid #d8e0df;"></li>
 							</ul>
 							{% endfor %}
 						</div>
@@ -149,13 +149,13 @@ id="member-profile"
 					{% trans "of decisions didn't vote were accepted" %} ({{ object.member_proposal_nut_votes_accepted.count }})
 				</p>
 				{% for issue,proposals in object.member_votes_dict.neut.items %}
-				<div class="member_proposals_outer">
-			  		<a class="member_vote_part" href="{{issue.get_absolute_url}}">{{issue.title}}</a>
+				<div class="member_proposals_outer{% if issue.is_confidential %} is_confidential{% endif %}">
+			  		<a class="member_vote_part{% if issue.is_confidential %} is_confidential{% endif %}" href="{{issue.get_absolute_url}}">{{issue.title}}</a>
 					<div class="member_proposals_inner">
 					{% for p in proposals %}
 						<ul class="prop-table proposals prop-pad">
 						    <li class="drag-icon {% if p.type == 1 %}task-icon{% endif %}{% if p.type == 2 %}rule-icon{% endif %}{% if p.type == 3 %}general-icon{% endif %}"></li>
-						    <a href="{{p.get_absolute_url}}" style="display: block;background: #fff;text-decoration: none;color: #6C6C6E;border-bottom: 1px solid #d8e0df;">
+						    <a href="{{p.get_absolute_url}}"{% if p.is_confidential %} class="is_confidential"{% endif %} style="display: block;background: #fff;text-decoration: none;color: #6C6C6E;border-bottom: 1px solid #d8e0df;">
 						    <li class="prop-title">{{p.title}}</li>
 						    <li class="prop-content">
 						        <p class="assign">
@@ -163,7 +163,7 @@ id="member-profile"
 						        </p>
 						    </li>
 						    </a>
-							<li class="check_box {% if p.status == p.statuses.ACCEPTED %}checked{% endif %}{% if p.status == p.statuses.REJECTED %}rejected{% endif %}" style="background-color: #ffffff;border-bottom: 1px solid #d8e0df;"></li>
+							<li class="check_box{% if p.is_confidential %}_confidential{% endif %} {% if p.status == p.statuses.ACCEPTED %}checked{% if p.is_confidential %}_confidential{% endif %}{% endif %}{% if p.status == p.statuses.REJECTED %}rejected{% if p.is_confidential %}_confidential{% endif %}{% endif %}" style="background-color: #ffffff;border-bottom: 1px solid #d8e0df;"></li>
 						</ul>
 					{% endfor %}
 					</div>
@@ -180,13 +180,13 @@ id="member-profile"
 					{% trans "of decisions voted against were rejected" %} ({{ object.member_proposal_con_votes_rejected.count }})
 				</p>
 				{% for issue,proposals in object.member_votes_dict.con.items %}
-				<div class="member_proposals_outer">
-			  		<a class="member_vote_part" href="{{issue.get_absolute_url}}">{{issue.title}}</a>
+				<div class="member_proposals_outer{% if issue.is_confidential %} is_confidential{% endif %}">
+			  		<a class="member_vote_part{% if issue.is_confidential %} is_confidential{% endif %}" href="{{issue.get_absolute_url}}">{{issue.title}}</a>
 					<div class="member_proposals_inner">
 					{% for p in proposals %}
 					<ul class="prop-table proposals prop-pad">
 					    <li class="drag-icon {% if p.type == 1 %}task-icon{% endif %}{% if p.type == 2 %}rule-icon{% endif %}{% if p.type == 3 %}general-icon{% endif %}"></li>
-					    <a href="{{p.get_absolute_url}}" style="display: block;background: #fff;text-decoration: none;color: #6C6C6E;border-bottom: 1px solid #d8e0df;">
+					    <a href="{{p.get_absolute_url}}"{% if p.is_confidential %} class="is_confidential"{% endif %} style="display: block;background: #fff;text-decoration: none;color: #6C6C6E;border-bottom: 1px solid #d8e0df;">
 					    <li class="prop-title">{{p.title}}</li>
 					    <li class="prop-content">
 					        <p class="assign">
@@ -194,7 +194,7 @@ id="member-profile"
 					        </p>
 					    </li>
 					    </a>
-						<li class="check_box {% if p.status == p.statuses.ACCEPTED %}checked{% elif p.status == p.statuses.REJECTED %}rejected{% endif %}" style="background-color: #ffffff;border-bottom: 1px solid #d8e0df;"></li>
+						<li class="check_box{% if p.is_confidential %}_confidential{% endif %} {% if p.status == p.statuses.ACCEPTED %}checked{% if p.is_confidential %}_confidential{% endif %}{% elif p.status == p.statuses.REJECTED %}rejected{% if p.is_confidential %}_confidential{% endif %}{% endif %}" style="background-color: #ffffff;border-bottom: 1px solid #d8e0df;"></li>
 					</ul>
 					{% endfor %}
 					</div>

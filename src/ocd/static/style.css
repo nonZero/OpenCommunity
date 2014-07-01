@@ -1077,17 +1077,31 @@ form.delete-invitation {
 	background: url(images/proposal-uncheck.png) no-repeat center;
 	border-left: 1px solid #d8e0df;
 }
+.check_box_confidential {
+	display: table-cell;
+	width: 40px;
+	background: url('images/proposal-uncheck.png') no-repeat center, url('images/line-marks.png') repeat !important;
+	border-right: 1px solid #d8e0df;
+}
 .check_box_vote {
 	display: table-cell;
 	width: 40px;
 	vertical-align: middle;
 	border-left: 1px solid #d8e0df;
 }
-.check_box.checked {
-	background: url(images/proposal-check.png) no-repeat center;
+.check_box.checked,
+.check_box_confidential.checked {
+	background: url(images/proposal-check.png) no-repeat center !important;
 }
-.check_box.rejected {
-	background: url(images/proposal-rejected.png) no-repeat center;
+.check_box_confidential.checked_confidential {
+	background: url('images/proposal-check.png') no-repeat center, url('images/line-marks.png') repeat !important;
+}
+.check_box.rejected,
+.check_box_confidential.rejected {
+	background: url(images/proposal-rejected.png) no-repeat center !important;
+}
+.check_box_confidential.rejected_confidential {
+	background: url('images/proposal-rejected.png') no-repeat center, url('images/line-marks.png') repeat !important;
 }
 .nohal {
 	position: absolute;
@@ -1946,8 +1960,8 @@ ul.prop-table .prop-content span {
 .proposal-confidential-options,
 .issue-confidential-options {
 	position: absolute;
-	left: 0;
-	width: 100%;
+	right: 20px;
+	width: auto;
 }
 label[for=id_confidential_reason],
 label[for=id_proposal-confidential_reason] {

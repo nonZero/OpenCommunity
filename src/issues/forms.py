@@ -22,7 +22,7 @@ class CreateIssueForm(forms.ModelForm):
             prefix='proposal', data=self.data if self.is_bound else None)
         self.new_proposal.fields['type'].required = False
         self.fields['confidential_reason'].empty_label = _('Not Confidential')
-        self.fields['confidential_reason'].queryset = community.confidential_reasons.all()
+        self.fields['confidential_reason'].queryset = community.confidential_reasons.all().order_by('id')
 
     def is_valid(self):
         valid = super(CreateIssueForm, self).is_valid()
@@ -51,25 +51,19 @@ class UpdateIssueForm(forms.ModelForm):
     def __init__(self, community=None, *args, **kwargs):
         super(UpdateIssueForm, self).__init__(*args, **kwargs)
         self.fields['confidential_reason'].empty_label = _('Not Confidential')
-        self.fields['confidential_reason'].queryset = community.confidential_reasons.all()
+        self.fields['confidential_reason'].queryset = community.confidential_reasons.all().order_by('id')
 
 
 class UpdateIssueAbstractForm(forms.ModelForm):
     class Meta:
         model = models.Issue
         fields = (
-                   'confidential_reason',
-                   'abstract'
+                   'abstract',
                    )
 
         widgets = {
             'abstract': HTMLArea,
-            'confidential_reason': OCIssueRadioButtons
         }
-
-    def __init__(self, community=None, *args, **kwargs):
-        super(UpdateIssueAbstractForm, self).__init__(*args, **kwargs)
-        self.fields['confidential_reason'].empty_label = _('Not Confidential')
 
 
 class AddAttachmentBaseForm(forms.ModelForm):
@@ -132,7 +126,7 @@ class CreateProposalBaseForm(forms.ModelForm):
         super(CreateProposalBaseForm, self).__init__(*args, **kwargs)
 
         self.fields['confidential_reason'].empty_label = _('Not Confidential')
-        self.fields['confidential_reason'].queryset = community.confidential_reasons.all()
+        self.fields['confidential_reason'].queryset = community.confidential_reasons.all().order_by('id')
 
 
 class CreateProposalForm(CreateProposalBaseForm):

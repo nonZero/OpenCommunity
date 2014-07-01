@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-07 23:53+0300\n"
-"PO-Revision-Date: 2014-06-07 23:57+0200\n"
+"POT-Creation-Date: 2014-07-01 16:58+0300\n"
+"PO-Revision-Date: 2014-07-01 16:55+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -520,12 +520,19 @@ msgid "from "
 msgstr "מתוך "
 
 #: .\templates\emails\_protocol.html.py:64
-msgid " board members."
-msgstr "חברי ועד"
+msgid " members of"
+msgstr "חברי"
 
 #: .\templates\emails\_protocol.html.py:86
 msgid "Issues & Decisions"
 msgstr "נושאים והחלטות"
+
+#: .\templates\emails\_protocol.html.py:97
+#: .\templates\emails\_protocol.html.py:100
+#: .\templates\emails\_protocol.html.py:148
+#: .\templates\emails\_protocol.html.py:151
+msgid "Confidential"
+msgstr "חסוי"
 
 #: .\templates\emails\_protocol.html.py:122
 #: .\templates\emails\agenda.html.py:98
@@ -597,6 +604,9 @@ msgstr "הצבעה פעילה"
 #: .\templatetags\community_tags.py:58
 msgid "Published"
 msgstr "פורסם"
+
+#~ msgid " board members."
+#~ msgstr "חברי ועד"
 
 #~ msgid "Procedures"
 #~ msgstr "נהלים"

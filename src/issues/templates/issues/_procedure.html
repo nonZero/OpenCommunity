@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load opencommunity highlight  %}
 
-<ul class="prop-table proposals procedure">
+<ul class="prop-table proposals procedure{% if p.object.is_confidential %} is_confidential{% endif %}">
     <li class="drag-icon rule-icon order"
     data-title="{{p.object.title}}"
     data-date="{{p.decided_at|date:'Y-m-d'}}"

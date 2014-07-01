@@ -29,7 +29,10 @@
     {{ form }}
     
 <script>
-
+	$('a.proposal-btn-confidential').parent().parent().css({
+		'margin-top': '-40px',
+		'margin-bottom': '0'
+	});
     function get_tag_start(q) {
       var last_comma = q.lastIndexOf(',');
       console.log(q);

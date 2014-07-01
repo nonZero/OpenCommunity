@@ -278,9 +278,9 @@ OPENCOMMUNITY_ANALYTICS = {
 }
 
 OPENCOMMUNITY_DEFAULT_CONFIDENTIAL_REASONS = [
-    gettext('Personal Privacy'),
-    gettext('Commercial Interests'),
-    gettext('Security Concerns'),
+    gettext('Privacy'),
+    gettext('Commercial'),
+    gettext('Security')
 ]
 
 OPENCOMMUNITY_ASYNC_NOTIFICATIONS = True
