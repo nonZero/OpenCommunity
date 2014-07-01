@@ -121,7 +121,7 @@ id="issue-detail"
 							{% csrf_token %}
 							<input name="undo_complete" type="hidden" value="1"/>
 							<button class="close-issue-btn btn btn-default btn-sm">
-								{% trans "Undo complete discussion" %}
+								{% trans "Open for discussion" %}
 							</button>
 						</form>
 					{% elif not object.is_current and not object.is_archived and object.in_closed_meeting %}
