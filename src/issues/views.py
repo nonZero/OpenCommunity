@@ -900,13 +900,19 @@ class AssignmentsView(ProposalMixin, ListView):
 
 
 class RulesMixin(CommunityMixin):
+
     def _get_rule_queryset(self):
-        qs = Proposal.objects.filter(
+        qs = Proposal.objects.object_access_control(user=self.request.user,
+            community=self.community).filter(
             active=True, issue__community=self.community,
             status=Proposal.statuses.ACCEPTED,
             type=ProposalType.RULE)
         return qs
 
+        return Proposal.objects.object_access_control(
+            user=self.request.user,
+            community=self.community).filter(issue=self.issue,
+                                             active=True)
 
 class ProceduresView(RulesMixin, ProposalMixin, ListView):
     required_permission = 'issues.viewopen_issue'
