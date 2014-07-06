@@ -870,7 +870,6 @@ class AssignmentsView(ProposalMixin, ListView):
                     sqs = sqs.filter(due_by__lt=date.today())
         return sqs
 
-
     def get_queryset(self):
         term = self.request.GET.get('q', '').strip()
         sqs = ConfidentialSearchQuerySet().models(Proposal).object_access_control(
