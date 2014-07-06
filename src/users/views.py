@@ -139,7 +139,7 @@ class AcceptInvitationView(DetailView):
             return render(request, 'users/invitation404.html', {'base_url': settings.HOST_URL})
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
-    
+
     def post(self, request, *args, **kwargs):
 
         i = self.get_object()
@@ -178,11 +178,11 @@ class AcceptInvitationView(DetailView):
         return self.get(request, *args, **kwargs)
 
 
-        
+
 class AutocompleteMemberName(MembershipMixin, ListView):
 
     required_permission = 'issues.editopen_issue'
-    
+
     def get_queryset(self):
         members = super(AutocompleteMemberName, self).get_queryset()
         limit = self.request.GET.get('limit', '')
@@ -224,26 +224,29 @@ class AutocompleteMemberName(MembershipMixin, ListView):
             context = self.get_context_data(object_list=members)
             return HttpResponse(json.dumps(members), {'content_type': 'application/json'})
 
-        
+
 class MemberProfile(MembershipMixin, DetailView):
-    
+
     required_permission = 'users.show_member_profile'
-    
+
     model = models.Membership
     template_name = "users/member_profile.html"
-    
+
     def get_context_data(self, **kwargs):
-       
+
         d = super(MemberProfile, self).get_context_data(**kwargs)
         d['form'] = ""
         d['belongs_to_board'] = self.get_object().default_group_name != DefaultGroups.MEMBER
+        d['member_late_tasks'] = self.object.member_late_tasks(user=self.request.user, community=self.community)
+        d['member_open_tasks'] = self.object.member_open_tasks(user=self.request.user, community=self.community)
+        d['member_close_tasks'] = self.object.member_close_tasks(user=self.request.user, community=self.community)
         return d
 
 
 class ImportInvitationsView(MembershipMixin, FormView):
     form_class = ImportInvitationsForm
-    template_name = 'users/import_invitations.html'        
-       
+    template_name = 'users/import_invitations.html'
+
     def get(self, request, *args, **kwargs):
         return self.render_to_response(self.get_context_data(import_invitation_form=self.get_form(self.form_class)))
 
@@ -272,7 +275,7 @@ class ImportInvitationsView(MembershipMixin, FormView):
                         final_rows.append(partial[:partial.rindex('"')])
                 else:
                     final_rows.append(row)
-        
+
 
         for i, row in enumerate(final_rows):
             words = row.split(',')
@@ -301,13 +304,13 @@ class ImportInvitationsView(MembershipMixin, FormView):
                 v_err = self.validate_invitation(email)
                 if v_err:
                     continue
-                invitation = Invitation.objects.create( 
+                invitation = Invitation.objects.create(
                     community=self.community,
                     name=name,
                     email=email,
                     created_by=self.request.user,
                     default_group_name=role,
-                    message=msg) 
+                    message=msg)
                 try:
                     invitation.send(sender=self.request.user, recipient_name=name)
                     # time.sleep(1)
@@ -315,7 +318,7 @@ class ImportInvitationsView(MembershipMixin, FormView):
                 except:
                     pass
 
-        messages.success(self.request, _('%d Invitations sent') % (sent,))           
+        messages.success(self.request, _('%d Invitations sent') % (sent,))
         return redirect(reverse('members', kwargs={'community_id': self.community.id}))
 
 
@@ -360,9 +363,9 @@ def oc_password_reset(request, is_admin_site=False,
             extra_context = {
                              'has_invitation': True,
                              }
-            invitation.send(sender=invitation.created_by, 
+            invitation.send(sender=invitation.created_by,
                             recipient_name=invitation.name)
-            # TODO: redirect to message 
+            # TODO: redirect to message
 #             return HttpResponseRedirect(reverse('invitation_sent'))
         except Invitation.DoesNotExist:
             pass

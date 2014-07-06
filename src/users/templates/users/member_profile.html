@@ -32,19 +32,19 @@ id="member-profile"
 <div class="col-xs-12 col-md-4">
 	<h2>{% trans "Tasks" %}</h2>
 	<ul class="nav nav-tabs">
-		<li{% if object.member_late_tasks.count %} class="active"{% endif %}>
-			<a href="#late" data-toggle="tab">{% trans "Late" %} ({{ object.member_late_tasks.count }})</a>
+		<li{% if member_late_tasks.count %} class="active"{% endif %}>
+			<a href="#late" data-toggle="tab">{% trans "Late" %} ({{ member_late_tasks.count }})</a>
 		</li>
-		<li{% if not object.member_late_tasks.count %} class="active"{% endif %}>
-			<a href="#open" data-toggle="tab">{% trans "Open" %} ({{ object.member_open_tasks.count }})</a>
+		<li{% if not member_late_tasks.count %} class="active"{% endif %}>
+			<a href="#open" data-toggle="tab">{% trans "Open" %} ({{ member_open_tasks.count }})</a>
 		</li>
 		<li>
-			<a href="#close" data-toggle="tab">{% trans "Close" %} ({{ object.member_close_tasks.count }})</a>
+			<a href="#close" data-toggle="tab">{% trans "Close" %} ({{ member_close_tasks.count }})</a>
 		</li>
 	</ul>
 	<div class="tab-content">
-		<div class="tab-pane {% if object.member_late_tasks.count %}active{% endif %} member_tasks" id="late">
-			{% for p in object.member_late_tasks %}
+		<div class="tab-pane {% if member_late_tasks.count %}active{% endif %} member_tasks" id="late">
+			{% for p in member_late_tasks %}
 			<a href="{{ p.get_absolute_url }}" class="task_devider{% if p.is_confidential %} is_confidential{% endif %}">
 				<p>
 					<b>{{ p.title }}</b>
@@ -60,8 +60,8 @@ id="member-profile"
 			</a>
 			{% endfor %}
 		</div>
-		<div class="tab-pane {% if not object.member_late_tasks.count %}active{% endif %} member_tasks" id="open">
-			{% for p in object.member_open_tasks %}
+		<div class="tab-pane {% if not member_late_tasks.count %}active{% endif %} member_tasks" id="open">
+			{% for p in member_open_tasks %}
 			<a href="{{ p.get_absolute_url }}" class="task_devider{% if p.is_confidential %} is_confidential{% endif %}">
 				<p>
 					<b>{{ p.title }}</b>
@@ -78,7 +78,7 @@ id="member-profile"
 			{% endfor %}
 		</div>
 		<div class="tab-pane member_tasks" id="close">
-			{% for p in object.member_close_tasks %}
+			{% for p in member_close_tasks %}
 			<a href="{{ p.get_absolute_url }}" class="task_devider{% if p.is_confidential %} is_confidential{% endif %}">
 				<p>
 					<b>{{ p.title }}</b>
