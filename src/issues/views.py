@@ -91,14 +91,15 @@ class IssueList(IssueMixin, ListView):
                 d['my_non_ranked'] = [i for i in self.get_queryset() \
                                       if i not in d['my_vote']]
 
-        self.object.restricted_proposals = \
-            self.object.proposals.object_access_control(
-                user=self.request.user, community=self.community)
-        for ai in self.object.agenda_items.all():
-            ai.restricted_proposals = ai.proposals(
-                user=self.request.user, community=self.community)
-            ai.restricted_accepted_proposals = ai.accepted_proposals(
-                user=self.request.user, community=self.community)
+        for obj in self.object_list:
+            obj.restricted_proposals = \
+                obj.proposals.object_access_control(
+                    user=self.request.user, community=self.community)
+            for ai in obj.agenda_items.all():
+                ai.restricted_proposals = ai.proposals(
+                    user=self.request.user, community=self.community)
+                ai.restricted_accepted_proposals = ai.accepted_proposals(
+                    user=self.request.user, community=self.community)
         return d
 
 
@@ -151,6 +152,15 @@ class IssueDetailView(IssueMixin, DetailView):
                 user=self.request.user, community=self.community).open()
 
         d['upcoming_issues'] = self.object.community.upcoming_issues(
+                user=self.request.user, community=self.community)
+
+        self.object.restricted_proposals = \
+            self.object.proposals.object_access_control(
+                user=self.request.user, community=self.community)
+        for ai in self.object.agenda_items.all():
+            ai.restricted_proposals = ai.proposals(
+                user=self.request.user, community=self.community)
+            ai.restricted_accepted_proposals = ai.accepted_proposals(
                 user=self.request.user, community=self.community)
 
         return d

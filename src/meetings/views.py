@@ -62,6 +62,13 @@ class MeetingProtocolView(MeetingMixin, DetailView):
 
         agenda_items = context['object'].agenda.object_access_control(
             user=self.request.user, community=self.community).all()
+        for ai in agenda_items:
+            ai.accepted_proposals = ai.accepted_proposals(
+                user=self.request.user, community=self.community)
+            ai.rejected_proposals = ai.rejected_proposals(
+                user=self.request.user, community=self.community)
+            ai.proposals = ai.proposals(
+                user=self.request.user, community=self.community)
         attachments = [item.issue.current_attachments(item) for
                        item in agenda_items]
 
