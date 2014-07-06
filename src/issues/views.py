@@ -71,7 +71,7 @@ class IssueList(IssueMixin, ListView):
 
     def get_queryset(self):
         return super(IssueList, self).get_queryset().exclude(
-              status=IssueStatus.ARCHIVED).order_by('-created_at')
+            status=IssueStatus.ARCHIVED).order_by('-created_at')
 
     def get_context_data(self, **kwargs):
         d = super(IssueList, self).get_context_data(**kwargs)
@@ -87,13 +87,18 @@ class IssueList(IssueMixin, ListView):
                                 .order_by('rank')
                 d['my_vote'] = [i.issue for i in my_ranking if i.issue.active and \
                                                 i.issue.status != IssueStatus.ARCHIVED]
-                # all_issues_set = set(list(d['sorted_issues']))
-                # non_ranked = []
-                # list(all_issues_set - set(d['my_vote']))
-                # for i in self.get_queryset():
 
                 d['my_non_ranked'] = [i for i in self.get_queryset() \
                                       if i not in d['my_vote']]
+
+        self.object.restricted_proposals = \
+            self.object.proposals.object_access_control(
+                user=self.request.user, community=self.community)
+        for ai in self.object.agenda_items.all():
+            ai.restricted_proposals = ai.proposals(
+                user=self.request.user, community=self.community)
+            ai.restricted_accepted_proposals = ai.accepted_proposals(
+                user=self.request.user, community=self.community)
         return d
 
 

@@ -81,14 +81,14 @@ id="meeting-detail"
 	        		<div class="{% if a.is_confidential %}is_confidential {% endif %}issue_header_history">
     			        <a class="three_dot_sentence level2" href="{{ a.issue.get_absolute_url }}?m_id={{object.id}}#meeting-{{object.id}}">{{ a.issue.title }}</a>
 			        </div>
-	                {% if a.accepted_proposals.count %}
+	                {% if a.restricted_accepted_proposals.count %}
 					<div class="proposal_history_main clearfix">
-	                    {% for p in a.accepted_proposals|dictsort:"created_at" %}
+	                    {% for p in a.restricted_accepted_proposals|dictsort:"created_at" %}
 							<ul class="proposal_history_inner{% if p.is_confidential %} is_confidential{% endif %}">
 		                    	<li class="proposal-icon {% if p.type == 1 %}task-icon{% elif p.type == 2 %}rule-icon{% elif p.type == 3 %}general-icon{% endif %}"></li>
 			                    <a href="{{p.get_absolute_url}}?m_id={{object.id}}">
 				                    <li class="proposal-header">
-				                    	<b>{{p.title}}</b>
+				                    	<b>LAH {{p.title}}</b>
 				                    </li>
 				                    <li class="proposal-footer">
 			                            {% if p.type == 1 %}

@@ -47,6 +47,9 @@ class MeetingDetailView(MeetingMixin, DetailView):
                                     .filter(is_absent=False).count()
         d['agenda_items'] = self.object.agenda.object_access_control(
             user=self.request.user, community=self.community).all()
+        for ai in d['agenda_items']:
+            ai.restricted_accepted_proposals = ai.accepted_proposals(
+                user=self.request.user, community=self.community)
         return d
 
 

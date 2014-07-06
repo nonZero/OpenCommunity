@@ -42,18 +42,21 @@ class AgendaItem(ConfidentialByRelationMixin):
     def comments(self):
         return self.issue.comments.filter(active=True, meeting=self.meeting)
 
-    @property
-    def proposals(self):
-        return self.issue.proposals.filter(active=True,
-                                           decided_at_meeting=self.meeting)
+    def proposals(self, user=None, community=None):
+        rv = self.issue.proposals.object_access_control(
+            user=user, community=community).filter(
+            active=True, decided_at_meeting=self.meeting)
+        return rv
 
-    @property
-    def accepted_proposals(self):
-        return self.proposals.filter(status=ProposalStatus.ACCEPTED)
+    def accepted_proposals(self, user=None, community=None):
+        rv = self.proposals(user=user, community=community).filter(
+            status=ProposalStatus.ACCEPTED)
+        return rv
 
-    @property
-    def rejected_proposals(self):
-        return self.proposals.filter(status=ProposalStatus.REJECTED)
+    def rejected_proposals(self, user=None, community=None):
+        rv = rv = self.proposals(user=user, community=community).filter(
+            status=ProposalStatus.REJECTED)
+        return rv
 
 
 class Meeting(UIDMixin):
