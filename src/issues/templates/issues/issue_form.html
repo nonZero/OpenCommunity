@@ -9,6 +9,10 @@
 <div class="issue-form-bg"></div>
 {% endblock %}
 
+{% block modal_content_classes %}
+{% if form.instance.is_confidential %}is_confidential{% endif %}
+{% endblock modal_content_classes %}
+
 {% block page_header %}
     {% if form.instance.id %}
         {% trans "Edit issue" %}

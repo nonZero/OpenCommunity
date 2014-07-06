@@ -167,15 +167,18 @@ class Membership(models.Model):
         """ In the future we'll check since joined to community or rejoined """
         return round((float(self.meetings_participation()) / float(self.total_meetings())) * 100.0)
 
-    def member_open_tasks(self):
-        return Proposal.objects.filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, active=True, task_completed=False).exclude(due_by__lte=datetime.date.today())
+    def member_open_tasks(self, user=None, community=None):
+        return Proposal.objects.object_access_control(
+            user=user, community=community).filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, active=True, task_completed=False).exclude(due_by__lte=datetime.date.today())
 
-    def member_close_tasks(self):
+    def member_close_tasks(self, user=None, community=None):
         """ Need to create a field to determine closed tasks """
-        return Proposal.objects.filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, active=True, task_completed=True)
+        return Proposal.objects.object_access_control(
+            user=user, community=community).filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, active=True, task_completed=True)
 
-    def member_late_tasks(self):
-        return Proposal.objects.filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, due_by__lte=datetime.date.today(), active=True, task_completed=False)
+    def member_late_tasks(self, user=None, community=None):
+        return Proposal.objects.object_access_control(
+            user=user, community=community).filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, due_by__lte=datetime.date.today(), active=True, task_completed=False)
 
     def member_votes_dict(self):
         res = {'pro': {}, 'neut': {}, 'con': {}}

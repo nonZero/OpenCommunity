@@ -62,9 +62,9 @@
     </h2>
     <div>
         {% for ai in object.agenda_items.all %}
-            {% if ai.proposals.count %}
+            {% if ai.restricted_proposals.count %}
                 <div class="filter-meeting-{{ai.meeting.id}} filter">
-                    {% for proposal in ai.proposals|dictsort:"created_at" %}
+                    {% for proposal in ai.restricted_proposals|dictsort:"created_at" %}
                         {% include 'issues/_proposal.html' %}
                     {% endfor %}
                 </div>

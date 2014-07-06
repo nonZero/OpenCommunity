@@ -154,8 +154,13 @@ class PublishUpcomingMeetingPreviewView(CommunityModelMixin, DetailView):
         d['can_straw_vote'] = self.community.upcoming_proposals_any(
             {'is_open': True}, user=self.request.user, community=self.community)\
         and self.community.upcoming_meeting_is_published
-        d['upcoming_issues'] = self.object.upcoming_issues(
+        upcoming_issues = self.community.upcoming_issues(
             user=self.request.user, community=self.community)
+        d['issue_container'] = []
+        for i in upcoming_issues:
+            proposals = i.proposals.object_access_control(
+                user=self.request.user, community=self.community)
+            d['issue_container'] .append({'issue': i, 'proposals': proposals})
         return d
 
 
@@ -356,9 +361,9 @@ class CommunitySearchView(CommunityModelMixin, DetailView):
         return self.request.GET.get('type', '').strip()
 
     def get_sqs(self):
-        return ConfidentialSearchQuerySet().object_access_control(user=self.request.user,
-                                                      community=self.community).filter(
-                                                      community=self.community.id)
+        return ConfidentialSearchQuerySet().object_access_control(
+            user=self.request.user, community=self.community).filter(
+            community=self.community.id)
 
     def get(self, request, *args, **kwargs):
         term = self.get_term()
