@@ -12,7 +12,9 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 
-    url(r'^$', communities.views.CommunityList.as_view(), name='home'),
+    url(r'^$', communities.views.LandingPage.as_view(), name='landing'),
+
+    url(r'^communities/$', communities.views.CommunityList.as_view(), name='home'),
 
     url(r'^about/$', communities.views.About.as_view(), name='about'),
 
@@ -53,6 +55,8 @@ urlpatterns = patterns('',
 
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
+
+    url(r'^django-rq/', include('django_rq.urls')),
 
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog',
         {'packages': ('issues', 'communities',)}, 'jsi18n'),

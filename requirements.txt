@@ -13,6 +13,12 @@ bleach==1.2.2
 Whoosh==2.6.0
 django-haystack==2.1.0
 
+# queue
+redis
+hiredis
+rq
+django-rq
+
 # dev stuff
 django-extensions==1.1.1
 django-debug-toolbar==0.9.4

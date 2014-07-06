@@ -7,7 +7,7 @@ id="proposal-detail"
 
 {% block title %}
 	<title>
-		{{ object.issue.community.name }} - {{ object.title }}  
+		{{ object.issue.community.name }} - {{ object.title }}
 	</title>
 {% endblock %}
 
@@ -25,7 +25,7 @@ id="proposal-detail"
 {% block content %}
     {% if issue_frame %}
         <div id="issue_frame">
-    {% endif %}        
+    {% endif %}
 
     <div class="meeting_header">
     {% if not issue_frame %}
@@ -34,24 +34,24 @@ id="proposal-detail"
         {% else %}
             <a class="three_dot_sentence level1" href="{{object.issue.community.get_upcoming_absolute_url}}">{{object.issue.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}{% if object.issue.community.upcoming_meeting_scheduled_at %} / {% endif %}{{object.issue.community.upcoming_meeting_scheduled_at|date:"j F Y"}}</a>
         {% endif %}
-    {% else %} 
+    {% else %}
         <h2 class="hidden-xs">{% trans 'Issues' %}</h2>
     {% endif %}
     </div>
 
     <div class="issue_header">
-        <div class="issue_header_inner">
+        <div class="issue_header_inner{% if object.issue.is_confidential %} is_confidential{% endif %}">
             <a class="three_dot_sentence level2" href="{{object.issue.get_absolute_url}}?m_id={{meeting_context.id}}{{issue_frame|yesno:'&s=1,'}}">{{ object.issue.title }}</a>
         </div>
     </div>
 
 
-<div  class="proposal_main clearfix">    
-<div class="proposal_right_column col-sm-3 hidden-xs">
+<div  class="proposal_main clearfix">
+<div class="proposal_right_column col-sm-3 hidden-xs{% if object.issue.is_confidential %} is_confidential prop-right-col-fix{% endif %}">
 	<ul class="issues_list">
-        {% if object.issue.proposals.closed.count %}
+        {% if proposals.closed.count %}
           <h5>{% trans "Decisions" %}</h5>
-            {% for proposal in object.issue.proposals.closed %}
+            {% for proposal in proposals.closed %}
                 <li>
                 	{% if object == proposal %} <div class="pull-right" style="width: 15px;"><span class="active_proposal pull-right"></span></div>{% endif %}
                     <a href="{{ proposal.get_absolute_url }}?m_id={{meeting_context.id}}{{issue_frame|yesno:'&s=1,'}} ">{{ proposal }}</a>
@@ -59,9 +59,9 @@ id="proposal-detail"
             {% endfor %}
         {% endif %}
 
-		{% if object.issue.proposals.open.count %}
+		{% if proposals.open.count %}
 	        <h5>{% trans "Proposals" %}</h5>
-			{% for i in object.issue.proposals.open %}
+			{% for i in proposals.open %}
 			<li>
 				{% if object == i %} <div class="pull-right" style="width: 15px;"><span class="active_proposal pull-right"></span></div>{% endif %}
 				<a href="{{ i.get_absolute_url }}?m_id={{meeting_context.id}}{{issue_frame|yesno:'&s=1,'}}">{{ i }}</a>
@@ -76,7 +76,7 @@ id="proposal-detail"
 </div>
 {% if issue_frame %}
     </div>
-{% endif %}        
+{% endif %}
 {% endblock %}
 
 {% block extrahead %}

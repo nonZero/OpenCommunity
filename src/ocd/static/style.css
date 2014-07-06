@@ -82,6 +82,13 @@ ul.errorlist {
 ul.errorlist li {
 	color: red;
 }
+.help-text {
+	display: block;
+	margin-bottom: 5px;
+	margin-left: 17px;
+	color: #b94a48;
+	font-size: 13px;
+}
 
 /* Forms */
 
@@ -112,12 +119,19 @@ ul.errorlist li {
 	list-style-type: none;
 }
 .form-group input.form-control.issue-search {
-	border-radius: 15px;
+	/*border-radius: 15px;*/
 	padding-right: 40px;
 	background-image: url('images/search.png');
 	background-repeat: no-repeat;
 	background-position: right;
 	font-size: 18px;
+}
+.form-group input.form-control.general-search {
+	padding-right: 35px;
+	background-image: url('images/search.png');
+	background-repeat: no-repeat;
+	background-position: right;
+	background-size: 35px;
 }
 .field-upcoming_meeting_participants ul {
 	list-style-type: none;
@@ -179,6 +193,9 @@ ul.errorlist li {
 #upcoming-meeting #issues-order.nav-tabs > li.active > a:hover,
 #upcoming-meeting #issues-order.nav-tabs > li.active > a:focus {
 	background: #f5f6de;
+}
+#upcoming-meeting.modal-open ul {
+	list-style-type: none;
 }
 
 /* General buttons */
@@ -311,7 +328,7 @@ nav.oc_navbar {
 .nav > li > a {
         padding: 10px 15px;
 }
-#issue-list .nav > li > a {
+#issue-list .nav.nav-tabs > li > a {
         padding: 10px;
 }
 #issue-list  .nav-tabs > li.active > a,
@@ -378,6 +395,39 @@ p.user_nav {
 #login-page #login_navbar {
 	display: none;
 }
+@media (min-width: 992px) {
+	.user-icon, .search_sm, #toggle-search {
+		display: none !important;
+	}
+}
+@media (min-width: 0px) and (max-width: 767px) {
+	.search_sm, .user-icon, #toggle-search {
+		display: none !important;
+	}
+}
+@media (min-width: 768px) and (max-width: 991px) {
+	.user-name {
+		display: none !important;
+	}
+}
+@media (min-width: 768px) and (max-width: 991px) {
+	.search_lg {
+		display: none !important;
+	}
+}
+.search-icon {
+	width: 30px;
+	height: 35px;
+	background: url('images/search1.png') no-repeat;
+	display: inline-block;
+	background-position: center;
+	cursor: pointer;
+	background-size: 20px;
+}
+.navbar-collapse.oc-panel {
+	max-height: 1000px;
+}
+
 /* List */
 
 .oc_li {
@@ -431,8 +481,18 @@ ul li.issue.oc_li a.addremove {
 	width: 100%;
 	height: 100%;
 }
-
-
+.available-issue-date {
+	width: 35px;
+	position: absolute;
+	height: 100%;
+	background: #999999;
+	color: #fff;
+	text-align: center;
+	padding: 10px 0;
+}
+#agenda .available-issue-date {
+  display: none;
+}
 #agenda li .grab {
     width: 40px;
     background: url('images/drag-handle.png') center no-repeat;
@@ -806,6 +866,15 @@ ul.prop-table {
 	background: #ffffff;
 	list-style-type: none;
 }
+ul.issue-table {
+	display: table;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border: 1px solid #d8e0df;
+	background: #f5f6de;
+	list-style-type: none;
+}
 #issue-detail-siblings ul.prop-table,
 #issue-detail ul.prop-table {
 	cursor: pointer;
@@ -822,16 +891,19 @@ ul.proposals li.drag-icon {
 	width: 48px;
 	background-color: #e3e3e3;
 }
-ul:nth-child(even).proposals li.drag-icon {
-	background-color: #cacccd;
-}
-ul:nth-child(odd).proposals li.drag-icon {
-	background-color: #dcddde;
-}
 ul.proposals li.prop-title {
 	padding: .7em 15px 0 15px;
 	word-break: break-word;
 	font-weight: bold;
+}
+li.prop-title a {
+  color: #333;
+}
+ul.proposals li.issue-title {
+	font-size: 18px;
+	padding: .7em 15px 0 15px;
+	word-break: break-word;
+	font-weight: normal;
 }
 a ul.proposals li.prop-title {
 	color: #6c6c6e;
@@ -891,6 +963,12 @@ ul.proposals li.prop-content p {
 /* Protocol & Agenda ajax preview */
 
 #protocolPreview {
+	text-align: center;
+	border-top: 1px solid #e5e5e5;
+	padding-top: 20px;
+	margin-top: 20px;
+}
+#protocolPreviewContent {
 	text-align: left;
 	padding-top: 20px;
 }
@@ -904,6 +982,10 @@ ul.proposals li.prop-content p {
     background: #FFF3A5;
     border: 2px solid #777;
     padding: 1em 2em;
+}
+.alerts {
+   color: #b94a48;
+   font-weight: bold;
 }
 
 /* Issue detail comments */
@@ -1027,16 +1109,37 @@ form.delete-invitation {
 	background-image: url(images/general-icon.png);
 	background-repeat: no-repeat;
 	background-position: center;
+	background-color: #5A5757;
+}
+.prop-general-icon {
+	background-image: url(images/general-icon.png);
+	background-repeat: no-repeat;
+	background-position: center left;
+	padding-left: 26px;
 }
 .task-icon {
 	background-image: url(images/task-icon.png);
 	background-repeat: no-repeat;
 	background-position: center;
+	background-color: #5A5757;
+}
+.prop-task-icon {
+	background-image: url(images/task-icon.png);
+	background-repeat: no-repeat;
+	background-position: center left;
+	padding-left: 26px;
 }
 .rule-icon {
 	background-image: url(images/rule-icon.png);
 	background-repeat: no-repeat;
 	background-position: center;
+	background-color: #5A5757;
+}
+.prop-rule-icon {
+	background-image: url(images/rule-icon.png);
+	background-repeat: no-repeat;
+	background-position: center left;
+	padding-left: 26px;
 }
 .prop_back_icon {
 	background-image: url('images/prop-back.png');
@@ -1321,7 +1424,7 @@ form.delete-invitation {
 .proposal-icon {
 	display: table-cell;
 	width: 40px;
-	background-color: #cacccd;
+	background-color: #5A5757;
 }
 #issue_frame .meeting_header {
 	padding: 0 0 0 2%;
@@ -1391,7 +1494,17 @@ li.btn-tab span {
 .active_proposal {
 	border-right: 20px solid #ffffff !important;
 }
-
+#proc_tags {
+  float: left;
+  line-height: 2em;
+}
+#proc_tags .title {
+   font-weight: bold;
+   margin-right: 3em;
+}
+.tags {
+	text-align: right;
+}
 .three_dot_sentence {
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -1458,6 +1571,10 @@ li.btn-tab span {
 	text-overflow: ellipsis;
 	overflow: hidden;
 	color: #555555;
+}
+#issue-detail .issue_left_column_inner .nav.nav-tabs .dropdown-menu {
+	right: 0;
+	left: auto;
 }
 .issue_left_column_inner .nav > li > a {
 	padding: 2px 15px;
@@ -1627,6 +1744,12 @@ label[for=id_proposal-title] {
 ul.prop-table.prop-pad {
 	border: 0;
 }
+ul.prop-table .prop-content span {
+  font-weight: bold;
+}
+.indent-1 {
+  margin-left: 12px;  
+}
 .member_proposals_outer {
 	 background: #f5f6de;
 	 position: relative;
@@ -1643,6 +1766,17 @@ ul.prop-table.prop-pad {
 
 .version {
 	margin-top: 15px;
+}
+.footer {
+	padding-top: 30px;
+}
+@media (min-width: 768px) {
+	.hidden-footer {
+		display: inline;
+	}
+}
+.hidden-footer {
+	display: none;
 }
 
 /* RESPONSIVE */
@@ -1789,7 +1923,38 @@ ul.prop-table.prop-pad {
 	.issue_main .issue_left_column {
 		margin-top: 0;
 	}
+	.search_fix {
+		width: auto;
+		float: none;
+	}
 
+}
+
+.is_confidential {
+	background-image: url('images/line-marks.png') !important;
+}
+.is_confidential_w_arrow {
+	background-image: url('images/line-marks.png'), url('images/arrow-left.png') !important;
+	background-repeat: repeat, no-repeat;
+}
+.prop-right-col-fix {
+	background-position-x: 8px;
+}
+.is_confidential_text {
+	color: red !important;
+}
+.proposal-confidential-options,
+.issue-confidential-options {
+	position: absolute;
+	left: 0;
+	width: 100%;
+}
+label[for=id_confidential_reason],
+label[for=id_proposal-confidential_reason] {
+	display: none;
+}
+#proposal-section a.proposal-btn-confidential {
+	display: none;
 }
 
 /* Medium devices (desktops, 992px and up) */

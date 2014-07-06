@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-26 23:33+0200\n"
-"PO-Revision-Date: 2014-03-26 23:21+0200\n"
+"POT-Creation-Date: 2014-06-07 23:53+0300\n"
+"PO-Revision-Date: 2014-06-17 09:02+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15,67 +15,123 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Generator: Poedit 1.6.5\n"
 
-#: .\base_models.py:12
+#: .\base_models.py:13
 msgid "HTML content"
 msgstr "תוכן HTML"
+
+#: .\base_models.py:75 .\base_models.py:96
+msgid "Is Confidential"
+msgstr "חסוי"
+
+#: .\base_models.py:104
+msgid ""
+"Models that implement the ConfidentialByRelationMixin must declare a valid "
+"field which can pass on confidentiality."
+msgstr ""
+
+#: .\settings.py:266
+msgid "Personal Privacy"
+msgstr "עיניינים אישיים"
+
+#: .\settings.py:267
+msgid "Commercial Interests"
+msgstr "עניינים מסחריים"
+
+#: .\settings.py:268
+msgid "Security Concerns"
+msgstr "מטעמי אבטחה"
+
+#: .\templates\403.html.py:5
+msgid "DemOS 403"
+msgstr "DemOS 403"
+
+#: .\templates\403.html.py:16
+msgid "Sorry"
+msgstr "סליחה"
+
+#: .\templates\403.html.py:19
+msgid "You don't have permission to view that page"
+msgstr "אין לך הרשאה לצפיה בדף זה"
+
+#: .\templates\403.html.py:21 .\templates\_navbar.html.py:40
+#: .\templates\login.html.py:10 .\templates\login.html.py:28
+msgid "Login"
+msgstr "כניסה"
 
 #: .\templates\404.html.py:5
 msgid "DemOS 404"
 msgstr "DemOS 404"
 
-#: .\templates\404.html.py:16 .\templates\404.html.py:28
-#: .\templates\404.html.py:41
+#: .\templates\404.html.py:24 .\templates\404.html.py:40
+#: .\templates\404.html.py:56 .\templates\404.html.py:72
+#: .\templates\404.html.py:88 .\templates\500.html.py:34
 msgid "Oops..."
 msgstr "אופס..."
 
-#: .\templates\404.html.py:19
+#: .\templates\404.html.py:27
 msgid "We couldn't find the requested community"
-msgstr ""
+msgstr "לא נמצאה הקהילה המבוקשת"
 
-#: .\templates\404.html.py:21 .\templates\404.html.py:33
-#: .\templates\404.html.py:46
-msgid "You can go to"
-msgstr ""
+#: .\templates\404.html.py:29 .\templates\404.html.py:45
+#: .\templates\404.html.py:61 .\templates\404.html.py:77
+msgid "You can go to the"
+msgstr "אתה יכול לגשת ל"
 
-#: .\templates\404.html.py:21
+#: .\templates\404.html.py:30 .\templates\404.html.py:94
+#: .\templates\500.html.py:39
 msgid "Main page"
-msgstr ""
+msgstr "עמוד ראשי"
 
-#: .\templates\404.html.py:31
+#: .\templates\404.html.py:43
+msgid "We couldn't find exactly what you were looking for"
+msgstr "לא נמצא מה שחיפשת"
+
+#: .\templates\404.html.py:46
+msgid "Community page"
+msgstr "דף הקהילה"
+
+#: .\templates\404.html.py:59
 msgid "We couldn't find the requested issue"
-msgstr ""
+msgstr "לא נמצא הנושא המבוקש"
 
-#: .\templates\404.html.py:44
-msgid "We couldn't find the requested proposal"
-msgstr ""
+#: .\templates\404.html.py:62
+msgid "Issues page"
+msgstr "דף נושאים"
 
-#: .\templates\404.html.py:53
-msgid "Sorry"
-msgstr "סליחה"
+#: .\templates\404.html.py:75
+msgid "We couldn't find the requested procedure"
+msgstr "לא נמצא הנוהל המבוקש"
 
-#: .\templates\404.html.py:56
-msgid "You don't have permission to view that page"
-msgstr "אין לך הרשאה לצפיה בדף זה"
+#: .\templates\404.html.py:78
+msgid "Procedures page"
+msgstr "דף נהלים"
 
-#: .\templates\404.html.py:58 .\templates\_navbar.html.py:38
-#: .\templates\login.html.py:10 .\templates\login.html.py:28
-msgid "Login"
-msgstr "כניסה"
+#: .\templates\404.html.py:91
+msgid "We couldn't find the page you were looking for"
+msgstr "לא נמצא העמוד המבוקש"
 
-#: .\templates\_navbar.html.py:11 .\templates\_navbar.html.py:31
+#: .\templates\404.html.py:93 .\templates\500.html.py:39
+msgid "You can go to"
+msgstr "אתה יכול לגשת ל"
+
+#: .\templates\500.html.py:4
+msgid "DemOS 500"
+msgstr "DemOS 500"
+
+#: .\templates\500.html.py:37
+msgid "The server is playing up."
+msgstr "השרת משחק."
+
+#: .\templates\_navbar.html.py:11 .\templates\_navbar.html.py:33
 #: .\templates\base.html.py:9
 msgid "DemOS"
 msgstr "DemOS"
 
-#: .\templates\_navbar.html.py:21
+#: .\templates\_navbar.html.py:21 .\templates\_navbar.html.py:49
 msgid "General search text..."
 msgstr "חיפוש טקסט כללי..."
-
-#: .\templates\_navbar.html.py:24 .\templates\search\search.html.py:9
-msgid "Search"
-msgstr ""
 
 #: .\templates\base.html.py:42
 msgid "Page title"
@@ -88,6 +144,30 @@ msgstr "שים לב"
 #: .\templates\base.html.py:59 .\templates\dialog.html.py:25
 msgid "Close"
 msgstr "סגור"
+
+#: .\templates\base.html.py:72
+msgid "About"
+msgstr "אודות"
+
+#: .\templates\base.html.py:74
+msgid "Back to top"
+msgstr "לראש העמוד"
+
+#: .\templates\base.html.py:77
+msgid "An eKnight"
+msgstr "חשמביר"
+
+#: .\templates\base.html.py:77
+msgid "from Hasadna"
+msgstr "מבית הסדנא"
+
+#: .\templates\base.html.py:82
+msgid "Version"
+msgstr "גרסא"
+
+#: .\templates\base.html.py:86
+msgid "DEVELOPMENT SERVER"
+msgstr "שרת פיתוח"
 
 #: .\templates\dialog.html.py:26
 msgid "Save"
@@ -213,10 +293,14 @@ msgstr "כתובת אימייל:"
 msgid "Reset my password"
 msgstr "אפס סיסמא"
 
+#: .\templates\search\search.html.py:9
+msgid "Search"
+msgstr "חיפוש"
+
 #: .\templates\search\search.html.py:14 .\templates\search\search.html.py:18
 #: .\templates\search\search.html.py:22
 msgid "All"
-msgstr ""
+msgstr "הכל"
 
 #: .\templates\search\search.html.py:15 .\templates\search\search.html.py:19
 #: .\templates\search\search.html.py:23
@@ -226,7 +310,7 @@ msgstr "נושאים לדיון"
 #: .\templates\search\search.html.py:16 .\templates\search\search.html.py:20
 #: .\templates\search\search.html.py:24
 msgid "Proposals"
-msgstr ""
+msgstr "הצעות"
 
 #: .\templates\search\search.html.py:29
 msgid "Results for"
@@ -244,25 +328,28 @@ msgstr "תוצאות"
 msgid "No Results for"
 msgstr "לא נמצאו תוצאות"
 
-#: .\templates\search\search.html.py:47
+#: .\templates\search\search.html.py:48
 msgid "Assigned to"
-msgstr ""
+msgstr "אחראי"
 
-#: .\templates\search\search.html.py:50
+#: .\templates\search\search.html.py:51
 msgid "Due by"
-msgstr ""
+msgstr "תאריך יעד"
 
-#: .\templates\search\search.html.py:60
+#: .\templates\search\search.html.py:62
 msgid "No results found."
 msgstr "לא נמצאו תוצאות."
 
-#: .\templates\search\search.html.py:65
+#: .\templates\search\search.html.py:67
 msgid "Previous"
 msgstr "הקודם"
 
-#: .\templates\search\search.html.py:70
+#: .\templates\search\search.html.py:72
 msgid "Next"
 msgstr "הבא"
+
+#~ msgid "An eKnight from The Public Knowledge Workshop"
+#~ msgstr "חשמביר מבית הסדנא לידע ציבורי"
 
 #~ msgid "Page not found"
 #~ msgstr "דף לא נמצא"

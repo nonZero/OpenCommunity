@@ -236,6 +236,7 @@ class MemberProfile(MembershipMixin, DetailView):
        
         d = super(MemberProfile, self).get_context_data(**kwargs)
         d['form'] = ""
+        d['belongs_to_board'] = self.get_object().default_group_name != DefaultGroups.MEMBER
         return d
 
 

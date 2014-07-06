@@ -1,8 +1,9 @@
+from communities.models import CommunityConfidentialReason
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from issues import models
 from issues.models import ProposalType
-from ocd.formfields import HTMLArea
+from ocd.formfields import HTMLArea, OCIssueRadioButtons, OCProposalRadioButtons
 from users.models import OCUser
 import floppyforms as forms
 
@@ -11,23 +12,17 @@ class CreateIssueForm(forms.ModelForm):
 
     class Meta:
         model = models.Issue
-        fields = (
-                   'title',
-                   'abstract',
-                   )
+        fields = ('confidential_reason', 'title', 'abstract')
+        widgets = {'title': forms.TextInput, 'abstract': HTMLArea,
+                   'confidential_reason': OCIssueRadioButtons}
 
-        widgets = {
-            'title': forms.TextInput,
-            'abstract': HTMLArea,
-        }
-
-    def __init__(self, *args, **kwargs):
-
+    def __init__(self, community=None, *args, **kwargs):
         super(CreateIssueForm, self).__init__(*args, **kwargs)
-
-        self.new_proposal = CreateProposalBaseForm(prefix='proposal',
-                                   data=self.data if self.is_bound else None)
+        self.new_proposal = CreateProposalBaseForm(community=community,
+            prefix='proposal', data=self.data if self.is_bound else None)
         self.new_proposal.fields['type'].required = False
+        self.fields['confidential_reason'].empty_label = _('Not Confidential')
+        self.fields['confidential_reason'].queryset = community.confidential_reasons.all()
 
     def is_valid(self):
         valid = super(CreateIssueForm, self).is_valid()
@@ -47,25 +42,34 @@ class CreateIssueForm(forms.ModelForm):
 class UpdateIssueForm(forms.ModelForm):
     class Meta:
         model = models.Issue
-        fields = (
-                   'title',
-                   )
-
+        fields = ('confidential_reason', 'title')
         widgets = {
             'title': forms.TextInput,
+            'confidential_reason': OCIssueRadioButtons
         }
+
+    def __init__(self, community=None, *args, **kwargs):
+        super(UpdateIssueForm, self).__init__(*args, **kwargs)
+        self.fields['confidential_reason'].empty_label = _('Not Confidential')
+        self.fields['confidential_reason'].queryset = community.confidential_reasons.all()
 
 
 class UpdateIssueAbstractForm(forms.ModelForm):
     class Meta:
         model = models.Issue
         fields = (
-                   'abstract',
+                   'confidential_reason',
+                   'abstract'
                    )
 
         widgets = {
             'abstract': HTMLArea,
+            'confidential_reason': OCIssueRadioButtons
         }
+
+    def __init__(self, community=None, *args, **kwargs):
+        super(UpdateIssueAbstractForm, self).__init__(*args, **kwargs)
+        self.fields['confidential_reason'].empty_label = _('Not Confidential')
 
 
 class AddAttachmentBaseForm(forms.ModelForm):
@@ -106,18 +110,13 @@ class AddAttachmentForm(AddAttachmentBaseForm):
 
 
 class CreateProposalBaseForm(forms.ModelForm):
-    
+
     class Meta:
         model = models.Proposal
-        fields = (
-                   'type',
-                   'title',
-                   'content',
-                   'tags',
-                   'assigned_to_user',
-                   'assigned_to',
-                   'due_by',
-                   )
+
+        fields = ('confidential_reason', 'type', 'title', 'content', 'tags', 'assigned_to_user',
+                  'assigned_to', 'due_by')
+
         widgets = {
             'type': forms.Select,
             'title': forms.TextInput,
@@ -125,7 +124,15 @@ class CreateProposalBaseForm(forms.ModelForm):
             'assigned_to_user': forms.HiddenInput(),
             'assigned_to': forms.TextInput,
             'due_by': forms.DateInput,
+            'confidential_reason': OCProposalRadioButtons
         }
+
+    def __init__(self, community=None, *args, **kwargs):
+
+        super(CreateProposalBaseForm, self).__init__(*args, **kwargs)
+
+        self.fields['confidential_reason'].empty_label = _('Not Confidential')
+        self.fields['confidential_reason'].queryset = community.confidential_reasons.all()
 
 
 class CreateProposalForm(CreateProposalBaseForm):
@@ -143,7 +150,7 @@ class EditProposalForm(CreateProposalForm):
         super(EditProposalForm, self).__init__(*args, **kwargs)
         self.fields['type'].initial = self.instance.type
 
-    
+
 class EditProposalTaskForm(EditProposalForm):
 
     class Meta:

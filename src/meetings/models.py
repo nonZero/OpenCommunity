@@ -3,11 +3,21 @@ from django.db import models
 from django.utils.formats import date_format
 from django.utils.translation import ugettext_lazy as _
 from issues.models import Issue, ProposalStatus
-from ocd.base_models import UIDMixin, HTMLField
+from ocd.base_models import UIDMixin, HTMLField, ConfidentialByRelationMixin
+from ocd.base_managers import ConfidentialManager
 from users.default_roles import DefaultGroups
 
 
-class AgendaItem(models.Model):
+class AgendaItemManager(ConfidentialManager):
+    """Manage queries over AgendaItem."""
+
+
+class AgendaItem(ConfidentialByRelationMixin):
+
+    confidential_from = 'issue'
+
+    objects = ConfidentialManager()
+
     meeting = models.ForeignKey('Meeting', verbose_name=_("Meeting"),
                                 related_name="agenda")
     issue = models.ForeignKey(Issue, verbose_name=_("Issue"),
@@ -86,8 +96,10 @@ class Meeting(UIDMixin):
         return s
         #return date_format(self.scheduled_at) + ", " + time_format(self.scheduled_at)
 
-    def get_active_issues(self):
-        return [ai.issue for ai in self.agenda.all() if ai.issue.active]
+    # NEED TO FILTER THE QUERYSET AT RUNTIME FOR CONFIDENTIAL.
+    # THIS METHOD IS NOT SAFE TO USE DIRECTLY ANYMORE
+    # def get_active_issues(self):
+    #     return [ai.issue for ai in self.agenda.all() if ai.issue.active]
 
     def get_guest_list(self):
         if not self.guests:
@@ -96,16 +108,43 @@ class Meeting(UIDMixin):
 
     def get_title_or_date(self):
         return self.title or date_format(self.held_at)
- 
+
     def get_title_or_shortdate(self):
         return self.title or self.held_at.strftime('%d/%m/%Y')
-    
+
+    def get_title_and_shortdate(self):
+        if self.title:
+            return self.held_at.strftime('%d/%m/%Y') + " - " + self.title
+        else:
+            return self.held_at.strftime('%d/%m/%Y')
+
     def get_participations(self):
         return self.participations.filter(is_absent=False)
-        
+
     def get_participants(self):
         participations = self.get_participations()
         return [p.user for p in participations]
+
+    def meeting_participants(self):
+
+        meeting_participants = {'board': [], 'members': [], }
+
+        board_ids = [m.user.id for m in self.community.memberships.board()]
+
+        for p in self.get_participations():
+            if p.user.id in board_ids:
+                meeting_participants['board'].append(p.user)
+            else:
+                meeting_participants['members'].append(p.user)
+
+        # doing it simply like this, as I'd need to refactor models
+        # just to order in the way that is now required.
+        for index, item in enumerate(meeting_participants['board']):
+            if item.get_default_group(self) == DefaultGroups.CHAIRMAN:
+                meeting_participants['board'].insert(0,
+                    meeting_participants['board'].pop(index))
+
+        return meeting_participants
 
     @models.permalink
     def get_absolute_url(self):
@@ -118,8 +157,9 @@ class BoardParticipantsManager(models.Manager):
                                     default_group_name=DefaultGroups.MEMBER,
                                     is_absent=True)
 
+
 class MeetingParticipant(models.Model):
-    meeting = models.ForeignKey(Meeting, verbose_name=_("Meeting"), 
+    meeting = models.ForeignKey(Meeting, verbose_name=_("Meeting"),
                                 related_name="participations")
     ordinal = models.PositiveIntegerField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -131,7 +171,7 @@ class MeetingParticipant(models.Model):
                                           null=True, blank=True)
     is_absent = models.BooleanField(_("Is Absent"), default=False)
     objects = BoardParticipantsManager()
-    
+
     class Meta:
         verbose_name = _("Meeting Participant")
         verbose_name_plural = _("Meeting Participants")

@@ -101,9 +101,6 @@ def enprod():
 
     env.gunicorn_port = 9001
 
-    env.github_user = 'yaniv14'
-    env.clone_url = "https://github.com/%s/OpenCommunity.git" % env.github_user
-
 
 @task
 def host_type():
@@ -146,8 +143,8 @@ def deploy(restart=True):
         run("cd src && python manage.py collectstatic --noinput")
         run("git log -n 1 --format=\"%ai %h\" > static/version.txt")
         run("git log -n 1 > static/version-full.txt")
-        if restart:
-            reload_app()
+    if restart:
+        reload_app()
 
 
 @task
@@ -181,6 +178,7 @@ APT_PACKAGES = [
     'libfreetype6',
     'libfreetype6-dev',
     'postfix',
+    'redis-server',
 ]
 
 
@@ -263,6 +261,7 @@ def supervisor_setup():
                             'dir': env.code_dir,
                             'ocuser': env.ocuser,
                             'logdir': env.log_dir,
+                            'venv_dir': env.venv_dir,
                         }, mode=0777, use_jinja=True, template_dir=CONF_DIR)
 
         run(
@@ -330,7 +329,7 @@ def push_key(key_file):
     with open(key_file) as f:
         key_text = f.read()
     append('~/.ssh/authorized_keys', key_text)
-    
+
 
 @task
 def rebuild_index():
