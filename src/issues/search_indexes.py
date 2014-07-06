@@ -6,6 +6,8 @@ from datetime import date, datetime, timedelta
 
 class IssueIndex(indexes.ModelSearchIndex, indexes.Indexable):
     community = IntegerField(model_attr='community_id')
+    is_confidential = BooleanField(model_attr='is_confidential')
+
     class Meta:
         model = Issue
         fields = ['title', 'abstract']
@@ -27,6 +29,7 @@ class ProposalIndex(indexes.ModelSearchIndex, indexes.Indexable):
     decided_at = DateTimeField()
     assignee = CharField()
     due_by = DateField(model_attr='due_by', null=True)
+    is_confidential = BooleanField(model_attr='is_confidential')
 
     def get_model(self):
         return Proposal

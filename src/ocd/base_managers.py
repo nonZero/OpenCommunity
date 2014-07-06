@@ -63,25 +63,18 @@ class ConfidentialManager(models.Manager, ConfidentialQuerySetMixin):
 class ConfidentialSearchQuerySet(SearchQuerySet):
 
     def object_access_control(self, user=None, community=None, **kwargs):
-
         if not user or not community:
             raise ValueError('The access validator requires both a user and '
                              'a community object.')
-
         qs = self._clone()
-
         if user.is_superuser:
             return qs
-
         elif user.is_anonymous():
             return qs.filter(is_confidential=False)
-
         else:
             memberships = user.memberships.filter(community=community)
             lookup = [m.default_group_name for m in memberships]
             if DefaultGroups.MEMBER in lookup and len(lookup) == 1:
                 qs.filter(is_confidential=False)
-
             return qs.filter(is_confidential=False)
-
         return qs
