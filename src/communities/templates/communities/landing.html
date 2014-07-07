@@ -1,368 +1,449 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>DemOS - operating system for democracies</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <base href="/">
-    <!-- CSS Files comes here -->
-    <link href="{{ STATIC_URL }}landing/css/bootstrap.css" rel="stylesheet" media="screen">
-    <link href="{{ STATIC_URL }}landing/css/style.css" rel="stylesheet" media="screen">
-    <link href="{{ STATIC_URL }}landing/css/animate.css" rel="stylesheet">
-    <link href="{{ STATIC_URL }}landing/css/icons.css" rel="stylesheet" media="screen">
-    <link href="{{ STATIC_URL }}landing/css/flexslider.css" rel="stylesheet" media="screen">
-    <link href="{{ STATIC_URL }}landing/css/responsive.css" rel="stylesheet" media="screen">
-    <link href='//fonts.googleapis.com/css?family=Droid+Sans:400,700|Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="{{ STATIC_URL }}landing/fa/css/font-awesome.min.css">
-    <!-- Modernizer and IE specyfic files -->
-    <script src="{{ STATIC_URL }}landing/js/modernizr.custom.js"></script>
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="js/html5shiv.js"></script>
-      <script src="js/respond.min.js"></script>
-    <![endif]-->
-
-  </head>
-
-  <body>
-
-    <!--####################################################################-->
-    <!-- NAV ###############################################################-->
-    <!--####################################################################-->
-
-    <nav>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-lg-12">
-
-                    <div id="logo"><a href="#home">DemOS</a></div>
-
-                    <div id="navigation" class="visible-md visible-lg">
-                        <ul>
-                            <span id="sections">
-                            <li class="current"><a href="#home">top</a></li>
-                            <li><a href="#about">The Problem</a></li>
-                            <li><a href="#services">The Solution</a></li>
-                            <li><a href="#ourtool">Our Tool</a></li>
-                            <li><a href="#team">Our Team</a></li>
-                            </span>
-                            <li><a href="communities/" class="login-action btn-login">כניסה</a></li>
-                        </ul>
-                    </div>
-                    <div id="navigation_mobile" class="visible-sm visible-xs">
-                        <button class="button_nav" id="showLeft"><span aria-hidden="true" class="button_nav_icon icon-list"></span></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
-    <!-- //NAV -->
-
-    <!-- MOBILE NAV -->
-    <div class="cbp-spmenu visible-sm visible-xs" id="cbp-spmenu">
-        <h3>Menu</h3>
-        <ul>
-            <span id="sections_mobile">
-            <li class="current"><a href="#home">top</a></li>
-            <li><a href="#about">The Problem</a></li>
-            <li><a href="#services">The Solution</a></li>
-            <li><a href="#ourtool">Our Tool</a></li>
-            <li><a href="#team">Our Team</a></li>
-            </span>
-            <li><a href="communities/" class="btn-login">כניסה</a></li>
-        </ul>
-    </div>
-
-    <!--####################################################################-->
-    <!-- //MOBILE NAV ######################################################-->
-    <!--####################################################################-->
-
-
-
-    <!--####################################################################-->
-    <!-- HOME ##############################################################-->
-    <!--####################################################################-->
-
-    <section id="home">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-lg-12">
-                    <blockquote>
-                        <p class="first">An operating system for democracies</p>
-                        <p>that strengthens communities by</p>
-                    </blockquote>
-                        <div class="tlt">
-                        <ul class="texts">
-                            <li>Engaging Crowds</li>
-                            <li>Empowering Individuals</li>
-                            <li>Decentralizing Democracy</li>
-                            <li>Facilitating Leaders</li>
-                            <li>Converging Discussions</li>
-                        </ul>
-                        </div>
-                    <button id="btn-arrow" class="btn btn-arrow btn-arrowb icon-arrow"><span>Learn More</span></button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!--####################################################################-->
-    <!-- //HOME ############################################################-->
-    <!--####################################################################-->
-
-    <!--####################################################################-->
-    <!-- ABOUT #############################################################-->
-    <!--####################################################################-->
-
-    <div id="aboutcontainer"></div>
-    <section id="about">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
-                <h2>What Went Wrong?</h2>
-                <blockquote>
-                        <p>In many communities democracy suffers from many ailments.</p>
-                        <br/>
-                        <p>The root cause of which is the <strong>alienation</strong> between the elected board and the public, where the public is <strong>excluded</strong> from the decision-making process and can only elect its governors and protest in between elections.</p>
-                </blockquote>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!--####################################################################-->
-    <!-- //ABOUT ###########################################################-->
-    <!--####################################################################-->
-
-
-    <!--####################################################################-->
-    <!-- SERVICES ##########################################################-->
-    <!--####################################################################-->
-
-    <section id="services" data-speed="-5" data-type="background">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
-
-                <div style="height:80px"></div>
-
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!--####################################################################-->
-    <!-- //SERVICES ########################################################-->     <!--####################################################################-->
-
-    <!--####################################################################-->
-    <!-- PORTFOLIO #########################################################-->
-    <!--####################################################################-->
-
-    <section id="folio">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
-
-                <h2>The Solution</h2>
-
-                    <p style="font-size: 1.6em; line-height: 1.5em;"><strong>Participatory decision making in democratic communities</strong></p>
-                    <p style="font-size: 1.6em; line-height: 1.5em;">We aim to return democracy to it’s fundamental principle – public participation in the decision making process.</p>
-                    <p style="font-size: 1.6em; line-height: 1.5em;">We develop an online platform that enables democratic communities, big and small, to increase transparency and levels of participation and increase their social capital. </p>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!--####################################################################-->
-    <!-- //PORTFOLIO #######################################################-->
-    <!--####################################################################-->
-    <!--####################################################################-->
-    <!-- ourtool ###########################################################-->
-    <!--####################################################################-->
-
-    <section id="ourtool" data-speed="-5" data-type="background">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
-                <h2>Our Tool</h2>
-                <p>The complete platform will accompany the process of decision making as it progresses:</p>
-
-                <div class="row" id="tool_boxes">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 tool_box">
-                        <ul>
-                            <li><i class="fa fa-comments fa-2x"></i> <span>Converging Discussions</span></li>
-                            <li><i class="fa fa-list fa-2x"></i> <span>Agenda Setting</span></li>
-                            <li><i class="fa fa-bolt fa-2x"></i> <span>Solution suggestion</span></li>
-                            <li><i class="fa fa-thumbs-o-up fa-2x"></i> <span>Prioritization</span></li>
-                            <li><i class="fa fa-gavel fa-2x"></i> <span>Voting</span></li>
-                            <li><i class="fa fa-book fa-2x"></i> <span>Publication monitoring</span></li>
-
-                        </ul>
-                    </div>
-                </div>
-
-
-
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!--####################################################################-->
-    <!-- //ourtool #########################################################-->     <!--####################################################################-->
-
-    <!--####################################################################-->
-    <!-- PORTFOLIO #########################################################-->
-    <!--####################################################################-->
-
-    <section id="process">
-    <h2>The Proccess</h2>
-        <div class="container">
-
-            <div class="row">
-
-                <div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
-
-
-                    <p style="text-align:center;">The platform enables adjustments to the levels of exposure. The adjustments enable a gradual process according to the development and increase of trust between the board and the community</p>
-
-                    <div class="arrow_box">
-                    <h3>Transparency</h3>
-                    <p>The board uses the platform to manage issues, meeting agenda and decisions, and keeps the community informed with no extra effort</p>
-                    </div>
-
-                    <div class="arrow_box">
-                    <h3>Consultation</h3>
-                    <p>Community members can participate in non-binding discussion, polls and voting to share their preference with the board.</p>
-                    </div>
-
-                    <div class="arrow_box">
-                    <h3>Collaboration</h3>
-                    <p>Community members raise issues (initiatives), introduce proposals, impact the agenda, and vote on proposals (referendum)</p>
-                    </div>
-
-                    <div class="arrow_box_last">
-                    <h3>Empowerment</h3>
-                    <p>The community is the true sovereign and has full power over decision making (as done by jury and public committees)</p>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!--####################################################################-->
-    <!-- //PORTFOLIO #######################################################-->
-    <!--####################################################################-->
-
-    <!--####################################################################-->
-    <!-- Team ##############################################################-->
-    <!--####################################################################-->
-
-    <section id="team" data-speed="-5" data-type="background">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
-                <h2>Our team</h2>
-                <div id="hasadna"><img src="{{ STATIC_URL }}landing/images/sadna-logo.png" alt="Hasadna Logo" />The project runs within the framework of the <strong><a href="http://www.hasadna.org.il">Public Knowledge Workshop</a></strong> –<br />a non-profit incubator for open code to promote democracy and citizen involvement in government activities.</div>
-
-                </div>
-            </div>
-
-            <div class="row" id="team_boxes">
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 team_box">
-                    <a href="http://il.linkedin.com/in/boazchen">
-                    <img src="{{ STATIC_URL }}landing/images/boaz1.jpg" alt="Boaz Chen" class="img-circle img-responsive member_photo" />
-                    <h4>Boaz Chen</h4></a>
-                    <div class="social_icons">
-                        <ul>
-                            <li class="social_icon"><a href="https://twitter.com/boazchen"><i class="fa fa-twitter-square fa-lg"></i></a></li>
-                            <li class="social_icon"><a href="https://www.facebook.com/boaz.chen"><i class="fa fa-facebook-square fa-lg"></i></a></li>
-                            <li class="social_icon"><a href="http://il.linkedin.com/in/boazchen"><i class="fa fa-linkedin-square fa-lg"></i></a></li>
-                            <li class="social_icon"><a href="mailto:boaz@demos.org.il"><i class="fa fa-envelope fa-lg"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 team_box">
-                    <a href="http://en.wikipedia.org/wiki/Ehud_Shapiro">
-                    <img src="{{ STATIC_URL }}landing/images/ehud1.jpg" alt="Prof. Ehud (Udi) Shapiro" class="img-circle img-responsive member_photo" />
-                    <h4>Prof. Ehud (Udi) Shapiro</h4></a>
-                </div>
-            </div>
-
-            <blockquote style="margin-top:80px;">
-                <p>Boaz Chen and Prof. Ehud (Udi) Shapiro, former founders and managers of technology companies, are leading the project, that is developed by a community of volunteers and a core group of developers funded by donations.</p>
-            </blockquote>
-
-        </div>
-    </section>
-
-    <!--####################################################################-->
-    <!-- //Team ############################################################-->
-    <!--####################################################################-->
-
-
-
-    <!--####################################################################-->
-    <!-- Contact ###########################################################-->
-    <!--####################################################################-->
-
-
-    <!--####################################################################-->
-    <!-- //Contact #########################################################-->
-    <!--####################################################################-->
-
-
-
-    <!--####################################################################-->
-    <!-- FOOTER ############################################################-->
-    <!--####################################################################-->
-
-    <section id="footer">
-       <div class="container">
-            <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-12">
-                <p>2014 &#169; DemOS</p>
-                </div>
-            </div>
-       </div>
-    </section>
-
-    <!-- JavaScript plugins comes here. -->
-    <script src="{{ STATIC_URL }}landing/js/jquery-1.9.1.min.js"></script>
-    <script src="{{ STATIC_URL }}landing/js/jquery.easing.min.js"></script>
-    <script src="{{ STATIC_URL }}landing/js/classie.js"></script>
-    <script src="{{ STATIC_URL }}landing/js/jquery.scrollTo.js"></script>
-    <script src="{{ STATIC_URL }}landing/js/jquery.nav.js"></script>
-    <script src="{{ STATIC_URL }}landing/js/jquery.form.js"></script>
-    <script src="{{ STATIC_URL }}landing/js/waypoints.min.js"></script>
-    <script src="{{ STATIC_URL }}landing/js/parallax.js"></script>
-    <script src="{{ STATIC_URL }}landing/js/masonry.pkgd.min.js"></script>
-    <script src="{{ STATIC_URL }}landing/js/imagesloaded.js"></script>
-    <script src="{{ STATIC_URL }}landing/js/jquery.fittext.js"></script>
-    <script src="{{ STATIC_URL }}landing/js/jquery.lettering.js"></script>
-    <script src="{{ STATIC_URL }}landing/js/jquery.textillate.js"></script>
-    <script src="{{ STATIC_URL }}landing/js/AnimOnScroll.js"></script>
-    <script>
-        new AnimOnScroll( document.getElementById( 'grid' ), {
-            minDuration : 0.4,
-            maxDuration : 0.7,
-            viewportFactor : 0.2
-        } );
-    </script>
-    <script src="{{ STATIC_URL }}landing/js/cssParser.js"></script>
-    <script src="{{ STATIC_URL }}landing/js/modalEffects.js"></script>
-    <script src="{{ STATIC_URL }}landing/js/jquery.flexslider-min.js"></script>
-    <script src="{{ STATIC_URL }}landing/js/jquery.fitvids.js"></script>
-    <script src="{{ STATIC_URL }}landing/js/main.js"></script>
-    <script src="{{ STATIC_URL }}landing/js/retina.js"></script>
-
-  </body>
+	<head>
+		<title>DemOS - operating system for democracies</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<base href="/">
+		<!-- CSS Files comes here -->
+		<link href="{{ STATIC_URL }}landing/css/bootstrap.css" rel="stylesheet" media="screen">
+		<link href="{{ STATIC_URL }}landing/css/style.css" rel="stylesheet" media="screen">
+		<link href="{{ STATIC_URL }}landing/css/animate.css" rel="stylesheet">
+		<link href="{{ STATIC_URL }}landing/css/icons.css" rel="stylesheet" media="screen">
+		<link href="{{ STATIC_URL }}landing/css/flexslider.css" rel="stylesheet" media="screen">
+		<link href="{{ STATIC_URL }}landing/css/responsive.css" rel="stylesheet" media="screen">
+		<link href='//fonts.googleapis.com/css?family=Droid+Sans:400,700|Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="{{ STATIC_URL }}landing/fa/css/font-awesome.min.css">
+		<!-- Modernizer and IE specyfic files -->
+		<script src="{{ STATIC_URL }}landing/js/modernizr.custom.js"></script>
+
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+		<script src="js/html5shiv.js"></script>
+		<script src="js/respond.min.js"></script>
+		<![endif]-->
+
+	</head>
+
+	<body>
+
+		<!--####################################################################-->
+		<!-- NAV ###############################################################-->
+		<!--####################################################################-->
+
+		<nav>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-lg-12">
+
+						<div id="logo">
+							<a href="#home">DemOS</a>
+						</div>
+
+						<div id="navigation" class="visible-md visible-lg">
+							<ul>
+								<span id="sections">
+									<li class="current">
+										<a href="#home">top</a>
+									</li>
+									<li>
+										<a href="#about">The Problem</a>
+									</li>
+									<li>
+										<a href="#services">The Solution</a>
+									</li>
+									<li>
+										<a href="#ourtool">Our Tool</a>
+									</li>
+									<li>
+										<a href="#team">Our Team</a>
+									</li> </span>
+								<li>
+									<a href="communities/" class="login-action btn-login">כניסה</a>
+								</li>
+							</ul>
+						</div>
+						<div id="navigation_mobile" class="visible-sm visible-xs">
+							<button class="button_nav" id="showLeft">
+								<span aria-hidden="true" class="button_nav_icon icon-list"></span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<!-- //NAV -->
+
+		<!-- MOBILE NAV -->
+		<div class="cbp-spmenu visible-sm visible-xs" id="cbp-spmenu">
+			<h3>Menu</h3>
+			<ul>
+				<span id="sections_mobile">
+					<li class="current">
+						<a href="#home">top</a>
+					</li>
+					<li>
+						<a href="#about">The Problem</a>
+					</li>
+					<li>
+						<a href="#services">The Solution</a>
+					</li>
+					<li>
+						<a href="#ourtool">Our Tool</a>
+					</li>
+					<li>
+						<a href="#team">Our Team</a>
+					</li> </span>
+				<li>
+					<a href="communities/" class="btn-login">כניסה</a>
+				</li>
+			</ul>
+		</div>
+
+		<!--####################################################################-->
+		<!-- //MOBILE NAV ######################################################-->
+		<!--####################################################################-->
+
+		<!--####################################################################-->
+		<!-- HOME ##############################################################-->
+		<!--####################################################################-->
+
+		<section id="home">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-lg-12">
+						<blockquote>
+							<p class="first">
+								An operating system for democracies
+							</p>
+							<p>
+								that strengthens communities by
+							</p>
+						</blockquote>
+						<div class="tlt">
+							<ul class="texts">
+								<li>
+									Engaging Crowds
+								</li>
+								<li>
+									Empowering Individuals
+								</li>
+								<li>
+									Decentralizing Democracy
+								</li>
+								<li>
+									Facilitating Leaders
+								</li>
+								<li>
+									Converging Discussions
+								</li>
+							</ul>
+						</div>
+						<button id="btn-arrow" class="btn btn-arrow btn-arrowb icon-arrow">
+							<span>Learn More</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!--####################################################################-->
+		<!-- //HOME ############################################################-->
+		<!--####################################################################-->
+
+		<!--####################################################################-->
+		<!-- ABOUT #############################################################-->
+		<!--####################################################################-->
+
+		<div id="aboutcontainer"></div>
+		<section id="about">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+						<h2>What Went Wrong?</h2>
+						<blockquote>
+							<p>
+								In many communities democracy suffers from many ailments.
+							</p>
+							<br/>
+							<p>
+								The root cause of which is the <strong>alienation</strong> between the elected board and the public, where the public is <strong>excluded</strong> from the decision-making process and can only elect its governors and protest in between elections.
+							</p>
+						</blockquote>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!--####################################################################-->
+		<!-- //ABOUT ###########################################################-->
+		<!--####################################################################-->
+
+		<!--####################################################################-->
+		<!-- SERVICES ##########################################################-->
+		<!--####################################################################-->
+
+		<section id="services" data-speed="-5" data-type="background">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+
+						<div style="height:80px"></div>
+
+					</div>
+				</div>
+
+			</div>
+		</section>
+
+		<!--####################################################################-->
+		<!-- //SERVICES ########################################################-->
+		<!--####################################################################-->
+
+		<!--####################################################################-->
+		<!-- PORTFOLIO #########################################################-->
+		<!--####################################################################-->
+
+		<section id="folio">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+
+						<h2>The Solution</h2>
+
+						<p style="font-size: 1.6em; line-height: 1.5em;">
+							<strong>Participatory decision making in democratic communities</strong>
+						</p>
+						<p style="font-size: 1.6em; line-height: 1.5em;">
+							We aim to return democracy to it’s fundamental principle – public participation in the decision making process.
+						</p>
+						<p style="font-size: 1.6em; line-height: 1.5em;">
+							We develop an online platform that enables democratic communities, big and small, to increase transparency and levels of participation and increase their social capital.
+						</p>
+					</div>
+				</div>
+
+			</div>
+		</section>
+
+		<!--####################################################################-->
+		<!-- //PORTFOLIO #######################################################-->
+		<!--####################################################################-->
+		<!--####################################################################-->
+		<!-- ourtool ###########################################################-->
+		<!--####################################################################-->
+
+		<section id="ourtool" data-speed="-5" data-type="background">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+						<h2>Our Tool</h2>
+						<p>
+							The complete platform will accompany the process of decision making as it progresses:
+						</p>
+
+						<div class="row" id="tool_boxes">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 tool_box">
+								<ul>
+									<li>
+										<i class="fa fa-comments fa-2x"></i><span>Converging Discussions</span>
+									</li>
+									<li>
+										<i class="fa fa-list fa-2x"></i><span>Agenda Setting</span>
+									</li>
+									<li>
+										<i class="fa fa-bolt fa-2x"></i><span>Solution suggestion</span>
+									</li>
+									<li>
+										<i class="fa fa-thumbs-o-up fa-2x"></i><span>Prioritization</span>
+									</li>
+									<li>
+										<i class="fa fa-gavel fa-2x"></i><span>Voting</span>
+									</li>
+									<li>
+										<i class="fa fa-book fa-2x"></i><span>Publication monitoring</span>
+									</li>
+
+								</ul>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</section>
+
+		<!--####################################################################-->
+		<!-- //ourtool #########################################################-->
+		<!--####################################################################-->
+
+		<!--####################################################################-->
+		<!-- PORTFOLIO #########################################################-->
+		<!--####################################################################-->
+
+		<section id="process">
+			<h2>The Proccess</h2>
+			<div class="container">
+
+				<div class="row">
+
+					<div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+
+						<p style="text-align:center;">
+							The platform enables adjustments to the levels of exposure. The adjustments enable a gradual process according to the development and increase of trust between the board and the community
+						</p>
+
+						<div class="arrow_box">
+							<h3>Transparency</h3>
+							<p>
+								The board uses the platform to manage issues, meeting agenda and decisions, and keeps the community informed with no extra effort
+							</p>
+						</div>
+
+						<div class="arrow_box">
+							<h3>Consultation</h3>
+							<p>
+								Community members can participate in non-binding discussion, polls and voting to share their preference with the board.
+							</p>
+						</div>
+
+						<div class="arrow_box">
+							<h3>Collaboration</h3>
+							<p>
+								Community members raise issues (initiatives), introduce proposals, impact the agenda, and vote on proposals (referendum)
+							</p>
+						</div>
+
+						<div class="arrow_box_last">
+							<h3>Empowerment</h3>
+							<p>
+								The community is the true sovereign and has full power over decision making (as done by jury and public committees)
+							</p>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</section>
+
+		<!--####################################################################-->
+		<!-- //PORTFOLIO #######################################################-->
+		<!--####################################################################-->
+
+		<!--####################################################################-->
+		<!-- Team ##############################################################-->
+		<!--####################################################################-->
+
+		<section id="team" data-speed="-5" data-type="background">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+						<h2>Our team</h2>
+						<div id="hasadna"><img src="{{ STATIC_URL }}landing/images/sadna-logo.png" alt="Hasadna Logo" />The project runs within the framework of the <strong><a href="http://www.hasadna.org.il">Public Knowledge Workshop</a></strong> –
+							<br />
+							a non-profit incubator for open code to promote democracy and citizen involvement in government activities.
+						</div>
+
+					</div>
+				</div>
+
+				<div class="row" id="team_boxes">
+					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 team_box">
+						<a href="http://il.linkedin.com/in/boazchen"> <img src="{{ STATIC_URL }}landing/images/boaz1.jpg" alt="Boaz Chen" class="img-circle img-responsive member_photo" /> <h4>Boaz Chen</h4></a>
+						<div class="social_icons">
+							<ul>
+								<li class="social_icon">
+									<a href="https://twitter.com/boazchen"><i class="fa fa-twitter-square fa-lg"></i></a>
+								</li>
+								<li class="social_icon">
+									<a href="https://www.facebook.com/boaz.chen"><i class="fa fa-facebook-square fa-lg"></i></a>
+								</li>
+								<li class="social_icon">
+									<a href="http://il.linkedin.com/in/boazchen"><i class="fa fa-linkedin-square fa-lg"></i></a>
+								</li>
+								<li class="social_icon">
+									<a href="mailto:boaz@demos.org.il"><i class="fa fa-envelope fa-lg"></i></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 team_box">
+						<a href="http://en.wikipedia.org/wiki/Ehud_Shapiro"> <img src="{{ STATIC_URL }}landing/images/ehud1.jpg" alt="Prof. Ehud (Udi) Shapiro" class="img-circle img-responsive member_photo" /> <h4>Prof. Ehud (Udi) Shapiro</h4></a>
+					</div>
+				</div>
+
+				<blockquote style="margin-top:80px;">
+					<p>
+						Boaz Chen and Prof. Ehud (Udi) Shapiro, former founders and managers of technology companies, are leading the project, that is developed by a community of volunteers and a core group of developers funded by donations.
+					</p>
+				</blockquote>
+
+			</div>
+		</section>
+
+		<!--####################################################################-->
+		<!-- //Team ############################################################-->
+		<!--####################################################################-->
+
+		<!--####################################################################-->
+		<!-- Contact ###########################################################-->
+		<!--####################################################################-->
+
+		<!--####################################################################-->
+		<!-- //Contact #########################################################-->
+		<!--####################################################################-->
+
+		<!--####################################################################-->
+		<!-- FOOTER ############################################################-->
+		<!--####################################################################-->
+
+		<section id="footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12 col-md-12 col-lg-12">
+						<p>
+							2014 &#169; DemOS
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- JavaScript plugins comes here. -->
+		<script src="{{ STATIC_URL }}landing/js/jquery-1.9.1.min.js"></script>
+		<script src="{{ STATIC_URL }}landing/js/jquery.easing.min.js"></script>
+		<script src="{{ STATIC_URL }}landing/js/classie.js"></script>
+		<script src="{{ STATIC_URL }}landing/js/jquery.scrollTo.js"></script>
+		<script src="{{ STATIC_URL }}landing/js/jquery.nav.js"></script>
+		<script src="{{ STATIC_URL }}landing/js/jquery.form.js"></script>
+		<script src="{{ STATIC_URL }}landing/js/waypoints.min.js"></script>
+		<script src="{{ STATIC_URL }}landing/js/parallax.js"></script>
+		<script src="{{ STATIC_URL }}landing/js/masonry.pkgd.min.js"></script>
+		<script src="{{ STATIC_URL }}landing/js/imagesloaded.js"></script>
+		<script src="{{ STATIC_URL }}landing/js/jquery.fittext.js"></script>
+		<script src="{{ STATIC_URL }}landing/js/jquery.lettering.js"></script>
+		<script src="{{ STATIC_URL }}landing/js/jquery.textillate.js"></script>
+		<script src="{{ STATIC_URL }}landing/js/AnimOnScroll.js"></script>
+		<script>
+			new AnimOnScroll(document.getElementById('grid'), {
+				minDuration : 0.4,
+				maxDuration : 0.7,
+				viewportFactor : 0.2
+			});
+		</script>
+		<script src="{{ STATIC_URL }}landing/js/cssParser.js"></script>
+		<script src="{{ STATIC_URL }}landing/js/modalEffects.js"></script>
+		<script src="{{ STATIC_URL }}landing/js/jquery.flexslider-min.js"></script>
+		<script src="{{ STATIC_URL }}landing/js/jquery.fitvids.js"></script>
+		<script src="{{ STATIC_URL }}landing/js/main.js"></script>
+		<script src="{{ STATIC_URL }}landing/js/retina.js"></script>
+		<script>
+			$('#sections_mobile li a').on('click', function() {
+				classie.toggle(menuLeft, 'cbp-spmenu-open');
+			});
+		</script>
+	</body>
 </html>
