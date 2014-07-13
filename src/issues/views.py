@@ -154,13 +154,13 @@ class IssueDetailView(IssueMixin, DetailView):
         d['upcoming_issues'] = self.object.community.upcoming_issues(
                 user=self.request.user, community=self.community)
 
-        self.object.restricted_proposals = \
-            self.object.proposals.object_access_control(
+        d['agenda_items'] = self.object.agenda_items.all()
+        for ai in d['agenda_items']:
+            ai.accepted_proposals = ai.accepted_proposals(
                 user=self.request.user, community=self.community)
-        for ai in self.object.agenda_items.all():
-            ai.restricted_proposals = ai.proposals(
+            ai.rejected_proposals = ai.rejected_proposals(
                 user=self.request.user, community=self.community)
-            ai.restricted_accepted_proposals = ai.accepted_proposals(
+            ai.proposals = ai.proposals(
                 user=self.request.user, community=self.community)
 
         return d
@@ -908,10 +908,6 @@ class RulesMixin(CommunityMixin):
             type=ProposalType.RULE)
         return qs
 
-        return Proposal.objects.object_access_control(
-            user=self.request.user,
-            community=self.community).filter(issue=self.issue,
-                                             active=True)
 
 class ProceduresView(RulesMixin, ProposalMixin, ListView):
     required_permission = 'issues.viewopen_issue'
@@ -922,7 +918,6 @@ class ProceduresView(RulesMixin, ProposalMixin, ListView):
     def __init__(self, **kwargs):
         self.order_by = 'date'
         super(ProceduresView, self).__init__(**kwargs)
-
 
     def get_queryset(self):
         term = self.request.GET.get('q', '').strip()

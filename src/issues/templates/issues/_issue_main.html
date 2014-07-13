@@ -61,17 +61,16 @@
         {% trans "Decisions" %}
     </h2>
     <div>
-        {% for ai in object.agenda_items.all %}
-            {% if ai.restricted_proposals.count %}
+        {% for ai in agenda_items %}
+            {% if ai.proposals %}
                 <div class="filter-meeting-{{ai.meeting.id}} filter">
-                    {% for proposal in ai.restricted_proposals|dictsort:"created_at" %}
+                    {% for proposal in ai.proposals|dictsort:"created_at" %}
                         {% include 'issues/_proposal.html' %}
                     {% endfor %}
                 </div>
             {% endif %}
         {% endfor %}
     </div>
-
     {% if proposals.open.count  %}
     <h2 class="filter-title clear">
         {% trans "Proposals" %}
