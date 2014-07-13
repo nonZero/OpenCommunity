@@ -175,6 +175,16 @@ def _base_send_mail(community, notification_type, sender, send_to, data=None,
 
             agenda_items = d['meeting'].agenda.object_access_control(
                 user=recipient, community=community).all()
+
+            # restrict the proposals of each agenda item
+            for ai in agenda_items:
+                ai.accepted_proposals = ai.accepted_proposals(
+                    user=recipient, community=community)
+                ai.rejected_proposals = ai.rejected_proposals(
+                    user=recipient, community=community)
+                ai.proposals = ai.proposals(
+                    user=recipient, community=community)
+
             attachments = [item.issue.current_attachments(item) for
                            item in agenda_items]
 
