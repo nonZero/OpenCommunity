@@ -263,7 +263,6 @@ class Community(UIDMixin):
         time_till_close = self.voting_ends_at - timezone.now()
         return time_till_close.total_seconds() < 0
 
-    @property
     def has_straw_votes(self, user=None, community=None):
         if not self.straw_voting_enabled or self.straw_vote_ended:
             return False

@@ -141,7 +141,8 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
             user=self.request.user, community=self.community)
         d['available_issues'] = self.object.available_issues(
             user=self.request.user, community=self.community)
-
+        d['has_straw_votes'] = self.object.has_straw_votes(
+            user=self.request.user, community=self.community)
         return d
 
 
