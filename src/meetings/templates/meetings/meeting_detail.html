@@ -88,7 +88,7 @@ id="meeting-detail"
 		                    	<li class="proposal-icon {% if p.type == 1 %}task-icon{% elif p.type == 2 %}rule-icon{% elif p.type == 3 %}general-icon{% endif %}"></li>
 			                    <a href="{{p.get_absolute_url}}?m_id={{object.id}}">
 				                    <li class="proposal-header">
-				                    	<b>LAH {{p.title}}</b>
+				                    	<b>{{p.title}}</b>
 				                    </li>
 				                    <li class="proposal-footer">
 			                            {% if p.type == 1 %}
