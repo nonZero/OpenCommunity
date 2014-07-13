@@ -39,6 +39,9 @@ class AgendaItem(ConfidentialByRelationMixin):
 #         return (self.meeting.natural_key(), self.issue.natural_key())
 #     natural_key.dependencies = ['meetings.meeting', 'issues.issue']
 
+    def attachments(self):
+        return self.issue.attachments.filter(agenda_item=self)
+
     def comments(self):
         return self.issue.comments.filter(active=True, meeting=self.meeting)
 
@@ -54,7 +57,7 @@ class AgendaItem(ConfidentialByRelationMixin):
         return rv
 
     def rejected_proposals(self, user=None, community=None):
-        rv = rv = self.proposals(user=user, community=community).filter(
+        rv = self.proposals(user=user, community=community).filter(
             status=ProposalStatus.REJECTED)
         return rv
 

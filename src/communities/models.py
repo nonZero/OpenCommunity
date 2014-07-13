@@ -441,24 +441,21 @@ class Community(UIDMixin):
         def as_agenda_item(obj):
             return {
                 'issue': obj['issue'],
-
-                'proposals':
-                    obj['proposals'].filter(decided_at_meeting=None,
-                                            active=True).exclude(
-                                            status=ProposalStatus.IN_DISCUSSION),
-
-                'accepted_proposals':
-                    obj['proposals'].filter(decided_at_meeting=None,
-                                            active=True,
-                                            status=ProposalStatus.ACCEPTED),
-
-                'rejected_proposals':
-                    obj['proposals'].filter(decided_at_meeting=None,
-                                            active=True,
-                                            status=ProposalStatus.REJECTED),
-
-                'comments':
-                    obj['issue'].comments.filter(meeting=None, active=True),
+                'proposals': obj['proposals'].filter(
+                    decided_at_meeting=None,
+                    active=True).exclude(
+                    status=ProposalStatus.IN_DISCUSSION),
+                'accepted_proposals': obj['proposals'].filter(
+                    decided_at_meeting=None,
+                    active=True,
+                    status=ProposalStatus.ACCEPTED),
+                'rejected_proposals': obj['proposals'].filter(
+                    decided_at_meeting=None,
+                    active=True,
+                    status=ProposalStatus.REJECTED),
+                'comments': obj['issue'].comments.filter(
+                    meeting=None, active=True),
+                'attachments': obj['issue'].current_attachments()
             }
 
         return [as_agenda_item(x) for x in payload]

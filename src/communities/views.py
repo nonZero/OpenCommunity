@@ -291,22 +291,21 @@ class ProtocolDraftPreviewView(CommunityModelMixin, DetailView):
 
         draft_agenda_payload = []
         issue_status = IssueStatus.IS_UPCOMING
-        issues = self.community.issues.filter(active=True,
-                                              status__in=(issue_status)).order_by(
-                                              'order_in_upcoming_meeting')
+        issues = self.community.issues.filter(
+            active=True, status__in=(issue_status)).order_by(
+            'order_in_upcoming_meeting')
 
         for issue in issues:
             proposals = issue.proposals.object_access_control(
                 user=self.request.user, community=self.community)
-            draft_agenda_payload.append({'issue': issue, 'proposals': proposals})
+            draft_agenda_payload.append({
+                'issue': issue,
+                'proposals': proposals,
+            })
 
         agenda_items = d['object'].draft_agenda(draft_agenda_payload)
-        item_attachments = [item['issue'].current_attachments() for
-                            item in agenda_items]
-
         d['meeting_time'] = meeting_time.replace(second=0)
         d['agenda_items'] = agenda_items
-        d['attachments'] = list(chain.from_iterable(item_attachments))
         return d
 
 

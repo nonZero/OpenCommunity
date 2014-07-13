@@ -59,7 +59,6 @@ class MeetingProtocolView(MeetingMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(MeetingProtocolView, self).get_context_data(**kwargs)
-
         agenda_items = context['object'].agenda.object_access_control(
             user=self.request.user, community=self.community).all()
         for ai in agenda_items:
@@ -69,11 +68,7 @@ class MeetingProtocolView(MeetingMixin, DetailView):
                 user=self.request.user, community=self.community)
             ai.proposals = ai.proposals(
                 user=self.request.user, community=self.community)
-        attachments = [item.issue.current_attachments(item) for
-                       item in agenda_items]
-
         context['agenda_items'] = agenda_items
-        context['attachments'] = list(chain.from_iterable(attachments))
         return context
 
 
