@@ -185,13 +185,9 @@ def _base_send_mail(community, notification_type, sender, send_to, data=None,
                 ai.proposals = ai.proposals(
                     user=recipient, community=community)
 
-            attachments = [item.issue.current_attachments(item) for
-                           item in agenda_items]
-
             d.update({
                 'recipient': recipient,
                 'agenda_items': agenda_items,
-                'attachments': list(chain.from_iterable(attachments))
             })
 
         elif notification_type == 'agenda':
