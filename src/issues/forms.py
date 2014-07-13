@@ -51,16 +51,14 @@ class UpdateIssueForm(forms.ModelForm):
     def __init__(self, community=None, *args, **kwargs):
         super(UpdateIssueForm, self).__init__(*args, **kwargs)
         self.fields['confidential_reason'].empty_label = _('Not Confidential')
-        self.fields['confidential_reason'].queryset = community.confidential_reasons.all().order_by('id')
+        self.fields['confidential_reason'].queryset = \
+            community.confidential_reasons.all().order_by('id')
 
 
 class UpdateIssueAbstractForm(forms.ModelForm):
     class Meta:
         model = models.Issue
-        fields = (
-                   'abstract',
-                   )
-
+        fields = ('abstract',)
         widgets = {
             'abstract': HTMLArea,
         }

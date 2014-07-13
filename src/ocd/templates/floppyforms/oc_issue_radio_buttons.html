@@ -5,13 +5,19 @@
 </a>
 <div class="btn-group-vertical issue-confidential-options pull-right" data-toggle="buttons" style="display: none;">
 	{% for group_name, choices in optgroups %}{% for choice in choices %}
-	<label class="btn btn-default oc-radio-btn" for="{{ attrs.id }}_{{ forloop.counter }}">
-		<input type="radio" value="{{ choice.0 }}" name="{{ name }}" id="{{ attrs.id }}_{{ forloop.counter }}">
-		{{ choice.1 }} </label>
+	<label class="btn btn-default oc-radio-btn {% if choice.1 == form.instance.confidential_reason.title %}active{% endif %}" for="{{ attrs.id }}_{{ forloop.counter }}">
+		<input type="radio" value="{{ choice.0 }}" name="{{ name }}" id="{{ attrs.id }}_{{ forloop.counter }}" {% if choice.1 == form.instance.confidential_reason.title %}checked=""{% endif %}>
+		{{ choice.1 }}</label>
 	{% endfor %}{% endfor %}
 </div>
 <div class="clear"></div>
 <script>
+	var is_confidential = {% if form.instance.confidential_reason %}true{% else %}false{% endif %};
+
+	if (is_confidential) {
+		$('.issue-btn-confidential').html('<i class="fa fa-lock"></i>');
+	}
+
 	$('a.issue-btn-confidential').on('click', function() {
 		$(this).next('.issue-confidential-options').show();
 		// $('#modal-form .htmlarea').css('margin-top', '75px');
