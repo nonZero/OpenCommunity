@@ -75,6 +75,5 @@ class ConfidentialSearchQuerySet(SearchQuerySet):
             memberships = user.memberships.filter(community=community)
             lookup = [m.default_group_name for m in memberships]
             if DefaultGroups.MEMBER in lookup and len(lookup) == 1:
-                qs.filter(is_confidential=False)
-            return qs.filter(is_confidential=False)
+                return qs.filter(is_confidential=False)
         return qs
