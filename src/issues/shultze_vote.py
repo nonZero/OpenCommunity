@@ -36,7 +36,6 @@ def set_issues_order_by_votes(community_id):
     for id_entry in normorder:
         id = id_entry.keys()[0]
         issues[id].order_by_votes = id_entry[id]
-        print issues[id].title, id_entry[id]
         issues[id].save()
 
 
