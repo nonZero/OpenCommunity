@@ -177,20 +177,17 @@ def _base_send_mail(community, notification_type, sender, send_to, data=None,
                 user=recipient, community=community).all()
 
             # restrict the proposals of each agenda item
-            processed_agenda = []
             for ai in agenda_items:
-                processed_agenda.append({
-                    'accepted_proposals': ai.accepted_proposals(
-                        user=recipient, community=community),
-                    'rejected_proposals': ai.rejected_proposals(
-                        user=recipient, community=community),
-                    'proposals': ai.proposals(
-                        user=recipient, community=community)
-                })
+                ai.accepted_proposals = ai.accepted_proposals(
+                    user=recipient, community=community)
+                ai.rejected_proposals = ai.rejected_proposals(
+                    user=recipient, community=community)
+                ai.proposals = ai.proposals(
+                    user=recipient, community=community)
 
             d.update({
                 'recipient': recipient,
-                'agenda_items': processed_agenda,
+                'agenda_items': agenda_items,
             })
 
         elif notification_type == 'agenda':
