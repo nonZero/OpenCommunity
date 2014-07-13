@@ -1,5 +1,10 @@
 {% load i18n %}
 
+
+{% if form.instance and form.instance.issue.is_confidential %}
+{% elif form.initial and form.initial.issue.is_confidential %}
+{% else %}
+
 <a href="#" class="btn btn-default pull-right proposal-btn-confidential" style="background-color: transparent;">
 		<i class="fa fa-unlock"></i>
 </a>
@@ -7,7 +12,7 @@
 	{% for group_name, choices in optgroups %}{% for choice in choices %}
 	<label class="btn btn-default oc-radio-btn" for="{{ attrs.id }}_{{ forloop.counter }}">
 		<input type="radio" value="{{ choice.0 }}" name="{{ name }}" id="{{ attrs.id }}_{{ forloop.counter }}">
-		{{ choice.1 }} </label>
+		{{ choice.1 }}</label>
 	{% endfor %}{% endfor %}
 </div>
 <div class="clear"></div>
@@ -26,3 +31,5 @@
 		$(this).parent().hide();
 	});
 </script>
+
+{% endif %}
