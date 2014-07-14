@@ -48,7 +48,7 @@ def send_issue_ranking(request):
                             voted_by=request.user,
                             issue__community_id=cid) \
                             .order_by('rank')
-        
+
         if current_vote:
             prev_param = {'ballot': [], 'count': 1, }
             current_param = {'ballot': [], 'count': 1, }

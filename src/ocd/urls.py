@@ -2,6 +2,7 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.core.urlresolvers import reverse_lazy
 from meetings.views import MeetingCreateView
 from users.forms import OCPasswordResetForm, OCPasswordResetConfirmForm
 from users.models import CODE_LENGTH
@@ -33,7 +34,7 @@ urlpatterns = patterns('',
                                                          name="login"),
 
     url(r'^logout/$', 'django.contrib.auth.views.logout',
-            {'next_page': '/'}, name="logout"),
+            {'next_page': reverse_lazy('home')}, name="logout"),
 
     url(r'^invitation/(?P<code>[a-z0-9]{%d})/$' % CODE_LENGTH,
             AcceptInvitationView.as_view(),
@@ -55,6 +56,8 @@ urlpatterns = patterns('',
 
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
+
+    url(r'^django-rq/', include('django_rq.urls')),
 
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog',
         {'packages': ('issues', 'communities',)}, 'jsi18n'),

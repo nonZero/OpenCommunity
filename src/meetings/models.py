@@ -3,11 +3,21 @@ from django.db import models
 from django.utils.formats import date_format
 from django.utils.translation import ugettext_lazy as _
 from issues.models import Issue, ProposalStatus
-from ocd.base_models import UIDMixin, HTMLField
+from ocd.base_models import UIDMixin, HTMLField, ConfidentialByRelationMixin
+from ocd.base_managers import ConfidentialManager
 from users.default_roles import DefaultGroups
 
 
-class AgendaItem(models.Model):
+class AgendaItemManager(ConfidentialManager):
+    """Manage queries over AgendaItem."""
+
+
+class AgendaItem(ConfidentialByRelationMixin):
+
+    confidential_from = 'issue'
+
+    objects = ConfidentialManager()
+
     meeting = models.ForeignKey('Meeting', verbose_name=_("Meeting"),
                                 related_name="agenda")
     issue = models.ForeignKey(Issue, verbose_name=_("Issue"),
@@ -29,21 +39,27 @@ class AgendaItem(models.Model):
 #         return (self.meeting.natural_key(), self.issue.natural_key())
 #     natural_key.dependencies = ['meetings.meeting', 'issues.issue']
 
+    def attachments(self):
+        return self.issue.attachments.filter(agenda_item=self)
+
     def comments(self):
         return self.issue.comments.filter(active=True, meeting=self.meeting)
 
-    @property
-    def proposals(self):
-        return self.issue.proposals.filter(active=True,
-                                           decided_at_meeting=self.meeting)
+    def proposals(self, user=None, community=None):
+        rv = self.issue.proposals.object_access_control(
+            user=user, community=community).filter(
+            active=True, decided_at_meeting=self.meeting)
+        return rv
 
-    @property
-    def accepted_proposals(self):
-        return self.proposals.filter(status=ProposalStatus.ACCEPTED)
+    def accepted_proposals(self, user=None, community=None):
+        rv = self.proposals(user=user, community=community).filter(
+            status=ProposalStatus.ACCEPTED)
+        return rv
 
-    @property
-    def rejected_proposals(self):
-        return self.proposals.filter(status=ProposalStatus.REJECTED)
+    def rejected_proposals(self, user=None, community=None):
+        rv = self.proposals(user=user, community=community).filter(
+            status=ProposalStatus.REJECTED)
+        return rv
 
 
 class Meeting(UIDMixin):
@@ -86,8 +102,10 @@ class Meeting(UIDMixin):
         return s
         #return date_format(self.scheduled_at) + ", " + time_format(self.scheduled_at)
 
-    def get_active_issues(self):
-        return [ai.issue for ai in self.agenda.all() if ai.issue.active]
+    # NEED TO FILTER THE QUERYSET AT RUNTIME FOR CONFIDENTIAL.
+    # THIS METHOD IS NOT SAFE TO USE DIRECTLY ANYMORE
+    # def get_active_issues(self):
+    #     return [ai.issue for ai in self.agenda.all() if ai.issue.active]
 
     def get_guest_list(self):
         if not self.guests:
@@ -105,7 +123,7 @@ class Meeting(UIDMixin):
             return self.held_at.strftime('%d/%m/%Y') + " - " + self.title
         else:
             return self.held_at.strftime('%d/%m/%Y')
-        
+
     def get_participations(self):
         return self.participations.filter(is_absent=False)
 
@@ -144,6 +162,7 @@ class BoardParticipantsManager(models.Manager):
         return self.get_query_set().exclude(
                                     default_group_name=DefaultGroups.MEMBER,
                                     is_absent=True)
+
 
 class MeetingParticipant(models.Model):
     meeting = models.ForeignKey(Meeting, verbose_name=_("Meeting"),

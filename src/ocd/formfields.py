@@ -20,3 +20,9 @@ class OCSplitDateTime(forms.SplitDateTimeWidget):
         
 class OCCheckboxSelectMultiple(forms.SelectMultiple):
     template_name = 'floppyforms/oc_checkbox_select.html'
+
+class OCIssueRadioButtons(forms.RadioSelect):
+    template_name = 'floppyforms/oc_issue_radio_buttons.html'
+
+class OCProposalRadioButtons(forms.RadioSelect):
+    template_name = 'floppyforms/oc_proposal_radio_buttons.html'

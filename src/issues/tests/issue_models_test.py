@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from issues.models import Issue, Proposal
 
+
 User = get_user_model()
 
 

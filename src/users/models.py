@@ -152,30 +152,33 @@ class Membership(models.Model):
 
     def get_permissions(self):
         return DefaultGroups.permissions[self.default_group_name]
-    
+
     def total_meetings(self):
         """ In the future we'll check since joined to community or rejoined """
         return self.community.meetings.filter(held_at__gte=self.in_position_since).count()
-        
+
     def meetings_participation(self):
         """ In the future we'll check since joined to community or rejoined """
         return MeetingParticipant.objects.filter(user=self.user, is_absent=False,
                                                  meeting__community=self.community,
                                                  meeting__held_at__gte=self.in_position_since).count()
-    
+
     def meetings_participation_percantage(self):
         """ In the future we'll check since joined to community or rejoined """
         return round((float(self.meetings_participation()) / float(self.total_meetings())) * 100.0)
 
-    def member_open_tasks(self):
-        return Proposal.objects.filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, active=True, task_completed=False).exclude(due_by__lte=datetime.date.today())
+    def member_open_tasks(self, user=None, community=None):
+        return Proposal.objects.object_access_control(
+            user=user, community=community).filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, active=True, task_completed=False).exclude(due_by__lte=datetime.date.today())
 
-    def member_close_tasks(self):
+    def member_close_tasks(self, user=None, community=None):
         """ Need to create a field to determine closed tasks """
-        return Proposal.objects.filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, active=True, task_completed=True)
+        return Proposal.objects.object_access_control(
+            user=user, community=community).filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, active=True, task_completed=True)
 
-    def member_late_tasks(self):
-        return Proposal.objects.filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, due_by__lte=datetime.date.today(), active=True, task_completed=False)
+    def member_late_tasks(self, user=None, community=None):
+        return Proposal.objects.object_access_control(
+            user=user, community=community).filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, due_by__lte=datetime.date.today(), active=True, task_completed=False)
 
     def member_votes_dict(self):
         res = {'pro': {}, 'neut': {}, 'con': {}}
@@ -209,13 +212,13 @@ class Membership(models.Model):
         return res
 
     def _user_board_votes(self):
-        return self.user.board_votes.select_related('proposal').filter(proposal__issue__community_id=self.community_id, 
+        return self.user.board_votes.select_related('proposal').filter(proposal__issue__community_id=self.community_id,
                       proposal__active=True,
                       proposal__register_board_votes=True,
-                      proposal__decided_at_meeting__held_at__gte=self.in_position_since) 
+                      proposal__decided_at_meeting__held_at__gte=self.in_position_since)
 
     def member_proposal_pro_votes_accepted(self):
-        return self._user_board_votes().filter(value=ProposalVoteValue.PRO, 
+        return self._user_board_votes().filter(value=ProposalVoteValue.PRO,
                                               proposal__status=ProposalStatus.ACCEPTED)
     def member_proposal_con_votes_rejected(self):
         return self._user_board_votes().filter(value=ProposalVoteValue.CON,

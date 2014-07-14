@@ -1,15 +1,13 @@
 import logging
-
 from django.conf import settings
 from django.db import models, transaction
-from django.template.loader import render_to_string
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext, ugettext_lazy as _
 from issues.models import ProposalStatus, IssueStatus, VoteResult
 from meetings.models import MeetingParticipant, Meeting
 from ocd.base_models import HTMLField, UIDMixin
-from oc_util.email_util import send_mails
-from ocd.views import get_guests_emails
 from users.default_roles import DefaultGroups
 from users.models import OCUser, Membership
 import issues.models as issues_models
@@ -132,24 +130,37 @@ class Community(UIDMixin):
     def get_upcoming_absolute_url(self):
         return "community", (str(self.pk),)
 
-    def upcoming_issues(self, upcoming=True):
+    def upcoming_issues(self, user=None, community=None, upcoming=True):
         l = issues_models.IssueStatus.IS_UPCOMING if upcoming else \
             issues_models.IssueStatus.NOT_IS_UPCOMING
-        return self.issues.filter(active=True, status__in=(l)
-        ).order_by('order_in_upcoming_meeting')
 
-    def available_issues(self):
-        return self.issues.filter(active=True,
-                                  status=issues_models.IssueStatus.OPEN
-        ).order_by('-created_at')
+        if self.issues.all():
+            rv = self.issues.object_access_control(
+                user=user, community=community).filter(
+                active=True, status__in=(l)).order_by(
+                'order_in_upcoming_meeting')
+        else:
+            rv = None
+        return rv
+
+    def available_issues(self, user=None, community=None):
+        if self.issues.all():
+            rv = self.issues.object_access_control(
+                user=user, community=community).filter(
+                active=True, status=issues_models.IssueStatus.OPEN).order_by(
+                '-created_at')
+        else:
+            rv = None
+        return rv
 
     def available_issues_by_rank(self):
         return self.issues.filter(active=True,
                                   status=issues_models.IssueStatus.OPEN
         ).order_by('order_by_votes')
 
-    def issues_ready_to_close(self):
-        return self.upcoming_issues().filter(
+    def issues_ready_to_close(self, user=None, community=None):
+        if self.upcoming_issues(user=user, community=community):
+            rv = self.upcoming_issues(user=user, community=community).filter(
             proposals__active=True,
             proposals__decided_at_meeting=None,
             proposals__status__in=[
@@ -157,6 +168,9 @@ class Community(UIDMixin):
                 ProposalStatus.REJECTED
             ]
         )
+        else:
+            rv = None
+        return rv
 
     def get_board_name(self):
         return self.board_name or _('Board')
@@ -197,7 +211,6 @@ class Community(UIDMixin):
         return list(set([p.user for p in participations]) - \
                     set(self.upcoming_meeting_participants.all()))
 
-
     def previous_guests_participations(self):
         guests_list = Meeting.objects.filter(community=self) \
             .values_list('guests', flat=True)
@@ -209,7 +222,6 @@ class Community(UIDMixin):
                 prev_guests.update(guest.splitlines())
         prev_guests.difference_update(upcoming_guests.splitlines())
         return prev_guests
-
 
     def get_board_members(self):
         board_memberships = Membership.objects.filter(community=self) \
@@ -237,84 +249,10 @@ class Community(UIDMixin):
         return filter(None, [s.strip() for s in
                              self.upcoming_meeting_guests.splitlines()])
 
-
     def full_participants(self):
         guests_count = len(self.upcoming_meeting_guests.splitlines()) \
             if self.upcoming_meeting_guests else 0
         return guests_count + self.upcoming_meeting_participants.count()
-
-    def send_mail(self, template, sender, send_to, data=None, base_url=None,
-                  with_guests=False):
-
-        if not base_url:
-            base_url = settings.HOST_URL
-
-        d = data.copy() if data else {}
-
-        d.update({
-            'base_url': base_url,
-            'community': self,
-            'LANGUAGE_CODE': settings.LANGUAGE_CODE,
-            'MEDIA_URL': settings.MEDIA_URL,
-            'STATIC_URL': settings.STATIC_URL,
-        })
-
-        subject = render_to_string("emails/%s_title.txt" % template,
-                                   d).strip()
-
-        message = render_to_string("emails/%s.txt" % template, d)
-        html_message = render_to_string("emails/%s.html" % template, d)
-        from_email = "%s <%s>" % (self.name, settings.FROM_EMAIL)
-
-        recipient_list = set([sender.email])
-        open_invitation_list = set()
-
-        if send_to == SendToOption.ALL_MEMBERS:
-            recipient_list.update(list(
-                self.memberships.values_list('user__email', flat=True)))
-            if self.email_invitees:
-                open_invitation_email_list = self.invitations.values_list(
-                    'email', flat=True)
-                if open_invitation_email_list.count():
-                    open_invitation_list.update(
-                        list(open_invitation_email_list))
-
-        elif send_to == SendToOption.BOARD_ONLY:
-            recipient_list.update(list(
-                self.memberships.board().values_list('user__email',
-                                                     flat=True)))
-            if self.email_invitees:
-                open_invitation_email_list = self.invitations.exclude(
-                    default_group_name=DefaultGroups.MEMBER).values_list(
-                    'email', flat=True)
-                if open_invitation_email_list.count():
-                    open_invitation_list.update(
-                        list(open_invitation_email_list))
-
-        elif send_to == SendToOption.ONLY_ATTENDEES:
-            recipient_list.update(list(
-                self.upcoming_meeting_participants.values_list(
-                    'email', flat=True)))
-
-        if send_to != SendToOption.ONLY_ME:
-            guests_text = self.upcoming_meeting_guests
-            # add meeting guests to recipient_list
-            recipient_list.update(get_guests_emails(guests_text))
-        logger.info("Sending agenda to %d users" % len(recipient_list))
-
-        # send mail to system managers as applicable
-        if send_to != SendToOption.ONLY_ME and self.inform_system_manager and template in ('agenda', 'protocol', 'protocol_draft'):
-            manager_emails = [manager[1] for manager in settings.MANAGERS]
-            recipient_list.update(manager_emails)
-
-        send_mails(from_email, recipient_list, subject, message, html_message)
-
-        if open_invitation_list:
-            send_mails(from_email, open_invitation_list, subject, message,
-                       html_message)
-
-        return len(recipient_list)
-
 
     @property
     def straw_vote_ended(self):
@@ -325,13 +263,11 @@ class Community(UIDMixin):
         time_till_close = self.voting_ends_at - timezone.now()
         return time_till_close.total_seconds() < 0
 
-
-    @property
-    def has_straw_votes(self):
+    def has_straw_votes(self, user=None, community=None):
         if not self.straw_voting_enabled or self.straw_vote_ended:
             return False
-        return self.upcoming_proposals_any({'is_open': True})
-
+        return self.upcoming_proposals_any({'is_open': True}, user=user,
+                                           community=community)
 
     def sum_vote_results(self, only_when_over=True):
         if not self.voting_ends_at:
@@ -349,27 +285,26 @@ class Community(UIDMixin):
         for prop in proposals_to_sum:
             prop.do_votes_summation(member_count)
 
-
-    def _get_upcoming_proposals(self):
+    def _get_upcoming_proposals(self, user=None, community=None):
         proposals = []
-        upcoming = self.upcoming_issues()
-        for issue in upcoming:
-            proposals.extend([p for p in issue.proposals.all() if p.active])
+        upcoming = self.upcoming_issues(user=user, community=community)
+        if upcoming:
+            for issue in upcoming:
+                if issue.proposals.all():
+                    proposals.extend([p for p in issue.proposals.all() if p.active])
         return proposals
 
-
-    def upcoming_proposals_any(self, prop_dict):
+    def upcoming_proposals_any(self, prop_dict, user=None, community=None):
         """ test multiple properties against proposals belonging to the upcoming meeting
             return True if any of the proposals passes the tests
         """
-        proposals = self._get_upcoming_proposals()
+        proposals = self._get_upcoming_proposals(user=user, community=community)
         test_attrs = lambda p: [getattr(p, k) == val for k, val in
                                 prop_dict.items()]
         for p in proposals:
             if all(test_attrs(p)):
                 return True
         return False
-
 
     def _register_absents(self, meeting, meeting_participants):
         board_members = [mm.user for mm in Membership.objects.board() \
@@ -387,7 +322,7 @@ class Community(UIDMixin):
                                               is_absent=True,
                                               default_group_name=mm.default_group_name if mm else None)
 
-    def close_meeting(self, m, user):
+    def close_meeting(self, m, user, community):
         """
         Creates a :model:`meetings.Meeting` instance, with corresponding
         :model:`meetings.AgenddItem`s.
@@ -422,7 +357,7 @@ class Community(UIDMixin):
             self.voting_ends_at = None
             self.save()
 
-            for i, issue in enumerate(self.upcoming_issues()):
+            for i, issue in enumerate(self.upcoming_issues(user=user, community=community)):
 
                 proposals = issue.proposals.filter(
                     active=True,
@@ -482,7 +417,6 @@ class Community(UIDMixin):
 
         return m
 
-
     def draft_meeting(self):
         if self.upcoming_meeting_scheduled_at:
             held_at = self.upcoming_meeting_scheduled_at.date()
@@ -494,34 +428,74 @@ class Community(UIDMixin):
             'held_at': held_at,
         }
 
-
-    def draft_agenda(self):
+    def draft_agenda(self, payload):
         """ prepares a fake agenda item list for 'protocol_draft' template. """
 
-        def as_agenda_item(issue):
+        # payload should be a list of dicts. Each dict has these keys:
+        #   * issue
+        #   * proposals
+        #
+        # The values are querysets
+
+        def as_agenda_item(obj):
             return {
-                'issue': issue,
-
-                'proposals':
-                    issue.proposals.filter(decided_at_meeting=None,
-                                           active=True)
-                    .exclude(status=ProposalStatus.IN_DISCUSSION),
-
-                'accepted_proposals':
-                    issue.proposals.filter(decided_at_meeting=None,
-                                           active=True,
-                                           status=ProposalStatus.ACCEPTED),
-
-                'rejected_proposals':
-                    issue.proposals.filter(decided_at_meeting=None,
-                                           active=True,
-                                           status=ProposalStatus.REJECTED),
-
-                'comments':
-                    issue.comments.filter(meeting=None, active=True),
-
-                'attachments': issue.current_attachments()
-
+                'issue': obj['issue'],
+                'proposals': obj['proposals'].filter(
+                    decided_at_meeting=None,
+                    active=True).exclude(
+                    status=ProposalStatus.IN_DISCUSSION),
+                'accepted_proposals': obj['proposals'].filter(
+                    decided_at_meeting=None,
+                    active=True,
+                    status=ProposalStatus.ACCEPTED),
+                'rejected_proposals': obj['proposals'].filter(
+                    decided_at_meeting=None,
+                    active=True,
+                    status=ProposalStatus.REJECTED),
+                'comments': obj['issue'].comments.filter(
+                    meeting=None, active=True),
+                'attachments': obj['issue'].current_attachments()
             }
 
-        return [as_agenda_item(x) for x in self.upcoming_issues()]
+        return [as_agenda_item(x) for x in payload]
+
+
+class CommunityConfidentialReason(models.Model):
+
+    """The set of reasons a community can declare an object confidential.
+
+    A default set of reasons is populated when a community is created.
+
+    This default set can be extended or modified.
+
+    """
+
+    class Meta:
+        ordering = ['community']
+        verbose_name = _('Confidential Reason')
+        verbose_name_plural = _('Confidential Reasons')
+        unique_together = (('community', 'title'),)
+
+    community = models.ForeignKey(
+        Community,
+        related_name='confidential_reasons',
+        help_text=_('A reason that can be used for marking items as '
+                    'confidential in your community.'),)
+
+    title = models.CharField(
+        _('Name'),
+        max_length=255,
+        help_text=_('The title to give this reason.'),)
+
+    def __unicode__(self):
+        return self.title
+
+
+@receiver(post_save, sender=Community)
+def set_default_confidental_reasons(sender, instance, created,
+                                    dispatch_uid='set_default_confidental_reasons',
+                                    **kwargs):
+    if created:
+        for reason in settings.OPENCOMMUNITY_DEFAULT_CONFIDENTIAL_REASONS:
+            CommunityConfidentialReason.objects.create(community=instance,
+                                                       title=ugettext(reason))

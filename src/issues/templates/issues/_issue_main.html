@@ -51,7 +51,7 @@
                       {% if cperms.issues.editopen_issue %}
                           <a id="remove-attachment" href="{% url 'attachment_delete' community.id object.id att.id %}" data-rel="form"><img src="{{ STATIC_URL }}images/icon-remove.gif"/></a>
                       {% endif %}
-                  </li>  
+                  </li>
               {% endfor %}
             </ul>
           {% endif %}
@@ -61,8 +61,8 @@
         {% trans "Decisions" %}
     </h2>
     <div>
-        {% for ai in object.agenda_items.all %}
-            {% if ai.proposals.count %}
+        {% for ai in agenda_items %}
+            {% if ai.proposals %}
                 <div class="filter-meeting-{{ai.meeting.id}} filter">
                     {% for proposal in ai.proposals|dictsort:"created_at" %}
                         {% include 'issues/_proposal.html' %}
@@ -71,8 +71,7 @@
             {% endif %}
         {% endfor %}
     </div>
-
-    {% if object.proposals.open.count  %}
+    {% if proposals.open.count  %}
     <h2 class="filter-title clear">
         {% trans "Proposals" %}
     </h2>
@@ -80,14 +79,14 @@
 
     <div>
         <div class="open-proposals filter-upcoming filter">
-            {% for proposal in object.proposals.open %}
+            {% for proposal in proposals.open %}
                 {% include 'issues/_proposal.html' %}
                 {% if can_straw_vote and not proposal.decided and cperms.issues.vote and user|member_of:community %}
-                    <div class="issue_proposal_vote">
+                    <div class="issue_proposal_vote{% if proposal.is_confidential %} is_confidential{% endif %}">
                         {% include 'issues/_straw_vote.html' %}
                     </div>
                 {% elif can_board_vote_self %}
-	                <div class="issue_proposal_vote">
+	                <div class="issue_proposal_vote{% if proposal.is_confidential %} is_confidential{% endif %}">
 			            {% include 'issues/_board_vote_self.html' %}
 		            </div>
         		{% endif %}
@@ -133,7 +132,7 @@
         </ul>
     </div>
     {% endif %}
-    
+
     {% comment %}
     {% if cperms.meetings.add_meeting %}
         {% if object.is_current and not object.completed %}

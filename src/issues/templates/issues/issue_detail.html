@@ -34,7 +34,7 @@ id="issue-detail"
                 {% for i in all_issues %}
                 <li>
                     {% if object == i %}
-                        <div class="pull-right" style="width: 15px;"><span class="active_sibling pull-right"></span></div>
+                        <div class="pull-right" style="width: 15px;"><span class="{% if i.is_confidential %}is_confidential {% endif %}active_sibling pull-right"></span></div>
                     {% endif %}
                     <a href="{{ i.get_absolute_url }}?s=1">{{ i.title }}</a>
                 </li>
@@ -43,14 +43,14 @@ id="issue-detail"
         {% else %}
             <ul class="issues_list">
                 {% if meeting %}
-                    {% for issue in meeting.get_active_issues %}
+                    {% for issue in meeting_active_issues %}
                     <li>
                         {% if object == issue %} <div class="pull-right" style="width: 15px;"><span class="active_issue pull-right"></span></div>{% endif %}
                         <a href="{{ issue.get_absolute_url }}?m_id={{meeting.id}}#meeting-{{meeting.id}}">{{ issue }}</a>
                     </li>
                     {% endfor %}
                 {% else %}
-                    {% for i in object.community.upcoming_issues|dictsort:"order_in_upcoming_meeting" %}
+                    {% for i in upcoming_issues|dictsort:"order_in_upcoming_meeting" %}
                     <li>
                         {% if object == i %} <div class="pull-right" style="width: 15px;"><span class="active_issue pull-right"></span></div>{% endif %}
                         <a href="{{ i.get_absolute_url }}">{{ i }}</a>
@@ -62,7 +62,7 @@ id="issue-detail"
         {% endif %}
     </div>
 
-    <div class="issue_left_column col-sm-9 col-xs-12{% if not object.completed and object.agenda_items.count > 1 %} tabs-margin{% endif %}" style="margin-bottom: -40px;">
+    <div class="{% if object.is_confidential %}is_confidential {% endif %}issue_left_column col-sm-9 col-xs-12{% if not object.completed and object.agenda_items.count > 1 %} tabs-margin{% endif %}" style="margin-bottom: -40px;">
         <div class="issue_left_column_inner">
 
             {% with can_straw_vote=object.can_straw_vote %}
@@ -121,7 +121,7 @@ id="issue-detail"
 							{% csrf_token %}
 							<input name="undo_complete" type="hidden" value="1"/>
 							<button class="close-issue-btn btn btn-default btn-sm">
-								{% trans "Undo complete discussion" %}
+								{% trans "Open for discussion" %}
 							</button>
 						</form>
 					{% elif not object.is_current and not object.is_archived and object.in_closed_meeting %}
@@ -161,14 +161,14 @@ id="issue-detail"
     <script src="{{STATIC_URL}}js/Chart.js"></script>
     <script src="{{STATIC_URL}}js/proposal.js"></script>
     <script src="{{STATIC_URL}}js/filter.js"></script>
-    <script src="{{STATIC_URL}}js/_piechart.js"></script>    
+    <script src="{{STATIC_URL}}js/_piechart.js"></script>
     <script src="{{STATIC_URL}}bootstrap/js/typeahead.min.js"></script>
     <script src="{{ STATIC_URL }}js/hogan-2.0.0.js"></script>
     <script src="{{STATIC_URL}}js/issues.js"></script>
     <script src="{% url 'jsi18n' %}"></script>
     <script>
         $(function() {
-			
+
             {% if object.agenda_items.count %}
                 $('.active > [data-toggle=filter]').click();
             {% endif %}

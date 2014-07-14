@@ -39,7 +39,7 @@ urlpatterns = patterns('',
                                 views.AttachmentDownloadView.as_view(),
                                 name="attachment_download"),
 
-    url(r'^(?P<pk>\d+)/create-proposal/$', views.ProposalCreateView.as_view(),
+    url(r'^(?P<issue_id>\d+)/create-proposal/$', views.ProposalCreateView.as_view(),
             name="proposal_create"),
 
     url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/$',
@@ -83,6 +83,6 @@ urlpatterns = patterns('',
 
     url(r'^procedures/$',
         views.ProceduresView.as_view(), name="procedures"),
-    
+
 
 )

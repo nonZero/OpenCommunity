@@ -12,7 +12,6 @@ class CreateMeetingTest(TestCase):
         (self.c, self.members, self.chair) = create_sample_community()
         assert isinstance(self.c, Community)
 
-
     def test_create_meeting(self):
         self.issues = [
             self.c.issues.create(
@@ -31,7 +30,7 @@ class CreateMeetingTest(TestCase):
         self.c.upcoming_meeting_participants.add(self.chair[0])
 
         m = Meeting(held_at=timezone.now())
-        self.c.close_meeting(m, self.chair[0])
+        self.c.close_meeting(m, self.chair[0], self.c)
 
         self.assertEquals(20, m.agenda_items.count())
         self.assertEquals(4, m.participations.filter(is_absent=False).count())

@@ -4,6 +4,12 @@ from django.contrib.admin.options import ModelAdmin, TabularInline
 from users.models import Membership
 
 
+class CommunityConfidentialReasonInline(TabularInline):
+    model = models.CommunityConfidentialReason
+    fk_name = 'community'
+    extra = 0
+
+
 class CommunityMembershipInline(TabularInline):
     model = Membership
     fk_name = 'community'
@@ -16,7 +22,7 @@ class CommunityAdmin(ModelAdmin):
               'allow_links_in_emails', 'register_missing_board_members',
               'email_invitees', 'inform_system_manager')
 
-    inlines = [CommunityMembershipInline]
+    inlines = [CommunityConfidentialReasonInline, CommunityMembershipInline]
 
 
 site.register(models.Community, CommunityAdmin)

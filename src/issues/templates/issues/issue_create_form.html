@@ -38,7 +38,11 @@
         var ac_url = '{% url "ac_user" community_id=community.id %}';
         init_user_autocomplete(ac_url);
         $("#id_proposal-content").css('height', '100px');
-     })
+        $('a.proposal-btn-confidential').parent().parent().css({
+			'margin-top': '-45px',
+			'margin-bottom': '0'
+		});
+    });
 </script>
 
 {% endblock %}

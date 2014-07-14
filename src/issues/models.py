@@ -1,14 +1,49 @@
 from django.conf import settings
 from django.db import models, transaction
+from django.db.models.signals import post_save
+from django.db.models.query import QuerySet
+from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.text import get_valid_filename
 from django.utils.translation import ugettext, ugettext_lazy as _
-from ocd.base_models import HTMLField, UIDMixin, UIDManager
+from ocd.base_models import HTMLField, UIDMixin, UIDManager, ConfidentialMixin
+from ocd.base_managers import ConfidentialQuerySetMixin, ActiveQuerySetMixin
 from ocd.storages import uploads_storage
 from ocd.validation import enhance_html
 from taggit.managers import TaggableManager
 import meetings
 import os.path
+
+
+class IssueManager(ConfidentialQuerySetMixin, ActiveQuerySetMixin, UIDManager):
+    pass
+
+
+class ProposalQuerySetMixin(ActiveQuerySetMixin):
+
+    """Exposes methods that can be used on both the manager and the queryset.
+
+    This allows us to chain custom methods.
+
+    """
+
+    def open(self):
+        return self.filter(active=True,
+                           decided_at_meeting_id=None).order_by("created_at")
+
+    def closed(self):
+        return self.filter(active=True).exclude(decided_at_meeting_id=None)
+
+
+class ProposalQuerySet(QuerySet, ProposalQuerySetMixin):
+    """Queryset used by the Porposal Manager."""
+
+
+class ProposalManager(models.Manager, ConfidentialQuerySetMixin,
+                      ProposalQuerySetMixin):
+
+    def get_query_set(self):
+        return ProposalQuerySet(self.model, using=self._db)
 
 
 class IssueStatus(object):
@@ -28,12 +63,7 @@ class IssueStatus(object):
     NOT_IS_UPCOMING = (OPEN, ARCHIVED)
 
 
-class IssueManager(UIDManager):
-    def active(self):
-        return self.get_query_set().filter(active=True)
-
-
-class Issue(UIDMixin):
+class Issue(UIDMixin, ConfidentialMixin):
 
     objects = IssueManager()
 
@@ -176,6 +206,10 @@ class IssueComment(UIDMixin):
 
     content = HTMLField(_("Comment"))
 
+    @property
+    def is_confidential(self):
+        return self.issue.is_confidential
+
     class Meta:
         ordering = ('created_at',)
 
@@ -233,6 +267,10 @@ class IssueCommentRevision(models.Model):
 
     content = models.TextField(verbose_name=_("Content"))
 
+    @property
+    def is_confidential(self):
+        return self.comment.issue.is_confidential
+
 
 def issue_attachment_path(instance, filename):
     filename = get_valid_filename(os.path.basename(filename))
@@ -253,6 +291,10 @@ class IssueAttachment(UIDMixin):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                    verbose_name=_("Created by"),
                                    related_name="files_created")
+
+    @property
+    def is_confidential(self):
+        return self.issue.is_confidential
 
     def get_icon(self):
         # TODO: move to settings
@@ -323,6 +365,10 @@ class ProposalVote(models.Model):  # TODO: move down
                                      choices=ProposalVoteValue.CHOICES,
                                      default=ProposalVoteValue.NEUTRAL)
 
+    @property
+    def is_confidential(self):
+        return self.proposal.is_confidential
+
     class Meta:
         unique_together = (("proposal", "user"),)
         verbose_name = _("Proposal Vote")
@@ -343,11 +389,14 @@ class ProposalVoteBoard(models.Model):
     voted_by_chairman = models.BooleanField(_("Voted by chairman"),
                                             default=False)  # TODO: by who?
 
+    @property
+    def is_confidential(self):
+        return self.proposal.is_confidential
+
     class Meta:
         unique_together = (("proposal", "user"),)
         verbose_name = _("Proposal Vote")
         verbose_name_plural = _("Proposal Votes")
-
 
     def __unicode__(self):
         return "%s - %s" % (self.proposal.issue.title, self.user.display_name)
@@ -365,20 +414,6 @@ class ProposalType(object):
     )
 
 
-class ProposalManager(UIDManager):
-    def active(self):
-        return self.get_query_set().filter(active=True)
-
-    def open(self):
-        return self.get_query_set().filter(active=True,
-                                           decided_at_meeting_id=None).order_by(
-            "created_at")
-
-    def closed(self):
-        return self.get_query_set().filter(active=True).exclude(
-            decided_at_meeting_id=None)
-
-
 class ProposalStatus(object):
     IN_DISCUSSION = 1
     ACCEPTED = 2
@@ -391,7 +426,10 @@ class ProposalStatus(object):
     )
 
 
-class Proposal(UIDMixin):
+class Proposal(UIDMixin, ConfidentialMixin):
+
+    objects = ProposalManager()
+
     issue = models.ForeignKey(Issue, related_name="proposals")
     active = models.BooleanField(_("Active"), default=True)
     created_at = models.DateTimeField(_("Create at"), auto_now_add=True)
@@ -427,7 +465,6 @@ class Proposal(UIDMixin):
                                                     null=True, blank=True)
     tags = TaggableManager(_("Tags"), blank=True)
     register_board_votes = models.BooleanField(default=False)
-    objects = ProposalManager()
 
     class Meta:
         verbose_name = _("Proposal")
@@ -562,7 +599,6 @@ class Proposal(UIDMixin):
                 (str(self.issue.community.pk), str(self.issue.pk),
                  str(self.pk)))
 
-
     @models.permalink
     def get_delete_url(self):
         return (
@@ -577,6 +613,17 @@ class Proposal(UIDMixin):
             return "rejected"
         return ""
 
+    def enforce_confidential_rules(self):
+        # override `enforce_confidential_rules` on ConfidentialMixin
+        # for the special logic required for Proposal objects
+        if self.confidential_reason is None:
+            if self.issue.is_confidential is True:
+                self.is_confidential = True
+            else:
+                self.is_confidential = False
+        else:
+            self.is_confidential = True
+
 
 class VoteResult(models.Model):
     """ straw vote result per proposal, per meeting """
@@ -585,6 +632,10 @@ class VoteResult(models.Model):
     votes_pro = models.PositiveIntegerField(_("Votes pro"))
     votes_con = models.PositiveIntegerField(_("Votes con"))
     community_members = models.PositiveIntegerField(_("Community members"))
+
+    @property
+    def is_confidential(self):
+        return self.proposal.is_confidential
 
     class Meta:
         unique_together = (('proposal', 'meeting'),)
@@ -595,7 +646,31 @@ class IssueRankingVote(models.Model):
     issue = models.ForeignKey(Issue, related_name='ranking_votes')
     rank = models.PositiveIntegerField()
 
+    @property
+    def is_confidential(self):
+        return self.issue.is_confidential
+
     # TODO: add unique_together = (
     #   ('voted_by', 'issue'),
     #   and maybe: ('voted_by', 'rank')
     # )
+
+
+@receiver(post_save, sender=Issue)
+def set_confidential_on_relations(sender, instance, created,
+                                  dispatch_uid='set_confidential_on_relations',
+                                  **kwargs):
+
+    # we need to ensure that relations implementing ConfidentialMixin or
+    # ConfidentialByRelationMixin also have is_confidential set correctly.
+    # At present, these are Proposal and AgendaItem
+
+    for agenda_item in instance.agenda_items.all():
+        # AgendaItem implements ConfidentialByRelationMixin,
+        # so we call save to trigger the tracking logic.
+        agenda_item.save()
+
+    for proposal in instance.proposals.all():
+        # Proposal implements ConfidentialMixin, so we need to call save to
+        # trigger the confidential tracking logic.
+        proposal.save()

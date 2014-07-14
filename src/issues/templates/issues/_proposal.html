@@ -9,10 +9,10 @@
     {% if proposal.type == 3 %}general-icon{% endif %}"
     data-id="{{proposal.id}}"
     data-accepted="{{proposal.status}}"></li>
-    <li class="prop-title">
+    <li class="{% if proposal.is_confidential %}is_confidential {% endif %}prop-title">
     	{{proposal.title}}
     </li>
-    <li class="prop-content">
+    <li class="{% if proposal.is_confidential %}is_confidential {% endif %}prop-content">
         {% if proposal.type == 1 %}
         <p class="assign">
             {% if proposal.assigned_to %}
@@ -25,19 +25,19 @@
         {% endif %}
         {{proposal.content|userhtml}}
     </li>
-    
+
     {% if proposal.decided %}
         {% if cperms.issues.view_proposal_in_discussion or not proposal.is_open %}
-            <li class="check_box {% if proposal.status == proposal.statuses.ACCEPTED %}checked{% endif %}{% if proposal.status == proposal.statuses.REJECTED %}rejected{% endif %}"></li>
+            <li class="check_box{% if proposal.is_confidential %}_confidential{% endif %} {% if proposal.status == proposal.statuses.ACCEPTED %}checked{% if proposal.is_confidential %}_confidential{% endif %}{% endif %}{% if proposal.status == proposal.statuses.REJECTED %}rejected{% if proposal.is_confidential %}_confidential{% endif %}{% endif %}"></li>
         {% else %}
-            <li class="check_box">
+            <li class="check_box{% if proposal.is_confidential %}_confidential{% endif %}">
         {% endif %}
     {% else %}
         {% if not proposal.decided and proposal.can_show_straw_votes %}
-            <li class="check_box_vote">
+            <li class="check_box_vote{% if proposal.is_confidential %} is_confidential{% endif %}">
             <canvas id="proposal{{ proposal.id }}Chart" height="40px" width="40px"></canvas>
         {% else %}
-           <li class="check_box">
+           <li class="check_box{% if proposal.is_confidential %}_confidential{% endif %}">
        {% endif %}
     {% endif %}
     </li>

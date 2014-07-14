@@ -156,6 +156,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.humanize',
 
+    'django_rq',
     'floppyforms',
     'south',
     'django_nose',
@@ -247,6 +248,22 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 SESSION_REMEMBER_DAYS = 45
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
+REDIS = {
+    'default': {
+        'HOST': '127.0.0.1',
+        'PORT': 6379,
+        'DB': 0,
+        'PASSWORD': '',
+        'SCHEME': 'redis://'
+    }
+}
+
+RQ_QUEUES = {
+    'default': REDIS['default'],
+}
+
+gettext = lambda s: s
+
 # Made accessible to templates via the analytics context processor `analytics`
 OPENCOMMUNITY_ANALYTICS = {
     'piwik': {
@@ -259,6 +276,14 @@ OPENCOMMUNITY_ANALYTICS = {
     #     'url': 'domain.com'
     # }
 }
+
+OPENCOMMUNITY_DEFAULT_CONFIDENTIAL_REASONS = [
+    gettext('Privacy'),
+    gettext('Commercial'),
+    gettext('Security')
+]
+
+OPENCOMMUNITY_ASYNC_NOTIFICATIONS = True
 
 version_file = os.path.join(STATIC_ROOT, 'version.txt')
 if os.path.exists(version_file):

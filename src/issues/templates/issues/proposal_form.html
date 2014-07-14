@@ -9,6 +9,10 @@
 <div class="proposal-form-bg"></div>
 {% endblock %}
 
+{% block modal_content_classes %}
+{% if form.instance %}{% if form.instance.is_confidential %}is_confidential{% endif %}{% endif %}
+{% endblock modal_content_classes %}
+
 {% block page_header %}
     {% if form.instance.id %}
         {% trans "Edit proposal" %}
@@ -27,23 +31,27 @@
       <li><a href="#">{% trans "Task" %}</a></li>
    </ul>
     {{ form }}
-    
+
 <script>
 
+	$('a.proposal-btn-confidential').parent().parent().css({
+		'margin-top': '-40px',
+		'margin-bottom': '0'
+	});
     function get_tag_start(q) {
       var last_comma = q.lastIndexOf(',');
       console.log(q);
       return ('js');
     }
 
-      /* 
+      /*
       .on('focus', function (event) {
           existing_tags = $(this).val();
           console.log('----------->> ' + existing_tags);
       })
 */
     var existing_tags = '';
-    
+
     function fix_tags(res) {
         console.log(res);
         $.each(res, function() {
@@ -65,12 +73,12 @@
                 //filter: fix_tags,
             }
         }).css('background-color', '#fff')
- 
+
       .on('typeahead:selected', function (event, datum) {
           // existing_tags = event.target.value;
           //datum['value'] = '---- ' ; //existing_tags + datum['value'];
           //return(false);
-          
+
           var tags_val = datum['value'];
           var idx = existing_tags.lastIndexOf(',');
           if(idx < 0) {
@@ -81,7 +89,7 @@
           }
           console.log('>>> ' + existing_tags);
           $(this).val(tags_val);
-          
+
       });
     }
 
@@ -105,7 +113,7 @@
         var ac_url = '{% url "ac_user" community_id=community.id %}';
         init_user_autocomplete(ac_url);
         /* init_prop_autocomplete(); */
-    
+
       });
 </script>
 

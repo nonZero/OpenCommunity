@@ -20,7 +20,7 @@
         >{% trans "Agenda" %}
             {% if community.upcoming_meeting_title %}
               -
-              {{community.upcoming_meeting_title}} 
+              {{community.upcoming_meeting_title}}
             {% endif %}
 
         </h1>
@@ -43,10 +43,10 @@
                   {% else %}
                       <a href="{{base_url}}{{community.get_absolute_url}}">{% trans "View online" %}</a>
                   {% endif %}
-                {% endif %}  
+                {% endif %}
             </p>
 
-            <div style="border: solid 1px #ccc; margin: 4px 0;padding: 0"> 
+            <div style="border: solid 1px #ccc; margin: 4px 0;padding: 0">
                 <h2 style="margin:0; background: #ddd;padding: 4px">{% trans "Meeting details" %}</h2>
 
                 <div style="margin:0; padding: 4px">
@@ -69,36 +69,38 @@
             <div style="padding:12px 6px">
                 {% if community.allow_links_in_emails %}
                     ({% trans "click links for more details" %})
-                {% endif %} 
-        
-                {% for i in community.upcoming_issues %}
+                {% endif %}
+
+                {% for obj in issue_container %}
                     <article style="border: solid 1px #ccc; margin-top: 12px;">
-        
+
                         <h3 style="margin:0; background: #ddd;padding: 4px; font-size: 20px;">
                         {% if community.allow_links_in_emails %}
-                            <a href="{{base_url}}{{i.get_absolute_url}}">
-                                {{i.title}}
+                            <a href="{{base_url}}{{obj.issue.get_absolute_url}}">
+                                {{obj.issue.title}}{% if obj.issue.is_confidential %} [{% trans "Confidential" %} - {{ obj.issue.confidential_reason }}]{% endif %}
                             </a>
-                        {% else %}    
-                            {{i.title}}
+                        {% else %}
+                            {{obj.issue.title}}
                         {% endif %}
-                            {% if i.length_in_minutes %}
-                              ({{i.length_in_minutes|minutes}})
+                            {% if obj.issue.length_in_minutes %}
+                              ({{obj.issue.length_in_minutes|minutes}})
                             {% endif %}
-
+                        {% if community.straw_voting_enabled and can_straw_vote and obj.proposals.open.count %}
+	                        <a href="{{base_url}}{{obj.issue.get_absolute_url}}" style="color: #ffffff;background-color: #f0ad4e;border-color: #eea236;text-decoration: none;display: inline-block;padding: 0px 5px;margin-bottom: 0;font-size: 13px;font-weight: normal;line-height: 1.428571429;text-align: center;white-space: nowrap;vertical-align: middle;cursor: pointer;border: 1px solid transparent;border-radius: 4px;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;-o-user-select: none;user-select: none;float: {% if LANGUAGE_CODE == 'he' %}left{% else %}right{% endif %};">{% trans "Login to vote" %}</a>
+						{% endif %}
                         </h3>
-                        {% if i.abstract %}
+                        {% if obj.issue.abstract %}
                             <div style="padding:3px;">
-                                {{i.abstract|safe}}
+                                {{obj.issue.abstract|safe}}
                             </div>
                         {% endif %}
-                        
-                        {% if i.current_attachments.count and community.allow_links_in_emails %}
+
+                        {% if obj.issue.current_attachments.count and community.allow_links_in_emails %}
                          <div class="issue_attachments">
                             <p>{% trans 'Related files' %}:</p>
                             <ul>
-                            {% for att in i.current_attachments.all %}
-                                <li>                      
+                            {% for att in obj.issue.current_attachments.all %}
+                                <li>
                                     <a href="{{base_url}}{{ att.get_absolute_url }}" class="file_ext"><img height="16" src="{{base_url}}{{ STATIC_URL }}images/icons/{{ att.get_icon }}.png" /> {{att.title}}</a>
                                 </li>
                             {% endfor %}
@@ -106,22 +108,22 @@
                          </div>
                         {% endif %}
 
-                        {% if i.open_proposals.count %}
+                        {% if obj.proposals.open.count %}
                             <h4 style="margin:0; background: #eee; padding: 2px">
                                 {% trans "Proposals" %}
                             </h4>
                             <ul>
-                                {% for p in i.open_proposals.all|dictsort:"created_at" %}
+                                {% for p in obj.proposals.open|dictsort:"created_at" %}
                                     <li style="padding:2px 0">
                                         {% if community.allow_links_in_emails %}
                                             <a href="{{base_url}}{{p.get_absolute_url}}">
                                                 {% if p.type != 3 %}
                                                     {{ p.get_type_display }}:
                                                 {% endif %}
-                                              {{p.title}}
+                                              {{p.title}}{% if p.is_confidential and not obj.issue.is_confidential %} [{% trans "Confidential" %} - {{ p.confidential_reason }}]{% endif %}
                                             </a>
                                         {% else %}
-                                              {{p.title}}
+                                              {{p.title}}{% if p.is_confidential and not obj.issue.is_confidential %} [{% trans "Confidential" %} - {{ p.confidential_reason }}]{% endif %}
                                         {% endif %}
 
                                         {% if p.assigned_to %}
@@ -142,14 +144,14 @@
                             </ul>
                         {% endif %}
                     </article>
-        
+
                 {% endfor %}
-        
+
             </div>
         </div>
     </div>
 
-        
+
 
 {% endblock %}
 
