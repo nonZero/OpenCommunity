@@ -519,6 +519,9 @@ class Community(UIDMixin):
 
                 'comments':
                     issue.comments.filter(meeting=None, active=True),
+
+                'attachments': issue.current_attachments()
+
             }
 
         return [as_agenda_item(x) for x in self.upcoming_issues()]

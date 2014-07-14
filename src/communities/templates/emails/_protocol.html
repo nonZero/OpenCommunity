@@ -116,11 +116,11 @@
                       {% endif %}
                     {% endif %}
 
-                    {% if attachments %}
+                    {% if a.attachments.all %}
                      <div class="issue_attachments">
                      <p>{% trans 'Related files' %}:</p>
                      <ul>
-                     {% for att in attachments %}
+                     {% for att in a.attachments.all %}
                         <li>
                             <a href="{{base_url}}{{ att.get_absolute_url }}" class="file_ext">
                                 <img height="16" src="{{base_url}}{{ STATIC_URL }}images/icons/{{ att.get_icon }}.png" /> {{att.title}}
