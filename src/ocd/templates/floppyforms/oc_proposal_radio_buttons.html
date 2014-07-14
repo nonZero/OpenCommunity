@@ -28,10 +28,10 @@
 	$('.proposal-confidential-options label').on('click', function() {
 		if ($(this).find('input').val() == 0) {
 			$('.proposal-btn-confidential').html('<i class="fa fa-unlock"></i>');
-			$('#proposal-section,#issue-detail,#proposal-detail .modal-content').css('background-image', 'none');
+			$('#proposal-section,#issue-detail .modal-content,#proposal-detail .modal-content').css('background-image', 'none');
 		} else {
 			$('.proposal-btn-confidential').html('<i class="fa fa-lock"></i>');
-			$('#proposal-section,#issue-detail,#proposal-detail .modal-content').css('background-image', 'url("/static/images/prop-line-marks.png")');
+			$('#proposal-section,#issue-detail .modal-content,#proposal-detail .modal-content').css('background-image', 'url("/static/images/prop-line-marks.png")');
 		};
 		$(this).parent().hide();
 	});
