@@ -26,3 +26,5 @@ DATABASES = {
         'PORT': '',
     }
 }
+
+QUEUE_NAME = _user
