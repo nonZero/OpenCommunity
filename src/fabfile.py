@@ -86,7 +86,9 @@ def prod():
     env.redirect_host = 'opencommunity.org.il'
     env.venv_command = '. ~/.virtualenvs/oc/bin/activate'
     env.pidfile = '/home/oc/OpenCommunity/src/masterpid'
-    env.ocuser = "opencommunity"  # just because of historical reasons.
+    env.ocuser = "oc"
+    env.venv_dir = '%svenv/' % env.code_dir
+    env.code_dir = '/home/%s/OpenCommunity/' % env.user
 
 
 @task
