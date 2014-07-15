@@ -232,7 +232,7 @@ def _base_send_mail(community, notification_type, sender, send_to, data=None,
 def _async_send_mail(*args, **kwargs):
     django_rq.get_queue(settings.QUEUE_NAME).enqueue(
         _base_send_mail, *args, description=u"Send mail",
-        language=settings.LANGUAGE_CODE ** kwargs)
+        language=settings.LANGUAGE_CODE, **kwargs)
     return True
 
 
