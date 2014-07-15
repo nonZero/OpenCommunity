@@ -227,7 +227,8 @@ def _base_send_mail(community, notification_type, sender, send_to, data=None,
 
 
 def _async_send_mail(*args, **kwargs):
-    django_rq.enqueue(_base_send_mail, *args, **kwargs)
+    django_rq.enqueue(_base_send_mail, *args, description=u"Send mail",
+                      **kwargs)
     return True
 
 
