@@ -258,10 +258,6 @@ REDIS = {
     }
 }
 
-RQ_QUEUES = {
-    'default': REDIS['default'],
-}
-
 gettext = lambda s: s
 
 # Made accessible to templates via the analytics context processor `analytics`
@@ -292,7 +288,14 @@ if os.path.exists(version_file):
 else:
     OPENCOMMUNITY_VERSION = None
 
+QUEUE_NAME = 'default'
+
 try:
     from local_settings import *
 except ImportError:
     pass
+
+RQ_QUEUES = {
+    QUEUE_NAME: REDIS['default'],
+}
+
