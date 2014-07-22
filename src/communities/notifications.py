@@ -5,6 +5,7 @@ from itertools import chain
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from django.utils import translation
 import django_rq
 from communities.models import SendToOption
 from users.default_roles import DefaultGroups
@@ -55,13 +56,15 @@ def construct_mock_users(email_list, type):
 
 
 def _base_send_mail(community, notification_type, sender, send_to, data=None,
-                    base_url=None, with_guests=False):
-
+                    base_url=None, with_guests=False, language=None):
     """Sends mail to community members, and applies object access control.
 
     The type of email being sent is detected from notification_type.
 
     """
+
+    if language:
+        translation.activate(language)
 
     # before anything, we want to build our recipient list as email
     # will be personalized.
@@ -227,7 +230,9 @@ def _base_send_mail(community, notification_type, sender, send_to, data=None,
 
 
 def _async_send_mail(*args, **kwargs):
-    django_rq.enqueue(_base_send_mail, *args, **kwargs)
+    django_rq.get_queue(settings.QUEUE_NAME).enqueue(
+        _base_send_mail, *args, description=u"Send mail",
+        language=settings.LANGUAGE_CODE, **kwargs)
     return True
 
 
