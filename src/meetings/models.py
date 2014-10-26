@@ -184,7 +184,7 @@ class MeetingParticipant(models.Model):
         unique_together = (('meeting', 'ordinal'), ('meeting', 'user'))
 
     def __unicode__(self):
-        return self.user
+        return self.user.display_name
 
 #     def natural_key(self):
 #         return (self.meeting.natural_key(), self.user.natural_key())
