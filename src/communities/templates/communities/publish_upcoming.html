@@ -13,7 +13,11 @@
 <div class="modal-footer">
 	<button type="button" class="btn btn-info hidden-print pull-left" data-toggle="collapse" data-target="#protocolPreview">
 		{% if object.upcoming_meeting_started %}
-			{% trans "Preview protocol" %}
+			{% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
+            {% trans "Preview details" %}
+            {% else %}
+            {% trans "Preview protocol" %}
+            {% endif %}
 		{% else %}
 			{% trans "Preview draft" %}
 		{% endif %}
@@ -24,7 +28,11 @@
 		<button type="button" class="btn btn-default hidden-print protocol-print-btn" onclick="printProtocol();">
   			<span class="glyphicon glyphicon-print"></span> 
 			{% if object.upcoming_meeting_started %}
-				{% trans "Print protocol" %}
+				{% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
+                {% trans "Print details" %}
+                {% else %}
+                {% trans "Print protocol" %}
+                {% endif %}
 			{% else %}
 				{% trans "Print draft" %}
 			{% endif %}

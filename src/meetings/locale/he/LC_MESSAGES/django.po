@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-01 16:58+0300\n"
-"PO-Revision-Date: 2014-06-07 23:57+0200\n"
+"POT-Creation-Date: 2014-10-26 10:54+0200\n"
+"PO-Revision-Date: 2014-10-26 11:04+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 1.6.10\n"
 
 #: .\forms.py:18
 msgid "Send to"
@@ -34,7 +34,7 @@ msgstr "לא התבצעו שינויים בנושא זה במהלך הפגישה
 msgid "Undecided proposals"
 msgstr "הצעות ללא החלטה"
 
-#: .\models.py:21 .\models.py:88 .\models.py:162 .\models.py:189
+#: .\models.py:21 .\models.py:94 .\models.py:168 .\models.py:195
 msgid "Meeting"
 msgstr "פגישה"
 
@@ -62,120 +62,133 @@ msgstr "פריט על סדר היום"
 msgid "Agenda Items"
 msgstr "פריטים על סדר היום"
 
-#: .\models.py:60
+#: .\models.py:66
 msgid "Community"
 msgstr "קהילה"
 
-#: .\models.py:61
+#: .\models.py:67
 msgid "Created at"
 msgstr "נוצר ב"
 
-#: .\models.py:62
+#: .\models.py:68
 msgid "Created by"
 msgstr "נוצר על ידי"
 
-#: .\models.py:64
+#: .\models.py:70
 msgid "Held at"
 msgstr "מועד קיום הפגישה"
 
-#: .\models.py:66
+#: .\models.py:72
 msgid "Title"
 msgstr "כותרת"
 
-#: .\models.py:67
+#: .\models.py:73
 msgid "Scheduled at"
 msgstr "מועד"
 
-#: .\models.py:69
+#: .\models.py:75
 msgid "Location"
 msgstr "מקום"
 
-#: .\models.py:70
+#: .\models.py:76
 msgid "Comments"
 msgstr "הערות"
 
-#: .\models.py:72 .\templates\meetings\meeting_detail.html.py:8
+#: .\models.py:78 .\templates\meetings\meeting_detail.html.py:8
 #: .\templates\meetings\meeting_detail.html.py:50
 msgid "Summary"
 msgstr "סיכום הפגישה"
 
-#: .\models.py:77
+#: .\models.py:83
 msgid "Agenda items"
 msgstr "סדר יום"
 
-#: .\models.py:81 .\templates\meetings\meeting_detail.html.py:64
+#: .\models.py:87 .\templates\meetings\meeting_detail.html.py:64
 #: .\templates\meetings\meeting_detail.html.py:127
 msgid "Participants"
 msgstr "משתתפים"
 
-#: .\models.py:84
+#: .\models.py:90
 msgid "Guests"
 msgstr "אורחים"
 
-#: .\models.py:85
+#: .\models.py:91
 msgid "Enter each guest in a separate line"
 msgstr "רשום כל אורח בשורה נפקדת"
 
-#: .\models.py:89 .\templates\meetings\meeting_list.html.py:9
+#: .\models.py:95 .\templates\meetings\meeting_list.html.py:9
 msgid "Meetings"
 msgstr "פגישות"
 
-#: .\models.py:168 .\models.py:190
+#: .\models.py:174 .\models.py:196
 msgid "Name"
 msgstr "שם"
 
-#: .\models.py:169
+#: .\models.py:175
 msgid "Group"
 msgstr "קבוצה"
 
-#: .\models.py:172
+#: .\models.py:178
 msgid "Is Absent"
 msgstr "נעדר"
 
-#: .\models.py:176
+#: .\models.py:182
 msgid "Meeting Participant"
 msgstr "משתתף בפגישה"
 
-#: .\models.py:177
+#: .\models.py:183
 msgid "Meeting Participants"
 msgstr "משתתפים בפגישה"
 
-#: .\models.py:193
+#: .\models.py:199
 msgid "Meeting External Participant"
 msgstr "משתתף חיצוני"
 
-#: .\models.py:194
+#: .\models.py:200
 msgid "Meeting External Participants"
 msgstr "משתתפים חיצוניים"
 
-#: .\views.py:109
+#: .\views.py:114
 #, python-format
 msgid "Sending to %d users"
 msgstr "שולח ל-%d משתמשים"
 
-#: .\templates\meetings\meeting_close.html.py:5
-#: .\templates\meetings\meeting_close.html.py:31
+#: .\templates\meetings\meeting_close.html.py:6
+#: .\templates\meetings\meeting_close.html.py:40
+msgid "Close update"
+msgstr "סגור עדכון"
+
+#: .\templates\meetings\meeting_close.html.py:8
+#: .\templates\meetings\meeting_close.html.py:42
 msgid "Close meeting"
 msgstr "סגור פגישה"
 
-#: .\templates\meetings\meeting_close.html.py:12
+#: .\templates\meetings\meeting_close.html.py:16
 msgid "No participants selected for meeting"
 msgstr "לא נבחרו משתתפים לפגישה"
 
-#: .\templates\meetings\meeting_close.html.py:21
+#: .\templates\meetings\meeting_close.html.py:25
 msgid ""
 "Please note, editing the meeting's information is not possible after close"
 msgstr "שים לב, לא תתאפשר עריכת מידע בנוגע לפגישה לאחר סגירתה"
 
-#: .\templates\meetings\meeting_close.html.py:28
+#: .\templates\meetings\meeting_close.html.py:33
+msgid "Preview details"
+msgstr "הצגת פירוט"
+
+#: .\templates\meetings\meeting_close.html.py:35
 msgid "Preview protocol"
 msgstr "פרוטוקול הפגישה"
 
-#: .\templates\meetings\meeting_close.html.py:30
+#: .\templates\meetings\meeting_close.html.py:38
 msgid "Cancel"
 msgstr "ביטול"
 
-#: .\templates\meetings\meeting_close.html.py:34
+#: .\templates\meetings\meeting_close.html.py:48
+msgid "Print details"
+msgstr "הדפס פירוט"
+
+#: .\templates\meetings\meeting_close.html.py:50
 #: .\templates\meetings\meeting_detail.html.py:157
 msgid "Print protocol"
 msgstr "הדפסת פרוטוקול הפגישה"

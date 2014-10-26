@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-01 16:58+0300\n"
+"POT-Creation-Date: 2014-10-26 10:54+0200\n"
 "PO-Revision-Date: 2014-07-01 14:25+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,15 +31,15 @@ msgid ""
 "pass onconfidentiality."
 msgstr ""
 
-#: .\settings.py:281
+#: .\settings.py:277
 msgid "Privacy"
 msgstr "פרטיות"
 
-#: .\settings.py:282
+#: .\settings.py:278
 msgid "Commercial"
 msgstr "מסחרי"
 
-#: .\settings.py:283
+#: .\settings.py:279
 msgid "Security"
 msgstr "ביטחון"
 
