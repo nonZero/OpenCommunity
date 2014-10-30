@@ -88,9 +88,9 @@ class Issue(UIDMixin, ConfidentialMixin):
     statuses = IssueStatus
 
     order_in_upcoming_meeting = models.IntegerField(
-        _("Order in upcoming meeting"), default=9999, null=True, blank=True)
+        _("Order in upcoming meeting"), default=0, null=True, blank=True)
     order_by_votes = models.FloatField(
-        _("Order in upcoming meeting by votes"), default=9999, null=True,
+        _("Order in upcoming meeting by votes"), default=0, null=True,
         blank=True)
 
     length_in_minutes = models.IntegerField(_("Length (in minutes)"),
@@ -377,6 +377,18 @@ class ProposalVote(models.Model):  # TODO: move down
 
     def __unicode__(self):
         return "%s - %s" % (self.proposal.issue.title, self.user.display_name)
+
+
+class ProposalVoteArgument(models.Model):
+    proposal_vote = models.ForeignKey("ProposalVote")
+    argument = models.TextField(verbose_name=_("Argument"))
+
+
+class ProposalVoteArgumentRanking(models.Model):
+    argument = models.ForeignKey("ProposalVoteArgument")
+    value = models.SmallIntegerField(_("Vote"),
+                                     choices=ProposalVoteValue.CHOICES,
+                                     default=ProposalVoteValue.NEUTRAL)
 
 
 class ProposalVoteBoard(models.Model):

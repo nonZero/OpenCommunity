@@ -165,6 +165,11 @@ class IssueDetailView(IssueMixin, DetailView):
 
         return d
 
+    def get_arguments(self):
+        o = self.get_object()
+        return 'issues.viewclosed_issue' if o.is_published else\
+        'issues.viewopen_issue'
+
 
     required_permission_for_post = 'issues.add_issuecomment'
 
@@ -708,6 +713,8 @@ class ProposalVoteMixin(CommunityMixin):
                     return k
         return None
 
+
+
 class ProposalVoteView(ProposalVoteMixin, DetailView):
     required_permission_for_post = 'issues.vote'
     model = models.Proposal
@@ -827,6 +834,65 @@ class MultiProposalVoteView(ProposalVoteMixin, DetailView):
                 })
         })
 
+
+#####################################################################3
+#class RankingVoteMixin(CommunityMixin):
+#    VOTE_OK = 0
+#    VOTE_VER_ERR = 1
+#    VOTE_OVERRIDE_ERR = 2
+#
+#    def _do_vote(self, vote_class, argument, user_id, value, is_board, voter_group):
+#        if is_board:
+#            # verify
+#            if not voter_group or voter_group == DefaultGroups.MEMBER:
+#                return (None, self.VOTE_VER_ERR)
+#
+#        by_chairman = voter_group == DefaultGroups.CHAIRMAN
+#        vote, created = vote_class.objects.get_or_create(argument_id=argument.id,
+#                                                         user_id=user_id)
+#        if not created and by_chairman and not vote.voted_by_chairman:
+#            # don't allow chairman vote override a board member existing vote!
+#            return (vote, self.VOTE_OVERRIDE_ERR)
+#        vote.value=value
+#        if is_board:
+#            vote.voted_by_chairman = by_chairman
+#        vote.save()
+#        return (vote, self.VOTE_OK)
+#
+#    def _vote_values_map(self, key):
+#        vote_map = {
+#            'pro': 1,
+#            'con': -1,
+#            'neut': 0,
+#            'reset': -2,
+#        }
+#        if type(key) != int:
+#            try:
+#                return vote_map[key]
+#            except KeyError:
+#                return None
+#        else:
+#            for k, val in vote_map.items():
+#                if key == val:
+#                    return k
+#        return None
+
+
+class ArgumentRankingVoteView(AjaxFormView, ProposalMixin, UpdateView):
+    form_class = EditProposalForm
+
+    reload_on_success = True
+    #write _do_vote
+    def get_required_permission(self):
+        o = self.get_object()
+        return 'issues.editclosed_proposal' if o.decided_at_meeting else 'issues.edittask_proposal'
+
+    def get_form_kwargs(self):
+        d = super(ProposalEditView, self).get_form_kwargs()
+        d['prefix'] = 'proposal'
+        d['community'] = self.community
+        return d
+######################################################################3
 
 class ChangeBoardVoteStatusView(ProposalMixin, UpdateView):
     required_permission_for_post = 'issues.chairman_vote'
