@@ -165,11 +165,6 @@ class IssueDetailView(IssueMixin, DetailView):
 
         return d
 
-    def get_arguments(self):
-        o = self.get_object()
-        return 'issues.viewclosed_issue' if o.is_published else\
-        'issues.viewopen_issue'
-
 
     required_permission_for_post = 'issues.add_issuecomment'
 
