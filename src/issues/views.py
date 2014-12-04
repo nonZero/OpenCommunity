@@ -13,7 +13,7 @@ from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, 
     UpdateIssueForm, EditProposalTaskForm, AddAttachmentForm, \
     UpdateIssueAbstractForm
 from issues.models import ProposalType, Issue, IssueStatus, ProposalVote, \
-    Proposal, ProposalVoteBoard, ProposalVoteValue, VoteResult
+    Proposal, ProposalVoteBoard, ProposalVoteValue, VoteResult, ProposalVoteArgument, ProposalVoteArgumentRanking
 from meetings.models import Meeting
 from oc_util.templatetags.opencommunity import minutes, board_voters_on_proposal
 from ocd.base_views import CommunityMixin, AjaxFormView, json_response
@@ -831,62 +831,79 @@ class MultiProposalVoteView(ProposalVoteMixin, DetailView):
 
 
 #####################################################################3
-#class RankingVoteMixin(CommunityMixin):
-#    VOTE_OK = 0
-#    VOTE_VER_ERR = 1
-#    VOTE_OVERRIDE_ERR = 2
-#
-#    def _do_vote(self, vote_class, argument, user_id, value, is_board, voter_group):
-#        if is_board:
-#            # verify
-#            if not voter_group or voter_group == DefaultGroups.MEMBER:
-#                return (None, self.VOTE_VER_ERR)
-#
-#        by_chairman = voter_group == DefaultGroups.CHAIRMAN
-#        vote, created = vote_class.objects.get_or_create(argument_id=argument.id,
-#                                                         user_id=user_id)
-#        if not created and by_chairman and not vote.voted_by_chairman:
-#            # don't allow chairman vote override a board member existing vote!
-#            return (vote, self.VOTE_OVERRIDE_ERR)
-#        vote.value=value
-#        if is_board:
-#            vote.voted_by_chairman = by_chairman
-#        vote.save()
-#        return (vote, self.VOTE_OK)
-#
-#    def _vote_values_map(self, key):
-#        vote_map = {
-#            'pro': 1,
-#            'con': -1,
-#            'neut': 0,
-#            'reset': -2,
-#        }
-#        if type(key) != int:
-#            try:
-#                return vote_map[key]
-#            except KeyError:
-#                return None
-#        else:
-#            for k, val in vote_map.items():
-#                if key == val:
-#                    return k
-#        return None
+class RankingVoteMixin(ProposalVoteMixin):
+   VOTE_OK = 0
+   VOTE_VER_ERR = 1
+   VOTE_OVERRIDE_ERR = 2
+
+   def _do_vote(self, vote_class, argument, user_id, value):
+       vote, created = vote_class.objects.get_or_create(argument_id=argument.id,
+                                                        user_id=user_id)
+       vote.value=value
+       vote.save()
+       return (vote, self.VOTE_OK)
 
 
-class ArgumentRankingVoteView(AjaxFormView, ProposalMixin, UpdateView):
-    form_class = EditProposalForm
+class ArgumentRankingVoteView(RankingVoteMixin, DetailView):
+    required_permission_for_post = 'issues.vote'
+    model = models.ProposalVoteArgument
 
-    reload_on_success = True
-    #write _do_vote
-    def get_required_permission(self):
-        o = self.get_object()
-        return 'issues.editclosed_proposal' if o.decided_at_meeting else 'issues.edittask_proposal'
+    def post(self, request, *args, **kwargs):
 
-    def get_form_kwargs(self):
-        d = super(ProposalEditView, self).get_form_kwargs()
-        d['prefix'] = 'proposal'
-        d['community'] = self.community
-        return d
+        user_id = request.POST.get('user', request.user.id)
+        voter_id = request.user.id
+        val = request.POST['val']
+        vote_class = ProposalVoteArgumentRanking
+
+        argument = self.get_object()
+        aid = argument.id
+        vote_panel_tpl = 'issues/_vote_panel.html' if val == 'reset' \
+                            else 'issues/_vote_reset_panel.html'
+
+        res_panel_tpl = 'issues/_vote_reset_panel.html'
+        vote_response = {
+                'result': 'ok',
+                'html': render_to_string(res_panel_tpl,
+                    {
+                        'argument': argument,
+                        'community': self.community,
+                    }),
+        }
+
+        value = ''
+        if val == 'reset':
+            vote = get_object_or_404(vote_class,
+                                     argument_id=aid, user_id=user_id)
+            vote.delete()
+            vote_response['html'] = render_to_string(vote_panel_tpl,
+                    {
+                        'argument': argument,
+                        'community': self.community,
+                    })
+
+            return json_response(vote_response)
+        else:
+            value = self._vote_values_map(val)
+        if value == None:
+            return HttpResponseBadRequest('vote value not valid')
+
+        vote, valid = self._do_vote(vote_class, argument, user_id, value)
+        if valid == RankingVoteMixin.VOTE_OK:
+            vote_response['html'] = render_to_string(res_panel_tpl,
+                    {
+                        'argument': argument,
+                        'community': self.community,
+                    })
+        else:
+            vote_response['result'] = 'err'
+            if valid == RankingVoteMixin.VOTE_OVERRIDE_ERR:
+                vote_response['override_fail'] = [{'uid': user_id,
+                                               'val': self._vote_values_map(vote.value),
+                                             }]
+
+        return json_response(vote_response)
+
+
 ######################################################################3
 
 class ChangeBoardVoteStatusView(ProposalMixin, UpdateView):

@@ -382,6 +382,10 @@ class ProposalVote(models.Model):  # TODO: move down
 class ProposalVoteArgument(models.Model):
     proposal_vote = models.ForeignKey("ProposalVote", related_name='arguments')
     argument = models.TextField(verbose_name=_("Argument"))
+    created_at = models.DateTimeField(_("Create at"), auto_now_add=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                   related_name="arguments_created",
+                                   verbose_name=_("Created by"))
 
 
 class ProposalVoteArgumentRanking(models.Model):
