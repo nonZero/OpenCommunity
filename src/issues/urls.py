@@ -69,6 +69,9 @@ urlpatterns = patterns('',
     url(r'^vote/(?P<pk>\d+)/multi/$',
         views.MultiProposalVoteView.as_view(), name="multi_votes_on_proposal"),
 
+    url(r'^argument_vote/(?P<pk>\d+)/$',
+        views.ArgumentRankingVoteView.as_view(), name="vote_on_argument"),
+
     url(r'^vote_res_panel/(?P<pk>\d+)/$',
         views.VoteResultsView.as_view(), name="vote_results_panel"),
 

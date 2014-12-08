@@ -88,9 +88,9 @@ class Issue(UIDMixin, ConfidentialMixin):
     statuses = IssueStatus
 
     order_in_upcoming_meeting = models.IntegerField(
-        _("Order in upcoming meeting"), default=9999, null=True, blank=True)
+        _("Order in upcoming meeting"), default=0, null=True, blank=True)
     order_by_votes = models.FloatField(
-        _("Order in upcoming meeting by votes"), default=9999, null=True,
+        _("Order in upcoming meeting by votes"), default=0, null=True,
         blank=True)
 
     length_in_minutes = models.IntegerField(_("Length (in minutes)"),
@@ -358,7 +358,7 @@ class ProposalVoteValue(object):
 
 
 class ProposalVote(models.Model):  # TODO: move down
-    proposal = models.ForeignKey("Proposal")
+    proposal = models.ForeignKey("Proposal", related_name='votes')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
                              related_name="votes")
     value = models.SmallIntegerField(_("Vote"),
@@ -377,6 +377,24 @@ class ProposalVote(models.Model):  # TODO: move down
 
     def __unicode__(self):
         return "%s - %s" % (self.proposal.issue.title, self.user.display_name)
+
+
+class ProposalVoteArgument(models.Model):
+    proposal_vote = models.ForeignKey("ProposalVote", related_name='arguments')
+    argument = models.TextField(verbose_name=_("Argument"))
+    created_at = models.DateTimeField(_("Create at"), auto_now_add=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                   related_name="arguments_created",
+                                   verbose_name=_("Created by"))
+
+
+class ProposalVoteArgumentRanking(models.Model):
+    argument = models.ForeignKey("ProposalVoteArgument")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
+                             related_name="argument_votes")
+    value = models.SmallIntegerField(_("Vote"),
+                                     choices=ProposalVoteValue.CHOICES,
+                                     default=ProposalVoteValue.NEUTRAL)
 
 
 class ProposalVoteBoard(models.Model):
@@ -624,6 +642,13 @@ class Proposal(UIDMixin, ConfidentialMixin):
         else:
             self.is_confidential = True
 
+    @property
+    def arguments_for(self):
+        return ProposalVoteArgument.objects.filter(proposal_vote__in=self.votes.filter(value=ProposalVoteValue.PRO))
+
+    @property
+    def arguments_against(self):
+        return ProposalVoteArgument.objects.filter(proposal_vote__in=self.votes.filter(value=ProposalVoteValue.CON))
 
 class VoteResult(models.Model):
     """ straw vote result per proposal, per meeting """

@@ -13,7 +13,7 @@ from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, 
     UpdateIssueForm, EditProposalTaskForm, AddAttachmentForm, \
     UpdateIssueAbstractForm
 from issues.models import ProposalType, Issue, IssueStatus, ProposalVote, \
-    Proposal, ProposalVoteBoard, ProposalVoteValue, VoteResult
+    Proposal, ProposalVoteBoard, ProposalVoteValue, VoteResult, ProposalVoteArgument, ProposalVoteArgumentRanking
 from meetings.models import Meeting
 from oc_util.templatetags.opencommunity import minutes, board_voters_on_proposal
 from ocd.base_views import CommunityMixin, AjaxFormView, json_response
@@ -708,6 +708,8 @@ class ProposalVoteMixin(CommunityMixin):
                     return k
         return None
 
+
+
 class ProposalVoteView(ProposalVoteMixin, DetailView):
     required_permission_for_post = 'issues.vote'
     model = models.Proposal
@@ -827,6 +829,82 @@ class MultiProposalVoteView(ProposalVoteMixin, DetailView):
                 })
         })
 
+
+#####################################################################3
+class RankingVoteMixin(ProposalVoteMixin):
+   VOTE_OK = 0
+   VOTE_VER_ERR = 1
+   VOTE_OVERRIDE_ERR = 2
+
+   def _do_vote(self, vote_class, argument, user_id, value):
+       vote, created = vote_class.objects.get_or_create(argument_id=argument.id,
+                                                        user_id=user_id)
+       vote.value=value
+       vote.save()
+       return (vote, self.VOTE_OK)
+
+
+class ArgumentRankingVoteView(RankingVoteMixin, DetailView):
+    required_permission_for_post = 'issues.vote'
+    model = models.ProposalVoteArgument
+
+    def post(self, request, *args, **kwargs):
+
+        user_id = request.POST.get('user', request.user.id)
+        voter_id = request.user.id
+        val = request.POST['val']
+        vote_class = ProposalVoteArgumentRanking
+
+        argument = self.get_object()
+        aid = argument.id
+        vote_panel_tpl = 'issues/_vote_panel.html' if val == 'reset' \
+                            else 'issues/_vote_reset_panel.html'
+
+        res_panel_tpl = 'issues/_vote_reset_panel.html'
+        vote_response = {
+                'result': 'ok',
+                'html': render_to_string(res_panel_tpl,
+                    {
+                        'argument': argument,
+                        'community': self.community,
+                    }),
+        }
+
+        value = ''
+        if val == 'reset':
+            vote = get_object_or_404(vote_class,
+                                     argument_id=aid, user_id=user_id)
+            vote.delete()
+            vote_response['html'] = render_to_string(vote_panel_tpl,
+                    {
+                        'argument': argument,
+                        'community': self.community,
+                    })
+
+            return json_response(vote_response)
+        else:
+            value = self._vote_values_map(val)
+        if value == None:
+            return HttpResponseBadRequest('vote value not valid')
+
+        vote, valid = self._do_vote(vote_class, argument, user_id, value)
+        if valid == RankingVoteMixin.VOTE_OK:
+            vote_response['html'] = render_to_string(res_panel_tpl,
+                    {
+                        'argument': argument,
+                        'community': self.community,
+                    })
+        else:
+            vote_response['result'] = 'err'
+            if valid == RankingVoteMixin.VOTE_OVERRIDE_ERR:
+                vote_response['override_fail'] = [{'uid': user_id,
+                                               'val': self._vote_values_map(vote.value),
+                                             }]
+
+        return json_response(vote_response)
+
+
+######################################################################3
 
 class ChangeBoardVoteStatusView(ProposalMixin, UpdateView):
     required_permission_for_post = 'issues.chairman_vote'
