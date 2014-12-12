@@ -1223,12 +1223,22 @@ form.delete-invitation {
 .change_vote {
 	background: #fff3a5;
 	padding: 10px;
-	color: #666;
+	color: #fff;
 	font-size: 16px;
 	font-weight: bold;
 }
+.change_vote.vote_result_pro {
+	background: #a4cb53;
+}
+.change_vote.vote_result_con {
+	background: #952722;
+}
 .vote_marked {
 	border: 2px solid #333;
+}
+.change_vote a {
+	color: #fff;
+    text-decoration: underline;
 }
 .issue_proposal_vote .change_vote {
 	margin-top: -10px;
@@ -1268,6 +1278,89 @@ form.delete-invitation {
 .no-vote-badge {
 	color: #fff;
 	border: 1px solid;
+}
+.vote_arguments {
+    border-top: 1px solid #e2e2e2;
+}
+.vote_arguments p {
+    margin: 0;
+    line-height: 14px;
+}
+.arguments-table {
+    width: 100%;
+    margin-bottom: 20px;
+}
+.argument-content {
+    padding: 0;
+    vertical-align: top;
+}
+.argument-vote {
+    width: 45px;
+    vertical-align: middle;
+}
+.argument-vote i,
+.argument-vote span {
+    display: block;
+}
+.vote-count {
+    /*padding-top: 2px;*/
+    display: block;
+    text-align: center;
+    font-size: 16px;
+    line-height: 16px;
+}
+.vote-up {
+    background-position: 0 -268px;
+    display: block;
+    margin: 0 auto;
+    width: 41px;
+    height: 18px;
+    text-indent: -9999em;
+    font-size: 1px;
+    background-image: url('http://cdn.sstatic.net/stackoverflow/img/sprites.png?v=3c6263c3453b');
+    background-repeat: no-repeat;
+    overflow: hidden;
+    cursor: pointer;
+}
+.vote-up.voted {
+    background-position: 0 -233px;
+}
+.vote-down.voted {
+    background-position: 0 -333px;
+}
+.vote-down {
+    background-position: 0 -303px;
+    display: block;
+    margin: 0 auto;
+    width: 41px;
+    height: 18px;
+    text-indent: -9999em;
+    font-size: 1px;
+    background-image: url('http://cdn.sstatic.net/stackoverflow/img/sprites.png?v=3c6263c3453b');
+    background-repeat: no-repeat;
+    overflow: hidden;
+    cursor: pointer;
+}
+.argument-vote span {
+    font-weight: bold;
+}
+.argument-vote .vote-count {
+    font-weight: normal;
+    direction: ltr;
+}
+.vote_arguments .arguments-opt {
+    font-size: 12px;
+    line-height: 12px;
+    margin-bottom: 15px;
+    color: #999;
+}
+.vote_arguments .arguments_for h5 {
+    color: #668428;
+    text-decoration: underline;
+}
+.vote_arguments .arguments_against h5 {
+    color: #952722;
+    text-decoration: underline;
 }
 
 /* WYSIHTML5 Editor */

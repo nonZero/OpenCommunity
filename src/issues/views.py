@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse_lazy
 from django.db.models.aggregates import Max
 from django.http.response import HttpResponse, HttpResponseBadRequest, \
     HttpResponseForbidden
@@ -11,7 +12,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
     UpdateIssueForm, EditProposalTaskForm, AddAttachmentForm, \
-    UpdateIssueAbstractForm
+    UpdateIssueAbstractForm, CreateProposalVoteArgumentForm
 from issues.models import ProposalType, Issue, IssueStatus, ProposalVote, \
     Proposal, ProposalVoteBoard, ProposalVoteValue, VoteResult, ProposalVoteArgument, ProposalVoteArgumentRanking
 from meetings.models import Meeting
@@ -743,6 +744,7 @@ class ProposalVoteView(ProposalVoteMixin, DetailView):
                     {
                         'proposal': proposal,
                         'community': self.community,
+                        'vote_status': val,
                     }),
         }
 
@@ -770,6 +772,7 @@ class ProposalVoteView(ProposalVoteMixin, DetailView):
                     {
                         'proposal': proposal,
                         'community': self.community,
+                        'vote_status': val,
                     })
             if is_board and voter_group == DefaultGroups.CHAIRMAN:
                 vote_response['sum'] = render_to_string('issues/_member_vote_sum.html',
@@ -832,16 +835,16 @@ class MultiProposalVoteView(ProposalVoteMixin, DetailView):
 
 #####################################################################3
 class RankingVoteMixin(ProposalVoteMixin):
-   VOTE_OK = 0
-   VOTE_VER_ERR = 1
-   VOTE_OVERRIDE_ERR = 2
+    VOTE_OK = 0
+    VOTE_VER_ERR = 1
+    VOTE_OVERRIDE_ERR = 2
 
-   def _do_vote(self, vote_class, argument, user_id, value):
-       vote, created = vote_class.objects.get_or_create(argument_id=argument.id,
+    def _do_vote(self, vote_class, argument, user_id, value):
+        vote, created = vote_class.objects.get_or_create(argument_id=argument.id,
                                                         user_id=user_id)
-       vote.value=value
-       vote.save()
-       return (vote, self.VOTE_OK)
+        vote.value=value
+        vote.save()
+        return (vote, self.VOTE_OK)
 
 
 class ArgumentRankingVoteView(RankingVoteMixin, DetailView):
@@ -903,6 +906,49 @@ class ArgumentRankingVoteView(RankingVoteMixin, DetailView):
 
         return json_response(vote_response)
 
+
+class ProposalVoteArgumentCreateView(CreateView):
+    model = models.ProposalVoteArgument
+    form_class = CreateProposalVoteArgumentForm
+    fields = ['argument', 'proposal_vote', 'created_by']
+    template_name = 'issues/proposal_vote_argument_form.html'
+
+    def get_success_url(self):
+        return ""
+
+    # def form_valid(self, form):
+    #     form.instance.proposal_vote = ProposalVote.objects.get(pk=self.kwargs['vote_id'])
+    #     form.instance.created_by = self.request.user
+    #     return super(ProposalVoteArgumentCreateView, self).form_valid(form)
+    #
+    # def form_invalid(self, form):
+    #     return HttpResponse("000")
+
+    def post(self, request, *args, **kwargs):
+
+        form = forms.CreateProposalVoteArgumentForm(request.POST)
+        if not form.is_valid():
+            return HttpResponseBadRequest()
+
+        proposal_vote = ProposalVote.objects.get(pk=self.kwargs['vote_id'])
+        a = ProposalVoteArgument.objects.create(argument=form.cleaned_data['argument'],
+                              created_by=request.user, proposal_vote=proposal_vote)
+        self.object = a
+        context = self.get_context_data(arg=a, proposal=proposal_vote.proposal)
+        if proposal_vote.value == 1:
+            return render(request, 'issues/_pro_argument.html', context)
+        else:
+            return render(request, 'issues/_con_argument.html', context)
+
+
+class ProposalVoteArgumentUpdateView(UpdateView):
+    model = models.ProposalVoteArgument
+    fields = ['argument',]
+
+
+class ProposalVoteArgumentDeleteView(DeleteView):
+    model = models.ProposalVoteArgument
+    success_url = ""
 
 ######################################################################3
 

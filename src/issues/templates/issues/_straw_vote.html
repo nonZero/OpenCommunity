@@ -3,5 +3,5 @@
 {% if not user|voted_on:proposal.id %}
     {% include "issues/_vote_panel.html" %}
 {% else %}
-    {% include "issues/_vote_reset_panel.html" %}
+    {% include "issues/_vote_reset_panel.html" with vote_status=proposal.id|user_vote_result:user.id %}
 {% endif %}

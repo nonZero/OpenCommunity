@@ -114,4 +114,46 @@ $(function () {
         fixHeights();
     });
 
+    // Enable/Disable argument modal button for empty field.
+
+    $("#id_argument").keyup(function(){
+        var textLength = $("#id_argument").val().length;
+        if ( textLength > 0 ) {
+            $(".argument-modal-btn").removeAttr("disabled");
+        } else {
+            $(".argument-modal-btn").attr("disabled", "disabled");
+        }
+    });
+
+    // Ajax argument form submission.
+
+    $("#argument-submit").on('click', function (e) {
+        var formObj = $('#create-argument');
+        var voteStatus = formObj.data("vote");
+        console.log(voteStatus);
+        var formURL = formObj.attr("action");
+        var postData = formObj.serializeArray();
+        $('#argumentModal').modal('hide');
+        $.ajax({
+            url: formURL,
+            type: "POST",
+            data: postData,
+            success: function (data, textStatus, jqXHR) {
+                $("#create-argument").get(0).reset();
+                $(".argument-modal-btn").attr("disabled", "disabled");
+                if (voteStatus == 'pro') {
+                    $(".arguments-table.pro-table tbody").append(data);
+                } else {
+                    $(".arguments-table.con-table tbody").append(data);
+                };
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $("#create-argument").get(0).reset();
+                $(".argument-modal-btn").attr("disabled", "disabled");
+                console.log(errorThrown);
+            }
+        });
+        e.preventDefault();
+    });
+    //$("#create-argument").submit();
 });

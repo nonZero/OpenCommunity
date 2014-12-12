@@ -1,0 +1,27 @@
+{% load i18n voting_tags humanize %}
+<tr>
+    <td class="argument-content">
+        {{arg.argument|safe}}
+        <div class="arguments-opt">
+            {% comment %}{{ arg.created_by }}, {{ arg.created_at|date:"SHORT_DATE_FORMAT" }}{% endcomment %}
+            {{ arg.created_by }}, {{ arg.created_at|naturaltime }}
+            {% if arg.created_by == request.user %}
+            <span class="pull-right">
+                <a href="{{arg.get_edit_url}}" data-rel="form" style="color: #6C6C6E;">
+                    <i class="fa fa-edit"></i>
+                </a>
+                <a href="{{arg.get_delete_url}}" data-rel="form" style="color: #6C6C6E;">
+                    <i class="fa fa-trash-o"></i>
+                </a>
+            </span>
+            {% endif %}
+        </div>
+    </td>
+    {% if proposal.id|user_vote_result:request.user.id == 'con' %}
+    <td class="argument-vote">
+        <a class="vote-up{% if arg.id|user_ranked_argument:request.user.id == 'pro' %} voted{% endif %}">up vote</a>
+        <span class="vote-count">{{ arg.arguments_for_ranking }}</span>
+        <a class="vote-down{% if arg.id|user_ranked_argument:request.user.id == 'con' %} voted{% endif %}">down vote</a>
+    </td>
+    {% endif %}
+</tr>

@@ -376,7 +376,7 @@ class ProposalVote(models.Model):  # TODO: move down
 
 
     def __unicode__(self):
-        return "%s - %s" % (self.proposal.issue.title, self.user.display_name)
+        return "%s | %s - %s (%s)" % (self.proposal.issue.title, self.proposal.title, self.user.display_name, self.get_value_display())
 
 
 class ProposalVoteArgument(models.Model):
@@ -387,6 +387,29 @@ class ProposalVoteArgument(models.Model):
                                    related_name="arguments_created",
                                    verbose_name=_("Created by"))
 
+    def __unicode__(self):
+        return self.argument
+
+    @models.permalink
+    def get_delete_url(self):
+        return "delete_proposal_argument", (self.proposal_vote.proposal.issue.community.id, self.id)
+
+    @models.permalink
+    def get_edit_url(self):
+        return "edit_proposal_argument", (self.proposal_vote.proposal.issue.community.id, self.id)
+
+    @property
+    def arguments_for_ranking(self):
+        pro = ProposalVoteArgumentRanking.objects.filter(argument=self, value=ProposalVoteValue.PRO).count()
+        against = ProposalVoteArgumentRanking.objects.filter(argument=self, value=ProposalVoteValue.CON).count()
+        return pro - against
+
+    @property
+    def arguments_against_ranking(self):
+        pro = ProposalVoteArgumentRanking.objects.filter(argument=self, value=ProposalVoteValue.PRO).count()
+        against = ProposalVoteArgumentRanking.objects.filter(argument=self, value=ProposalVoteValue.CON).count()
+        return pro - against
+
 
 class ProposalVoteArgumentRanking(models.Model):
     argument = models.ForeignKey("ProposalVoteArgument")
@@ -395,6 +418,9 @@ class ProposalVoteArgumentRanking(models.Model):
     value = models.SmallIntegerField(_("Vote"),
                                      choices=ProposalVoteValue.CHOICES,
                                      default=ProposalVoteValue.NEUTRAL)
+
+    # def __unicode__(self):
+    #     return "%s - %s" % (self.user, self.value)
 
 
 class ProposalVoteBoard(models.Model):
@@ -649,6 +675,7 @@ class Proposal(UIDMixin, ConfidentialMixin):
     @property
     def arguments_against(self):
         return ProposalVoteArgument.objects.filter(proposal_vote__in=self.votes.filter(value=ProposalVoteValue.CON))
+
 
 class VoteResult(models.Model):
     """ straw vote result per proposal, per meeting """
