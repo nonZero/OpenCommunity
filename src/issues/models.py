@@ -357,6 +357,16 @@ class ProposalVoteValue(object):
     )
 
 
+class ProposalVoteArgumentVoteValue(object):
+    CON = -1
+    PRO = 1
+
+    CHOICES = (
+        (CON, ugettext("Con")),
+        (PRO, ugettext("Pro")),
+        )
+
+
 class ProposalVote(models.Model):  # TODO: move down
     proposal = models.ForeignKey("Proposal", related_name='votes')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
@@ -393,8 +403,7 @@ class ProposalVoteArgumentRanking(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
                              related_name="argument_votes")
     value = models.SmallIntegerField(_("Vote"),
-                                     choices=ProposalVoteValue.CHOICES,
-                                     default=ProposalVoteValue.NEUTRAL)
+                                     choices=ProposalVoteArgumentVoteValue.CHOICES)
 
 
 class ProposalVoteBoard(models.Model):
