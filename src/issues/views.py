@@ -907,6 +907,30 @@ class ArgumentRankingVoteView(RankingVoteMixin, DetailView):
         return json_response(vote_response)
 
 
+def up_down_vote(request, community_id, arg_id):
+
+    if request.method != "POST":
+        raise Exception("Must be POST")
+
+    argument = models.ProposalVoteArgument.objects.get(pk=arg_id)
+    val = request.POST['val']
+    value = 1 if val == 'up' else -1
+    try:
+        vote = models.ProposalVoteArgumentRanking.objects.get(argument=argument, user=request.user)
+        if vote.value == value:
+            vote.delete()
+        else:
+            vote.value=value
+            vote.save()
+    except ProposalVoteArgumentRanking.DoesNotExist:
+        obj = models.ProposalVoteArgumentRanking(argument=argument, user=request.user, value=value)
+        obj.save()
+    up_votes = ProposalVoteArgumentRanking.objects.filter(argument=argument, value=1).count()
+    down_votes = ProposalVoteArgumentRanking.objects.filter(argument=argument, value=-1).count()
+    total_votes = up_votes - down_votes
+    return HttpResponse(total_votes)
+
+
 class ProposalVoteArgumentCreateView(CreateView):
     model = models.ProposalVoteArgument
     form_class = CreateProposalVoteArgumentForm

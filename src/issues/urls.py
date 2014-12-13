@@ -84,6 +84,9 @@ urlpatterns = patterns('',
     url(r'^get-argument-value/(?P<arg_id>\d+)/$',
         views.get_argument_value, name="get_argument_value"),
 
+    url(r'^argument-up-down-vote/(?P<arg_id>\d+)/$',
+        views.up_down_vote, name="argument_up_down_vote"),
+
     url(r'^vote_res_panel/(?P<pk>\d+)/$',
         views.VoteResultsView.as_view(), name="vote_results_panel"),
 

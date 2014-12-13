@@ -44,11 +44,13 @@ function addArgument() {
                     $(".arguments-table.con-table tbody").append(data);
                 }
                 deleteArgument();
+                upDownVote();
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $("#create-argument").get(0).reset();
                 $(".argument-modal-btn").attr("disabled", "disabled");
                 deleteArgument();
+                upDownVote();
                 console.log(errorThrown);
             }
         });
@@ -56,6 +58,26 @@ function addArgument() {
     });
 };
 
+// Argument Upvote/Downvote
+
+function upDownVote() {
+    $('.vote-up,.vote-down').on('click', function () {
+        var VoteId = $(this).parents('tr').data('id');
+        var VoteVal = $(this).data('vote-val');
+        var VoteUrl = $(this).parent().data('url');
+        var VoteSib = $(this).siblings('a');
+        var VoteCount = $(this).siblings('.vote-count');
+        if (VoteSib.hasClass('voted')) {
+            VoteSib.removeClass('voted');
+        }
+        ;
+        $(this).toggleClass('voted');
+        $.post(VoteUrl, {val: VoteVal})
+            .success(function (data) {
+                VoteCount.text(data);
+            });
+    });
+};
 $(function () {
 
     // disclaimer: this code is ugly.
@@ -181,6 +203,7 @@ $(function () {
     });
     addArgument();
     deleteArgument();
+    upDownVote();
 
     // Ajax update argument form submission.
 
@@ -219,4 +242,5 @@ $(function () {
             $('#edit_argument_text').val(data);
         });
     });
+
 });

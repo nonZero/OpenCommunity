@@ -407,6 +407,10 @@ class ProposalVoteArgument(models.Model):
     def get_data_url(self):
         return "get_argument_value", (self.proposal_vote.proposal.issue.community.id, self.id)
 
+    @models.permalink
+    def get_vote_url(self):
+        return "argument_up_down_vote", (self.proposal_vote.proposal.issue.community.id, self.id)
+
     @property
     def arguments_for_ranking(self):
         pro = ProposalVoteArgumentRanking.objects.filter(argument=self, value=ProposalVoteValue.PRO).count()
