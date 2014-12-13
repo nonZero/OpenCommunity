@@ -1284,8 +1284,17 @@ form.delete-invitation {
 	color: #fff;
 	border: 1px solid;
 }
+.edit-argument,
+.delete-argument {
+    display: inline;
+    cursor: pointer;
+}
+.edit-argument i,
+.delete-argument i {
+    color: #6C6C6E;
+}
 .vote_arguments {
-    border-top: 1px solid #e2e2e2;
+    border: 1px solid #e2e2e2;
 }
 .vote_arguments p {
     margin: 0;
@@ -1301,7 +1310,7 @@ form.delete-invitation {
 }
 .argument-vote {
     width: 45px;
-    vertical-align: middle;
+    vertical-align: top;
 }
 .argument-vote i,
 .argument-vote span {

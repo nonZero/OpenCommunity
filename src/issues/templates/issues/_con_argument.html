@@ -1,5 +1,5 @@
 {% load i18n voting_tags humanize %}
-<tr>
+<tr data-id="{{ arg.id }}">
     <td class="argument-content">
         {{arg.argument|safe}}
         <div class="arguments-opt">
@@ -7,12 +7,12 @@
             {{ arg.created_by }}, {{ arg.created_at|naturaltime }}
             {% if arg.created_by == request.user %}
             <span class="pull-right">
-                <a href="{{arg.get_edit_url}}" data-rel="form" style="color: #6C6C6E;">
+                <a class="edit-argument" data-url="{{arg.get_edit_url}}" data-toggle="modal" data-target="#editArgumentModal">
                     <i class="fa fa-edit"></i>
                 </a>
-                <a href="{{arg.get_delete_url}}" data-rel="form" style="color: #6C6C6E;">
+                <form class="delete-argument" method="post" action="{{arg.get_delete_url}}">
                     <i class="fa fa-trash-o"></i>
-                </a>
+                </form>
             </span>
             {% endif %}
         </div>

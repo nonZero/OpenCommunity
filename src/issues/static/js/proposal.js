@@ -1,6 +1,61 @@
 "use strict";
 
 
+// Ajax argument delete form submission.
+
+function deleteArgument() {
+    $(".delete-argument").on('click', function (e) {
+        var formURL = $(this).attr("action");
+        var postData = $(this).serializeArray();
+        $.ajax({
+            url: formURL,
+            type: "POST",
+            data: postData,
+            success: function (data, textStatus, jqXHR) {
+                $("tr[data-id='" + data + "']").remove();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+        e.preventDefault();
+    });
+};
+
+// Ajax argument form submission.
+
+function addArgument() {
+    $("#argument-submit").on('click', function (e) {
+        var formObj = $('#create-argument');
+        var voteStatus = formObj.data("vote");
+        var formURL = formObj.attr("action");
+        var postData = formObj.serializeArray();
+        $('#argumentModal').modal('hide');
+        $.ajax({
+            url: formURL,
+            type: "POST",
+            data: postData,
+            success: function (data, textStatus, jqXHR) {
+                $("#create-argument").get(0).reset();
+                $(".argument-modal-btn").attr("disabled", "disabled");
+                if (voteStatus == 'pro') {
+                    $(".arguments-table.pro-table tbody").append(data);
+                } else {
+                    $(".arguments-table.con-table tbody").append(data);
+                }
+                deleteArgument();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $("#create-argument").get(0).reset();
+                $(".argument-modal-btn").attr("disabled", "disabled");
+                deleteArgument();
+                console.log(errorThrown);
+            }
+        });
+        e.preventDefault();
+    });
+};
+
 $(function () {
 
     // disclaimer: this code is ugly.
@@ -124,36 +179,44 @@ $(function () {
             $(".argument-modal-btn").attr("disabled", "disabled");
         }
     });
+    addArgument();
+    deleteArgument();
 
-    // Ajax argument form submission.
+    // Ajax update argument form submission.
 
-    $("#argument-submit").on('click', function (e) {
-        var formObj = $('#create-argument');
-        var voteStatus = formObj.data("vote");
-        console.log(voteStatus);
+    $("#edit-argument-submit").on('click', function (e) {
+        var formObj = $('#edit-argument');
+        var voteId = formObj.data("id");
         var formURL = formObj.attr("action");
         var postData = formObj.serializeArray();
-        $('#argumentModal').modal('hide');
+        $('#editArgumentModal').modal('hide');
         $.ajax({
             url: formURL,
             type: "POST",
             data: postData,
             success: function (data, textStatus, jqXHR) {
-                $("#create-argument").get(0).reset();
-                $(".argument-modal-btn").attr("disabled", "disabled");
-                if (voteStatus == 'pro') {
-                    $(".arguments-table.pro-table tbody").append(data);
-                } else {
-                    $(".arguments-table.con-table tbody").append(data);
-                };
+                $("#edit-argument").get(0).reset();
+                $("tr[data-id='" + voteId + "'] .arg-desc").html(data);
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                $("#create-argument").get(0).reset();
-                $(".argument-modal-btn").attr("disabled", "disabled");
+                $("#edit-argument").get(0).reset();
                 console.log(errorThrown);
             }
         });
         e.preventDefault();
     });
-    //$("#create-argument").submit();
+
+    // Handle argument editing.
+
+    $('#editArgumentModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var vote_id = button.parents('tr').data('id');
+        $('#edit-argument').attr("data-id", vote_id);
+        var url = button.data('url');
+        var arg_value_url = button.data('valueurl');
+        $('#edit-argument').attr('action', url);
+        $.get(arg_value_url, function(data) {
+            $('#edit_argument_text').val(data);
+        });
+    });
 });

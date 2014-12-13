@@ -1,12 +1,14 @@
 {% load i18n voting_tags %}
 
-<div class="vote_arguments clear">
+<div class="vote_arguments clearfix clear">
     <div class="arguments_for col-xs-12 col-sm-6">
         <h5>{% trans "Why yes" %}?</h5>
         <table class="arguments-table pro-table">
+            <tbody>
             {% for arg in proposal.arguments_for %}
             {% include 'issues/_pro_argument.html' %}
             {% endfor %}
+            </tbody>
         </table>
         {% if proposal.id|user_vote_result:request.user.id == 'pro' %}
         <form id="create-argument" method="post" data-vote="pro" action="{% url 'create_vote_argument' community.id proposal.id|user_proposal_vote_id:request.user.id %}">
@@ -26,9 +28,11 @@
     <div class="arguments_against col-xs-12 col-sm-6">
         <h5>{% trans "Why no" %}?</h5>
         <table class="arguments-table con-table">
+            <tbody>
             {% for arg in proposal.arguments_against %}
             {% include 'issues/_con_argument.html' %}
             {% endfor %}
+            </tbody>
         </table>
         {% if proposal.id|user_vote_result:request.user.id == 'con' %}
         <form id="create-argument" method="post" datt-vote="con" action="{% url 'create_vote_argument' community.id proposal.id|user_proposal_vote_id:request.user.id %}">
@@ -77,6 +81,41 @@
                 </div>
                 <div class="col-xs-5 col-sm-3">
                     <button type="submit" id="argument-submit" class="btn btn-success btn-block">
+                        {% trans "Confirm" %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editArgumentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">{% trans "Edit argument" %}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{% trans "Editing argument will erase all supported votes" %}</p>
+                <form id="edit-argument" method="post" action="">
+                    <div class="form-group">
+                        <label class="control-label">{% trans "Argument" %}</label>
+                        <textarea id="edit_argument_text" class="form-control" rows="4" name="argument"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="col-xs-5 col-xs-offset-1 col-sm-3 col-sm-offset-3">
+                    <button type="button" class="btn btn-default btn-block" data-dismiss="modal">
+                        {% trans "Cancel" %}
+                    </button>
+                </div>
+                <div class="col-xs-5 col-sm-3">
+                    <button type="submit" id="edit-argument-submit" class="btn btn-success btn-block">
                         {% trans "Confirm" %}
                     </button>
                 </div>

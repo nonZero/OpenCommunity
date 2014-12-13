@@ -212,6 +212,8 @@ class IssueComment(UIDMixin):
 
     class Meta:
         ordering = ('created_at',)
+        verbose_name = _("Issue comment")
+        verbose_name_plural = _("Issue comments")
 
     @property
     def is_open(self):
@@ -374,7 +376,6 @@ class ProposalVote(models.Model):  # TODO: move down
         verbose_name = _("Proposal Vote")
         verbose_name_plural = _("Proposal Votes")
 
-
     def __unicode__(self):
         return "%s | %s - %s (%s)" % (self.proposal.issue.title, self.proposal.title, self.user.display_name, self.get_value_display())
 
@@ -387,6 +388,10 @@ class ProposalVoteArgument(models.Model):
                                    related_name="arguments_created",
                                    verbose_name=_("Created by"))
 
+    class Meta:
+        verbose_name = _("Proposal vote argument")
+        verbose_name_plural = _("Proposal vote arguments")
+
     def __unicode__(self):
         return self.argument
 
@@ -397,6 +402,10 @@ class ProposalVoteArgument(models.Model):
     @models.permalink
     def get_edit_url(self):
         return "edit_proposal_argument", (self.proposal_vote.proposal.issue.community.id, self.id)
+
+    @models.permalink
+    def get_data_url(self):
+        return "get_argument_value", (self.proposal_vote.proposal.issue.community.id, self.id)
 
     @property
     def arguments_for_ranking(self):
@@ -419,8 +428,9 @@ class ProposalVoteArgumentRanking(models.Model):
                                      choices=ProposalVoteValue.CHOICES,
                                      default=ProposalVoteValue.NEUTRAL)
 
-    # def __unicode__(self):
-    #     return "%s - %s" % (self.user, self.value)
+    class Meta:
+        verbose_name = _("Proposal vote argument ranking")
+        verbose_name_plural = _("Proposal vote arguments ranking")
 
 
 class ProposalVoteBoard(models.Model):
@@ -691,6 +701,9 @@ class VoteResult(models.Model):
 
     class Meta:
         unique_together = (('proposal', 'meeting'),)
+        verbose_name = _("Vote result")
+        verbose_name_plural = _("Vote results")
+
 
 
 class IssueRankingVote(models.Model):

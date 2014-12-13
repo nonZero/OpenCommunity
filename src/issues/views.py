@@ -945,10 +945,32 @@ class ProposalVoteArgumentUpdateView(UpdateView):
     model = models.ProposalVoteArgument
     fields = ['argument',]
 
+    def post(self, request, *args, **kwargs):
+        a = self.get_object()
+        if request.POST.get('argument', None):
+            a.argument = request.POST.get('argument')
+            a.save()
+            return HttpResponse(a.argument)
+        else:
+            return HttpResponse("")
+
 
 class ProposalVoteArgumentDeleteView(DeleteView):
     model = models.ProposalVoteArgument
     success_url = ""
+
+    def post(self, request, *args, **kwargs):
+        o = self.get_object()
+        arg_id = o.id
+        o.delete()
+        return HttpResponse(arg_id)
+
+
+def get_argument_value(request, community_id, arg_id):
+    print arg_id
+    """ Return the value of the argument for editing """
+    arg_value = models.ProposalVoteArgument.objects.get(pk=arg_id)
+    return HttpResponse(arg_value.argument)
 
 ######################################################################3
 
