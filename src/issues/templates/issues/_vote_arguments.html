@@ -10,7 +10,7 @@
             {% endfor %}
             </tbody>
         </table>
-        {% if proposal.id|user_vote_result:request.user.id == 'pro' %}
+        {% if proposal.id|user_vote_result:request.user.id == 'pro' and proposal.id|user_proposal_vote_id:request.user.id %}
         <form id="create-argument" method="post" data-vote="pro" action="{% url 'create_vote_argument' community.id proposal.id|user_proposal_vote_id:request.user.id %}">
             {% csrf_token %}
             <div class="form-group">
@@ -34,7 +34,7 @@
             {% endfor %}
             </tbody>
         </table>
-        {% if proposal.id|user_vote_result:request.user.id == 'con' %}
+        {% if proposal.id|user_vote_result:request.user.id == 'con' and proposal.id|user_proposal_vote_id:request.user.id %}
         <form id="create-argument" method="post" datt-vote="con" action="{% url 'create_vote_argument' community.id proposal.id|user_proposal_vote_id:request.user.id %}">
             {% csrf_token %}
             <div class="form-group">
