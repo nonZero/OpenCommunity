@@ -852,22 +852,22 @@ class RankingVoteMixin(ProposalVoteMixin):
            raise
        return (vote, self.VOTE_OK)
 
-   def _vote_values_map(self, key):
-       vote_map = {
-           'pro': 1,
-           'con': -1,
-           'reset': 0,
-           }
-       if type(key) != int:
-           try:
-               return vote_map[key]
-           except KeyError:
-               return None
-       else:
-           for k, val in vote_map.items():
-               if key == val:
-                   return k
-       return None
+    def _vote_values_map(self, key):
+        vote_map = {
+            'pro': 1,
+            'con': -1,
+            'reset': 0,
+            }
+        if type(key) != int:
+            try:
+                return vote_map[key]
+            except KeyError:
+                return None
+        else:
+            for k, val in vote_map.items():
+                if key == val:
+                    return k
+        return None
 
 
 class ArgumentRankingVoteView(RankingVoteMixin, DetailView):
