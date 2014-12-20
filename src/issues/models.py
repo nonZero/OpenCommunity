@@ -212,6 +212,8 @@ class IssueComment(UIDMixin):
 
     class Meta:
         ordering = ('created_at',)
+        verbose_name = _("Issue comment")
+        verbose_name_plural = _("Issue comments")
 
     @property
     def is_open(self):
@@ -384,9 +386,8 @@ class ProposalVote(models.Model):  # TODO: move down
         verbose_name = _("Proposal Vote")
         verbose_name_plural = _("Proposal Votes")
 
-
     def __unicode__(self):
-        return "%s - %s" % (self.proposal.issue.title, self.user.display_name)
+        return "%s | %s - %s (%s)" % (self.proposal.issue.title, self.proposal.title, self.user.display_name, self.get_value_display())
 
 
 class ProposalVoteArgument(models.Model):
@@ -397,6 +398,41 @@ class ProposalVoteArgument(models.Model):
                                    related_name="arguments_created",
                                    verbose_name=_("Created by"))
 
+    class Meta:
+        verbose_name = _("Proposal vote argument")
+        verbose_name_plural = _("Proposal vote arguments")
+
+    def __unicode__(self):
+        return self.argument
+
+    @models.permalink
+    def get_delete_url(self):
+        return "delete_proposal_argument", (self.proposal_vote.proposal.issue.community.id, self.id)
+
+    @models.permalink
+    def get_edit_url(self):
+        return "edit_proposal_argument", (self.proposal_vote.proposal.issue.community.id, self.id)
+
+    @models.permalink
+    def get_data_url(self):
+        return "get_argument_value", (self.proposal_vote.proposal.issue.community.id, self.id)
+
+    @models.permalink
+    def get_vote_url(self):
+        return "argument_up_down_vote", (self.proposal_vote.proposal.issue.community.id, self.id)
+
+    @property
+    def arguments_for_ranking(self):
+        pro = ProposalVoteArgumentRanking.objects.filter(argument=self, value=ProposalVoteValue.PRO).count()
+        against = ProposalVoteArgumentRanking.objects.filter(argument=self, value=ProposalVoteValue.CON).count()
+        return pro - against
+
+    @property
+    def arguments_against_ranking(self):
+        pro = ProposalVoteArgumentRanking.objects.filter(argument=self, value=ProposalVoteValue.PRO).count()
+        against = ProposalVoteArgumentRanking.objects.filter(argument=self, value=ProposalVoteValue.CON).count()
+        return pro - against
+
 
 class ProposalVoteArgumentRanking(models.Model):
     argument = models.ForeignKey("ProposalVoteArgument")
@@ -404,6 +440,10 @@ class ProposalVoteArgumentRanking(models.Model):
                              related_name="argument_votes")
     value = models.SmallIntegerField(_("Vote"),
                                      choices=ProposalVoteArgumentVoteValue.CHOICES)
+
+    class Meta:
+        verbose_name = _("Proposal vote argument ranking")
+        verbose_name_plural = _("Proposal vote arguments ranking")
 
 
 class ProposalVoteBoard(models.Model):
@@ -659,6 +699,7 @@ class Proposal(UIDMixin, ConfidentialMixin):
     def arguments_against(self):
         return ProposalVoteArgument.objects.filter(proposal_vote__in=self.votes.filter(value=ProposalVoteValue.CON))
 
+
 class VoteResult(models.Model):
     """ straw vote result per proposal, per meeting """
     proposal = models.ForeignKey(Proposal, related_name="results")
@@ -673,6 +714,9 @@ class VoteResult(models.Model):
 
     class Meta:
         unique_together = (('proposal', 'meeting'),)
+        verbose_name = _("Vote result")
+        verbose_name_plural = _("Vote results")
+
 
 
 class IssueRankingVote(models.Model):

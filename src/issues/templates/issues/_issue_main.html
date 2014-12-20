@@ -6,7 +6,9 @@
         {% include "issues/_issue_title.html" %}
     </div>
 
+        {% if not community.no_meetings_community %}
         <h2 class="filter-title pull-left">{% trans "Background" %}</h2>
+        {% endif %}
         <div class="abstracts">
 
             {% if cperms.issues.editclosed_issue or not object.is_archived %}

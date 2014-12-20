@@ -52,3 +52,4 @@ whoosh_index/
 *.sublime-project
 *.sublime-workspace
 
+db/ocd_new1.db

@@ -1,9 +1,9 @@
-{% load i18n  %}
-<div class="change_vote text-center vote-btns">
-    <span>{% trans "You have voted on this proposal" %}!</span>
-    <a class="btn btn-warning vote-action"
+{% load i18n voting_tags %}
+<div class="change_vote text-center vote-btns vote_result_{{ vote_status }}">
+    <span>{% trans "You voted" %} {% if vote_status == 'pro' %}{% trans "for" %}{% else %}{% trans "against" %}{% endif %}!</span>
+    <a class="vote-action"
        href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}"
        id="vote-reset">
-        {% trans "Change your vote" %}
+        {% trans "Cancel vote" %}
     </a>
 </div>

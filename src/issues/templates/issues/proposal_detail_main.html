@@ -112,13 +112,10 @@
 		</h5>
 	</div>
 </div>
-                        ##test##
-                        {% for arg in proposal.arguments_for %}
-                            {{arg.argument}}
-                        {% endfor %}
     {% with proposal=object c=proposal.issue.community %}
         {% if proposal.can_straw_vote and cperms.issues.vote and user|member_of:c %}
             {% include 'issues/_straw_vote.html' %}
+            {% include 'issues/_vote_arguments.html' %}
         {% endif %}
         {% if proposal.can_show_straw_votes %}
             <div id="results_container" class="clear">

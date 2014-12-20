@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse_lazy
 from django.db.models.aggregates import Max
 from django.http.response import HttpResponse, HttpResponseBadRequest, \
     HttpResponseForbidden
@@ -11,7 +12,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from issues import models, forms
 from issues.forms import CreateIssueForm, CreateProposalForm, EditProposalForm, \
     UpdateIssueForm, EditProposalTaskForm, AddAttachmentForm, \
-    UpdateIssueAbstractForm
+    UpdateIssueAbstractForm, CreateProposalVoteArgumentForm
 from issues.models import ProposalType, Issue, IssueStatus, ProposalVote, \
     Proposal, ProposalVoteBoard, ProposalVoteValue, VoteResult, ProposalVoteArgument, ProposalVoteArgumentRanking
 from meetings.models import Meeting
@@ -743,6 +744,7 @@ class ProposalVoteView(ProposalVoteMixin, DetailView):
                     {
                         'proposal': proposal,
                         'community': self.community,
+                        'vote_status': val,
                     }),
         }
 
@@ -770,6 +772,7 @@ class ProposalVoteView(ProposalVoteMixin, DetailView):
                     {
                         'proposal': proposal,
                         'community': self.community,
+                        'vote_status': val,
                     })
             if is_board and voter_group == DefaultGroups.CHAIRMAN:
                 vote_response['sum'] = render_to_string('issues/_member_vote_sum.html',
@@ -831,10 +834,10 @@ class MultiProposalVoteView(ProposalVoteMixin, DetailView):
 
 
 class RankingVoteMixin(ProposalVoteMixin):
-   VOTE_OK = 0
-   VOTE_VER_ERR = 1
+    VOTE_OK = 0
+    VOTE_VER_ERR = 1
 
-   def _do_vote(self, vote_class, argument, user_id, value):
+    def _do_vote(self, vote_class, argument, user_id, value):
        try:
            vote = vote_class.objects.get(argument_id=argument.id,
                user_id=user_id)
@@ -874,31 +877,149 @@ class ArgumentRankingVoteView(RankingVoteMixin, DetailView):
     def post(self, request, *args, **kwargs):
 
         user_id = request.POST.get('user', request.user.id)
+        voter_id = request.user.id
         val = request.POST['val']
         vote_class = ProposalVoteArgumentRanking
 
         argument = self.get_object()
         aid = argument.id
+        vote_panel_tpl = 'issues/_vote_panel.html' if val == 'reset' \
+                            else 'issues/_vote_reset_panel.html'
+
+        res_panel_tpl = 'issues/_vote_reset_panel.html'
         vote_response = {
                 'result': 'ok',
+                'html': render_to_string(res_panel_tpl,
+                    {
+                        'argument': argument,
+                        'community': self.community,
+                    }),
         }
+
         value = ''
         if val == 'reset':
             vote = get_object_or_404(vote_class,
                                      argument_id=aid, user_id=user_id)
             vote.delete()
+            vote_response['html'] = render_to_string(vote_panel_tpl,
+                    {
+                        'argument': argument,
+                        'community': self.community,
+                    })
+
             return json_response(vote_response)
         else:
             value = self._vote_values_map(val)
         if value == None:
             return HttpResponseBadRequest('vote value not valid')
+
         vote, valid = self._do_vote(vote_class, argument, user_id, value)
-        if valid != RankingVoteMixin.VOTE_OK:
+        if valid == RankingVoteMixin.VOTE_OK:
+            vote_response['html'] = render_to_string(res_panel_tpl,
+                    {
+                        'argument': argument,
+                        'community': self.community,
+                    })
+        else:
             vote_response['result'] = 'err'
+            if valid == RankingVoteMixin.VOTE_OVERRIDE_ERR:
+                vote_response['override_fail'] = [{'uid': user_id,
+                                               'val': self._vote_values_map(vote.value),
+                                             }]
 
         return json_response(vote_response)
 
 
+def up_down_vote(request, community_id, arg_id):
+
+    if request.method != "POST":
+        raise Exception("Must be POST")
+
+    argument = models.ProposalVoteArgument.objects.get(pk=arg_id)
+    val = request.POST['val']
+    value = 1 if val == 'up' else -1
+    try:
+        vote = models.ProposalVoteArgumentRanking.objects.get(argument=argument, user=request.user)
+        if vote.value == value:
+            vote.delete()
+        else:
+            vote.value=value
+            vote.save()
+    except ProposalVoteArgumentRanking.DoesNotExist:
+        obj = models.ProposalVoteArgumentRanking(argument=argument, user=request.user, value=value)
+        obj.save()
+    up_votes = ProposalVoteArgumentRanking.objects.filter(argument=argument, value=1).count()
+    down_votes = ProposalVoteArgumentRanking.objects.filter(argument=argument, value=-1).count()
+    total_votes = up_votes - down_votes
+    return HttpResponse(total_votes)
+
+
+class ProposalVoteArgumentCreateView(CreateView):
+    model = models.ProposalVoteArgument
+    form_class = CreateProposalVoteArgumentForm
+    fields = ['argument', 'proposal_vote', 'created_by']
+    template_name = 'issues/proposal_vote_argument_form.html'
+
+    def get_success_url(self):
+        return ""
+
+    # def form_valid(self, form):
+    #     form.instance.proposal_vote = ProposalVote.objects.get(pk=self.kwargs['vote_id'])
+    #     form.instance.created_by = self.request.user
+    #     return super(ProposalVoteArgumentCreateView, self).form_valid(form)
+    #
+    # def form_invalid(self, form):
+    #     return HttpResponse("000")
+
+    def post(self, request, *args, **kwargs):
+
+        form = forms.CreateProposalVoteArgumentForm(request.POST)
+        if not form.is_valid():
+            return HttpResponseBadRequest()
+
+        proposal_vote = ProposalVote.objects.get(pk=self.kwargs['vote_id'])
+        a = ProposalVoteArgument.objects.create(argument=form.cleaned_data['argument'],
+                              created_by=request.user, proposal_vote=proposal_vote)
+        self.object = a
+        context = self.get_context_data(arg=a, proposal=proposal_vote.proposal)
+        if proposal_vote.value == 1:
+            return render(request, 'issues/_pro_argument.html', context)
+        else:
+            return render(request, 'issues/_con_argument.html', context)
+
+
+class ProposalVoteArgumentUpdateView(UpdateView):
+    model = models.ProposalVoteArgument
+    fields = ['argument',]
+
+    def post(self, request, *args, **kwargs):
+        a = self.get_object()
+        if request.POST.get('argument', None):
+            a.argument = request.POST.get('argument')
+            a.save()
+            return HttpResponse(a.argument)
+        else:
+            return HttpResponse("")
+
+
+class ProposalVoteArgumentDeleteView(DeleteView):
+    model = models.ProposalVoteArgument
+    success_url = ""
+
+    def post(self, request, *args, **kwargs):
+        o = self.get_object()
+        arg_id = o.id
+        o.delete()
+        return HttpResponse(arg_id)
+
+
+def get_argument_value(request, community_id, arg_id):
+    print arg_id
+    """ Return the value of the argument for editing """
+    arg_value = models.ProposalVoteArgument.objects.get(pk=arg_id)
+    return HttpResponse(arg_value.argument)
+
+######################################################################3
 
 class ChangeBoardVoteStatusView(ProposalMixin, UpdateView):
     required_permission_for_post = 'issues.chairman_vote'

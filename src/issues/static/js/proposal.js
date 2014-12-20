@@ -1,6 +1,83 @@
 "use strict";
 
 
+// Ajax argument delete form submission.
+
+function deleteArgument() {
+    $(".delete-argument").on('click', function (e) {
+        var formURL = $(this).attr("action");
+        var postData = $(this).serializeArray();
+        $.ajax({
+            url: formURL,
+            type: "POST",
+            data: postData,
+            success: function (data, textStatus, jqXHR) {
+                $("tr[data-id='" + data + "']").remove();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+        e.preventDefault();
+    });
+};
+
+// Ajax argument form submission.
+
+function addArgument() {
+    $("#argument-submit").on('click', function (e) {
+        var formObj = $('#create-argument');
+        var voteStatus = formObj.data("vote");
+        var formURL = formObj.attr("action");
+        var postData = formObj.serializeArray();
+        $('#argumentModal').modal('hide');
+        $.ajax({
+            url: formURL,
+            type: "POST",
+            data: postData,
+            success: function (data, textStatus, jqXHR) {
+                $("#create-argument").get(0).reset();
+                $(".argument-modal-btn").attr("disabled", "disabled");
+                if (voteStatus == 'pro') {
+                    $(".arguments-table.pro-table tbody").append(data);
+                } else {
+                    $(".arguments-table.con-table tbody").append(data);
+                }
+                deleteArgument();
+                upDownVote();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $("#create-argument").get(0).reset();
+                $(".argument-modal-btn").attr("disabled", "disabled");
+                deleteArgument();
+                upDownVote();
+                console.log(errorThrown);
+            }
+        });
+        e.preventDefault();
+    });
+};
+
+// Argument Upvote/Downvote
+
+function upDownVote() {
+    $('.vote-up,.vote-down').on('click', function () {
+        var VoteId = $(this).parents('tr').data('id');
+        var VoteVal = $(this).data('vote-val');
+        var VoteUrl = $(this).parent().data('url');
+        var VoteSib = $(this).siblings('a');
+        var VoteCount = $(this).siblings('.vote-count');
+        if (VoteSib.hasClass('voted')) {
+            VoteSib.removeClass('voted');
+        }
+        ;
+        $(this).toggleClass('voted');
+        $.post(VoteUrl, {val: VoteVal})
+            .success(function (data) {
+                VoteCount.text(data);
+            });
+    });
+};
 $(function () {
 
     // disclaimer: this code is ugly.
@@ -112,6 +189,58 @@ $(function () {
 
     $(window).resize(function () {
         fixHeights();
+    });
+
+    // Enable/Disable argument modal button for empty field.
+
+    $("#id_argument").keyup(function(){
+        var textLength = $("#id_argument").val().length;
+        if ( textLength > 0 ) {
+            $(".argument-modal-btn").removeAttr("disabled");
+        } else {
+            $(".argument-modal-btn").attr("disabled", "disabled");
+        }
+    });
+    addArgument();
+    deleteArgument();
+    upDownVote();
+
+    // Ajax update argument form submission.
+
+    $("#edit-argument-submit").on('click', function (e) {
+        var formObj = $('#edit-argument');
+        var voteId = formObj.data("id");
+        var formURL = formObj.attr("action");
+        var postData = formObj.serializeArray();
+        $('#editArgumentModal').modal('hide');
+        $.ajax({
+            url: formURL,
+            type: "POST",
+            data: postData,
+            success: function (data, textStatus, jqXHR) {
+                $("#edit-argument").get(0).reset();
+                $("tr[data-id='" + voteId + "'] .arg-desc").html(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $("#edit-argument").get(0).reset();
+                console.log(errorThrown);
+            }
+        });
+        e.preventDefault();
+    });
+
+    // Handle argument editing.
+
+    $('#editArgumentModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var vote_id = button.parents('tr').data('id');
+        $('#edit-argument').attr("data-id", vote_id);
+        var url = button.data('url');
+        var arg_value_url = button.data('valueurl');
+        $('#edit-argument').attr('action', url);
+        $.get(arg_value_url, function(data) {
+            $('#edit_argument_text').val(data);
+        });
     });
 
 });

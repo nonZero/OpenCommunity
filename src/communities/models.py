@@ -115,6 +115,9 @@ class Community(UIDMixin):
     inform_system_manager = models.BooleanField(
         _('Inform System Manager'), default=False)
 
+    no_meetings_community = models.BooleanField(
+        _('Community without meetings?'), default=False)
+
     class Meta:
         verbose_name = _("Community")
         verbose_name_plural = _("Communities")

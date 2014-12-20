@@ -72,6 +72,21 @@ urlpatterns = patterns('',
     url(r'^argument_vote/(?P<pk>\d+)/$',
         views.ArgumentRankingVoteView.as_view(), name="vote_on_argument"),
 
+    url(r'^(?P<vote_id>\d+)/vote-argument-create/$',
+        views.ProposalVoteArgumentCreateView.as_view(), name="create_vote_argument"),
+
+    url(r'^delete-vote-argument/(?P<pk>\d+)/$',
+        views.ProposalVoteArgumentDeleteView.as_view(), name="delete_proposal_argument"),
+
+    url(r'^edit-vote-argument/(?P<pk>\d+)/$',
+        views.ProposalVoteArgumentUpdateView.as_view(), name="edit_proposal_argument"),
+
+    url(r'^get-argument-value/(?P<arg_id>\d+)/$',
+        views.get_argument_value, name="get_argument_value"),
+
+    url(r'^argument-up-down-vote/(?P<arg_id>\d+)/$',
+        views.up_down_vote, name="argument_up_down_vote"),
+
     url(r'^vote_res_panel/(?P<pk>\d+)/$',
         views.VoteResultsView.as_view(), name="vote_results_panel"),
 
