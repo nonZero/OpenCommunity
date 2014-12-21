@@ -840,6 +840,9 @@ class RankingVoteMixin(ProposalVoteMixin):
         try:
             vote = vote_class.objects.get(argument_id=argument.id,
                                           user_id=user_id)
+            if argument.proposal_vote.value != ProposalVote.objects.get(user__id=user_id,
+                                                                        proposal=argument.proposal_vote.proposal).value:
+                return vote, self.VOTE_VER_ERR
             if vote.value == value:
                 vote.delete()
             else:
@@ -850,6 +853,10 @@ class RankingVoteMixin(ProposalVoteMixin):
                                              user_id=user_id,
                                              value=value)
         except vote_class.MultipleObjectsReturned:
+            # Should not happen
+            raise
+
+        except ProposalVote.DoesNotExist:
             # Should not happen
             raise
         return vote, self.VOTE_OK
