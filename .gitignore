@@ -53,3 +53,13 @@ whoosh_index/
 *.sublime-workspace
 
 db/ocd_new1.db
+src/.idea/.name
+src/.idea/encodings.xml
+src/.idea/misc.xml
+src/.idea/modules.xml
+src/.idea/other.xml
+src/.idea/scopes/scope_settings.xml
+src/.idea/src.iml
+src/.idea/testrunner.xml
+src/.idea/vcs.xml
+src/.idea/workspace.xml
