@@ -13,7 +13,7 @@ from ocd.validation import enhance_html
 from taggit.managers import TaggableManager
 import meetings
 import os.path
-
+from itertools import groupby
 
 class IssueManager(ConfidentialQuerySetMixin, ActiveQuerySetMixin, UIDManager):
     pass
@@ -358,6 +358,7 @@ class ProposalVoteValue(object):
         (PRO, ugettext("Pro")),
     )
 
+
 class ProposalVoteArgumentVoteValue(object):
     CON = -1
     PRO = 1
@@ -700,6 +701,16 @@ class Proposal(UIDMixin, ConfidentialMixin):
     @property
     def arguments_against(self):
         return ProposalVoteArgument.objects.filter(proposal_vote__in=self.votes.filter(value=ProposalVoteValue.CON))
+
+    @property
+    def elegantly_interleaved_for_and_against_arguments(self):
+        a = list(self.arguments_for)
+        b = list(self.arguments_against)
+        b, a = sorted((a, b), key=len)
+        len_ab = len(a) + len(b)
+        groups = groupby(((a[len(a)*i//len_ab], b[len(b)*i//len_ab]) for i in range(len_ab)),
+                         key=lambda x:x[0])
+        return [j[i] for k,g in groups for i,j in enumerate(g)]
 
 
 class VoteResult(models.Model):
