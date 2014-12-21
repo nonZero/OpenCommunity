@@ -1379,12 +1379,23 @@ form.delete-invitation {
     color: #999;
 }
 @media (max-width: 767px) {
+    .argument-content {
+        padding: 10px;
+    }
     .arguments-table.pro-table {
-        background-color: greenyellow;
+        background-color: #dcf1c7;
+        width: 90%;
+        margin-bottom: 3px;
     }
 
     .arguments-table.con-table {
-        background-color: red;
+        background-color: #f5cfce;
+        width: 90%;
+        margin-right: 10%;
+        margin-bottom: 3px;
+    }
+    .vote_arguments .arguments-opt {
+        margin-bottom: 0;
     }
 }
 h5.arguments_for,
