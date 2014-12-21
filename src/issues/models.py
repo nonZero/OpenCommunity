@@ -368,16 +368,6 @@ class ProposalVoteArgumentVoteValue(object):
         )
 
 
-class ProposalVoteArgumentVoteValue(object):
-    CON = -1
-    PRO = 1
-
-    CHOICES = (
-        (CON, ugettext("Con")),
-        (PRO, ugettext("Pro")),
-        )
-
-
 class ProposalVote(models.Model):  # TODO: move down
     proposal = models.ForeignKey("Proposal", related_name='votes')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
