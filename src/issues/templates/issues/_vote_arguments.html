@@ -3,9 +3,12 @@
 <div class="col-xs-12 visible-xs">
     <h5 class="pull-left arguments_for">{% trans "Why yes" %}?</h5>
     <h5 class="pull-right arguments_against">{% trans "Why no" %}?</h5>
+    {% for arg in proposal.elegantly_interleaved_for_and_against_arguments %}
+        {% include 'issues/_mix_arguments.html' %}
+    {% endfor %}
 </div>
-<div class="arguments_for col-xs-12 col-sm-6">
-    <h5 class="hidden-xs">{% trans "Why yes" %}?</h5>
+<div class="arguments_for col-xs-12 col-sm-6 hidden-xs">
+    <h5>{% trans "Why yes" %}?</h5>
     <table class="arguments-table pro-table">
         <tbody>
         {% if request.resolver_match.url_name == 'issue' %}
@@ -36,8 +39,8 @@
     </form>
     {% endif %}
 </div>
-<div class="arguments_against col-xs-12 col-sm-6">
-    <h5 class="hidden-xs">{% trans "Why no" %}?</h5>
+<div class="arguments_against col-xs-12 col-sm-6 hidden-xs">
+    <h5>{% trans "Why no" %}?</h5>
     <table class="arguments-table con-table">
         <tbody>
         {% if request.resolver_match.url_name == 'issue' %}

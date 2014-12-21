@@ -20,7 +20,7 @@
     {% if user|voted_on:proposal.id and proposal.id|user_vote_result:request.user.id == 'con'%}
     <td class="argument-vote" data-url="{{arg.get_vote_url}}">
         <a class="vote-up{% if arg.id|user_ranked_argument:request.user.id == 'pro' %} voted{% endif %}" data-vote-val="up">up vote</a>
-        <span class="vote-count">{{ arg.arguments_for_ranking }}</span>
+        <span class="vote-count">{{ arg.argument_score }}</span>
         <a class="vote-down{% if arg.id|user_ranked_argument:request.user.id == 'con' %} voted{% endif %}" data-vote-val="down">down vote</a>
     </td>
     {% endif %}

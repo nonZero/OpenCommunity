@@ -863,8 +863,8 @@ class RankingVoteMixin(ProposalVoteMixin):
 
     def _vote_values_map(self, key):
         vote_map = {
-            'pro': 1,
-            'con': -1,
+            'up': 1,
+            'down': -1,
             }
         if type(key) != int:
             try:
@@ -881,7 +881,6 @@ class RankingVoteMixin(ProposalVoteMixin):
 class ArgumentRankingVoteView(RankingVoteMixin, DetailView):
     required_permission_for_post = 'issues.vote'
     model = models.ProposalVoteArgument
-
     def post(self, request, *args, **kwargs):
 
         user_id = request.POST.get('user', request.user.id)
@@ -894,7 +893,7 @@ class ArgumentRankingVoteView(RankingVoteMixin, DetailView):
         }
 
         value = self._vote_values_map(val)
-        if value == None:
+        if not value:
             return HttpResponseBadRequest('vote value not valid')
 
         vote, valid = self._do_vote(vote_class, argument, user_id, value)

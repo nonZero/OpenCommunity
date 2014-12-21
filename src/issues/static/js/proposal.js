@@ -3,9 +3,9 @@
 
 // Add/Remove disable from submit button.
 function addRemoveSubmitButton() {
-    $("#id_argument").keyup(function(){
+    $("#id_argument").keyup(function () {
         var textLength = $("#id_argument").val().length;
-        if ( textLength > 0 ) {
+        if (textLength > 0) {
             $(".argument-modal-btn").removeAttr("disabled");
         } else {
             $(".argument-modal-btn").attr("disabled", "disabled");
@@ -113,17 +113,17 @@ $(function () {
 
     function do_vote(vote_url, vote_value, elem, is_board) {
         var params = {
-          'val': vote_value
+            'val': vote_value
         };
-        if(is_board) {
-          params['board'] = '1';
+        if (is_board) {
+            params['board'] = '1';
         }
         $.post(vote_url, params, function (data) {
             if (data['result'] == 'ok') {
                 var btn_div = elem.closest('div.vote-btns');
-                if(is_board) {
+                if (is_board) {
                     var current = $('.vote_marked');
-                    if(current.length) {
+                    if (current.length) {
                         current.removeClass('vote_marked');
                     }
                     elem.addClass('vote_marked');
@@ -158,7 +158,7 @@ $(function () {
         var target = $(this).attr('href');
         var is_board = $(this).closest('.vote-btns').attr('id') == 'board_vote_btns';
         var args_url = $('#proposal-detail .proposal').data('argument-url');
-        if (! args_url) {
+        if (!args_url) {
             args_url = $(this).parents('.issue_proposal_vote').data('argument-url');
         }
         do_vote(target, vote_value, $(this), is_board);
@@ -191,17 +191,20 @@ $(function () {
         $('.proposal_right_column,.proposal_left_column').css('height', 'auto');
         if (!$('.proposal_right_column').is(":visible")) {
             return;
-        };
+        }
+        ;
         var issue_h = $('.proposal_right_column').outerHeight();
         var proposal_h = $('.proposal_left_column').outerHeight();
         if ((issue_h + 20) < proposal_h) {
             $('.proposal_right_column').outerHeight(proposal_h - 20);
             return;
-        };
+        }
+        ;
         if (issue_h > proposal_h) {
             $('.proposal_left_column').outerHeight(issue_h + 20);
             return;
-        };
+        }
+        ;
 
     };
 
@@ -253,7 +256,7 @@ $(function () {
         var url = button.data('url');
         var arg_value_url = button.data('valueurl');
         $('#edit-argument').attr('action', url);
-        $.get(arg_value_url, function(data) {
+        $.get(arg_value_url, function (data) {
             $('#edit_argument_text').val(data);
         });
     });
