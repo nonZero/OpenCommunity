@@ -422,16 +422,19 @@ class ProposalVoteArgument(models.Model):
         return "argument_up_down_vote", (self.proposal_vote.proposal.issue.community.id, self.id)
 
     @property
-    def arguments_for_ranking(self):
+    def argument_for_ranking(self):
         pro = ProposalVoteArgumentRanking.objects.filter(argument=self, value=ProposalVoteValue.PRO).count()
-        against = ProposalVoteArgumentRanking.objects.filter(argument=self, value=ProposalVoteValue.CON).count()
-        return pro - against
+        return pro
 
     @property
-    def arguments_against_ranking(self):
-        pro = ProposalVoteArgumentRanking.objects.filter(argument=self, value=ProposalVoteValue.PRO).count()
+    def argument_against_ranking(self):
         against = ProposalVoteArgumentRanking.objects.filter(argument=self, value=ProposalVoteValue.CON).count()
-        return pro - against
+        return against
+
+    @property
+    def argument_score(self):
+        score = self.argument_for_ranking - self.argument_against_ranking
+        return score
 
 
 class ProposalVoteArgumentRanking(models.Model):
