@@ -358,6 +358,15 @@ class ProposalVoteValue(object):
         (PRO, ugettext("Pro")),
     )
 
+class ProposalVoteArgumentVoteValue(object):
+    CON = -1
+    PRO = 1
+
+    CHOICES = (
+        (CON, ugettext("Con")),
+        (PRO, ugettext("Pro")),
+        )
+
 
 class ProposalVoteArgumentVoteValue(object):
     CON = -1

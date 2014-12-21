@@ -1,8 +1,19 @@
 "use strict";
 
 
-// Ajax argument delete form submission.
+// Add/Remove disable from submit button.
+function addRemoveSubmitButton() {
+    $("#id_argument").keyup(function(){
+        var textLength = $("#id_argument").val().length;
+        if ( textLength > 0 ) {
+            $(".argument-modal-btn").removeAttr("disabled");
+        } else {
+            $(".argument-modal-btn").attr("disabled", "disabled");
+        }
+    });
+};
 
+// Ajax argument delete form submission.
 function deleteArgument() {
     $(".delete-argument").on('click', function (e) {
         var formURL = $(this).attr("action");
@@ -45,12 +56,14 @@ function addArgument() {
                 }
                 deleteArgument();
                 upDownVote();
+                addRemoveSubmitButton();
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $("#create-argument").get(0).reset();
                 $(".argument-modal-btn").attr("disabled", "disabled");
                 deleteArgument();
                 upDownVote();
+                addRemoveSubmitButton();
                 console.log(errorThrown);
             }
         });
@@ -92,7 +105,7 @@ $(function () {
         $.post('', {
             issue: id,
             accepted: value,
-            unaccept: '1',
+            unaccept: '1'
         }, function (data) {
             history.back();
         });
@@ -140,10 +153,19 @@ $(function () {
 
     $(".container").on("click", "a[id|='vote']", function (event) {
         event.preventDefault();
+        var vote_box = $(this).parents('.vote-btns').siblings('.vote_arguments');
         var vote_value = $(this).attr('id').substr(5);
         var target = $(this).attr('href');
         var is_board = $(this).closest('.vote-btns').attr('id') == 'board_vote_btns';
+        var args_url = $('#proposal-detail .proposal').data('argument-url');
+        if (! args_url) {
+            args_url = $(this).parents('.issue_proposal_vote').data('argument-url');
+        }
         do_vote(target, vote_value, $(this), is_board);
+        $.get(args_url, function (arg) {
+            vote_box.html(arg);
+        });
+        addArgument();
     });
 
     window.onbeforeunload = function () {
@@ -193,17 +215,10 @@ $(function () {
 
     // Enable/Disable argument modal button for empty field.
 
-    $("#id_argument").keyup(function(){
-        var textLength = $("#id_argument").val().length;
-        if ( textLength > 0 ) {
-            $(".argument-modal-btn").removeAttr("disabled");
-        } else {
-            $(".argument-modal-btn").attr("disabled", "disabled");
-        }
-    });
     addArgument();
     deleteArgument();
     upDownVote();
+    addRemoveSubmitButton()
 
     // Ajax update argument form submission.
 

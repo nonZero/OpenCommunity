@@ -72,6 +72,9 @@ urlpatterns = patterns('',
     url(r'^argument_vote/(?P<pk>\d+)/$',
         views.ArgumentRankingVoteView.as_view(), name="vote_on_argument"),
 
+    url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/proposal_arguments/$',
+        views.ProposalArgumentsView.as_view(), name="proposal_arguments"),
+
     url(r'^(?P<vote_id>\d+)/vote-argument-create/$',
         views.ProposalVoteArgumentCreateView.as_view(), name="create_vote_argument"),
 

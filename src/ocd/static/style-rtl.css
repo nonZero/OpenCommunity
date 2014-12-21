@@ -1264,6 +1264,13 @@ form.delete-invitation {
 	margin-bottom: 20px;
 	padding: 10px 0;
 }
+.issue_proposal_vote.with_arguments {
+	height: 100%;
+	padding-bottom: 0;
+}
+.issue_proposal_vote #create-argument {
+    display: none;
+}
 .change_vote~.issue_proposal_vote {
 	padding-top: 0;
 }
@@ -1303,6 +1310,9 @@ form.delete-invitation {
 .arguments-table {
     width: 100%;
     margin-bottom: 20px;
+}
+.arguments-table.last {
+    margin-bottom: 0;
 }
 .argument-content {
     padding: 0;
@@ -1368,10 +1378,32 @@ form.delete-invitation {
     margin-bottom: 15px;
     color: #999;
 }
+@media (max-width: 767px) {
+    .argument-content {
+        padding: 10px;
+    }
+    .arguments-table.pro-table {
+        background-color: #dcf1c7;
+        width: 90%;
+        margin-bottom: 3px;
+    }
+
+    .arguments-table.con-table {
+        background-color: #f5cfce;
+        width: 90%;
+        margin-right: 10%;
+        margin-bottom: 3px;
+    }
+    .vote_arguments .arguments-opt {
+        margin-bottom: 0;
+    }
+}
+h5.arguments_for,
 .vote_arguments .arguments_for h5 {
     color: #668428;
     text-decoration: underline;
 }
+h5.arguments_against,
 .vote_arguments .arguments_against h5 {
     color: #952722;
     text-decoration: underline;
