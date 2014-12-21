@@ -704,6 +704,10 @@ class Proposal(UIDMixin, ConfidentialMixin):
 
     @property
     def elegantly_interleaved_for_and_against_arguments(self):
+        if not self.arguments_for:
+            return list(self.arguments_against)
+        if not self.arguments_against:
+            return list(self.arguments_for)
         a = list(self.arguments_for)
         b = list(self.arguments_against)
         b, a = sorted((a, b), key=len)
