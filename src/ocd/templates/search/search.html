@@ -36,7 +36,7 @@
             {% endif %}
             {% for result in page.object_list %}
                 {% if result %}
- 				<ul class="{% if result.content_type == 'issues.proposal' %}prop-table{% else %}issue-table{% endif %} proposals">
+ 				<ul class="{% if result.content_type == 'issues.proposal' %}prop-table{% else %}issue-table{% endif %} proposals{% if result.object.is_confidential %} is_confidential{% endif %}">
 				    {% if result.content_type == 'issues.proposal' %}<li class="drag-icon {% if result.object.type == 1 %}task-icon{% elif result.object.type == 2 %}rule-icon{% elif result.object.type == 3 %}general-icon{% endif %}"</li>{% endif %}
 				    <li class="{% if result.content_type == 'issues.proposal' %}prop-title{% else %}issue-title{% endif %}">
 				    	<a href="{{result.object.get_absolute_url}}" style="color: #333333; text-decoration: none;">{{result.object.title}}</a>

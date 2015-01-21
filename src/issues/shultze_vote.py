@@ -36,6 +36,7 @@ def set_issues_order_by_votes(community_id):
     for id_entry in normorder:
         id = id_entry.keys()[0]
         issues[id].order_by_votes = id_entry[id]
+#        print issues[id].title, id_entry[id]
         issues[id].save()
 
 
@@ -47,7 +48,7 @@ def send_issue_ranking(request):
                             voted_by=request.user,
                             issue__community_id=cid) \
                             .order_by('rank')
-        
+
         if current_vote:
             prev_param = {'ballot': [], 'count': 1, }
             current_param = {'ballot': [], 'count': 1, }

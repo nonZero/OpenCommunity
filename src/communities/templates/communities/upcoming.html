@@ -112,7 +112,7 @@
 				{% if cperms.community.editagenda_community %}
 					<a class="btn btn-oc pull-right" data-rel="form" href="{% url "issue_create_upcoming" community.id %}"> <i class="fa fa-plus"></i> <span>{% trans "New issue" %}</span></a>
 				{% endif %}
-				{% if object.has_straw_votes and cperms.issues.vote and object.upcoming_meeting_is_published and user.id and not cperms.community.editagenda_community %}
+				{% if has_straw_votes and cperms.issues.vote and object.upcoming_meeting_is_published and user.id and not cperms.community.editagenda_community %}
 					<h2 class="pull-right">
 						<span class="badge vote-badge">
 							{% trans "All proposals / Voted" %}

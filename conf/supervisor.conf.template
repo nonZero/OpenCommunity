@@ -10,7 +10,7 @@ stderr_logfile = {{logdir}}opencommunity.log
 directory = {{dir}}src
 user = {{ocuser}}
 environment=PATH="{{venv_dir}}bin"
-command={{venv_dir}}bin/python manage.py rqworker default
+command={{venv_dir}}bin/python manage.py rqworker {{ocuser}}
 autostart=true
 autorestart=true
 stdout_logfile = {{logdir}}opencommunity_queue.log

@@ -39,21 +39,27 @@ class AgendaItem(ConfidentialByRelationMixin):
 #         return (self.meeting.natural_key(), self.issue.natural_key())
 #     natural_key.dependencies = ['meetings.meeting', 'issues.issue']
 
+    def attachments(self):
+        return self.issue.attachments.filter(agenda_item=self)
+
     def comments(self):
         return self.issue.comments.filter(active=True, meeting=self.meeting)
 
-    @property
-    def proposals(self):
-        return self.issue.proposals.filter(active=True,
-                                           decided_at_meeting=self.meeting)
+    def proposals(self, user=None, community=None):
+        rv = self.issue.proposals.object_access_control(
+            user=user, community=community).filter(
+            active=True, decided_at_meeting=self.meeting)
+        return rv
 
-    @property
-    def accepted_proposals(self):
-        return self.proposals.filter(status=ProposalStatus.ACCEPTED)
+    def accepted_proposals(self, user=None, community=None):
+        rv = self.proposals(user=user, community=community).filter(
+            status=ProposalStatus.ACCEPTED)
+        return rv
 
-    @property
-    def rejected_proposals(self):
-        return self.proposals.filter(status=ProposalStatus.REJECTED)
+    def rejected_proposals(self, user=None, community=None):
+        rv = self.proposals(user=user, community=community).filter(
+            status=ProposalStatus.REJECTED)
+        return rv
 
 
 class Meeting(UIDMixin):
@@ -178,7 +184,7 @@ class MeetingParticipant(models.Model):
         unique_together = (('meeting', 'ordinal'), ('meeting', 'user'))
 
     def __unicode__(self):
-        return self.user
+        return self.user.display_name
 
 #     def natural_key(self):
 #         return (self.meeting.natural_key(), self.user.natural_key())

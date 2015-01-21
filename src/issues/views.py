@@ -71,7 +71,7 @@ class IssueList(IssueMixin, ListView):
 
     def get_queryset(self):
         return super(IssueList, self).get_queryset().exclude(
-              status=IssueStatus.ARCHIVED).order_by('-created_at')
+            status=IssueStatus.ARCHIVED).order_by('-created_at')
 
     def get_context_data(self, **kwargs):
         d = super(IssueList, self).get_context_data(**kwargs)
@@ -87,13 +87,19 @@ class IssueList(IssueMixin, ListView):
                                 .order_by('rank')
                 d['my_vote'] = [i.issue for i in my_ranking if i.issue.active and \
                                                 i.issue.status != IssueStatus.ARCHIVED]
-                # all_issues_set = set(list(d['sorted_issues']))
-                # non_ranked = []
-                # list(all_issues_set - set(d['my_vote']))
-                # for i in self.get_queryset():
 
                 d['my_non_ranked'] = [i for i in self.get_queryset() \
                                       if i not in d['my_vote']]
+
+        for obj in self.object_list:
+            obj.restricted_proposals = \
+                obj.proposals.object_access_control(
+                    user=self.request.user, community=self.community)
+            for ai in obj.agenda_items.all():
+                ai.restricted_proposals = ai.proposals(
+                    user=self.request.user, community=self.community)
+                ai.restricted_accepted_proposals = ai.accepted_proposals(
+                    user=self.request.user, community=self.community)
         return d
 
 
@@ -146,6 +152,15 @@ class IssueDetailView(IssueMixin, DetailView):
                 user=self.request.user, community=self.community).open()
 
         d['upcoming_issues'] = self.object.community.upcoming_issues(
+                user=self.request.user, community=self.community)
+
+        d['agenda_items'] = self.object.agenda_items.all()
+        for ai in d['agenda_items']:
+            ai.accepted_proposals = ai.accepted_proposals(
+                user=self.request.user, community=self.community)
+            ai.rejected_proposals = ai.rejected_proposals(
+                user=self.request.user, community=self.community)
+            ai.proposals = ai.proposals(
                 user=self.request.user, community=self.community)
 
         return d
@@ -855,7 +870,6 @@ class AssignmentsView(ProposalMixin, ListView):
                     sqs = sqs.filter(due_by__lt=date.today())
         return sqs
 
-
     def get_queryset(self):
         term = self.request.GET.get('q', '').strip()
         sqs = ConfidentialSearchQuerySet().models(Proposal).object_access_control(
@@ -885,8 +899,10 @@ class AssignmentsView(ProposalMixin, ListView):
 
 
 class RulesMixin(CommunityMixin):
+
     def _get_rule_queryset(self):
-        qs = Proposal.objects.filter(
+        qs = Proposal.objects.object_access_control(user=self.request.user,
+            community=self.community).filter(
             active=True, issue__community=self.community,
             status=Proposal.statuses.ACCEPTED,
             type=ProposalType.RULE)
@@ -902,7 +918,6 @@ class ProceduresView(RulesMixin, ProposalMixin, ListView):
     def __init__(self, **kwargs):
         self.order_by = 'date'
         super(ProceduresView, self).__init__(**kwargs)
-
 
     def get_queryset(self):
         term = self.request.GET.get('q', '').strip()

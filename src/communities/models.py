@@ -263,7 +263,6 @@ class Community(UIDMixin):
         time_till_close = self.voting_ends_at - timezone.now()
         return time_till_close.total_seconds() < 0
 
-    @property
     def has_straw_votes(self, user=None, community=None):
         if not self.straw_voting_enabled or self.straw_vote_ended:
             return False
@@ -441,24 +440,21 @@ class Community(UIDMixin):
         def as_agenda_item(obj):
             return {
                 'issue': obj['issue'],
-
-                'proposals':
-                    obj['proposals'].filter(decided_at_meeting=None,
-                                            active=True).exclude(
-                                            status=ProposalStatus.IN_DISCUSSION),
-
-                'accepted_proposals':
-                    obj['proposals'].filter(decided_at_meeting=None,
-                                            active=True,
-                                            status=ProposalStatus.ACCEPTED),
-
-                'rejected_proposals':
-                    obj['proposals'].filter(decided_at_meeting=None,
-                                            active=True,
-                                            status=ProposalStatus.REJECTED),
-
-                'comments':
-                    obj['issue'].comments.filter(meeting=None, active=True),
+                'proposals': obj['proposals'].filter(
+                    decided_at_meeting=None,
+                    active=True).exclude(
+                    status=ProposalStatus.IN_DISCUSSION),
+                'accepted_proposals': obj['proposals'].filter(
+                    decided_at_meeting=None,
+                    active=True,
+                    status=ProposalStatus.ACCEPTED),
+                'rejected_proposals': obj['proposals'].filter(
+                    decided_at_meeting=None,
+                    active=True,
+                    status=ProposalStatus.REJECTED),
+                'comments': obj['issue'].comments.filter(
+                    meeting=None, active=True),
+                'attachments': obj['issue'].current_attachments()
             }
 
         return [as_agenda_item(x) for x in payload]

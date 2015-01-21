@@ -61,8 +61,8 @@
         {% trans "Decisions" %}
     </h2>
     <div>
-        {% for ai in object.agenda_items.all %}
-            {% if ai.proposals.count %}
+        {% for ai in agenda_items %}
+            {% if ai.proposals %}
                 <div class="filter-meeting-{{ai.meeting.id}} filter">
                     {% for proposal in ai.proposals|dictsort:"created_at" %}
                         {% include 'issues/_proposal.html' %}
@@ -71,7 +71,6 @@
             {% endif %}
         {% endfor %}
     </div>
-
     {% if proposals.open.count  %}
     <h2 class="filter-title clear">
         {% trans "Proposals" %}
@@ -83,11 +82,11 @@
             {% for proposal in proposals.open %}
                 {% include 'issues/_proposal.html' %}
                 {% if can_straw_vote and not proposal.decided and cperms.issues.vote and user|member_of:community %}
-                    <div class="issue_proposal_vote">
+                    <div class="issue_proposal_vote{% if proposal.is_confidential %} is_confidential{% endif %}">
                         {% include 'issues/_straw_vote.html' %}
                     </div>
                 {% elif can_board_vote_self %}
-	                <div class="issue_proposal_vote">
+	                <div class="issue_proposal_vote{% if proposal.is_confidential %} is_confidential{% endif %}">
 			            {% include 'issues/_board_vote_self.html' %}
 		            </div>
         		{% endif %}

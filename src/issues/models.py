@@ -180,10 +180,8 @@ class Issue(UIDMixin, ConfidentialMixin):
                self.community.upcoming_meeting_is_published and \
                self.proposals.open().count() > 0
 
-    def current_attachments(self, agenda_item=None):
-        """If we have an agenda item then filter on that, else, isnull"""
-        if agenda_item:
-            return self.attachments.filter(agenda_item=agenda_item)
+    def current_attachments(self):
+        """Returns attachments not yet attached to an agenda item"""
         return self.attachments.filter(agenda_item__isnull=True)
 
 

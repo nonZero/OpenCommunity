@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-07 23:53+0300\n"
-"PO-Revision-Date: 2014-06-07 23:56+0200\n"
+"POT-Creation-Date: 2014-07-01 16:58+0300\n"
+"PO-Revision-Date: 2014-07-01 16:59+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -36,32 +36,32 @@ msgstr "פגישות"
 msgid "Community"
 msgstr "קהילה"
 
-#: .\forms.py:26 .\forms.py:121
+#: .\forms.py:24 .\forms.py:53 .\forms.py:128
 msgid "Not Confidential"
 msgstr "לא חסוי"
 
-#: .\forms.py:78 .\forms.py:81
+#: .\forms.py:85 .\forms.py:88
 msgid "File type is not allowed!"
 msgstr "לא ניתן להעלות קבצים מסוג זה"
 
-#: .\forms.py:90
+#: .\forms.py:97
 msgid "Title cannot be empty"
 msgstr "כותרת חובה"
 
-#: .\forms.py:96
+#: .\forms.py:103
 msgid "Upload"
 msgstr "העלה קובץ"
 
-#: .\forms.py:126
+#: .\forms.py:134
 msgid "Create"
 msgstr "צור חדש"
 
-#: .\forms.py:134 .\forms.py:176 .\templates\issues\_issue_main.html.py:127
+#: .\forms.py:142 .\forms.py:184 .\templates\issues\_issue_main.html.py:127
 #: .\templates\issues\issuecomment_form.html.py:9
 msgid "Save"
 msgstr "שמירה"
 
-#: .\forms.py:152
+#: .\forms.py:160
 msgid "Add"
 msgstr "הוספה"
 
@@ -252,15 +252,15 @@ msgstr "יעד"
 msgid "Completed"
 msgstr "הושלם"
 
-#: .\models.py:462 .\models.py:633
+#: .\models.py:462 .\models.py:634
 msgid "Votes pro"
 msgstr "הצבעות בעד"
 
-#: .\models.py:464 .\models.py:634
+#: .\models.py:464 .\models.py:635
 msgid "Votes con"
 msgstr "הצבעות נגד"
 
-#: .\models.py:466 .\models.py:635
+#: .\models.py:466 .\models.py:636
 msgid "Community members"
 msgstr "חברי קהילה"
 
@@ -473,8 +473,8 @@ msgid "In the agenda"
 msgstr "בסדר יום"
 
 #: .\templates\issues\issue_detail.html.py:124
-msgid "Undo complete discussion"
-msgstr "החזר נושא לדיון"
+msgid "Open for discussion"
+msgstr "החזר לדיון"
 
 #: .\templates\issues\issue_detail.html.py:132
 msgid "Archive issue"
@@ -628,6 +628,9 @@ msgstr "דחה הצעה"
 msgid "Edit proposal"
 msgstr "עריכת הצעת החלטה"
 
+#~ msgid "Undo complete discussion"
+#~ msgstr "החזר נושא לדיון"
+
 #~ msgid "Procedure approval date"
 #~ msgstr "תאריך קביעת נוהל"
 
@@ -676,9 +679,6 @@ msgstr "עריכת הצעת החלטה"
 
 #~ msgid "Votes"
 #~ msgstr "הצבעות"
-
-#~ msgid "Issues for discussion"
-#~ msgstr "נושאים לדיון"
 
 #~ msgid "Background for next meeting"
 #~ msgstr "רקע לפגישה הקרובה"

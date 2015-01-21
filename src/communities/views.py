@@ -141,7 +141,8 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
             user=self.request.user, community=self.community)
         d['available_issues'] = self.object.available_issues(
             user=self.request.user, community=self.community)
-
+        d['has_straw_votes'] = self.object.has_straw_votes(
+            user=self.request.user, community=self.community)
         return d
 
 
@@ -154,8 +155,13 @@ class PublishUpcomingMeetingPreviewView(CommunityModelMixin, DetailView):
         d['can_straw_vote'] = self.community.upcoming_proposals_any(
             {'is_open': True}, user=self.request.user, community=self.community)\
         and self.community.upcoming_meeting_is_published
-        d['upcoming_issues'] = self.object.upcoming_issues(
+        upcoming_issues = self.community.upcoming_issues(
             user=self.request.user, community=self.community)
+        d['issue_container'] = []
+        for i in upcoming_issues:
+            proposals = i.proposals.object_access_control(
+                user=self.request.user, community=self.community)
+            d['issue_container'] .append({'issue': i, 'proposals': proposals})
         return d
 
 
@@ -286,22 +292,21 @@ class ProtocolDraftPreviewView(CommunityModelMixin, DetailView):
 
         draft_agenda_payload = []
         issue_status = IssueStatus.IS_UPCOMING
-        issues = self.community.issues.filter(active=True,
-                                              status__in=(issue_status)).order_by(
-                                              'order_in_upcoming_meeting')
+        issues = self.community.issues.filter(
+            active=True, status__in=(issue_status)).order_by(
+            'order_in_upcoming_meeting')
 
         for issue in issues:
             proposals = issue.proposals.object_access_control(
                 user=self.request.user, community=self.community)
-            draft_agenda_payload.append({'issue': issue, 'proposals': proposals})
+            draft_agenda_payload.append({
+                'issue': issue,
+                'proposals': proposals,
+            })
 
         agenda_items = d['object'].draft_agenda(draft_agenda_payload)
-        item_attachments = [item['issue'].current_attachments() for
-                            item in agenda_items]
-
         d['meeting_time'] = meeting_time.replace(second=0)
         d['agenda_items'] = agenda_items
-        d['attachments'] = list(chain.from_iterable(item_attachments))
         return d
 
 
@@ -356,9 +361,9 @@ class CommunitySearchView(CommunityModelMixin, DetailView):
         return self.request.GET.get('type', '').strip()
 
     def get_sqs(self):
-        return ConfidentialSearchQuerySet().object_access_control(user=self.request.user,
-                                                      community=self.community).filter(
-                                                      community=self.community.id)
+        return ConfidentialSearchQuerySet().object_access_control(
+            user=self.request.user, community=self.community).filter(
+            community=self.community.id)
 
     def get(self, request, *args, **kwargs):
         term = self.get_term()

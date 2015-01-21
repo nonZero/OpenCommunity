@@ -1,7 +1,11 @@
 from contextlib import contextmanager
+import datetime
+from fabric import operations
 from fabric.api import *
+from fabric.contrib.console import confirm
 from fabric.contrib.files import upload_template, append
 import os.path
+import posixpath
 
 PROJ_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 CONF_DIR = os.path.abspath(os.path.join(PROJ_DIR, 'conf'))
@@ -12,6 +16,7 @@ env.code_dir = '~/OpenCommunity/'
 env.venv_command = '. bin/activate'
 env.log_dir = '/var/log/opencommunity/'
 env.clone_url = "https://github.com/hasadna/OpenCommunity.git"
+env.backup_dir = '~/backups'
 env.pip_version = "1.5.4"
 
 
@@ -81,6 +86,9 @@ def prod():
     env.redirect_host = 'opencommunity.org.il'
     env.venv_command = '. ~/.virtualenvs/oc/bin/activate'
     env.pidfile = '/home/oc/OpenCommunity/src/masterpid'
+    env.ocuser = "oc"
+    env.code_dir = '/home/%s/OpenCommunity/' % env.user
+    env.venv_dir = '%svenv/' % env.code_dir
 
 
 @task
@@ -195,7 +203,7 @@ def create_ocuser_and_db():
     run("sudo -iu postgres createuser %s -S -D -R" % env.ocuser)
     run("sudo -iu postgres createdb %s -O %s" % (env.ocuser, env.ocuser))
     run("sudo -iu postgres psql -c \"alter user %s with password '%s';\"" % (
-    env.ocuser, env.ocuser))
+        env.ocuser, env.ocuser))
 
 
 @task
@@ -306,6 +314,13 @@ def supervisor_status():
 
 
 @task
+def branch():
+    """ Shows current (and all) branchs """
+    with cd(env.code_dir):
+        run('git branch')
+
+
+@task
 def switch(branch):
     """ fetches all branchs, and checkouts the specified git branch """
     with cd(env.code_dir):
@@ -337,3 +352,30 @@ def rebuild_index():
     with virtualenv(env.code_dir):
         run("cd src && python manage.py rebuild_index --noinput")
         run("sudo chown -v {} whoosh_index whoosh_index/*".format(env.ocuser))
+
+
+@task
+def backup_db():
+    now = datetime.datetime.now()
+    filename = now.strftime("ocd-%Y-%m-%d-%H-%M.sql.gz")
+    fullpath = posixpath.join(env.backup_dir, filename)
+    run('sudo -u postgres pg_dump {} | gzip > {}'.format(
+        env.ocuser, fullpath))
+    operations.get(fullpath)
+
+
+@task
+def load_local_db_from_file(filename):
+    if not os.path.isfile(filename):
+        abort("Unknown file {}".format(filename))
+
+    if not confirm(
+            "DELETE local db and load from backup file {}?".format(filename)):
+        abort("Aborted.")
+
+    drop_command = "drop schema public cascade; create schema public;"
+    local('''python -c "print '{}'" | python manage.py dbshell'''.format(
+        drop_command, filename))
+
+    cmd = "gunzip -c" if filename.endswith('.gz') else "cat"
+    local('{} {} | python manage.py dbshell'.format(cmd, filename))

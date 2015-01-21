@@ -258,10 +258,6 @@ REDIS = {
     }
 }
 
-RQ_QUEUES = {
-    'default': REDIS['default'],
-}
-
 gettext = lambda s: s
 
 # Made accessible to templates via the analytics context processor `analytics`
@@ -278,9 +274,9 @@ OPENCOMMUNITY_ANALYTICS = {
 }
 
 OPENCOMMUNITY_DEFAULT_CONFIDENTIAL_REASONS = [
-    gettext('Personal Privacy'),
-    gettext('Commercial Interests'),
-    gettext('Security Concerns'),
+    gettext('Privacy'),
+    gettext('Commercial'),
+    gettext('Security')
 ]
 
 OPENCOMMUNITY_ASYNC_NOTIFICATIONS = True
@@ -292,7 +288,14 @@ if os.path.exists(version_file):
 else:
     OPENCOMMUNITY_VERSION = None
 
+QUEUE_NAME = 'default'
+
 try:
     from local_settings import *
 except ImportError:
     pass
+
+RQ_QUEUES = {
+    QUEUE_NAME: REDIS['default'],
+}
+

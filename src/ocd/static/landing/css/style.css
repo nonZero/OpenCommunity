@@ -260,7 +260,7 @@ nav #logo a:hover{
 }
 
 .cbp-spmenu.cbp-spmenu-open {
-	right: 0px;
+	left: 0px;
 }
 
 .cbp-spmenu {
@@ -270,7 +270,7 @@ nav #logo a:hover{
 }
 
 #navigation_mobile {
-    float:right;
+    float: right;
     display: inline-block;
 }
 #cbp-spmenu ul{
@@ -279,7 +279,7 @@ nav #logo a:hover{
 }
 
 #showLeft {
-    float:right;
+    float: left;
     margin-top:19px;
 }
 
@@ -503,9 +503,13 @@ nav #logo a:hover{
 }
 
 #about h2, #about blockquote p, #about p {
-    color:#000;
+    color: #4c4c4c;
     padding: 5px 10px;
     line-height: 1.6em;
+}
+
+#about h2 {
+    color: #000;
 }
 
 
