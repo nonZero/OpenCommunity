@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-21 10:09+0200\n"
-"PO-Revision-Date: 2014-10-26 11:03+0200\n"
+"POT-Creation-Date: 2015-02-17 21:12+0200\n"
+"PO-Revision-Date: 2015-02-17 21:16+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.7.4\n"
+"Language-Team: \n"
 
 #: .\forms.py:34
 msgid "Title"
@@ -222,7 +222,8 @@ msgstr "מספר עמוד צריך להיות 1 או יותר."
 msgid "No such page!"
 msgstr "דף לא קיים!"
 
-#: .\templates\_community_bar.html.py:5 .\templates\_community_panel.html.py:8
+#: .\templates\_community_bar.html.py:5
+#: .\templates\_community_panel.html.py:8
 #: .\templates\communities\community_search.html.py:15
 msgid "Issues"
 msgstr "נושאים"
@@ -312,7 +313,7 @@ msgid "All"
 msgstr "הכל"
 
 #: .\templates\communities\community_search.html.py:16
-#: .\templates\emails\agenda.html.py:118
+#: .\templates\emails\agenda.html.py:115
 msgid "Proposals"
 msgstr "הצעות"
 
@@ -322,13 +323,13 @@ msgstr "תוצאות"
 
 #: .\templates\communities\community_search.html.py:33
 #: .\templates\emails\_protocol.html.py:160
-#: .\templates\emails\agenda.html.py:136
+#: .\templates\emails\agenda.html.py:134
 msgid "Assigned to"
 msgstr "אחראי"
 
 #: .\templates\communities\community_search.html.py:36
 #: .\templates\emails\_protocol.html.py:164
-#: .\templates\emails\agenda.html.py:140
+#: .\templates\emails\agenda.html.py:138
 msgid "Due by"
 msgstr "יעד"
 
@@ -479,7 +480,6 @@ msgid "All meetings"
 msgstr "כל הפגישות"
 
 #: .\templates\communities\upcoming.html.py:95
-#: .\templates\emails\agenda.html.py:94
 msgid "Login to vote"
 msgstr "הכנס בכדי להצביע"
 
@@ -591,13 +591,13 @@ msgstr "נושאים והחלטות"
 #: .\templates\emails\_protocol.html.py:156
 #: .\templates\emails\_protocol.html.py:184
 #: .\templates\emails\_protocol.html.py:187
-#: .\templates\emails\agenda.html.py:85 .\templates\emails\agenda.html.py:128
-#: .\templates\emails\agenda.html.py:131
+#: .\templates\emails\agenda.html.py:85 .\templates\emails\agenda.html.py:126
+#: .\templates\emails\agenda.html.py:129
 msgid "Confidential"
 msgstr "חסוי"
 
 #: .\templates\emails\_protocol.html.py:127
-#: .\templates\emails\agenda.html.py:105
+#: .\templates\emails\agenda.html.py:102
 msgid "Related files"
 msgstr "קבצים קשורים"
 
@@ -634,6 +634,14 @@ msgstr "הנושאים שיועלו לדיון"
 #: .\templates\emails\agenda.html.py:76
 msgid "click links for more details"
 msgstr "למידע נוסף יש ללחוץ על הקישורים"
+
+#: .\templates\emails\agenda.html.py:148
+msgid "Vote for"
+msgstr "הצבעה בעד"
+
+#: .\templates\emails\agenda.html.py:149
+msgid "Vote against"
+msgstr "הצבעה נגד"
 
 #: .\templates\emails\agenda_title.txt.py:3
 msgid "Upcoming agenda for"

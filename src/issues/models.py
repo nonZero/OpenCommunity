@@ -657,6 +657,10 @@ class Proposal(UIDMixin, ConfidentialMixin):
                              str(self.pk)))
 
     @models.permalink
+    def get_email_vote_url(self):
+        return ("vote_on_proposal", (str(self.issue.community.pk), str(self.pk)))
+
+    @models.permalink
     def get_edit_url(self):
         return (
             "proposal_edit",

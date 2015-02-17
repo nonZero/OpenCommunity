@@ -1,3 +1,4 @@
+from django.contrib.auth.views import redirect_to_login
 from django.core.urlresolvers import reverse_lazy
 from django.db.models.aggregates import Max
 from django.http.response import HttpResponse, HttpResponseBadRequest, \
@@ -788,6 +789,33 @@ class ProposalVoteView(ProposalVoteMixin, DetailView):
                                                   }]
 
         return json_response(vote_response)
+
+    def get(self, request, *args, **kwargs):
+
+        voter_id = request.user.id
+        if not request.user.is_authenticated():
+            return redirect_to_login(request.build_absolute_uri())
+
+        is_board = request.GET.get('board', False)
+        voter_group = request.user.get_default_group(self.community) \
+            if request.user.is_authenticated() \
+            else ''
+        val = request.GET['val']
+        if is_board:
+            # vote for board member by chairman or board member
+            vote_class = ProposalVoteBoard
+        else:
+            # straw vote by member
+            vote_class = ProposalVote
+
+        proposal = self.get_object()
+        value = self._vote_values_map(val)
+        if value == None:
+            return redirect(proposal.issue)
+
+        vote, valid = self._do_vote(vote_class, proposal, voter_id, value,
+                                    is_board, voter_group)
+        return redirect(proposal.issue)
 
 
 class MultiProposalVoteView(ProposalVoteMixin, DetailView):
