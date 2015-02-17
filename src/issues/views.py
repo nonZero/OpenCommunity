@@ -464,7 +464,8 @@ class ProposalDetailView(ProposalMixin, DetailView):
         pro_count = 0
         con_count = 0
         neut_count = 0
-        board_attending = self.community.meeting_participants()['board']
+        board_attending = self.community.meeting_participants()['board'] + \
+                          self.community.meeting_participants()['chairmen']
 
         for u in board_attending:
             vote = ProposalVoteBoard.objects.filter(proposal=self.get_object,
