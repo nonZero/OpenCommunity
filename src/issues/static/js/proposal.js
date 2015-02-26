@@ -75,6 +75,9 @@ function addArgument() {
 
 function upDownVote() {
     $('.vote-up,.vote-down').on('click', function () {
+        if ($(this).hasClass('disabled')) {
+            return;
+        }
         var VoteId = $(this).parents('tr').data('id');
         var VoteVal = $(this).data('vote-val');
         var VoteUrl = $(this).parent().data('url');

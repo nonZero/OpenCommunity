@@ -1334,33 +1334,33 @@ form.delete-invitation {
     line-height: 16px;
 }
 .vote-up {
-    background-position: 0 -268px;
+    background-position: 0 -175px;
     display: block;
     margin: 0 auto;
     width: 41px;
     height: 18px;
     text-indent: -9999em;
     font-size: 1px;
-    background-image: url('http://cdn.sstatic.net/stackoverflow/img/sprites.png?v=3c6263c3453b');
+    background-image: url('/static/images/sprites.png');
     background-repeat: no-repeat;
     overflow: hidden;
     cursor: pointer;
 }
 .vote-up.voted {
-    background-position: 0 -233px;
+    background-position: -40px -175px;
 }
 .vote-down.voted {
-    background-position: 0 -333px;
+    background-position: -40px -225px;
 }
 .vote-down {
-    background-position: 0 -303px;
+    background-position: 0 -225px;
     display: block;
     margin: 0 auto;
     width: 41px;
     height: 18px;
     text-indent: -9999em;
     font-size: 1px;
-    background-image: url('http://cdn.sstatic.net/stackoverflow/img/sprites.png?v=3c6263c3453b');
+    background-image: url('/static/images/sprites.png');
     background-repeat: no-repeat;
     overflow: hidden;
     cursor: pointer;
