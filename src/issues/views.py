@@ -813,17 +813,9 @@ class ProposalVoteView(ProposalVoteMixin, DetailView):
             return redirect_to_login(request.build_absolute_uri())
 
         is_board = request.GET.get('board', False)
-        voter_group = request.user.get_default_group(self.community) \
-            if request.user.is_authenticated() \
-            else ''
+        voter_group = DefaultGroups.MEMBER
         val = request.GET['val']
-        if is_board:
-            # vote for board member by chairman or board member
-            vote_class = ProposalVoteBoard
-        else:
-            # straw vote by member
-            vote_class = ProposalVote
-
+        vote_class = ProposalVote
         proposal = self.get_object()
         value = self._vote_values_map(val)
         if value == None:
