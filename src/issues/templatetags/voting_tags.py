@@ -123,7 +123,12 @@ def user_vote_result(proposal_id, user_id):
     user = OCUser.objects.get(pk=user_id)
     proposal = Proposal.objects.get(pk=proposal_id)
     vote = ProposalVote.objects.get(proposal=proposal, user=user)
-    return "pro" if vote.value == 1 else "con"
+    if vote.value == 1:
+        return "pro"
+    elif vote.value == -1:
+        return "con"
+    else:
+        return None
 
 
 @register.filter
@@ -135,3 +140,9 @@ def user_ranked_argument(argument_id, user_id):
         return "pro" if vote.value == 1 else "con"
     except ProposalVoteArgumentRanking.DoesNotExist:
         return False
+
+
+@register.filter
+def user_argued(proposal_id, user_id):
+    user = OCUser.objects.get(pk=user_id)
+    return ProposalVoteArgument.objects.filter(proposal_vote_id=proposal_id, created_by=user).exists()

@@ -24,7 +24,7 @@
         {% endif %}
         </tbody>
     </table>
-    {% if proposal.id|user_vote_result:request.user.id == 'pro' and proposal.id|user_proposal_vote_id:request.user.id %}
+    {% if proposal.id|user_vote_result:request.user.id == 'pro' and proposal.id|user_proposal_vote_id:request.user.id and not proposal.id|user_argued:request.user %}
     <form id="create-argument" method="post" data-vote="pro" action="{% url 'create_vote_argument' proposal.issue.community.id proposal.id|user_proposal_vote_id:request.user.id %}">
         {% csrf_token %}
         <div class="form-group">
@@ -56,7 +56,7 @@
         {% endif %}
         </tbody>
     </table>
-    {% if proposal.id|user_vote_result:request.user.id == 'con' and proposal.id|user_proposal_vote_id:request.user.id %}
+    {% if proposal.id|user_vote_result:request.user.id == 'con' and proposal.id|user_proposal_vote_id:request.user.id and not proposal.id|user_argued:request.user %}
     <form id="create-argument" method="post" datt-vote="con" action="{% url 'create_vote_argument' proposal.issue.community.id proposal.id|user_proposal_vote_id:request.user.id %}">
         {% csrf_token %}
         <div class="form-group">

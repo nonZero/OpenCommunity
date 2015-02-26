@@ -121,6 +121,9 @@
             {% include 'issues/_argument_action_modal.html' %}
         {% endif %}
         {% if proposal.can_show_straw_votes %}
+            <div class="vote_arguments clearfix clear">
+                {% include 'issues/_vote_arguments.html' %}
+            </div>
             <div id="results_container" class="clear">
             	<h2>{% trans "Straw vote result" %}</h2>
                 {% include 'issues/_proposal_vote_results.html' %}
