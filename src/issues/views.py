@@ -178,12 +178,27 @@ class IssueDetailView(IssueMixin, DetailView):
             return HttpResponseBadRequest()
 
         i = self.get_object()
-        c = i.comments.create(content=enhance_html(form.cleaned_data['content']),
-                              created_by=request.user)
-
-        self.object = i  # this makes the next line work
-        context = self.get_context_data(object=i, c=c)
-        return render(request, 'issues/_comment.html', context)
+        comment_id = request.POST.get('comment_id', None)
+        try:
+            c = i.comments.get(pk=int(comment_id))
+            c.content=enhance_html(form.cleaned_data['content'])
+            c.save()
+            return json_response({'comment_id': c.id})
+        except:
+            c = i.comments.create(content=enhance_html(form.cleaned_data['content']),
+                                  created_by=request.user)
+            return json_response({'comment_id': c.id})
+        # if comment_id == '':
+        #     c = i.comments.create(content=enhance_html(form.cleaned_data['content']),
+        #                           created_by=request.user)
+        #
+        #     self.object = i  # this makes the next line work
+        #     context = self.get_context_data(object=i, c=c)
+        #     return render(request, 'issues/_comment.html', context)
+        # else:
+        #     c = i.comments.get(pk=int(comment_id))
+        #     c.content=enhance_html(form.cleaned_data['content'])
+        #     return json_response({'comment_id': c.id})
 
 
 class IssueCommentMixin(CommunityMixin):

@@ -128,13 +128,6 @@
                                               {{p.title}}{% if p.is_confidential and not obj.issue.is_confidential %} [{% trans "Confidential" %} - {{ p.confidential_reason }}]{% endif %}
                                         {% endif %}
 
-                                        {% if community.straw_voting_enabled and can_straw_vote %}
-                                        <div>
-                                            <a href="{{base_url}}{{p.get_email_vote_url}}?val=pro" style="color: #ffffff;background-color: #a4cb53;border-color: #a4cb53;text-decoration: none;display: inline-block;padding: 0px 5px;margin-bottom: 0;font-size: 13px;font-weight: normal;line-height: 1.428571429;text-align: center;white-space: nowrap;vertical-align: middle;cursor: pointer;border: 1px solid transparent;border-radius: 4px;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;-o-user-select: none;user-select: none;">{% trans "For" %}</a>
-                                            <a href="{{base_url}}{{p.get_email_vote_url}}?val=con" style="color: #ffffff;background-color: #952722;border-color: #952722;text-decoration: none;display: inline-block;padding: 0px 5px;margin-bottom: 0;font-size: 13px;font-weight: normal;line-height: 1.428571429;text-align: center;white-space: nowrap;vertical-align: middle;cursor: pointer;border: 1px solid transparent;border-radius: 4px;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;-o-user-select: none;user-select: none;">{% trans "Against" %}</a>
-                                        </div>
-                                        {% endif %}
-
                                         {% if p.assigned_to %}
                                             &nbsp;
                                             <b>{% trans "Assigned to" %}</b>: {{p.assigned_to}}
@@ -147,6 +140,12 @@
                                             <div class="proposal_content">
                                                 {{p.content|safe}}
                                             </div>
+                                        {% endif %}
+                                        {% if community.straw_voting_enabled and can_straw_vote %}
+                                        <div>
+                                            <a href="{{base_url}}{{p.get_email_vote_url}}?val=pro" style="color: #ffffff;background-color: #a4cb53;border-color: #a4cb53;text-decoration: none;display: inline-block;padding: 0px 5px;margin-bottom: 0;font-size: 13px;font-weight: normal;line-height: 1.428571429;text-align: center;white-space: nowrap;vertical-align: middle;cursor: pointer;border: 1px solid transparent;border-radius: 4px;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;-o-user-select: none;user-select: none;">{% trans "For" %}</a>
+                                            <a href="{{base_url}}{{p.get_email_vote_url}}?val=con" style="color: #ffffff;background-color: #952722;border-color: #952722;text-decoration: none;display: inline-block;padding: 0px 5px;margin-bottom: 0;font-size: 13px;font-weight: normal;line-height: 1.428571429;text-align: center;white-space: nowrap;vertical-align: middle;cursor: pointer;border: 1px solid transparent;border-radius: 4px;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;-o-user-select: none;user-select: none;">{% trans "Against" %}</a>
+                                        </div>
                                         {% endif %}
                                     </li>
                                 {% endfor %}

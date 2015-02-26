@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-17 21:54+0200\n"
-"PO-Revision-Date: 2015-02-17 21:54+0200\n"
+"POT-Creation-Date: 2015-02-26 17:19+0200\n"
+"PO-Revision-Date: 2015-02-26 17:21+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -323,13 +323,13 @@ msgstr "תוצאות"
 
 #: .\templates\communities\community_search.html.py:33
 #: .\templates\emails\_protocol.html.py:160
-#: .\templates\emails\agenda.html.py:134
+#: .\templates\emails\agenda.html.py:133
 msgid "Assigned to"
 msgstr "אחראי"
 
 #: .\templates\communities\community_search.html.py:36
 #: .\templates\emails\_protocol.html.py:164
-#: .\templates\emails\agenda.html.py:138
+#: .\templates\emails\agenda.html.py:137
 msgid "Due by"
 msgstr "יעד"
 
@@ -389,6 +389,7 @@ msgstr "משתתפים מפגישות קודמות"
 #: .\templates\communities\participants_form.html.py:69
 #: .\templates\communities\participants_form.html.py:104
 #: .\templates\communities\participants_form.html.py:124
+#: .\templates\communities\upcoming.html.py:179
 msgid "Add"
 msgstr "הוסף"
 
@@ -405,12 +406,12 @@ msgid "Cancel"
 msgstr "ביטול"
 
 #: .\templates\communities\participants_form.html.py:190
-#: .\templates\communities\upcoming.html.py:255
+#: .\templates\communities\upcoming.html.py:272
 msgid "Save"
 msgstr "שמירה"
 
 #: .\templates\communities\publish_upcoming.html.py:6
-#: .\templates\communities\upcoming.html.py:195
+#: .\templates\communities\upcoming.html.py:212
 #: .\templates\emails\protocol_draft.html.py:3
 #: .\templates\emails\protocol_draft.txt.py:1
 msgid "Summary draft"
@@ -505,6 +506,7 @@ msgid "Agenda items"
 msgstr "נושאים לסדר היום"
 
 #: .\templates\communities\upcoming.html.py:154
+#: .\templates\communities\upcoming.html.py:169
 msgid "New issue"
 msgstr "נושא חדש"
 
@@ -512,43 +514,47 @@ msgstr "נושא חדש"
 msgid "All proposals / Voted"
 msgstr "סך הצעות/כמה הצבעתי"
 
-#: .\templates\communities\upcoming.html.py:175
+#: .\templates\communities\upcoming.html.py:176
+msgid "Type the new issue title"
+msgstr "הקלד כותרת עבור הנושא החדש"
+
+#: .\templates\communities\upcoming.html.py:192
 msgid "Comments"
 msgstr "הערות"
 
-#: .\templates\communities\upcoming.html.py:177
+#: .\templates\communities\upcoming.html.py:194
 #: .\templates\emails\_protocol.html.py:46
 #: .\templates\emails\protocol.html.py:3 .\templates\emails\protocol.txt.py:1
 #: .\templates\emails\protocol_title.txt.py:4
 msgid "Summary"
 msgstr "סיכום הפגישה"
 
-#: .\templates\communities\upcoming.html.py:195
+#: .\templates\communities\upcoming.html.py:212
 msgid "Publish the agenda"
 msgstr "פרסם סדר יום"
 
-#: .\templates\communities\upcoming.html.py:199
+#: .\templates\communities\upcoming.html.py:216
 msgid "Close update"
 msgstr "סגור עדכון"
 
-#: .\templates\communities\upcoming.html.py:201
+#: .\templates\communities\upcoming.html.py:218
 msgid "Close meeting"
 msgstr "סגור פגישה"
 
-#: .\templates\communities\upcoming.html.py:213
-#: .\templates\communities\upcoming.html.py:229
+#: .\templates\communities\upcoming.html.py:230
+#: .\templates\communities\upcoming.html.py:246
 msgid "Additional issues"
 msgstr "נושאים נוספים"
 
-#: .\templates\communities\upcoming.html.py:215
+#: .\templates\communities\upcoming.html.py:232
 msgid "By time"
 msgstr "זמן"
 
-#: .\templates\communities\upcoming.html.py:216
+#: .\templates\communities\upcoming.html.py:233
 msgid "By priority"
 msgstr "משוקלל"
 
-#: .\templates\communities\upcoming.html.py:242
+#: .\templates\communities\upcoming.html.py:259
 msgid "Agenda not yet published"
 msgstr "טרם פורסם סדר היום לפגישה הקרובה"
 
@@ -591,8 +597,8 @@ msgstr "נושאים והחלטות"
 #: .\templates\emails\_protocol.html.py:156
 #: .\templates\emails\_protocol.html.py:184
 #: .\templates\emails\_protocol.html.py:187
-#: .\templates\emails\agenda.html.py:85 .\templates\emails\agenda.html.py:126
-#: .\templates\emails\agenda.html.py:129
+#: .\templates\emails\agenda.html.py:85 .\templates\emails\agenda.html.py:125
+#: .\templates\emails\agenda.html.py:128
 msgid "Confidential"
 msgstr "חסוי"
 
@@ -635,11 +641,11 @@ msgstr "הנושאים שיועלו לדיון"
 msgid "click links for more details"
 msgstr "למידע נוסף יש ללחוץ על הקישורים"
 
-#: .\templates\emails\agenda.html.py:148
+#: .\templates\emails\agenda.html.py:146
 msgid "For"
 msgstr "בעד"
 
-#: .\templates\emails\agenda.html.py:149
+#: .\templates\emails\agenda.html.py:147
 msgid "Against"
 msgstr "נגד"
 

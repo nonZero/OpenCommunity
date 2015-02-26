@@ -149,7 +149,8 @@
             {% endfor %}
             {% if cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
                 <li class="rich_editor filter-upcoming filter">
-                    <form id="add-comment" method="post">
+                    <span id="comment-status"></span>
+                    <form id="add-comment" method="post" data-comment-id>
                         {% csrf_token %}
                         {{form}}
                         <div class="col-xs-12 text-center rich_editor_box">
