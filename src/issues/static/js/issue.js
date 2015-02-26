@@ -1,6 +1,6 @@
 "use strict";
 
-$(function() {
+$(function () {
 
     function refreshButtons(commentEmpty) {
         $('.add-comment-btn').prop('disabled', commentEmpty);
@@ -10,21 +10,77 @@ $(function() {
     if ($('.htmlarea textarea').length) {
         var editor = $('.htmlarea textarea').ocdEditor().data('wysihtml5').editor;
 
-        editor.on('input',  function() {
+        editor.on('input', function () {
             refreshButtons(editor.getValue().trim() == '');
         });
     }
 
     // Comments
 
+    // Auto save comment form
+    var timeoutId;
+    $('.wysihtml5-sandbox').contents().find('body').on('input properychange change', function () {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(function () {
+            $('#add-comment').ajaxForm({
+                beforeSubmit: function (arr, form) {
+                    if (!editor.getValue()) {
+                        return false;
+                    }
+                    $('#comment-status').html(gettext('Saving...'));
+                },
+                data: {
+                    'comment_id': $('#add-comment').data('comment-id')
+                },
+                success: function (data) {
+                    $('#add-comment').data('comment-id', data.comment_id);
+                    var d = new Date();
+                    $('#comment-status').html(gettext('Saved! Last: ' + d.toLocaleTimeString()));
+                }
+            });
+            $('#add-comment').submit();
+        }, 5000);
+    });
+
+    $('#add-comment').ajaxForm({
+        beforeSubmit: function (arr, form) {
+            if (!editor.getValue()) {
+                return false;
+            }
+            $('#comment-status').html(gettext('Saving...'));
+        },
+        data: {
+            'comment_id': $('#add-comment').data('comment-id')
+        },
+        success: function (data) {
+            $('#add-comment').data('comment-id', data.comment_id);
+            var d = new Date();
+            $('#comment-status').html(gettext('Saved! Last: ' + d.toLocaleTimeString()));
+            refreshButtons(true);
+        }
+    });
+//    $('#add-comment').ajaxForm({
+//        beforeSubmit: function (arr, form) {
+//            if (!$('#id_content').val()) {
+//                return false;
+//            }
+//        },
+//        success: function (data) {
+//            var el = $(data.trim());
+//            $("#add-comment").closest('li').before(el);
+//            $("#add-comment").get(0).reset();
+//            refreshButtons(true);
+//        }
+//    });
+
     // Add comment form
     $('#add-comment').ajaxForm({
-        beforeSubmit: function(arr, form) {
+        beforeSubmit: function (arr, form) {
             if (!$('#id_content').val()) {
                 return false;
             }
         },
-        success: function(data) {
+        success: function (data) {
             var el = $(data.trim());
             $("#add-comment").closest('li').before(el);
             $("#add-comment").get(0).reset();
@@ -33,7 +89,7 @@ $(function() {
     });
 
     // Delete and undelete comment form
-    $('#comments').on('click', '.delete-comment button', function() {
+    $('#comments').on('click', '.delete-comment button', function () {
         var btn = $(this);
         var form = btn.closest('form');
         var extra = {};
@@ -41,41 +97,41 @@ $(function() {
             extra[btn.attr('name')] = btn.attr('value');
         }
         form.ajaxSubmit({
-                            data: extra,
-                            success: function(data) {
-                                form.closest('li').toggleClass('deleted', data=='0');
-                            }
-                        });
+            data: extra,
+            success: function (data) {
+                form.closest('li').toggleClass('deleted', data == '0');
+            }
+        });
         return false;
     });
 
     // Edit comment Form:
 
     //  - start edit
-    $('#comments').on('click', '.edit-comment button', function() {
+    $('#comments').on('click', '.edit-comment button', function () {
         $('li.rich_editor').hide();
         var btn = $(this);
-        var li = btn.closest('li'); 
+        var li = btn.closest('li');
         li.addClass('editing');
         var el = $("<div>Loading...</div>");
         li.find('.comment-inner').hide().after(el);
-        $.get(btn.data('url'), function(data) {
+        $.get(btn.data('url'), function (data) {
             el.html(data).find('.htmlarea textarea').wysihtml5({locale: "he-IL"});
         });
     });
 
     // - cancel edit
-    $('#comments').on('click', '.cancel-edit-comment button', function() {
+    $('#comments').on('click', '.cancel-edit-comment button', function () {
         $('li.rich_editor').show();
         var btn = $(this);
-        var li = btn.closest('li'); 
+        var li = btn.closest('li');
         li.removeClass('editing');
         li.find('.comment-inner').show();
         li.find('.edit-issue-form').parent().remove();
     });
 
     // - save edits
-    $('#comments').on('click', '.save-comment button', function(ev) {
+    $('#comments').on('click', '.save-comment button', function (ev) {
         $('li.rich_editor').show();
         var btn = $(this);
         var form = btn.closest('form');
@@ -83,27 +139,27 @@ $(function() {
             ev.preventDefault();
             return false;
         }
-        form.ajaxSubmit(function(data) {
-                            if (!data) {
-                                return;
-                            }
-                            var new_li = $(data.trim());
-                            form.closest('li').replaceWith(new_li);
-                        });
+        form.ajaxSubmit(function (data) {
+            if (!data) {
+                return;
+            }
+            var new_li = $(data.trim());
+            form.closest('li').replaceWith(new_li);
+        });
         return false;
     });
 
     $('#issue-complete,#issue-archive').ajaxForm({
-        success: function(data) {
+        success: function (data) {
             var target = window.location.protocol + '//' + window.location.host + window.location.pathname;
             window.location = target;
-			// window.history.back();
+            // window.history.back();
         }
     });
-    
+
     $('#issue-undo-complete').ajaxForm({
-        success: function(data) {
-        	location.reload();
+        success: function (data) {
+            location.reload();
             // var target = window.location.protocol + '//' + window.location.host + window.location.pathname;
             // window.location = target;
         }
@@ -111,12 +167,12 @@ $(function() {
     });
 
     // fill empty file title upon file selection
-    $('body').on('change', 'input#id_file', function() {
+    $('body').on('change', 'input#id_file', function () {
         var title_inp = $(this).closest('form').find('input#id_title');
-        if(title_inp.val().length > 0)
+        if (title_inp.val().length > 0)
             return;
         var full_filename = $(this).val();
         var base_filename = '';
         title_inp.val(base_filename);
-     });
+    });
 });

@@ -112,6 +112,7 @@ $(function () {
                 }
             }
         });
+        $('#quick-issue-form').submit();
     });
 
     // Quick submit of new proposal (Title only)
@@ -165,6 +166,7 @@ $(function () {
                 }
             }
         });
+        $('#quick-proposal-form').submit();
     });
 
     if (navigator.userAgent.match('CriOS')) {
