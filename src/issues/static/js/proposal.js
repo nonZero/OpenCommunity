@@ -160,22 +160,30 @@ $(function () {
         var vote_value = $(this).attr('id').substr(5);
         var target = $(this).attr('href');
         var is_board = $(this).closest('.vote-btns').attr('id') == 'board_vote_btns';
+        var prop_item = $(this).parents('.issue_proposal_vote');
         var args_url = $('#proposal-detail .proposal').data('argument-url');
         if (!args_url) {
             args_url = $(this).parents('.issue_proposal_vote').data('argument-url');
         }
         do_vote(target, vote_value, $(this), is_board);
-        $.get(args_url, function (arg) {
-            vote_box.html(arg);
-        });
-        addArgument();
+        if (vote_value === 'reset') {
+            vote_box.html('');
+            fixHeights();
+        } else {
+            prop_item.addClass('with_arguments');
+            $.get(args_url, function (arg) {
+                vote_box.html(arg);
+            });
+            addArgument();
+        }
     });
 
-    window.onbeforeunload = function () {
-        if ($('#id_content').val()) {
-            return gettext("Comment unsaved.");
-        }
-    };
+    // Check content saved before reload.
+//    window.onbeforeunload = function () {
+//        if ($('#id_content').val()) {
+//            return gettext("Comment unsaved.");
+//        }
+//    };
 
     $(".container").on("click", "a[id^='results']", function (event) {
         event.preventDefault();
@@ -195,19 +203,16 @@ $(function () {
         if (!$('.proposal_right_column').is(":visible")) {
             return;
         }
-        ;
         var issue_h = $('.proposal_right_column').outerHeight();
         var proposal_h = $('.proposal_left_column').outerHeight();
         if ((issue_h + 20) < proposal_h) {
             $('.proposal_right_column').outerHeight(proposal_h - 20);
             return;
         }
-        ;
         if (issue_h > proposal_h) {
             $('.proposal_left_column').outerHeight(issue_h + 20);
             return;
         }
-        ;
 
     };
 
@@ -224,7 +229,7 @@ $(function () {
     addArgument();
     deleteArgument();
     upDownVote();
-    addRemoveSubmitButton()
+    addRemoveSubmitButton();
 
     // Ajax update argument form submission.
 

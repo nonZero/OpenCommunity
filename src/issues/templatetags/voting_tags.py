@@ -143,6 +143,6 @@ def user_ranked_argument(argument_id, user_id):
 
 
 @register.filter
-def user_argued(proposal_id, user_id):
+def user_argued(proposal, user_id):
     user = OCUser.objects.get(pk=user_id)
-    return ProposalVoteArgument.objects.filter(proposal_vote_id=proposal_id, created_by=user).exists()
+    return ProposalVoteArgument.objects.filter(proposal_vote__proposal=proposal, created_by=user).exists()

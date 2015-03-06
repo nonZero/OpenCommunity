@@ -1,5 +1,6 @@
 {% load i18n voting_tags %}
 
+{% if proposal.elegantly_interleaved_for_and_against_arguments|length %}
 <div class="col-xs-12 visible-xs">
     <h5 class="pull-left arguments_for">{% trans "Why yes" %}?</h5>
     <h5 class="pull-right arguments_against">{% trans "Why no" %}?</h5>
@@ -7,25 +8,28 @@
         {% include 'issues/_mix_arguments.html' %}
     {% endfor %}
 </div>
-<div class="arguments_for col-xs-12 col-sm-6 hidden-xs">
-    <h5>{% trans "Why yes" %}?</h5>
-    <table class="arguments-table pro-table">
-        <tbody>
-        {% if request.resolver_match.url_name == 'issue' %}
-            {% for arg in proposal.arguments_for %}
-                {% if forloop.counter <= 2 %}
-                {% include 'issues/_pro_argument.html' %}
-                {% endif %}
-            {% endfor %}
-        {% else %}
-            {% for arg in proposal.arguments_for %}
-                {% include 'issues/_pro_argument.html' %}
-            {% endfor %}
-        {% endif %}
-        </tbody>
-    </table>
-    {% if proposal.id|user_vote_result:request.user.id == 'pro' and proposal.id|user_proposal_vote_id:request.user.id and not proposal.id|user_argued:request.user %}
-    <form id="create-argument" method="post" data-vote="pro" action="{% url 'create_vote_argument' proposal.issue.community.id proposal.id|user_proposal_vote_id:request.user.id %}">
+{% endif %}
+<div class="arguments_for col-sm-6">
+    <div class="col-xs-12 hidden-xs">
+        <h5>{% trans "Why yes" %}?</h5>
+        <table class="arguments-table pro-table">
+            <tbody>
+            {% if request.resolver_match.url_name == 'issue' %}
+                {% for arg in proposal.arguments_for %}
+                    {% if forloop.counter <= 2 %}
+                    {% include 'issues/_pro_argument.html' %}
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {% for arg in proposal.arguments_for %}
+                    {% include 'issues/_pro_argument.html' %}
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+    {% if proposal.id|user_vote_result:user.id == 'pro' and not proposal|user_argued:user.id %}
+    <form id="create-argument" method="post" data-vote="pro" action="{% url 'create_vote_argument' proposal.issue.community.id proposal.id|user_proposal_vote_id:user.id %}">
         {% csrf_token %}
         <div class="form-group">
             <label for="id_argument" class="control-label">{% trans "Add argument" %}:</label>
@@ -39,25 +43,27 @@
     </form>
     {% endif %}
 </div>
-<div class="arguments_against col-xs-12 col-sm-6 hidden-xs">
-    <h5>{% trans "Why no" %}?</h5>
-    <table class="arguments-table con-table">
-        <tbody>
-        {% if request.resolver_match.url_name == 'issue' %}
-            {% for arg in proposal.arguments_against %}
-                {% if forloop.counter <= 2 %}
-                {% include 'issues/_con_argument.html' %}
-                {% endif %}
-            {% endfor %}
-        {% else %}
-            {% for arg in proposal.arguments_against %}
-                {% include 'issues/_con_argument.html' %}
-            {% endfor %}
-        {% endif %}
-        </tbody>
-    </table>
-    {% if proposal.id|user_vote_result:request.user.id == 'con' and proposal.id|user_proposal_vote_id:request.user.id and not proposal.id|user_argued:request.user %}
-    <form id="create-argument" method="post" datt-vote="con" action="{% url 'create_vote_argument' proposal.issue.community.id proposal.id|user_proposal_vote_id:request.user.id %}">
+<div class="arguments_against col-sm-6">
+    <div class="col-xs-12 hidden-xs">
+        <h5>{% trans "Why no" %}?</h5>
+        <table class="arguments-table con-table">
+            <tbody>
+            {% if request.resolver_match.url_name == 'issue' %}
+                {% for arg in proposal.arguments_against %}
+                    {% if forloop.counter <= 2 %}
+                    {% include 'issues/_con_argument.html' %}
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {% for arg in proposal.arguments_against %}
+                    {% include 'issues/_con_argument.html' %}
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+    {% if proposal.id|user_vote_result:user.id == 'con' and not proposal|user_argued:user.id %}
+    <form id="create-argument" method="post" data-vote="con" action="{% url 'create_vote_argument' proposal.issue.community.id proposal.id|user_proposal_vote_id:user.id %}">
         {% csrf_token %}
         <div class="form-group">
             <label for="id_argument" class="control-label">{% trans "Add argument" %}:</label>

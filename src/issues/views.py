@@ -769,10 +769,13 @@ class ProposalVoteView(ProposalVoteMixin, DetailView):
             vote = get_object_or_404(vote_class,
                                      proposal_id=pid, user_id=user_id)
             vote.delete()
+            related_arguments = ProposalVoteArgumentRanking.objects.filter(user=request.user, argument__proposal_vote__proposal=proposal)
+            if related_arguments.count():
+                related_arguments.delete()
             vote_response['html'] = render_to_string(vote_panel_tpl,
                                                      {
                                                          'proposal': proposal,
-                                                         'community': self.community,
+                                                         'community': self.community
                                                      })
 
             return json_response(vote_response)
@@ -789,6 +792,7 @@ class ProposalVoteView(ProposalVoteMixin, DetailView):
                                                          'proposal': proposal,
                                                          'community': self.community,
                                                          'vote_status': val,
+                                                         'user': self.request.user
                                                      })
             if is_board and voter_group == DefaultGroups.CHAIRMAN:
                 vote_response['sum'] = render_to_string('issues/_member_vote_sum.html',
@@ -996,10 +1000,27 @@ class ProposalVoteArgumentCreateView(CreateView):
             return render(request, 'issues/_con_argument.html', context)
 
 
+class ProposalMoreArgumentsView(DetailView):
+    model = models.Proposal
+    template_name = 'issues/_more_arguments_box.html'
+
+    def get_context_data(self, **kwargs):
+        d = super(ProposalMoreArgumentsView, self).get_context_data(**kwargs)
+        d['proposal'] = self.get_object()
+        d['user'] = self.request.user
+        return d
+
+
 class ProposalArgumentsView(DetailView):
     model = models.Proposal
     template_name = 'issues/_vote_arguments.html'
     context_object_name = 'proposal'
+
+    def get_context_data(self, **kwargs):
+        context = super(ProposalArgumentsView, self).get_context_data(**kwargs)
+        context['proposal'] = self.get_object()
+        context['user'] = self.request.user
+        return context
 
 
 class ProposalVoteArgumentUpdateView(UpdateView):

@@ -1351,6 +1351,10 @@ form.delete-invitation {
     overflow: hidden;
     cursor: pointer;
 }
+.more_arguments a {
+    display: block;
+    padding: 10px 0;
+}
 .argument-vote span {
     font-weight: bold;
 }
@@ -1382,6 +1386,10 @@ form.delete-invitation {
     }
     .vote_arguments .arguments-opt {
         margin-bottom: 0;
+    }
+    .issue_proposal_vote .prop_votes .col-xs-6 {
+        padding-right: 3px;
+        padding-left: 3px;
     }
 }
 h5.arguments_for,

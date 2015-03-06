@@ -1,14 +1,19 @@
+{% load i18n %}
+
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>DemOS - operating system for democracies</title>
+		<title>{% trans "DemOS - operating system for democracies" %}</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<base href="/">
 		<!-- CSS Files comes here -->
 		<link href="{{ STATIC_URL }}landing/css/bootstrap.css" rel="stylesheet" media="screen">
 		<link href="{{ STATIC_URL }}landing/css/style.css" rel="stylesheet" media="screen">
-		<link href="{{ STATIC_URL }}landing/css/animate.css" rel="stylesheet">
+		{% if LANGUAGE_CODE == 'he' %}
+        <link href="{{ STATIC_URL }}landing/css/style-rtl.css" rel="stylesheet" media="screen">
+		{% endif %}
+        <link href="{{ STATIC_URL }}landing/css/animate.css" rel="stylesheet">
 		<link href="{{ STATIC_URL }}landing/css/icons.css" rel="stylesheet" media="screen">
 		<link href="{{ STATIC_URL }}landing/css/flexslider.css" rel="stylesheet" media="screen">
 		<link href="{{ STATIC_URL }}landing/css/responsive.css" rel="stylesheet" media="screen">
@@ -44,22 +49,22 @@
 							<ul>
 								<span id="sections">
 									<li class="current">
-										<a href="#home">top</a>
+										<a href="#home">{% trans "top" %}</a>
 									</li>
 									<li>
-										<a href="#about">The Problem</a>
+										<a href="#about">{% trans 'The Problem' %}</a>
 									</li>
 									<li>
-										<a href="#services">The Solution</a>
+										<a href="#services">{% trans 'The Solution' %}</a>
 									</li>
 									<li>
-										<a href="#ourtool">Our Tool</a>
+										<a href="#ourtool">{% trans 'Our Tool' %}</a>
 									</li>
 									<li>
-										<a href="#team">Our Team</a>
+										<a href="#team">{% trans 'Our Team' %}</a>
 									</li> </span>
 								<li>
-									<a href="communities/" class="login-action btn-login">כניסה</a>
+									<a href="communities/" class="login-action btn-login">{% trans "Login" %}</a>
 								</li>
 							</ul>
 						</div>
@@ -76,26 +81,26 @@
 
 		<!-- MOBILE NAV -->
 		<div class="cbp-spmenu visible-sm visible-xs" id="cbp-spmenu">
-			<h3>Menu</h3>
+			<h3>{% trans "Menu" %}</h3>
 			<ul>
 				<span id="sections_mobile">
 					<li class="current">
-						<a href="#home">top</a>
+						<a href="#home">{% trans "top" %}</a>
 					</li>
 					<li>
-						<a href="#about">The Problem</a>
+						<a href="#about">{% trans "The Problem" %}</a>
 					</li>
 					<li>
-						<a href="#services">The Solution</a>
+						<a href="#services">{% trans "The Solution" %}</a>
 					</li>
 					<li>
-						<a href="#ourtool">Our Tool</a>
+						<a href="#ourtool">{% trans "Our Tool" %}</a>
 					</li>
 					<li>
-						<a href="#team">Our Team</a>
+						<a href="#team">{% trans "Our Team" %}</a>
 					</li> </span>
 				<li>
-					<a href="communities/" class="btn-login">כניסה</a>
+					<a href="communities/" class="btn-login">{% trans "Login" %}</a>
 				</li>
 			</ul>
 		</div>
@@ -114,33 +119,33 @@
 					<div class="col-md-12 col-lg-12">
 						<blockquote>
 							<p class="first">
-								An operating system for democracies
+								{% trans "An operating system for democracies" %}
 							</p>
 							<p>
-								that strengthens communities by
+								{% trans "that strengthens communities by" %}
 							</p>
 						</blockquote>
 						<div class="tlt">
 							<ul class="texts">
 								<li>
-									Engaging Crowds
+									{% trans "Engaging Crowds" %}
 								</li>
 								<li>
-									Empowering Individuals
+									{% trans "Empowering Individuals" %}
 								</li>
 								<li>
-									Decentralizing Democracy
+									{% trans "Decentralizing Democracy" %}
 								</li>
 								<li>
-									Facilitating Leaders
+									{% trans "Facilitating Leaders" %}
 								</li>
 								<li>
-									Converging Discussions
+									{% trans "Converging Discussions" %}
 								</li>
 							</ul>
 						</div>
 						<button id="btn-arrow" class="btn btn-arrow btn-arrowb icon-arrow">
-							<span>Learn More</span>
+							<span>{% trans "Learn More" %}</span>
 						</button>
 					</div>
 				</div>
@@ -160,14 +165,14 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
-						<h2>What Went Wrong?</h2>
+						<h2>{% trans "What Went Wrong" %}?</h2>
 						<blockquote>
 							<p>
-								In many communities democracy suffers from many ailments.
+								{% trans "In many communities democracy suffers from many ailments" %}.
 							</p>
 							<br/>
 							<p>
-								The root cause of which is the <strong>alienation</strong> between the elected board and the public, where the public is <strong>excluded</strong> from the decision-making process and can only elect its governors and protest in between elections.
+								{% trans "The root cause of which is the" %} <strong>{% trans "alienation" %}</strong> {% trans "between the elected board and the public, where the public is" %} <strong>{% trans "excluded" %}</strong> {% trans "from the decision-making process and can only elect its governors and protest in between elections" %}.
 							</p>
 						</blockquote>
 					</div>
@@ -209,16 +214,16 @@
 				<div class="row">
 					<div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
 
-						<h2>The Solution</h2>
+						<h2>{% trans "The Solution" %}</h2>
 
 						<p style="font-size: 1.6em; line-height: 1.5em;">
-							<strong>Participatory decision making in democratic communities</strong>
+							<strong>{% trans "Participatory decision making in democratic communities" %}</strong>
 						</p>
 						<p style="font-size: 1.6em; line-height: 1.5em;">
-							We aim to return democracy to its fundamental principle – public participation in the decision making process.
+							{% trans "We aim to return democracy to its fundamental principle – public participation in the decision making process" %}.
 						</p>
 						<p style="font-size: 1.6em; line-height: 1.5em;">
-							We develop an online platform that enables democratic communities, big and small, to increase transparency and levels of participation and increase their social capital.
+							{% trans "We develop an online platform that enables democratic communities, big and small, to increase transparency and levels of participation and increase their social capital" %}.
 						</p>
 					</div>
 				</div>
@@ -237,31 +242,31 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
-						<h2>Our Tool</h2>
+						<h2>{% trans "Our Tool" %}</h2>
 						<p>
-							The complete platform will accompany the process of decision making as it progresses:
+							{% trans "The complete platform will accompany the process of decision making as it progresses" %}:
 						</p>
 
 						<div class="row" id="tool_boxes">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 tool_box">
 								<ul>
 									<li>
-										<i class="fa fa-comments fa-2x"></i><span>Converging Discussions</span>
+										<i class="fa fa-comments fa-2x"></i><span>{% trans "Converging Discussions" %}</span>
 									</li>
 									<li>
-										<i class="fa fa-list fa-2x"></i><span>Agenda Setting</span>
+										<i class="fa fa-list fa-2x"></i><span>{% trans "Agenda Setting" %}</span>
 									</li>
 									<li>
-										<i class="fa fa-bolt fa-2x"></i><span>Solution suggestion</span>
+										<i class="fa fa-bolt fa-2x"></i><span>{% trans "Solution suggestion" %}</span>
 									</li>
 									<li>
-										<i class="fa fa-thumbs-o-up fa-2x"></i><span>Prioritization</span>
+										<i class="fa fa-thumbs-o-up fa-2x"></i><span>{% trans "Prioritization" %}</span>
 									</li>
 									<li>
-										<i class="fa fa-gavel fa-2x"></i><span>Voting</span>
+										<i class="fa fa-gavel fa-2x"></i><span>{% trans "Voting" %}</span>
 									</li>
 									<li>
-										<i class="fa fa-book fa-2x"></i><span>Publication monitoring</span>
+										<i class="fa fa-book fa-2x"></i><span>{% trans "Publication monitoring" %}</span>
 									</li>
 
 								</ul>
@@ -283,7 +288,7 @@
 		<!--####################################################################-->
 
 		<section id="process">
-			<h2>The Proccess</h2>
+			<h2>{% trans "The Proccess" %}</h2>
 			<div class="container">
 
 				<div class="row">
@@ -291,34 +296,34 @@
 					<div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
 
 						<p style="text-align:center;">
-							The platform enables adjustments to the levels of exposure. The adjustments enable a gradual process according to the development and increase of trust between the board and the community
+							{% trans "The platform enables adjustments to the levels of exposure. The adjustments enable a gradual process according to the development and increase of trust between the board and the community" %}
 						</p>
 
 						<div class="arrow_box">
-							<h3>Transparency</h3>
+							<h3>{% trans "Transparency" %}</h3>
 							<p>
-								The board uses the platform to manage issues, meeting agenda and decisions, and keeps the community informed with no extra effort
+								{% trans "The board uses the platform to manage issues, meeting agenda and decisions, and keeps the community informed with no extra effort" %}
 							</p>
 						</div>
 
 						<div class="arrow_box">
-							<h3>Consultation</h3>
+							<h3>{% trans "Consultation" %}</h3>
 							<p>
-								Community members can participate in non-binding discussion, polls and voting to share their preference with the board.
+								{% trans "Community members can participate in non-binding discussion, polls and voting to share their preference with the board" %}.
 							</p>
 						</div>
 
 						<div class="arrow_box">
-							<h3>Collaboration</h3>
+							<h3>{% trans "Collaboration" %}</h3>
 							<p>
-								Community members raise issues (initiatives), introduce proposals, impact the agenda, and vote on proposals (referendum)
+								{% trans "Community members raise issues (initiatives), introduce proposals, impact the agenda, and vote on proposals (referendum)" %}
 							</p>
 						</div>
 
 						<div class="arrow_box_last">
-							<h3>Empowerment</h3>
+							<h3>{% trans "Empowerment" %}</h3>
 							<p>
-								The community is the true sovereign and has full power over decision making (as done by jury and public committees)
+								{% trans "The community is the true sovereign and has full power over decision making (as done by jury and public committees)" %}
 							</p>
 						</div>
 
@@ -340,10 +345,10 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
-						<h2>Our team</h2>
-						<div id="hasadna"><img src="{{ STATIC_URL }}landing/images/sadna-logo.png" alt="Hasadna Logo" />The project runs within the framework of the <strong><a href="http://www.hasadna.org.il">Public Knowledge Workshop</a></strong> –
+						<h2>{% trans "Our team" %}</h2>
+						<div id="hasadna"><img src="{{ STATIC_URL }}landing/images/sadna-logo.png" alt="Hasadna Logo" />{% trans "The project runs within the framework of the" %} <strong><a href="http://www.hasadna.org.il">{% trans "Public Knowledge Workshop" %}</a></strong> –
 							<br />
-							a non-profit incubator for open code to promote democracy and citizen involvement in government activities.
+							{% trans "a non-profit incubator for open code to promote democracy and citizen involvement in government activities" %}.
 						</div>
 
 					</div>
@@ -351,7 +356,7 @@
 
 				<div class="row" id="team_boxes">
 					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 team_box">
-						<a href="http://il.linkedin.com/in/boazchen"> <img src="{{ STATIC_URL }}landing/images/boaz1.jpg" alt="Boaz Chen" class="img-circle img-responsive member_photo" /> <h4>Boaz Chen</h4></a>
+						<a href="http://il.linkedin.com/in/boazchen"> <img src="{{ STATIC_URL }}landing/images/boaz1.jpg" alt="Boaz Chen" class="img-circle img-responsive member_photo" /> <h4>{% trans "Boaz Chen" %}</h4></a>
 						<div class="social_icons">
 							<ul>
 								<li class="social_icon">
@@ -371,13 +376,13 @@
 					</div>
 
 					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 team_box">
-						<a href="http://en.wikipedia.org/wiki/Ehud_Shapiro"> <img src="{{ STATIC_URL }}landing/images/ehud1.jpg" alt="Prof. Ehud (Udi) Shapiro" class="img-circle img-responsive member_photo" /> <h4>Prof. Ehud (Udi) Shapiro</h4></a>
+						<a href="http://en.wikipedia.org/wiki/Ehud_Shapiro"> <img src="{{ STATIC_URL }}landing/images/ehud1.jpg" alt="Prof. Ehud (Udi) Shapiro" class="img-circle img-responsive member_photo" /> <h4>{% trans "Prof. Ehud (Udi) Shapiro" %}</h4></a>
 					</div>
 				</div>
 
 				<blockquote style="margin-top:80px;">
 					<p>
-						Boaz Chen and Prof. Ehud (Udi) Shapiro, former founders and managers of technology companies, are leading the project, that is developed by a community of volunteers and a core group of developers funded by donations.
+						{% trans "Boaz Chen and Prof. Ehud (Udi) Shapiro, former founders and managers of technology companies, are leading the project, that is developed by a community of volunteers and a core group of developers funded by donations" %}.
 					</p>
 				</blockquote>
 

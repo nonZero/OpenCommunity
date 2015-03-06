@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-26 17:19+0200\n"
-"PO-Revision-Date: 2015-02-26 17:21+0200\n"
+"POT-Creation-Date: 2015-03-05 16:26+0200\n"
+"PO-Revision-Date: 2015-03-05 15:29+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -222,8 +222,7 @@ msgstr "מספר עמוד צריך להיות 1 או יותר."
 msgid "No such page!"
 msgstr "דף לא קיים!"
 
-#: .\templates\_community_bar.html.py:5
-#: .\templates\_community_panel.html.py:8
+#: .\templates\_community_bar.html.py:5 .\templates\_community_panel.html.py:8
 #: .\templates\communities\community_search.html.py:15
 msgid "Issues"
 msgstr "נושאים"
@@ -279,6 +278,8 @@ msgstr "יציאה"
 
 #: .\templates\_user_panel.html.py:12
 #: .\templates\communities\community_list.html.py:34
+#: .\templates\communities\landing.html.py:67
+#: .\templates\communities\landing.html.py:103
 msgid "Login"
 msgstr "כניסה"
 
@@ -353,6 +354,251 @@ msgstr "הבא"
 msgid "Edit summary"
 msgstr "ערוך סיכום"
 
+#: .\templates\communities\landing.html.py:6
+msgid "DemOS - operating system for democracies"
+msgstr "קהילה פתוחה - מערכת לשקיפות והשתתפות בפעילות ועד נבחר"
+
+#: .\templates\communities\landing.html.py:52
+#: .\templates\communities\landing.html.py:88
+msgid "top"
+msgstr "לראש העמוד"
+
+#: .\templates\communities\landing.html.py:55
+#: .\templates\communities\landing.html.py:91
+msgid "The Problem"
+msgstr "הבעיה"
+
+#: .\templates\communities\landing.html.py:58
+#: .\templates\communities\landing.html.py:94
+#: .\templates\communities\landing.html.py:217
+msgid "The Solution"
+msgstr "הפתרון"
+
+#: .\templates\communities\landing.html.py:61
+#: .\templates\communities\landing.html.py:97
+#: .\templates\communities\landing.html.py:245
+msgid "Our Tool"
+msgstr "הכלי שלנו"
+
+#: .\templates\communities\landing.html.py:64
+#: .\templates\communities\landing.html.py:100
+msgid "Our Team"
+msgstr "הצוות"
+
+#: .\templates\communities\landing.html.py:84
+msgid "Menu"
+msgstr "תפריט"
+
+#: .\templates\communities\landing.html.py:122
+msgid "An operating system for democracies"
+msgstr "מערכת לשקיפות והשתתפות בפעילות ועד נבחר"
+
+#: .\templates\communities\landing.html.py:125
+msgid "that strengthens communities by"
+msgstr "חיזוק הקהילה באמצעות"
+
+#: .\templates\communities\landing.html.py:131
+msgid "Engaging Crowds"
+msgstr "שיתוף ציבור"
+
+#: .\templates\communities\landing.html.py:134
+msgid "Empowering Individuals"
+msgstr "העצמת בעלי תפקידים"
+
+#: .\templates\communities\landing.html.py:137
+msgid "Decentralizing Democracy"
+msgstr "דמוקרטיה מבוזרת"
+
+#: .\templates\communities\landing.html.py:140
+msgid "Facilitating Leaders"
+msgstr "גיבוי המנהיגות הנבחרת"
+
+#: .\templates\communities\landing.html.py:143
+#: .\templates\communities\landing.html.py:254
+msgid "Converging Discussions"
+msgstr "דיונים מתכנסים"
+
+#: .\templates\communities\landing.html.py:148
+msgid "Learn More"
+msgstr "קראו עוד"
+
+#: .\templates\communities\landing.html.py:168
+msgid "What Went Wrong"
+msgstr "מה השתבש"
+
+#: .\templates\communities\landing.html.py:171
+msgid "In many communities democracy suffers from many ailments"
+msgstr "ניהול קהילה דמוקרטית מציב קשיים ואתגרים לא פשוטים"
+
+#: .\templates\communities\landing.html.py:175
+msgid "The root cause of which is the"
+msgstr "הסיבה העיקרית לתופעה זו היא"
+
+#: .\templates\communities\landing.html.py:175
+msgid "alienation"
+msgstr "ניכור"
+
+#: .\templates\communities\landing.html.py:175
+msgid "between the elected board and the public, where the public is"
+msgstr "בין ועד מנהל נבחר ובין הציבור, מכיוון שהציבור מוצא את עצמו מחוץ למעגל"
+
+#: .\templates\communities\landing.html.py:175
+msgid "excluded"
+msgstr "קבלת ההחלטות"
+
+#: .\templates\communities\landing.html.py:175
+msgid ""
+"from the decision-making process and can only elect its governors and "
+"protest in between elections"
+msgstr ""
+"והוא נשאר רק עם האפשרות לבחור בחברי הוועד ולמחות בין בחירות לבחירות כאשר "
+"ההחלטות המתקבלות אינן לשביעות רצונו"
+
+#: .\templates\communities\landing.html.py:220
+msgid "Participatory decision making in democratic communities"
+msgstr "מנגנון קבלת החלטות משתף בקהילות דמוקרטיות"
+
+#: .\templates\communities\landing.html.py:223
+msgid ""
+"We aim to return democracy to its fundamental principle – public "
+"participation in the decision making process"
+msgstr ""
+"אנחנו שואפים להחזיר את הדמוקרטיה לשורשיה - שיתוף הציבור בתהליך קבלת ההחלטות"
+
+#: .\templates\communities\landing.html.py:226
+msgid ""
+"We develop an online platform that enables democratic communities, big and "
+"small, to increase transparency and levels of participation and increase "
+"their social capital"
+msgstr ""
+"לכן פיתחנו כלי אינטרנטי שמאפשר לקהילות דמוקרטיות, גדולות וקטנות, לחזק את "
+"השקיפות ואת רמת המעורבות ובכך להגדיל את ההון החברתי שלהן"
+
+#: .\templates\communities\landing.html.py:247
+msgid ""
+"The complete platform will accompany the process of decision making as it "
+"progresses"
+msgstr "הפלטפורמה תלווה את תהליך קבלת ההחלטות לכל אורכו"
+
+#: .\templates\communities\landing.html.py:257
+msgid "Agenda Setting"
+msgstr "קביעת סדר יום"
+
+#: .\templates\communities\landing.html.py:260
+msgid "Solution suggestion"
+msgstr "הצעת פתרונות"
+
+#: .\templates\communities\landing.html.py:263
+msgid "Prioritization"
+msgstr "יצירת סדרי עדיפויות"
+
+#: .\templates\communities\landing.html.py:266
+msgid "Voting"
+msgstr "הצבעות"
+
+#: .\templates\communities\landing.html.py:269
+msgid "Publication monitoring"
+msgstr "מעקב ציבורי"
+
+#: .\templates\communities\landing.html.py:291
+msgid "The Proccess"
+msgstr "התהליך"
+
+#: .\templates\communities\landing.html.py:299
+msgid ""
+"The platform enables adjustments to the levels of exposure. The adjustments "
+"enable a gradual process according to the development and increase of trust "
+"between the board and the community"
+msgstr ""
+"המערכת מאפשרת שליטה ברמת השקיפות על פי החלטת הוועד. שליטה זו מאפשרת יצירת "
+"תהליך הדרגתי בהתאם להתפתחויות ורמת האמון הקיים בין הוועד ובין הקהילה"
+
+#: .\templates\communities\landing.html.py:303
+msgid "Transparency"
+msgstr "שקיפות"
+
+#: .\templates\communities\landing.html.py:305
+msgid ""
+"The board uses the platform to manage issues, meeting agenda and decisions, "
+"and keeps the community informed with no extra effort"
+msgstr ""
+"הוועד משתמש במערכת לניהול נושאים, סדר יום של פגישות והחלטות, וכך משאיר את "
+"הקהילה מיודעת ומחוברת ללא השקעת מאמץ נוסף"
+
+#: .\templates\communities\landing.html.py:310
+msgid "Consultation"
+msgstr "התייעצות"
+
+#: .\templates\communities\landing.html.py:312
+msgid ""
+"Community members can participate in non-binding discussion, polls and "
+"voting to share their preference with the board"
+msgstr ""
+"חברי הקהילה מוזמנים להשתתף בדיון לא מחייב, סקרים והצבעות וכך לחלוק עם הוועד "
+"את העדפותיהם"
+
+#: .\templates\communities\landing.html.py:317
+msgid "Collaboration"
+msgstr "שיתוף"
+
+#: .\templates\communities\landing.html.py:319
+msgid ""
+"Community members raise issues (initiatives), introduce proposals, impact "
+"the agenda, and vote on proposals (referendum)"
+msgstr ""
+"חברי הקהילה מסוגלים להעלות נושאים לדיון (יוזמות), להציג הצעות, להשפיע על סדר "
+"היום ולהצביע עבור החלטות"
+
+#: .\templates\communities\landing.html.py:324
+msgid "Empowerment"
+msgstr "העצמת הוועד"
+
+#: .\templates\communities\landing.html.py:326
+msgid ""
+"The community is the true sovereign and has full power over decision making "
+"(as done by jury and public committees)"
+msgstr ""
+"הקהילה היא הריבון האמיתי, ובידיה הכוח המלא על קבלת ההחלטות (כפי שנעשה על ידי "
+"חבר מושבעים ועל ידי ועדות ציבוריות)"
+
+#: .\templates\communities\landing.html.py:348
+msgid "Our team"
+msgstr "הצוות"
+
+#: .\templates\communities\landing.html.py:349
+msgid "The project runs within the framework of the"
+msgstr "הפרויקט פועל במסגרת"
+
+#: .\templates\communities\landing.html.py:349
+msgid "Public Knowledge Workshop"
+msgstr "הסדנא לידע ציבורי"
+
+#: .\templates\communities\landing.html.py:351
+msgid ""
+"a non-profit incubator for open code to promote democracy and citizen "
+"involvement in government activities"
+msgstr ""
+"ארגון ללא מטרות רווח (ע\"ר) הפועל כחממה לפרויקטים בקוד פתוח לקידום דמוקרטיה "
+"ומעורבות אזרחית בפעילות ממשלתית וציבורית"
+
+#: .\templates\communities\landing.html.py:359
+msgid "Boaz Chen"
+msgstr "בועז חן"
+
+#: .\templates\communities\landing.html.py:379
+msgid "Prof. Ehud (Udi) Shapiro"
+msgstr "אהרן פורת"
+
+#: .\templates\communities\landing.html.py:385
+msgid ""
+"Boaz Chen and Prof. Ehud (Udi) Shapiro, former founders and managers of "
+"technology companies, are leading the project, that is developed by a "
+"community of volunteers and a core group of developers funded by donations"
+msgstr ""
+"בועז חן, אשר הקים וניהל חברות טכנולוגיה, ואהרן פורת, לשעבר עורך הערוץ "
+"\"טכנולוגי\" באתר כלכליסט, מובילים את הפרויקט, אשר מפותח על ידי קהילת "
+"מתנדבים. עד כה מומן הפרויקט על ידי תרומות"
+
 #: .\templates\communities\participants_form.html.py:6
 msgid "Select participants"
 msgstr "בחר משתתפים"
@@ -389,7 +635,7 @@ msgstr "משתתפים מפגישות קודמות"
 #: .\templates\communities\participants_form.html.py:69
 #: .\templates\communities\participants_form.html.py:104
 #: .\templates\communities\participants_form.html.py:124
-#: .\templates\communities\upcoming.html.py:179
+#: .\templates\communities\upcoming.html.py:180
 msgid "Add"
 msgstr "הוסף"
 
@@ -406,12 +652,12 @@ msgid "Cancel"
 msgstr "ביטול"
 
 #: .\templates\communities\participants_form.html.py:190
-#: .\templates\communities\upcoming.html.py:272
+#: .\templates\communities\upcoming.html.py:274
 msgid "Save"
 msgstr "שמירה"
 
 #: .\templates\communities\publish_upcoming.html.py:6
-#: .\templates\communities\upcoming.html.py:212
+#: .\templates\communities\upcoming.html.py:214
 #: .\templates\emails\protocol_draft.html.py:3
 #: .\templates\emails\protocol_draft.txt.py:1
 msgid "Summary draft"
@@ -506,7 +752,7 @@ msgid "Agenda items"
 msgstr "נושאים לסדר היום"
 
 #: .\templates\communities\upcoming.html.py:154
-#: .\templates\communities\upcoming.html.py:169
+#: .\templates\communities\upcoming.html.py:170
 msgid "New issue"
 msgstr "נושא חדש"
 
@@ -514,47 +760,47 @@ msgstr "נושא חדש"
 msgid "All proposals / Voted"
 msgstr "סך הצעות/כמה הצבעתי"
 
-#: .\templates\communities\upcoming.html.py:176
+#: .\templates\communities\upcoming.html.py:177
 msgid "Type the new issue title"
 msgstr "הקלד כותרת עבור הנושא החדש"
 
-#: .\templates\communities\upcoming.html.py:192
+#: .\templates\communities\upcoming.html.py:194
 msgid "Comments"
 msgstr "הערות"
 
-#: .\templates\communities\upcoming.html.py:194
+#: .\templates\communities\upcoming.html.py:196
 #: .\templates\emails\_protocol.html.py:46
 #: .\templates\emails\protocol.html.py:3 .\templates\emails\protocol.txt.py:1
 #: .\templates\emails\protocol_title.txt.py:4
 msgid "Summary"
 msgstr "סיכום הפגישה"
 
-#: .\templates\communities\upcoming.html.py:212
+#: .\templates\communities\upcoming.html.py:214
 msgid "Publish the agenda"
 msgstr "פרסם סדר יום"
 
-#: .\templates\communities\upcoming.html.py:216
+#: .\templates\communities\upcoming.html.py:218
 msgid "Close update"
 msgstr "סגור עדכון"
 
-#: .\templates\communities\upcoming.html.py:218
+#: .\templates\communities\upcoming.html.py:220
 msgid "Close meeting"
 msgstr "סגור פגישה"
 
-#: .\templates\communities\upcoming.html.py:230
-#: .\templates\communities\upcoming.html.py:246
+#: .\templates\communities\upcoming.html.py:232
+#: .\templates\communities\upcoming.html.py:248
 msgid "Additional issues"
 msgstr "נושאים נוספים"
 
-#: .\templates\communities\upcoming.html.py:232
+#: .\templates\communities\upcoming.html.py:234
 msgid "By time"
 msgstr "זמן"
 
-#: .\templates\communities\upcoming.html.py:233
+#: .\templates\communities\upcoming.html.py:235
 msgid "By priority"
 msgstr "משוקלל"
 
-#: .\templates\communities\upcoming.html.py:259
+#: .\templates\communities\upcoming.html.py:261
 msgid "Agenda not yet published"
 msgstr "טרם פורסם סדר היום לפגישה הקרובה"
 
@@ -680,10 +926,6 @@ msgstr "הצבעה פעילה"
 #: .\templatetags\community_tags.py:58
 msgid "Published"
 msgstr "פורסם"
-
-#, fuzzy
-#~ msgid "Vote"
-#~ msgstr "הצבעה בעד"
 
 #~ msgid " board members."
 #~ msgstr "חברי ועד"

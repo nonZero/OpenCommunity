@@ -1,9 +1,11 @@
 {% load i18n voting_tags %}
 <div class="change_vote text-center vote-btns vote_result_{{ vote_status }}">
     <span>{% trans "You voted" %} {% if vote_status == 'pro' %}{% trans "for" %}{% else %}{% trans "against" %}{% endif %}!</span>
+    {% if not proposal|user_argued:user.id %}
     <a class="vote-action"
        href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}"
        id="vote-reset">
         {% trans "Cancel vote" %}
     </a>
+    {% endif %}
 </div>

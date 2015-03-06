@@ -35,11 +35,11 @@ $(function () {
                 success: function (data) {
                     $('#add-comment').data('comment-id', data.comment_id);
                     var d = new Date();
-                    $('#comment-status').html(gettext('Saved! Last: ' + d.toLocaleTimeString()));
+                    $('#comment-status').html(gettext('Saved! Last:') + ' ' + d.toLocaleTimeString('he-IL'));
                 }
             });
             $('#add-comment').submit();
-        }, 5000);
+        }, 2000);
     });
 
     $('#add-comment').ajaxForm({

@@ -84,18 +84,14 @@
             {% for proposal in proposals.open %}
                 {% include 'issues/_proposal.html' %}
                 {% if can_straw_vote and not proposal.decided and cperms.issues.vote and user|member_of:community %}
-                    <div class="issue_proposal_vote{% if proposal.arguments_for or proposal.arguments_against or user|voted_on:proposal.id %} with_arguments{% endif %}{% if proposal.is_confidential %} is_confidential{% endif %}" data-argument-url="{% url 'proposal_arguments' proposal.issue.community.id proposal.issue.id proposal.id %}">
+                    <div class="issue_proposal_vote{% if proposal.arguments_for or proposal.arguments_against or user|voted_on:proposal.id %} with_arguments{% endif %}{% if proposal.is_confidential %} is_confidential{% endif %}" data-argument-url="{% url 'proposal_more_arguments' proposal.issue.community.id proposal.issue.id proposal.id %}">
                         {% include 'issues/_straw_vote.html' %}
                         <div class="vote_arguments clearfix clear">
                             {% if proposal.arguments_for or proposal.arguments_against or user|voted_on:proposal.id %}
+                            {% if proposal.arguments_for or proposal.arguments_against %}
                             {% include 'issues/_vote_arguments.html' %}
-                            <div class="more_arguments text-center clear">
-                            {% if proposal.arguments_for|length > 2 or proposal.arguments_against|length > 2 %}
-                                <a href="{{proposal.get_absolute_url}}?m_id={{meeting.id}}{% if siblings %}&s=1{% endif %}">{% trans "More / Add" %}...</a>
-                            {% else %}
-                                <a href="{{proposal.get_absolute_url}}?m_id={{meeting.id}}{% if siblings %}&s=1{% endif %}">{% trans "Add argument" %}</a>
                             {% endif %}
-                            </div>
+                            {% include 'issues/_more_arguments_box.html' %}
                             {% endif %}
                         </div>
                     </div>
@@ -107,6 +103,7 @@
             {% endfor %}
         </div>
 
+        {% if cperms.issues.add_proposal and not object.is_archived %}
         <h2>{% trans 'New proposal' %}</h2>
         <div class="row">
             <div class="col-xs-12">
@@ -123,11 +120,9 @@
                 </form>
             </div>
         </div>
-
-        {% if cperms.issues.add_proposal and not object.is_archived %}
-            <div class="narrow clear filter filter-upcoming">
-                <a class="btn btn-oc btn-lg btn-block" data-rel="form" data-append-to=".open-proposals" href="{% url "proposal_create" community.id object.id %}">{% trans "Add a proposal" %}</a>
-            </div>
+        <div class="narrow clear filter filter-upcoming">
+            <a class="btn btn-oc btn-lg btn-block" data-rel="form" data-append-to=".open-proposals" href="{% url "proposal_create" community.id object.id %}">{% trans "Add a proposal" %}</a>
+        </div>
         {% endif %}
     </div>
 

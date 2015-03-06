@@ -15,6 +15,7 @@ import meetings
 import os.path
 from itertools import groupby
 
+
 class IssueManager(ConfidentialQuerySetMixin, ActiveQuerySetMixin, UIDManager):
     pass
 
@@ -369,86 +370,6 @@ class ProposalVoteArgumentVoteValue(object):
         )
 
 
-class ProposalVote(models.Model):  # TODO: move down
-    proposal = models.ForeignKey("Proposal", related_name='votes')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
-                             related_name="votes")
-    value = models.SmallIntegerField(_("Vote"),
-                                     choices=ProposalVoteValue.CHOICES,
-                                     default=ProposalVoteValue.NEUTRAL)
-
-    @property
-    def is_confidential(self):
-        return self.proposal.is_confidential
-
-    class Meta:
-        unique_together = (("proposal", "user"),)
-        verbose_name = _("Proposal Vote")
-        verbose_name_plural = _("Proposal Votes")
-
-    def __unicode__(self):
-        return "%s | %s - %s (%s)" % (self.proposal.issue.title, self.proposal.title, self.user.display_name, self.get_value_display())
-
-
-class ProposalVoteArgument(models.Model):
-    proposal_vote = models.ForeignKey("ProposalVote", related_name='arguments')
-    argument = models.TextField(verbose_name=_("Argument"))
-    created_at = models.DateTimeField(_("Create at"), auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                   related_name="arguments_created",
-                                   verbose_name=_("Created by"))
-
-    class Meta:
-        verbose_name = _("Proposal vote argument")
-        verbose_name_plural = _("Proposal vote arguments")
-
-    def __unicode__(self):
-        return self.argument
-
-    @models.permalink
-    def get_delete_url(self):
-        return "delete_proposal_argument", (self.proposal_vote.proposal.issue.community.id, self.id)
-
-    @models.permalink
-    def get_edit_url(self):
-        return "edit_proposal_argument", (self.proposal_vote.proposal.issue.community.id, self.id)
-
-    @models.permalink
-    def get_data_url(self):
-        return "get_argument_value", (self.proposal_vote.proposal.issue.community.id, self.id)
-
-    @models.permalink
-    def get_vote_url(self):
-        return "argument_up_down_vote", (self.proposal_vote.proposal.issue.community.id, self.id)
-
-    @property
-    def argument_for_ranking(self):
-        pro = ProposalVoteArgumentRanking.objects.filter(argument=self, value=ProposalVoteValue.PRO).count()
-        return pro
-
-    @property
-    def argument_against_ranking(self):
-        against = ProposalVoteArgumentRanking.objects.filter(argument=self, value=ProposalVoteValue.CON).count()
-        return against
-
-    @property
-    def argument_score(self):
-        score = self.argument_for_ranking - self.argument_against_ranking
-        return score
-
-
-class ProposalVoteArgumentRanking(models.Model):
-    argument = models.ForeignKey("ProposalVoteArgument")
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
-                             related_name="argument_votes")
-    value = models.SmallIntegerField(_("Vote"),
-                                     choices=ProposalVoteArgumentVoteValue.CHOICES)
-
-    class Meta:
-        verbose_name = _("Proposal vote argument ranking")
-        verbose_name_plural = _("Proposal vote arguments ranking")
-
-
 class ProposalVoteBoard(models.Model):
     proposal = models.ForeignKey("Proposal")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
@@ -560,6 +481,10 @@ class Proposal(UIDMixin, ConfidentialMixin):
     def has_votes(self):
         """ Returns True if the proposal has any vote """
         return self.votes_con or self.votes_pro
+
+    @property
+    def has_arguments(self):
+        return True if self.arguments_against.count() or self.arguments_for.count() else False
 
     @property
     def can_straw_vote(self):
@@ -712,13 +637,93 @@ class Proposal(UIDMixin, ConfidentialMixin):
             return list(self.arguments_against)
         if not self.arguments_against:
             return list(self.arguments_for)
-        a = list(self.arguments_for)
-        b = list(self.arguments_against)
+        a = list(self.arguments_against)
+        b = list(self.arguments_for)
         b, a = sorted((a, b), key=len)
         len_ab = len(a) + len(b)
         groups = groupby(((a[len(a)*i//len_ab], b[len(b)*i//len_ab]) for i in range(len_ab)),
                          key=lambda x:x[0])
         return [j[i] for k,g in groups for i,j in enumerate(g)]
+
+
+class ProposalVote(models.Model):
+    proposal = models.ForeignKey(Proposal, related_name='votes')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
+                             related_name="votes")
+    value = models.SmallIntegerField(_("Vote"),
+                                     choices=ProposalVoteValue.CHOICES,
+                                     default=ProposalVoteValue.NEUTRAL)
+
+    @property
+    def is_confidential(self):
+        return self.proposal.is_confidential
+
+    class Meta:
+        unique_together = (("proposal", "user"),)
+        verbose_name = _("Proposal Vote")
+        verbose_name_plural = _("Proposal Votes")
+
+    def __unicode__(self):
+        return "%s | %s - %s (%s)" % (self.proposal.issue.title, self.proposal.title, self.user.display_name, self.get_value_display())
+
+
+class ProposalVoteArgument(models.Model):
+    proposal_vote = models.ForeignKey(ProposalVote, related_name='arguments')
+    argument = models.TextField(verbose_name=_("Argument"))
+    created_at = models.DateTimeField(_("Create at"), auto_now_add=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                   related_name="arguments_created",
+                                   verbose_name=_("Created by"))
+
+    class Meta:
+        verbose_name = _("Proposal vote argument")
+        verbose_name_plural = _("Proposal vote arguments")
+
+    def __unicode__(self):
+        return self.argument
+
+    @models.permalink
+    def get_delete_url(self):
+        return "delete_proposal_argument", (self.proposal_vote.proposal.issue.community.id, self.id)
+
+    @models.permalink
+    def get_edit_url(self):
+        return "edit_proposal_argument", (self.proposal_vote.proposal.issue.community.id, self.id)
+
+    @models.permalink
+    def get_data_url(self):
+        return "get_argument_value", (self.proposal_vote.proposal.issue.community.id, self.id)
+
+    @models.permalink
+    def get_vote_url(self):
+        return "argument_up_down_vote", (self.proposal_vote.proposal.issue.community.id, self.id)
+
+    @property
+    def argument_for_ranking(self):
+        pro = ProposalVoteArgumentRanking.objects.filter(argument=self, value=ProposalVoteValue.PRO).count()
+        return pro
+
+    @property
+    def argument_against_ranking(self):
+        against = ProposalVoteArgumentRanking.objects.filter(argument=self, value=ProposalVoteValue.CON).count()
+        return against
+
+    @property
+    def argument_score(self):
+        score = self.argument_for_ranking - self.argument_against_ranking
+        return score
+
+
+class ProposalVoteArgumentRanking(models.Model):
+    argument = models.ForeignKey(ProposalVoteArgument)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
+                             related_name="argument_votes")
+    value = models.SmallIntegerField(_("Vote"),
+                                     choices=ProposalVoteArgumentVoteValue.CHOICES)
+
+    class Meta:
+        verbose_name = _("Proposal vote argument ranking")
+        verbose_name_plural = _("Proposal vote arguments ranking")
 
 
 class VoteResult(models.Model):
