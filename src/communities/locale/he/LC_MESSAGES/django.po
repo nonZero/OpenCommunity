@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-05 16:26+0200\n"
+"POT-Creation-Date: 2015-03-21 23:27+0200\n"
 "PO-Revision-Date: 2015-03-05 15:29+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
@@ -635,7 +635,7 @@ msgstr "משתתפים מפגישות קודמות"
 #: .\templates\communities\participants_form.html.py:69
 #: .\templates\communities\participants_form.html.py:104
 #: .\templates\communities\participants_form.html.py:124
-#: .\templates\communities\upcoming.html.py:180
+#: .\templates\communities\upcoming.html.py:182
 msgid "Add"
 msgstr "הוסף"
 
@@ -652,12 +652,12 @@ msgid "Cancel"
 msgstr "ביטול"
 
 #: .\templates\communities\participants_form.html.py:190
-#: .\templates\communities\upcoming.html.py:274
+#: .\templates\communities\upcoming.html.py:276
 msgid "Save"
 msgstr "שמירה"
 
 #: .\templates\communities\publish_upcoming.html.py:6
-#: .\templates\communities\upcoming.html.py:214
+#: .\templates\communities\upcoming.html.py:216
 #: .\templates\emails\protocol_draft.html.py:3
 #: .\templates\emails\protocol_draft.txt.py:1
 msgid "Summary draft"
@@ -752,7 +752,6 @@ msgid "Agenda items"
 msgstr "נושאים לסדר היום"
 
 #: .\templates\communities\upcoming.html.py:154
-#: .\templates\communities\upcoming.html.py:170
 msgid "New issue"
 msgstr "נושא חדש"
 
@@ -760,47 +759,47 @@ msgstr "נושא חדש"
 msgid "All proposals / Voted"
 msgstr "סך הצעות/כמה הצבעתי"
 
-#: .\templates\communities\upcoming.html.py:177
+#: .\templates\communities\upcoming.html.py:179
 msgid "Type the new issue title"
 msgstr "הקלד כותרת עבור הנושא החדש"
 
-#: .\templates\communities\upcoming.html.py:194
+#: .\templates\communities\upcoming.html.py:196
 msgid "Comments"
 msgstr "הערות"
 
-#: .\templates\communities\upcoming.html.py:196
+#: .\templates\communities\upcoming.html.py:198
 #: .\templates\emails\_protocol.html.py:46
 #: .\templates\emails\protocol.html.py:3 .\templates\emails\protocol.txt.py:1
 #: .\templates\emails\protocol_title.txt.py:4
 msgid "Summary"
 msgstr "סיכום הפגישה"
 
-#: .\templates\communities\upcoming.html.py:214
+#: .\templates\communities\upcoming.html.py:216
 msgid "Publish the agenda"
 msgstr "פרסם סדר יום"
 
-#: .\templates\communities\upcoming.html.py:218
+#: .\templates\communities\upcoming.html.py:220
 msgid "Close update"
 msgstr "סגור עדכון"
 
-#: .\templates\communities\upcoming.html.py:220
+#: .\templates\communities\upcoming.html.py:222
 msgid "Close meeting"
 msgstr "סגור פגישה"
 
-#: .\templates\communities\upcoming.html.py:232
-#: .\templates\communities\upcoming.html.py:248
+#: .\templates\communities\upcoming.html.py:234
+#: .\templates\communities\upcoming.html.py:250
 msgid "Additional issues"
 msgstr "נושאים נוספים"
 
-#: .\templates\communities\upcoming.html.py:234
+#: .\templates\communities\upcoming.html.py:236
 msgid "By time"
 msgstr "זמן"
 
-#: .\templates\communities\upcoming.html.py:235
+#: .\templates\communities\upcoming.html.py:237
 msgid "By priority"
 msgstr "משוקלל"
 
-#: .\templates\communities\upcoming.html.py:261
+#: .\templates\communities\upcoming.html.py:263
 msgid "Agenda not yet published"
 msgstr "טרם פורסם סדר היום לפגישה הקרובה"
 

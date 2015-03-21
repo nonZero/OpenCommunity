@@ -104,7 +104,9 @@
         </div>
 
         {% if cperms.issues.add_proposal and not object.is_archived %}
+        {% comment %}
         <h2>{% trans 'New proposal' %}</h2>
+        {% endcomment %}
         <div class="row">
             <div class="col-xs-12">
                 <form method="post" id="quick-proposal-form" action="{% url 'proposal_create' community.id object.id %}">

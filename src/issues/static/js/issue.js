@@ -27,6 +27,7 @@ $(function () {
                     if (!editor.getValue()) {
                         return false;
                     }
+                    $('.add-comment-btn').prop('disabled', true);
                     $('#comment-status').html(gettext('Saving...'));
                 },
                 data: {
@@ -36,6 +37,7 @@ $(function () {
                     $('#add-comment').data('comment-id', data.comment_id);
                     var d = new Date();
                     $('#comment-status').html(gettext('Saved! Last:') + ' ' + d.toLocaleTimeString('he-IL'));
+                    $('.add-comment-btn').prop('disabled', false);
                 }
             });
             $('#add-comment').submit();
@@ -175,4 +177,9 @@ $(function () {
         var base_filename = '';
         title_inp.val(base_filename);
     });
+
+    // Edit issue confidential approval
+    $('#issue_edit_submit').on('click', function () {
+        $(this).popover('show');
+    })
 });

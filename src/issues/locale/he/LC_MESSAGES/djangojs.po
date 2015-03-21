@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-05 16:26+0200\n"
+"POT-Creation-Date: 2015-03-21 23:28+0200\n"
 "PO-Revision-Date: 2015-03-05 16:27+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
@@ -18,15 +18,15 @@ msgstr ""
 "X-Generator: Poedit 1.7.4\n"
 "Language: he\n"
 
-#: .\static\js\issue.js.c:30 .\static\js\issue.js.c:50
+#: .\static\js\issue.js.c:31 .\static\js\issue.js.c:52
 msgid "Saving..."
 msgstr "שומר..."
 
-#: .\static\js\issue.js.c:38
+#: .\static\js\issue.js.c:39
 msgid "Saved! Last:"
 msgstr "נשמר! לאחרונה ב:"
 
-#: .\static\js\issue.js.c:58
+#: .\static\js\issue.js.c:60
 msgid "Saved! Last: "
 msgstr "נשמר! לאחרונה ב:"
 

@@ -2123,7 +2123,31 @@ label[for=id_proposal-confidential_reason] {
 #proposal-section a.proposal-btn-confidential {
 	display: none;
 }
+#quick-issue-title.form-control::-webkit-input-placeholder {
+   color: #666;
+}
 
+#quick-issue-title.form-control:-moz-placeholder {
+   color: #666;
+}
+
+#quick-issue-title.form-control::-moz-placeholder {
+   color: #666;
+}
+
+#quick-issue-title.form-control:-ms-input-placeholder {
+   color: #666;
+}
+#quick-issue-add,
+#quick-issue-title.form-control {
+    background-color: #f5f6de;
+    color: #666;
+    height: 40px;
+    border-radius: 0;
+}
+#quick-issue-title.form-control {
+    border-left: 0;
+}
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
 

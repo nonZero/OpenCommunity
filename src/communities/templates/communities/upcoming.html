@@ -167,13 +167,14 @@
 					{% endfor %}
 				</ul>
                 {% if cperms.community.editagenda_community %}
+                {% comment %}
                 <h2>{% trans 'New issue' %}</h2>
+                {% endcomment %}
                 <div class="row">
                     <div class="col-xs-12">
                         <form method="post" id="quick-issue-form" action="{% url 'issue_create_upcoming' community.id %}">
                         {% csrf_token %}
                             <div class="input-group">
-                                <!--<label for="quick-issue-title">Quick add</label>-->
                                 <input type="text" class="form-control" id="quick-issue-title" name="title" placeholder="{% trans 'Type the new issue title' %}">
                                 <input type="hidden" class="form-control" id="quick-proposal-title" name="proposal-type" value="">
                                 <span class="input-group-btn">
