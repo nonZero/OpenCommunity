@@ -823,11 +823,11 @@ class ProposalVoteView(ProposalVoteMixin, DetailView):
         proposal = self.get_object()
         value = self._vote_values_map(val)
         if value == None:
-            return redirect(proposal.issue)
+            return redirect(proposal)
 
         vote, valid = self._do_vote(vote_class, proposal, voter_id, value,
                                     is_board, voter_group)
-        return redirect(proposal.issue)
+        return redirect(proposal)
 
 
 class MultiProposalVoteView(ProposalVoteMixin, DetailView):
