@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-21 23:28+0200\n"
-"PO-Revision-Date: 2015-03-21 23:30+0200\n"
+"POT-Creation-Date: 2015-04-08 23:29+0300\n"
+"PO-Revision-Date: 2015-04-08 23:30+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,7 @@ msgstr ""
 "X-Generator: Poedit 1.7.5\n"
 
 #: .\admin.py:66 .\models.py:462 .\templates\issues\_issue_main.html.py:78
+#: .\templates\issues\_issue_main.html.py:112
 #: .\templates\issues\proposal_detail.html.py:69
 msgid "Proposals"
 msgstr "הצעות החלטה"
@@ -57,13 +58,13 @@ msgid "Create"
 msgstr "צור חדש"
 
 #: .\forms.py:140 .\forms.py:182 .\forms.py:200
-#: .\templates\issues\_issue_main.html.py:156
+#: .\templates\issues\_issue_main.html.py:159
 #: .\templates\issues\issue_form.html.py:34
 #: .\templates\issues\issuecomment_form.html.py:9
 msgid "Save"
 msgstr "שמירה"
 
-#: .\forms.py:158 .\forms.py:188 .\templates\issues\_issue_main.html.py:119
+#: .\forms.py:158 .\forms.py:188 .\templates\issues\_issue_main.html.py:122
 msgid "Add"
 msgstr "הוספה"
 
@@ -411,17 +412,17 @@ msgstr "צרף קובץ"
 msgid "Decisions"
 msgstr "החלטות"
 
-#: .\templates\issues\_issue_main.html.py:116
+#: .\templates\issues\_issue_main.html.py:119
 msgid "Type the new proposal title"
 msgstr "הקלד כותרת עבור ההצעה החדשה"
 
-#: .\templates\issues\_issue_main.html.py:127
+#: .\templates\issues\_issue_main.html.py:130
 msgid "Add a proposal"
 msgstr "הוסף הצעה"
 
-#: .\templates\issues\_issue_main.html.py:133
-msgid "Summary"
-msgstr "סיכום"
+#: .\templates\issues\_issue_main.html.py:136
+msgid "Issue discussion summary"
+msgstr "עיקרי הדיון בנושא"
 
 #: .\templates\issues\_issue_title.html.py:9
 #: .\templates\issues\proposal_detail_main.html.py:66
@@ -760,6 +761,9 @@ msgstr "דחה הצעה"
 msgid "Edit proposal"
 msgstr "עריכת הצעת החלטה"
 
+#~ msgid "Summary"
+#~ msgstr "סיכום"
+
 #~ msgid "You have voted on this proposal"
 #~ msgstr "הצבעת על ההצעה"
 
@@ -823,9 +827,6 @@ msgstr "עריכת הצעת החלטה"
 
 #~ msgid "Background in previous meetings"
 #~ msgstr "רקע לפגישות קודמות"
-
-#~ msgid "No decision or summary"
-#~ msgstr "אין החלטות או הערות"
 
 #~ msgid "Current"
 #~ msgstr "עדכנית"

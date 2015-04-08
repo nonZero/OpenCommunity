@@ -296,7 +296,7 @@
 		var Upcoming = $('.meeting_left_column').outerHeight();
 		if (Meeting > Upcoming) {
 			$('.meeting_left_column').outerHeight(Meeting+20);
-		};
+		}
 	});
 	function printProtocol() {
 		var printContent = document.getElementById('protocolPreviewContent');
@@ -306,6 +306,9 @@
 		WinPrint.focus();
 		WinPrint.print();
 		WinPrint.close();
-	};
+	}
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    })
 </script>
 {% endblock %}

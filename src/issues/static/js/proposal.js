@@ -212,8 +212,19 @@ $(function () {
         do_vote(target, vote_value, $(this), is_board)
             .done(function(){
                 if (vote_value === 'reset') {
-                    vote_box.html('');
-                    fixHeights();
+                    // TODO: Get new arguments content without the current user votes.
+                    //vote_box.html('');
+                    //fixHeights();
+                    //window.location.reload();
+                    $.get(args_url, function (arg) {
+                        vote_box.html(arg);
+                        fixHeights();
+                        addRemoveSubmitButton();
+                        addArgument();
+                        editArgument();
+                        editArgumentSubmit();
+                        upDownVote();
+                    });
                 } else {
                     prop_item.addClass('with_arguments');
                     $.get(args_url, function (arg) {
@@ -222,6 +233,7 @@ $(function () {
                         addArgument();
                         editArgument();
                         editArgumentSubmit();
+                        upDownVote();
                     });
                 }
             });

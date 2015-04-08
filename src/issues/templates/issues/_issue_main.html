@@ -107,6 +107,9 @@
         {% comment %}
         <h2>{% trans 'New proposal' %}</h2>
         {% endcomment %}
+        {% if not proposals.open %}
+        <h2>{% trans 'Proposals' %}</h2>
+        {% endif %}
         <div class="row">
             <div class="col-xs-12">
                 <form method="post" id="quick-proposal-form" action="{% url 'proposal_create' community.id object.id %}">
@@ -129,7 +132,7 @@
     </div>
 
     <h2 class="filter-title">
-        {% trans "Summary" %}
+        {% trans "Issue discussion summary" %}
     </h2>
     {% if object.active_comments.count or cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
     <div class="issuecomments">

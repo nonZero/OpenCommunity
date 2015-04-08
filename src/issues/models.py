@@ -625,11 +625,11 @@ class Proposal(UIDMixin, ConfidentialMixin):
 
     @property
     def arguments_for(self):
-        return ProposalVoteArgument.objects.filter(proposal_vote__in=self.votes.filter(value=ProposalVoteValue.PRO))
+        return sorted(ProposalVoteArgument.objects.filter(proposal_vote__in=self.votes.filter(value=ProposalVoteValue.PRO)), key=lambda a: a.argument_score, reverse=True)
 
     @property
     def arguments_against(self):
-        return ProposalVoteArgument.objects.filter(proposal_vote__in=self.votes.filter(value=ProposalVoteValue.CON))
+        return sorted(ProposalVoteArgument.objects.filter(proposal_vote__in=self.votes.filter(value=ProposalVoteValue.CON)), key=lambda a: a.argument_score, reverse=True)
 
     @property
     def elegantly_interleaved_for_and_against_arguments(self):

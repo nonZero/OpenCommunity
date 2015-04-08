@@ -571,7 +571,7 @@ ul li.issue.oc_li a.addremove {
 	background: url('images/tick.png') no-repeat 50% 50%;
 }
 .cog {
-	background: url('images/cog.png') no-repeat 50% 50%;
+	background: url('images/cog.gif') no-repeat 50% 50%;
 }
 .agenda_plus_minus, .sort_plus_minus {
 	position: absolute;

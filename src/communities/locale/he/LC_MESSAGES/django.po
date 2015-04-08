@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-21 23:27+0200\n"
-"PO-Revision-Date: 2015-03-05 15:29+0200\n"
+"POT-Creation-Date: 2015-04-08 23:29+0300\n"
+"PO-Revision-Date: 2015-04-08 21:07+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.7.4\n"
+"X-Generator: Poedit 1.7.5\n"
 
 #: .\forms.py:34
 msgid "Title"
@@ -282,6 +282,10 @@ msgstr "יציאה"
 #: .\templates\communities\landing.html.py:103
 msgid "Login"
 msgstr "כניסה"
+
+#: .\templates\communities\_issue.html.py:37
+msgid "Issue in discussion"
+msgstr "נושא בדיון"
 
 #: .\templates\communities\base_meeting.html.py:30
 #: .\templates\communities\upcoming.html.py:37
