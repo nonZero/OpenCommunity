@@ -184,7 +184,7 @@ id="issue-detail"
             {% endif %}
 
             {% for proposal in object.proposals.open %}
-                {% if not proposal.decided and proposal.can_show_straw_votes %}
+                {% if not proposal.decided and proposal.can_show_straw_votes and cperms.issues.view_straw_vote_result %}
                     createChart(
                         {{ proposal.votes_pro|default_if_none:0 }},
                         {{ proposal.votes_con|default_if_none:0 }},
