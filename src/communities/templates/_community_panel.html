@@ -2,6 +2,7 @@
 
 <!-- <li class="hidden-xs" style="width: 50px;height: 40px;"></li> -->
 
+{% comment "Navbar issues - remove from navbar for now" %}
 {% if cperms.issues.viewopen_issue %}
 <li>
     <a {% if pill == 'issues' %}class="active"{% endif %} href="{% url 'issues' community.id %}">
@@ -9,6 +10,7 @@
 </li>
 <li class="just_slash hidden-xs">/</li>
 {% endif %}
+{% endcomment %}
 
 {% if cperms.communities.viewupcoming_community %}
 <li>

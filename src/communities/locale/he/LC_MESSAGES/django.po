@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-08 23:29+0300\n"
+"POT-Creation-Date: 2015-04-13 23:50+0300\n"
 "PO-Revision-Date: 2015-04-08 21:07+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
@@ -222,7 +222,7 @@ msgstr "מספר עמוד צריך להיות 1 או יותר."
 msgid "No such page!"
 msgstr "דף לא קיים!"
 
-#: .\templates\_community_bar.html.py:5 .\templates\_community_panel.html.py:8
+#: .\templates\_community_bar.html.py:5 .\templates\_community_panel.html.py:9
 #: .\templates\communities\community_search.html.py:15
 msgid "Issues"
 msgstr "נושאים"
@@ -235,30 +235,30 @@ msgstr "סדר יום"
 msgid "History"
 msgstr "היסטוריה"
 
-#: .\templates\_community_panel.html.py:8
+#: .\templates\_community_panel.html.py:9
 #: .\templates\communities\upcoming.html.py:148
 msgid "No meetings issues"
 msgstr "נושאים"
 
-#: .\templates\_community_panel.html.py:16
+#: .\templates\_community_panel.html.py:18
 #: .\templates\communities\base_meeting.html.py:17
 msgid "Updates"
 msgstr "עדכונים"
 
-#: .\templates\_community_panel.html.py:16
+#: .\templates\_community_panel.html.py:18
 #: .\templates\communities\base_meeting.html.py:19
 msgid "Meetings"
 msgstr "פגישות"
 
-#: .\templates\_community_panel.html.py:33
+#: .\templates\_community_panel.html.py:35
 msgid "Rules"
 msgstr "נהלים"
 
-#: .\templates\_community_panel.html.py:37
+#: .\templates\_community_panel.html.py:39
 msgid "Tasks"
 msgstr "משימות"
 
-#: .\templates\_community_panel.html.py:45
+#: .\templates\_community_panel.html.py:47
 #: .\templates\communities\participants_form.html.py:26
 #: .\templates\communities\participants_form.html.py:160
 msgid "Members"

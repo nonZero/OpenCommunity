@@ -154,8 +154,8 @@
                         {% csrf_token %}
                         {{form}}
                         <div class="col-xs-12 text-center rich_editor_box">
-                            <button class="add-comment-btn btn btn-oc btn-lg" disabled="1" style="width: 200px;">
-                                {% trans "Save" %}
+                            <button class="add-comment-btn btn btn-oc btn-lg" disabled="1" style="width: auto;" data-next-issue="{{ object.get_next_upcoming_issue_url }}">
+                                {% trans "Save and go to next issue" %}
                             </button>
                         </div>
                     </form>

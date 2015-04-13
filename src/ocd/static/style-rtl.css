@@ -1235,6 +1235,7 @@ form.delete-invitation {
 .change_vote.vote_result_pro {
 	background: #a4cb53;
 }
+.change_vote.vote_ended,
 .change_vote.vote_result_con {
 	background: #952722;
 }

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-08 23:29+0300\n"
-"PO-Revision-Date: 2015-04-08 23:30+0200\n"
+"POT-Creation-Date: 2015-04-13 23:50+0300\n"
+"PO-Revision-Date: 2015-04-13 23:50+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.7.5\n"
 
-#: .\admin.py:66 .\models.py:462 .\templates\issues\_issue_main.html.py:78
+#: .\admin.py:66 .\models.py:467 .\templates\issues\_issue_main.html.py:78
 #: .\templates\issues\_issue_main.html.py:112
 #: .\templates\issues\proposal_detail.html.py:69
 msgid "Proposals"
@@ -58,7 +58,6 @@ msgid "Create"
 msgstr "צור חדש"
 
 #: .\forms.py:140 .\forms.py:182 .\forms.py:200
-#: .\templates\issues\_issue_main.html.py:159
 #: .\templates\issues\issue_form.html.py:34
 #: .\templates\issues\issuecomment_form.html.py:9
 msgid "Save"
@@ -68,78 +67,78 @@ msgstr "שמירה"
 msgid "Add"
 msgstr "הוספה"
 
-#: .\models.py:57 .\templates\issues\assignment_list.html.py:44
+#: .\models.py:55 .\templates\issues\assignment_list.html.py:44
 msgid "Open"
 msgstr "הצעה פתוחה"
 
-#: .\models.py:58
+#: .\models.py:56
 msgid "In upcoming meeting"
 msgstr "בפגישה הקרובה"
 
-#: .\models.py:59
+#: .\models.py:57
 msgid "In upcoming meeting (completed)"
 msgstr "בפגישה הקרובה (הדיון תם)"
 
-#: .\models.py:60
+#: .\models.py:58
 msgid "Archived"
 msgstr "בארכיון"
 
-#: .\models.py:71 .\models.py:425
+#: .\models.py:68 .\models.py:430
 msgid "Active"
 msgstr "פעיל"
 
-#: .\models.py:74 .\models.py:194 .\models.py:266
+#: .\models.py:71 .\models.py:200 .\models.py:272
 msgid "Created at"
 msgstr "נוצר ב"
 
-#: .\models.py:76 .\models.py:196 .\models.py:205 .\models.py:268
-#: .\models.py:295 .\models.py:429 .\models.py:676
+#: .\models.py:73 .\models.py:202 .\models.py:211 .\models.py:274
+#: .\models.py:301 .\models.py:434 .\models.py:686
 msgid "Created by"
 msgstr "נוצר על ידי"
 
-#: .\models.py:79 .\models.py:290 .\models.py:434
+#: .\models.py:76 .\models.py:296 .\models.py:439
 #: .\templates\issues\assignment_list.html.py:38
 #: .\templates\issues\procedure_list.html.py:59
 msgid "Title"
 msgstr "כותרת"
 
-#: .\models.py:80 .\templates\issues\_issue_main.html.py:10
+#: .\models.py:77 .\templates\issues\_issue_main.html.py:10
 msgid "Background"
 msgstr "רקע"
 
-#: .\models.py:81 .\models.py:271 .\templates\issues\_issue_title.html.py:29
+#: .\models.py:78 .\models.py:277 .\templates\issues\_issue_title.html.py:29
 msgid "Content"
 msgstr "פירוט"
 
-#: .\models.py:84
+#: .\models.py:81
 msgid "Calculated Score"
 msgstr "ניקוד מצטבר"
 
-#: .\models.py:92
+#: .\models.py:89
 msgid "Order in upcoming meeting"
 msgstr "סדר בפגישה הקרובה"
 
-#: .\models.py:94
+#: .\models.py:91
 msgid "Order in upcoming meeting by votes"
 msgstr "סדר בפגישה הקרובה לפי הצבעות"
 
-#: .\models.py:97
+#: .\models.py:94
 msgid "Length (in minutes)"
 msgstr "זמן (בדקות)"
 
-#: .\models.py:100
+#: .\models.py:97
 msgid "Discussion completed"
 msgstr "הדיון הושלם"
 
-#: .\models.py:102
+#: .\models.py:99
 msgid "Is published to members"
 msgstr "פורסם לחברי הקהילה"
 
-#: .\models.py:106 .\templates\issues\issue_detail.html.py:15
+#: .\models.py:103 .\templates\issues\issue_detail.html.py:15
 msgid "Issue"
 msgstr "נושא לדיון"
 
-#: .\models.py:107 .\templates\issues\issue_detail.html.py:38
+#: .\models.py:104 .\templates\issues\issue_detail.html.py:38
 #: .\templates\issues\issue_list.html.py:10
 #: .\templates\issues\issue_list.html.py:17
 #: .\templates\issues\issue_list_frame.html.py:19
@@ -147,168 +146,168 @@ msgstr "נושא לדיון"
 msgid "Issues"
 msgstr "נושאים לדיון"
 
-#: .\models.py:202
+#: .\models.py:208
 msgid "Last Edited at"
 msgstr "עריכה אחרונה"
 
-#: .\models.py:208
+#: .\models.py:214
 msgid "Comment"
 msgstr "הערה"
 
-#: .\models.py:216
+#: .\models.py:222
 msgid "Issue comment"
 msgstr "הערה על נושא"
 
-#: .\models.py:217
+#: .\models.py:223
 msgid "Issue comments"
 msgstr "הערות על נושאים"
 
-#: .\models.py:288
+#: .\models.py:294
 msgid "File"
 msgstr "קובץ"
 
-#: .\models.py:293
+#: .\models.py:299
 msgid "File created at"
 msgstr "נוצר ב"
 
-#: .\models.py:357 .\models.py:368
+#: .\models.py:363 .\models.py:374
 msgid "Con"
 msgstr "נגד"
 
-#: .\models.py:358
+#: .\models.py:364
 msgid "Neutral"
 msgstr "נמנע"
 
-#: .\models.py:359 .\models.py:369
+#: .\models.py:365 .\models.py:375
 msgid "Pro"
 msgstr "בעד"
 
-#: .\models.py:375 .\models.py:651 .\models.py:719
+#: .\models.py:381 .\models.py:660 .\models.py:729
 msgid "User"
 msgstr "משתמש"
 
-#: .\models.py:377 .\models.py:653 .\models.py:721
+#: .\models.py:383 .\models.py:662 .\models.py:731
 msgid "Vote"
 msgstr "הצבעה"
 
-#: .\models.py:380
+#: .\models.py:386
 msgid "Voted by chairman"
 msgstr "הצבעה בוצעה על ידי יושב ראש"
 
-#: .\models.py:389 .\models.py:663
+#: .\models.py:395 .\models.py:672
 msgid "Proposal Vote"
 msgstr "הצבעה על הצעה"
 
-#: .\models.py:390 .\models.py:664
+#: .\models.py:396 .\models.py:673
 msgid "Proposal Votes"
 msgstr "הצבעות על הצעה"
 
-#: .\models.py:402 .\templates\issues\issue_create_form.html.py:24
+#: .\models.py:408 .\templates\issues\issue_create_form.html.py:24
 #: .\templates\issues\proposal_detail_main.html.py:80
 #: .\templates\issues\proposal_form.html.py:31
 msgid "Task"
 msgstr "משימה"
 
-#: .\models.py:403 .\templates\issues\issue_create_form.html.py:23
+#: .\models.py:409 .\templates\issues\issue_create_form.html.py:23
 #: .\templates\issues\proposal_detail_main.html.py:82
 #: .\templates\issues\proposal_form.html.py:30
 msgid "Rule"
 msgstr "נוהל"
 
-#: .\models.py:404 .\templates\issues\issue_create_form.html.py:22
+#: .\models.py:410 .\templates\issues\issue_create_form.html.py:22
 #: .\templates\issues\proposal_detail_main.html.py:84
 #: .\templates\issues\proposal_form.html.py:29
 msgid "General"
 msgstr "כללי"
 
-#: .\models.py:414
+#: .\models.py:420
 msgid "In discussion"
 msgstr "בדיון"
 
-#: .\models.py:415
+#: .\models.py:421
 msgid "Accepted"
 msgstr "ההחלטה התקבלה"
 
-#: .\models.py:416
+#: .\models.py:422
 msgid "Rejected"
 msgstr "ההצעה נדחתה"
 
-#: .\models.py:426 .\models.py:673
+#: .\models.py:431 .\models.py:683
 msgid "Create at"
 msgstr "נוצר ב"
 
-#: .\models.py:430
+#: .\models.py:435
 msgid "Type"
 msgstr "סוג"
 
-#: .\models.py:435
+#: .\models.py:440
 msgid "Details"
 msgstr "פירוט"
 
-#: .\models.py:443 .\templates\issues\_proposal.html.py:19
+#: .\models.py:448 .\templates\issues\_proposal.html.py:19
 #: .\templates\issues\proposal_detail_main.html.py:92
 msgid "Assigned to"
 msgstr "אחראי"
 
-#: .\models.py:446
+#: .\models.py:451
 msgid "Assigned to user"
 msgstr "אחראי"
 
-#: .\models.py:449 .\templates\issues\_proposal.html.py:22
+#: .\models.py:454 .\templates\issues\_proposal.html.py:22
 #: .\templates\issues\proposal_detail_main.html.py:98
 msgid "Due by"
 msgstr "יעד"
 
-#: .\models.py:450 .\templates\issues\assignment_list.html.py:45
+#: .\models.py:455 .\templates\issues\assignment_list.html.py:45
 msgid "Completed"
 msgstr "הושלם"
 
-#: .\models.py:451 .\models.py:733
+#: .\models.py:456 .\models.py:743
 msgid "Votes pro"
 msgstr "הצבעות בעד"
 
-#: .\models.py:453 .\models.py:734
+#: .\models.py:458 .\models.py:744
 msgid "Votes con"
 msgstr "הצבעות נגד"
 
-#: .\models.py:455 .\models.py:735
+#: .\models.py:460 .\models.py:745
 msgid "Community members"
 msgstr "חברי קהילה"
 
-#: .\models.py:457 .\templates\issues\procedure_list.html.py:38
+#: .\models.py:462 .\templates\issues\procedure_list.html.py:38
 #: .\templates\issues\proposal_detail_main.html.py:104
 msgid "Tags"
 msgstr "תגיות"
 
-#: .\models.py:461
+#: .\models.py:466
 msgid "Proposal"
 msgstr "הצעת החלטה"
 
-#: .\models.py:672 .\templates\issues\_vote_arguments.html.py:94
+#: .\models.py:682 .\templates\issues\_vote_arguments.html.py:94
 msgid "Argument"
 msgstr "טיעון"
 
-#: .\models.py:679
+#: .\models.py:689
 msgid "Proposal vote argument"
 msgstr "טיעון על הצעה"
 
-#: .\models.py:680
+#: .\models.py:690
 msgid "Proposal vote arguments"
 msgstr "טיעונים על הצעות"
 
-#: .\models.py:725
+#: .\models.py:735
 msgid "Proposal vote argument ranking"
 msgstr "הצבעה על טיעוני הצעה"
 
-#: .\models.py:726
+#: .\models.py:736
 msgid "Proposal vote arguments ranking"
 msgstr "הצבעות על טיעוני הצעות"
 
-#: .\models.py:743
+#: .\models.py:753
 msgid "Vote result"
 msgstr "תוצאות הצבעה"
 
-#: .\models.py:744
+#: .\models.py:754
 msgid "Vote results"
 msgstr "תוצאות הצבעות"
 
@@ -423,6 +422,10 @@ msgstr "הוסף הצעה"
 #: .\templates\issues\_issue_main.html.py:136
 msgid "Issue discussion summary"
 msgstr "עיקרי הדיון בנושא"
+
+#: .\templates\issues\_issue_main.html.py:159
+msgid "Save and go to next issue"
+msgstr "שמור ועבור לנושא הבא"
 
 #: .\templates\issues\_issue_title.html.py:9
 #: .\templates\issues\proposal_detail_main.html.py:66
@@ -736,24 +739,28 @@ msgid "Complete task"
 msgstr "השלם משימה"
 
 #: .\templates\issues\proposal_detail_main.html.py:121
+msgid "Vote ended"
+msgstr "הצבעה נסגרה"
+
+#: .\templates\issues\proposal_detail_main.html.py:126
 msgid "Straw vote result"
 msgstr "תוצאות הצבעת שבשבת"
 
-#: .\templates\issues\proposal_detail_main.html.py:137
-#: .\templates\issues\proposal_detail_main.html.py:144
+#: .\templates\issues\proposal_detail_main.html.py:142
+#: .\templates\issues\proposal_detail_main.html.py:149
 msgid "Vote by the"
 msgstr "הצבעה על ידי"
 
-#: .\templates\issues\proposal_detail_main.html.py:137
-#: .\templates\issues\proposal_detail_main.html.py:144
+#: .\templates\issues\proposal_detail_main.html.py:142
+#: .\templates\issues\proposal_detail_main.html.py:149
 msgid "Board"
 msgstr "ועד"
 
-#: .\templates\issues\proposal_detail_main.html.py:154
+#: .\templates\issues\proposal_detail_main.html.py:159
 msgid "Accept proposal"
 msgstr "קבל את ההחלטה"
 
-#: .\templates\issues\proposal_detail_main.html.py:159
+#: .\templates\issues\proposal_detail_main.html.py:164
 msgid "Reject proposal"
 msgstr "דחה הצעה"
 

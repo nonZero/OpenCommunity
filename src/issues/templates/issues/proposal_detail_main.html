@@ -116,6 +116,11 @@
         {% if proposal.can_straw_vote and cperms.issues.vote and user|member_of:c %}
             {% include 'issues/_straw_vote.html' %}
         {% endif %}
+        {% if not proposal.can_straw_vote and object.issue.community.upcoming_meeting_started %}
+        <div class="change_vote vote_ended text-center vote-btns">
+            <span>{% trans "Vote ended" %}!</span>
+        </div>
+        {% endif %}
         {% if proposal.can_show_straw_votes and cperms.issues.view_straw_vote_result %}
             <div id="results_container" class="clear">
             	<h2>{% trans "Straw vote result" %}</h2>
@@ -125,7 +130,6 @@
             <div class="vote_arguments clearfix clear">
             {% if proposal.has_arguments or user|voted_on:proposal.id %}
                 {% include 'issues/_vote_arguments.html' %}
-                {% include 'issues/_argument_action_modal.html' %}
             {% endif %}
             </div>
         {% if can_board_vote_self and not proposal.decided %}

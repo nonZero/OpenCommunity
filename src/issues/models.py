@@ -21,7 +21,6 @@ class IssueManager(ConfidentialQuerySetMixin, ActiveQuerySetMixin, UIDManager):
 
 
 class ProposalQuerySetMixin(ActiveQuerySetMixin):
-
     """Exposes methods that can be used on both the manager and the queryset.
 
     This allows us to chain custom methods.
@@ -42,7 +41,6 @@ class ProposalQuerySet(QuerySet, ProposalQuerySetMixin):
 
 class ProposalManager(models.Manager, ConfidentialQuerySetMixin,
                       ProposalQuerySetMixin):
-
     def get_query_set(self):
         return ProposalQuerySet(self.model, using=self._db)
 
@@ -65,7 +63,6 @@ class IssueStatus(object):
 
 
 class Issue(UIDMixin, ConfidentialMixin):
-
     objects = IssueManager()
 
     active = models.BooleanField(_("Active"), default=True)
@@ -121,6 +118,15 @@ class Issue(UIDMixin, ConfidentialMixin):
     @models.permalink
     def get_absolute_url(self):
         return ("issue", (str(self.community.pk), str(self.pk),))
+
+    @models.permalink
+    def get_next_upcoming_issue_url(self):
+        try:
+            next = Issue.objects.filter(community=self.community, status=2).filter(
+                order_in_upcoming_meeting__gt=self.order_in_upcoming_meeting).order_by('order_in_upcoming_meeting')[0]
+            return ("issue", (str(self.community.pk), str(next.pk),))
+        except:
+            return "community", (str(self.community.pk),)
 
     def active_proposals(self):
         return self.proposals.filter(active=True)
@@ -367,7 +373,7 @@ class ProposalVoteArgumentVoteValue(object):
     CHOICES = (
         (CON, ugettext("Con")),
         (PRO, ugettext("Pro")),
-        )
+    )
 
 
 class ProposalVoteBoard(models.Model):
@@ -418,7 +424,6 @@ class ProposalStatus(object):
 
 
 class Proposal(UIDMixin, ConfidentialMixin):
-
     objects = ProposalManager()
 
     issue = models.ForeignKey(Issue, related_name="proposals")
@@ -625,11 +630,15 @@ class Proposal(UIDMixin, ConfidentialMixin):
 
     @property
     def arguments_for(self):
-        return sorted(ProposalVoteArgument.objects.filter(proposal_vote__in=self.votes.filter(value=ProposalVoteValue.PRO)), key=lambda a: a.argument_score, reverse=True)
+        return sorted(
+            ProposalVoteArgument.objects.filter(proposal_vote__in=self.votes.filter(value=ProposalVoteValue.PRO)),
+            key=lambda a: a.argument_score, reverse=True)
 
     @property
     def arguments_against(self):
-        return sorted(ProposalVoteArgument.objects.filter(proposal_vote__in=self.votes.filter(value=ProposalVoteValue.CON)), key=lambda a: a.argument_score, reverse=True)
+        return sorted(
+            ProposalVoteArgument.objects.filter(proposal_vote__in=self.votes.filter(value=ProposalVoteValue.CON)),
+            key=lambda a: a.argument_score, reverse=True)
 
     @property
     def elegantly_interleaved_for_and_against_arguments(self):
@@ -641,9 +650,9 @@ class Proposal(UIDMixin, ConfidentialMixin):
         b = list(self.arguments_for)
         b, a = sorted((a, b), key=len)
         len_ab = len(a) + len(b)
-        groups = groupby(((a[len(a)*i//len_ab], b[len(b)*i//len_ab]) for i in range(len_ab)),
-                         key=lambda x:x[0])
-        return [j[i] for k,g in groups for i,j in enumerate(g)]
+        groups = groupby(((a[len(a) * i // len_ab], b[len(b) * i // len_ab]) for i in range(len_ab)),
+                         key=lambda x: x[0])
+        return [j[i] for k, g in groups for i, j in enumerate(g)]
 
 
 class ProposalVote(models.Model):
@@ -664,7 +673,8 @@ class ProposalVote(models.Model):
         verbose_name_plural = _("Proposal Votes")
 
     def __unicode__(self):
-        return "%s | %s - %s (%s)" % (self.proposal.issue.title, self.proposal.title, self.user.display_name, self.get_value_display())
+        return "%s | %s - %s (%s)" % (
+        self.proposal.issue.title, self.proposal.title, self.user.display_name, self.get_value_display())
 
 
 class ProposalVoteArgument(models.Model):
@@ -744,7 +754,6 @@ class VoteResult(models.Model):
         verbose_name_plural = _("Vote results")
 
 
-
 class IssueRankingVote(models.Model):
     voted_by = models.ForeignKey(settings.AUTH_USER_MODEL)
     issue = models.ForeignKey(Issue, related_name='ranking_votes')
@@ -754,17 +763,16 @@ class IssueRankingVote(models.Model):
     def is_confidential(self):
         return self.issue.is_confidential
 
-    # TODO: add unique_together = (
-    #   ('voted_by', 'issue'),
-    #   and maybe: ('voted_by', 'rank')
-    # )
+        # TODO: add unique_together = (
+        # ('voted_by', 'issue'),
+        #   and maybe: ('voted_by', 'rank')
+        # )
 
 
 @receiver(post_save, sender=Issue)
 def set_confidential_on_relations(sender, instance, created,
                                   dispatch_uid='set_confidential_on_relations',
                                   **kwargs):
-
     # we need to ensure that relations implementing ConfidentialMixin or
     # ConfidentialByRelationMixin also have is_confidential set correctly.
     # At present, these are Proposal and AgendaItem

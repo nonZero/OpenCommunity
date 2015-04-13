@@ -44,23 +44,24 @@ $(function () {
         }, 2000);
     });
 
-    $('#add-comment').ajaxForm({
-        beforeSubmit: function (arr, form) {
-            if (!editor.getValue()) {
-                return false;
+    $('body').on('click', '.add-comment-btn', function() {
+        var nextIssue = $(this).data('next-issue');
+        $('#add-comment').ajaxForm({
+            beforeSubmit: function (arr, form) {
+                if (!editor.getValue()) {
+                    return false;
+                }
+            },
+            data: {
+                'comment_id': $('#add-comment').data('comment-id')
+            },
+            success: function (data) {
+                window.location.href=nextIssue;
             }
-            $('#comment-status').html(gettext('Saving...'));
-        },
-        data: {
-            'comment_id': $('#add-comment').data('comment-id')
-        },
-        success: function (data) {
-            $('#add-comment').data('comment-id', data.comment_id);
-            var d = new Date();
-            $('#comment-status').html(gettext('Saved! Last: ' + d.toLocaleTimeString()));
-            refreshButtons(true);
-        }
+        });
     });
+
+//    // Add comment form
 //    $('#add-comment').ajaxForm({
 //        beforeSubmit: function (arr, form) {
 //            if (!$('#id_content').val()) {
@@ -74,21 +75,6 @@ $(function () {
 //            refreshButtons(true);
 //        }
 //    });
-
-    // Add comment form
-    $('#add-comment').ajaxForm({
-        beforeSubmit: function (arr, form) {
-            if (!$('#id_content').val()) {
-                return false;
-            }
-        },
-        success: function (data) {
-            var el = $(data.trim());
-            $("#add-comment").closest('li').before(el);
-            $("#add-comment").get(0).reset();
-            refreshButtons(true);
-        }
-    });
 
     // Delete and undelete comment form
     $('#comments').on('click', '.delete-comment button', function () {
