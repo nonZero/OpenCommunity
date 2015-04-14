@@ -1,23 +1,7 @@
 "use strict";
 
-$(function () {
-
-    function refreshButtons(commentEmpty) {
-        $('.add-comment-btn').prop('disabled', commentEmpty);
-        $('.close-issue-btn').prop('disabled', !commentEmpty);
-    }
-
-    if ($('.htmlarea textarea').length) {
-        var editor = $('.htmlarea textarea').ocdEditor().data('wysihtml5').editor;
-
-        editor.on('input', function () {
-            refreshButtons(editor.getValue().trim() == '');
-        });
-    }
-
-    // Comments
-
-    // Auto save comment form
+// Auto save comment form
+function autoSaveComment() {
     var timeoutId;
     $('.wysihtml5-sandbox').contents().find('body').on('input properychange change', function () {
         clearTimeout(timeoutId);
@@ -43,6 +27,24 @@ $(function () {
             $('#add-comment').submit();
         }, 2000);
     });
+}
+
+$(function () {
+
+    function refreshButtons(commentEmpty) {
+        $('.add-comment-btn').prop('disabled', commentEmpty);
+        $('.close-issue-btn').prop('disabled', !commentEmpty);
+    }
+
+    if ($('.htmlarea textarea').length) {
+        var editor = $('.htmlarea textarea').ocdEditor().data('wysihtml5').editor;
+
+        editor.on('input', function () {
+            refreshButtons(editor.getValue().trim() == '');
+        });
+    }
+
+    // Comments
 
     $('body').on('click', '.add-comment-btn', function() {
         var nextIssue = $(this).data('next-issue');
@@ -168,4 +170,9 @@ $(function () {
     $('#issue_edit_submit').on('click', function () {
         $(this).popover('show');
     })
+
+});
+
+$(window).load(function() {
+    autoSaveComment();
 });

@@ -3,15 +3,15 @@
 
 // Add/Remove disable from submit button.
 function addRemoveSubmitButton() {
-    $("#id_argument").keyup(function () {
+    $("body").on("keyup", "#id_argument", function () {
         var textLength = $("#id_argument").val().length;
         if (textLength > 0) {
-            $(".argument-modal-btn").removeAttr("disabled");
+            $(".argument-modal-btn").attr("disabled", true);
         } else {
-            $(".argument-modal-btn").attr("disabled", "disabled");
+            $(".argument-modal-btn").attr("disabled", false);
         }
     });
-};
+}
 
 // Ajax argument delete form submission.
 function deleteArgument() {
@@ -130,14 +130,13 @@ function upDownVote() {
         if (VoteSib.hasClass('voted')) {
             VoteSib.removeClass('voted');
         }
-        ;
         $(this).toggleClass('voted');
         $.post(VoteUrl, {val: VoteVal})
             .success(function (data) {
                 VoteCount.text(data);
             });
     });
-};
+}
 $(function () {
 
     // disclaimer: this code is ugly.
