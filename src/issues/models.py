@@ -489,7 +489,7 @@ class Proposal(UIDMixin, ConfidentialMixin):
 
     @property
     def has_arguments(self):
-        return True if self.arguments_against.count() or self.arguments_for.count() else False
+        return ProposalVoteArgument.objects.filter(proposal_vote__proposal=self).exists()
 
     @property
     def can_straw_vote(self):
