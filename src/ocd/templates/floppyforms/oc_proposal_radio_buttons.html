@@ -28,7 +28,6 @@
 		$(this).next('.proposal-confidential-options').show();
 	});
 
-    {% comment %}
     $('.proposal-confidential-options label').parents('#modal-form').on('hide.bs.modal', function (e) {
         if (is_confidential !== currentConfidentialStatus) {
             if (is_confidential) {
@@ -42,7 +41,7 @@
             }
         }
     });
-    {% endcomment %}
+
 	$('body').on('click', '.proposal-confidential-options label', function() {
 		if ($(this).find('input').val() == 0) {
             $('.proposal-btn-confidential').html('<i class="fa fa-unlock"></i>');
