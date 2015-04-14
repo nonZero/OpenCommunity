@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-13 23:50+0300\n"
-"PO-Revision-Date: 2015-04-13 23:50+0200\n"
+"POT-Creation-Date: 2015-04-14 15:24+0300\n"
+"PO-Revision-Date: 2015-04-14 15:25+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -60,6 +60,7 @@ msgstr "צור חדש"
 #: .\forms.py:140 .\forms.py:182 .\forms.py:200
 #: .\templates\issues\issue_form.html.py:34
 #: .\templates\issues\issuecomment_form.html.py:9
+#: .\templates\issues\proposal_form.html.py:125
 msgid "Save"
 msgstr "שמירה"
 
@@ -283,7 +284,7 @@ msgstr "תגיות"
 msgid "Proposal"
 msgstr "הצעת החלטה"
 
-#: .\models.py:682 .\templates\issues\_vote_arguments.html.py:94
+#: .\models.py:682 .\templates\issues\_vote_arguments.html.py:99
 msgid "Argument"
 msgstr "טיעון"
 
@@ -355,13 +356,13 @@ msgid "You won't be able to change your vote after adding an argument."
 msgstr "לאחר הוספת טיעון לא ניתן לשנות את בחירתך."
 
 #: .\templates\issues\_argument_action_modal.html.py:28
-#: .\templates\issues\_vote_arguments.html.py:102
+#: .\templates\issues\_vote_arguments.html.py:107
 #: .\templates\issues\issueattachment_form.html.py:22
 msgid "Cancel"
 msgstr "ביטול"
 
 #: .\templates\issues\_argument_action_modal.html.py:33
-#: .\templates\issues\_vote_arguments.html.py:107
+#: .\templates\issues\_vote_arguments.html.py:112
 msgid "Confirm"
 msgstr "אישור"
 
@@ -449,8 +450,8 @@ msgid "More / Add"
 msgstr "עוד / הוסף"
 
 #: .\templates\issues\_more_arguments_box.html.py:8
-#: .\templates\issues\_vote_arguments.html.py:35
-#: .\templates\issues\_vote_arguments.html.py:69
+#: .\templates\issues\_vote_arguments.html.py:36
+#: .\templates\issues\_vote_arguments.html.py:72
 msgid "Add argument"
 msgstr "הוסף טיעון"
 
@@ -484,24 +485,24 @@ msgid "Why yes"
 msgstr "למה כן"
 
 #: .\templates\issues\_vote_arguments.html.py:6
-#: .\templates\issues\_vote_arguments.html.py:48
+#: .\templates\issues\_vote_arguments.html.py:50
 #: .\templates\issues\_vote_arguments_display.html.py:5
 #: .\templates\issues\_vote_arguments_display.html.py:21
 msgid "Why no"
 msgstr "למה לא"
 
-#: .\templates\issues\_vote_arguments.html.py:40
-#: .\templates\issues\_vote_arguments.html.py:74
+#: .\templates\issues\_vote_arguments.html.py:41
+#: .\templates\issues\_vote_arguments.html.py:77
 #: .\templates\issues\issue_list.html.py:70
 #: .\templates\issues\issue_list.html.py:150
 msgid "Submit"
 msgstr "שלח"
 
-#: .\templates\issues\_vote_arguments.html.py:88
+#: .\templates\issues\_vote_arguments.html.py:93
 msgid "Edit argument"
 msgstr "ערוך טיעון"
 
-#: .\templates\issues\_vote_arguments.html.py:91
+#: .\templates\issues\_vote_arguments.html.py:96
 msgid "Editing argument will erase all supported votes"
 msgstr "עריכת טיעון תאפס את התמיכה שהטיעון קיבל"
 
@@ -618,6 +619,7 @@ msgid "Edit issue"
 msgstr "ערוך נושא"
 
 #: .\templates\issues\issue_form.html.py:33
+#: .\templates\issues\proposal_form.html.py:124
 msgid "Close"
 msgstr "סגור"
 
@@ -626,6 +628,7 @@ msgid "Are you sure you want to remove the confidentiality"
 msgstr "האם אתה בטוח שברצונך להפוך נושא חסוי לגלוי"
 
 #: .\templates\issues\issue_form.html.py:39
+#: .\templates\issues\proposal_form.html.py:130
 msgid "I am positive"
 msgstr "אני בטוח"
 
@@ -746,27 +749,31 @@ msgstr "הצבעה נסגרה"
 msgid "Straw vote result"
 msgstr "תוצאות הצבעת שבשבת"
 
-#: .\templates\issues\proposal_detail_main.html.py:142
-#: .\templates\issues\proposal_detail_main.html.py:149
+#: .\templates\issues\proposal_detail_main.html.py:141
+#: .\templates\issues\proposal_detail_main.html.py:148
 msgid "Vote by the"
 msgstr "הצבעה על ידי"
 
-#: .\templates\issues\proposal_detail_main.html.py:142
-#: .\templates\issues\proposal_detail_main.html.py:149
+#: .\templates\issues\proposal_detail_main.html.py:141
+#: .\templates\issues\proposal_detail_main.html.py:148
 msgid "Board"
 msgstr "ועד"
 
-#: .\templates\issues\proposal_detail_main.html.py:159
+#: .\templates\issues\proposal_detail_main.html.py:158
 msgid "Accept proposal"
 msgstr "קבל את ההחלטה"
 
-#: .\templates\issues\proposal_detail_main.html.py:164
+#: .\templates\issues\proposal_detail_main.html.py:163
 msgid "Reject proposal"
 msgstr "דחה הצעה"
 
 #: .\templates\issues\proposal_form.html.py:18
 msgid "Edit proposal"
 msgstr "עריכת הצעת החלטה"
+
+#: .\templates\issues\proposal_form.html.py:129
+msgid "Are you sure you want to remove the proposal confidentiality"
+msgstr "האם אתה בטוח שברצונך להפוך הצעה חסויה לגלויה"
 
 #~ msgid "Summary"
 #~ msgstr "סיכום"
