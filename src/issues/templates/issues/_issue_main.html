@@ -80,6 +80,26 @@
     {% endif %}
 
     <div>
+        {% if cperms.issues.add_proposal and not object.is_archived %}
+        {% if not proposals.open %}
+        <h2>{% trans 'Proposals' %}</h2>
+        {% endif %}
+        <div class="row">
+            <div class="col-xs-12">
+                <form method="post" id="quick-proposal-form" action="{% url 'proposal_create' community.id object.id %}">
+                {% csrf_token %}
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="quick-proposal-title" name="proposal-title" placeholder="{% trans 'Type the new proposal title' %}">
+                        <input type="hidden" class="form-control" name="proposal-type" value="3">
+                        <span class="input-group-btn">
+                            <button id="quick-proposal-add" class="btn btn-oc" type="submit" data-append-to=".open-proposals">{% trans "Add" %}</button>
+                        </span>
+                    </div>
+                    <span id="quick-proposal-error" class="help-block"></span>
+                </form>
+            </div>
+        </div>
+        {% endif %}
         <div class="open-proposals filter-upcoming filter">
             {% for proposal in proposals.open %}
                 {% include 'issues/_proposal.html' %}
@@ -104,27 +124,6 @@
         </div>
 
         {% if cperms.issues.add_proposal and not object.is_archived %}
-        {% comment %}
-        <h2>{% trans 'New proposal' %}</h2>
-        {% endcomment %}
-        {% if not proposals.open %}
-        <h2>{% trans 'Proposals' %}</h2>
-        {% endif %}
-        <div class="row">
-            <div class="col-xs-12">
-                <form method="post" id="quick-proposal-form" action="{% url 'proposal_create' community.id object.id %}">
-                {% csrf_token %}
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="quick-proposal-title" name="proposal-title" placeholder="{% trans 'Type the new proposal title' %}">
-                        <input type="hidden" class="form-control" name="proposal-type" value="3">
-                        <span class="input-group-btn">
-                            <button id="quick-proposal-add" class="btn btn-oc" type="submit" data-append-to=".open-proposals">{% trans "Add" %}</button>
-                        </span>
-                    </div>
-                    <span id="quick-proposal-error" class="help-block"></span>
-                </form>
-            </div>
-        </div>
         <div class="narrow clear filter filter-upcoming">
             <a class="btn btn-oc btn-lg btn-block" data-rel="form" data-append-to=".open-proposals" href="{% url "proposal_create" community.id object.id %}">{% trans "Add a proposal" %}</a>
         </div>
