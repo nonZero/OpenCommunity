@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-14 15:24+0300\n"
-"PO-Revision-Date: 2015-04-08 21:07+0200\n"
+"POT-Creation-Date: 2015-04-15 09:16+0300\n"
+"PO-Revision-Date: 2015-04-15 09:17+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -887,8 +887,12 @@ msgid "Issues "
 msgstr "הנושאים שיועלו לדיון"
 
 #: .\templates\emails\agenda.html.py:76
-msgid "click links for more details"
-msgstr "למידע נוסף יש ללחוץ על הקישורים"
+msgid ""
+"click links for more details. to vote on proposals from the mail just click "
+"for/against buttons under the proposal"
+msgstr ""
+"למידע נוסף יש ללחוץ על הקישורים. להצבעה מתוך המייל לחצו על כפורי \"בעד\" או "
+"\"נגד\" שמתחת להצעת החלטה"
 
 #: .\templates\emails\agenda.html.py:146
 msgid "For"
@@ -929,6 +933,9 @@ msgstr "הצבעה פעילה"
 #: .\templatetags\community_tags.py:58
 msgid "Published"
 msgstr "פורסם"
+
+#~ msgid "click links for more details"
+#~ msgstr "למידע נוסף יש ללחוץ על הקישורים"
 
 #~ msgid " board members."
 #~ msgstr "חברי ועד"

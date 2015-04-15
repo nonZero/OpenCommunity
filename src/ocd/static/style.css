@@ -2107,20 +2107,23 @@ label[for=id_proposal-confidential_reason] {
 #proposal-section a.proposal-btn-confidential {
 	display: none;
 }
+#quick-issue-form {
+    margin-top: 1px;
+}
 #quick-issue-title.form-control::-webkit-input-placeholder {
-   color: #666;
+   color: #999999;
 }
 
 #quick-issue-title.form-control:-moz-placeholder {
-   color: #666;
+   color: #999999;
 }
 
 #quick-issue-title.form-control::-moz-placeholder {
-   color: #666;
+   color: #999999;
 }
 
 #quick-issue-title.form-control:-ms-input-placeholder {
-   color: #666;
+   color: #999999;
 }
 #quick-issue-add,
 #quick-issue-title.form-control {
@@ -2128,11 +2131,16 @@ label[for=id_proposal-confidential_reason] {
     color: #666;
     height: 40px;
     border-radius: 0;
+    border: 0;
 }
 #quick-issue-title.form-control {
     border-left: 0;
 }
-
+#quick-issue-add.btn-oc {
+    color: #fff !important;
+    text-shadow: none;
+    background-color: #194e5c !important;
+}
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
 

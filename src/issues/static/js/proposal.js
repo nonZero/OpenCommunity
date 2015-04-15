@@ -6,9 +6,9 @@ function addRemoveSubmitButton() {
     $("body").on("keyup", "#id_argument", function () {
         var textLength = $("#id_argument").val().length;
         if (textLength > 0) {
-            $(".argument-modal-btn").attr("disabled", true);
-        } else {
             $(".argument-modal-btn").attr("disabled", false);
+        } else {
+            $(".argument-modal-btn").attr("disabled", true);
         }
     });
 }
