@@ -276,10 +276,11 @@ OPENCOMMUNITY_ANALYTICS = {
 OPENCOMMUNITY_DEFAULT_CONFIDENTIAL_REASONS = [
     gettext('Privacy'),
     gettext('Commercial'),
-    gettext('Security')
+    gettext('Security'),
+    gettext('Legal')
 ]
 
-OPENCOMMUNITY_ASYNC_NOTIFICATIONS = True
+OPENCOMMUNITY_ASYNC_NOTIFICATIONS = False
 
 version_file = os.path.join(STATIC_ROOT, 'version.txt')
 if os.path.exists(version_file):

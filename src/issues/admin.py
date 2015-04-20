@@ -178,3 +178,43 @@ class VoteResultAdmin(admin.ModelAdmin):
 site.register(models.VoteResult, VoteResultAdmin)
 
 site.register(models.IssueComment, IssueCommentAdmin)
+
+class ProposalVoteArgumentAdmin(admin.ModelAdmin):
+
+    list_display = (
+                    'created_at',
+                    'created_by',
+                    'proposal_vote',
+                    'argument'
+                    )
+
+    list_display_links = (
+                    'created_at',
+                    'created_by',
+                    'proposal_vote',
+                    'argument'
+                          )
+    ordering = ['created_at',]
+
+site.register(models.ProposalVoteArgument, ProposalVoteArgumentAdmin)
+
+
+class ProposalVoteArgumentRankingAdmin(admin.ModelAdmin):
+
+    list_display = (
+                    'argument',
+                    'user',
+                    'value'
+                    )
+
+    list_filter = (
+                    'user',
+                    'value'
+                    )
+    list_display_links = (
+                    'argument',
+                    'user',
+                    'value'
+                          )
+
+site.register(models.ProposalVoteArgumentRanking, ProposalVoteArgumentRankingAdmin)

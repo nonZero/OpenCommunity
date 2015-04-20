@@ -6,20 +6,22 @@
     <div style="border: 1px solid black">
 
     	{% if community.logo %}
-    	<div style="width: 100%">
-    		<center>
+    	<div style="width: 100%; text-align: center;">
     		<img src="{{base_url}}{{MEDIA_URL}}{{ community.logo }}" style="max-width: 100%;height: auto;" />
-    		</center>
     	</div>
     	{% endif %}
         <h1 style="margin:0 0 1em 0; text-align: center; padding: 4px">
           {{community}} - {{ community.board_name }} {% if community.official_identifier %} <br/> {{ community.official_identifier }}{% endif %}
         </h1>
         <h1 style="margin:0; background: #ddd;padding: 4px">
-            {% if title %}
-              {{title}} -
+            {% if community.no_meetings_community and title %}
+                {{title}}
+            {% else %}
+                {% if title %}
+                  {{title}} -
+                {% endif %}
+                {{title_type}}
             {% endif %}
-            {{title_type}}
         </h1>
 
         <div style="padding:3px 6px">
@@ -28,7 +30,7 @@
             {% if community.allow_links_in_emails %} <a href="{{base_url}}{{url}}">{% trans "View online" %}</a> {% endif %}
             </p>
 
-
+            {% if not community.no_meetings_community %}
             <div style="border: solid 1px #ccc; margin: 4px 0;padding: 0">
                 <h2 style="margin:0; background: #ddd;padding: 4px">{% trans "Meeting details" %}</h2>
 
@@ -80,11 +82,14 @@
                     {% endif %}
                 </div>
             </div>
+            {% endif %}
         </div>
 
+        {% if not community.no_meetings_community %}
         <h2 style="margin:12px 0 0 0; background:#eee; padding:6px 3px 3px">
             {% trans "Issues & Decisions" %}
         </h2>
+        {% endif %}
 
         <div style="padding:12px 6px">
 

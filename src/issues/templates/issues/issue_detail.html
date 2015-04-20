@@ -21,7 +21,13 @@ id="issue-detail"
     {% if meeting %}
         <a class="three_dot_sentence level1" href="{{meeting.get_absolute_url}}">{% if meeting.title %}{{ meeting.title }} / {% endif %}{{ meeting.held_at|date:"j F Y" }}</a>
     {% else %}
-        <a class="three_dot_sentence level1" href="{{object.community.get_upcoming_absolute_url}}">{{object.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}{% if object.community.upcoming_meeting_scheduled_at %} / {{object.community.upcoming_meeting_scheduled_at|date:"j F Y"}}{% endif %}</a>
+        <a class="three_dot_sentence level1" href="{{object.community.get_upcoming_absolute_url}}">
+            {% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
+            {{object.community.upcoming_meeting_title|default:_("Next update")}}
+            {% else %}
+            {{object.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}
+            {% endif %}
+            {% if object.community.upcoming_meeting_scheduled_at %} / {{object.community.upcoming_meeting_scheduled_at|date:"j F Y"}}{% endif %}</a>
     {% endif %}
 </div>
 {% endif %}
@@ -80,7 +86,11 @@ id="issue-detail"
 
                   <li class="dropdown{% if meeting %} active{% endif %}">
                     <a role="button" data-toggle="dropdown" href="#">
+                        {% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
+                        {% trans "Updates" %}
+                        {% else %}
                         {% trans "Meetings" %}
+                        {% endif %}
                       <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu" role="menu">
@@ -174,7 +184,7 @@ id="issue-detail"
             {% endif %}
 
             {% for proposal in object.proposals.open %}
-                {% if not proposal.decided and proposal.can_show_straw_votes %}
+                {% if not proposal.decided and proposal.can_show_straw_votes and cperms.issues.view_straw_vote_result %}
                     createChart(
                         {{ proposal.votes_pro|default_if_none:0 }},
                         {{ proposal.votes_con|default_if_none:0 }},

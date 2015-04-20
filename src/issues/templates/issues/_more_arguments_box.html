@@ -1,0 +1,10 @@
+{% load i18n %}
+{% load voting_tags %}
+
+<div class="more_arguments text-center clear">
+    {% if proposal.arguments_for|length > 2 or proposal.arguments_against|length > 2 %}
+    <a href="{{proposal.get_absolute_url}}?m_id={{meeting.id}}{% if siblings %}&s=1{% endif %}">{% trans "More / Add" %}...</a>
+    {% elif not proposal|user_argued:user.id %}
+    <a href="{{proposal.get_absolute_url}}?m_id={{meeting.id}}{% if siblings %}&s=1{% endif %}">{% trans "Add argument" %}</a>
+    {% endif %}
+</div>
