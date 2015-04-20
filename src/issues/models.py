@@ -13,6 +13,7 @@ from ocd.validation import enhance_html
 from taggit.managers import TaggableManager
 import meetings
 import os.path
+from itertools import groupby
 
 
 class IssueManager(ConfidentialQuerySetMixin, ActiveQuerySetMixin, UIDManager):
@@ -20,7 +21,6 @@ class IssueManager(ConfidentialQuerySetMixin, ActiveQuerySetMixin, UIDManager):
 
 
 class ProposalQuerySetMixin(ActiveQuerySetMixin):
-
     """Exposes methods that can be used on both the manager and the queryset.
 
     This allows us to chain custom methods.
@@ -41,7 +41,6 @@ class ProposalQuerySet(QuerySet, ProposalQuerySetMixin):
 
 class ProposalManager(models.Manager, ConfidentialQuerySetMixin,
                       ProposalQuerySetMixin):
-
     def get_query_set(self):
         return ProposalQuerySet(self.model, using=self._db)
 
@@ -64,7 +63,6 @@ class IssueStatus(object):
 
 
 class Issue(UIDMixin, ConfidentialMixin):
-
     objects = IssueManager()
 
     active = models.BooleanField(_("Active"), default=True)
@@ -88,9 +86,9 @@ class Issue(UIDMixin, ConfidentialMixin):
     statuses = IssueStatus
 
     order_in_upcoming_meeting = models.IntegerField(
-        _("Order in upcoming meeting"), default=9999, null=True, blank=True)
+        _("Order in upcoming meeting"), default=0, null=True, blank=True)
     order_by_votes = models.FloatField(
-        _("Order in upcoming meeting by votes"), default=9999, null=True,
+        _("Order in upcoming meeting by votes"), default=0, null=True,
         blank=True)
 
     length_in_minutes = models.IntegerField(_("Length (in minutes)"),
@@ -120,6 +118,15 @@ class Issue(UIDMixin, ConfidentialMixin):
     @models.permalink
     def get_absolute_url(self):
         return ("issue", (str(self.community.pk), str(self.pk),))
+
+    @models.permalink
+    def get_next_upcoming_issue_url(self):
+        try:
+            next = Issue.objects.filter(community=self.community, status=2).filter(
+                order_in_upcoming_meeting__gt=self.order_in_upcoming_meeting).order_by('order_in_upcoming_meeting')[0]
+            return ("issue", (str(self.community.pk), str(next.pk),))
+        except:
+            return "community", (str(self.community.pk),)
 
     def active_proposals(self):
         return self.proposals.filter(active=True)
@@ -212,6 +219,8 @@ class IssueComment(UIDMixin):
 
     class Meta:
         ordering = ('created_at',)
+        verbose_name = _("Issue comment")
+        verbose_name_plural = _("Issue comments")
 
     @property
     def is_open(self):
@@ -357,26 +366,14 @@ class ProposalVoteValue(object):
     )
 
 
-class ProposalVote(models.Model):  # TODO: move down
-    proposal = models.ForeignKey("Proposal")
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
-                             related_name="votes")
-    value = models.SmallIntegerField(_("Vote"),
-                                     choices=ProposalVoteValue.CHOICES,
-                                     default=ProposalVoteValue.NEUTRAL)
+class ProposalVoteArgumentVoteValue(object):
+    CON = -1
+    PRO = 1
 
-    @property
-    def is_confidential(self):
-        return self.proposal.is_confidential
-
-    class Meta:
-        unique_together = (("proposal", "user"),)
-        verbose_name = _("Proposal Vote")
-        verbose_name_plural = _("Proposal Votes")
-
-
-    def __unicode__(self):
-        return "%s - %s" % (self.proposal.issue.title, self.user.display_name)
+    CHOICES = (
+        (CON, ugettext("Con")),
+        (PRO, ugettext("Pro")),
+    )
 
 
 class ProposalVoteBoard(models.Model):
@@ -427,7 +424,6 @@ class ProposalStatus(object):
 
 
 class Proposal(UIDMixin, ConfidentialMixin):
-
     objects = ProposalManager()
 
     issue = models.ForeignKey(Issue, related_name="proposals")
@@ -490,6 +486,10 @@ class Proposal(UIDMixin, ConfidentialMixin):
     def has_votes(self):
         """ Returns True if the proposal has any vote """
         return self.votes_con or self.votes_pro
+
+    @property
+    def has_arguments(self):
+        return ProposalVoteArgument.objects.filter(proposal_vote__proposal=self).exists()
 
     @property
     def can_straw_vote(self):
@@ -587,6 +587,10 @@ class Proposal(UIDMixin, ConfidentialMixin):
                              str(self.pk)))
 
     @models.permalink
+    def get_email_vote_url(self):
+        return ("vote_on_proposal", (str(self.issue.community.pk), str(self.pk)))
+
+    @models.permalink
     def get_edit_url(self):
         return (
             "proposal_edit",
@@ -624,6 +628,113 @@ class Proposal(UIDMixin, ConfidentialMixin):
         else:
             self.is_confidential = True
 
+    @property
+    def arguments_for(self):
+        return sorted(
+            ProposalVoteArgument.objects.filter(proposal_vote__in=self.votes.filter(value=ProposalVoteValue.PRO)),
+            key=lambda a: a.argument_score, reverse=True)
+
+    @property
+    def arguments_against(self):
+        return sorted(
+            ProposalVoteArgument.objects.filter(proposal_vote__in=self.votes.filter(value=ProposalVoteValue.CON)),
+            key=lambda a: a.argument_score, reverse=True)
+
+    @property
+    def elegantly_interleaved_for_and_against_arguments(self):
+        if not self.arguments_for:
+            return list(self.arguments_against)
+        if not self.arguments_against:
+            return list(self.arguments_for)
+        a = list(self.arguments_against)
+        b = list(self.arguments_for)
+        b, a = sorted((a, b), key=len)
+        len_ab = len(a) + len(b)
+        groups = groupby(((a[len(a) * i // len_ab], b[len(b) * i // len_ab]) for i in range(len_ab)),
+                         key=lambda x: x[0])
+        return [j[i] for k, g in groups for i, j in enumerate(g)]
+
+
+class ProposalVote(models.Model):
+    proposal = models.ForeignKey(Proposal, related_name='votes')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
+                             related_name="votes")
+    value = models.SmallIntegerField(_("Vote"),
+                                     choices=ProposalVoteValue.CHOICES,
+                                     default=ProposalVoteValue.NEUTRAL)
+
+    @property
+    def is_confidential(self):
+        return self.proposal.is_confidential
+
+    class Meta:
+        unique_together = (("proposal", "user"),)
+        verbose_name = _("Proposal Vote")
+        verbose_name_plural = _("Proposal Votes")
+
+    def __unicode__(self):
+        return "%s | %s - %s (%s)" % (
+        self.proposal.issue.title, self.proposal.title, self.user.display_name, self.get_value_display())
+
+
+class ProposalVoteArgument(models.Model):
+    proposal_vote = models.ForeignKey(ProposalVote, related_name='arguments')
+    argument = models.TextField(verbose_name=_("Argument"))
+    created_at = models.DateTimeField(_("Create at"), auto_now_add=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                   related_name="arguments_created",
+                                   verbose_name=_("Created by"))
+
+    class Meta:
+        verbose_name = _("Proposal vote argument")
+        verbose_name_plural = _("Proposal vote arguments")
+
+    def __unicode__(self):
+        return self.argument
+
+    @models.permalink
+    def get_delete_url(self):
+        return "delete_proposal_argument", (self.proposal_vote.proposal.issue.community.id, self.id)
+
+    @models.permalink
+    def get_edit_url(self):
+        return "edit_proposal_argument", (self.proposal_vote.proposal.issue.community.id, self.id)
+
+    @models.permalink
+    def get_data_url(self):
+        return "get_argument_value", (self.proposal_vote.proposal.issue.community.id, self.id)
+
+    @models.permalink
+    def get_vote_url(self):
+        return "argument_up_down_vote", (self.proposal_vote.proposal.issue.community.id, self.id)
+
+    @property
+    def argument_for_ranking(self):
+        pro = ProposalVoteArgumentRanking.objects.filter(argument=self, value=ProposalVoteValue.PRO).count()
+        return pro
+
+    @property
+    def argument_against_ranking(self):
+        against = ProposalVoteArgumentRanking.objects.filter(argument=self, value=ProposalVoteValue.CON).count()
+        return against
+
+    @property
+    def argument_score(self):
+        score = self.argument_for_ranking - self.argument_against_ranking
+        return score
+
+
+class ProposalVoteArgumentRanking(models.Model):
+    argument = models.ForeignKey(ProposalVoteArgument)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
+                             related_name="argument_votes")
+    value = models.SmallIntegerField(_("Vote"),
+                                     choices=ProposalVoteArgumentVoteValue.CHOICES)
+
+    class Meta:
+        verbose_name = _("Proposal vote argument ranking")
+        verbose_name_plural = _("Proposal vote arguments ranking")
+
 
 class VoteResult(models.Model):
     """ straw vote result per proposal, per meeting """
@@ -639,6 +750,8 @@ class VoteResult(models.Model):
 
     class Meta:
         unique_together = (('proposal', 'meeting'),)
+        verbose_name = _("Vote result")
+        verbose_name_plural = _("Vote results")
 
 
 class IssueRankingVote(models.Model):
@@ -650,17 +763,16 @@ class IssueRankingVote(models.Model):
     def is_confidential(self):
         return self.issue.is_confidential
 
-    # TODO: add unique_together = (
-    #   ('voted_by', 'issue'),
-    #   and maybe: ('voted_by', 'rank')
-    # )
+        # TODO: add unique_together = (
+        # ('voted_by', 'issue'),
+        #   and maybe: ('voted_by', 'rank')
+        # )
 
 
 @receiver(post_save, sender=Issue)
 def set_confidential_on_relations(sender, instance, created,
                                   dispatch_uid='set_confidential_on_relations',
                                   **kwargs):
-
     # we need to ensure that relations implementing ConfidentialMixin or
     # ConfidentialByRelationMixin also have is_confidential set correctly.
     # At present, these are Proposal and AgendaItem

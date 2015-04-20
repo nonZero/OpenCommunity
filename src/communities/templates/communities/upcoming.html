@@ -3,7 +3,14 @@
 {% load opencommunity community_tags %}
 
 {% block title %}
-	<title>{{ object.name }} - {{ object.upcoming_meeting_title|default:_("Upcoming meeting") }}</title>
+    <title>
+        {{ object.name }} -
+        {% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
+            {{ object.upcoming_meeting_title|default:_("Upcoming update") }}
+        {% else %}
+            {{ object.upcoming_meeting_title|default:_("Upcoming meeting") }}
+        {% endif %}
+    </title>
 {% endblock %}
 
 {% block extra-page-id %}
@@ -11,7 +18,13 @@
 {% endblock %}
 
 {% block page_header %}
-<span class="show_meetings visible-xs" style="cursor: pointer;">{% trans "All meetings" %}</span>
+<span class="show_meetings visible-xs" style="cursor: pointer;">
+    {% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
+    {% trans "All updates" %}
+    {% else %}
+    {% trans "All meetings" %}
+    {% endif %}
+</span>
 {% endblock %}
 
 {% block meeting %}
@@ -19,7 +32,13 @@
 		<ul>
     	{% if object.upcoming_meeting_scheduled_at %}
           <li class="active">
-            <h4><a href="{{object.get_absolute_url}}">{% trans "Upcoming meeting" %}</a></h4>
+            <h4><a href="{{object.get_absolute_url}}">
+                {% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
+                {% trans "Next update" %}
+                {% else %}
+                {% trans "Upcoming meeting" %}
+                {% endif %}
+            </a></h4>
             <h5 style="font-weight: normal;"><i class="fa fa-calendar"></i> {{ object|display_upcoming_time }}
             {% if object.upcoming_meeting_location %}<i class="fa fa-map-marker"></i> {{ object.upcoming_meeting_location }}{% endif %}</h5>
           </li>
@@ -59,7 +78,11 @@
 					{{object.upcoming_meeting_title}}
 				{% endif %}
 			{% else %}
-				{% trans "Upcoming meeting" %}
+                {% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
+                {% trans "Next update" %}
+                {% else %}
+                {% trans "Upcoming meeting" %}
+                {% endif %}
 			{% endif %}
 			</h1>
 		</div>
@@ -88,13 +111,25 @@
                             <form method="post" action="{% url "upcoming_end" community.id  %}">
                                 {% csrf_token %}
                                 <button class="btn btn-default" style="border: 0; outline: none;background: 0;padding: 0;">
-                                    <i class="fa fa-undo"></i> <span>{% trans "Undo start meeting" %}</span>
+                                    <i class="fa fa-undo"></i> <span>
+                                    {% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
+                                    {% trans "Open voting" %}
+                                    {% else %}
+                                    {% trans "Undo start meeting" %}
+                                    {% endif %}
+                                    </span>
                                 </button>
                             </form>
                         {% else %}
                             <button class="btn btn-default" style="border: 0; outline: none;background: 0;padding: 0;"
                                     data-rel="form" data-url="{% url "upcoming_start" community.id  %}" >
-                                    <i class="fa fa-play-circle"></i> <span>{% trans "Start meeting" %}</span>
+                                    <i class="fa fa-play-circle"></i> <span>
+                                    {% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
+                                    {% trans "Close voting" %}
+                                    {% else %}
+                                    {% trans "Start meeting" %}
+                                    {% endif %}
+                                    </span>
                             </button>
                         {% endif %}
                     </h5>
@@ -108,7 +143,13 @@
 			</div>
 
 			<div id="agenda-container" class="agenda-list clear">
-				<h2 class="pull-left"> {% trans "Agenda items" %} <span class="loader"> <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/> </span></h2>
+				<h2 class="pull-left">
+                    {% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
+                    {% trans "No meetings issues" %}
+                    {% else %}
+                    {% trans "Agenda items" %}
+                    {% endif %}
+                    <span class="loader"> <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/> </span></h2>
 				{% if cperms.community.editagenda_community %}
 					<a class="btn btn-oc pull-right" data-rel="form" href="{% url "issue_create_upcoming" community.id %}"> <i class="fa fa-plus"></i> <span>{% trans "New issue" %}</span></a>
 				{% endif %}
@@ -125,13 +166,39 @@
 						{% include "communities/_issue.html" %}
 					{% endfor %}
 				</ul>
+                {% if cperms.community.editagenda_community %}
+                {% comment %}
+                <h2>{% trans 'New issue' %}</h2>
+                {% endcomment %}
+                <div class="row">
+                    <div class="col-xs-12">
+                        <form method="post" id="quick-issue-form" action="{% url 'issue_create_upcoming' community.id %}">
+                        {% csrf_token %}
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="quick-issue-title" name="title" placeholder="{% trans 'Type the new issue title' %}">
+                                <input type="hidden" class="form-control" id="quick-proposal-title" name="proposal-type" value="">
+                                <span class="input-group-btn">
+                                    <button id="quick-issue-add" class="btn btn-oc" type="submit">{% trans "Add" %}</button>
+                                </span>
+                            </div>
+                            <span id="quick-issue-error" class="help-block"></span>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
 			</div>
 
 			{% if object.upcoming_meeting_started and cperms.community.editupcoming_community %}
 
-				<h2 class="pull-left">{% trans "Summary" %}</h2>
+				<h2 class="pull-left">
+                    {% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
+                    {% trans "Comments" %}
+                    {% else %}
+                    {% trans "Summary" %}
+                    {% endif %}
+                </h2>
 				<div class="push pull-right">
-					<a data-rel="form" href="{% url "upcoming_edit_summary" community.id %}" class="clear" style="padding: 9px;display: inline-block;">
+					<a data-rel="form" href="{% url 'upcoming_edit_summary' community.id %}" class="clear" style="padding: 9px;display: inline-block;">
 						<img src="{{ STATIC_URL }}images/comment_edit_pencil.png" />
 					</a>
 				</div>
@@ -145,9 +212,15 @@
 
 			{% if cperms.community.editagenda_community %}
 			<div style="margin: 1em auto;text-align: center;clear: both;">
-				<a data-rel="form" href="{% url "upcoming_publish" community.id  %}" class="btn btn-oc"> {% if object.upcoming_meeting_started %} <i class="fa fa-envelope-o"></i> <span>{% trans "Summary draft" %}</span> {% else %} <i class="fa fa-envelope-o"></i> <span>{% trans "Publish the agenda" %}</span> {% endif %}</a>
+				<a data-rel="form" href="{% url 'upcoming_publish' community.id  %}" class="btn btn-oc"> {% if object.upcoming_meeting_started %} <i class="fa fa-envelope-o"></i> <span>{% trans "Summary draft" %}</span> {% else %} <i class="fa fa-envelope-o"></i> <span>{% trans "Publish the agenda" %}</span> {% endif %}</a>
 			{% if object.upcoming_meeting_started and cperms.meetings.add_meeting %}
-				<a href="{% url "upcoming_close" community.id %}" data-rel="form" class="btn btn-warning" style="margin: 0 20px;"> {% trans "Close meeting" %} </a>
+				<a href="{% url 'upcoming_close' community.id %}" data-rel="form" class="btn btn-warning" style="margin: 0 20px;">
+                    {% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
+                    {% trans "Close update" %}
+                    {% else %}
+                    {% trans "Close meeting" %}
+                    {% endif %}
+                </a>
 			{% endif %}
 			</div>
 			{% endif %}
@@ -223,7 +296,7 @@
 		var Upcoming = $('.meeting_left_column').outerHeight();
 		if (Meeting > Upcoming) {
 			$('.meeting_left_column').outerHeight(Meeting+20);
-		};
+		}
 	});
 	function printProtocol() {
 		var printContent = document.getElementById('protocolPreviewContent');
@@ -233,6 +306,9 @@
 		WinPrint.focus();
 		WinPrint.print();
 		WinPrint.close();
-	};
+	}
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    })
 </script>
 {% endblock %}

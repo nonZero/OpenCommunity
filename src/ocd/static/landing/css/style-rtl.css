@@ -1,0 +1,23 @@
+body {
+    direction: rtl;
+}
+
+nav {
+    direction: ltr;
+}
+#hasadna{
+	text-align: right;
+}
+#hasadna img{
+	float:right;
+	padding: 0 0 10px 10px;
+}
+.cbp-spmenu.cbp-spmenu-open {
+}
+.cbp-spmenu {
+    left: -240px;
+    right: auto;
+}
+#cbp-spmenu ul {
+    padding-right: 0px;
+}

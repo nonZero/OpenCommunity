@@ -6,7 +6,8 @@ $(function() {
         success: function(data) {
             var el = $(data.trim());
             $('label[for=id_email] .alert').remove();
-            $("#invite-form").closest('li').before(el).parent();
+            //$("#invite-form").closest('li').before(el).parent();
+            $('#invitations').append(el);
             $("#invite-form").get(0).reset();
             el.hide().show('slow');
             el.find('button').button();

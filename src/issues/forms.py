@@ -181,3 +181,21 @@ class EditIssueCommentForm(CreateIssueCommentForm):
 
     submit_label = _('Save')
     form_id = None
+
+
+class CreateProposalVoteArgumentForm(forms.ModelForm):
+
+    submit_label = _('Add')
+    form_id = "add-argument"
+
+    class Meta:
+        model = models.ProposalVoteArgument
+        fields = (
+            'argument',
+        )
+
+
+class EditProposalVoteArgumentForm(CreateProposalVoteArgumentForm):
+
+    submit_label = _('Save')
+    form_id = None

@@ -1,8 +1,9 @@
 from django import template
 from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
-from issues.models import Proposal, ProposalVote, VoteResult
+from issues.models import Proposal, ProposalVote, VoteResult, ProposalVoteArgument, ProposalVoteArgumentRanking
 from meetings.models import Meeting
+from users.models import OCUser
 
 register = template.Library()
 
@@ -109,3 +110,39 @@ def nutral_votes(proposal):
     votes = proposal.votes_pro + proposal.votes_con
     return proposal.community_members - votes
 
+
+@register.filter
+def user_proposal_vote_id(proposal_id, user_id):
+    user = OCUser.objects.get(pk=user_id)
+    proposal = Proposal.objects.get(pk=proposal_id)
+    return ProposalVote.objects.get(proposal=proposal, user=user).id
+
+
+@register.filter
+def user_vote_result(proposal_id, user_id):
+    user = OCUser.objects.get(pk=user_id)
+    proposal = Proposal.objects.get(pk=proposal_id)
+    vote = ProposalVote.objects.get(proposal=proposal, user=user)
+    if vote.value == 1:
+        return "pro"
+    elif vote.value == -1:
+        return "con"
+    else:
+        return None
+
+
+@register.filter
+def user_ranked_argument(argument_id, user_id):
+    user = OCUser.objects.get(pk=user_id)
+    argument = ProposalVoteArgument.objects.get(pk=argument_id)
+    try:
+        vote = ProposalVoteArgumentRanking.objects.get(argument=argument, user=user)
+        return "pro" if vote.value == 1 else "con"
+    except ProposalVoteArgumentRanking.DoesNotExist:
+        return False
+
+
+@register.filter
+def user_argued(proposal, user_id):
+    user = OCUser.objects.get(pk=user_id)
+    return ProposalVoteArgument.objects.filter(proposal_vote__proposal=proposal, created_by=user).exists()

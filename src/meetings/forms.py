@@ -27,8 +27,8 @@ class CloseMeetingForm(forms.ModelForm):
         model = Meeting
 
         fields = (
-                  'held_at',
-                  )
+            'held_at',
+        )
 
         widgets = {
             'held_at': OCSplitDateTime,
