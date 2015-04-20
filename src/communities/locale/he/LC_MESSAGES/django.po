@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-15 09:16+0300\n"
+"POT-Creation-Date: 2015-04-20 21:53+0300\n"
 "PO-Revision-Date: 2015-04-15 09:17+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
@@ -555,7 +555,7 @@ msgstr ""
 
 #: .\templates\communities\landing.html.py:324
 msgid "Empowerment"
-msgstr "העצמת הוועד"
+msgstr "העצמה"
 
 #: .\templates\communities\landing.html.py:326
 msgid ""
@@ -566,42 +566,20 @@ msgstr ""
 "חבר מושבעים ועל ידי ועדות ציבוריות)"
 
 #: .\templates\communities\landing.html.py:348
-msgid "Our team"
-msgstr "הצוות"
-
-#: .\templates\communities\landing.html.py:349
 msgid "The project runs within the framework of the"
 msgstr "הפרויקט פועל במסגרת"
 
-#: .\templates\communities\landing.html.py:349
+#: .\templates\communities\landing.html.py:348
 msgid "Public Knowledge Workshop"
 msgstr "הסדנא לידע ציבורי"
 
-#: .\templates\communities\landing.html.py:351
+#: .\templates\communities\landing.html.py:350
 msgid ""
 "a non-profit incubator for open code to promote democracy and citizen "
 "involvement in government activities"
 msgstr ""
 "ארגון ללא מטרות רווח (ע\"ר) הפועל כחממה לפרויקטים בקוד פתוח לקידום דמוקרטיה "
 "ומעורבות אזרחית בפעילות ממשלתית וציבורית"
-
-#: .\templates\communities\landing.html.py:359
-msgid "Boaz Chen"
-msgstr "בועז חן"
-
-#: .\templates\communities\landing.html.py:379
-msgid "Prof. Ehud (Udi) Shapiro"
-msgstr "אהרן פורת"
-
-#: .\templates\communities\landing.html.py:385
-msgid ""
-"Boaz Chen and Prof. Ehud (Udi) Shapiro, former founders and managers of "
-"technology companies, are leading the project, that is developed by a "
-"community of volunteers and a core group of developers funded by donations"
-msgstr ""
-"בועז חן, אשר הקים וניהל חברות טכנולוגיה, ואהרן פורת, לשעבר עורך הערוץ "
-"\"טכנולוגי\" באתר כלכליסט, מובילים את הפרויקט, אשר מפותח על ידי קהילת "
-"מתנדבים. עד כה מומן הפרויקט על ידי תרומות"
 
 #: .\templates\communities\participants_form.html.py:6
 msgid "Select participants"
@@ -933,6 +911,24 @@ msgstr "הצבעה פעילה"
 #: .\templatetags\community_tags.py:58
 msgid "Published"
 msgstr "פורסם"
+
+#~ msgid "Our team"
+#~ msgstr "הצוות"
+
+#~ msgid "Boaz Chen"
+#~ msgstr "בועז חן"
+
+#~ msgid "Prof. Ehud (Udi) Shapiro"
+#~ msgstr "אהרן פורת"
+
+#~ msgid ""
+#~ "Boaz Chen and Prof. Ehud (Udi) Shapiro, former founders and managers of "
+#~ "technology companies, are leading the project, that is developed by a "
+#~ "community of volunteers and a core group of developers funded by donations"
+#~ msgstr ""
+#~ "בועז חן, אשר הקים וניהל חברות טכנולוגיה, ואהרן פורת, לשעבר עורך הערוץ "
+#~ "\"טכנולוגי\" באתר כלכליסט, מובילים את הפרויקט, אשר מפותח על ידי קהילת "
+#~ "מתנדבים. עד כה מומן הפרויקט על ידי תרומות"
 
 #~ msgid "click links for more details"
 #~ msgstr "למידע נוסף יש ללחוץ על הקישורים"
