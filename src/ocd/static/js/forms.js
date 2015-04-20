@@ -61,6 +61,114 @@ $(function () {
         return false;
     });
 
+    // Quick submit of new issue (Title only)
+    $("body").on('click', '#quick-issue-add', function (e) {
+        e.preventDefault();
+
+        if ($('#quick-issue-title').val() == '') {
+            return;
+        }
+
+        var url = $('#quick-issue-form').attr('action');
+        var origin = $(this);
+        var form = $('#quick-issue-form');
+
+        form.ajaxForm({
+
+            url: url,
+
+            success: function (resp) {
+                if (resp) {
+
+                    var appendTo = $(origin).data('append-to');
+                    if (appendTo) {
+                        $(appendTo).append(resp);
+                        return;
+                    }
+
+                    var replace = $(origin).data('replace');
+                    if (replace) {
+                        $(replace).html(resp);
+                        $('body').trigger('ocd.updated');
+                        return;
+                    }
+
+                    if (resp == '-') {
+                        window.history.back();
+                    } else {
+                        window.location.href = resp;
+                    }
+                } else {
+                    window.location.reload();
+                }
+            },
+
+            error: function (resp) {
+                if (resp.status == 403) {
+                    $('#quick-issue-form .input-group').addClass('has-error');
+                    $('#quick-issue-error').html(gettext('Field cannot be empty'));
+                } else {
+                    alert('Server Error! please try again or reload the page.');
+                }
+            }
+        });
+        $('#quick-issue-form').submit();
+    });
+
+    // Quick submit of new proposal (Title only)
+    $("body").on('click', '#quick-proposal-add', function (e) {
+        e.preventDefault();
+
+        if ($('#quick-proposal-title').val() == '') {
+            return;
+        }
+
+        var url = $('#quick-proposal-form').attr('action');
+        var origin = $(this);
+        var form = $('#quick-proposal-form');
+
+        form.ajaxForm({
+
+            url: url,
+
+            success: function (resp) {
+                if (resp) {
+
+                    var appendTo = $(origin).data('append-to');
+                    if (appendTo) {
+                        $(appendTo).append(resp);
+                        return;
+                    }
+
+                    var replace = $(origin).data('replace');
+                    if (replace) {
+                        $(replace).html(resp);
+                        $('body').trigger('ocd.updated');
+                        return;
+                    }
+
+                    if (resp == '-') {
+                        window.history.back();
+                    } else {
+                        window.location.href = resp;
+                    }
+                } else {
+                    window.location.reload();
+                }
+            },
+
+            error: function (resp) {
+                if (resp.status == 403) {
+                    $('#quick-proposal-form .input-group').addClass('has-error');
+                    $('#quick-proposal-error').html(gettext('Field cannot be empty'));
+                } else {
+                    alert('Server Error! please try again or reload the page.');
+                }
+            }
+        });
+        $('#quick-proposal-form').submit();
+    });
+
     if (navigator.userAgent.match('CriOS')) {
         $('body').addClass('ios-chrome');
     }

@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-01 16:58+0300\n"
-"PO-Revision-Date: 2014-07-01 14:25+0200\n"
+"POT-Creation-Date: 2015-04-15 09:16+0300\n"
+"PO-Revision-Date: 2015-04-08 23:19+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 1.7.5\n"
 
 #: .\base_models.py:13
 msgid "HTML content"
@@ -31,17 +31,21 @@ msgid ""
 "pass onconfidentiality."
 msgstr ""
 
-#: .\settings.py:281
+#: .\settings.py:277
 msgid "Privacy"
 msgstr "פרטיות"
 
-#: .\settings.py:282
+#: .\settings.py:278
 msgid "Commercial"
 msgstr "מסחרי"
 
-#: .\settings.py:283
+#: .\settings.py:279
 msgid "Security"
 msgstr "ביטחון"
+
+#: .\settings.py:280
+msgid "Legal"
+msgstr "משפטי"
 
 #: .\templates\403.html.py:5
 msgid "DemOS 403"
@@ -164,10 +168,6 @@ msgstr "מבית הסדנא"
 #: .\templates\base.html.py:82
 msgid "Version"
 msgstr "גרסא"
-
-#: .\templates\base.html.py:86
-msgid "DEVELOPMENT SERVER"
-msgstr "שרת פיתוח"
 
 #: .\templates\dialog.html.py:26
 msgid "Save"
@@ -347,6 +347,9 @@ msgstr "הקודם"
 #: .\templates\search\search.html.py:72
 msgid "Next"
 msgstr "הבא"
+
+#~ msgid "DEVELOPMENT SERVER"
+#~ msgstr "שרת פיתוח"
 
 #~ msgid "An eKnight from The Public Knowledge Workshop"
 #~ msgstr "חשמביר מבית הסדנא לידע ציבורי"

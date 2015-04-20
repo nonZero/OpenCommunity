@@ -18,22 +18,53 @@
 <div class="clear"></div>
 <script>
 	var is_confidential = {% if form.instance.confidential_reason %}true{% else %}false{% endif %};
+    var currentConfidentialStatus = is_confidential;
 
 	if (is_confidential) {
 		$('.proposal-btn-confidential').html('<i class="fa fa-lock"></i>');
 	}
+
 	$('a.proposal-btn-confidential').on('click', function() {
 		$(this).next('.proposal-confidential-options').show();
 	});
-	$('.proposal-confidential-options label').on('click', function() {
+
+    $('.proposal-confidential-options label').parents('#modal-form').on('hide.bs.modal', function (e) {
+        if (is_confidential !== currentConfidentialStatus) {
+            if (is_confidential) {
+                $('.proposal-btn-confidential').html('<i class="fa fa-lock"></i>');
+                $(this).closest('.modal-content').css('background-image', 'url("/static/images/prop-line-marks.png")');
+                $('.proposal_left_column').addClass('is_confidential');
+            } else {
+                $('.proposal-btn-confidential').html('<i class="fa fa-unlock"></i>');
+                $(this).closest('.modal-content').css('background-image', 'none');
+                $('.proposal_left_column').removeClass('is_confidential');
+            }
+        }
+    });
+
+	$('body').on('click', '.proposal-confidential-options label', function() {
 		if ($(this).find('input').val() == 0) {
-			$('.proposal-btn-confidential').html('<i class="fa fa-unlock"></i>');
-			$('#proposal-section,#issue-detail .modal-content,#proposal-detail .modal-content').css('background-image', 'none');
+            $('.proposal-btn-confidential').html('<i class="fa fa-unlock"></i>');
+			$('#proposal-detail').find('.modal-content').attr('style', 'background-image: none !important');
+            $('.proposal_left_column').removeClass('is_confidential');
 		} else {
-			$('.proposal-btn-confidential').html('<i class="fa fa-lock"></i>');
-			$('#proposal-section,#issue-detail .modal-content,#proposal-detail .modal-content').css('background-image', 'url("/static/images/prop-line-marks.png")');
-		};
-		$(this).parent().hide();
+            $('.proposal-btn-confidential').html('<i class="fa fa-lock"></i>');
+			$('#proposal-detail').find('.modal-content').attr('style', 'background-image: url("/static/images/prop-line-marks.png") !important');
+            $('.proposal_left_column').addClass('is_confidential');
+        }
+        if (is_confidential) {
+            if ($(this).find('input').val() > 0) {
+                currentConfidentialStatus = true;
+            } else {
+                currentConfidentialStatus = false;
+            }
+            if (is_confidential == currentConfidentialStatus) {
+                $('#proposal_edit_submit').prop('type', 'submit').attr('data-toggle', '').attr('data-target', '');
+            } else {
+                $('#proposal_edit_submit').prop('type', 'button').attr('data-toggle', 'collapse').attr('data-target', '#confidentialVerification');
+            }
+        }
+        $(this).parent().hide();
 	});
 </script>
 

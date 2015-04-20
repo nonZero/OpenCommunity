@@ -569,7 +569,7 @@ ul li.issue.oc_li a.addremove {
 	background: url('images/tick.png') no-repeat 50% 50%;
 }
 .cog {
-	background: url('images/cog.png') no-repeat 50% 50%;
+	background: url('images/cog.gif') no-repeat 50% 50%;
 }
 .agenda_plus_minus, .sort_plus_minus {
 	position: absolute;
@@ -1223,12 +1223,26 @@ form.delete-invitation {
 .change_vote {
 	background: #fff3a5;
 	padding: 10px;
-	color: #666;
+	color: #fff;
 	font-size: 16px;
 	font-weight: bold;
 }
+.change_vote.vote_result_pro {
+	background: #a4cb53;
+}
+.change_vote.vote_ended {
+    color: #6C6C6E;
+    background: #f5f6de;
+}
+.change_vote.vote_result_con {
+	background: #952722;
+}
 .vote_marked {
 	border: 2px solid #333;
+}
+.change_vote a {
+	color: #fff;
+    text-decoration: underline;
 }
 .issue_proposal_vote .change_vote {
 	margin-top: -10px;
@@ -1249,6 +1263,13 @@ form.delete-invitation {
 	margin-bottom: 20px;
 	padding: 10px 0;
 }
+.issue_proposal_vote.with_arguments {
+	height: 100%;
+	padding-bottom: 0;
+}
+.issue_proposal_vote #create-argument {
+    display: none;
+}
 .change_vote~.issue_proposal_vote {
 	padding-top: 0;
 }
@@ -1268,6 +1289,122 @@ form.delete-invitation {
 .no-vote-badge {
 	color: #fff;
 	border: 1px solid;
+}
+.vote_arguments {
+    border: 1px solid #e2e2e2;
+}
+.vote_arguments p {
+    margin: 0;
+    line-height: 14px;
+}
+.arguments-table {
+    width: 100%;
+    margin-bottom: 20px;
+}
+.arguments-table.last {
+    margin-bottom: 0;
+}
+.argument-content {
+    padding: 0;
+    vertical-align: top;
+}
+.argument-vote {
+    width: 45px;
+    vertical-align: top;
+}
+.argument-vote i,
+.argument-vote span {
+    display: block;
+}
+.vote-count {
+    /*padding-top: 2px;*/
+    display: block;
+    text-align: center;
+    font-size: 16px;
+    line-height: 16px;
+}
+.vote-up {
+    background-position: 0 -175px;
+    display: block;
+    margin: 0 auto;
+    width: 41px;
+    height: 18px;
+    text-indent: -9999em;
+    font-size: 1px;
+    background-image: url('/static/images/sprites.png');
+    background-repeat: no-repeat;
+    overflow: hidden;
+    cursor: pointer;
+}
+.vote-up.voted {
+    background-position: -40px -175px;
+}
+.vote-down.voted {
+    background-position: -40 -225px;
+}
+.vote-down {
+    background-position: 0 -225px;
+    display: block;
+    margin: 0 auto;
+    width: 41px;
+    height: 18px;
+    text-indent: -9999em;
+    font-size: 1px;
+    background-image: url('/static/images/sprites.png');
+    background-repeat: no-repeat;
+    overflow: hidden;
+    cursor: pointer;
+}
+.more_arguments a {
+    display: block;
+    padding: 10px 0;
+}
+.argument-vote span {
+    font-weight: bold;
+}
+.argument-vote .vote-count {
+    font-weight: normal;
+    direction: ltr;
+}
+.vote_arguments .arguments-opt {
+    font-size: 12px;
+    line-height: 12px;
+    margin-bottom: 15px;
+    color: #999;
+}
+@media (max-width: 767px) {
+    .argument-content {
+        padding: 10px;
+    }
+    .arguments-table.pro-table {
+        background-color: #dcf1c7;
+        width: 90%;
+        margin-bottom: 3px;
+    }
+
+    .arguments-table.con-table {
+        background-color: #f5cfce;
+        width: 90%;
+        margin-left: 10%;
+        margin-bottom: 3px;
+    }
+    .vote_arguments .arguments-opt {
+        margin-bottom: 0;
+    }
+    .issue_proposal_vote .prop_votes .col-xs-6 {
+        padding-right: 3px;
+        padding-left: 3px;
+    }
+}
+h5.arguments_for,
+.vote_arguments .arguments_for h5 {
+    color: #668428;
+    text-decoration: underline;
+}
+h5.arguments_against,
+.vote_arguments .arguments_against h5 {
+    color: #952722;
+    text-decoration: underline;
 }
 
 /* WYSIHTML5 Editor */
@@ -1970,7 +2107,40 @@ label[for=id_proposal-confidential_reason] {
 #proposal-section a.proposal-btn-confidential {
 	display: none;
 }
+#quick-issue-form {
+    margin-top: 1px;
+}
+#quick-issue-title.form-control::-webkit-input-placeholder {
+   color: #999999;
+}
 
+#quick-issue-title.form-control:-moz-placeholder {
+   color: #999999;
+}
+
+#quick-issue-title.form-control::-moz-placeholder {
+   color: #999999;
+}
+
+#quick-issue-title.form-control:-ms-input-placeholder {
+   color: #999999;
+}
+#quick-issue-add,
+#quick-issue-title.form-control {
+    background-color: #f5f6de;
+    color: #666;
+    height: 40px;
+    border-radius: 0;
+    border: 0;
+}
+#quick-issue-title.form-control {
+    border-left: 0;
+}
+#quick-issue-add.btn-oc {
+    color: #fff !important;
+    text-shadow: none;
+    background-color: #194e5c !important;
+}
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
 

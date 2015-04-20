@@ -13,6 +13,7 @@
 <div class="clear"></div>
 <script>
 	var is_confidential = {% if form.instance.confidential_reason %}true{% else %}false{% endif %};
+    var currentConfidentialStatus = is_confidential;
 
 	if (is_confidential) {
 		$('.issue-btn-confidential').html('<i class="fa fa-lock"></i>');
@@ -22,17 +23,42 @@
 		$(this).next('.issue-confidential-options').show();
 		// $('#modal-form .htmlarea').css('margin-top', '75px');
 	});
+    $('.issue-confidential-options label').parents('#modal-form').on('hide.bs.modal', function (e) {
+        if (is_confidential !== currentConfidentialStatus) {
+            if (is_confidential) {
+                $('.issue-btn-confidential').html('<i class="fa fa-lock"></i>');
+                $(this).closest('.modal-content').css('background-image', 'url("/static/images/line-marks.png")');
+                $('.issue_left_column').addClass('is_confidential');
+            } else {
+                $('.issue-btn-confidential').html('<i class="fa fa-unlock"></i>');
+                $(this).closest('.modal-content').css('background-image', 'none');
+                $('.issue_left_column').removeClass('is_confidential');
+            }
+        }
+    });
 	$('.issue-confidential-options label').on('click', function() {
 		if ($(this).find('input').val() == 0) {
 			$('.issue-btn-confidential').html('<i class="fa fa-unlock"></i>');
-			$(this).closest('.modal-content').css('background-image', 'none');
+			$(this).closest('.modal-content').attr('style', 'background-image: none !important');
 			$('.issue_left_column').removeClass('is_confidential');
 		} else {
 			$('.issue-btn-confidential').html('<i class="fa fa-lock"></i>');
-			$(this).closest('.modal-content').css('background-image', 'url("/static/images/line-marks.png")');
+			$(this).closest('.modal-content').attr('style', 'background-image: url("/static/images/line-marks.png") !important');
 			$('.issue_left_column').addClass('is_confidential');
 		};
 		// $('#modal-form .htmlarea').css('margin-top', '0');
-		$(this).parent().hide();
+        if (is_confidential) {
+            if ($(this).find('input').val() > 0) {
+                currentConfidentialStatus = true;
+            } else {
+                currentConfidentialStatus = false;
+            }
+            if (is_confidential == currentConfidentialStatus) {
+                $('#issue_edit_submit').prop('type', 'submit').attr('data-toggle', '').attr('data-target', '');
+            } else {
+                $('#issue_edit_submit').prop('type', 'button').attr('data-toggle', 'collapse').attr('data-target', '#confidentialVerification');
+            }
+        }
+        $(this).parent().hide();
 	});
 </script>

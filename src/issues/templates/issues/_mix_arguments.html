@@ -1,0 +1,39 @@
+{% load i18n voting_tags humanize %}
+
+<table class="arguments-table {% if arg.proposal_vote.value == 1 %}pro-table{% else %}con-table{% endif %}">
+    <tbody>
+        <tr data-id="{{ arg.id }}">
+            {% if user|voted_on:proposal.id and proposal.id|user_vote_result:request.user.id == 'pro' and arg.proposal_vote.value == 1 %}
+            <td class="argument-vote" data-url="{{arg.get_vote_url}}">
+                <a class="vote-up{% if arg.id|user_ranked_argument:request.user.id == 'pro' %} voted{% endif %}" data-vote-val="up">up vote</a>
+                <span class="vote-count">{{ arg.argument_score }}</span>
+                <a class="vote-down{% if arg.id|user_ranked_argument:request.user.id == 'con' %} voted{% endif %}" data-vote-val="down">down vote</a>
+            </td>
+            {% endif %}
+            <td class="argument-content">
+                <p class="arg-desc">{{ arg.argument }}</p>
+                <div class="arguments-opt">
+                    {% comment %}{{ arg.created_by }}, {{ arg.created_at|date:"SHORT_DATE_FORMAT" }}{% endcomment %}
+                    {{ arg.created_by }}, {{ arg.created_at|naturaltime }}
+                    {% if arg.created_by == request.user %}
+                    <span class="pull-right">
+                        <a class="edit-argument" data-valueurl="{{arg.get_data_url}}" data-url="{{arg.get_edit_url}}" data-toggle="modal" data-target="#editArgumentModal">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        <form class="delete-argument" method="post" action="{{arg.get_delete_url}}">
+                            <i class="fa fa-trash-o"></i>
+                        </form>
+                    </span>
+                    {% endif %}
+                </div>
+            </td>
+            {% if user|voted_on:proposal.id and proposal.id|user_vote_result:request.user.id == 'con' and arg.proposal_vote.value < 0 %}
+            <td class="argument-vote" data-url="{{arg.get_vote_url}}">
+                <a class="vote-up{% if arg.id|user_ranked_argument:request.user.id == 'pro' %} voted{% endif %}" data-vote-val="up">up vote</a>
+                <span class="vote-count">{{ arg.argument_score }}</span>
+                <a class="vote-down{% if arg.id|user_ranked_argument:request.user.id == 'con' %} voted{% endif %}" data-vote-val="down">down vote</a>
+            </td>
+            {% endif %}
+        </tr>
+    </tbody>
+</table>

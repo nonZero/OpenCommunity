@@ -54,12 +54,7 @@ id="members-list"
 {% endif %}
 
 <div class="col-xs-12 col-sm-6">
-  <h2{% if not invites.count %} class="hide" {% endif %}> {% trans "Invitations" %} </h2>
-  
   <ul id="invitations" class="list-group">
-		{% for object in invites %}
-		{% include 'users/_invitation.html' %}
-		{% endfor %}
 		<li class="clearfix">
 			<h2>{% trans "New invitation" %}</h2>
 			<form method="post" id="invite-form">
@@ -68,6 +63,10 @@ id="members-list"
 				<input class="btn btn-oc" type="submit" value="{% trans "Invite" %}">
 			</form>
 		</li>
+        <h2{% if not invites.count %} class="hide" {% endif %}> {% trans "Open invitations" %} </h2>
+		{% for object in invites %}
+		{% include 'users/_invitation.html' %}
+		{% endfor %}
 	</ul>
 </div>
 

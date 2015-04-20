@@ -37,6 +37,7 @@ class DefaultRoles(object):
                             'communities.viewupcoming_draft',
                             'issues.view_referendum_results',
                             'issues.view_update_status',
+                            'issues.view_straw_vote_result',
                           ]
      
     permissions[PROPOSER] = permissions[PARTICIPANT] + [

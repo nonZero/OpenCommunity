@@ -6,7 +6,9 @@
         {% include "issues/_issue_title.html" %}
     </div>
 
+        {% if not community.no_meetings_community %}
         <h2 class="filter-title pull-left">{% trans "Background" %}</h2>
+        {% endif %}
         <div class="abstracts">
 
             {% if cperms.issues.editclosed_issue or not object.is_archived %}
@@ -78,12 +80,40 @@
     {% endif %}
 
     <div>
+        {% if cperms.issues.add_proposal and not object.is_archived %}
+        {% if not proposals.open %}
+        <h2>{% trans 'Proposals' %}</h2>
+        {% endif %}
+        <div class="row">
+            <div class="col-xs-12">
+                <form method="post" id="quick-proposal-form" action="{% url 'proposal_create' community.id object.id %}">
+                {% csrf_token %}
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="quick-proposal-title" name="proposal-title" placeholder="{% trans 'Type the new proposal title' %}">
+                        <input type="hidden" class="form-control" name="proposal-type" value="3">
+                        <span class="input-group-btn">
+                            <button id="quick-proposal-add" class="btn btn-oc" type="submit" data-append-to=".open-proposals">{% trans "Add" %}</button>
+                        </span>
+                    </div>
+                    <span id="quick-proposal-error" class="help-block"></span>
+                </form>
+            </div>
+        </div>
+        {% endif %}
         <div class="open-proposals filter-upcoming filter">
             {% for proposal in proposals.open %}
                 {% include 'issues/_proposal.html' %}
                 {% if can_straw_vote and not proposal.decided and cperms.issues.vote and user|member_of:community %}
-                    <div class="issue_proposal_vote{% if proposal.is_confidential %} is_confidential{% endif %}">
+                    <div class="issue_proposal_vote{% if proposal.arguments_for or proposal.arguments_against or user|voted_on:proposal.id %} with_arguments{% endif %}{% if proposal.is_confidential %} is_confidential{% endif %}" data-argument-url="{% url 'proposal_more_arguments' proposal.issue.community.id proposal.issue.id proposal.id %}">
                         {% include 'issues/_straw_vote.html' %}
+                        <div class="vote_arguments clearfix clear">
+                            {% if proposal.arguments_for or proposal.arguments_against or user|voted_on:proposal.id %}
+                            {% if proposal.arguments_for or proposal.arguments_against %}
+                            {% include 'issues/_vote_arguments.html' %}
+                            {% endif %}
+                            {% include 'issues/_more_arguments_box.html' %}
+                            {% endif %}
+                        </div>
                     </div>
                 {% elif can_board_vote_self %}
 	                <div class="issue_proposal_vote{% if proposal.is_confidential %} is_confidential{% endif %}">
@@ -94,14 +124,14 @@
         </div>
 
         {% if cperms.issues.add_proposal and not object.is_archived %}
-            <div class="narrow clear filter filter-upcoming">
-                <a class="btn btn-oc btn-lg btn-block" data-rel="form" data-append-to=".open-proposals" href="{% url "proposal_create" community.id object.id %}">{% trans "Add a proposal" %}</a>
-            </div>
+        <div class="narrow clear filter filter-upcoming">
+            <a class="btn btn-oc btn-lg btn-block" data-rel="form" data-append-to=".open-proposals" href="{% url "proposal_create" community.id object.id %}">{% trans "Add a proposal" %}</a>
+        </div>
         {% endif %}
     </div>
 
     <h2 class="filter-title">
-        {% trans "Summary" %}
+        {% trans "Issue discussion summary" %}
     </h2>
     {% if object.active_comments.count or cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
     <div class="issuecomments">
@@ -118,12 +148,13 @@
             {% endfor %}
             {% if cperms.issues.add_issuecomment and object.community.upcoming_meeting_started and object.is_upcoming %}
                 <li class="rich_editor filter-upcoming filter">
-                    <form id="add-comment" method="post">
+                    <span id="comment-status"></span>
+                    <form id="add-comment" method="post" data-comment-id>
                         {% csrf_token %}
                         {{form}}
                         <div class="col-xs-12 text-center rich_editor_box">
-                            <button class="add-comment-btn btn btn-oc btn-lg" disabled="1" style="width: 200px;">
-                                {% trans "Save" %}
+                            <button class="add-comment-btn btn btn-oc btn-lg" disabled="1" style="width: auto;" data-next-issue="{{ object.get_next_upcoming_issue_url }}">
+                                {% trans "Save and go to next issue" %}
                             </button>
                         </div>
                     </form>

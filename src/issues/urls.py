@@ -69,6 +69,30 @@ urlpatterns = patterns('',
     url(r'^vote/(?P<pk>\d+)/multi/$',
         views.MultiProposalVoteView.as_view(), name="multi_votes_on_proposal"),
 
+    url(r'^argument_vote/(?P<pk>\d+)/$',
+        views.ArgumentRankingVoteView.as_view(), name="vote_on_argument"),
+
+    url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/proposal_arguments/$',
+        views.ProposalArgumentsView.as_view(), name="proposal_arguments"),
+
+    url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/proposal_more_arguments/$',
+        views.ProposalMoreArgumentsView.as_view(), name="proposal_more_arguments"),
+
+    url(r'^(?P<vote_id>\d+)/vote-argument-create/$',
+        views.ProposalVoteArgumentCreateView.as_view(), name="create_vote_argument"),
+
+    url(r'^delete-vote-argument/(?P<pk>\d+)/$',
+        views.ProposalVoteArgumentDeleteView.as_view(), name="delete_proposal_argument"),
+
+    url(r'^edit-vote-argument/(?P<pk>\d+)/$',
+        views.ProposalVoteArgumentUpdateView.as_view(), name="edit_proposal_argument"),
+
+    url(r'^get-argument-value/(?P<arg_id>\d+)/$',
+        views.get_argument_value, name="get_argument_value"),
+
+    url(r'^argument-up-down-vote/(?P<pk>\d+)/$',
+        views.ArgumentRankingVoteView.as_view(), name="argument_up_down_vote"),
+
     url(r'^vote_res_panel/(?P<pk>\d+)/$',
         views.VoteResultsView.as_view(), name="vote_results_panel"),
 

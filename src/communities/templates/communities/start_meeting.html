@@ -2,13 +2,23 @@
 {% load i18n %}
 
 {% block page_header %}
+    {% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
+    {% trans "Start update" %}
+    {% else %}
     {% trans "Start meeting" %}
+    {% endif %}
 {% endblock %}
 
 
 
 {% block participants_list %} {% endblock %}  
-{% block btn_text %}{% trans "Start meeting" %}{% endblock %}
+{% block btn_text %}
+{% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
+{% trans "Start update" %}
+{% else %}
+{% trans "Start meeting" %}
+{% endif %}
+{% endblock %}
 
 
 {% block scripts %}

@@ -35,7 +35,9 @@
     {% else %}
         {% if not proposal.decided and proposal.can_show_straw_votes %}
             <li class="check_box_vote{% if proposal.is_confidential %} is_confidential{% endif %}">
+            {% if cperms.issues.view_straw_vote_result %}
             <canvas id="proposal{{ proposal.id }}Chart" height="40px" width="40px"></canvas>
+            {% endif %}
         {% else %}
            <li class="check_box{% if proposal.is_confidential %}_confidential{% endif %}">
        {% endif %}

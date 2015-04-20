@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block extra-page-id %}
-    id="issue-create"
+id="issue-create"
 {% endblock %}
 
 {% block form_name %}
@@ -14,15 +14,31 @@
 {% endblock modal_content_classes %}
 
 {% block page_header %}
-    {% if form.instance.id %}
-        {% trans "Edit issue" %}
-    {% else %}
-        {% trans "New issue" %}
-    {% endif %}
+{% if form.instance.id %}
+{% trans "Edit issue" %}
+{% else %}
+{% trans "New issue" %}
+{% endif %}
 {% endblock %}
 
 {% block content %}
 
-    {{ form }}
+{{ form }}
 
 {% endblock %}
+
+{% if form.instance.id %}
+{% block nofooter %}
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+    <button type="submit" id="issue_edit_submit" data-toggle data-target class="btn btn-oc">{% trans 'Save' %}</button>
+    <div class="collapse" id="confidentialVerification">
+        <hr>
+        <div class="text-center">
+            <p>{% trans "Are you sure you want to remove the confidentiality" %}?</p>
+            <button type="submit" class="btn btn-oc">{% trans 'I am positive' %}</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% endif %}

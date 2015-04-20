@@ -25,7 +25,11 @@
 
                 <li class="dropdown{% if meeting %} active{% endif %}">
                     <a role="button" data-toggle="dropdown" href="#">
+                        {% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
+                        {% trans "Updates" %}
+                        {% else %}
                         {% trans "Meetings" %}
+                        {% endif %}
                     <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu" role="menu">

@@ -8,7 +8,7 @@
 </div>
 {% endif %}
 
-<div class="proposal" data-id="{{object.id}}" data-accepted="{{object.status}}">
+<div class="proposal" data-id="{{object.id}}" data-accepted="{{object.status}}" data-argument-url="{% url 'proposal_arguments' object.issue.community.id object.issue.id object.id %}">
 
     <div class="pull-right">
 	    {% if cperms.issues.view_proposal_in_discussion or not proposal.is_open %}
@@ -112,17 +112,26 @@
 		</h5>
 	</div>
 </div>
-
     {% with proposal=object c=proposal.issue.community %}
         {% if proposal.can_straw_vote and cperms.issues.vote and user|member_of:c %}
             {% include 'issues/_straw_vote.html' %}
         {% endif %}
-        {% if proposal.can_show_straw_votes %}
+        {% if not proposal.can_straw_vote and object.issue.community.upcoming_meeting_started %}
+        <div class="change_vote vote_ended text-center vote-btns">
+            <span>{% trans "Vote ended" %}!</span>
+        </div>
+        {% endif %}
+        {% if proposal.can_show_straw_votes and cperms.issues.view_straw_vote_result %}
             <div id="results_container" class="clear">
             	<h2>{% trans "Straw vote result" %}</h2>
                 {% include 'issues/_proposal_vote_results.html' %}
             </div>
         {% endif %}
+            <div class="vote_arguments clearfix clear">
+            {% if proposal.has_arguments or user|voted_on:proposal.id %}
+                {% include 'issues/_vote_arguments.html' %}
+            {% endif %}
+            </div>
         {% if can_board_vote_self and not proposal.decided %}
             {% include 'issues/_board_vote_self.html' %}
         {% endif %}
