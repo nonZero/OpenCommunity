@@ -178,7 +178,6 @@ class AcceptInvitationView(DetailView):
         return self.get(request, *args, **kwargs)
 
 
-
 class AutocompleteMemberName(MembershipMixin, ListView):
 
     required_permission = 'issues.editopen_issue'
@@ -199,7 +198,6 @@ class AutocompleteMemberName(MembershipMixin, ListView):
                 return None
 
         return members
-
 
     def get(self, request, *args, **kwargs):
 
@@ -249,7 +247,6 @@ class ImportInvitationsView(MembershipMixin, FormView):
 
     def get(self, request, *args, **kwargs):
         return self.render_to_response(self.get_context_data(import_invitation_form=self.get_form(self.form_class)))
-
 
     def form_valid(self, form):
         msg = 'def message'

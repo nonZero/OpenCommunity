@@ -23,7 +23,7 @@ def get_guests_emails(guests_text):
                 from_idx = line.find('[')
                 to_idx = line.find(']', from_idx + 1)
                 try:
-                    guest_emails.append(line[from_idx+1:to_idx])
+                    guest_emails.append(line[from_idx + 1:to_idx])
                 except:
                     pass
     return guest_emails
@@ -91,7 +91,6 @@ def _base_send_mail(community, notification_type, sender, send_to, data=None,
     w = []
 
     if send_to != SendToOption.ONLY_ME:
-
         # Add guests to the watcher_recipients list if applicable
         if with_guests:
             guests_text = community.upcoming_meeting_guests
@@ -101,7 +100,7 @@ def _base_send_mail(community, notification_type, sender, send_to, data=None,
 
         # Add system managers to the watcher_recipients list if applicable
         if community.inform_system_manager and \
-           notification_type in ('agenda', 'protocol', 'protocol_draft'):
+                        notification_type in ('agenda', 'protocol', 'protocol_draft'):
             manager_emails = [manager[1] for manager in settings.MANAGERS]
             managers = construct_mock_users(manager_emails, 'managers')
             w.extend(managers)
@@ -111,7 +110,7 @@ def _base_send_mail(community, notification_type, sender, send_to, data=None,
             # pending invites to board only
             if send_to == SendToOption.BOARD_ONLY:
                 invitees = [i for i in community.invitations.exclude(
-                            default_group_name=DefaultGroups.MEMBER)]
+                    default_group_name=DefaultGroups.MEMBER)]
 
             # All pending invites
             elif send_to == SendToOption.ALL_MEMBERS:
@@ -140,7 +139,6 @@ def _base_send_mail(community, notification_type, sender, send_to, data=None,
     from_email = "%s <%s>" % (community.name, settings.FROM_EMAIL)
 
     for recipient in recipients:
-
         # TODO: All this logic for populating the context is basically copied
         # from the same code in the views. This is not ideal, but without
         # doing a refactor over great parts of the system it seems reasonable.
@@ -154,9 +152,8 @@ def _base_send_mail(community, notification_type, sender, send_to, data=None,
             draft_agenda_payload = []
             issue_status = IssueStatus.IS_UPCOMING
             issues = community.issues.object_access_control(
-                    user=recipient, community=community).filter(
-                    active=True, status__in=(issue_status)).order_by(
-                    'order_in_upcoming_meeting')
+                user=recipient, community=community).filter(
+                active=True, status__in=issue_status).order_by('order_in_upcoming_meeting')
 
             for issue in issues:
                 proposals = issue.proposals.object_access_control(
@@ -175,10 +172,8 @@ def _base_send_mail(community, notification_type, sender, send_to, data=None,
             })
 
         elif notification_type == 'protocol':
-
             agenda_items = d['meeting'].agenda.object_access_control(
                 user=recipient, community=community).all()
-
             # restrict the proposals of each agenda item
             for ai in agenda_items:
                 ai.accepted_proposals = ai.accepted_proposals(
@@ -192,12 +187,11 @@ def _base_send_mail(community, notification_type, sender, send_to, data=None,
                 'recipient': recipient,
                 'agenda_items': agenda_items,
             })
-
         elif notification_type == 'agenda':
 
             can_straw_vote = community.upcoming_proposals_any(
-                 {'is_open': True}, user=recipient, community=community)\
-            and community.upcoming_meeting_is_published
+                {'is_open': True}, user=recipient, community=community) \
+                             and community.upcoming_meeting_is_published
             upcoming_issues = community.upcoming_issues(user=recipient,
                                                         community=community)
             issues = []
@@ -214,11 +208,9 @@ def _base_send_mail(community, notification_type, sender, send_to, data=None,
             })
 
         msg = {}
-        msg['subject'] = render_to_string("emails/{0}_title.txt".format(
-            notification_type), d).strip()
+        msg['subject'] = render_to_string("emails/{0}_title.txt".format(notification_type), d).strip()
         msg['body'] = render_to_string("emails/{0}.txt".format(notification_type), d)
-        as_html = render_to_string("emails/{0}.html".format(
-            notification_type), d)
+        as_html = render_to_string("emails/{0}.html".format(notification_type), d)
         msg['from_email'] = from_email
         msg['to'] = [recipient.email]
         msg = dict((k, v) for k, v in msg.iteritems() if v)

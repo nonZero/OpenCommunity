@@ -15,7 +15,6 @@ from communities.notifications import send_mail
 
 
 class MeetingMixin(CommunityMixin):
-
     model = models.Meeting
 
     def get_queryset(self):
@@ -24,6 +23,7 @@ class MeetingMixin(CommunityMixin):
 
 class MeetingList(MeetingMixin, RedirectView):
     required_permission = 'meetings.view_meeting'
+    permanent = True
 
     def get_redirect_url(self, **kwargs):
         o = models.Meeting.objects.filter(community=self.community).latest('held_at')
@@ -44,7 +44,7 @@ class MeetingDetailView(MeetingMixin, DetailView):
         o = self.get_object()
         d['guest_list'] = o.get_guest_list()
         d['total_participants'] = len(d['guest_list']) + o.participations \
-                                    .filter(is_absent=False).count()
+            .filter(is_absent=False).count()
         d['agenda_items'] = self.object.agenda.object_access_control(
             user=self.request.user, community=self.community).all()
         for ai in d['agenda_items']:
@@ -103,13 +103,11 @@ class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
             user=self.request.user, community=self.community)
         return kwargs
 
-
     def form_valid(self, form):
         # archive selected issues
         m = self.community.close_meeting(form.instance, self.request.user, self.community)
         Issue.objects.filter(id__in=form.cleaned_data['issues']).update(
-                  completed=True, status=IssueStatus.ARCHIVED)
-        total = send_mail(self.community, 'protocol', self.request.user,
-                           form.cleaned_data['send_to'], {'meeting': m})
+            completed=True, status=IssueStatus.ARCHIVED)
+        total = send_mail(self.community, 'protocol', self.request.user, form.cleaned_data['send_to'], {'meeting': m})
         messages.info(self.request, _("Sending to %d users") % total)
         return HttpResponse(m.get_absolute_url())

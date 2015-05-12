@@ -1,87 +1,86 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+from django.db import models, migrations
 import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+import users.models
+import django.utils.timezone
+from django.conf import settings
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'OCUser'
-        db.create_table(u'users_ocuser', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('password', self.gf('django.db.models.fields.CharField')(max_length=128)),
-            ('last_login', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
-            ('is_superuser', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('email', self.gf('django.db.models.fields.EmailField')(unique=True, max_length=255, db_index=True)),
-            ('display_name', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('is_active', self.gf('django.db.models.fields.BooleanField')(default=True)),
-            ('is_staff', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('date_joined', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
-        ))
-        db.send_create_signal(u'users', ['OCUser'])
+    dependencies = [
+        ('auth', '0006_require_contenttypes_0002'),
+        ('communities', '0001_initial'),
+    ]
 
-        # Adding M2M table for field groups on 'OCUser'
-        db.create_table(u'users_ocuser_groups', (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('ocuser', models.ForeignKey(orm[u'users.ocuser'], null=False)),
-            ('group', models.ForeignKey(orm[u'auth.group'], null=False))
-        ))
-        db.create_unique(u'users_ocuser_groups', ['ocuser_id', 'group_id'])
-
-        # Adding M2M table for field user_permissions on 'OCUser'
-        db.create_table(u'users_ocuser_user_permissions', (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('ocuser', models.ForeignKey(orm[u'users.ocuser'], null=False)),
-            ('permission', models.ForeignKey(orm[u'auth.permission'], null=False))
-        ))
-        db.create_unique(u'users_ocuser_user_permissions', ['ocuser_id', 'permission_id'])
-    def backwards(self, orm):
-        # Deleting model 'OCUser'
-        db.delete_table(u'users_ocuser')
-
-        # Removing M2M table for field groups on 'OCUser'
-        db.delete_table('users_ocuser_groups')
-
-        # Removing M2M table for field user_permissions on 'OCUser'
-        db.delete_table('users_ocuser_user_permissions')
-
-    models = {
-        u'auth.group': {
-            'Meta': {'object_name': 'Group'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '80'}),
-            'permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'})
-        },
-        u'auth.permission': {
-            'Meta': {'ordering': "(u'content_type__app_label', u'content_type__model', u'codename')", 'unique_together': "((u'content_type', u'codename'),)", 'object_name': 'Permission'},
-            'codename': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'content_type': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['contenttypes.ContentType']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
-        },
-        u'contenttypes.contenttype': {
-            'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
-            'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        },
-        u'users.ocuser': {
-            'Meta': {'object_name': 'OCUser'},
-            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'display_name': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
-            'email': ('django.db.models.fields.EmailField', [], {'unique': 'True', 'max_length': '255', 'db_index': 'True'}),
-            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Group']", 'symmetrical': 'False', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
-            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'})
-        }
-    }
-
-    complete_apps = ['users']
+    operations = [
+        migrations.CreateModel(
+            name='OCUser',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('password', models.CharField(max_length=128, verbose_name='password')),
+                ('last_login', models.DateTimeField(null=True, verbose_name='last login', blank=True)),
+                ('is_superuser', models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')),
+                ('email', models.EmailField(unique=True, max_length=255, verbose_name='email address', db_index=True)),
+                ('display_name', models.CharField(max_length=200, verbose_name='Your name')),
+                ('is_active', models.BooleanField(default=True)),
+                ('is_staff', models.BooleanField(default=False, help_text='Designates whether the user can log into this admin site.', verbose_name='staff status')),
+                ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
+                ('groups', models.ManyToManyField(related_query_name='user', related_name='user_set', to='auth.Group', blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', verbose_name='groups')),
+                ('user_permissions', models.ManyToManyField(related_query_name='user', related_name='user_set', to='auth.Permission', blank=True, help_text='Specific permissions for this user.', verbose_name='user permissions')),
+            ],
+            options={
+                'verbose_name': 'user',
+                'verbose_name_plural': 'users',
+            },
+        ),
+        migrations.CreateModel(
+            name='Invitation',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Created at')),
+                ('name', models.CharField(max_length=200, null=True, verbose_name='Name', blank=True)),
+                ('email', models.EmailField(max_length=254, verbose_name='Email')),
+                ('message', models.TextField(null=True, verbose_name='Message', blank=True)),
+                ('code', models.CharField(default=users.models.create_code, max_length=48)),
+                ('default_group_name', models.CharField(max_length=50, verbose_name='Group', choices=[(b'member', 'member'), (b'board', 'board'), (b'secretary', 'secretary'), (b'chairman', 'chairman')])),
+                ('status', models.PositiveIntegerField(default=0, verbose_name='Status', choices=[(0, 'Pending'), (1, 'Sent'), (2, 'Failed')])),
+                ('times_sent', models.PositiveIntegerField(default=0, verbose_name='Times Sent')),
+                ('error_count', models.PositiveIntegerField(default=0, verbose_name='Error count')),
+                ('last_sent_at', models.DateTimeField(null=True, verbose_name='Sent at', blank=True)),
+                ('community', models.ForeignKey(related_name='invitations', verbose_name='Community', to='communities.Community')),
+                ('created_by', models.ForeignKey(related_name='invitations_created', verbose_name='Created by', to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(related_name='invitations', verbose_name='User', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+            ],
+            options={
+                'verbose_name': 'Invitation',
+                'verbose_name_plural': 'Invitations',
+            },
+        ),
+        migrations.CreateModel(
+            name='Membership',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('default_group_name', models.CharField(max_length=50, verbose_name='Group', choices=[(b'member', 'member'), (b'board', 'board'), (b'secretary', 'secretary'), (b'chairman', 'chairman')])),
+                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Created at')),
+                ('in_position_since', models.DateField(default=datetime.date(2015, 5, 12), verbose_name='In position since')),
+                ('community', models.ForeignKey(related_name='memberships', verbose_name='Community', to='communities.Community')),
+                ('invited_by', models.ForeignKey(related_name='members_invited', verbose_name='Invited by', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+                ('user', models.ForeignKey(related_name='memberships', verbose_name='User', to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'verbose_name': 'Community Member',
+                'verbose_name_plural': 'Community Members',
+            },
+        ),
+        migrations.AlterUniqueTogether(
+            name='membership',
+            unique_together=set([('community', 'user')]),
+        ),
+        migrations.AlterUniqueTogether(
+            name='invitation',
+            unique_together=set([('community', 'email')]),
+        ),
+    ]

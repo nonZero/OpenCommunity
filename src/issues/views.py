@@ -1,5 +1,4 @@
 from django.contrib.auth.views import redirect_to_login
-from django.core.urlresolvers import reverse_lazy
 from django.db.models.aggregates import Max
 from django.http.response import HttpResponse, HttpResponseBadRequest, \
     HttpResponseForbidden
@@ -23,18 +22,14 @@ from ocd.validation import enhance_html
 from ocd.base_managers import ConfidentialSearchQuerySet
 from shultze_vote import send_issue_ranking
 from users.default_roles import DefaultGroups
-from users.models import Membership
 from users.permissions import has_community_perm
-from haystack.views import SearchView
 from haystack.inputs import AutoQuery
-from haystack.utils import Highlighter
 import json
 import mimetypes
 from datetime import date
 
 
 class IssueMixin(CommunityMixin):
-
     model = models.Issue
 
     def get_queryset(self):
@@ -45,7 +40,6 @@ class IssueMixin(CommunityMixin):
 
 
 class ProposalMixin(IssueMixin):
-
     model = models.Proposal
 
     def get_queryset(self):
@@ -68,7 +62,6 @@ class ProposalMixin(IssueMixin):
 
 
 class IssueList(IssueMixin, ListView):
-
     required_permission = 'issues.viewopen_issue'
 
     def get_queryset(self):
@@ -104,7 +97,6 @@ class IssueList(IssueMixin, ListView):
                     user=self.request.user, community=self.community)
         return d
 
-
     required_permission_for_post = 'issues.vote_ranking'
 
     def post(self, request, *args, **kwargs):
@@ -114,7 +106,6 @@ class IssueList(IssueMixin, ListView):
 
 
 class IssueDetailView(IssueMixin, DetailView):
-
     def get_required_permission(self):
         o = self.get_object()
         return 'issues.viewclosed_issue' if o.is_published else \
@@ -167,7 +158,6 @@ class IssueDetailView(IssueMixin, DetailView):
 
         return d
 
-
     required_permission_for_post = 'issues.add_issuecomment'
 
 
@@ -181,24 +171,24 @@ class IssueDetailView(IssueMixin, DetailView):
         comment_id = request.POST.get('comment_id', None)
         try:
             c = i.comments.get(pk=int(comment_id))
-            c.content=enhance_html(form.cleaned_data['content'])
+            c.content = enhance_html(form.cleaned_data['content'])
             c.save()
             return json_response({'comment_id': c.id})
         except:
             c = i.comments.create(content=enhance_html(form.cleaned_data['content']),
                                   created_by=request.user)
             return json_response({'comment_id': c.id})
-        # if comment_id == '':
-        #     c = i.comments.create(content=enhance_html(form.cleaned_data['content']),
-        #                           created_by=request.user)
-        #
-        #     self.object = i  # this makes the next line work
-        #     context = self.get_context_data(object=i, c=c)
-        #     return render(request, 'issues/_comment.html', context)
-        # else:
-        #     c = i.comments.get(pk=int(comment_id))
-        #     c.content=enhance_html(form.cleaned_data['content'])
-        #     return json_response({'comment_id': c.id})
+            # if comment_id == '':
+            # c = i.comments.create(content=enhance_html(form.cleaned_data['content']),
+            # created_by=request.user)
+            #
+            #     self.object = i  # this makes the next line work
+            #     context = self.get_context_data(object=i, c=c)
+            #     return render(request, 'issues/_comment.html', context)
+            # else:
+            #     c = i.comments.get(pk=int(comment_id))
+            #     c.content=enhance_html(form.cleaned_data['content'])
+            #     return json_response({'comment_id': c.id})
 
 
 class IssueCommentMixin(CommunityMixin):
@@ -214,7 +204,6 @@ class IssueCommentMixin(CommunityMixin):
 
 
 class IssueCommentDeleteView(IssueCommentMixin, DeleteView):
-
     def post(self, request, *args, **kwargs):
         o = self.get_object()
         o.active = 'undelete' in request.POST
@@ -223,7 +212,6 @@ class IssueCommentDeleteView(IssueCommentMixin, DeleteView):
 
 
 class IssueCommentEditView(IssueCommentMixin, UpdateView):
-
     form_class = forms.EditIssueCommentForm
 
     def form_valid(self, form):
@@ -280,7 +268,6 @@ class IssueCreateView(AjaxFormView, IssueMixin, CreateView):
 
 
 class IssueEditView(AjaxFormView, IssueMixin, UpdateView):
-
     required_permission = 'issues.editopen_issue'
 
     form_class = UpdateIssueForm
@@ -301,7 +288,6 @@ class IssueEditView(AjaxFormView, IssueMixin, UpdateView):
 
 
 class IssueEditAbstractView(AjaxFormView, IssueMixin, UpdateView):
-
     required_permission = 'issues.editopen_issue'
 
     form_class = UpdateIssueAbstractForm
@@ -313,7 +299,6 @@ class IssueEditAbstractView(AjaxFormView, IssueMixin, UpdateView):
 
 
 class IssueCompleteView(IssueMixin, SingleObjectMixin, View):
-
     required_permission = 'meetings.add_meeting'
 
     def post(self, request, *args, **kwargs):
@@ -334,7 +319,6 @@ class IssueCompleteView(IssueMixin, SingleObjectMixin, View):
 
 
 class IssueSetLengthView(IssueMixin, SingleObjectMixin, View):
-
     required_permission = 'community.editagenda_community'
 
     def post(self, request, *args, **kwargs):
@@ -355,7 +339,6 @@ class IssueSetLengthView(IssueMixin, SingleObjectMixin, View):
 
 
 class IssueDeleteView(AjaxFormView, IssueMixin, DeleteView):
-
     def get_required_permission(self):
         o = self.get_object()
         if o.is_published:
@@ -408,7 +391,6 @@ class AttachmentDeleteView(AjaxFormView, CommunityMixin, DeleteView):
 
 
 class AttachmentDownloadView(CommunityMixin, SingleObjectMixin, View):
-
     model = models.IssueAttachment
 
     def get_required_permission(self):
@@ -426,7 +408,6 @@ class AttachmentDownloadView(CommunityMixin, SingleObjectMixin, View):
 
 
 class ProposalCreateView(AjaxFormView, ProposalMixin, CreateView):
-
     reload_on_success = True
 
     def get_required_permission(self):
@@ -464,7 +445,6 @@ class ProposalCreateView(AjaxFormView, ProposalMixin, CreateView):
 
 
 class ProposalDetailView(ProposalMixin, DetailView):
-
     def get_required_permission(self):
         p = self.get_object()
         return 'issues.viewclosed_proposal' if p.decided_at_meeting else 'issues.viewopen_proposal'
@@ -642,7 +622,6 @@ class ProposalCompletedTaskView(ProposalMixin, UpdateView):
 
 
 class ProposalDeleteView(AjaxFormView, ProposalMixin, DeleteView):
-
     def get_required_permission(self):
         o = self.get_object()
         if o.decided_at_meeting:
@@ -769,7 +748,8 @@ class ProposalVoteView(ProposalVoteMixin, DetailView):
             vote = get_object_or_404(vote_class,
                                      proposal_id=pid, user_id=user_id)
             vote.delete()
-            related_arguments = ProposalVoteArgumentRanking.objects.filter(user=request.user, argument__proposal_vote__proposal=proposal)
+            related_arguments = ProposalVoteArgumentRanking.objects.filter(user=request.user,
+                                                                           argument__proposal_vote__proposal=proposal)
             if related_arguments.count():
                 related_arguments.delete()
             vote_response['html'] = render_to_string(vote_panel_tpl,
@@ -905,7 +885,7 @@ class RankingVoteMixin(ProposalVoteMixin):
         vote_map = {
             'up': 1,
             'down': -1,
-            }
+        }
         if type(key) != int:
             try:
                 return vote_map[key]
@@ -921,6 +901,7 @@ class RankingVoteMixin(ProposalVoteMixin):
 class ArgumentRankingVoteView(RankingVoteMixin, DetailView):
     required_permission_for_post = 'issues.vote'
     model = models.ProposalVoteArgument
+
     def post(self, request, *args, **kwargs):
 
         user_id = request.POST.get('user', request.user.id)
@@ -943,7 +924,6 @@ class ArgumentRankingVoteView(RankingVoteMixin, DetailView):
 
 
 def up_down_vote(request, community_id, arg_id):
-
     if request.method != "POST":
         raise Exception("Must be POST")
 
@@ -977,8 +957,8 @@ class ProposalVoteArgumentCreateView(CreateView):
 
     # def form_valid(self, form):
     # form.instance.proposal_vote = ProposalVote.objects.get(pk=self.kwargs['vote_id'])
-    #     form.instance.created_by = self.request.user
-    #     return super(ProposalVoteArgumentCreateView, self).form_valid(form)
+    # form.instance.created_by = self.request.user
+    # return super(ProposalVoteArgumentCreateView, self).form_valid(form)
     #
     # def form_invalid(self, form):
     #     return HttpResponse("000")
@@ -1125,7 +1105,6 @@ class AssignmentsView(ProposalMixin, ListView):
 
 
 class RulesMixin(CommunityMixin):
-
     def _get_rule_queryset(self):
         qs = Proposal.objects.object_access_control(user=self.request.user,
                                                     community=self.community).filter(

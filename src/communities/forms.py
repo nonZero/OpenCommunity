@@ -1,11 +1,9 @@
 from communities.models import Community, SendToOption
 from datetime import datetime, date, time
-from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from ocd.formfields import HTMLArea, OCSplitDateTime, OCCheckboxSelectMultiple
-from users.models import OCUser, Membership
-import floppyforms as forms
-from haystack.forms import SearchForm, ModelSearchForm
+import floppyforms.__future__ as forms
+from haystack.forms import ModelSearchForm
 
 
 class EditUpcomingMeetingForm(forms.ModelForm):

@@ -21,7 +21,6 @@ logger = logging.getLogger(__name__)
 
 
 class OCUserManager(BaseUserManager):
-
     @classmethod
     def normalize_email(cls, email):
         return email.lower()
@@ -56,8 +55,8 @@ class OCUserManager(BaseUserManager):
         password.
         """
         user = self.create_user(email,
-            password=password,
-            display_name=display_name
+                                password=password,
+                                display_name=display_name
         )
         user.is_superuser = True
         user.is_staff = True
@@ -67,13 +66,13 @@ class OCUserManager(BaseUserManager):
 
 class OCUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), max_length=255, unique=True,
-        db_index=True,
+                              db_index=True,
     )
     display_name = models.CharField(_("Your name"), max_length=200)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(_('staff status'), default=False,
-           help_text=_('Designates whether the user can log into this admin '
-                    'site.'))
+                                   help_text=_('Designates whether the user can log into this admin '
+                                               'site.'))
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
     objects = OCUserManager()
@@ -111,12 +110,12 @@ class OCUser(AbstractBaseUser, PermissionsMixin):
 
 class MembershipManager(models.Manager):
     def board(self):
-        return self.get_query_set().exclude(
-                                    default_group_name=DefaultGroups.MEMBER)
+        return self.get_queryset().exclude(
+            default_group_name=DefaultGroups.MEMBER)
 
     def none_board(self):
-        return self.get_query_set().filter(
-                                    default_group_name=DefaultGroups.MEMBER)
+        return self.get_queryset().filter(
+            default_group_name=DefaultGroups.MEMBER)
 
 
 class Membership(models.Model):
@@ -133,8 +132,7 @@ class Membership(models.Model):
                                    verbose_name=_("Invited by"),
                                    related_name="members_invited", null=True,
                                    blank=True)
-    in_position_since = models.DateField(default=datetime.date.today(),
-                                         verbose_name=_("In position since"))
+    in_position_since = models.DateField(default=timezone.now, verbose_name=_("In position since"))
     objects = MembershipManager()
 
     class Meta:
@@ -169,16 +167,20 @@ class Membership(models.Model):
 
     def member_open_tasks(self, user=None, community=None):
         return Proposal.objects.object_access_control(
-            user=user, community=community).filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, active=True, task_completed=False).exclude(due_by__lte=datetime.date.today())
+            user=user, community=community).filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user,
+                                                   active=True, task_completed=False).exclude(
+            due_by__lte=datetime.date.today())
 
     def member_close_tasks(self, user=None, community=None):
         """ Need to create a field to determine closed tasks """
         return Proposal.objects.object_access_control(
-            user=user, community=community).filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, active=True, task_completed=True)
+            user=user, community=community).filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user,
+                                                   active=True, task_completed=True)
 
     def member_late_tasks(self, user=None, community=None):
         return Proposal.objects.object_access_control(
-            user=user, community=community).filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user, due_by__lte=datetime.date.today(), active=True, task_completed=False)
+            user=user, community=community).filter(status=ProposalStatus.ACCEPTED, assigned_to_user=self.user,
+                                                   due_by__lte=datetime.date.today(), active=True, task_completed=False)
 
     def member_votes_dict(self):
         res = {'pro': {}, 'neut': {}, 'con': {}}
@@ -186,11 +188,12 @@ class Membership(models.Model):
         con_count = 0
         neut_count = 0
         votes = self.user.board_votes.select_related('proposal') \
-              .filter(proposal__issue__community_id=self.community_id,
-                      proposal__register_board_votes=True,
-                      proposal__active=True,
-                      proposal__decided_at_meeting__held_at__gte=self.in_position_since) \
-              .exclude(proposal__status=ProposalStatus.IN_DISCUSSION).order_by('-proposal__issue__created_at', 'proposal__id')
+            .filter(proposal__issue__community_id=self.community_id,
+                    proposal__register_board_votes=True,
+                    proposal__active=True,
+                    proposal__decided_at_meeting__held_at__gte=self.in_position_since) \
+            .exclude(proposal__status=ProposalStatus.IN_DISCUSSION).order_by('-proposal__issue__created_at',
+                                                                             'proposal__id')
         for v in votes:
             if not v.proposal.register_board_votes:
                 continue
@@ -213,20 +216,22 @@ class Membership(models.Model):
 
     def _user_board_votes(self):
         return self.user.board_votes.select_related('proposal').filter(proposal__issue__community_id=self.community_id,
-                      proposal__active=True,
-                      proposal__register_board_votes=True,
-                      proposal__decided_at_meeting__held_at__gte=self.in_position_since)
+                                                                       proposal__active=True,
+                                                                       proposal__register_board_votes=True,
+                                                                       proposal__decided_at_meeting__held_at__gte=self.in_position_since)
 
     def member_proposal_pro_votes_accepted(self):
         return self._user_board_votes().filter(value=ProposalVoteValue.PRO,
-                                              proposal__status=ProposalStatus.ACCEPTED)
+                                               proposal__status=ProposalStatus.ACCEPTED)
+
     def member_proposal_con_votes_rejected(self):
         return self._user_board_votes().filter(value=ProposalVoteValue.CON,
-                                              proposal__status=ProposalStatus.REJECTED)
+                                               proposal__status=ProposalStatus.REJECTED)
 
     def member_proposal_nut_votes_accepted(self):
         return self._user_board_votes().filter(value=ProposalVoteValue.NEUTRAL,
-                                              proposal__status=ProposalStatus.ACCEPTED)
+                                               proposal__status=ProposalStatus.ACCEPTED)
+
 
 CODE_CHARS = string.lowercase + string.digits
 
@@ -244,10 +249,10 @@ class EmailStatus(object):
     FAILED = 2
 
     choices = (
-               (PENDING, _('Pending')),
-               (SENT, _('Sent')),
-               (FAILED, _('Failed')),
-               )
+        (PENDING, _('Pending')),
+        (SENT, _('Sent')),
+        (FAILED, _('Failed')),
+    )
 
 
 class Invitation(models.Model):
@@ -273,7 +278,7 @@ class Invitation(models.Model):
                                           choices=DefaultGroups.CHOICES)
 
     status = models.PositiveIntegerField(_("Status"),
-                     choices=EmailStatus.choices, default=EmailStatus.PENDING)
+                                         choices=EmailStatus.choices, default=EmailStatus.PENDING)
     times_sent = models.PositiveIntegerField(_("Times Sent"), default=0)
     error_count = models.PositiveIntegerField(_("Error count"), default=0)
     last_sent_at = models.DateTimeField(_("Sent at"), null=True, blank=True)
@@ -303,10 +308,10 @@ class Invitation(models.Model):
 
         subject = _("Invitation to %s") % self.community.name
         d = {
-              'base_url': base_url,
-              'object': self,
-              'recipient_name': recipient_name,
-             }
+            'base_url': base_url,
+            'object': self,
+            'recipient_name': recipient_name,
+        }
 
         message = render_to_string("emails/invitation.txt", d)
         recipient_list = [self.email]

@@ -1,11 +1,9 @@
-from communities.models import CommunityConfidentialReason
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from issues import models
 from issues.models import ProposalType
 from ocd.formfields import HTMLArea, OCIssueRadioButtons, OCProposalRadioButtons
-from users.models import OCUser
-import floppyforms as forms
+import floppyforms.__future__ as forms
 
 
 class CreateIssueForm(forms.ModelForm):

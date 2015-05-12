@@ -7,7 +7,7 @@ TEMPLATE_DEBUG = DEBUG
 QA_SERVER = False  # triggers minor UI changes
 
 PROJECT_DIR = os.path.abspath(
-                      os.path.join(os.path.dirname(__file__), '..', '..'))
+    os.path.join(os.path.dirname(__file__), '..', '..'))
 
 ABSDIR = lambda path: os.path.abspath(os.path.join(PROJECT_DIR, path))
 
@@ -60,7 +60,7 @@ USE_L10N = True
 if 'test' in sys.argv:
     DATABASES['default'] = {'ENGINE': 'django.db.backends.sqlite3'}
     TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-    LANGUAGE_CODE ='en'
+    LANGUAGE_CODE = 'en'
 LOCALE_PATHS = (
     ABSDIR('src/ocd/locale'),
 )
@@ -71,11 +71,11 @@ USE_TZ = True
 UPLOAD_PATH = ABSDIR('uploads')
 
 UPLOAD_ALLOWED_EXTS = [
-                       'pdf', 'txt', 'doc', 'docx', 'xls', 'xlsx', 'csv',
-                       'jpg', 'jpeg', 'gif', 'png', 'tiff', 'ppt', 'pptx',
-                       'rtf', 'mp3', 'wav', 'flac', 'm4a', 'wma', 'aac',
-                       'fla', 'mp4', 'mov', 'avi', 'wmv',
-                      ]
+    'pdf', 'txt', 'doc', 'docx', 'xls', 'xlsx', 'csv',
+    'jpg', 'jpeg', 'gif', 'png', 'tiff', 'ppt', 'pptx',
+    'rtf', 'mp3', 'wav', 'flac', 'm4a', 'wma', 'aac',
+    'fla', 'mp4', 'mov', 'avi', 'wmv',
+]
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
@@ -109,7 +109,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -119,21 +119,44 @@ SECRET_KEY = '!9cmmoa+#@=9o33n+wf+kf)))u6!0b)z(l-h-sq4sk*jv9&^6*'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    # 'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-    # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
 )
 
 ROOT_URLCONF = 'ocd.urls'
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': ['ocd/templates', ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.core.context_processors.debug',
+                'django.core.context_processors.i18n',
+                'django.core.context_processors.media',
+                'django.core.context_processors.static',
+                'django.core.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                'ocd.context_processors.analytics',
+                'ocd.context_processors.smart_404',
+            ],
+        },
+    },
+]
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'ocd.wsgi.application'
@@ -146,19 +169,17 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    #'django.contrib.sites',
+    # 'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.admin',
-    'django.contrib.admindocs',
+    # 'django.contrib.admindocs',
     'django.contrib.humanize',
-
     'django_rq',
     'floppyforms',
-    'south',
     'django_nose',
     'django_extensions',
     'debug_toolbar',
@@ -173,9 +194,7 @@ INSTALLED_APPS = (
 
 )
 
-
 AUTH_USER_MODEL = 'users.OCUser'
-
 
 HAYSTACK_CONNECTIONS = {
     'default': {
@@ -209,7 +228,7 @@ LOGGING = {
         'console': {
             'class': 'logging.StreamHandler',
         },
-     },
+    },
     'loggers': {
         'django.request': {
             'handlers': ['mail_admins', 'console'],
@@ -232,18 +251,18 @@ DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,
 }
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'django.core.context_processors.tz',
-    'django.core.context_processors.request',
-    'django.contrib.messages.context_processors.messages',
-    'ocd.context_processors.analytics',
-    'ocd.context_processors.smart_404',
-)
+# TEMPLATE_CONTEXT_PROCESSORS = (
+# 'django.contrib.auth.context_processors.auth',
+#     'django.core.context_processors.debug',
+#     'django.core.context_processors.i18n',
+#     'django.core.context_processors.media',
+#     'django.core.context_processors.static',
+#     'django.core.context_processors.tz',
+#     'django.core.context_processors.request',
+#     'django.contrib.messages.context_processors.messages',
+#     'ocd.context_processors.analytics',
+#     'ocd.context_processors.smart_404',
+# )
 
 SESSION_REMEMBER_DAYS = 45
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
@@ -268,7 +287,7 @@ OPENCOMMUNITY_ANALYTICS = {
     },
     # Uncomment & configure for Google Analytics tracking
     # 'ga': {
-    #     'id': 'UA-00000000-0'
+    # 'id': 'UA-00000000-0'
     #     'url': 'domain.com'
     # }
 }
@@ -299,4 +318,3 @@ except ImportError:
 RQ_QUEUES = {
     QUEUE_NAME: REDIS['default'],
 }
-

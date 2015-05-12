@@ -1,26 +1,27 @@
-#from django import forms
+# from django import forms
 #from django.forms.models import ModelForm
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from ocd.formfields import HTMLArea
 from users.models import Invitation, OCUser
-import floppyforms as forms
+import floppyforms.__future__ as forms
 
 
 LOGIN_ERROR = _("Please enter a correct %(username)s and password. "
-                           "Note that both fields may be case-sensitive.")
+                "Note that both fields may be case-sensitive.")
+
 
 class InvitationForm(forms.ModelForm):
-
     class Meta:
         model = Invitation
 
         fields = (
-                  'name',
-                  'email',
-                  'default_group_name',
-                  'message',
-                  )
+            'name',
+            'email',
+            'default_group_name',
+            'message',
+        )
 
         widgets = {
             'default_group_name': forms.Select,
@@ -28,13 +29,12 @@ class InvitationForm(forms.ModelForm):
             'email': forms.EmailInput,
             'message': HTMLArea,
         }
-    
+
     def clean_email(self):
         return self.cleaned_data.get("email").lower()
 
 
 class QuickSignupForm(forms.ModelForm):
-
     password1 = forms.CharField(label=_('Password'), widget=forms.PasswordInput)
     password2 = forms.CharField(label=_('Password confirmation'), widget=forms.PasswordInput)
 
@@ -42,8 +42,8 @@ class QuickSignupForm(forms.ModelForm):
         model = OCUser
 
         fields = (
-                  'display_name',
-                  )
+            'display_name',
+        )
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -57,29 +57,30 @@ class QuickSignupForm(forms.ModelForm):
         # Save the provided password in hashed format
         user = super(QuickSignupForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
+        # Temp solution for 'last_login' field can be null in Django 1.8
+        user.last_login = timezone.now()
         if commit:
             user.save()
         return user
 
 
 class OCPasswordResetForm(PasswordResetForm):
-
     class Meta:
         fields = (
-                  'email',
-                  )
+            'email',
+        )
 
     def __init__(self, *args, **kwargs):
         super(OCPasswordResetForm, self).__init__(*args, **kwargs)
         self.fields['email'].widget.attrs['class'] = u'form-control'
-        
-class OCPasswordResetConfirmForm(SetPasswordForm):
 
+
+class OCPasswordResetConfirmForm(SetPasswordForm):
     class Meta:
         fields = (
-                  'new_password1',
-                  'new_password2',
-                  )
+            'new_password1',
+            'new_password2',
+        )
 
     def __init__(self, *args, **kwargs):
         super(OCPasswordResetConfirmForm, self).__init__(*args, **kwargs)

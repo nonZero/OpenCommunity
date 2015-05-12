@@ -13,7 +13,6 @@ class AgendaItemManager(ConfidentialManager):
 
 
 class AgendaItem(ConfidentialByRelationMixin):
-
     confidential_from = 'issue'
 
     objects = ConfidentialManager()
@@ -35,9 +34,10 @@ class AgendaItem(ConfidentialByRelationMixin):
     def __unicode__(self):
         return self.issue.title
 
-#     def natural_key(self):
-#         return (self.meeting.natural_key(), self.issue.natural_key())
-#     natural_key.dependencies = ['meetings.meeting', 'issues.issue']
+        # def natural_key(self):
+
+    # return (self.meeting.natural_key(), self.issue.natural_key())
+    # natural_key.dependencies = ['meetings.meeting', 'issues.issue']
 
     def attachments(self):
         return self.issue.attachments.filter(agenda_item=self)
@@ -65,7 +65,8 @@ class AgendaItem(ConfidentialByRelationMixin):
 class Meeting(UIDMixin):
     community = models.ForeignKey('communities.Community', related_name="meetings", verbose_name=_("Community"))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="meetings_created", verbose_name=_("Created by"))
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="meetings_created",
+                                   verbose_name=_("Created by"))
 
     held_at = models.DateTimeField(_("Held at"))
 
@@ -88,7 +89,7 @@ class Meeting(UIDMixin):
                                           through='MeetingParticipant')
 
     guests = models.TextField(_("Guests"), null=True, blank=True,
-                           help_text=_("Enter each guest in a separate line"))
+                              help_text=_("Enter each guest in a separate line"))
 
     class Meta:
         verbose_name = _("Meeting")
@@ -100,12 +101,12 @@ class Meeting(UIDMixin):
         if self.title:
             s += " - " + self.title
         return s
-        #return date_format(self.scheduled_at) + ", " + time_format(self.scheduled_at)
+        # return date_format(self.scheduled_at) + ", " + time_format(self.scheduled_at)
 
     # NEED TO FILTER THE QUERYSET AT RUNTIME FOR CONFIDENTIAL.
     # THIS METHOD IS NOT SAFE TO USE DIRECTLY ANYMORE
     # def get_active_issues(self):
-    #     return [ai.issue for ai in self.agenda.all() if ai.issue.active]
+    # return [ai.issue for ai in self.agenda.all() if ai.issue.active]
 
     def get_guest_list(self):
         if not self.guests:
@@ -132,11 +133,8 @@ class Meeting(UIDMixin):
         return [p.user for p in participations]
 
     def meeting_participants(self):
-
         meeting_participants = {'board': [], 'members': [], }
-
         board_ids = [m.user.id for m in self.community.memberships.board()]
-
         for p in self.get_participations():
             if p.user.id in board_ids:
                 meeting_participants['board'].append(p.user)
@@ -146,10 +144,8 @@ class Meeting(UIDMixin):
         # doing it simply like this, as I'd need to refactor models
         # just to order in the way that is now required.
         for index, item in enumerate(meeting_participants['board']):
-            if item.get_default_group(self) == DefaultGroups.CHAIRMAN:
-                meeting_participants['board'].insert(0,
-                    meeting_participants['board'].pop(index))
-
+            if item.get_default_group(self.community) == DefaultGroups.CHAIRMAN:
+                meeting_participants['board'].insert(0, meeting_participants['board'].pop(index))
         return meeting_participants
 
     @models.permalink
@@ -159,9 +155,9 @@ class Meeting(UIDMixin):
 
 class BoardParticipantsManager(models.Manager):
     def board(self):
-        return self.get_query_set().exclude(
-                                    default_group_name=DefaultGroups.MEMBER,
-                                    is_absent=True)
+        return self.get_queryset().exclude(
+            default_group_name=DefaultGroups.MEMBER,
+            is_absent=True)
 
 
 class MeetingParticipant(models.Model):
@@ -186,8 +182,9 @@ class MeetingParticipant(models.Model):
     def __unicode__(self):
         return self.user.display_name
 
-#     def natural_key(self):
-#         return (self.meeting.natural_key(), self.user.natural_key())
+
+# def natural_key(self):
+# return (self.meeting.natural_key(), self.user.natural_key())
 #     natural_key.dependencies = ['meetings.meeting', 'users.ocuser']
 
 

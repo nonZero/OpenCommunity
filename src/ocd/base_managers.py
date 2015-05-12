@@ -13,7 +13,7 @@ class ActiveQuerySetMixin(object):
     """
 
     def active(self):
-        return self.get_query_set().filter(active=True)
+        return self.get_queryset().filter(active=True)
 
 
 class ConfidentialQuerySetMixin(object):
@@ -56,7 +56,7 @@ class ConfidentialQuerySet(QuerySet, ConfidentialQuerySetMixin):
 
 class ConfidentialManager(models.Manager, ConfidentialQuerySetMixin):
 
-    def get_query_set(self):
+    def get_queryset(self):
         return ConfidentialQuerySet(self.model, using=self._db)
 
 

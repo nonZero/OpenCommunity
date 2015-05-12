@@ -28,8 +28,7 @@ class ProposalQuerySetMixin(ActiveQuerySetMixin):
     """
 
     def open(self):
-        return self.filter(active=True,
-                           decided_at_meeting_id=None).order_by("created_at")
+        return self.filter(active=True, decided_at_meeting_id=None).order_by("created_at")
 
     def closed(self):
         return self.filter(active=True).exclude(decided_at_meeting_id=None)
@@ -39,9 +38,8 @@ class ProposalQuerySet(QuerySet, ProposalQuerySetMixin):
     """Queryset used by the Porposal Manager."""
 
 
-class ProposalManager(models.Manager, ConfidentialQuerySetMixin,
-                      ProposalQuerySetMixin):
-    def get_query_set(self):
+class ProposalManager(models.Manager, ConfidentialQuerySetMixin, ProposalQuerySetMixin):
+    def get_queryset(self):
         return ProposalQuerySet(self.model, using=self._db)
 
 
@@ -565,7 +563,6 @@ class Proposal(UIDMixin, ConfidentialMixin):
         votes_dict['total'] = total_votes
         return votes_dict
 
-
     def do_votes_summation(self, members_count):
 
         pro_votes = ProposalVote.objects.filter(proposal=self,
@@ -674,7 +671,7 @@ class ProposalVote(models.Model):
 
     def __unicode__(self):
         return "%s | %s - %s (%s)" % (
-        self.proposal.issue.title, self.proposal.title, self.user.display_name, self.get_value_display())
+            self.proposal.issue.title, self.proposal.title, self.user.display_name, self.get_value_display())
 
 
 class ProposalVoteArgument(models.Model):
@@ -765,7 +762,7 @@ class IssueRankingVote(models.Model):
 
         # TODO: add unique_together = (
         # ('voted_by', 'issue'),
-        #   and maybe: ('voted_by', 'rank')
+        # and maybe: ('voted_by', 'rank')
         # )
 
 

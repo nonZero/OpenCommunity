@@ -328,13 +328,13 @@ class Community(UIDMixin):
     def close_meeting(self, m, user, community):
         """
         Creates a :model:`meetings.Meeting` instance, with corresponding
-        :model:`meetings.AgenddItem`s.
+        :model:`meetings.AgendaItem`s.
 
         Optionally changes statuses for :model:`issues.Issue`s and
         :model:`issues.Proposal`s.
         """
 
-        with transaction.commit_on_success():
+        with transaction.atomic():
             m.community = self
             m.created_by = user
             m.title = self.upcoming_meeting_title
@@ -359,9 +359,7 @@ class Community(UIDMixin):
             self.upcoming_meeting_guests = None
             self.voting_ends_at = None
             self.save()
-
             for i, issue in enumerate(self.upcoming_issues(user=user, community=community)):
-
                 proposals = issue.proposals.filter(
                     active=True,
                     decided_at_meeting=None
@@ -393,9 +391,7 @@ class Community(UIDMixin):
                     background=issue.abstract,
                     closed=issue.completed)
 
-                issue.attachments.filter(active=True,
-                                         agenda_item__isnull=True) \
-                    .update(agenda_item=ai)
+                issue.attachments.filter(active=True, agenda_item__isnull=True).update(agenda_item=ai)
                 issue.is_published = True
                 issue.abstract = None
 
