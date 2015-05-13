@@ -11,9 +11,9 @@ class Migration(migrations.Migration):
     dependencies = [
         ('taggit', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('meetings', '0002_auto_20150512_1238'),
-        ('issues', '0002_auto_20150512_1238'),
-        ('communities', '0002_auto_20150512_1238'),
+        ('meetings', '0002_auto_20150513_1000'),
+        ('issues', '0002_auto_20150513_1000'),
+        ('communities', '0002_auto_20150513_1000'),
     ]
 
     operations = [
