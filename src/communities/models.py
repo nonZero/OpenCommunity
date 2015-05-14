@@ -209,6 +209,7 @@ class Committee(UIDMixin):
     class Meta:
         verbose_name = _("Committee")
         verbose_name_plural = _("Committees")
+        unique_together = ("community", "slug")
 
     def __unicode__(self):
         return self.name

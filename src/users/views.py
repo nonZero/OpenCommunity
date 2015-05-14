@@ -53,10 +53,10 @@ class MembershipList(MembershipMixin, ListView):
         d['invites'] = Invitation.objects.filter(community=self.community)
         d['form'] = InvitationForm(initial={'message':
                                                 Invitation.DEFAULT_MESSAGE %
-                                                self.community.get_board_name()})
+                                                self.community.name})
         d['board_list'] = Membership.objects.board().filter(community=self.community)
         d['member_list'] = Membership.objects.none_board().filter(community=self.community)
-        d['board_name'] = self.community.board_name
+        d['board_name'] = self.community.name
 
         return d
 
