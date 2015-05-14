@@ -1,5 +1,5 @@
 {% load i18n %}
 
 {% autoescape off %}
-{{community}} - {{community.board_name}}: {% trans "Summary" %}{% if object.title %}: {{object.title}} - {% endif %}{{object.held_at}}
+{{committee.community}} - {{committee.name}}: {% trans "Summary" %}{% if object.title %}: {{object.title}} - {% endif %}{{object.held_at}}
 {% endautoescape %}

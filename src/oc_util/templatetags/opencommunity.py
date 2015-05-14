@@ -8,9 +8,10 @@ from django.template.defaultfilters import stringfilter
 from django.utils.formats import date_format
 from django.utils.safestring import mark_safe
 from django.utils.timezone import is_aware, utc
-from django.utils.translation import pgettext, ungettext, ugettext as _, \
+from django.utils.translation import pgettext, ugettext as _, \
     ungettext, ugettext
-from issues.models import ProposalVote, ProposalVoteBoard, ProposalVoteValue
+from issues.models import ProposalVoteBoard, ProposalVoteValue
+
 register = template.Library()
 
 
@@ -34,12 +35,12 @@ def simpletimesince(d, now=None, reversed=False):
     Adapted from http://blog.natbat.co.uk/archive/2003/Jun/14/time_since
     """
     chunks = (
-      (60 * 60 * 24 * 365, lambda n: ungettext('year', 'years', n)),
-      (60 * 60 * 24 * 30, lambda n: ungettext('month', 'months', n)),
-      (60 * 60 * 24 * 7, lambda n : ungettext('week', 'weeks', n)),
-      (60 * 60 * 24, lambda n : ungettext('day', 'days', n)),
-      (60 * 60, lambda n: ungettext('hour', 'hours', n)),
-      (60, lambda n: ungettext('minute', 'minutes', n))
+        (60 * 60 * 24 * 365, lambda n: ungettext('year', 'years', n)),
+        (60 * 60 * 24 * 30, lambda n: ungettext('month', 'months', n)),
+        (60 * 60 * 24 * 7, lambda n: ungettext('week', 'weeks', n)),
+        (60 * 60 * 24, lambda n: ungettext('day', 'days', n)),
+        (60 * 60, lambda n: ungettext('hour', 'hours', n)),
+        (60, lambda n: ungettext('minute', 'minutes', n))
     )
     # Convert datetime.date to datetime.datetime for comparison.
     if not isinstance(d, datetime.datetime):
@@ -61,14 +62,13 @@ def simpletimesince(d, now=None, reversed=False):
         if count != 0:
             break
     s = ugettext('%(number)d %(type)s') % {'number': count, 'type': name(count)}
-#            s += ugettext(', %(number)d %(type)s') % {'number': count2, 'type': name2(count2)}
-#        # Now get the second item
-#        count2 = (since - (seconds * count)) // seconds2
-#        if count2 != 0:
-#        seconds2, name2 = chunks[i + 1]
-#    if i + 1 < len(chunks):
+    # s += ugettext(', %(number)d %(type)s') % {'number': count2, 'type': name2(count2)}
+    #        # Now get the second item
+    #        count2 = (since - (seconds * count)) // seconds2
+    #        if count2 != 0:
+    #        seconds2, name2 = chunks[i + 1]
+    #    if i + 1 < len(chunks):
     return s
-
 
 
 # This filter doesn't require expects_localtime=True because it deals properly
@@ -79,7 +79,7 @@ def octime(value):
     For date and time values shows how many seconds, minutes, hours or days ago
     compared to current timestamp returns representing string.
     """
-    if not isinstance(value, datetime.date): # datetime is a subclass of date
+    if not isinstance(value, datetime.date):  # datetime is a subclass of date
         return value
 
     now = datetime.datetime.now(utc if is_aware(value) else None)
@@ -128,14 +128,14 @@ def octime(value):
                 'an hour from now', '%(count)s hours from now', count
             ) % {'count': count}
 
-         
+
 @register.filter
 def ocshortdate(value):
     """
     For date and time values shows how many seconds, minutes, hours or days ago
     compared to current timestamp returns representing string.
     """
-    if not isinstance(value, datetime.date): # datetime is a subclass of date
+    if not isinstance(value, datetime.date):  # datetime is a subclass of date
         return value
 
     now = datetime.date.today()
@@ -163,13 +163,13 @@ def minutes_strict(value):
     if value is None:
         return "00:00"
 
-    if not isinstance(value, int): 
+    if not isinstance(value, int):
         return value
 
     return "%02d:%02d" % (value / 60, value % 60) if value else "?"
 
-
     return [v.user for v in res]
+
 
 """
 def board_vote(proposal, val, participants):
@@ -181,17 +181,18 @@ def board_vote(proposal, val, participants):
     return [v.user for v in res]
 """
 
+
 def board_voters_on_proposal(proposal):
     """ potential board voters """
     if proposal.decided_at_meeting:
-        board_attn = proposal.decided_at_meeting.participations.board() 
+        board_attn = proposal.decided_at_meeting.participations.board()
     else:
-        c = proposal.issue.community
+        c = proposal.issue.committee.community
         board_attn = c.memberships.board().filter(
-                    user__in=c.upcoming_meeting_participants.all())
-        
+            user__in=c.upcoming_meeting_participants.all())
+
     participants = [b.user for b in board_attn]
-    return participants 
+    return participants
 
 
 @register.filter
@@ -214,10 +215,11 @@ def board_by_vote(p, val):
         vote = ProposalVoteValue.PRO
     elif val == 'con':
         vote = ProposalVoteValue.CON
-    res = ProposalVoteBoard.objects.filter(proposal=p, value=vote, 
-                            user__in=participants)
-    
+    res = ProposalVoteBoard.objects.filter(proposal=p, value=vote,
+                                           user__in=participants)
+
     return [v.user for v in res]
+
 
 """
 @register.simple_tag

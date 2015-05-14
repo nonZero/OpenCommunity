@@ -1,59 +1,50 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.models import get_current_site
-from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
-from django.db.utils import IntegrityError
-from django.http.response import HttpResponse, HttpResponseForbidden, \
-    HttpResponseBadRequest, Http404, HttpResponseRedirect
+from django.http.response import HttpResponse, HttpResponseBadRequest, Http404, HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.template import RequestContext
-from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
-from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic import FormView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView
-from django.views.generic.list import BaseListView, ListView
+from django.views.generic.list import ListView
 from ocd import settings
 from ocd.base_views import CommunityMixin
 from users import models
 from default_roles import DefaultGroups
 from users.forms import InvitationForm, QuickSignupForm, ImportInvitationsForm
-from users.models import Invitation, OCUser, Membership, EmailStatus
+from users.models import Invitation, OCUser, Membership
 import json
-import time
 
 
 class MembershipMixin(CommunityMixin):
-
     model = models.Membership
 
     def get_queryset(self):
         return models.Membership.objects.filter(community=self.community)
 
-
     def validate_invitation(self, email):
         # somewhat of a privacy problem next line. should probably fail silently
         if Membership.objects.filter(community=self.community,
-                                 user__email=email).exists():
+                                     user__email=email).exists():
             return HttpResponseBadRequest(
-                         _("This user already a member of this community."))
+                _("This user already a member of this community."))
 
         if Invitation.objects.filter(community=self.community,
-                                 email=email).exists():
+                                     email=email).exists():
             return HttpResponseBadRequest(
-                         _("This user is already invited to this community."))
+                _("This user is already invited to this community."))
         return None
 
-class MembershipList(MembershipMixin, ListView):
 
+class MembershipList(MembershipMixin, ListView):
     required_permission = 'community.invite_member'
 
     def get_context_data(self, **kwargs):
@@ -61,8 +52,8 @@ class MembershipList(MembershipMixin, ListView):
 
         d['invites'] = Invitation.objects.filter(community=self.community)
         d['form'] = InvitationForm(initial={'message':
-                                            Invitation.DEFAULT_MESSAGE %
-                                            self.community.get_board_name()})
+                                                Invitation.DEFAULT_MESSAGE %
+                                                self.community.get_board_name()})
         d['board_list'] = Membership.objects.board().filter(community=self.community)
         d['member_list'] = Membership.objects.none_board().filter(community=self.community)
         d['board_name'] = self.community.board_name
@@ -75,7 +66,7 @@ class MembershipList(MembershipMixin, ListView):
 
         if not form.is_valid():
             return HttpResponseBadRequest(
-                                 _("Form error. Please supply a valid email."))
+                _("Form error. Please supply a valid email."))
 
         v_err = self.validate_invitation(form.instance.email)
         if v_err:
@@ -91,7 +82,6 @@ class MembershipList(MembershipMixin, ListView):
 
 
 class DeleteInvitationView(CommunityMixin, DeleteView):
-
     required_permission = 'community.invite_member'
 
     model = models.Invitation
@@ -109,7 +99,6 @@ class DeleteInvitationView(CommunityMixin, DeleteView):
 
 
 class AcceptInvitationView(DetailView):
-
     slug_field = 'code'
     slug_url_kwarg = 'code'
     model = models.Invitation
@@ -121,12 +110,12 @@ class AcceptInvitationView(DetailView):
             return QuickSignupForm(self.request.POST)
         else:
             return QuickSignupForm(initial={ \
-                                  'display_name': self.get_object().name})
+                'display_name': self.get_object().name})
 
     def get_context_data(self, **kwargs):
         d = super(AcceptInvitationView, self).get_context_data(**kwargs)
         d['user_exists'] = OCUser.objects.filter(email=self.get_object().email
-                                                 ).exists()
+        ).exists()
         d['path'] = self.request.path
         d['login_path'] = reverse('login') + "?next=" + self.request.path
         d['form'] = self.form if self.form else self.get_form()
@@ -149,8 +138,8 @@ class AcceptInvitationView(DetailView):
                 m = Membership.objects.get(user=user, community=i.community)
             except Membership.DoesNotExist:
                 m = Membership.objects.create(user=user, community=i.community,
-                                  default_group_name=i.default_group_name,
-                                      invited_by=i.created_by)
+                                              default_group_name=i.default_group_name,
+                                              invited_by=i.created_by)
             i.delete()
             return m
 
@@ -169,17 +158,16 @@ class AcceptInvitationView(DetailView):
                     m = create_membership(u)
                     # TODO Send email with details
                     user = authenticate(email=self.form.instance.email,
-                                password=self.form.cleaned_data['password1'])
+                                        password=self.form.cleaned_data['password1'])
                     login(request, user)
                     return redirect(m.community.get_absolute_url())
 
         messages.warning(request,
-                  _("Oops. Something went wrong. Please try again."))
+                         _("Oops. Something went wrong. Please try again."))
         return self.get(request, *args, **kwargs)
 
 
 class AutocompleteMemberName(MembershipMixin, ListView):
-
     required_permission = 'issues.editopen_issue'
 
     def get_queryset(self):
@@ -190,8 +178,8 @@ class AutocompleteMemberName(MembershipMixin, ListView):
         q = self.request.GET.get('q', '')
         if q:
             members = members.filter(
-                            user__is_active=True,
-                            user__display_name__istartswith=q)
+                user__is_active=True,
+                user__display_name__istartswith=q)
         else:
             members = members.filter(user__is_active=True)
             if members.count() > 75:
@@ -213,25 +201,23 @@ class AutocompleteMemberName(MembershipMixin, ListView):
             return HttpResponse(json.dumps({}))
         else:
             members = list(members.values('user__display_name', 'user__id',
-                                            'default_group_name'))
+                                          'default_group_name'))
             for m in members:
-                m['tokens'] = [m['user__display_name'],]
+                m['tokens'] = [m['user__display_name'], ]
                 m['value'] = m['user__display_name']
                 m['board'] = m['default_group_name'] != 'member'
             members.sort(_cmp_func)
-            context = self.get_context_data(object_list=members)
+            # context = self.get_context_data(object_list=members)
             return HttpResponse(json.dumps(members), {'content_type': 'application/json'})
 
 
 class MemberProfile(MembershipMixin, DetailView):
-
     required_permission = 'users.show_member_profile'
 
     model = models.Membership
     template_name = "users/member_profile.html"
 
     def get_context_data(self, **kwargs):
-
         d = super(MemberProfile, self).get_context_data(**kwargs)
         d['form'] = ""
         d['belongs_to_board'] = self.get_object().default_group_name != DefaultGroups.MEMBER
@@ -272,7 +258,6 @@ class ImportInvitationsView(MembershipMixin, FormView):
                         final_rows.append(partial[:partial.rindex('"')])
                 else:
                     final_rows.append(row)
-
 
         for i, row in enumerate(final_rows):
             words = row.split(',')
@@ -326,15 +311,15 @@ class ImportInvitationsView(MembershipMixin, FormView):
 
 @csrf_protect
 def oc_password_reset(request, is_admin_site=False,
-                   template_name='registration/password_reset_form.html',
-                   email_template_name='registration/password_reset_email.html',
-                   subject_template_name='registration/password_reset_subject.txt',
-                   password_reset_form=PasswordResetForm,
-                   token_generator=default_token_generator,
-                   post_reset_redirect=None,
-                   from_email=None,
-                   current_app=None,
-                   extra_context=None):
+                      template_name='registration/password_reset_form.html',
+                      email_template_name='registration/password_reset_email.html',
+                      subject_template_name='registration/password_reset_subject.txt',
+                      password_reset_form=PasswordResetForm,
+                      token_generator=default_token_generator,
+                      post_reset_redirect=None,
+                      from_email=None,
+                      current_app=None,
+                      extra_context=None):
     if post_reset_redirect is None:
         post_reset_redirect = reverse('django.contrib.auth.views.password_reset_done')
     if request.method == "POST":
@@ -358,12 +343,12 @@ def oc_password_reset(request, is_admin_site=False,
         try:
             invitation = Invitation.objects.get(email=email)
             extra_context = {
-                             'has_invitation': True,
-                             }
+                'has_invitation': True,
+            }
             invitation.send(sender=invitation.created_by,
                             recipient_name=invitation.name)
             # TODO: redirect to message
-#             return HttpResponseRedirect(reverse('invitation_sent'))
+        # return HttpResponseRedirect(reverse('invitation_sent'))
         except Invitation.DoesNotExist:
             pass
     else:

@@ -1,49 +1,24 @@
 {% load i18n %}
 
-<!-- <li class="hidden-xs" style="width: 50px;height: 40px;"></li> -->
-
-{% comment "Navbar issues - remove from navbar for now" %}
-{% if cperms.issues.viewopen_issue %}
 <li>
-    <a {% if pill == 'issues' %}class="active"{% endif %} href="{% url 'issues' community.id %}">
-    {% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}{% trans "No meetings issues" %}{% else %}{% trans "Issues" %}{% endif %}</a>
+    <a href="{{ community.get_absolute_url }}">{{ community }}</a>
 </li>
+{% if community.get_committees %}
 <li class="just_slash hidden-xs">/</li>
-{% endif %}
-{% endcomment %}
-
-{% if cperms.communities.viewupcoming_community %}
-<li>
-    <a {% if pill == 'upcoming' %}class="active"{% endif %} href="{% url 'community' community.id %}">
-    {% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}{% trans "Updates" %}{% else %}{% trans "Meetings" %}{% endif %}</a>
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        {% trans "Committees" %} <b class="caret"></b>
+    </a>
+        <ul class="dropdown-menu">
+            {% for c in community.get_committees %}
+            <li><a href="{% url 'committee' community.slug c.slug %}">{{ c.name }}</a></li>
+            {% endfor %}
+        </ul>
 </li>
 {% endif %}
-
-{% comment %}
-{% if cperms.meetings.view_meeting and community.meetings.count %}
-<li class="just_slash hidden-xs">/</li>
-<li>
-    <a href="{% url 'history' community.id %}">{% trans "History" %}</a>
-</li>
-{% endif %}
-{% endcomment %}
-
-{% if cperms.issues.viewopen_issue %}
-{% if not community.no_meetings_community %}
-<li class="just_slash hidden-xs">/</li>
-<li>
-    <a href="{% url 'procedures' community.id %}">{% trans "Rules" %}</a>
-</li>
-<li class="just_slash hidden-xs">/</li>
-<li>
-    <a href="{% url 'assignments' community.id %}">{% trans "Tasks" %}</a>
-</li>
-{% endif %}
-{% endif %}
-
 {% if cperms.community.invite_member %}
 <li class="just_slash hidden-xs">/</li>
 <li>
-    <a href="{% url 'members' community.id %}">{% trans "Members" %}</a>
+    <a href="{% url 'members' community.slug %}">{% trans "Members" %}</a>
 </li>
 {% endif %}

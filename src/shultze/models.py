@@ -1,6 +1,6 @@
 from django.db import models
 from issues.models import Issue
-from communities.models import Community
+from communities.models import Community, Committee
 from pyvotecore.condorcet import CondorcetHelper
 from pyvotecore.schulze_by_graph import SchulzeNPRByGraph
 from pyvotecore.schulze_method import SchulzeMethod #TODO: remove this when iteritems bug is solved
@@ -70,13 +70,14 @@ class IssuesGraph(models.Model):
     Graph level general functionality should go here, one-to-one relation with OpenCommunity Community
     """
     community = models.ForeignKey(Community, related_name="shultze_issues_graph")
-    
+    committee = models.ForeignKey(Committee, related_name="shultze_issues_graph", null=True)
+
     def initialize_graph(self):
         """
         Initialize candidates graph by community issues table.
         This should happen only once!
         """
-        candidates = list(self.community.issues.all())
+        candidates = list(self.committee.issues.all())
         candidate_nodes = []
         for candidate in candidates:
             candidate_nodes.append(IssueNode.objects.create(graph=self, issue=candidate))
@@ -221,17 +222,17 @@ class IssueEdge(models.Model):
     weight = models.IntegerField(default=0)
 
 
-def process_vote_stub(community_id, current_order, prev_order=[]):
+def process_vote_stub(committee_id, current_order, prev_order=[]):
     """
     Vote processing function
       Find the appropriate IssuesGraph for community_id
     """
     try:
-        community_instance = Community.objects.get(id=community_id)
-    except Community.DoesNotExist:
+        committee_instance = Committee.objects.get(id=committee_id)
+    except Committee.DoesNotExist:
         raise  # return None?
     try:
-        graph = IssuesGraph.objects.get(community=community_instance)
+        graph = IssuesGraph.objects.get(committee=committee_instance)
     except IssuesGraph.DoesNotExist:
         raise  # initialize a new graph here?
     except IssuesGraph.MultipleObjectsReturned:

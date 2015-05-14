@@ -1,0 +1,15 @@
+<li class="left_arrow oc_li" style="margin-right: 50px;">
+    <a href="{{ committee.get_absolute_url }}">
+        {% if committee.is_public %}
+            <img class="ui-li-icon" src="{{STATIC_URL}}images/world.png" width="16" height="16"/>
+        {% else %}
+            <img class="ui-li-icon" src="{{STATIC_URL}}images/lock.png" width="16" height="16"/>
+        {% endif %}
+
+        <b>{{ committee.name }}</b>
+
+        {% if role %}
+          ({{role}})
+        {% endif %}
+    </a>
+</li>

@@ -7,12 +7,12 @@ from users.models import Membership
 register = template.Library()
 
 @register.filter
-def display_upcoming_time(community):
+def display_upcoming_time(committee):
     """ display only date if hour information if not set (remains at default '00:00)
     """
-    if not community.upcoming_meeting_scheduled_at:
+    if not committee.upcoming_meeting_scheduled_at:
         return _("--/--/--")
-    when = timezone.localtime(community.upcoming_meeting_scheduled_at)
+    when = timezone.localtime(committee.upcoming_meeting_scheduled_at)
     t = when.timetz()
     if t.hour == 0 and t.minute == 0:
         return when.date()
@@ -30,26 +30,26 @@ def member_of(u, community):
 
 
 @register.filter
-def upcoming_status(community):
+def upcoming_status(committee):
     from django.template.defaultfilters import date as _date
     
     rows = ['', '']
-    if community.upcoming_meeting_started:
+    if committee.upcoming_meeting_started:
         rows[0] = _("Started")
     else:
         ver = _("Version")
-        if community.upcoming_meeting_published_at:
+        if committee.upcoming_meeting_published_at:
             publish_time = timezone.localtime(
-                    community.upcoming_meeting_published_at)
+                    committee.upcoming_meeting_published_at)
         else:
             publish_time = ''
             
         meeting_version = u'{0} {1} - {2}'.format(ver,
-                            community.upcoming_meeting_version,
+                            committee.upcoming_meeting_version,
                             _date(publish_time, 'd F Y, H:i'))
-        if community.upcoming_meeting_is_published:
-            if community.straw_voting_enabled:
-                if community.straw_vote_ended:
+        if committee.upcoming_meeting_is_published:
+            if committee.straw_voting_enabled:
+                if committee.straw_vote_ended:
                     rows[0] = _("Straw vote ended")
                 else:
                     rows[0] = _("Active straw vote")

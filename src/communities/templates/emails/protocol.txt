@@ -1,3 +1,3 @@
-{% load i18n %}{% block content %}{% autoescape off %}*** {{community}}: {% trans "Summary" %} ***
+{% load i18n %}{% block content %}{% autoescape off %}*** {{committee}}: {% trans "Summary" %} ***
 
 {% trans "View online" %}: {{base_url}}{{object.get_absolute_url}}{% endautoescape %}{% endblock %}

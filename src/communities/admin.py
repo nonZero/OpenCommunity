@@ -17,7 +17,7 @@ class CommunityMembershipInline(TabularInline):
 
 class CommunityAdmin(ModelAdmin):
 
-    fields = ('name', 'board_name', 'official_identifier', 'logo', 'is_public',
+    fields = ('name', 'slug', 'board_name', 'official_identifier', 'logo', 'is_public',
               'straw_voting_enabled', 'issue_ranking_enabled',
               'allow_links_in_emails', 'register_missing_board_members',
               'email_invitees', 'inform_system_manager', 'no_meetings_community')

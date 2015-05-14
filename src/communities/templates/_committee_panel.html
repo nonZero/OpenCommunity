@@ -1,0 +1,55 @@
+{% load i18n %}
+
+<!-- <li class="hidden-xs" style="width: 50px;height: 40px;"></li> -->
+
+{% comment "Navbar issues - remove from navbar for now" %}
+{% if cperms.issues.viewopen_issue %}
+<li>
+    <a {% if pill == 'issues' %}class="active"{% endif %} href="{% url 'issues' committee.community.slug committee.slug %}">
+    {% if LANGUAGE_CODE == 'he' and committee.no_meetings_community %}{% trans "No meetings issues" %}{% else %}{% trans "Issues" %}{% endif %}</a>
+</li>
+<li class="just_slash hidden-xs">/</li>
+{% endif %}
+{% endcomment %}
+
+{% if committee %}
+{% if cperms.communities.viewupcoming_community %}
+<li>
+    <a {% if pill == 'upcoming' %}class="active"{% endif %} href="{% url 'committee' committee.community.slug committee.slug %}">
+    {% if LANGUAGE_CODE == 'he' and committee.no_meetings_community %}{% trans "Updates" %}{% else %}{% trans "Meetings" %}{% endif %}</a>
+</li>
+{% endif %}
+{% endif %}
+
+{% comment %}
+{% if cperms.meetings.view_meeting and committee.meetings.count %}
+<li class="just_slash hidden-xs">/</li>
+<li>
+    <a href="{% url 'history' committee.community.slug committee.slug %}">{% trans "History" %}</a>
+</li>
+{% endif %}
+{% endcomment %}
+
+{% if committee %}
+{% if cperms.issues.viewopen_issue %}
+{% if not committee.no_meetings_community %}
+<li class="just_slash hidden-xs">/</li>
+<li>
+    <a href="{% url 'procedures' committee.community.slug committee.slug %}">{% trans "Rules" %}</a>
+</li>
+<li class="just_slash hidden-xs">/</li>
+<li>
+    <a href="{% url 'assignments' committee.community.slug committee.slug %}">{% trans "Tasks" %}</a>
+</li>
+{% endif %}
+{% endif %}
+{% endif %}
+
+{% if committee %}
+{% if cperms.community.invite_member %}
+<li class="just_slash hidden-xs">/</li>
+<li>
+    <a href="{% url 'members' committee.community.slug %}">{% trans "Members" %}</a>
+</li>
+{% endif %}
+{% endif %}

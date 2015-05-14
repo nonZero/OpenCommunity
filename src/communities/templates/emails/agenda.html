@@ -6,22 +6,22 @@
 
 {% block content %}
     <div style="border: 1px solid black">
-    	{% if community.logo %}
+    	{% if committee.logo %}
     	<div style="width: 100%; text-align: center;">
-    		<img src="{{base_url}}{{MEDIA_URL}}{{ community.logo }}"/>
+    		<img src="{{base_url}}{{MEDIA_URL}}{{ committee.logo }}"/>
     	</div>
     	{% endif %}
         <h1 style="margin:0 0 1em 0; text-align: center; padding: 4px">
-            {{community}} - {{ community.board_name }} {% if community.official_identifier %} <br/> {{ community.official_identifier }}{% endif %}
+            {{committee.community}} - {{ committee.name }} {% if committee.official_identifier %} <br/> {{ committee.official_identifier }}{% endif %}
         </h1>
         <h1 style="margin:0; background: #ddd;padding: 4px">
-            {% if community.no_meetings_community and community.upcoming_meeting_title %}
-                {{community.upcoming_meeting_title}}
+            {% if committee.no_meetings_community and committee.upcoming_meeting_title %}
+                {{committee.upcoming_meeting_title}}
             {% else %}
             {% trans "Agenda" %}
-            {% if community.upcoming_meeting_title %}
+            {% if committee.upcoming_meeting_title %}
               -
-              {{community.upcoming_meeting_title}}
+              {{committee.upcoming_meeting_title}}
             {% endif %}
             {% endif %}
 
@@ -30,37 +30,37 @@
         <div style="padding:3px 6px">
             <p style="float:left">
                 <i>
-                    {% if community.upcoming_meeting_is_published %}
-                        {% trans "Published at" %} {{community.upcoming_meeting_published_at}}
-                        ({% trans "Version" %} {{community.upcoming_meeting_version}})
+                    {% if committee.upcoming_meeting_is_published %}
+                        {% trans "Published at" %} {{committee.upcoming_meeting_published_at}}
+                        ({% trans "Version" %} {{committee.upcoming_meeting_version}})
                     {% else %}
                         {% trans "Draft" %}
                     {% endif %}
                 </i>
             </p>
             <p style="height: 18px;">
-                {% if community.allow_links_in_emails %}
-                  {% if community.straw_voting_enabled and can_straw_vote %}
-                  <a href="{{base_url}}{{community.get_absolute_url}}"><strong>{% trans "Enter site and vote on proposals" %}</strong></a>
+                {% if committee.allow_links_in_emails %}
+                  {% if committee.straw_voting_enabled and can_straw_vote %}
+                  <a href="{{base_url}}{{committee.get_absolute_url}}"><strong>{% trans "Enter site and vote on proposals" %}</strong></a>
                   {% else %}
-                      <a href="{{base_url}}{{community.get_absolute_url}}">{% trans "View online" %}</a>
+                      <a href="{{base_url}}{{committee.get_absolute_url}}">{% trans "View online" %}</a>
                   {% endif %}
                 {% endif %}
             </p>
 
-            {% if not community.no_meetings_community %}
+            {% if not committee.no_meetings_community %}
             <div style="border: solid 1px #ccc; margin: 4px 0;padding: 0">
                 <h2 style="margin:0; background: #ddd;padding: 4px">{% trans "Meeting details" %}</h2>
 
                 <div style="margin:0; padding: 4px">
                         <b>{% trans "Scheduled at" %}:</b>
-                        {{community|display_upcoming_time}}
+                        {{committee|display_upcoming_time}}
                         <br/>
                         <b>{% trans "Location" %}:</b>
-                        {{community.upcoming_meeting_location|default:_("Not set yet")}}
-                        {% if community.upcoming_meeting_comments %}
+                        {{committee.upcoming_meeting_location|default:_("Not set yet")}}
+                        {% if committee.upcoming_meeting_comments %}
                             <div>
-                                {{community.upcoming_meeting_comments|safe}}
+                                {{committee.upcoming_meeting_comments|safe}}
                             </div>
                         {% endif %}
                 </div>
@@ -68,11 +68,11 @@
             {% endif %}
         </div>
 
-            {% if not community.no_meetings_community %}
+            {% if not committee.no_meetings_community %}
             <h2 style="margin:12px 0 0 0; background:#eee; padding:6px 3px 3px">{% trans "Issues " %}</h2>
             {% endif %}
             <div style="padding:12px 6px">
-                {% if community.allow_links_in_emails %}
+                {% if committee.allow_links_in_emails %}
                     <p>({% trans "click links for more details. to vote on proposals from the mail just click for/against buttons under the proposal" %})</p>
                 {% endif %}
 
@@ -80,7 +80,7 @@
                     <article style="border: solid 1px #ccc; margin-top: 12px;">
 
                         <h3 style="margin:0; background: #ddd;padding: 4px; font-size: 20px;">
-                        {% if community.allow_links_in_emails %}
+                        {% if committee.allow_links_in_emails %}
                             <a href="{{base_url}}{{obj.issue.get_absolute_url}}">
                                 {{obj.issue.title}}{% if obj.issue.is_confidential %} [{% trans "Confidential" %} - {{ obj.issue.confidential_reason }}]{% endif %}
                             </a>
@@ -97,7 +97,7 @@
                             </div>
                         {% endif %}
 
-                        {% if obj.issue.current_attachments.count and community.allow_links_in_emails %}
+                        {% if obj.issue.current_attachments.count and committee.allow_links_in_emails %}
                          <div class="issue_attachments">
                             <p>{% trans 'Related files' %}:</p>
                             <ul>
@@ -117,7 +117,7 @@
                             <ul>
                                 {% for p in obj.proposals.open|dictsort:"created_at" %}
                                     <li style="padding:2px 0">
-                                        {% if community.allow_links_in_emails %}
+                                        {% if committee.allow_links_in_emails %}
                                             <a href="{{base_url}}{{p.get_absolute_url}}">
                                                 {% if p.type != 3 %}
                                                     {{ p.get_type_display }}:
@@ -141,7 +141,7 @@
                                                 {{p.content|safe}}
                                             </div>
                                         {% endif %}
-                                        {% if community.straw_voting_enabled and can_straw_vote %}
+                                        {% if committee.straw_voting_enabled and can_straw_vote %}
                                         <div>
                                             <a href="{{base_url}}{{p.get_email_vote_url}}?val=pro" style="color: #ffffff;background-color: #a4cb53;border-color: #a4cb53;text-decoration: none;display: inline-block;padding: 0px 5px;margin-bottom: 0;font-size: 13px;font-weight: normal;line-height: 1.428571429;text-align: center;white-space: nowrap;vertical-align: middle;cursor: pointer;border: 1px solid transparent;border-radius: 4px;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;-o-user-select: none;user-select: none;">{% trans "For" %}</a>
                                             <a href="{{base_url}}{{p.get_email_vote_url}}?val=con" style="color: #ffffff;background-color: #952722;border-color: #952722;text-decoration: none;display: inline-block;padding: 0px 5px;margin-bottom: 0;font-size: 13px;font-weight: normal;line-height: 1.428571429;text-align: center;white-space: nowrap;vertical-align: middle;cursor: pointer;border: 1px solid transparent;border-radius: 4px;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;-o-user-select: none;user-select: none;">{% trans "Against" %}</a>

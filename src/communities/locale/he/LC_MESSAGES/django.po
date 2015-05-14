@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-20 21:53+0300\n"
-"PO-Revision-Date: 2015-04-15 09:17+0200\n"
+"POT-Creation-Date: 2015-05-14 13:17+0300\n"
+"PO-Revision-Date: 2015-05-14 13:17+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,27 +16,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.7.5\n"
+"X-Generator: Poedit 1.7.6\n"
 
-#: .\forms.py:34
+#: .\apps.py:7
+msgid "Communities & Committees"
+msgstr "קהילות וועדות"
+
+#: .\forms.py:31
 msgid "Title"
 msgstr "כותרת"
 
-#: .\forms.py:35 .\templates\emails\_protocol.html.py:38
-#: .\templates\emails\agenda.html.py:56
+#: .\forms.py:32 .\templates\emails\_protocol.html:38
+#: .\templates\emails\agenda.html:56
 msgid "Scheduled at"
 msgstr "מועד"
 
-#: .\forms.py:36 .\templates\emails\_protocol.html.py:42
-#: .\templates\emails\agenda.html.py:59
+#: .\forms.py:33 .\templates\emails\_protocol.html:42
+#: .\templates\emails\agenda.html:59
 msgid "Location"
 msgstr "מיקום"
 
-#: .\forms.py:37
+#: .\forms.py:34
 msgid "Background"
 msgstr "רקע"
 
-#: .\forms.py:73
+#: .\forms.py:68
 msgid "Send to"
 msgstr "נמענים"
 
@@ -56,401 +60,402 @@ msgstr "לועד בלבד"
 msgid "All members"
 msgstr "לכל חברי הקהילה"
 
-#: .\models.py:41 .\models.py:489
-#: .\templates\communities\participants_form.html.py:90
+#: .\models.py:41 .\models.py:468 .\models.py:913
+#: .\templates\communities\participants_form.html:95
 msgid "Name"
 msgstr "שם"
 
-#: .\models.py:42
+#: .\models.py:42 .\models.py:469
+msgid "Friendly URL"
+msgstr "URL ידידותי"
+
+#: .\models.py:43 .\models.py:470
 msgid "Public community"
 msgstr "פתוחה לציבור"
 
-#: .\models.py:44
+#: .\models.py:45
 msgid "Community logo"
 msgstr "לוגו קהילה"
 
-#: .\models.py:46
+#: .\models.py:47
 msgid "Community identifier"
 msgstr "מזהה קהילה"
 
-#: .\models.py:50
+#: .\models.py:51 .\models.py:478
 msgid "Meeting started"
 msgstr "הפגישה התחילה"
 
-#: .\models.py:52
+#: .\models.py:53 .\models.py:480
 msgid "Upcoming meeting title"
 msgstr "כותרת הפגישה הקרובה"
 
-#: .\models.py:56
+#: .\models.py:57 .\models.py:484
 msgid "Upcoming meeting scheduled at"
 msgstr "מועד הפגישה הקרובה"
 
-#: .\models.py:58
+#: .\models.py:59 .\models.py:486
 msgid "Upcoming meeting location"
 msgstr "מיקום הפגישה הקרובה"
 
-#: .\models.py:59
+#: .\models.py:60 .\models.py:487
 msgid "Upcoming meeting background"
 msgstr "רקע לפגישה הקרובה"
 
-#: .\models.py:64
+#: .\models.py:65 .\models.py:492
 msgid "Participants in upcoming meeting"
 msgstr "משתתפים בפגישה הקרובה"
 
-#: .\models.py:67
+#: .\models.py:68 .\models.py:495
 msgid "Guests in upcoming meeting"
 msgstr "אורחים בפגישה הקרובה"
 
-#: .\models.py:68
+#: .\models.py:69 .\models.py:496
 msgid "Enter each guest in a separate line"
 msgstr "נא לרשום כל שם בשורה נפרדת"
 
-#: .\models.py:71
+#: .\models.py:72 .\models.py:499
 msgid "Upcoming meeting version"
 msgstr "מספר גרסת נתוני הפגישה הקרובה"
 
-#: .\models.py:74
+#: .\models.py:75 .\models.py:502
 msgid "Upcoming meeting is published"
 msgstr "האם הפגישה הקרובה פורסמה?"
 
-#: .\models.py:77
+#: .\models.py:78 .\models.py:505
 msgid "Upcoming meeting published at"
 msgstr "מועד פרסום הפגישה הקרובה"
 
-#: .\models.py:79
+#: .\models.py:80 .\models.py:507
 msgid "Upcoming meeting summary"
 msgstr "סיכום הפגישה הקרובה"
 
-#: .\models.py:82
+#: .\models.py:83 .\models.py:510
 msgid "Board name"
 msgstr "שם הועד"
 
-#: .\models.py:82 .\models.py:179
-#: .\migrations\0011_auto__add_field_community_register_missing_board_members__chg_field_co.py:17
-#: .\templates\communities\participants_form.html.py:23
+#: .\models.py:83 .\models.py:180 .\models.py:510 .\models.py:607
+#: .\south_migrations\0011_auto__add_field_community_register_missing_board_members__chg_field_co.py:17
+#: .\templates\communities\participants_form.html:27
 msgid "Board"
 msgstr "ועד"
 
-#: .\models.py:85
+#: .\models.py:86 .\models.py:513
 msgid "Straw voting enabled"
 msgstr "אפשר הצבעת קש"
 
-#: .\models.py:89
+#: .\models.py:90 .\models.py:517
 msgid "Issue ranking votes enabled"
 msgstr "אפשר תיעדוף נושאים"
 
-#: .\models.py:91
+#: .\models.py:92 .\models.py:519
 msgid "Straw Vote ends at"
 msgstr "הצבעת שבשבת עד"
 
-#: .\models.py:94
+#: .\models.py:95 .\models.py:522
 msgid "Referendum started"
 msgstr "משאל התחיל"
 
-#: .\models.py:97
+#: .\models.py:98 .\models.py:525
 msgid "Referendum started at"
 msgstr "משאל התחיל ב"
 
-#: .\models.py:100
+#: .\models.py:101 .\models.py:528
 msgid "Referendum ends at"
 msgstr "משאל הסתיים ב"
 
-#: .\models.py:103
+#: .\models.py:104 .\models.py:531
 msgid "Default quorum"
 msgstr ""
 
-#: .\models.py:107
+#: .\models.py:108 .\models.py:535
 msgid "Allow links inside emails"
 msgstr "אפשר קישורים בתוך אימייל"
 
-#: .\models.py:109
+#: .\models.py:110 .\models.py:537
 msgid "Send mails to invitees"
 msgstr "שלח מייל למוזמנים"
 
-#: .\models.py:113
+#: .\models.py:114 .\models.py:541
 msgid "Register missing board members"
 msgstr "רישום חברי ועד חסרים"
 
-#: .\models.py:116
+#: .\models.py:117 .\models.py:544
 msgid "Inform System Manager"
 msgstr "להודיע למנהל המערכת"
 
-#: .\models.py:119
+#: .\models.py:120 .\models.py:547
 msgid "Community without meetings?"
 msgstr "קהילות ללא פגישות?"
 
-#: .\models.py:122
+#: .\models.py:123 .\models.py:467
 msgid "Community"
 msgstr "קהילה"
 
-#: .\models.py:123
+#: .\models.py:124
 msgid "Communities"
 msgstr "קהילות"
 
-#: .\models.py:478
+#: .\models.py:472
+msgid "Committee logo"
+msgstr "לוגו ועדה"
+
+#: .\models.py:474
+msgid "Committee identifier"
+msgstr "מזהה ועדה"
+
+#: .\models.py:550
+msgid "Committee"
+msgstr "ועדה"
+
+#: .\models.py:551 .\templates\_community_panel.html:10
+msgid "Committees"
+msgstr "ועדות"
+
+#: .\models.py:902
 msgid "Confidential Reason"
 msgstr "סיבה עבור נושא חסוי"
 
-#: .\models.py:479
+#: .\models.py:903
 msgid "Confidential Reasons"
 msgstr "סיבות עבור נושאים חסויים"
 
-#: .\models.py:485
+#: .\models.py:909
 msgid ""
 "A reason that can be used for marking items as confidential in your "
 "community."
 msgstr "הגדרת סיבה עבור נושאים חסויים"
 
-#: .\models.py:491
+#: .\models.py:915
 msgid "The title to give this reason."
 msgstr "כותרת עבור סיבה זו"
 
-#: .\views.py:242
-#, python-format
-msgid "Sending to %d users"
-msgstr "שולח ל-%d משתמשים"
-
-#: .\views.py:341
-msgid "Not a valid number for page."
-msgstr "מספר עמוד לא תקין"
-
-#: .\views.py:344
-msgid "Pages should be 1 or greater."
-msgstr "מספר עמוד צריך להיות 1 או יותר."
-
-#: .\views.py:353
-msgid "No such page!"
-msgstr "דף לא קיים!"
-
-#: .\templates\_community_bar.html.py:5 .\templates\_community_panel.html.py:9
-#: .\templates\communities\community_search.html.py:15
-msgid "Issues"
-msgstr "נושאים"
-
-#: .\templates\_community_bar.html.py:8 .\templates\emails\agenda.html.py:21
-msgid "Agenda"
-msgstr "סדר יום"
-
-#: .\templates\_community_bar.html.py:11
-msgid "History"
-msgstr "היסטוריה"
-
-#: .\templates\_community_panel.html.py:9
-#: .\templates\communities\upcoming.html.py:148
+#: .\templates\_committee_panel.html:9
+#: .\templates\communities\upcoming.html:148
 msgid "No meetings issues"
 msgstr "נושאים"
 
-#: .\templates\_community_panel.html.py:18
-#: .\templates\communities\base_meeting.html.py:17
+#: .\templates\_committee_panel.html:9 .\templates\_community_bar.html:5
+#: .\templates\communities\community_search.html:15
+msgid "Issues"
+msgstr "נושאים"
+
+#: .\templates\_committee_panel.html:19
+#: .\templates\communities\base_meeting.html:17
 msgid "Updates"
 msgstr "עדכונים"
 
-#: .\templates\_community_panel.html.py:18
-#: .\templates\communities\base_meeting.html.py:19
+#: .\templates\_committee_panel.html:19
+#: .\templates\communities\base_meeting.html:19
 msgid "Meetings"
 msgstr "פגישות"
 
-#: .\templates\_community_panel.html.py:35
+#: .\templates\_committee_panel.html:38
 msgid "Rules"
 msgstr "נהלים"
 
-#: .\templates\_community_panel.html.py:39
+#: .\templates\_committee_panel.html:42
 msgid "Tasks"
 msgstr "משימות"
 
-#: .\templates\_community_panel.html.py:47
-#: .\templates\communities\participants_form.html.py:26
-#: .\templates\communities\participants_form.html.py:160
+#: .\templates\_committee_panel.html:52 .\templates\_community_panel.html:22
+#: .\templates\communities\participants_form.html:30
+#: .\templates\communities\participants_form.html:168
 msgid "Members"
 msgstr "חברים"
 
-#: .\templates\_user_panel.html.py:4
+#: .\templates\_community_bar.html:8 .\templates\emails\agenda.html:21
+msgid "Agenda"
+msgstr "סדר יום"
+
+#: .\templates\_community_bar.html:11
+msgid "History"
+msgstr "היסטוריה"
+
+#: .\templates\_user_panel.html:4
 msgid "Admin"
 msgstr "ניהול המערכת"
 
-#: .\templates\_user_panel.html.py:7
+#: .\templates\_user_panel.html:7
 msgid "All communities"
 msgstr "כל הקהילות"
 
-#: .\templates\_user_panel.html.py:10
+#: .\templates\_user_panel.html:10
 msgid "Log out"
 msgstr "יציאה"
 
-#: .\templates\_user_panel.html.py:12
-#: .\templates\communities\community_list.html.py:34
-#: .\templates\communities\landing.html.py:67
-#: .\templates\communities\landing.html.py:103
+#: .\templates\_user_panel.html:12
+#: .\templates\communities\community_list.html:34
+#: .\templates\communities\landing.html:67
+#: .\templates\communities\landing.html:103
 msgid "Login"
 msgstr "כניסה"
 
-#: .\templates\communities\_issue.html.py:37
+#: .\templates\communities\_issue.html:37
 msgid "Issue in discussion"
 msgstr "נושא בדיון"
 
-#: .\templates\communities\base_meeting.html.py:30
-#: .\templates\communities\upcoming.html.py:37
-#: .\templates\communities\upcoming.html.py:82
+#: .\templates\communities\base_meeting.html:30
+#: .\templates\communities\upcoming.html:37
+#: .\templates\communities\upcoming.html:82
 msgid "Next update"
 msgstr "העדכון הבא"
 
-#: .\templates\communities\base_meeting.html.py:32
+#: .\templates\communities\base_meeting.html:32
 msgid "Upcoming Meeting"
 msgstr "הפגישה הקרובה"
 
-#: .\templates\communities\community_list.html.py:17
+#: .\templates\communities\community_list.html:17
 msgid "My communities"
 msgstr "הקהילות שלי"
 
-#: .\templates\communities\community_list.html.py:32
+#: .\templates\communities\community_list.html:32
 msgid "Plesae login to view your communities"
 msgstr "בכדי לצפות בקהילות שלך, עליך להכנס למערכת"
 
-#: .\templates\communities\community_list.html.py:43
+#: .\templates\communities\community_list.html:43
 msgid "All Communities"
 msgstr "כל הקהילות"
 
-#: .\templates\communities\community_search.html.py:9
+#: .\templates\communities\community_search.html:9
 msgid "Search"
 msgstr "חפש"
 
-#: .\templates\communities\community_search.html.py:14
+#: .\templates\communities\community_search.html:14
 msgid "All"
 msgstr "הכל"
 
-#: .\templates\communities\community_search.html.py:16
-#: .\templates\emails\agenda.html.py:115
+#: .\templates\communities\community_search.html:16
+#: .\templates\emails\agenda.html:115
 msgid "Proposals"
 msgstr "הצעות"
 
-#: .\templates\communities\community_search.html.py:20
+#: .\templates\communities\community_search.html:20
 msgid "Results"
 msgstr "תוצאות"
 
-#: .\templates\communities\community_search.html.py:33
-#: .\templates\emails\_protocol.html.py:160
-#: .\templates\emails\agenda.html.py:133
+#: .\templates\communities\community_search.html:33
+#: .\templates\emails\_protocol.html:160 .\templates\emails\agenda.html:133
 msgid "Assigned to"
 msgstr "אחראי"
 
-#: .\templates\communities\community_search.html.py:36
-#: .\templates\emails\_protocol.html.py:164
-#: .\templates\emails\agenda.html.py:137
+#: .\templates\communities\community_search.html:36
+#: .\templates\emails\_protocol.html:164 .\templates\emails\agenda.html:137
 msgid "Due by"
 msgstr "יעד"
 
-#: .\templates\communities\community_search.html.py:47
+#: .\templates\communities\community_search.html:47
 msgid "No results found."
 msgstr "לא נמצאו תוצאות."
 
-#: .\templates\communities\community_search.html.py:52
-#: .\templates\communities\community_search.html.py:57
-#: .\templates\communities\community_search.html.py:62
+#: .\templates\communities\community_search.html:52
+#: .\templates\communities\community_search.html:57
+#: .\templates\communities\community_search.html:62
 msgid "Previous"
 msgstr "הקודם"
 
-#: .\templates\communities\community_search.html.py:54
-#: .\templates\communities\community_search.html.py:59
-#: .\templates\communities\community_search.html.py:64
+#: .\templates\communities\community_search.html:54
+#: .\templates\communities\community_search.html:59
+#: .\templates\communities\community_search.html:64
 msgid "Next"
 msgstr "הבא"
 
-#: .\templates\communities\edit_summary.html.py:5
+#: .\templates\communities\edit_summary.html:5
 msgid "Edit summary"
 msgstr "ערוך סיכום"
 
-#: .\templates\communities\landing.html.py:6
+#: .\templates\communities\landing.html:6
 msgid "DemOS - operating system for democracies"
 msgstr "קהילה פתוחה - מערכת לשקיפות והשתתפות בפעילות ועד נבחר"
 
-#: .\templates\communities\landing.html.py:52
-#: .\templates\communities\landing.html.py:88
+#: .\templates\communities\landing.html:52
+#: .\templates\communities\landing.html:88
 msgid "top"
 msgstr "לראש העמוד"
 
-#: .\templates\communities\landing.html.py:55
-#: .\templates\communities\landing.html.py:91
+#: .\templates\communities\landing.html:55
+#: .\templates\communities\landing.html:91
 msgid "The Problem"
 msgstr "הבעיה"
 
-#: .\templates\communities\landing.html.py:58
-#: .\templates\communities\landing.html.py:94
-#: .\templates\communities\landing.html.py:217
+#: .\templates\communities\landing.html:58
+#: .\templates\communities\landing.html:94
+#: .\templates\communities\landing.html:217
 msgid "The Solution"
 msgstr "הפתרון"
 
-#: .\templates\communities\landing.html.py:61
-#: .\templates\communities\landing.html.py:97
-#: .\templates\communities\landing.html.py:245
+#: .\templates\communities\landing.html:61
+#: .\templates\communities\landing.html:97
+#: .\templates\communities\landing.html:245
 msgid "Our Tool"
 msgstr "הכלי שלנו"
 
-#: .\templates\communities\landing.html.py:64
-#: .\templates\communities\landing.html.py:100
+#: .\templates\communities\landing.html:64
+#: .\templates\communities\landing.html:100
 msgid "Our Team"
 msgstr "הצוות"
 
-#: .\templates\communities\landing.html.py:84
+#: .\templates\communities\landing.html:84
 msgid "Menu"
 msgstr "תפריט"
 
-#: .\templates\communities\landing.html.py:122
+#: .\templates\communities\landing.html:122
 msgid "An operating system for democracies"
 msgstr "מערכת לשקיפות והשתתפות בפעילות ועד נבחר"
 
-#: .\templates\communities\landing.html.py:125
+#: .\templates\communities\landing.html:125
 msgid "that strengthens communities by"
 msgstr "חיזוק הקהילה באמצעות"
 
-#: .\templates\communities\landing.html.py:131
+#: .\templates\communities\landing.html:131
 msgid "Engaging Crowds"
 msgstr "שיתוף ציבור"
 
-#: .\templates\communities\landing.html.py:134
+#: .\templates\communities\landing.html:134
 msgid "Empowering Individuals"
 msgstr "העצמת בעלי תפקידים"
 
-#: .\templates\communities\landing.html.py:137
+#: .\templates\communities\landing.html:137
 msgid "Decentralizing Democracy"
 msgstr "דמוקרטיה מבוזרת"
 
-#: .\templates\communities\landing.html.py:140
+#: .\templates\communities\landing.html:140
 msgid "Facilitating Leaders"
 msgstr "גיבוי המנהיגות הנבחרת"
 
-#: .\templates\communities\landing.html.py:143
-#: .\templates\communities\landing.html.py:254
+#: .\templates\communities\landing.html:143
+#: .\templates\communities\landing.html:254
 msgid "Converging Discussions"
 msgstr "דיונים מתכנסים"
 
-#: .\templates\communities\landing.html.py:148
+#: .\templates\communities\landing.html:148
 msgid "Learn More"
 msgstr "קראו עוד"
 
-#: .\templates\communities\landing.html.py:168
+#: .\templates\communities\landing.html:168
 msgid "What Went Wrong"
 msgstr "מה השתבש"
 
-#: .\templates\communities\landing.html.py:171
+#: .\templates\communities\landing.html:171
 msgid "In many communities democracy suffers from many ailments"
 msgstr "ניהול קהילה דמוקרטית מציב קשיים ואתגרים לא פשוטים"
 
-#: .\templates\communities\landing.html.py:175
+#: .\templates\communities\landing.html:175
 msgid "The root cause of which is the"
 msgstr "הסיבה העיקרית לתופעה זו היא"
 
-#: .\templates\communities\landing.html.py:175
+#: .\templates\communities\landing.html:175
 msgid "alienation"
 msgstr "ניכור"
 
-#: .\templates\communities\landing.html.py:175
+#: .\templates\communities\landing.html:175
 msgid "between the elected board and the public, where the public is"
 msgstr "בין ועד מנהל נבחר ובין הציבור, מכיוון שהציבור מוצא את עצמו מחוץ למעגל"
 
-#: .\templates\communities\landing.html.py:175
+#: .\templates\communities\landing.html:175
 msgid "excluded"
 msgstr "קבלת ההחלטות"
 
-#: .\templates\communities\landing.html.py:175
+#: .\templates\communities\landing.html:175
 msgid ""
 "from the decision-making process and can only elect its governors and "
 "protest in between elections"
@@ -458,18 +463,18 @@ msgstr ""
 "והוא נשאר רק עם האפשרות לבחור בחברי הוועד ולמחות בין בחירות לבחירות כאשר "
 "ההחלטות המתקבלות אינן לשביעות רצונו"
 
-#: .\templates\communities\landing.html.py:220
+#: .\templates\communities\landing.html:220
 msgid "Participatory decision making in democratic communities"
 msgstr "מנגנון קבלת החלטות משתף בקהילות דמוקרטיות"
 
-#: .\templates\communities\landing.html.py:223
+#: .\templates\communities\landing.html:223
 msgid ""
 "We aim to return democracy to its fundamental principle – public "
 "participation in the decision making process"
 msgstr ""
 "אנחנו שואפים להחזיר את הדמוקרטיה לשורשיה - שיתוף הציבור בתהליך קבלת ההחלטות"
 
-#: .\templates\communities\landing.html.py:226
+#: .\templates\communities\landing.html:226
 msgid ""
 "We develop an online platform that enables democratic communities, big and "
 "small, to increase transparency and levels of participation and increase "
@@ -478,37 +483,37 @@ msgstr ""
 "לכן פיתחנו כלי אינטרנטי שמאפשר לקהילות דמוקרטיות, גדולות וקטנות, לחזק את "
 "השקיפות ואת רמת המעורבות ובכך להגדיל את ההון החברתי שלהן"
 
-#: .\templates\communities\landing.html.py:247
+#: .\templates\communities\landing.html:247
 msgid ""
 "The complete platform will accompany the process of decision making as it "
 "progresses"
 msgstr "הפלטפורמה תלווה את תהליך קבלת ההחלטות לכל אורכו"
 
-#: .\templates\communities\landing.html.py:257
+#: .\templates\communities\landing.html:257
 msgid "Agenda Setting"
 msgstr "קביעת סדר יום"
 
-#: .\templates\communities\landing.html.py:260
+#: .\templates\communities\landing.html:260
 msgid "Solution suggestion"
 msgstr "הצעת פתרונות"
 
-#: .\templates\communities\landing.html.py:263
+#: .\templates\communities\landing.html:263
 msgid "Prioritization"
 msgstr "יצירת סדרי עדיפויות"
 
-#: .\templates\communities\landing.html.py:266
+#: .\templates\communities\landing.html:266
 msgid "Voting"
 msgstr "הצבעות"
 
-#: .\templates\communities\landing.html.py:269
+#: .\templates\communities\landing.html:269
 msgid "Publication monitoring"
 msgstr "מעקב ציבורי"
 
-#: .\templates\communities\landing.html.py:291
+#: .\templates\communities\landing.html:291
 msgid "The Proccess"
 msgstr "התהליך"
 
-#: .\templates\communities\landing.html.py:299
+#: .\templates\communities\landing.html:299
 msgid ""
 "The platform enables adjustments to the levels of exposure. The adjustments "
 "enable a gradual process according to the development and increase of trust "
@@ -517,11 +522,11 @@ msgstr ""
 "המערכת מאפשרת שליטה ברמת השקיפות על פי החלטת הוועד. שליטה זו מאפשרת יצירת "
 "תהליך הדרגתי בהתאם להתפתחויות ורמת האמון הקיים בין הוועד ובין הקהילה"
 
-#: .\templates\communities\landing.html.py:303
+#: .\templates\communities\landing.html:303
 msgid "Transparency"
 msgstr "שקיפות"
 
-#: .\templates\communities\landing.html.py:305
+#: .\templates\communities\landing.html:305
 msgid ""
 "The board uses the platform to manage issues, meeting agenda and decisions, "
 "and keeps the community informed with no extra effort"
@@ -529,11 +534,11 @@ msgstr ""
 "הוועד משתמש במערכת לניהול נושאים, סדר יום של פגישות והחלטות, וכך משאיר את "
 "הקהילה מיודעת ומחוברת ללא השקעת מאמץ נוסף"
 
-#: .\templates\communities\landing.html.py:310
+#: .\templates\communities\landing.html:310
 msgid "Consultation"
 msgstr "התייעצות"
 
-#: .\templates\communities\landing.html.py:312
+#: .\templates\communities\landing.html:312
 msgid ""
 "Community members can participate in non-binding discussion, polls and "
 "voting to share their preference with the board"
@@ -541,11 +546,11 @@ msgstr ""
 "חברי הקהילה מוזמנים להשתתף בדיון לא מחייב, סקרים והצבעות וכך לחלוק עם הוועד "
 "את העדפותיהם"
 
-#: .\templates\communities\landing.html.py:317
+#: .\templates\communities\landing.html:317
 msgid "Collaboration"
 msgstr "שיתוף"
 
-#: .\templates\communities\landing.html.py:319
+#: .\templates\communities\landing.html:319
 msgid ""
 "Community members raise issues (initiatives), introduce proposals, impact "
 "the agenda, and vote on proposals (referendum)"
@@ -553,11 +558,11 @@ msgstr ""
 "חברי הקהילה מסוגלים להעלות נושאים לדיון (יוזמות), להציג הצעות, להשפיע על סדר "
 "היום ולהצביע עבור החלטות"
 
-#: .\templates\communities\landing.html.py:324
+#: .\templates\communities\landing.html:324
 msgid "Empowerment"
 msgstr "העצמה"
 
-#: .\templates\communities\landing.html.py:326
+#: .\templates\communities\landing.html:326
 msgid ""
 "The community is the true sovereign and has full power over decision making "
 "(as done by jury and public committees)"
@@ -565,15 +570,15 @@ msgstr ""
 "הקהילה היא הריבון האמיתי, ובידיה הכוח המלא על קבלת ההחלטות (כפי שנעשה על ידי "
 "חבר מושבעים ועל ידי ועדות ציבוריות)"
 
-#: .\templates\communities\landing.html.py:348
+#: .\templates\communities\landing.html:348
 msgid "The project runs within the framework of the"
 msgstr "הפרויקט פועל במסגרת"
 
-#: .\templates\communities\landing.html.py:348
+#: .\templates\communities\landing.html:348
 msgid "Public Knowledge Workshop"
 msgstr "הסדנא לידע ציבורי"
 
-#: .\templates\communities\landing.html.py:350
+#: .\templates\communities\landing.html:350
 msgid ""
 "a non-profit incubator for open code to promote democracy and citizen "
 "involvement in government activities"
@@ -581,290 +586,280 @@ msgstr ""
 "ארגון ללא מטרות רווח (ע\"ר) הפועל כחממה לפרויקטים בקוד פתוח לקידום דמוקרטיה "
 "ומעורבות אזרחית בפעילות ממשלתית וציבורית"
 
-#: .\templates\communities\participants_form.html.py:6
+#: .\templates\communities\participants_form.html:7
 msgid "Select participants"
 msgstr "בחר משתתפים"
 
-#: .\templates\communities\participants_form.html.py:6
+#: .\templates\communities\participants_form.html:7
 msgid "List"
 msgstr "רשימה"
 
-#: .\templates\communities\participants_form.html.py:7
+#: .\templates\communities\participants_form.html:10
 msgid "List of participants"
 msgstr "רשימת משתתפים בפגישה"
 
-#: .\templates\communities\participants_form.html.py:7
-#: .\templates\communities\upcoming.html.py:69
+#: .\templates\communities\participants_form.html:10
+#: .\templates\communities\upcoming.html:69
 msgid "Edit"
 msgstr "עריכה"
 
-#: .\templates\communities\participants_form.html.py:29
-#: .\templates\communities\participants_form.html.py:172
-#: .\templates\emails\_protocol.html.py:70
+#: .\templates\communities\participants_form.html:33
+#: .\templates\communities\participants_form.html:180
+#: .\templates\emails\_protocol.html:70
 msgid "Guests"
 msgstr "אורחים"
 
-#: .\templates\communities\participants_form.html.py:44
-#: .\templates\communities\participants_form.html.py:83
+#: .\templates\communities\participants_form.html:48
+#: .\templates\communities\participants_form.html:88
 msgid "Delete"
 msgstr "מחק"
 
-#: .\templates\communities\participants_form.html.py:59
-#: .\templates\communities\participants_form.html.py:114
+#: .\templates\communities\participants_form.html:64
+#: .\templates\communities\participants_form.html:122
 msgid "Previous participants"
 msgstr "משתתפים מפגישות קודמות"
 
-#: .\templates\communities\participants_form.html.py:69
-#: .\templates\communities\participants_form.html.py:104
-#: .\templates\communities\participants_form.html.py:124
-#: .\templates\communities\upcoming.html.py:182
+#: .\templates\communities\participants_form.html:74
+#: .\templates\communities\participants_form.html:111
+#: .\templates\communities\participants_form.html:132
+#: .\templates\communities\upcoming.html:182
 msgid "Add"
 msgstr "הוסף"
 
-#: .\templates\communities\participants_form.html.py:98
+#: .\templates\communities\participants_form.html:104
 msgid "Email"
 msgstr "אימייל"
 
-#: .\templates\communities\participants_form.html.py:138
+#: .\templates\communities\participants_form.html:146
 msgid "Please select participants for upcoming meeting"
 msgstr "בחר משתתפים לפגישה הקרובה"
 
-#: .\templates\communities\participants_form.html.py:189
+#: .\templates\communities\participants_form.html:197
 msgid "Cancel"
 msgstr "ביטול"
 
-#: .\templates\communities\participants_form.html.py:190
-#: .\templates\communities\upcoming.html.py:276
+#: .\templates\communities\participants_form.html:198
+#: .\templates\communities\upcoming.html:276
 msgid "Save"
 msgstr "שמירה"
 
-#: .\templates\communities\publish_upcoming.html.py:6
-#: .\templates\communities\upcoming.html.py:216
-#: .\templates\emails\protocol_draft.html.py:3
-#: .\templates\emails\protocol_draft.txt.py:1
+#: .\templates\communities\publish_upcoming.html:6
+#: .\templates\communities\upcoming.html:216
+#: .\templates\emails\protocol_draft.html:3
+#: .\templates\emails\protocol_draft.txt:1
 msgid "Summary draft"
 msgstr "טיוטת סיכום"
 
-#: .\templates\communities\publish_upcoming.html.py:8
-#: .\templates\communities\publish_upcoming.html.py:26
+#: .\templates\communities\publish_upcoming.html:8
+#: .\templates\communities\publish_upcoming.html:26
 msgid "Publish"
 msgstr "פרסם"
 
-#: .\templates\communities\publish_upcoming.html.py:17
+#: .\templates\communities\publish_upcoming.html:17
 msgid "Preview details"
 msgstr "הצגת פירוט"
 
-#: .\templates\communities\publish_upcoming.html.py:19
+#: .\templates\communities\publish_upcoming.html:19
 msgid "Preview protocol"
 msgstr "הצגת פרוטוקול"
 
-#: .\templates\communities\publish_upcoming.html.py:22
+#: .\templates\communities\publish_upcoming.html:22
 msgid "Preview draft"
 msgstr "הצגת סדר יום"
 
-#: .\templates\communities\publish_upcoming.html.py:25
+#: .\templates\communities\publish_upcoming.html:25
 msgid "Close"
 msgstr "סגור"
 
-#: .\templates\communities\publish_upcoming.html.py:32
+#: .\templates\communities\publish_upcoming.html:32
 msgid "Print details"
 msgstr "הדפס פירוט"
 
-#: .\templates\communities\publish_upcoming.html.py:34
+#: .\templates\communities\publish_upcoming.html:34
 msgid "Print protocol"
 msgstr "הדפס פרוטוקול"
 
-#: .\templates\communities\publish_upcoming.html.py:37
+#: .\templates\communities\publish_upcoming.html:37
 msgid "Print draft"
 msgstr "הדפס סדר יום"
 
-#: .\templates\communities\start_meeting.html.py:6
-#: .\templates\communities\start_meeting.html.py:17
+#: .\templates\communities\start_meeting.html:6
+#: .\templates\communities\start_meeting.html:17
 msgid "Start update"
 msgstr "התחל עדכון"
 
-#: .\templates\communities\start_meeting.html.py:8
-#: .\templates\communities\start_meeting.html.py:19
-#: .\templates\communities\upcoming.html.py:130
+#: .\templates\communities\start_meeting.html:8
+#: .\templates\communities\start_meeting.html:19
+#: .\templates\communities\upcoming.html:130
 msgid "Start meeting"
 msgstr "התחל פגישה"
 
-#: .\templates\communities\upcoming.html.py:9
+#: .\templates\communities\upcoming.html:9
 msgid "Upcoming update"
 msgstr "העדכון הבא"
 
-#: .\templates\communities\upcoming.html.py:11
-#: .\templates\communities\upcoming.html.py:39
-#: .\templates\communities\upcoming.html.py:84
-#: .\templates\emails\agenda.txt.py:1
+#: .\templates\communities\upcoming.html:11
+#: .\templates\communities\upcoming.html:39
+#: .\templates\communities\upcoming.html:84 .\templates\emails\agenda.txt:1
 msgid "Upcoming meeting"
 msgstr "הפגישה הקרובה"
 
-#: .\templates\communities\upcoming.html.py:23
+#: .\templates\communities\upcoming.html:23
 msgid "All updates"
 msgstr "כל העדכונים"
 
-#: .\templates\communities\upcoming.html.py:25
+#: .\templates\communities\upcoming.html:25
 msgid "All meetings"
 msgstr "כל הפגישות"
 
-#: .\templates\communities\upcoming.html.py:95
+#: .\templates\communities\upcoming.html:95
 msgid "Login to vote"
 msgstr "הכנס בכדי להצביע"
 
-#: .\templates\communities\upcoming.html.py:104
-#: .\templates\emails\_protocol.html.py:55
+#: .\templates\communities\upcoming.html:104
+#: .\templates\emails\_protocol.html:55
 msgid "Participants"
 msgstr "משתתפים"
 
-#: .\templates\communities\upcoming.html.py:116
+#: .\templates\communities\upcoming.html:116
 msgid "Open voting"
 msgstr "פתח הצבעות"
 
-#: .\templates\communities\upcoming.html.py:118
+#: .\templates\communities\upcoming.html:118
 msgid "Undo start meeting"
 msgstr "עצור פגישה"
 
-#: .\templates\communities\upcoming.html.py:128
+#: .\templates\communities\upcoming.html:128
 msgid "Close voting"
 msgstr "סגור הצבעות"
 
-#: .\templates\communities\upcoming.html.py:150
+#: .\templates\communities\upcoming.html:150
 msgid "Agenda items"
 msgstr "נושאים לסדר היום"
 
-#: .\templates\communities\upcoming.html.py:154
+#: .\templates\communities\upcoming.html:154
 msgid "New issue"
 msgstr "נושא חדש"
 
-#: .\templates\communities\upcoming.html.py:159
+#: .\templates\communities\upcoming.html:159
 msgid "All proposals / Voted"
 msgstr "סך הצעות/כמה הצבעתי"
 
-#: .\templates\communities\upcoming.html.py:179
+#: .\templates\communities\upcoming.html:179
 msgid "Type the new issue title"
 msgstr "הקלד כותרת עבור הנושא החדש"
 
-#: .\templates\communities\upcoming.html.py:196
+#: .\templates\communities\upcoming.html:196
 msgid "Comments"
 msgstr "הערות"
 
-#: .\templates\communities\upcoming.html.py:198
-#: .\templates\emails\_protocol.html.py:46
-#: .\templates\emails\protocol.html.py:3 .\templates\emails\protocol.txt.py:1
-#: .\templates\emails\protocol_title.txt.py:4
+#: .\templates\communities\upcoming.html:198
+#: .\templates\emails\_protocol.html:46 .\templates\emails\protocol.html:3
+#: .\templates\emails\protocol.txt:1 .\templates\emails\protocol_title.txt:4
 msgid "Summary"
 msgstr "סיכום הפגישה"
 
-#: .\templates\communities\upcoming.html.py:216
+#: .\templates\communities\upcoming.html:216
 msgid "Publish the agenda"
 msgstr "פרסם סדר יום"
 
-#: .\templates\communities\upcoming.html.py:220
+#: .\templates\communities\upcoming.html:220
 msgid "Close update"
 msgstr "סגור עדכון"
 
-#: .\templates\communities\upcoming.html.py:222
+#: .\templates\communities\upcoming.html:222
 msgid "Close meeting"
 msgstr "סגור פגישה"
 
-#: .\templates\communities\upcoming.html.py:234
-#: .\templates\communities\upcoming.html.py:250
+#: .\templates\communities\upcoming.html:234
+#: .\templates\communities\upcoming.html:250
 msgid "Additional issues"
 msgstr "נושאים נוספים"
 
-#: .\templates\communities\upcoming.html.py:236
+#: .\templates\communities\upcoming.html:236
 msgid "By time"
 msgstr "זמן"
 
-#: .\templates\communities\upcoming.html.py:237
+#: .\templates\communities\upcoming.html:237
 msgid "By priority"
 msgstr "משוקלל"
 
-#: .\templates\communities\upcoming.html.py:263
+#: .\templates\communities\upcoming.html:263
 msgid "Agenda not yet published"
 msgstr "טרם פורסם סדר היום לפגישה הקרובה"
 
-#: .\templates\communities\upcoming_form.html.py:5
+#: .\templates\communities\upcoming_form.html:5
 msgid "Edit the agenda"
 msgstr "עריכת סדר יום"
 
-#: .\templates\emails\_protocol.html.py:30
-#: .\templates\emails\agenda.html.py:46 .\templates\emails\agenda.txt.py:3
-#: .\templates\emails\protocol.txt.py:3
-#: .\templates\emails\protocol_draft.txt.py:3
+#: .\templates\emails\_protocol.html:30 .\templates\emails\agenda.html:46
+#: .\templates\emails\agenda.txt:3 .\templates\emails\protocol.txt:3
+#: .\templates\emails\protocol_draft.txt:3
 msgid "View online"
 msgstr "לצפיה באתר"
 
-#: .\templates\emails\_protocol.html.py:35
-#: .\templates\emails\agenda.html.py:53
+#: .\templates\emails\_protocol.html:35 .\templates\emails\agenda.html:53
 msgid "Meeting details"
 msgstr "פרטי הפגישה"
 
-#: .\templates\emails\_protocol.html.py:39
-#: .\templates\emails\agenda.html.py:60
+#: .\templates\emails\_protocol.html:39 .\templates\emails\agenda.html:60
 msgid "Not set yet"
 msgstr "טרם נקבע"
 
-#: .\templates\emails\_protocol.html.py:65
+#: .\templates\emails\_protocol.html:65
 msgid "from "
 msgstr "מתוך "
 
-#: .\templates\emails\_protocol.html.py:66
+#: .\templates\emails\_protocol.html:66
 msgid " members of"
 msgstr "חברי"
 
-#: .\templates\emails\_protocol.html.py:90
+#: .\templates\emails\_protocol.html:90
 msgid "Issues & Decisions"
 msgstr "נושאים והחלטות"
 
-#: .\templates\emails\_protocol.html.py:102
-#: .\templates\emails\_protocol.html.py:105
-#: .\templates\emails\_protocol.html.py:153
-#: .\templates\emails\_protocol.html.py:156
-#: .\templates\emails\_protocol.html.py:184
-#: .\templates\emails\_protocol.html.py:187
-#: .\templates\emails\agenda.html.py:85 .\templates\emails\agenda.html.py:125
-#: .\templates\emails\agenda.html.py:128
+#: .\templates\emails\_protocol.html:102 .\templates\emails\_protocol.html:105
+#: .\templates\emails\_protocol.html:153 .\templates\emails\_protocol.html:156
+#: .\templates\emails\_protocol.html:184 .\templates\emails\_protocol.html:187
+#: .\templates\emails\agenda.html:85 .\templates\emails\agenda.html.py:125
+#: .\templates\emails\agenda.html:128
 msgid "Confidential"
 msgstr "חסוי"
 
-#: .\templates\emails\_protocol.html.py:127
-#: .\templates\emails\agenda.html.py:102
+#: .\templates\emails\_protocol.html:127 .\templates\emails\agenda.html:102
 msgid "Related files"
 msgstr "קבצים קשורים"
 
-#: .\templates\emails\_protocol.html.py:143
+#: .\templates\emails\_protocol.html:143
 msgid "Accepted proposals"
 msgstr "החלטות שהתקבלו"
 
-#: .\templates\emails\_protocol.html.py:177
+#: .\templates\emails\_protocol.html:177
 msgid "Rejected proposals"
 msgstr "הצעות החלטה שנדחו"
 
-#: .\templates\emails\agenda.html.py:34
+#: .\templates\emails\agenda.html:34
 msgid "Published at"
 msgstr "פורסם ב -"
 
-#: .\templates\emails\agenda.html.py:35
-#: .\templates\emails\agenda_title.txt.py:3
+#: .\templates\emails\agenda.html:35 .\templates\emails\agenda_title.txt:3
 #: .\templatetags\community_tags.py:40
 msgid "Version"
 msgstr "גרסא"
 
-#: .\templates\emails\agenda.html.py:37 .\templatetags\community_tags.py:61
+#: .\templates\emails\agenda.html:37 .\templatetags\community_tags.py:61
 msgid "Draft"
 msgstr "טיוטה"
 
-#: .\templates\emails\agenda.html.py:44
+#: .\templates\emails\agenda.html:44
 msgid "Enter site and vote on proposals"
 msgstr "כניסה לאתר והצבעה על ההצעות"
 
-#: .\templates\emails\agenda.html.py:72
+#: .\templates\emails\agenda.html:72
 msgid "Issues "
 msgstr "הנושאים שיועלו לדיון"
 
-#: .\templates\emails\agenda.html.py:76
+#: .\templates\emails\agenda.html:76
 msgid ""
 "click links for more details. to vote on proposals from the mail just click "
 "for/against buttons under the proposal"
@@ -872,23 +867,23 @@ msgstr ""
 "למידע נוסף יש ללחוץ על הקישורים. להצבעה מתוך המייל לחצו על כפורי \"בעד\" או "
 "\"נגד\" שמתחת להצעת החלטה"
 
-#: .\templates\emails\agenda.html.py:146
+#: .\templates\emails\agenda.html:146
 msgid "For"
 msgstr "בעד"
 
-#: .\templates\emails\agenda.html.py:147
+#: .\templates\emails\agenda.html:147
 msgid "Against"
 msgstr "נגד"
 
-#: .\templates\emails\agenda_title.txt.py:3
+#: .\templates\emails\agenda_title.txt:3
 msgid "Upcoming agenda for"
 msgstr "סדר יום לפגישה שתתקיים ב"
 
-#: .\templates\emails\agenda_title.txt.py:3
+#: .\templates\emails\agenda_title.txt:3
 msgid "Upcoming agenda"
 msgstr "סדר יום לפגישה הקרובה"
 
-#: .\templates\emails\protocol_draft_title.txt.py:3
+#: .\templates\emails\protocol_draft_title.txt:3
 msgid "Meeting summary draft"
 msgstr "טיוטת סיכום פגישה"
 
@@ -911,6 +906,23 @@ msgstr "הצבעה פעילה"
 #: .\templatetags\community_tags.py:58
 msgid "Published"
 msgstr "פורסם"
+
+#: .\views.py:250
+#, python-format
+msgid "Sending to %d users"
+msgstr "שולח ל-%d משתמשים"
+
+#: .\views.py:349
+msgid "Not a valid number for page."
+msgstr "מספר עמוד לא תקין"
+
+#: .\views.py:352
+msgid "Pages should be 1 or greater."
+msgstr "מספר עמוד צריך להיות 1 או יותר."
+
+#: .\views.py:361
+msgid "No such page!"
+msgstr "דף לא קיים!"
 
 #~ msgid "Our team"
 #~ msgstr "הצוות"

@@ -1,13 +1,11 @@
 from django.conf import settings
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, \
-    PermissionsMixin
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.core.mail import send_mail
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from issues.models import Proposal, ProposalVote, ProposalVoteValue, \
-    ProposalStatus
+from issues.models import Proposal, ProposalVoteValue, ProposalStatus
 from meetings.models import MeetingParticipant
 from users.default_roles import DefaultGroups
 import datetime
@@ -299,7 +297,6 @@ class Invitation(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return "accept_invitation", (self.code,)
-
 
     def send(self, sender, recipient_name='', base_url=None):
 

@@ -7,125 +7,146 @@ id="issue-list"
 {% endblock %}
 
 {% block title %}
-	<title>{{ community.name }} - {% trans "Issues" %}</title>
+<title>{{ committee.name }} - {% trans "Issues" %}</title>
 {% endblock %}
 
 {% block page_header %}
 {% endblock %}
 
 {% block content %}
-	<h1>{% trans "Issues" %}</h1>
-    {% if community.issue_ranking_enabled %}
-    <ul id="issues-order" class="nav nav-tabs">
-        <li><a href="#by_time" data-toggle="tab">{% trans "By time" %}</a></li>
-        {% if cperms.issues.vote_ranking and is_member %}
-            <li><a href="#my_vote" data-toggle="tab">{% trans "My vote" %}</a></li>
-        {% endif %}
-        <li><a href="#by_rank" data-toggle="tab">{% trans "By priority" %}</a></li>
-        {% if user.id and cperms.issues.add_issue %}
-		<li class="pull-right btn-tab">
-			<a href="{% url "issue_create" community.id %}" class="btn btn-oc" data-rel="form"> <i class="fa fa-plus"></i><span> {% trans "New issue" %}</span></a>
-		</li>
-		{% endif %}
-    </ul>
+<h1>{% trans "Issues" %}</h1>
+{% if committee.issue_ranking_enabled %}
+<ul id="issues-order" class="nav nav-tabs">
+    <li><a href="#by_time" data-toggle="tab">{% trans "By time" %}</a></li>
+    {% if cperms.issues.vote_ranking and is_member %}
+    <li><a href="#my_vote" data-toggle="tab">{% trans "My vote" %}</a></li>
     {% endif %}
-    {% if user.id and cperms.issues.add_issue and not community.issue_ranking_enabled %}
-		<div class="one_action_icon col-xs-2 pull-right" style="width: auto;line-height: 1;padding: 0;">
-			<a href="{% url "issue_create" community.id %}" class="btn btn-oc" data-rel="form"> <i class="fa fa-plus"></i><span> {% trans "New issue" %}</span></a>
-		</div>
-	{% endif %}
-    {% if community.issue_ranking_enabled %}
-    <div class="tab-content clearfix" style="clear: both; padding-top: 10px;">
-        <div id="by_time" class="tab-pane">
-            <div class="row">
-                <!-- <h2 class="col-xs-3 col-sm-1">{% trans "Search" %}:</h2> -->
-                <div class="form-group {% if community.issue_ranking_enabled %}col-xs-12{% else %}col-xs-9 pull-left{% endif %}">
-                    <input type="text" class="form-control issue-search" placeholder="{% trans "Search the agenda" %}">
-                </div>
+    <li><a href="#by_rank" data-toggle="tab">{% trans "By priority" %}</a></li>
+    {% if user.id and cperms.issues.add_issue %}
+    <li class="pull-right btn-tab">
+        <a href="{% url 'issue_create' committee.community.slug committee.slug %}" class="btn btn-oc" data-rel="form">
+            <i class="fa fa-plus"></i><span> {% trans "New issue" %}</span>
+        </a>
+    </li>
+    {% endif %}
+</ul>
+{% endif %}
+{% if user.id and cperms.issues.add_issue and not committee.issue_ranking_enabled %}
+<div class="one_action_icon col-xs-2 pull-right" style="width: auto;line-height: 1;padding: 0;">
+    <a href="{% url 'issue_create' committee.community.slug committee.slug %}" class="btn btn-oc" data-rel="form">
+        <i class="fa fa-plus"></i><span> {% trans "New issue" %}</span>
+    </a>
+</div>
+{% endif %}
+{% if committee.issue_ranking_enabled %}
+<div class="tab-content clearfix" style="clear: both; padding-top: 10px;">
+    <div id="by_time" class="tab-pane">
+        <div class="row">
+            <!-- <h2 class="col-xs-3 col-sm-1">{% trans "Search" %}:</h2> -->
+            <div class="form-group {% if community.issue_ranking_enabled %}col-xs-12{% else %}col-xs-9 pull-left{% endif %}">
+                <input type="text" class="form-control issue-search" placeholder="{% trans 'Search the agenda' %}">
             </div>
-            <table class="table table-condensed issue-table">
+        </div>
+        <table class="table table-condensed issue-table">
             {% for object in object_list %}
-                <tr class="issue-list">
-                    <td class="issue_date{% if object.is_confidential %} is_confidential{% endif %}">{{ object.created_at|ocshortdate }}</td>
-                    <td class="issue_title left_arrow{% if object.is_confidential %} is_confidential_w_arrow{% endif %}"><a href="{{ object.get_absolute_url }}?s=1"> {{ object.title }}</a></td>
-                </tr>
+            <tr class="issue-list">
+                <td class="issue_date{% if object.is_confidential %} is_confidential{% endif %}">
+                    {{ object.created_at|ocshortdate }}
+                </td>
+                <td class="issue_title left_arrow{% if object.is_confidential %} is_confidential_w_arrow{% endif %}">
+                    <a href="{{ object.get_absolute_url }}?s=1"> {{ object.title }}</a>
+                </td>
+            </tr>
             {% endfor %}
-            </table>
+        </table>
+    </div>
+
+    {% if is_member and cperms.issues.vote_ranking %}
+    <div id="my_vote" class="tab-pane">
+        {% with can_sort=True %}
+        <h2> {% trans "My agenda" %}
+            <i class="fa fa-info-circle" style="font-size: 15px; color: #194e5c;" id="help" data-container="#help"
+               data-trigger="hover" data-toggle="popover" data-placement="top"
+               data-content="{% trans 'The order of the items should reflect their importance, please prioritize.' %}">
+            </i>
+        </h2>
+
+        <ul id="ordered" class="nav nav-pills nav-stacked">
+            {% for i in my_vote %}
+            {% include "issues/_issue_sort.html" %}
+            {% endfor %}
+        </ul>
+
+        <div class="narrow">
+            <a id="do_ranking_vote" href="{% url 'issues' committee.community.slug committee.slug %}" data-rel="formo"
+               class="btn btn-warning btn-block btn-lg ">{% trans 'Submit' %}
+            </a>
         </div>
 
-        {% if is_member and cperms.issues.vote_ranking %}
-        <div id="my_vote" class="tab-pane">
-            {% with can_sort=True %}
-            <h2> {% trans "My agenda" %}
-            	<i class="fa fa-info-circle" style="font-size: 15px; color: #194e5c;" id="help" data-container="#help" data-trigger="hover" data-toggle="popover" data-placement="top" data-content="{% trans 'The order of the items should reflect their importance, please prioritize.' %}"></i>
-        	</h2>
+        <h2>{% trans "Other issues" %}</h2>
 
-            <ul id="ordered" class="nav nav-pills nav-stacked">
-                {% for i in my_vote %}
-                    {% include "issues/_issue_sort.html" %}
-                {% endfor %}
-            </ul>
+        <ul id="voted_out" class="nav nav-pills nav-stacked">
+            {% for i in my_non_ranked %}
+            {% include "issues/_issue_sort.html" %}
+            {% endfor %}
+        </ul>
+        {% endwith %}
+    </div>
+    {% endif %}
 
-            <div class="narrow">
-				<a id="do_ranking_vote" href="{% url 'issues' community.id %}" data-rel="formo" class="btn btn-warning btn-block btn-lg ">{% trans 'Submit' %}</a>
+    <div id="by_rank" class="tab-pane">
+        {% with can_sort=False %}
+
+        <div class="row">
+            <div class="col-xs-12 form-group">
+                <input type="text" class="form-control issue-search" placeholder="{% trans 'Search the agenda' %}">
             </div>
-
-            <h2>{% trans "Other issues" %}</h2>
-
-            <ul id="voted_out" class="nav nav-pills nav-stacked">
-                {% for i in my_non_ranked %}
-                    {% include "issues/_issue_sort.html" %}
-                {% endfor %}
-            </ul>
-            {% endwith %}
         </div>
-        {% endif %}
+        <table id="voted_order" class="table table-condensed issue-table">
+            {% for object in sorted_issues %}
+            <tr class="issue-list">
+                <td class="issue_date{% if object.is_confidential %} is_confidential{% endif %}">
+                    {{ object.order_by_votes|floatformat }}
+                </td>
+                <td class="issue_title left_arrow{% if object.is_confidential %} is_confidential_w_arrow{% endif %}">
+                    <a href="{{ object.get_absolute_url }}?s=1"> {{ object.title }}</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
 
-        <div id="by_rank" class="tab-pane">
-            {% with can_sort=False %}
-
-            <div class="row">
-                <div class="col-xs-12 form-group">
-                    <input type="text" class="form-control issue-search" placeholder="{% trans "Search the agenda" %}">
-                </div>
-            </div>
-            <table id="voted_order" class="table table-condensed issue-table">
-                {% for object in sorted_issues %}
-                    <tr class="issue-list">
-                        <td class="issue_date{% if object.is_confidential %} is_confidential{% endif %}">{{ object.order_by_votes|floatformat }}</td>
-                        <td class="issue_title left_arrow{% if object.is_confidential %} is_confidential_w_arrow{% endif %}"><a href="{{ object.get_absolute_url }}?s=1"> {{ object.title }}</a></td>
-                    </tr>
-                {% endfor %}
-            </table>
-
-            {% endwith %}
+        {% endwith %}
+    </div>
+</div>
+{% else %}
+<div id="by_time">
+    <div class="row">
+        <div class="form-group {% if not cperms.issues.add_issue %}col-xs-12{% else %}col-xs-9 pull-left{% endif %}">
+            <input type="text" class="form-control issue-search" placeholder="{% trans 'Search the agenda' %}">
         </div>
     </div>
-    {% else %}
-        <div id="by_time">
-            <div class="row">
-                <div class="form-group {% if not cperms.issues.add_issue %}col-xs-12{% else %}col-xs-9 pull-left{% endif %}">
-                    <input type="text" class="form-control issue-search" placeholder="{% trans "Search the agenda" %}">
-                </div>
-            </div>
-            <table class="table table-condensed issue-table">
-                {% for object in object_list %}
-                    <tr class="issue-list">
-                        <td class="issue_date{% if object.is_confidential %} is_confidential{% endif %}">{{ object.created_at|ocshortdate }}</td>
-                        <td class="issue_title left_arrow{% if object.is_confidential %} is_confidential{% endif %}"><a href="{{ object.get_absolute_url }}?s=1"> {{ object.title }}</a></td>
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
+    <table class="table table-condensed issue-table">
+        {% for object in object_list %}
+        <tr class="issue-list">
+            <td class="issue_date{% if object.is_confidential %} is_confidential{% endif %}">
+                {{ object.created_at|ocshortdate }}
+            </td>
+            <td class="issue_title left_arrow{% if object.is_confidential %} is_confidential{% endif %}">
+                <a href="{{ object.get_absolute_url }}?s=1"> {{ object.title }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 
-    {% endif %}
+{% endif %}
 {% endblock %}
 
 {% block dialogs %}
 {% endblock %}
 
 {% block extrahead %}
-    <link rel="stylesheet" href="{{STATIC_URL}}bootstrap/css/typeahead.js-bootstrap.css"/>
+<link rel="stylesheet" href="{{STATIC_URL}}bootstrap/css/typeahead.js-bootstrap.css"/>
 {% endblock %}
 
 {% block scripts %}
@@ -144,23 +165,23 @@ id="issue-list"
 
     function enable_send_button() {
         $('#do_ranking_vote').show();
-        if($('#do_ranking_vote').hasClass('btn-default')) {
+        if ($('#do_ranking_vote').hasClass('btn-default')) {
             $('#do_ranking_vote').removeClass('btn-default');
             $('#do_ranking_vote').addClass('btn-warning');
             $('#do_ranking_vote').text('{% trans "Submit" %}');
         }
     }
 
-    $(function() {
+    $(function () {
         $('#do_ranking_vote').hide();
         var cur_tab_ref = $.cookie('issue-tab');
-        if(cur_tab_ref) {
-          $('a[href="' + cur_tab_ref + '"]').tab('show');
+        if (cur_tab_ref) {
+            $('a[href="' + cur_tab_ref + '"]').tab('show');
         }
         else {
-          $('a[href="#by_time"]').tab('show');
+            $('a[href="#by_time"]').tab('show');
         }
-        $('input.issue-search').bind('input', function() {
+        $('input.issue-search').bind('input', function () {
             searchIssues($(this).val().trim(), $(this));
         });
 
@@ -169,18 +190,18 @@ id="issue-list"
             opacity: 0.6,
             cursorAt: { top: 25 },
             handle: ".grab",
-            update: function(event, ui) {
+            update: function (event, ui) {
                 enable_send_button();
             }
         }).removeClass('ui-corner-all').filter('li').removeClass('ui-corner-bottom');
-        $('#ordered').on('click', '.addremove', function() {
+        $('#ordered').on('click', '.addremove', function () {
             var el = $(this).parent().parent();
             el.addClass('loading');
             $("#voted_out").prepend(el);
             // activate send button
             enable_send_button();
         });
-        $('#voted_out').on('click', '.addremove', function() {
+        $('#voted_out').on('click', '.addremove', function () {
             var el = $(this).parent().parent();
             el.addClass('loading');
             $("#ordered").append(el);
@@ -188,31 +209,31 @@ id="issue-list"
             enable_send_button();
         });
 
-        $('body').on('click', '#do_ranking_vote', function(event) {
+        $('body').on('click', '#do_ranking_vote', function (event) {
             event.preventDefault();
             var url = $(this).attr('href');
             var order_list = [];
-            $.each($('#ordered li'), function(idx, el) {
+            $.each($('#ordered li'), function (idx, el) {
                 order_list.push($(el).data('issue'));
             });
             $.post(url, {
-                            new_order: JSON.stringify(order_list),
-                            community_id: '{{ community.id }}',
+                        new_order: JSON.stringify(order_list),
+                        committee_id: '{{ committee.id }}'
                     },
-                    function(p){
+                    function (p) {
                         // disable_send_button();
-                      });
+                    });
 
-          disable_send_button();
+            disable_send_button();
         });
 
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             var tab_id = $(e.target).attr('href');
             $.cookie('issue-tab', tab_id);
         });
-	});
-	$(function() {
-		$('#help').popover();
-	});
+    });
+    $(function () {
+        $('#help').popover();
+    });
 </script>
 {% endblock %}

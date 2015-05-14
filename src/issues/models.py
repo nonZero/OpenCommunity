@@ -64,8 +64,10 @@ class Issue(UIDMixin, ConfidentialMixin):
     objects = IssueManager()
 
     active = models.BooleanField(_("Active"), default=True)
-    community = models.ForeignKey('communities.Community',
-                                  related_name="issues")
+    # community = models.ForeignKey('communities.Community',
+    # related_name="issues")
+    committee = models.ForeignKey('communities.Committee',
+                                  related_name="issues", null=True)
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                    verbose_name=_("Created by"),
@@ -107,24 +109,24 @@ class Issue(UIDMixin, ConfidentialMixin):
 
     @models.permalink
     def get_edit_url(self):
-        return ("issue_edit", (str(self.community.pk), str(self.pk),))
+        return "issue_edit", (self.committee.community.slug, self.committee.slug, str(self.pk))
 
     @models.permalink
     def get_delete_url(self):
-        return ("issue_delete", (str(self.community.pk), str(self.pk),))
+        return "issue_delete", (self.committee.community.slug, self.committee.slug, str(self.pk))
 
     @models.permalink
     def get_absolute_url(self):
-        return ("issue", (str(self.community.pk), str(self.pk),))
+        return "issue", (self.committee.community.slug, self.committee.slug, str(self.pk))
 
     @models.permalink
     def get_next_upcoming_issue_url(self):
         try:
-            next = Issue.objects.filter(community=self.community, status=2).filter(
+            next = Issue.objects.filter(committee=self.committee, status=2).filter(
                 order_in_upcoming_meeting__gt=self.order_in_upcoming_meeting).order_by('order_in_upcoming_meeting')[0]
-            return ("issue", (str(self.community.pk), str(next.pk),))
+            return "issue", (self.committee.community.slug, self.committee.slug, str(next.pk))
         except:
-            return "community", (str(self.community.pk),)
+            return "committee", (self.committee.community.slug, self.committee.slug)
 
     def active_proposals(self):
         return self.proposals.filter(active=True)
@@ -151,7 +153,7 @@ class Issue(UIDMixin, ConfidentialMixin):
 
     @property
     def is_current(self):
-        return self.status in IssueStatus.IS_UPCOMING and self.community.upcoming_meeting_started
+        return self.status in IssueStatus.IS_UPCOMING and self.committee.upcoming_meeting_started
 
     def changed_in_current(self):
         decided_at_current = self.proposals.filter(active=True,
@@ -175,14 +177,14 @@ class Issue(UIDMixin, ConfidentialMixin):
     def can_straw_vote(self):
 
         # test date/time limit
-        if self.community.voting_ends_at:
-            time_till_close = self.community.voting_ends_at - timezone.now()
+        if self.committee.voting_ends_at:
+            time_till_close = self.committee.voting_ends_at - timezone.now()
             if time_till_close.total_seconds() <= 0:
                 return False
 
-        return self.community.straw_voting_enabled and \
+        return self.committee.straw_voting_enabled and \
                self.is_upcoming and \
-               self.community.upcoming_meeting_is_published and \
+               self.committee.upcoming_meeting_is_published and \
                self.proposals.open().count() > 0
 
     def current_attachments(self):
@@ -234,7 +236,7 @@ class IssueComment(UIDMixin):
         if self.content == content:
             return True
 
-        with transaction.commit_on_success():
+        with transaction.atomic():
             IssueCommentRevision.objects.create(comment=self,
                                                 version=expected_version,
                                                 created_at=self.created_at,
@@ -250,16 +252,16 @@ class IssueComment(UIDMixin):
 
     @models.permalink
     def get_delete_url(self):
-        return "delete_issue_comment", (self.issue.community.id, self.id)
+        return "delete_issue_comment", (self.issue.committee.community.slug, self.issue.committee.slug, self.id)
 
     @models.permalink
     def get_edit_url(self):
-        return "edit_issue_comment", (self.issue.community.id, self.id)
+        return "edit_issue_comment", (self.issue.committee.community.slug, self.issue.committee.slug, self.id)
 
 
     @models.permalink
     def get_absolute_url(self):
-        return "issue", (str(self.issue.community.pk), str(self.issue.pk),)
+        return "issue", (self.issue.committee.community.slug, self.issue.committee.slug, str(self.issue.pk))
 
 
 class IssueCommentRevision(models.Model):
@@ -281,7 +283,7 @@ class IssueCommentRevision(models.Model):
 
 def issue_attachment_path(instance, filename):
     filename = get_valid_filename(os.path.basename(filename))
-    return os.path.join(instance.issue.community.uid, instance.issue.uid,
+    return os.path.join(instance.issue.committee.uid, instance.issue.uid,
                         filename)
 
 
@@ -346,7 +348,8 @@ class IssueAttachment(UIDMixin):
     @models.permalink
     def get_absolute_url(self):
         return "attachment_download", (
-            str(self.issue.community.pk),
+            self.issue.committee.community.slug,
+            self.issue.committee.slug,
             str(self.issue.pk),
             str(self.pk)
         )
@@ -498,8 +501,8 @@ class Proposal(UIDMixin, ConfidentialMixin):
     def can_show_straw_votes(self):
         return self.has_votes and \
                (not self.issue.is_upcoming or \
-                not self.issue.community.upcoming_meeting_is_published or \
-                self.issue.community.straw_vote_ended)
+                not self.issue.committee.upcoming_meeting_is_published or \
+                self.issue.committee.straw_vote_ended)
 
 
     def get_straw_results(self, meeting_id=None):
@@ -512,7 +515,7 @@ class Proposal(UIDMixin, ConfidentialMixin):
                 return None
             return res
         else:
-            if self.issue.is_upcoming and self.issue.community.straw_vote_ended:
+            if self.issue.is_upcoming and self.issue.committee.straw_vote_ended:
                 return self
             else:
                 try:
@@ -539,7 +542,7 @@ class Proposal(UIDMixin, ConfidentialMixin):
         con_count = 0
         neut_count = 0
 
-        users = self.issue.community.upcoming_meeting_participants.all()
+        users = self.issue.committee.upcoming_meeting_participants.all()
         for u in users:
             vote = ProposalVoteBoard.objects.filter(proposal=self, user=u)
             if vote.exists():
@@ -580,31 +583,29 @@ class Proposal(UIDMixin, ConfidentialMixin):
 
     @models.permalink
     def get_absolute_url(self):
-        return ("proposal", (str(self.issue.community.pk), str(self.issue.pk),
-                             str(self.pk)))
+        return "proposal", (
+        self.issue.committee.community.slug, self.issue.committee.slug, str(self.issue.pk), str(self.pk))
 
     @models.permalink
     def get_email_vote_url(self):
-        return ("vote_on_proposal", (str(self.issue.community.pk), str(self.pk)))
+        return "vote_on_proposal", (self.issue.committee.community.slug, self.issue.committee.slug, str(self.pk))
 
     @models.permalink
     def get_edit_url(self):
         return (
             "proposal_edit",
-            (str(self.issue.community.pk), str(self.issue.pk),
-             str(self.pk)))
+            (self.issue.committee.community.slug, self.issue.committee.slug, str(self.issue.pk), str(self.pk)))
 
     @models.permalink
     def get_edit_task_url(self):
         return ("proposal_edit_task",
-                (str(self.issue.community.pk), str(self.issue.pk),
-                 str(self.pk)))
+                (self.issue.committee.community.slug, self.issue.committee.slug, str(self.issue.pk), str(self.pk)))
 
     @models.permalink
     def get_delete_url(self):
         return (
             "proposal_delete",
-            (str(self.issue.community.pk), str(self.issue.pk),
+            (self.issue.committee.community.slug, self.issue.committee.slug, str(self.issue.pk),
              str(self.pk)))
 
     def get_status_class(self):
@@ -691,19 +692,27 @@ class ProposalVoteArgument(models.Model):
 
     @models.permalink
     def get_delete_url(self):
-        return "delete_proposal_argument", (self.proposal_vote.proposal.issue.community.id, self.id)
+        return "delete_proposal_argument", (
+        self.proposal_vote.proposal.issue.committee.community.slug, self.proposal_vote.proposal.issue.committee.slug,
+        self.id)
 
     @models.permalink
     def get_edit_url(self):
-        return "edit_proposal_argument", (self.proposal_vote.proposal.issue.community.id, self.id)
+        return "edit_proposal_argument", (
+        self.proposal_vote.proposal.issue.committee.community.slug, self.proposal_vote.proposal.issue.committee.slug,
+        self.id)
 
     @models.permalink
     def get_data_url(self):
-        return "get_argument_value", (self.proposal_vote.proposal.issue.community.id, self.id)
+        return "get_argument_value", (
+        self.proposal_vote.proposal.issue.committee.community.slug, self.proposal_vote.proposal.issue.committee.slug,
+        self.id)
 
     @models.permalink
     def get_vote_url(self):
-        return "argument_up_down_vote", (self.proposal_vote.proposal.issue.community.id, self.id)
+        return "argument_up_down_vote", (
+        self.proposal_vote.proposal.issue.committee.community.slug, self.proposal_vote.proposal.issue.committee.slug,
+        self.id)
 
     @property
     def argument_for_ranking(self):

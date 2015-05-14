@@ -12,7 +12,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import View, ListView, TemplateView
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import UpdateView, DeleteView
-
 from communities import models
 from communities.forms import EditUpcomingMeetingForm, \
     PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm, \
@@ -49,13 +48,35 @@ class CommunityList(ListView):
 
 class CommunityModelMixin(ProtectedMixin):
     model = models.Community
+    slug_url_kwarg = 'community_slug'
+    query_pk_and_slug = True
 
     @property
     def community(self):
         return self.get_object()
 
 
-class UpcomingMeetingView(CommunityModelMixin, DetailView):
+class CommitteeModelMixin(ProtectedMixin):
+    model = models.Committee
+    slug_url_kwarg = 'committee_slug'
+    query_pk_and_slug = True
+
+    @property
+    def community(self):
+        return self.get_object().community
+
+    @property
+    def committee(self):
+        return self.get_object()
+
+
+class CommunityDetailView(CommunityModelMixin, DetailView):
+    required_permission = 'communities.access_community'
+
+    template_name = "communities/community.html"
+
+
+class UpcomingMeetingView(CommitteeModelMixin, DetailView):
     # TODO show empty page to 'issues.viewopen_issue'
     # TODO: show draft only to those allowed to manage it.
     required_permission = 'communities.access_community'
@@ -69,11 +90,12 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
                                   'communities.viewupcoming_draft') \
                 and not self.community.upcoming_meeting_is_published:
             try:
-                last_meeting = Meeting.objects.filter(community=self.community) \
+                last_meeting = Meeting.objects.filter(committee=self.committee) \
                     .latest('held_at')
                 return HttpResponseRedirect(reverse('meeting',
                                                     kwargs={
-                                                        'community_id': self.community.id,
+                                                        'community_slug': self.community.slug,
+                                                        'committee_slug': self.committee.slug,
                                                         'pk': last_meeting.id}))
             except Meeting.DoesNotExist:
                 pass
@@ -95,7 +117,7 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
             add_to_meeting = request.POST['set'] == "0"
             issue.status = IssueStatus.IN_UPCOMING_MEETING if add_to_meeting \
                 else IssueStatus.OPEN
-            last = self.get_object().upcoming_issues(user=self.request.user, community=self.community).aggregate(
+            last = self.get_object().upcoming_issues(user=self.request.user, committee=self.committee).aggregate(
                 last=Max('order_in_upcoming_meeting'))['last']
             issue.order_in_upcoming_meeting = (last or 0) + 1
             issue.save()
@@ -105,7 +127,7 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
 
         if 'issues[]' in request.POST:
             issues = [int(x) for x in request.POST.getlist('issues[]')]
-            qs = self.get_object().upcoming_issues(user=self.request.user, community=self.community)
+            qs = self.get_object().upcoming_issues(user=self.request.user, committee=self.committee)
             for i, iid in enumerate(issues):
                 qs.filter(id=iid).update(order_in_upcoming_meeting=i)
 
@@ -118,43 +140,42 @@ class UpcomingMeetingView(CommunityModelMixin, DetailView):
         d = super(UpcomingMeetingView, self).get_context_data(**kwargs)
         sorted_issues = {'by_time': [], 'by_rank': []}
         open_issues = Issue.objects.filter(active=True, \
-                                           community=self.community) \
+                                           committee=self.committee) \
             .exclude(status=IssueStatus.ARCHIVED)
         for i in open_issues.order_by('-created_at'):
             sorted_issues['by_time'].append(i.id)
         for i in open_issues.order_by('-order_by_votes'):
             sorted_issues['by_rank'].append(i.id)
         d['sorted'] = json.dumps(sorted_issues)
-
         d['upcoming_issues'] = self.object.upcoming_issues(
-            user=self.request.user, community=self.community)
+            user=self.request.user, committee=self.committee)
         d['available_issues'] = self.object.available_issues(
-            user=self.request.user, community=self.community)
+            user=self.request.user, committee=self.committee)
         d['has_straw_votes'] = self.object.has_straw_votes(
-            user=self.request.user, community=self.community)
+            user=self.request.user, committee=self.committee)
         return d
 
 
-class PublishUpcomingMeetingPreviewView(CommunityModelMixin, DetailView):
+class PublishUpcomingMeetingPreviewView(CommitteeModelMixin, DetailView):
     required_permission = 'communities.viewupcoming_community'
     template_name = "emails/agenda.html"
 
     def get_context_data(self, **kwargs):
         d = super(PublishUpcomingMeetingPreviewView, self).get_context_data(**kwargs)
-        d['can_straw_vote'] = self.community.upcoming_proposals_any(
-            {'is_open': True}, user=self.request.user, community=self.community) \
+        d['can_straw_vote'] = self.committee.upcoming_proposals_any(
+            {'is_open': True}, user=self.request.user, committee=self.committee) \
                               and self.community.upcoming_meeting_is_published
-        upcoming_issues = self.community.upcoming_issues(
-            user=self.request.user, community=self.community)
+        upcoming_issues = self.committee.upcoming_issues(
+            user=self.request.user, committee=self.committee)
         d['issue_container'] = []
         for i in upcoming_issues:
             proposals = i.proposals.object_access_control(
-                user=self.request.user, community=self.community)
+                user=self.request.user, committee=self.committee)
             d['issue_container'].append({'issue': i, 'proposals': proposals})
         return d
 
 
-class EditUpcomingMeetingView(AjaxFormView, CommunityModelMixin, UpdateView):
+class EditUpcomingMeetingView(AjaxFormView, CommitteeModelMixin, UpdateView):
     reload_on_success = True
 
     required_permission = 'community.editupcoming_community'
@@ -168,14 +189,14 @@ class EditUpcomingMeetingView(AjaxFormView, CommunityModelMixin, UpdateView):
         return form
 
 
-class EditUpcomingMeetingParticipantsView(AjaxFormView, CommunityModelMixin, UpdateView):
+class EditUpcomingMeetingParticipantsView(AjaxFormView, CommitteeModelMixin, UpdateView):
     reload_on_success = True
     required_permission = 'community.editparticipants_community'
     form_class = UpcomingMeetingParticipantsForm
     template_name = "communities/participants_form.html"
 
 
-class DeleteParticipantView(CommunityModelMixin, DeleteView):
+class DeleteParticipantView(CommitteeModelMixin, DeleteView):
     # required_permission = ''
 
     def get(self, request, *args, **kwargs):
@@ -187,7 +208,7 @@ class DeleteParticipantView(CommunityModelMixin, DeleteView):
         return HttpResponse("OK")
 
 
-class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):
+class PublishUpcomingView(AjaxFormView, CommitteeModelMixin, UpdateView):
     reload_on_success = True
 
     required_permission = 'community.editagenda_community'
@@ -222,7 +243,7 @@ class PublishUpcomingView(AjaxFormView, CommunityModelMixin, UpdateView):
             'meeting_time': datetime.datetime.now().replace(second=0),
             'can_straw_vote': c.upcoming_proposals_any({'is_open': True},
                                                        user=self.request.user,
-                                                       community=self.object) \
+                                                       committee=self.object) \
                               and c.upcoming_meeting_is_published,
         }
         total = send_mail(c, template, self.request.user, form.cleaned_data['send_to'], tpl_data)
@@ -245,9 +266,9 @@ class StartMeetingView(EditUpcomingMeetingParticipantsView):
             c.sum_vote_results()
 
 
-class EndMeetingView(CommunityModelMixin, SingleObjectMixin, View):
+class EndMeetingView(CommitteeModelMixin, SingleObjectMixin, View):
     def post(self, request, *args, **kwargs):
-        c = self.community
+        c = self.committee
         if c.upcoming_meeting_started:
             c.upcoming_meeting_started = False
             c.voting_ends_at = timezone.now() + datetime.timedelta(days=4000)
@@ -255,7 +276,7 @@ class EndMeetingView(CommunityModelMixin, SingleObjectMixin, View):
         return redirect(c)
 
 
-class EditUpcomingSummaryView(AjaxFormView, CommunityModelMixin, UpdateView):
+class EditUpcomingSummaryView(AjaxFormView, CommitteeModelMixin, UpdateView):
     reload_on_success = True
 
     required_permission = 'community.editupcoming_community'
@@ -265,7 +286,7 @@ class EditUpcomingSummaryView(AjaxFormView, CommunityModelMixin, UpdateView):
     template_name = "communities/edit_summary.html"
 
 
-class ProtocolDraftPreviewView(CommunityModelMixin, DetailView):
+class ProtocolDraftPreviewView(CommitteeModelMixin, DetailView):
     required_permission = 'meetings.add_meeting'
 
     template_name = "emails/protocol_draft.html"
@@ -273,19 +294,19 @@ class ProtocolDraftPreviewView(CommunityModelMixin, DetailView):
     def get_context_data(self, **kwargs):
         d = super(ProtocolDraftPreviewView, self).get_context_data(**kwargs)
 
-        meeting_time = self.community.upcoming_meeting_scheduled_at
+        meeting_time = self.committee.upcoming_meeting_scheduled_at
         if not meeting_time:
             meeting_time = datetime.datetime.now()
 
         draft_agenda_payload = []
         issue_status = IssueStatus.IS_UPCOMING
-        issues = self.community.issues.filter(
+        issues = self.committee.issues.filter(
             active=True, status__in=(issue_status)).order_by(
             'order_in_upcoming_meeting')
 
         for issue in issues:
             proposals = issue.proposals.object_access_control(
-                user=self.request.user, community=self.community)
+                user=self.request.user, committee=self.committee)
             draft_agenda_payload.append({
                 'issue': issue,
                 'proposals': proposals,
@@ -349,8 +370,8 @@ class CommunitySearchView(CommunityModelMixin, DetailView):
 
     def get_sqs(self):
         return ConfidentialSearchQuerySet().object_access_control(
-            user=self.request.user, community=self.community).filter(
-            community=self.community.id)
+            user=self.request.user, community=self.committee.community).filter(
+            community=self.committee.community.id)
 
     def get(self, request, *args, **kwargs):
         term = self.get_term()

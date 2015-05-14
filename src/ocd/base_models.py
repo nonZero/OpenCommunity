@@ -24,12 +24,13 @@ class HTMLField(models.TextField):
         value = super(HTMLField, self).clean(value, model_instance)
         return enhance_html(value)
 
+
 try:
     from south.modelsinspector import add_introspection_rules
+
     add_introspection_rules([], ["^ocd\.base_models\.HTMLField"])
 except ImportError:
     pass
-
 
 UID_CHARS = string.lowercase + string.digits
 UID_LENGTH = 24
@@ -48,7 +49,6 @@ class UIDManager(models.Manager):
 
 
 class UIDMixin(models.Model):
-
     uid = models.CharField(max_length=UID_LENGTH, unique=True,
                            default=create_uid)
 
@@ -62,19 +62,18 @@ class UIDMixin(models.Model):
 
 
 class ConfidentialMixin(models.Model):
-
     class Meta:
         abstract = True
 
     confidential_reason = models.ForeignKey(
         'communities.CommunityConfidentialReason',
         blank=True,
-        null=True,)
+        null=True, )
 
     is_confidential = models.BooleanField(
         _('Is Confidential'),
         default=False,
-        editable=False,)
+        editable=False, )
 
     def enforce_confidential_rules(self):
         if self.confidential_reason is None:
@@ -88,7 +87,6 @@ class ConfidentialMixin(models.Model):
 
 
 class ConfidentialByRelationMixin(models.Model):
-
     confidential_from = None
 
     class Meta:
@@ -97,7 +95,7 @@ class ConfidentialByRelationMixin(models.Model):
     is_confidential = models.BooleanField(
         _('Is Confidential'),
         default=False,
-        editable=False,)
+        editable=False, )
 
     def enforce_confidential_rules(self):
         if not self.confidential_from:

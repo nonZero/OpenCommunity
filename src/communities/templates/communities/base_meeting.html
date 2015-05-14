@@ -13,7 +13,7 @@
 
 <div class="meeting_right_column col-sm-3 hidden-xs">
 	<h2>
-        {% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
+        {% if LANGUAGE_CODE == 'he' and committee.no_meetings_community %}
         {% trans "Updates" %}
         {% else %}
         {% trans "Meetings" %}
@@ -23,19 +23,19 @@
     {% comment %} show upcoming meeting entry only if published or the current user has permission to view the draft {% endcomment %}
     {% if community.upcoming_meeting_is_published or cperms.communities.viewupcoming_draft %}
 		<li>
-			{% if object == community %} <div class="pull-right" style="width: 15px;"><span class="active_meeting pull-right"></span></div>{% endif %}
-			<a href="{{ community.get_absolute_url }}">
-                {% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
-				{{community.upcoming_meeting_title|default:_("Next update")}}
+			{% if object == committee %} <div class="pull-right" style="width: 15px;"><span class="active_meeting pull-right"></span></div>{% endif %}
+			<a href="{{ committee.get_absolute_url }}">
+                {% if LANGUAGE_CODE == 'he' and committee.no_meetings_community %}
+				{{committee.upcoming_meeting_title|default:_("Next update")}}
                 {% else %}
-				{{community.upcoming_meeting_title|default:_("Upcoming Meeting")}}
+				{{committee.upcoming_meeting_title|default:_("Upcoming Meeting")}}
                 {% endif %}
-				{% if community.upcoming_meeting_scheduled_at %}<br /><span style="font-size: 11px;">{{ community.upcoming_meeting_scheduled_at|date:"d F, Y" }}</span>{% endif %}
+				{% if committee.upcoming_meeting_scheduled_at %}<br /><span style="font-size: 11px;">{{ committee.upcoming_meeting_scheduled_at|date:"d F, Y" }}</span>{% endif %}
 			</a>
     </li>
     {% endif %}
-	{% if community.meetings.count %}
-		{% for i in community.meetings.all %}
+	{% if committee.meetings.count %}
+		{% for i in committee.meetings.all %}
 		<li>
 			{% if object == i %} <div class="pull-right" style="width: 15px;"><span class="active_meeting pull-right"></span></div>{% endif %}
 			<a href="{{ i.get_absolute_url }}">

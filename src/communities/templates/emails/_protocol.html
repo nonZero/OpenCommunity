@@ -5,16 +5,16 @@
 
     <div style="border: 1px solid black">
 
-    	{% if community.logo %}
+    	{% if committee.logo %}
     	<div style="width: 100%; text-align: center;">
-    		<img src="{{base_url}}{{MEDIA_URL}}{{ community.logo }}" style="max-width: 100%;height: auto;" />
+    		<img src="{{base_url}}{{MEDIA_URL}}{{ committee.logo }}" style="max-width: 100%;height: auto;" />
     	</div>
     	{% endif %}
         <h1 style="margin:0 0 1em 0; text-align: center; padding: 4px">
-          {{community}} - {{ community.board_name }} {% if community.official_identifier %} <br/> {{ community.official_identifier }}{% endif %}
+          {{committee.community}} - {{ committee.name }} {% if committee.official_identifier %} <br/> {{ committee.official_identifier }}{% endif %}
         </h1>
         <h1 style="margin:0; background: #ddd;padding: 4px">
-            {% if community.no_meetings_community and title %}
+            {% if committee.no_meetings_community and title %}
                 {{title}}
             {% else %}
                 {% if title %}
@@ -27,10 +27,10 @@
         <div style="padding:3px 6px">
 
           <p>
-            {% if community.allow_links_in_emails %} <a href="{{base_url}}{{url}}">{% trans "View online" %}</a> {% endif %}
+            {% if committee.allow_links_in_emails %} <a href="{{base_url}}{{url}}">{% trans "View online" %}</a> {% endif %}
             </p>
 
-            {% if not community.no_meetings_community %}
+            {% if not committee.no_meetings_community %}
             <div style="border: solid 1px #ccc; margin: 4px 0;padding: 0">
                 <h2 style="margin:0; background: #ddd;padding: 4px">{% trans "Meeting details" %}</h2>
 
@@ -55,7 +55,7 @@
                 <h2 style="margin:0; background: #ddd;padding: 4px">{% trans "Participants" %}</h2>
                 <div style="margin:0; padding: 4px">
                     <p>
-                        <b>{{ community.board_name }}:</b>
+                        <b>{{ committee.name }}:</b>
                         {% for u in participants.chairmen %}
                           {{ u }},
                         {% endfor %}
@@ -63,7 +63,7 @@
                             {{ u }}{% if not forloop.last %},{% endif %}
                         {% endfor %}
                         ({% trans 'from ' %}<b>{{ board_count }}</b>
-                        {% trans ' members of' %} {{ community.board_name }})
+                        {% trans ' members of' %} {{ committee.name }})
                     </p>
                     {% if participants.members or guests %}
                     <p>
@@ -85,7 +85,7 @@
             {% endif %}
         </div>
 
-        {% if not community.no_meetings_community %}
+        {% if not committee.no_meetings_community %}
         <h2 style="margin:12px 0 0 0; background:#eee; padding:6px 3px 3px">
             {% trans "Issues & Decisions" %}
         </h2>
@@ -97,7 +97,7 @@
                 <article style="border: solid 1px #ccc; margin-top: 12px;">
 
                     <h3 style="margin:0; background: #ddd;padding: 4px; font-size: 20px;">
-                        {% if community.allow_links_in_emails %}
+                        {% if committee.allow_links_in_emails %}
                         <a href="{{base_url}}{{a.issue.get_absolute_url}}">
                             {{a.issue.title}}{% if a.issue.is_confidential %} [{% trans "Confidential" %} - {{ a.issue.confidential_reason }}]{% endif %}
                         </a>
@@ -144,7 +144,7 @@
                             <ul>
                                 {% for p in a.accepted_proposals.all|dictsort:"created_at" %}
                                     <li style="padding:2px 0">
-                                        {% if community.allow_links_in_emails %}
+                                        {% if committee.allow_links_in_emails %}
                                         <a href="{{base_url}}{{p.get_absolute_url}}">
                                             {% if p.type != 3 %}
                                                 {{ p.get_type_display }}:
@@ -178,7 +178,7 @@
                             <ul>
                                 {% for n in a.rejected_proposals.all|dictsort:"created_at" %}
                                     <li style="padding:2px 0">
-                                        {% if community.allow_links_in_emails %}
+                                        {% if committee.allow_links_in_emails %}
                                         <a href="{{base_url}}{{n.get_absolute_url}}">
                                             {{n.title}}{% if n.is_confidential and not a.issue.is_confidential %} [{% trans "Confidential" %} - {{ n.confidential_reason }}]{% endif %}
                                         </a>

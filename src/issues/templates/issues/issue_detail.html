@@ -8,7 +8,7 @@ id="issue-detail"
 {% endblock %}
 
 {% block title %}
-	<title>{{ object.community.name }} - {{ object.title }}</title>
+	<title>{{ object.committee.name }} - {{ object.title }}</title>
 {% endblock %}
 
 {% block page_header %}
@@ -21,13 +21,13 @@ id="issue-detail"
     {% if meeting %}
         <a class="three_dot_sentence level1" href="{{meeting.get_absolute_url}}">{% if meeting.title %}{{ meeting.title }} / {% endif %}{{ meeting.held_at|date:"j F Y" }}</a>
     {% else %}
-        <a class="three_dot_sentence level1" href="{{object.community.get_upcoming_absolute_url}}">
-            {% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
-            {{object.community.upcoming_meeting_title|default:_("Next update")}}
+        <a class="three_dot_sentence level1" href="{{object.committee.get_upcoming_absolute_url}}">
+            {% if LANGUAGE_CODE == 'he' and committee.no_meetings_community %}
+            {{object.committee.upcoming_meeting_title|default:_("Next update")}}
             {% else %}
-            {{object.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}
+            {{object.committee.upcoming_meeting_title|default:_("Upcoming Meeting")}}
             {% endif %}
-            {% if object.community.upcoming_meeting_scheduled_at %} / {{object.community.upcoming_meeting_scheduled_at|date:"j F Y"}}{% endif %}</a>
+            {% if object.committee.upcoming_meeting_scheduled_at %} / {{object.committee.upcoming_meeting_scheduled_at|date:"j F Y"}}{% endif %}</a>
     {% endif %}
 </div>
 {% endif %}
@@ -86,7 +86,7 @@ id="issue-detail"
 
                   <li class="dropdown{% if meeting %} active{% endif %}">
                     <a role="button" data-toggle="dropdown" href="#">
-                        {% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
+                        {% if LANGUAGE_CODE == 'he' and committee.no_meetings_community %}
                         {% trans "Updates" %}
                         {% else %}
                         {% trans "Meetings" %}
@@ -117,7 +117,7 @@ id="issue-detail"
                         --{% trans "Closed" %}--
                     {% else %}
                         {% if object.is_upcoming %}
-                            {% if community.upcoming_meeting_is_published or cperms.communities.viewupcoming_draft %}
+                            {% if committee.upcoming_meeting_is_published or cperms.communities.viewupcoming_draft %}
                                 --{% trans "In the agenda" %}--
                             {% endif %}
                         {% endif %}
@@ -127,7 +127,7 @@ id="issue-detail"
             {% if cperms.meetings.add_meeting %}
                 <div class="text-right col-xs-12 filter filter-upcoming" style="font-size: 14px;">
 					{% if object.completed and object.is_current or object.is_archived %}
-						<form id="issue-undo-complete"  method="post" action="{% url 'issue_complete' community.id issue.id %}">
+						<form id="issue-undo-complete"  method="post" action="{% url 'issue_complete' committee.community.slug committee.slug issue.id %}">
 							{% csrf_token %}
 							<input name="undo_complete" type="hidden" value="1"/>
 							<button class="close-issue-btn btn btn-default btn-sm">
@@ -135,7 +135,7 @@ id="issue-detail"
 							</button>
 						</form>
 					{% elif not object.is_current and not object.is_archived and object.in_closed_meeting %}
-						<form id="issue-archive" method="post" action="{% url 'issue_complete' community.id issue.id %}">
+						<form id="issue-archive" method="post" action="{% url 'issue_complete' committee.community.slug committee.slug issue.id %}">
 							{% csrf_token %}
 							<input name="archive" type="hidden" value="1"/>
 							<button class="close-issue-btn btn btn-default btn-sm">

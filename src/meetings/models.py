@@ -45,25 +45,26 @@ class AgendaItem(ConfidentialByRelationMixin):
     def comments(self):
         return self.issue.comments.filter(active=True, meeting=self.meeting)
 
-    def proposals(self, user=None, community=None):
+    def proposals(self, user=None, committee=None):
         rv = self.issue.proposals.object_access_control(
-            user=user, community=community).filter(
+            user=user, committee=committee).filter(
             active=True, decided_at_meeting=self.meeting)
         return rv
 
-    def accepted_proposals(self, user=None, community=None):
-        rv = self.proposals(user=user, community=community).filter(
+    def accepted_proposals(self, user=None, committee=None):
+        rv = self.proposals(user=user, committee=committee).filter(
             status=ProposalStatus.ACCEPTED)
         return rv
 
-    def rejected_proposals(self, user=None, community=None):
-        rv = self.proposals(user=user, community=community).filter(
+    def rejected_proposals(self, user=None, committee=None):
+        rv = self.proposals(user=user, committee=committee).filter(
             status=ProposalStatus.REJECTED)
         return rv
 
 
 class Meeting(UIDMixin):
     community = models.ForeignKey('communities.Community', related_name="meetings", verbose_name=_("Community"))
+    committee = models.ForeignKey('communities.Committee', related_name="meetings", verbose_name=_("Committee"), null=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="meetings_created",
                                    verbose_name=_("Created by"))
@@ -150,7 +151,7 @@ class Meeting(UIDMixin):
 
     @models.permalink
     def get_absolute_url(self):
-        return ("meeting", (str(self.community.pk), str(self.pk),))
+        return "meeting", (self.committee.community.slug, self.committee.slug, str(self.pk))
 
 
 class BoardParticipantsManager(models.Manager):

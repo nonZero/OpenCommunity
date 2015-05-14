@@ -65,7 +65,7 @@
     }
 
     function init_prop_autocomplete() {
-      var ac_url = '{% url "autocomplete_tag" community_id=community.id %}';
+      var ac_url = '{% url "autocomplete_tag" committee.community.slug committee.slug %}';
       var ta = $('#id_proposal-tags').typeahead({
             name: 'tags',
             remote: {
@@ -110,7 +110,7 @@
         {% endif %}
         init_proposal_tabs(false);
         $("ul#proposal-type li")[sel_idx].click()
-        var ac_url = '{% url "ac_user" community_id=community.id %}';
+        var ac_url = '{% url "ac_user" committee.community.slug %}';
         init_user_autocomplete(ac_url);
         /* init_prop_autocomplete(); */
 

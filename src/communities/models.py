@@ -39,6 +39,7 @@ class SendToOption(object):
 
 class Community(UIDMixin):
     name = models.CharField(max_length=200, verbose_name=_("Name"))
+    slug = models.SlugField(_('Friendly URL'), max_length=200, blank=True, null=True)
     is_public = models.BooleanField(_("Public community"), default=False,
                                     db_index=True)
     logo = models.ImageField(_("Community logo"), upload_to='community_logo',
@@ -127,11 +128,11 @@ class Community(UIDMixin):
 
     @models.permalink
     def get_absolute_url(self):
-        return "community", (str(self.pk),)
+        return "community", (self.slug,)
 
     @models.permalink
     def get_upcoming_absolute_url(self):
-        return "community", (str(self.pk),)
+        return "community", (self.slug,)
 
     def upcoming_issues(self, user=None, community=None, upcoming=True):
         l = issues_models.IssueStatus.IS_UPCOMING if upcoming else \
@@ -458,16 +459,19 @@ class Community(UIDMixin):
 
         return [as_agenda_item(x) for x in payload]
 
+    def get_committees(self):
+        return self.committees.all()
+
 
 class Committee(UIDMixin):
-    community = models.ForeignKey(Community, related_name="committees", null=True)
+    community = models.ForeignKey(Community, verbose_name=_("Community"), related_name="committees", null=True)
     name = models.CharField(max_length=200, verbose_name=_("Name"))
-    slug = models.SlugField('Friendly URL', max_length=200, blank=True, null=True)
+    slug = models.SlugField(_('Friendly URL'), max_length=200, blank=True, null=True)
     is_public = models.BooleanField(_("Public community"), default=False,
                                     db_index=True)
-    logo = models.ImageField(_("Community logo"), upload_to='community_logo',
+    logo = models.ImageField(_("Committee logo"), upload_to='committee_logo',
                              blank=True, null=True)
-    official_identifier = models.CharField(_("Community identifier"),
+    official_identifier = models.CharField(_("Committee identifier"),
                                            max_length=300, blank=True,
                                            null=True)
 
@@ -551,29 +555,29 @@ class Committee(UIDMixin):
 
     @models.permalink
     def get_absolute_url(self):
-        return "committee", (str(self.pk),)
+        return "committee", (self.community.slug, self.slug)
 
     @models.permalink
     def get_upcoming_absolute_url(self):
-        return "committee", (str(self.pk),)
+        return "committee", (self.community.slug, self.slug)
 
-    def upcoming_issues(self, user=None, community=None, upcoming=True):
+    def upcoming_issues(self, user=None, committee=None, upcoming=True):
         l = issues_models.IssueStatus.IS_UPCOMING if upcoming else \
             issues_models.IssueStatus.NOT_IS_UPCOMING
 
         if self.issues.all():
             rv = self.issues.object_access_control(
-                user=user, community=community).filter(
+                user=user, committee=committee).filter(
                 active=True, status__in=(l)).order_by(
                 'order_in_upcoming_meeting')
         else:
             rv = None
         return rv
 
-    def available_issues(self, user=None, community=None):
+    def available_issues(self, user=None, committee=None):
         if self.issues.all():
             rv = self.issues.object_access_control(
-                user=user, community=community).filter(
+                user=user, committee=committee).filter(
                 active=True, status=issues_models.IssueStatus.OPEN).order_by(
                 '-created_at')
         else:
@@ -585,9 +589,9 @@ class Committee(UIDMixin):
                                   status=issues_models.IssueStatus.OPEN
         ).order_by('order_by_votes')
 
-    def issues_ready_to_close(self, user=None, community=None):
-        if self.upcoming_issues(user=user, community=community):
-            rv = self.upcoming_issues(user=user, community=community).filter(
+    def issues_ready_to_close(self, user=None, committee=None):
+        if self.upcoming_issues(user=user, committee=committee):
+            rv = self.upcoming_issues(user=user, committee=committee).filter(
                 proposals__active=True,
                 proposals__decided_at_meeting=None,
                 proposals__status__in=[
@@ -603,17 +607,17 @@ class Committee(UIDMixin):
         return self.board_name or _('Board')
 
     def get_members(self):
-        return OCUser.objects.filter(memberships__community=self)
+        return OCUser.objects.filter(memberships__community=self.community)
 
     def meeting_participants(self):
 
         meeting_participants = {'chairmen': [], 'board': [], 'members': [], }
 
-        board_ids = [m.user.id for m in self.memberships.board()]
+        board_ids = [m.user.id for m in self.community.memberships.board()]
 
         for u in self.upcoming_meeting_participants.all():
             if u.id in board_ids:
-                if u.get_default_group(self) == DefaultGroups.CHAIRMAN:
+                if u.get_default_group(self.community) == DefaultGroups.CHAIRMAN:
                     meeting_participants['chairmen'].append(u)
                 else:
                     meeting_participants['board'].append(u)
@@ -623,7 +627,7 @@ class Committee(UIDMixin):
         # doing it simply like this, as I'd need to refactor models
         # just to order in the way that is now required.
         for index, item in enumerate(meeting_participants['board']):
-            if item.get_default_group(self) == DefaultGroups.MEMBER:
+            if item.get_default_group(self.community) == DefaultGroups.MEMBER:
                 meeting_participants['board'].insert(0,
                                                      meeting_participants['board'].pop(index))
 
@@ -632,14 +636,14 @@ class Committee(UIDMixin):
     def previous_members_participations(self):
         participations = MeetingParticipant.objects.filter( \
             default_group_name=DefaultGroups.MEMBER,
-            meeting__community=self) \
+            meeting__committee=self) \
             .order_by('-meeting__held_at')
 
         return list(set([p.user for p in participations]) - \
                     set(self.upcoming_meeting_participants.all()))
 
     def previous_guests_participations(self):
-        guests_list = Meeting.objects.filter(community=self) \
+        guests_list = Meeting.objects.filter(committee=self) \
             .values_list('guests', flat=True)
 
         prev_guests = set()
@@ -651,14 +655,14 @@ class Committee(UIDMixin):
         return prev_guests
 
     def get_board_members(self):
-        board_memberships = Membership.objects.filter(community=self) \
+        board_memberships = Membership.objects.filter(community=self.community) \
             .exclude(default_group_name=DefaultGroups.MEMBER)
 
         # doing it simply like this, as I'd need to refactor models
         # just to order in the way that is now required.
         board = [m.user for m in board_memberships]
         for index, item in enumerate(board):
-            if item.get_default_group(self) == DefaultGroups.MEMBER:
+            if item.get_default_group(self.community) == DefaultGroups.MEMBER:
                 board.insert(0, board.pop(index))
 
         return board
@@ -667,7 +671,7 @@ class Committee(UIDMixin):
         return len(self.get_board_members())
 
     def get_none_board_members(self):
-        return Membership.objects.filter(community=self,
+        return Membership.objects.filter(community=self.community,
                                          default_group_name=DefaultGroups.MEMBER)
 
     def get_guest_list(self):
@@ -690,11 +694,11 @@ class Committee(UIDMixin):
         time_till_close = self.voting_ends_at - timezone.now()
         return time_till_close.total_seconds() < 0
 
-    def has_straw_votes(self, user=None, community=None):
+    def has_straw_votes(self, user=None, committee=None):
         if not self.straw_voting_enabled or self.straw_vote_ended:
             return False
         return self.upcoming_proposals_any({'is_open': True}, user=user,
-                                           community=community)
+                                           committee=committee)
 
     def sum_vote_results(self, only_when_over=True):
         if not self.voting_ends_at:
@@ -707,25 +711,25 @@ class Committee(UIDMixin):
             # votes_pro=None,
             status=ProposalStatus.IN_DISCUSSION,
             issue__status=IssueStatus.IN_UPCOMING_MEETING,
-            issue__community_id=self.id)
+            issue__committee_id=self.id)
         member_count = self.get_members().count()
         for prop in proposals_to_sum:
             prop.do_votes_summation(member_count)
 
-    def _get_upcoming_proposals(self, user=None, community=None):
+    def _get_upcoming_proposals(self, user=None, committee=None):
         proposals = []
-        upcoming = self.upcoming_issues(user=user, community=community)
+        upcoming = self.upcoming_issues(user=user, committee=committee)
         if upcoming:
             for issue in upcoming:
                 if issue.proposals.all():
                     proposals.extend([p for p in issue.proposals.all() if p.active])
         return proposals
 
-    def upcoming_proposals_any(self, prop_dict, user=None, community=None):
+    def upcoming_proposals_any(self, prop_dict, user=None, committee=None):
         """ test multiple properties against proposals belonging to the upcoming meeting
             return True if any of the proposals passes the tests
         """
-        proposals = self._get_upcoming_proposals(user=user, community=community)
+        proposals = self._get_upcoming_proposals(user=user, committee=committee)
         test_attrs = lambda p: [getattr(p, k) == val for k, val in
                                 prop_dict.items()]
         for p in proposals:
@@ -735,12 +739,12 @@ class Committee(UIDMixin):
 
     def _register_absents(self, meeting, meeting_participants):
         board_members = [mm.user for mm in Membership.objects.board() \
-            .filter(community=self, user__is_active=True)]
+            .filter(community=self.community, user__is_active=True)]
         absents = set(board_members) - set(meeting_participants)
         ordinal_base = len(meeting_participants)
         for i, a in enumerate(absents):
             try:
-                mm = a.memberships.get(community=self)
+                mm = a.memberships.get(community=self.community)
             except Membership.DoesNotExist:
                 mm = None
             MeetingParticipant.objects.create(meeting=meeting, user=a,
@@ -749,7 +753,7 @@ class Committee(UIDMixin):
                                               is_absent=True,
                                               default_group_name=mm.default_group_name if mm else None)
 
-    def close_meeting(self, m, user, community):
+    def close_meeting(self, m, user, committee):
         """
         Creates a :model:`meetings.Meeting` instance, with corresponding
         :model:`meetings.AgendaItem`s.
@@ -759,7 +763,8 @@ class Committee(UIDMixin):
         """
 
         with transaction.atomic():
-            m.community = self
+            m.committee = self
+            m.community = self.community
             m.created_by = user
             m.title = self.upcoming_meeting_title
             m.scheduled_at = (self.upcoming_meeting_scheduled_at
@@ -783,7 +788,7 @@ class Committee(UIDMixin):
             self.upcoming_meeting_guests = None
             self.voting_ends_at = None
             self.save()
-            for i, issue in enumerate(self.upcoming_issues(user=user, community=community)):
+            for i, issue in enumerate(self.upcoming_issues(user=user, committee=committee)):
                 proposals = issue.proposals.filter(
                     active=True,
                     decided_at_meeting=None
@@ -826,7 +831,7 @@ class Committee(UIDMixin):
             meeting_participants = self.upcoming_meeting_participants.all()
             for i, p in enumerate(meeting_participants):
                 try:
-                    mm = p.memberships.get(community=self)
+                    mm = p.memberships.get(community=self.community)
                 except Membership.DoesNotExist:
                     mm = None
 

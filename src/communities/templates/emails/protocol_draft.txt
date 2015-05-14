@@ -1,4 +1,4 @@
-{% load i18n %}{% autoescape off %}*** {{community}}: {% trans "Summary draft" %} ***
+{% load i18n %}{% autoescape off %}*** {{committee}}: {% trans "Summary draft" %} ***
 
-{% trans "View online" %}: {{base_url}}{{community.get_absolute_url}}
+{% trans "View online" %}: {{base_url}}{{committee.get_absolute_url}}
 {% endautoescape %}

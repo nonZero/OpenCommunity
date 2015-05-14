@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block page_header %}
-    {% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
+    {% if LANGUAGE_CODE == 'he' and committee.no_meetings_community %}
     {% trans "Start update" %}
     {% else %}
     {% trans "Start meeting" %}
@@ -13,7 +13,7 @@
 
 {% block participants_list %} {% endblock %}  
 {% block btn_text %}
-{% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
+{% if LANGUAGE_CODE == 'he' and committee.no_meetings_community %}
 {% trans "Start update" %}
 {% else %}
 {% trans "Start meeting" %}

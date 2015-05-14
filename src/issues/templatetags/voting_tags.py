@@ -7,24 +7,25 @@ from users.models import OCUser
 
 register = template.Library()
 
+
 @register.filter
 def voted_on(u, proposal_id):
     voted = ProposalVote.objects.filter(
-                            proposal_id=proposal_id,
-                            user_id=u.id).exists()
+        proposal_id=proposal_id,
+        user_id=u.id).exists()
     return voted
 
-    
+
 @register.filter
 def vote_percentage(proposal):
     if proposal.votes_pro is None:
         return 'undefined'
     votes = proposal.votes_pro + proposal.votes_con
-    print votes ,proposal.community_members
+    print votes, proposal.community_members
     percentage = (float(votes) / float(proposal.community_members)) * 100.0
     return round(percentage)
 
-    
+
 @register.simple_tag(takes_context=True)
 def user_votes_on_issue(context):
     issue = context['i']
@@ -40,63 +41,59 @@ def user_votes_on_issue(context):
     else:
         return "<span class='badge vote-badge'>{0}/{1}</span>".format(votes_cnt, proposals.count())
 
-        
+
 @register.filter
 def prev_straw_results_link(proposal, meeting_id=None):
     link_args = {
-        'community_id': proposal.issue.community_id,
+        'community_slug': proposal.issue.committee.community.slug,
+        'committee_slug': proposal.issue.committee.slug,
         'pk': proposal.id,
-        }
+    }
     url = reverse('vote_results_panel', kwargs=link_args)
     if meeting_id:
         cur_meeting = get_object_or_404(Meeting, id=meeting_id)
         prev_res = VoteResult.objects.filter(proposal=proposal,
-                            meeting__held_at__lt=cur_meeting.held_at) \
-                            .order_by('-meeting__held_at')
-                        
+                                             meeting__held_at__lt=cur_meeting.held_at).order_by('-meeting__held_at')
+
         if prev_res.count():
-            return '{0}?meeting_id={1}&dir=prev'.format( \
-                     url, prev_res[0].meeting_id)
+            return '{0}?meeting_id={1}&dir=prev'.format(url, prev_res[0].meeting_id)
     else:
         # get meeting from last VoteResult object
         try:
-            result = VoteResult.objects.filter(proposal=proposal) \
-                                       .latest('meeting__held_at')
-            return '{0}?meeting_id={1}&dir=prev'.format( \
-                     url, result.meeting.id)
+            result = VoteResult.objects.filter(proposal=proposal).latest('meeting__held_at')
+            return '{0}?meeting_id={1}&dir=prev'.format(url, result.meeting.id)
         except VoteResult.DoesNotExist:
             pass
 
     return ''
 
-    
+
 @register.filter
 def next_straw_results_link(proposal, meeting_id):
-    c = proposal.issue.community
+    c = proposal.issue.committee
     link_args = {
-        'community_id': c.id,
+        'community_slug': proposal.issue.committee.community.slug,
+        'committee_slug': proposal.issue.committee.slug,
         'pk': proposal.id,
-        }
+    }
     url = reverse('vote_results_panel', kwargs=link_args)
     if meeting_id:
         cur_meeting = get_object_or_404(Meeting, id=meeting_id)
         next_res = VoteResult.objects.filter(proposal=proposal,
-                            meeting__held_at__gt=cur_meeting.held_at) \
-                            .order_by('meeting__held_at')
+                                             meeting__held_at__gt=cur_meeting.held_at).order_by('meeting__held_at')
         if next_res.count():
-            return '{0}?meeting_id={1}&dir=next'.format( \
-                     url, next_res[0].meeting_id)
+            return '{0}?meeting_id={1}&dir=next'.format(url, next_res[0].meeting_id)
         elif proposal.has_votes and \
-             proposal.issue.is_upcoming and \
-             c.straw_vote_ended and \
-             c.upcoming_meeting_is_published:
+                proposal.issue.is_upcoming and \
+                c.straw_vote_ended and \
+                c.upcoming_meeting_is_published:
             return '{0}?meeting_id=&dir=next'.format(url)
     else:
         pass
     return ''
-   
-        
-@register.filter    
+
+
+@register.filter
 def subtract(value, arg):
     if arg is None:
         return value

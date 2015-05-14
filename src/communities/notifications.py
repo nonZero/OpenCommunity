@@ -55,7 +55,7 @@ def construct_mock_users(email_list, type):
     return users
 
 
-def _base_send_mail(community, notification_type, sender, send_to, data=None,
+def _base_send_mail(committee, notification_type, sender, send_to, data=None,
                     base_url=None, with_guests=False, language=None):
     """Sends mail to community members, and applies object access control.
 
@@ -73,13 +73,13 @@ def _base_send_mail(community, notification_type, sender, send_to, data=None,
         r = [sender]
 
     elif send_to == SendToOption.ALL_MEMBERS:
-        r = [m.user for m in community.memberships.all()]
+        r = [m.user for m in committee.community.memberships.all()]
 
     elif send_to == SendToOption.BOARD_ONLY:
-        r = [m.user for m in community.memberships.board()]
+        r = [m.user for m in committee.community.memberships.board()]
 
     elif send_to == SendToOption.ONLY_ATTENDEES:
-        r = [user for user in community.upcoming_meeting_participants.all()]
+        r = [user for user in committee.upcoming_meeting_participants.all()]
 
     else:
         r = []
@@ -93,28 +93,28 @@ def _base_send_mail(community, notification_type, sender, send_to, data=None,
     if send_to != SendToOption.ONLY_ME:
         # Add guests to the watcher_recipients list if applicable
         if with_guests:
-            guests_text = community.upcoming_meeting_guests
+            guests_text = committee.upcoming_meeting_guests
             guest_emails = get_guests_emails(guests_text)
             guests = construct_mock_users(guest_emails, 'guest')
             w.extend(guests)
 
         # Add system managers to the watcher_recipients list if applicable
-        if community.inform_system_manager and \
+        if committee.inform_system_manager and \
                         notification_type in ('agenda', 'protocol', 'protocol_draft'):
             manager_emails = [manager[1] for manager in settings.MANAGERS]
             managers = construct_mock_users(manager_emails, 'managers')
             w.extend(managers)
 
         # Add pending invitees to the watcher_recipients list if applicable
-        if community.email_invitees:
+        if committee.email_invitees:
             # pending invites to board only
             if send_to == SendToOption.BOARD_ONLY:
-                invitees = [i for i in community.invitations.exclude(
+                invitees = [i for i in committee.community.invitations.exclude(
                     default_group_name=DefaultGroups.MEMBER)]
 
             # All pending invites
             elif send_to == SendToOption.ALL_MEMBERS:
-                invitees = [i for i in community.invitations.all()]
+                invitees = [i for i in committee.community.invitations.all()]
 
             w.extend(invitees)
 
@@ -130,13 +130,14 @@ def _base_send_mail(community, notification_type, sender, send_to, data=None,
 
     d.update({
         'base_url': base_url,
-        'community': community,
+        'community': committee.community,
+        'committee': committee,
         'LANGUAGE_CODE': settings.LANGUAGE_CODE,
         'MEDIA_URL': settings.MEDIA_URL,
         'STATIC_URL': settings.STATIC_URL,
     })
 
-    from_email = "%s <%s>" % (community.name, settings.FROM_EMAIL)
+    from_email = "%s <%s>" % (committee.name, settings.FROM_EMAIL)
 
     for recipient in recipients:
         # TODO: All this logic for populating the context is basically copied
@@ -145,22 +146,22 @@ def _base_send_mail(community, notification_type, sender, send_to, data=None,
 
         if notification_type == 'protocol_draft':
 
-            meeting_time = community.upcoming_meeting_scheduled_at
+            meeting_time = committee.upcoming_meeting_scheduled_at
             if not meeting_time:
                 meeting_time = datetime.datetime.now()
 
             draft_agenda_payload = []
             issue_status = IssueStatus.IS_UPCOMING
-            issues = community.issues.object_access_control(
-                user=recipient, community=community).filter(
+            issues = committee.issues.object_access_control(
+                user=recipient, committee=committee).filter(
                 active=True, status__in=issue_status).order_by('order_in_upcoming_meeting')
 
             for issue in issues:
                 proposals = issue.proposals.object_access_control(
-                    user=recipient, community=community)
+                    user=recipient, committee=committee)
                 draft_agenda_payload.append({'issue': issue, 'proposals': proposals})
 
-            agenda_items = community.draft_agenda(draft_agenda_payload)
+            agenda_items = committee.draft_agenda(draft_agenda_payload)
             item_attachments = [item['issue'].current_attachments() for
                                 item in agenda_items]
 
@@ -173,15 +174,15 @@ def _base_send_mail(community, notification_type, sender, send_to, data=None,
 
         elif notification_type == 'protocol':
             agenda_items = d['meeting'].agenda.object_access_control(
-                user=recipient, community=community).all()
+                user=recipient, committee=committee).all()
             # restrict the proposals of each agenda item
             for ai in agenda_items:
                 ai.accepted_proposals = ai.accepted_proposals(
-                    user=recipient, community=community)
+                    user=recipient, committee=committee)
                 ai.rejected_proposals = ai.rejected_proposals(
-                    user=recipient, community=community)
+                    user=recipient, committee=committee)
                 ai.proposals = ai.proposals(
-                    user=recipient, community=community)
+                    user=recipient, committee=committee)
 
             d.update({
                 'recipient': recipient,
@@ -189,16 +190,16 @@ def _base_send_mail(community, notification_type, sender, send_to, data=None,
             })
         elif notification_type == 'agenda':
 
-            can_straw_vote = community.upcoming_proposals_any(
-                {'is_open': True}, user=recipient, community=community) \
-                             and community.upcoming_meeting_is_published
-            upcoming_issues = community.upcoming_issues(user=recipient,
-                                                        community=community)
+            can_straw_vote = committee.upcoming_proposals_any(
+                {'is_open': True}, user=recipient, committee=committee) \
+                             and committee.upcoming_meeting_is_published
+            upcoming_issues = committee.upcoming_issues(user=recipient,
+                                                        committee=committee)
             issues = []
 
             for i in upcoming_issues:
                 proposals = i.proposals.object_access_control(
-                    user=recipient, community=community)
+                    user=recipient, committee=committee)
                 issues.append({'issue': i, 'proposals': proposals})
 
             d.update({

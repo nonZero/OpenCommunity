@@ -28,9 +28,9 @@
             </tbody>
         </table>
     </div>
-    {% if not proposal.issue.community.upcoming_meeting_started %}
+    {% if not proposal.issue.committee.upcoming_meeting_started %}
     {% if proposal.id|user_vote_result:user.id == 'pro' and not proposal|user_argued:user.id %}
-    <form id="create-argument" method="post" data-vote="pro" action="{% url 'create_vote_argument' proposal.issue.community.id proposal.id|user_proposal_vote_id:user.id %}">
+    <form id="create-argument" method="post" data-vote="pro" action="{% url 'create_vote_argument' proposal.issue.committee.community.slug proposal.issue.committee.slug proposal.id|user_proposal_vote_id:user.id %}">
         {% csrf_token %}
         <div class="form-group">
             <label for="id_argument" class="control-label">{% trans "Add argument" %}:</label>
@@ -64,9 +64,9 @@
             </tbody>
         </table>
     </div>
-    {% if not proposal.issue.community.upcoming_meeting_started %}
+    {% if not proposal.issue.committee.upcoming_meeting_started %}
     {% if proposal.id|user_vote_result:user.id == 'con' and not proposal|user_argued:user.id %}
-    <form id="create-argument" method="post" data-vote="con" action="{% url 'create_vote_argument' proposal.issue.community.id proposal.id|user_proposal_vote_id:user.id %}">
+    <form id="create-argument" method="post" data-vote="con" action="{% url 'create_vote_argument' proposal.issue.committee.community.slug proposal.issue.committee.slug proposal.id|user_proposal_vote_id:user.id %}">
         {% csrf_token %}
         <div class="form-group">
             <label for="id_argument" class="control-label">{% trans "Add argument" %}:</label>
@@ -81,7 +81,7 @@
     {% endif %}
     {% endif %}
 </div>
-{% if not proposal.issue.community.upcoming_meeting_started %}
+{% if not proposal.issue.committee.upcoming_meeting_started %}
 <div class="modal fade" id="editArgumentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

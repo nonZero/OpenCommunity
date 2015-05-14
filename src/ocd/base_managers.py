@@ -24,9 +24,9 @@ class ConfidentialQuerySetMixin(object):
 
     """
 
-    def object_access_control(self, user=None, community=None):
+    def object_access_control(self, user=None, committee=None):
 
-        if not user or not community:
+        if not user or not committee:
             raise ValueError('The object access control method requires '
                              'both a user and a community object.')
 
@@ -42,7 +42,7 @@ class ConfidentialQuerySetMixin(object):
         else:
             # we have a membership. return according to member's level.
             # TODO: hook properly into permission system.
-            memberships = user.memberships.filter(community=community)
+            memberships = user.memberships.filter(community=committee.community)
             lookup = [m.default_group_name for m in memberships]
             if DefaultGroups.MEMBER in lookup and len(lookup) == 1:
                 return self.filter(is_confidential=False)
@@ -62,8 +62,8 @@ class ConfidentialManager(models.Manager, ConfidentialQuerySetMixin):
 
 class ConfidentialSearchQuerySet(SearchQuerySet):
 
-    def object_access_control(self, user=None, community=None, **kwargs):
-        if not user or not community:
+    def object_access_control(self, user=None, committee=None, **kwargs):
+        if not user or not committee:
             raise ValueError('The access validator requires both a user and '
                              'a community object.')
         qs = self._clone()
@@ -72,7 +72,7 @@ class ConfidentialSearchQuerySet(SearchQuerySet):
         elif user.is_anonymous():
             return qs.filter(is_confidential=False)
         else:
-            memberships = user.memberships.filter(community=community)
+            memberships = user.memberships.filter(community=committee.community)
             lookup = [m.default_group_name for m in memberships]
             if DefaultGroups.MEMBER in lookup and len(lookup) == 1:
                 return qs.filter(is_confidential=False)

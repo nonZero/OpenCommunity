@@ -32,13 +32,13 @@ id="proposal-detail"
         {% if meeting_context %}
         <a class="three_dot_sentence level1" href="{{meeting_context.get_absolute_url}}">{% if meeting_context.title %}{{ meeting_context.title }}{% endif %} {% if meeting_context.held_at %}{% if meeting_context.title %} / {% endif %}{{ meeting_context.held_at|date:"j F Y" }}{% endif %}</a>
         {% else %}
-            <a class="three_dot_sentence level1" href="{{object.issue.community.get_upcoming_absolute_url}}">
-                {% if LANGUAGE_CODE == 'he' and community.no_meetings_community %}
-                {{object.issue.community.upcoming_meeting_title|default:_("Next update")}}
+            <a class="three_dot_sentence level1" href="{{object.issue.committee.get_upcoming_absolute_url}}">
+                {% if LANGUAGE_CODE == 'he' and committee.community.no_meetings_community %}
+                {{object.issue.committee.upcoming_meeting_title|default:_("Next update")}}
                 {% else %}
-                {{object.issue.community.upcoming_meeting_title|default:_("Upcoming Meeting")}}
+                {{object.issue.committee.upcoming_meeting_title|default:_("Upcoming Meeting")}}
                 {% endif %}
-                {% if object.issue.community.upcoming_meeting_scheduled_at %} / {% endif %}{{object.issue.community.upcoming_meeting_scheduled_at|date:"j F Y"}}</a>
+                {% if object.issue.committee.upcoming_meeting_scheduled_at %} / {% endif %}{{object.issue.committee.upcoming_meeting_scheduled_at|date:"j F Y"}}</a>
         {% endif %}
     {% else %}
         <h2 class="hidden-xs">{% trans 'Issues' %}</h2>
@@ -107,7 +107,7 @@ id="proposal-detail"
 <script src="{{STATIC_URL}}js/hogan-2.0.0.js"></script>
 <script src="{{STATIC_URL}}js/issues.js"></script>
 <script src="{{STATIC_URL}}js/proposal.js"></script>
-{% if object.issue.community.upcoming_meeting_started %}
+{% if object.issue.committee.upcoming_meeting_started %}
 	<script src="{{STATIC_URL}}js/proposal_members_vote.js"></script>
 {% endif %}
 {% endblock %}

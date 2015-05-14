@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-15 09:16+0300\n"
-"PO-Revision-Date: 2015-04-08 23:22+0200\n"
+"POT-Creation-Date: 2015-05-14 13:17+0300\n"
+"PO-Revision-Date: 2015-05-14 13:19+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.7.5\n"
+"X-Generator: Poedit 1.7.6\n"
 
 #: .\admin.py:42 .\forms.py:38
 msgid "Password"
@@ -31,23 +31,27 @@ msgstr ""
 "סיסמאות אינם נשמרות כטקסט, אז אין אפשרות לראות את הסיסמא של המשתמש, אבל ניתן "
 "לשנות סיסמא בעזרת <a href=\"password/\">הקישור הזה</a>."
 
-#: .\default_roles.py:102
+#: .\apps.py:7
+msgid "Users, memberships & rolls"
+msgstr "משתמשים, חברי קהילה, תפקידים והזמנות"
+
+#: .\default_roles.py:101
 msgid "member"
 msgstr "חבר"
 
-#: .\default_roles.py:103
+#: .\default_roles.py:102
 msgid "board"
 msgstr "ועד"
 
-#: .\default_roles.py:104
+#: .\default_roles.py:103
 msgid "secretary"
 msgstr "מזכיר"
 
-#: .\default_roles.py:105
+#: .\default_roles.py:104
 msgid "chairman"
 msgstr "יושב ראש"
 
-#: .\forms.py:10
+#: .\forms.py:11
 #, python-format
 msgid ""
 "Please enter a correct %(username)s and password. Note that both fields may "
@@ -62,123 +66,123 @@ msgstr "אימות סיסמא"
 msgid "Passwords don't match"
 msgstr "סיסמא לא תואמת"
 
-#: .\forms.py:95
+#: .\forms.py:96
 msgid "Upload CSV file to import"
 msgstr "העלאת קובץ csv"
 
-#: .\models.py:69
+#: .\models.py:66
 msgid "email address"
 msgstr "כתובת דואל"
 
-#: .\models.py:72
+#: .\models.py:69
 msgid "Your name"
 msgstr "שמך"
 
-#: .\models.py:74
+#: .\models.py:71
 msgid "staff status"
 msgstr "חבר בצוות האתר"
 
-#: .\models.py:75
+#: .\models.py:72
 msgid "Designates whether the user can log into this admin site."
 msgstr "יכול להכנס לאדמין"
 
-#: .\models.py:77
+#: .\models.py:74
 msgid "date joined"
 msgstr "תאריך הצטרפות"
 
-#: .\models.py:85
+#: .\models.py:82
 msgid "user"
 msgstr "משתמש"
 
-#: .\models.py:86
+#: .\models.py:83
 msgid "users"
 msgstr "משתמשים"
 
-#: .\models.py:123 .\models.py:255
+#: .\models.py:120 .\models.py:258
 msgid "Community"
 msgstr "קהילה"
 
-#: .\models.py:125 .\models.py:269
+#: .\models.py:122 .\models.py:272
 msgid "User"
 msgstr "משתמש"
 
-#: .\models.py:127 .\models.py:272
+#: .\models.py:124 .\models.py:275
 msgid "Group"
 msgstr "קבוצה"
 
-#: .\models.py:131 .\models.py:258
+#: .\models.py:128 .\models.py:261
 msgid "Created at"
 msgstr "נוצר בתאריך"
 
-#: .\models.py:133
+#: .\models.py:130
 msgid "Invited by"
 msgstr "הוזמן על ידי"
 
-#: .\models.py:137
+#: .\models.py:133
 msgid "In position since"
 msgstr "מכהן מתאריך"
 
-#: .\models.py:142
+#: .\models.py:138
 msgid "Community Member"
 msgstr "חבר קהילה"
 
-#: .\models.py:143
+#: .\models.py:139
 msgid "Community Members"
 msgstr "חברי קהילה"
 
-#: .\models.py:247
+#: .\models.py:250
 msgid "Pending"
 msgstr "ממתין למשלוח"
 
-#: .\models.py:248
+#: .\models.py:251
 msgid "Sent"
 msgstr "נשלח"
 
-#: .\models.py:249
+#: .\models.py:252
 msgid "Failed"
 msgstr "נכשל"
 
-#: .\models.py:260
+#: .\models.py:263
 msgid "Created by"
 msgstr "נוצר על ידי"
 
-#: .\models.py:263
+#: .\models.py:266
 msgid "Name"
 msgstr "שם"
 
-#: .\models.py:264 .\templates\users\member_profile.html.py:24
+#: .\models.py:267 .\templates\users\member_profile.html:24
 msgid "Email"
 msgstr "דואל"
 
-#: .\models.py:265
+#: .\models.py:268
 msgid "Message"
 msgstr "הודעה"
 
-#: .\models.py:275
+#: .\models.py:278
 msgid "Status"
 msgstr "סטאטוס"
 
-#: .\models.py:277
+#: .\models.py:280
 msgid "Times Sent"
 msgstr "מספר הפעמים שההזמנה נשלחה"
 
-#: .\models.py:278
+#: .\models.py:281
 msgid "Error count"
 msgstr "מספר הפעימים שהמשלוח נכשל"
 
-#: .\models.py:279
+#: .\models.py:282
 msgid "Sent at"
 msgstr "נשלח לאחרונה ב"
 
-#: .\models.py:284
+#: .\models.py:287
 msgid "Invitation"
 msgstr "הזמנה"
 
-#: .\models.py:285
+#: .\models.py:288
 msgid "Invitations"
 msgstr "הזמנות"
 
-#: .\models.py:287
+#: .\models.py:290
 #, python-format
 msgid ""
 "The system will allow you to take part in the decision making process of %s. "
@@ -190,88 +194,67 @@ msgstr ""
 "אחרי אישור ההצטרפות ניתן לראות את הנושאים לדיון, את סדר היום לישיבה הקרובה, "
 "ואת סיכום ההחלטות מהישיבות הקודמות, ובעתיד ניתן יהיה גם לדון ולהשפיע עליהם."
 
-#: .\models.py:304
+#: .\models.py:306
 #, python-format
 msgid "Invitation to %s"
 msgstr "הזמנה לקהילה %s"
 
-#: .\views.py:47 .\tests\invitation_test.py:99
-msgid "This user already a member of this community."
-msgstr "משתמש זה כבר חבר בקהילה"
-
-#: .\views.py:52 .\tests\invitation_test.py:89
-msgid "This user is already invited to this community."
-msgstr "משתמש זה כבר הוזמן לקהילה"
-
-#: .\views.py:78 .\tests\invitation_test.py:80
-msgid "Form error. Please supply a valid email."
-msgstr "יש בעיה בטופס. אנא בדוק את כתובת האימייל"
-
-#: .\views.py:177
-msgid "Oops. Something went wrong. Please try again."
-msgstr "אופס. משהו השתבש. אנה נסה שוב."
-
-#: .\views.py:321
-#, python-format
-msgid "%d Invitations sent"
-msgstr "%d הזמנות נשלחו"
-
-#: .\templates\emails\invitation.txt.py:2
+#: .\templates\emails\invitation.txt:2
 msgid "Hello"
 msgstr "שלום"
 
-#: .\templates\emails\invitation.txt.py:4
+#: .\templates\emails\invitation.txt:4
 #, python-format
 msgid "You were invited by %(u)s to join %(c)s."
 msgstr "הוזמנת על ידי %(u)s להצטרף לקהילה %(c)s."
 
-#: .\templates\emails\invitation.txt.py:8
+#: .\templates\emails\invitation.txt:8
 msgid "Click here to join this community:"
 msgstr "להצטרפות לחץ כאן"
 
-#: .\templates\emails\invitation.txt.py:10
+#: .\templates\emails\invitation.txt:10
 msgid "(Or copy the url above to your browser)"
 msgstr "או העתק כתובת זו לדפדפן"
 
-#: .\templates\emails\invitation.txt.py:12
+#: .\templates\emails\invitation.txt:12
 msgid "Once registered you will be able to enter"
 msgstr "אחרי ההרשמה ניתן להכנס ישירות ל"
 
-#: .\templates\users\_invitation.html.py:6
+#: .\templates\users\_invitation.html:6
 msgid "Delete"
 msgstr "מחיקה"
 
-#: .\templates\users\import_invitations.html.py:5
+#: .\templates\users\import_invitations.html:5
 msgid "Import invitation list"
 msgstr "יבא רשימת מוזמנים"
 
-#: .\templates\users\import_invitations.html.py:10
+#: .\templates\users\import_invitations.html:10
 msgid "Sample file"
 msgstr "קובץ לדוגמה"
 
-#: .\templates\users\invitation404.html.py:12
+#: .\templates\users\invitation404.html:12
 msgid "Invitation already accepted"
 msgstr "הזמנה כבר מומשה"
 
-#: .\templates\users\invitation404.html.py:16
-#: .\templates\users\invitation_detail.html.py:18
+#: .\templates\users\invitation404.html:16
+#: .\templates\users\invitation_detail.html:18
 msgid "You are logged in as"
 msgstr "אתה מחובר למערכת בשם"
 
-#: .\templates\users\invitation404.html.py:20
+#: .\templates\users\invitation404.html:20
 msgid "Go to home page"
 msgstr "עבור לעמוד הראשי"
 
-#: .\templates\users\invitation_detail.html.py:9
+#: .\templates\users\invitation_detail.html:9
 msgid "Accept invitation"
 msgstr "אישור הזמנה"
 
-#: .\templates\users\invitation_detail.html.py:14
+#: .\templates\users\invitation_detail.html:14
 #, python-format
 msgid "You were invited to %(s)s."
 msgstr "הוזמנת לקהילה %(s)s."
 
-#: .\templates\users\invitation_detail.html.py:24
+#: .\templates\users\invitation_detail.html:24
 #, python-format
 msgid ""
 "Warning! The invitation was sent to %(i)s, but you are joining as %(u)s!"
@@ -279,139 +262,160 @@ msgstr ""
 "שים לב! ההזמנה נשלחה אל <span dir=\"ltr\">%(i)s</span>, אבל אתה מחובר בתור "
 "<span dir=\"ltr\">%(u)s</span>!"
 
-#: .\templates\users\invitation_detail.html.py:31
+#: .\templates\users\invitation_detail.html:31
 msgid "Join this community as"
 msgstr "הצטרף לקהילה כ"
 
-#: .\templates\users\invitation_detail.html.py:36
+#: .\templates\users\invitation_detail.html:36
 msgid "Signup and join this community as"
 msgstr "הרשם לאתר והצטרף לקהילה כ"
 
-#: .\templates\users\invitation_detail.html.py:39
+#: .\templates\users\invitation_detail.html:39
 msgid "Logout"
 msgstr "יציאה"
 
-#: .\templates\users\invitation_detail.html.py:47
+#: .\templates\users\invitation_detail.html:47
 msgid "Login to join"
 msgstr "להצטרפות עליך להכנס למערכת"
 
-#: .\templates\users\invitation_detail.html.py:47
-#: .\templates\users\invitation_detail.html.py:53
+#: .\templates\users\invitation_detail.html:47
+#: .\templates\users\invitation_detail.html:53
 msgid "Login"
 msgstr "כניסה"
 
-#: .\templates\users\invitation_detail.html.py:53
+#: .\templates\users\invitation_detail.html:53
 msgid "Already a user?"
 msgstr "נרשמת כבר?"
 
-#: .\templates\users\invitation_detail.html.py:57
+#: .\templates\users\invitation_detail.html:57
 msgid "Quick signup"
 msgstr "הרשמה מהירה"
 
-#: .\templates\users\invitation_detail.html.py:63
+#: .\templates\users\invitation_detail.html:63
 msgid "email"
 msgstr "דואל"
 
-#: .\templates\users\invitation_detail.html.py:66
+#: .\templates\users\invitation_detail.html:66
 msgid "Join DemOS"
 msgstr "הצטרף לקהילה פתוחה"
 
-#: .\templates\users\member_profile.html.py:13
+#: .\templates\users\member_profile.html:13
 msgid "No data available"
 msgstr "אין מידע זמין"
 
-#: .\templates\users\member_profile.html.py:18
+#: .\templates\users\member_profile.html:18
 msgid "Position"
 msgstr "תפקיד"
 
-#: .\templates\users\member_profile.html.py:21
+#: .\templates\users\member_profile.html:21
 msgid "Serves since"
 msgstr "מכהן מ"
 
-#: .\templates\users\member_profile.html.py:26
+#: .\templates\users\member_profile.html:26
 msgid "Meetings participation"
 msgstr "השתתפות בישיבות"
 
-#: .\templates\users\member_profile.html.py:29
+#: .\templates\users\member_profile.html:29
 msgid "Out of"
 msgstr "מתוך"
 
-#: .\templates\users\member_profile.html.py:33
+#: .\templates\users\member_profile.html:33
 msgid "Tasks"
 msgstr "משימות"
 
-#: .\templates\users\member_profile.html.py:36
+#: .\templates\users\member_profile.html:36
 msgid "Late"
 msgstr "באיחור"
 
-#: .\templates\users\member_profile.html.py:39
+#: .\templates\users\member_profile.html:39
 msgid "Open"
 msgstr "פתוחות"
 
-#: .\templates\users\member_profile.html.py:42
+#: .\templates\users\member_profile.html:42
 msgid "Close"
 msgstr "סגורות"
 
-#: .\templates\users\member_profile.html.py:54
-#: .\templates\users\member_profile.html.py:71
-#: .\templates\users\member_profile.html.py:88
+#: .\templates\users\member_profile.html:54
+#: .\templates\users\member_profile.html:71
+#: .\templates\users\member_profile.html:88
 msgid "Due by"
 msgstr "יעד"
 
-#: .\templates\users\member_profile.html.py:100
+#: .\templates\users\member_profile.html:100
 msgid "Summary of votes participation"
 msgstr "סיכום ההצבעות בהם השתתף"
 
-#: .\templates\users\member_profile.html.py:103
+#: .\templates\users\member_profile.html:103
 msgid "For"
 msgstr "בעד"
 
-#: .\templates\users\member_profile.html.py:106
+#: .\templates\users\member_profile.html:106
 msgid "Abstain"
 msgstr "נמנע"
 
-#: .\templates\users\member_profile.html.py:109
+#: .\templates\users\member_profile.html:109
 msgid "Against"
 msgstr "נגד"
 
-#: .\templates\users\member_profile.html.py:118
+#: .\templates\users\member_profile.html:118
 msgid "of decisions voted for were accepted"
 msgstr "מההחלטות בהם הצביע 'בעד' התקבלו"
 
-#: .\templates\users\member_profile.html.py:131
-#: .\templates\users\member_profile.html.py:162
-#: .\templates\users\member_profile.html.py:193
+#: .\templates\users\member_profile.html:131
+#: .\templates\users\member_profile.html:162
+#: .\templates\users\member_profile.html:193
 msgid "By:"
 msgstr "מאת:"
 
-#: .\templates\users\member_profile.html.py:149
+#: .\templates\users\member_profile.html:149
 msgid "of decisions didn't vote were accepted"
 msgstr "מההחלטות בהם לא הצביע התקבלו"
 
-#: .\templates\users\member_profile.html.py:180
+#: .\templates\users\member_profile.html:180
 msgid "of decisions voted against were rejected"
 msgstr "מההחלטות בהם הצביע 'נגד' נדחו"
 
-#: .\templates\users\membership_list.html.py:6
-#: .\templates\users\membership_list.html.py:34
+#: .\templates\users\membership_list.html:6
+#: .\templates\users\membership_list.html:34
 msgid "Members"
 msgstr "חברים"
 
-#: .\templates\users\membership_list.html.py:51
+#: .\templates\users\membership_list.html:51
 msgid "No members."
 msgstr "אין חברים בקהילה"
 
-#: .\templates\users\membership_list.html.py:59
+#: .\templates\users\membership_list.html:59
 msgid "New invitation"
 msgstr "הזמנה חדשה"
 
-#: .\templates\users\membership_list.html.py:63
+#: .\templates\users\membership_list.html:63
 msgid "Invite"
 msgstr "הזמן"
 
-#: .\templates\users\membership_list.html.py:66
+#: .\templates\users\membership_list.html:66
 msgid "Open invitations"
 msgstr "הזמנות פתוחות"
+
+#: .\tests\invitation_test.py:80 .\views.py:69
+msgid "Form error. Please supply a valid email."
+msgstr "יש בעיה בטופס. אנא בדוק את כתובת האימייל"
+
+#: .\tests\invitation_test.py:89 .\views.py:43
+msgid "This user is already invited to this community."
+msgstr "משתמש זה כבר הוזמן לקהילה"
+
+#: .\tests\invitation_test.py:99 .\views.py:38
+msgid "This user already a member of this community."
+msgstr "משתמש זה כבר חבר בקהילה"
+
+#: .\views.py:166
+msgid "Oops. Something went wrong. Please try again."
+msgstr "אופס. משהו השתבש. אנה נסה שוב."
+
+#: .\views.py:303
+#, python-format
+msgid "%d Invitations sent"
+msgstr "%d הזמנות נשלחו"
 
 #~ msgid "Board"
 #~ msgstr "ועד"

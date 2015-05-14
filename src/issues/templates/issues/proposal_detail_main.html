@@ -8,7 +8,7 @@
 </div>
 {% endif %}
 
-<div class="proposal" data-id="{{object.id}}" data-accepted="{{object.status}}" data-argument-url="{% url 'proposal_arguments' object.issue.community.id object.issue.id object.id %}">
+<div class="proposal" data-id="{{object.id}}" data-accepted="{{object.status}}" data-argument-url="{% url 'proposal_arguments' object.issue.committee.community.slug object.issue.committee.slug object.issue.id object.id %}">
 
     <div class="pull-right">
 	    {% if cperms.issues.view_proposal_in_discussion or not proposal.is_open %}
@@ -37,7 +37,7 @@
 
 					{% if not object.can_vote and object.is_task %}
 						{% if cperms.issues.edittask_proposal or object.assigned_to_user == user %}
-							<form class="form-inline" role="form" id="task-completed-form" method="post" action="{% url 'task_completed' community_id=community.id  issue_id=object.issue.id pk=object.id %}" style="margin: 5px 0; display: inline-block;">
+							<form class="form-inline" role="form" id="task-completed-form" method="post" action="{% url 'task_completed' community.slug committee.slug object.issue.id object.id %}" style="margin: 5px 0; display: inline-block;">
 								{% csrf_token %}
 								{% if object.task_completed %}
 									<button class="btn btn-default btn-sm" name="completed" value="0">
@@ -138,14 +138,14 @@
 	{% endwith %}
 	
 	{% if show_board_vote_result %}
-			<h2 class="clear">{% trans "Vote by the" %} {{ object.issue.community.board_name|default:_("Board") }}</h2>
+			<h2 class="clear">{% trans "Vote by the" %} {{ object.issue.committee.name|default:_("Board") }}</h2>
 			{% include 'issues/_board_vote_res.html' %}
 	{% endif %}
   {% if cperms.issues.proposal_board_vote and chairman_can_vote %}
   <h2 class="clear" style="margin-right: 10px;"><input type="checkbox" id="reg_board_vote" 
-    data-url="{% url 'set_register_votes' community_id=community.id  issue_id=object.issue.id pk=object.id %}"    
+    data-url="{% url 'set_register_votes' committee.community.slug committee.slug object.issue.id object.id %}"
     {% if object.register_board_votes %}checked="checked"{% endif %} />
-      {% trans "Vote by the" %} {{ object.issue.community.board_name|default:_("Board") }}</h2>
+      {% trans "Vote by the" %} {{ object.issue.committee.name|default:_("Board") }}</h2>
       {% include "issues/_chairman_vote.html" %}
 	{% endif %}
 	

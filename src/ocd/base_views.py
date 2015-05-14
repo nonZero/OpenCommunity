@@ -1,4 +1,4 @@
-from communities.models import Community
+from communities.models import Community, Committee
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import redirect_to_login
@@ -26,9 +26,13 @@ class ProtectedMixin(object):
     required_permission_for_post = None
 
     def dispatch(self, request, *args, **kwargs):
-
+        # check with Udi
+        try:
+            community = self.community
+        except:
+            community = self.committee.community
         if not request.user.is_authenticated():
-            if not self.community.is_public:
+            if not community.is_public:
                 return redirect_to_login(request.build_absolute_uri())
 
         if hasattr(self, 'get_required_permission'):
@@ -36,7 +40,7 @@ class ProtectedMixin(object):
         else:
             perm = self.required_permission or "communities.access_community"
 
-        if not has_community_perm(request.user, self.community, perm):
+        if not has_community_perm(request.user, community, perm):
             if settings.DEBUG:
                 return HttpResponseForbidden("403 %s" % perm)
             return HttpResponseForbidden("403 Unauthorized")  # TODO: raise PermissionDenied
@@ -47,7 +51,7 @@ class ProtectedMixin(object):
             else:
                 perm = self.required_permission_for_post or "communities.access_community"
 
-            if not has_community_perm(request.user, self.community, perm):
+            if not has_community_perm(request.user, community, perm):
                 if settings.DEBUG:
                     return HttpResponseForbidden("403 POST %s" % perm)
                 return HttpResponseForbidden("403 Unauthorized")
@@ -62,8 +66,13 @@ class ProtectedMixin(object):
         return resp
 
     def get_context_data(self, **kwargs):
+        # check with Udi
+        try:
+            community = self.community
+        except:
+            community = self.committee.community
         d = super(ProtectedMixin, self).get_context_data(**kwargs)
-        d['cperms'] = get_community_perms(self.request.user, self.community)
+        d['cperms'] = get_community_perms(self.request.user, community)
         return d
 
 
@@ -73,13 +82,30 @@ class CommunityMixin(ProtectedMixin):
     @property
     def community(self):
         if not self._community:
-            self._community = get_object_or_404(Community, pk=self.kwargs['community_id'])
+            self._community = get_object_or_404(Community, slug=self.kwargs['community_slug'])
         return self._community
 
     def get_context_data(self, **kwargs):
         context = super(CommunityMixin, self).get_context_data(**kwargs)
         context['community'] = self.community
         context['is_member'] = Membership.objects.filter(community=self.community,
+                                                         user=self.request.user).exists() if self.request.user.id else False
+        return context
+
+
+class CommitteeMixin(ProtectedMixin):
+    _committee = None
+
+    @property
+    def committee(self):
+        if not self._committee:
+            self._committee = get_object_or_404(Committee, slug=self.kwargs['committee_slug'])
+        return self._committee
+
+    def get_context_data(self, **kwargs):
+        context = super(CommitteeMixin, self).get_context_data(**kwargs)
+        context['committee'] = self.committee
+        context['is_member'] = Membership.objects.filter(community=self.committee.community,
                                                          user=self.request.user).exists() if self.request.user.id else False
         return context
 

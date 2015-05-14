@@ -13,3 +13,8 @@
         {% endif %}
     </a>
 </li>
+{% if c.get_committees %}
+{% for committee in c.get_committees %}
+{% include 'communities/_committee.html' %}
+{% endfor %}
+{% endif %}

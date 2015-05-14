@@ -8,6 +8,7 @@ from haystack.models import SearchResult
 from haystack.utils import get_identifier
 from whoosh.writing import AsyncWriter
 
+
 class MyWhooshSearchBackend(WhooshSearchBackend):
     def update(self, index, iterable, commit=True):
         if not self.setup_complete:
@@ -37,7 +38,7 @@ class MyWhooshSearchBackend(WhooshSearchBackend):
                 # We'll log the object identifier but won't include the actual object
                 # to avoid the possibility of that generating encoding errors while
                 # processing the log message:
-                #self.log.error(u"%s while preparing object for update" % e.__class__.__name__, exc_info=True, extra={
+                # self.log.error(u"%s while preparing object for update" % e.__class__.__name__, exc_info=True, extra={
                 self.log.error(u"%s while preparing object for update" % e.__name__, exc_info=True, extra={
                     "data": {
                         "index": index,
@@ -51,6 +52,7 @@ class MyWhooshSearchBackend(WhooshSearchBackend):
 
     def _process_results(self, raw_page, highlight=False, query_string='', spelling_query=None, result_class=None):
         from haystack import connections
+
         results = []
 
         # It's important to grab the hits first before slicing. Otherwise, this
@@ -76,12 +78,12 @@ class MyWhooshSearchBackend(WhooshSearchBackend):
                     index = unified_index.get_index(model)
                     string_key = str(key)
 
-#                    if string_key in index.fields and hasattr(index.fields[string_key], 'convert'):
+                    # if string_key in index.fields and hasattr(index.fields[string_key], 'convert'):
                     # Patch this up to exclude BooleanField because it's broken
                     # https://github.com/toastdriven/django-haystack/issues/382
                     if (string_key in index.fields and
-                        callable(getattr(index.fields[string_key], 'convert', None)) and
-                        not isinstance(index.fields[string_key], BooleanField)):
+                            callable(getattr(index.fields[string_key], 'convert', None)) and
+                            not isinstance(index.fields[string_key], BooleanField)):
                         # Special-cased due to the nature of KEYWORD fields.
                         if index.fields[string_key].is_multivalued:
                             if value is None or len(value) is 0:
@@ -93,18 +95,20 @@ class MyWhooshSearchBackend(WhooshSearchBackend):
                     else:
                         additional_fields[string_key] = self._to_python(value)
 
-                del(additional_fields[DJANGO_CT])
-                del(additional_fields[DJANGO_ID])
+                del (additional_fields[DJANGO_CT])
+                del (additional_fields[DJANGO_ID])
 
                 if highlight:
                     from whoosh import analysis
                     from whoosh.highlight import highlight, ContextFragmenter, UppercaseFormatter
+
                     sa = analysis.StemmingAnalyzer()
                     terms = [term.replace('*', '') for term in query_string.split()]
 
                     additional_fields['highlighted'] = {
-                        self.content_field_name: [highlight(additional_fields.get(self.content_field_name), terms, sa, ContextFragmenter(terms), UppercaseFormatter())],
-                        }
+                        self.content_field_name: [highlight(additional_fields.get(self.content_field_name), terms, sa,
+                                                            ContextFragmenter(terms), UppercaseFormatter())],
+                    }
 
                 result = result_class(app_label, model_name, raw_result[DJANGO_ID], score, **additional_fields)
                 results.append(result)
@@ -122,7 +126,7 @@ class MyWhooshSearchBackend(WhooshSearchBackend):
             'hits': hits,
             'facets': facets,
             'spelling_suggestion': spelling_suggestion,
-            }
+        }
 
 
 class MyWhooshEngine(WhooshEngine):

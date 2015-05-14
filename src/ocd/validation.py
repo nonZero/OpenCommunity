@@ -1,15 +1,15 @@
 from django.template.defaultfilters import linebreaksbr
 import HTMLParser
 import bleach
-from bleach import ALLOWED_ATTRIBUTES
+
 
 EXTRA_TAGS = [
-              'p',
-              'br',
-              'span',
-              'div',
-              'u',
-              ]
+    'p',
+    'br',
+    'span',
+    'div',
+    'u',
+]
 
 TAGS = bleach.ALLOWED_TAGS + EXTRA_TAGS
 
@@ -24,16 +24,17 @@ BLOCK_TAGS = [
 ]
 
 DIV_CLASSES = [
-               'wysiwyg-text-align-left',
-               'wysiwyg-text-align-right',
-               'wysiwyg-text-align-center',
-               ]
+    'wysiwyg-text-align-left',
+    'wysiwyg-text-align-right',
+    'wysiwyg-text-align-center',
+]
 
 
 def div_filter(name, value):
     if name != 'class':
         return False
     return value.strip() in DIV_CLASSES
+
 
 ATTRIBUTES = {
     'a': ['href', 'title'],

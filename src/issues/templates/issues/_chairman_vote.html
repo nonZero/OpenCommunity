@@ -5,17 +5,17 @@
 			<div class="col-xs-8">
 				<div class="col-xs-4 text-center" style="background: #a4cb53;">
 					<h5 style="margin:5px 0">
-						<button class="btn btn-default btn-sm all-pro" data-value="pro" data-href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}">{% trans "For" %}</button>
+						<button class="btn btn-default btn-sm all-pro" data-value="pro" data-href="{% url 'vote_on_proposal' committee.community.slug committee.slug proposal.id %}">{% trans "For" %}</button>
 					</h5>
 				</div>
 				<div class="col-xs-4 text-center" style="background: #ffffff;">
 					<h5 style="margin:5px 0">
-						<button class="btn btn-default btn-sm all-neutral" data-value="neut" data-href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}">{% trans "Abstain" %}</button>
+						<button class="btn btn-default btn-sm all-neutral" data-value="neut" data-href="{% url 'vote_on_proposal' committee.community.slug committee.slug proposal.id %}">{% trans "Abstain" %}</button>
 					</h5>
 				</div>
 				<div class="col-xs-4 text-center" style="background: #d95e59;">
 					<h5 style="margin:5px 0">
-						<button class="btn btn-default btn-sm all-con" data-value="con" data-href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}">{% trans "Against" %}</button>
+						<button class="btn btn-default btn-sm all-con" data-value="con" data-href="{% url 'vote_on_proposal' committee.community.slug committee.slug proposal.id %}">{% trans "Against" %}</button>
 					</h5>
 				</div>
 			</div>
@@ -30,21 +30,21 @@
           <div class="col-xs-4 text-center" style="background: #a4cb53;">
 						<div class="radio-inline">
 							<label>
-								<input type="radio" data-href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}" name="votesRadios{{key.id}}" value="pro" {% if vote and vote.value == 1 %}checked="checked"{% endif %}>
+								<input type="radio" data-href="{% url 'vote_on_proposal' committee.community.slug committee.slug proposal.id %}" name="votesRadios{{key.id}}" value="pro" {% if vote and vote.value == 1 %}checked="checked"{% endif %}>
 							</label>
 						</div>
 					</div>
 					<div class="col-xs-4 text-center" style="background: #ffffff;">
 						<div class="radio-inline">
 							<label>
-								<input type="radio" data-href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}" name="votesRadios{{key.id}}" value="neut" {% if vote and vote.value == 0 %}checked="checked"{% endif %}>
+								<input type="radio" data-href="{% url 'vote_on_proposal' committee.community.slug committee.slug proposal.id %}" name="votesRadios{{key.id}}" value="neut" {% if vote and vote.value == 0 %}checked="checked"{% endif %}>
 							</label>
 						</div>
 					</div>
 					<div class="col-xs-4 text-center" style="background: #d95e59;">
 						<div class="radio-inline">
 							<label>
-								<input type="radio" data-href="{% url 'vote_on_proposal' community_id=community.id pk=proposal.id %}" name="votesRadios{{key.id}}" value="con" {% if vote and vote.value == -1 %}checked="checked"{% endif %}>
+								<input type="radio" data-href="{% url 'vote_on_proposal' committee.community.slug committee.slug proposal.id %}" name="votesRadios{{key.id}}" value="con" {% if vote and vote.value == -1 %}checked="checked"{% endif %}>
 							</label>
 						</div>
 					</div>

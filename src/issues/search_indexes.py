@@ -1,11 +1,10 @@
 from haystack import indexes
 from issues.models import Issue, Proposal
 from haystack.fields import IntegerField, CharField, BooleanField, DateField, DateTimeField
-from datetime import date, datetime, timedelta
 
 
 class IssueIndex(indexes.ModelSearchIndex, indexes.Indexable):
-    community = IntegerField(model_attr='community_id')
+    committee = IntegerField(model_attr='committee_id')
     is_confidential = BooleanField(model_attr='is_confidential')
 
     class Meta:
@@ -22,7 +21,7 @@ class ProposalIndex(indexes.ModelSearchIndex, indexes.Indexable):
     text = CharField(document=True, use_template=True)
     active = BooleanField(model_attr='active')
     title = CharField(model_attr='title')
-    community = IntegerField(model_attr='issue__community_id')
+    committee = IntegerField(model_attr='issue__committee_id')
     status = IntegerField(model_attr='status')
     task_completed = BooleanField(model_attr='task_completed')
     type = IntegerField(model_attr='type')
@@ -36,11 +35,11 @@ class ProposalIndex(indexes.ModelSearchIndex, indexes.Indexable):
 
     def prepare_assignee(self, obj):
         return u'' if not obj.assigned_to_user else \
-                  obj.assigned_to_user.display_name
+            obj.assigned_to_user.display_name
 
     def prepare_decided_at(self, obj):
         return obj.created_at if not obj.decided_at_meeting \
-              else obj.decided_at_meeting.held_at
+            else obj.decided_at_meeting.held_at
 
     # Note that regular ``SearchIndex`` methods apply.
     def index_queryset(self, using=None):

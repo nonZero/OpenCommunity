@@ -17,7 +17,7 @@ from issues.models import ProposalType, Issue, IssueStatus, ProposalVote, \
     Proposal, ProposalVoteBoard, ProposalVoteValue, VoteResult, ProposalVoteArgument, ProposalVoteArgumentRanking
 from meetings.models import Meeting
 from oc_util.templatetags.opencommunity import minutes, board_voters_on_proposal
-from ocd.base_views import CommunityMixin, AjaxFormView, json_response
+from ocd.base_views import AjaxFormView, json_response, CommitteeMixin
 from ocd.validation import enhance_html
 from ocd.base_managers import ConfidentialSearchQuerySet
 from shultze_vote import send_issue_ranking
@@ -29,13 +29,13 @@ import mimetypes
 from datetime import date
 
 
-class IssueMixin(CommunityMixin):
+class IssueMixin(CommitteeMixin):
     model = models.Issue
 
     def get_queryset(self):
         return self.model.objects.object_access_control(
             user=self.request.user,
-            community=self.community).filter(community=self.community,
+            committee=self.committee).filter(committee=self.committee,
                                              active=True)
 
 
@@ -45,19 +45,19 @@ class ProposalMixin(IssueMixin):
     def get_queryset(self):
         return self.model.objects.object_access_control(
             user=self.request.user,
-            community=self.community).filter(issue=self.issue,
+            committee=self.committee).filter(issue=self.issue,
                                              active=True)
 
     @property
     def issue(self):
-        return get_object_or_404(models.Issue, community=self.community,
+        return get_object_or_404(models.Issue, committee=self.committee,
                                  pk=self.kwargs['issue_id'])
 
     def _can_complete_task(self):
         o = self.get_object()
         if self.request.user == o.assigned_to_user:
             return True
-        return has_community_perm(self.request.user, self.community,
+        return has_community_perm(self.request.user, self.committee.community,
                                   'issues.edittask_proposal')
 
 
@@ -71,14 +71,14 @@ class IssueList(IssueMixin, ListView):
     def get_context_data(self, **kwargs):
         d = super(IssueList, self).get_context_data(**kwargs)
         available_ids = set([x.id for x in self.get_queryset()])
-        if d['community'].issue_ranking_enabled:
+        if d['committee'].issue_ranking_enabled:
             d['sorted_issues'] = super(IssueList, self).get_queryset().exclude(
                 status=IssueStatus.ARCHIVED).order_by('-order_by_votes')
             if d['cperms']['issues'].has_key('vote_ranking') and \
                     self.request.user.is_authenticated():
                 my_ranking = models.IssueRankingVote.objects.filter(
                     voted_by=self.request.user,
-                    issue__community_id=d['community'].id) \
+                    issue__committee_id=d['committee'].id) \
                     .order_by('rank')
                 d['my_vote'] = [i.issue for i in my_ranking if i.issue.active and \
                                 i.issue.status != IssueStatus.ARCHIVED]
@@ -89,12 +89,12 @@ class IssueList(IssueMixin, ListView):
         for obj in self.object_list:
             obj.restricted_proposals = \
                 obj.proposals.object_access_control(
-                    user=self.request.user, community=self.community)
+                    user=self.request.user, committee=self.committee)
             for ai in obj.agenda_items.all():
                 ai.restricted_proposals = ai.proposals(
-                    user=self.request.user, community=self.community)
+                    user=self.request.user, committee=self.committee)
                 ai.restricted_accepted_proposals = ai.accepted_proposals(
-                    user=self.request.user, community=self.community)
+                    user=self.request.user, committee=self.committee)
         return d
 
     required_permission_for_post = 'issues.vote_ranking'
@@ -115,12 +115,12 @@ class IssueDetailView(IssueMixin, DetailView):
         d = super(IssueDetailView, self).get_context_data(**kwargs)
         m_id = self.request.GET.get('m_id', None)
         d['form'] = forms.CreateIssueCommentForm()
-        d['proposal_form'] = forms.CreateProposalForm(community=self.community)
+        d['proposal_form'] = forms.CreateProposalForm(committee=self.committee)
         if m_id:
             d['meeting'] = get_object_or_404(Meeting, id=m_id,
-                                             community=self.community)
+                                             committee=self.committee)
             a = d['meeting'].agenda.object_access_control(
-                user=self.request.user, community=self.community).all()
+                user=self.request.user, committee=self.committee).all()
             d['meeting_active_issues'] = [ai.issue for ai in a if
                                           ai.issue.active]
 
@@ -131,7 +131,7 @@ class IssueDetailView(IssueMixin, DetailView):
             d['all_issues'] = self.get_queryset().exclude(
                 status=IssueStatus.ARCHIVED).order_by('-created_at')
         o = self.get_object()
-        group = self.request.user.get_default_group(o.community) \
+        group = self.request.user.get_default_group(o.committee.community) \
             if self.request.user.is_authenticated() \
             else ''
 
@@ -142,19 +142,19 @@ class IssueDetailView(IssueMixin, DetailView):
                 d['can_board_vote_self'] = True
 
         d['proposals'] = self.object.proposals.object_access_control(
-            user=self.request.user, community=self.community).open()
+            user=self.request.user, committee=self.committee).open()
 
-        d['upcoming_issues'] = self.object.community.upcoming_issues(
-            user=self.request.user, community=self.community)
+        d['upcoming_issues'] = self.object.committee.upcoming_issues(
+            user=self.request.user, committee=self.committee)
 
         d['agenda_items'] = self.object.agenda_items.all()
         for ai in d['agenda_items']:
             ai.accepted_proposals = ai.accepted_proposals(
-                user=self.request.user, community=self.community)
+                user=self.request.user, committee=self.committee)
             ai.rejected_proposals = ai.rejected_proposals(
-                user=self.request.user, community=self.community)
+                user=self.request.user, committee=self.committee)
             ai.proposals = ai.proposals(
-                user=self.request.user, community=self.community)
+                user=self.request.user, committee=self.committee)
 
         return d
 
@@ -182,7 +182,7 @@ class IssueDetailView(IssueMixin, DetailView):
             # c = i.comments.create(content=enhance_html(form.cleaned_data['content']),
             # created_by=request.user)
             #
-            #     self.object = i  # this makes the next line work
+            # self.object = i  # this makes the next line work
             #     context = self.get_context_data(object=i, c=c)
             #     return render(request, 'issues/_comment.html', context)
             # else:
@@ -191,7 +191,7 @@ class IssueDetailView(IssueMixin, DetailView):
             #     return json_response({'comment_id': c.id})
 
 
-class IssueCommentMixin(CommunityMixin):
+class IssueCommentMixin(CommitteeMixin):
     model = models.IssueComment
 
     def get_required_permission(self):
@@ -200,7 +200,7 @@ class IssueCommentMixin(CommunityMixin):
             'issues.editclosed_issuecomment'
 
     def get_queryset(self):
-        return models.IssueComment.objects.filter(issue__community=self.community)
+        return models.IssueComment.objects.filter(issue__committee=self.committee)
 
 
 class IssueCommentDeleteView(IssueCommentMixin, DeleteView):
@@ -242,13 +242,13 @@ class IssueCreateView(AjaxFormView, IssueMixin, CreateView):
     upcoming = False
 
     def form_valid(self, form):
-        form.instance.community = self.community
+        form.instance.committee = self.committee
         form.instance.created_by = self.request.user
         form.instance.status = IssueStatus.IN_UPCOMING_MEETING if \
             self.upcoming else IssueStatus.OPEN
         if self.upcoming:
             max_upcoming = Issue.objects.filter(
-                community=self.community).aggregate(x=Max(
+                committee=self.committee).aggregate(x=Max(
                 'order_in_upcoming_meeting'))['x']
             form.instance.order_in_upcoming_meeting = max_upcoming + 1 \
                 if max_upcoming else 1
@@ -257,7 +257,7 @@ class IssueCreateView(AjaxFormView, IssueMixin, CreateView):
 
     def get_form_kwargs(self):
         kwargs = super(IssueCreateView, self).get_form_kwargs()
-        kwargs.update({'community': self.community})
+        kwargs.update({'committee': self.committee})
         return kwargs
 
     def get_success_url(self):
@@ -283,7 +283,7 @@ class IssueEditView(AjaxFormView, IssueMixin, UpdateView):
 
     def get_form_kwargs(self):
         kwargs = super(IssueEditView, self).get_form_kwargs()
-        kwargs.update({'community': self.community})
+        kwargs.update({'committee': self.committee})
         return kwargs
 
 
@@ -367,7 +367,7 @@ class AttachmentCreateView(AjaxFormView, IssueMixin, CreateView):
 
     @property
     def issue(self):
-        return get_object_or_404(models.Issue, community=self.community, pk=self.kwargs['pk'])
+        return get_object_or_404(models.Issue, committee=self.committee, pk=self.kwargs['pk'])
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
@@ -375,7 +375,7 @@ class AttachmentCreateView(AjaxFormView, IssueMixin, CreateView):
         return super(AttachmentCreateView, self).form_valid(form)
 
 
-class AttachmentDeleteView(AjaxFormView, CommunityMixin, DeleteView):
+class AttachmentDeleteView(AjaxFormView, CommitteeMixin, DeleteView):
     model = models.IssueAttachment
     required_permission = 'issues.editopen_issue'
 
@@ -390,7 +390,7 @@ class AttachmentDeleteView(AjaxFormView, CommunityMixin, DeleteView):
         return HttpResponse("")
 
 
-class AttachmentDownloadView(CommunityMixin, SingleObjectMixin, View):
+class AttachmentDownloadView(CommitteeMixin, SingleObjectMixin, View):
     model = models.IssueAttachment
 
     def get_required_permission(self):
@@ -439,7 +439,7 @@ class ProposalCreateView(AjaxFormView, ProposalMixin, CreateView):
     def get_form_kwargs(self):
         d = super(ProposalCreateView, self).get_form_kwargs()
         d['prefix'] = 'proposal'
-        d['community'] = self.community
+        d['committee'] = self.committee
         d['initial'] = {'issue': self.issue}
         return d
 
@@ -459,8 +459,8 @@ class ProposalDetailView(ProposalMixin, DetailView):
         pro_count = 0
         con_count = 0
         neut_count = 0
-        board_attending = self.community.meeting_participants()['board'] + \
-                          self.community.meeting_participants()['chairmen']
+        board_attending = self.committee.meeting_participants()['board'] + \
+                          self.committee.meeting_participants()['chairmen']
 
         for u in board_attending:
             vote = ProposalVoteBoard.objects.filter(proposal=self.get_object,
@@ -502,14 +502,14 @@ class ProposalDetailView(ProposalMixin, DetailView):
 
         if m_id:
             context['meeting_context'] = get_object_or_404(Meeting, id=m_id,
-                                                           community=self.community)
+                                                           committee=self.committee)
             participants = context['meeting_context'].participants.all()
         else:
             context['meeting_context'] = None
-            participants = o.issue.community.upcoming_meeting_participants.all()
+            participants = o.issue.committee.upcoming_meeting_participants.all()
 
         try:
-            group = self.request.user.memberships.get(community=self.issue.community).default_group_name
+            group = self.request.user.memberships.get(committee=self.issue.committee).default_group_name
         except:
             group = ""
 
@@ -523,9 +523,9 @@ class ProposalDetailView(ProposalMixin, DetailView):
             .order_by('-meeting__held_at')
 
         if o.issue.is_upcoming and \
-                self.community.upcoming_meeting_is_published and \
-                self.community.straw_vote_ended:
-            context['meeting'] = self.community.draft_meeting()
+                self.committee.upcoming_meeting_is_published and \
+                self.committee.straw_vote_ended:
+            context['meeting'] = self.committee.draft_meeting()
         else:
             if results.count():
                 context['meeting'] = results[0].meeting
@@ -555,7 +555,7 @@ class ProposalDetailView(ProposalMixin, DetailView):
                                          self.request.user in board_attending
         rel_proposals = self.object.issue.proposals
         context['proposals'] = rel_proposals.object_access_control(
-            user=self.request.user, community=self.community)
+            user=self.request.user, committee=self.committee)
         return context
 
 
@@ -591,7 +591,7 @@ class ProposalEditView(AjaxFormView, ProposalMixin, UpdateView):
     def get_form_kwargs(self):
         d = super(ProposalEditView, self).get_form_kwargs()
         d['prefix'] = 'proposal'
-        d['community'] = self.community
+        d['committee'] = self.committee
         return d
 
 
@@ -640,7 +640,7 @@ class ProposalDeleteView(AjaxFormView, ProposalMixin, DeleteView):
         return HttpResponse("-")
 
 
-class VoteResultsView(CommunityMixin, DetailView):
+class VoteResultsView(CommitteeMixin, DetailView):
     model = models.Proposal
 
     def get(self, request, *args, **kwargs):
@@ -651,7 +651,7 @@ class VoteResultsView(CommunityMixin, DetailView):
             meeting = get_object_or_404(Meeting, id=int(meeting_id))
             res = p.get_straw_results(meeting.id)
         else:
-            meeting = self.community.draft_meeting()
+            meeting = self.committee.draft_meeting()
             res = p.get_straw_results()
 
         panel = render_to_string('issues/_proposal_vote_results.html',
@@ -663,7 +663,7 @@ class VoteResultsView(CommunityMixin, DetailView):
         return HttpResponse(panel)
 
 
-class ProposalVoteMixin(CommunityMixin):
+class ProposalVoteMixin(CommitteeMixin):
     VOTE_OK = 0
     VOTE_VER_ERR = 1
     VOTE_OVERRIDE_ERR = 2
@@ -715,7 +715,7 @@ class ProposalVoteView(ProposalVoteMixin, DetailView):
         is_board = request.POST.get('board', False)
         user_id = request.POST.get('user', request.user.id)
         voter_id = request.user.id
-        voter_group = request.user.get_default_group(self.community) \
+        voter_group = request.user.get_default_group(self.committee.community) \
             if request.user.is_authenticated() \
             else ''
         val = request.POST['val']
@@ -738,7 +738,7 @@ class ProposalVoteView(ProposalVoteMixin, DetailView):
             'html': render_to_string(res_panel_tpl,
                                      {
                                          'proposal': proposal,
-                                         'community': self.community,
+                                         'committee': self.committee,
                                          'vote_status': val,
                                      }),
         }
@@ -755,7 +755,7 @@ class ProposalVoteView(ProposalVoteMixin, DetailView):
             vote_response['html'] = render_to_string(vote_panel_tpl,
                                                      {
                                                          'proposal': proposal,
-                                                         'community': self.community
+                                                         'committee': self.committee
                                                      })
 
             return json_response(vote_response)
@@ -770,7 +770,7 @@ class ProposalVoteView(ProposalVoteMixin, DetailView):
             vote_response['html'] = render_to_string(res_panel_tpl,
                                                      {
                                                          'proposal': proposal,
-                                                         'community': self.community,
+                                                         'committee': self.committee,
                                                          'vote_status': val,
                                                          'user': self.request.user
                                                      })
@@ -778,7 +778,7 @@ class ProposalVoteView(ProposalVoteMixin, DetailView):
                 vote_response['sum'] = render_to_string('issues/_member_vote_sum.html',
                                                         {
                                                             'proposal': proposal,
-                                                            'community': self.community,
+                                                            'committee': self.committee,
                                                             'board_attending': board_voters_on_proposal(proposal),
                                                         })
         else:
@@ -818,7 +818,7 @@ class MultiProposalVoteView(ProposalVoteMixin, DetailView):
         voted_ids = json.loads(request.POST['users'])
         proposal = self.get_object()
         pid = proposal.id
-        voter_group = request.user.get_default_group(self.community) \
+        voter_group = request.user.get_default_group(self.committee.community) \
             if request.user.is_authenticated() \
             else ''
 
@@ -840,13 +840,13 @@ class MultiProposalVoteView(ProposalVoteMixin, DetailView):
             'html': render_to_string('issues/_vote_reset_panel.html',
                                      {
                                          'proposal': proposal,
-                                         'community': self.community,
+                                         'committee': self.committee,
                                      }),
             'override_fail': vote_failed,
             'sum': render_to_string('issues/_member_vote_sum.html',
                                     {
                                         'proposal': proposal,
-                                        'community': self.community,
+                                        'committee': self.committee,
                                         'board_attending': board_voters_on_proposal(proposal),
                                     })
         })
@@ -923,7 +923,7 @@ class ArgumentRankingVoteView(RankingVoteMixin, DetailView):
         return HttpResponse(argument.argument_score)
 
 
-def up_down_vote(request, community_id, arg_id):
+def up_down_vote(request, committee_id, arg_id):
     if request.method != "POST":
         raise Exception("Must be POST")
 
@@ -961,7 +961,7 @@ class ProposalVoteArgumentCreateView(CreateView):
     # return super(ProposalVoteArgumentCreateView, self).form_valid(form)
     #
     # def form_invalid(self, form):
-    #     return HttpResponse("000")
+    # return HttpResponse("000")
 
     def post(self, request, *args, **kwargs):
 
@@ -1028,7 +1028,7 @@ class ProposalVoteArgumentDeleteView(DeleteView):
         return HttpResponse(arg_id)
 
 
-def get_argument_value(request, community_id, arg_id):
+def get_argument_value(request, committee_id, arg_id):
     """ Return the value of the argument for editing """
     arg_value = models.ProposalVoteArgument.objects.get(pk=arg_id)
     return HttpResponse(arg_value.argument)
@@ -1079,8 +1079,8 @@ class AssignmentsView(ProposalMixin, ListView):
     def get_queryset(self):
         term = self.request.GET.get('q', '').strip()
         sqs = ConfidentialSearchQuerySet().models(Proposal).object_access_control(
-            user=self.request.user, community=self.community).filter(
-            active=True, community=self.community.id,
+            user=self.request.user, committee=self.committee).filter(
+            active=True, committee=self.committee.id,
             status=Proposal.statuses.ACCEPTED,
             type=ProposalType.TASK).order_by(self._get_order())
         sqs = self._add_status_qs(sqs)
@@ -1088,7 +1088,6 @@ class AssignmentsView(ProposalMixin, ListView):
             sqs = sqs.filter(content=AutoQuery(term)) \
                 .filter_or(assignee__contains=term)
         return sqs.load_all()
-
 
     def get_context_data(self, **kwargs):
         d = super(AssignmentsView, self).get_context_data(**kwargs)
@@ -1104,11 +1103,11 @@ class AssignmentsView(ProposalMixin, ListView):
         return d
 
 
-class RulesMixin(CommunityMixin):
+class RulesMixin(CommitteeMixin):
     def _get_rule_queryset(self):
         qs = Proposal.objects.object_access_control(user=self.request.user,
-                                                    community=self.community).filter(
-            active=True, issue__community=self.community,
+                                                    committee=self.committee).filter(
+            active=True, issue__committee=self.committee,
             status=Proposal.statuses.ACCEPTED,
             type=ProposalType.RULE)
         return qs
@@ -1132,8 +1131,8 @@ class ProceduresView(RulesMixin, ProposalMixin, ListView):
         self.order_by = self.request.GET.get('ord', 'date')
         ord_term = '-decided_at' if self.order_by == 'date' else 'title'
         sqs = ConfidentialSearchQuerySet().object_access_control(
-            user=self.request.user, community=self.community).filter(
-            active=True, community=self.community.id,
+            user=self.request.user, committee=self.committee).filter(
+            active=True, committee=self.committee.id,
             status=Proposal.statuses.ACCEPTED,
             type=ProposalType.RULE).order_by(ord_term)
         if term:
@@ -1162,7 +1161,7 @@ class ProceduresView(RulesMixin, ProposalMixin, ListView):
         return d
 
 
-class AutoCompleteTagView(CommunityMixin, View):
+class AutoCompleteTagView(CommitteeMixin, View):
     required_permission = 'issues.editopen_issue'
 
     def get(self, request, *args, **kwargs):
@@ -1174,7 +1173,7 @@ class AutoCompleteTagView(CommunityMixin, View):
         json_tags = []
         tags = set()
         proposals = Proposal.objects.filter(
-            active=True, issue__community=self.community,
+            active=True, issue__committee=self.committee,
             type=ProposalType.RULE)
         for p in proposals:
             tags.update(t for t in p.tags.names() if t.startswith(tag))

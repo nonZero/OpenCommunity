@@ -35,7 +35,7 @@
         $('#id_proposal-type').closest('.form-group').hide();
         init_proposal_tabs(true);
         $("ul#proposal-type li")[0].click()
-        var ac_url = '{% url "ac_user" community_id=community.id %}';
+        var ac_url = '{% url "ac_user" committee.community.slug %}';
         init_user_autocomplete(ac_url);
         $("#id_proposal-content").css('height', '100px');
         $('a.proposal-btn-confidential').parent().parent().css({

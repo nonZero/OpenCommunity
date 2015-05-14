@@ -1,112 +1,86 @@
-from django.conf.urls import patterns, url
-from issues import views
+from django.conf.urls import url
+from . import views
 
-urlpatterns = patterns('',
+
+urlpatterns = [
 
     url(r'^$', views.IssueList.as_view(), name="issues"),
 
     url(r'^create/$', views.IssueCreateView.as_view(), name="issue_create"),
 
-    url(r'^upcoming-create/$', views.IssueCreateView.as_view(upcoming=True),
-
-                                name="issue_create_upcoming"),
+    url(r'^upcoming-create/$', views.IssueCreateView.as_view(upcoming=True), name="issue_create_upcoming"),
 
     url(r'^(?P<pk>\d+)/$', views.IssueDetailView.as_view(), name="issue"),
 
-    url(r'^(?P<pk>\d+)/edit/$', views.IssueEditView.as_view(),
-                                name="issue_edit"),
+    url(r'^(?P<pk>\d+)/edit/$', views.IssueEditView.as_view(), name="issue_edit"),
 
-    url(r'^(?P<pk>\d+)/edit-abstract/$', views.IssueEditAbstractView.as_view(),
-                                name="issue_edit_abstract"),
+    url(r'^(?P<pk>\d+)/edit-abstract/$', views.IssueEditAbstractView.as_view(), name="issue_edit_abstract"),
 
-    url(r'^(?P<pk>\d+)/set-length/$', views.IssueSetLengthView.as_view(),
-                                name="issue_set_length"),
+    url(r'^(?P<pk>\d+)/set-length/$', views.IssueSetLengthView.as_view(), name="issue_set_length"),
 
-    url(r'^(?P<pk>\d+)/complete/$', views.IssueCompleteView.as_view(),
-                                name="issue_complete"),
+    url(r'^(?P<pk>\d+)/complete/$', views.IssueCompleteView.as_view(), name="issue_complete"),
 
-    url(r'^(?P<pk>\d+)/delete/$', views.IssueDeleteView.as_view(),
-                                name="issue_delete"),
+    url(r'^(?P<pk>\d+)/delete/$', views.IssueDeleteView.as_view(), name="issue_delete"),
 
-    url(r'^(?P<pk>\d+)/attach/$', views.AttachmentCreateView.as_view(),
-                                name="add_attachment"),
+    url(r'^(?P<pk>\d+)/attach/$', views.AttachmentCreateView.as_view(), name="add_attachment"),
 
-    url(r'^(?P<issue_id>\d+)/remove-attachment/(?P<pk>\d+)/$',
-                                views.AttachmentDeleteView.as_view(),
-                                name="attachment_delete"),
+    url(r'^(?P<issue_id>\d+)/remove-attachment/(?P<pk>\d+)/$', views.AttachmentDeleteView.as_view(),
+        name="attachment_delete"),
 
-    url(r'^(?P<issue_id>\d+)/download-attachment/(?P<pk>\d+)/$',
-                                views.AttachmentDownloadView.as_view(),
-                                name="attachment_download"),
+    url(r'^(?P<issue_id>\d+)/download-attachment/(?P<pk>\d+)/$', views.AttachmentDownloadView.as_view(),
+        name="attachment_download"),
 
-    url(r'^(?P<issue_id>\d+)/create-proposal/$', views.ProposalCreateView.as_view(),
-            name="proposal_create"),
+    url(r'^(?P<issue_id>\d+)/create-proposal/$', views.ProposalCreateView.as_view(), name="proposal_create"),
 
-    url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/$',
-        views.ProposalDetailView.as_view(), name="proposal"),
+    url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/$', views.ProposalDetailView.as_view(), name="proposal"),
 
-    url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/edit/$',
-        views.ProposalEditView.as_view(), name="proposal_edit"),
+    url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/edit/$', views.ProposalEditView.as_view(), name="proposal_edit"),
 
-    url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/delete/$',
-        views.ProposalDeleteView.as_view(), name="proposal_delete"),
+    url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/delete/$', views.ProposalDeleteView.as_view(), name="proposal_delete"),
 
-    url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/task_completed/$',
-        views.ProposalCompletedTaskView.as_view(), name="task_completed"),
+    url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/task_completed/$', views.ProposalCompletedTaskView.as_view(),
+        name="task_completed"),
 
-    url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/edit-task/$',
-        views.ProposalEditTaskView.as_view(), name="proposal_edit_task"),
+    url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/edit-task/$', views.ProposalEditTaskView.as_view(), name="proposal_edit_task"),
 
-    url(r'^delete-comment/(?P<pk>\d+)/$',
-        views.IssueCommentDeleteView.as_view(), name="delete_issue_comment"),
+    url(r'^delete-comment/(?P<pk>\d+)/$', views.IssueCommentDeleteView.as_view(), name="delete_issue_comment"),
 
-    url(r'^edit-comment/(?P<pk>\d+)/$',
-        views.IssueCommentEditView.as_view(), name="edit_issue_comment"),
+    url(r'^edit-comment/(?P<pk>\d+)/$', views.IssueCommentEditView.as_view(), name="edit_issue_comment"),
 
-    url(r'^vote/(?P<pk>\d+)/$',
-        views.ProposalVoteView.as_view(), name="vote_on_proposal"),
+    url(r'^vote/(?P<pk>\d+)/$', views.ProposalVoteView.as_view(), name="vote_on_proposal"),
 
-    url(r'^vote/(?P<pk>\d+)/multi/$',
-        views.MultiProposalVoteView.as_view(), name="multi_votes_on_proposal"),
+    url(r'^vote/(?P<pk>\d+)/multi/$', views.MultiProposalVoteView.as_view(), name="multi_votes_on_proposal"),
 
-    url(r'^argument_vote/(?P<pk>\d+)/$',
-        views.ArgumentRankingVoteView.as_view(), name="vote_on_argument"),
+    url(r'^argument_vote/(?P<pk>\d+)/$', views.ArgumentRankingVoteView.as_view(), name="vote_on_argument"),
 
-    url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/proposal_arguments/$',
-        views.ProposalArgumentsView.as_view(), name="proposal_arguments"),
+    url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/proposal_arguments/$', views.ProposalArgumentsView.as_view(),
+        name="proposal_arguments"),
 
-    url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/proposal_more_arguments/$',
-        views.ProposalMoreArgumentsView.as_view(), name="proposal_more_arguments"),
+    url(r'^(?P<issue_id>\d+)/(?P<pk>\d+)/proposal_more_arguments/$', views.ProposalMoreArgumentsView.as_view(),
+        name="proposal_more_arguments"),
 
-    url(r'^(?P<vote_id>\d+)/vote-argument-create/$',
-        views.ProposalVoteArgumentCreateView.as_view(), name="create_vote_argument"),
+    url(r'^(?P<vote_id>\d+)/vote-argument-create/$', views.ProposalVoteArgumentCreateView.as_view(),
+        name="create_vote_argument"),
 
-    url(r'^delete-vote-argument/(?P<pk>\d+)/$',
-        views.ProposalVoteArgumentDeleteView.as_view(), name="delete_proposal_argument"),
+    url(r'^delete-vote-argument/(?P<pk>\d+)/$', views.ProposalVoteArgumentDeleteView.as_view(),
+        name="delete_proposal_argument"),
 
-    url(r'^edit-vote-argument/(?P<pk>\d+)/$',
-        views.ProposalVoteArgumentUpdateView.as_view(), name="edit_proposal_argument"),
+    url(r'^edit-vote-argument/(?P<pk>\d+)/$', views.ProposalVoteArgumentUpdateView.as_view(),
+        name="edit_proposal_argument"),
 
-    url(r'^get-argument-value/(?P<arg_id>\d+)/$',
-        views.get_argument_value, name="get_argument_value"),
+    url(r'^get-argument-value/(?P<arg_id>\d+)/$', views.get_argument_value, name="get_argument_value"),
 
-    url(r'^argument-up-down-vote/(?P<pk>\d+)/$',
-        views.ArgumentRankingVoteView.as_view(), name="argument_up_down_vote"),
+    url(r'^argument-up-down-vote/(?P<pk>\d+)/$', views.ArgumentRankingVoteView.as_view(), name="argument_up_down_vote"),
 
-    url(r'^vote_res_panel/(?P<pk>\d+)/$',
-        views.VoteResultsView.as_view(), name="vote_results_panel"),
+    url(r'^vote_res_panel/(?P<pk>\d+)/$', views.VoteResultsView.as_view(), name="vote_results_panel"),
 
-    url(r'^(?P<issue_id>\d+)/set_register_votes/(?P<pk>\d+)/$',
-        views.ChangeBoardVoteStatusView.as_view(), name="set_register_votes"),
+    url(r'^(?P<issue_id>\d+)/set_register_votes/(?P<pk>\d+)/$', views.ChangeBoardVoteStatusView.as_view(),
+        name="set_register_votes"),
 
-    url(r'^autocomplete_tag/$',
-        views.AutoCompleteTagView.as_view(), name="autocomplete_tag"),
+    url(r'^autocomplete_tag/$', views.AutoCompleteTagView.as_view(), name="autocomplete_tag"),
 
-    url(r'^assignments/$',
-        views.AssignmentsView.as_view(), name="assignments"),
+    url(r'^assignments/$', views.AssignmentsView.as_view(), name="assignments"),
 
-    url(r'^procedures/$',
-        views.ProceduresView.as_view(), name="procedures"),
+    url(r'^procedures/$', views.ProceduresView.as_view(), name="procedures"),
 
-
-)
+]
