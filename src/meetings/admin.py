@@ -26,35 +26,36 @@ class MeetingAdmin(admin.ModelAdmin):
     ]
 
     list_display = (
-                    '__unicode__',
-                    'community',
-                    )
-    
-    list_filter = (
-                        'community',
-                        'participants',
-                        'guests',
-                        )
+        '__unicode__',
+        'committee',
+    )
 
     list_filter = (
-                    'community',
-                    'participants',
-                    'guests',
-                    )
+        'committee',
+        'participants',
+        'guests',
+    )
+
+    list_filter = (
+        'committee',
+        'participants',
+        'guests',
+    )
 
 
 class MeetingParticipantAdmin(admin.ModelAdmin):
     model = models.MeetingParticipant
     # date_hierarchy = 'meeting__held_at'
-    list_display =  ('meeting', 'display_name', 'was_missing',) 
+    list_display = ('meeting', 'display_name', 'was_missing',)
     list_filter = (
-                        'meeting__community',
-                        'display_name',
-                        'is_absent',
-                        )
+        'meeting__committee',
+        'display_name',
+        'is_absent',
+    )
 
     def was_missing(self, obj):
         return not obj.is_absent
+
     was_missing.boolean = True
     was_missing.short_description = 'attended'
 

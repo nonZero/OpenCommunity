@@ -1,4 +1,3 @@
-
 from django.core.mail import get_connection
 from django.core.mail.message import EmailMultiAlternatives
 
@@ -9,9 +8,9 @@ def fix_garbled_mail():
     from django.core.mail import message
     # let's undo it:
     from email import Charset
+
     Charset.add_charset('utf-8', Charset.SHORTEST, Charset.BASE64, 'utf-8')
     # utf8_charset.body_encoding = Charset.BASE64  # Django 1.6
-
 
 
 def send_mails(from_email, emails, subject, message, html_message=None,
@@ -25,4 +24,3 @@ def send_mails(from_email, emails, subject, message, html_message=None,
                                        connection=connection) for email in
                 emails]
     return connection.send_messages(messages)
-

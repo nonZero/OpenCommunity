@@ -14,13 +14,9 @@ class AgendaItemManager(ConfidentialManager):
 
 class AgendaItem(ConfidentialByRelationMixin):
     confidential_from = 'issue'
-
     objects = ConfidentialManager()
-
-    meeting = models.ForeignKey('Meeting', verbose_name=_("Meeting"),
-                                related_name="agenda")
-    issue = models.ForeignKey(Issue, verbose_name=_("Issue"),
-                              related_name="agenda_items")
+    meeting = models.ForeignKey('Meeting', verbose_name=_("Meeting"), related_name="agenda")
+    issue = models.ForeignKey(Issue, verbose_name=_("Issue"), related_name="agenda_items")
     background = HTMLField(_("Background"), null=True, blank=True)
     order = models.PositiveIntegerField(default=100, verbose_name=_("Order"))
     closed = models.BooleanField(_('Closed'), default=True)
@@ -52,45 +48,35 @@ class AgendaItem(ConfidentialByRelationMixin):
         return rv
 
     def accepted_proposals(self, user=None, committee=None):
-        rv = self.proposals(user=user, committee=committee).filter(
-            status=ProposalStatus.ACCEPTED)
+        rv = self.proposals(user=user, committee=committee).filter(status=ProposalStatus.ACCEPTED)
         return rv
 
     def rejected_proposals(self, user=None, committee=None):
-        rv = self.proposals(user=user, committee=committee).filter(
-            status=ProposalStatus.REJECTED)
+        rv = self.proposals(user=user, committee=committee).filter(status=ProposalStatus.REJECTED)
         return rv
 
 
 class Meeting(UIDMixin):
-    community = models.ForeignKey('communities.Community', related_name="meetings", verbose_name=_("Community"))
+    # community = models.ForeignKey('communities.Community', related_name="meetings", verbose_name=_("Community"))
     committee = models.ForeignKey('communities.Committee', related_name="meetings", verbose_name=_("Committee"), null=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="meetings_created",
                                    verbose_name=_("Created by"))
-
     held_at = models.DateTimeField(_("Held at"))
-
     title = models.CharField(_("Title"), max_length=300, null=True, blank=True)
-    scheduled_at = models.DateTimeField(_("Scheduled at"),
-                                        null=True, blank=True)
+    scheduled_at = models.DateTimeField(_("Scheduled at"), null=True, blank=True)
     location = models.CharField(_("Location"), max_length=300, null=True, blank=True)
     comments = models.TextField(_("Comments"), null=True, blank=True)
-
     summary = models.TextField(_("Summary"), null=True, blank=True)
-
     agenda_items = models.ManyToManyField(Issue, through=AgendaItem,
                                           blank=True,
                                           related_name='meetings',
                                           verbose_name=_("Agenda items"))
-
     participants = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                           related_name="participated_in_meeting",
                                           verbose_name=_("Participants"),
                                           through='MeetingParticipant')
-
-    guests = models.TextField(_("Guests"), null=True, blank=True,
-                              help_text=_("Enter each guest in a separate line"))
+    guests = models.TextField(_("Guests"), null=True, blank=True, help_text=_("Enter each guest in a separate line"))
 
     class Meta:
         verbose_name = _("Meeting")
@@ -135,7 +121,7 @@ class Meeting(UIDMixin):
 
     def meeting_participants(self):
         meeting_participants = {'board': [], 'members': [], }
-        board_ids = [m.user.id for m in self.community.memberships.board()]
+        board_ids = [m.user.id for m in self.committee.community.memberships.board()]
         for p in self.get_participations():
             if p.user.id in board_ids:
                 meeting_participants['board'].append(p.user)
@@ -145,7 +131,7 @@ class Meeting(UIDMixin):
         # doing it simply like this, as I'd need to refactor models
         # just to order in the way that is now required.
         for index, item in enumerate(meeting_participants['board']):
-            if item.get_default_group(self.community) == DefaultGroups.CHAIRMAN:
+            if item.get_default_group(self.committee.community) == DefaultGroups.CHAIRMAN:
                 meeting_participants['board'].insert(0, meeting_participants['board'].pop(index))
         return meeting_participants
 
@@ -156,17 +142,13 @@ class Meeting(UIDMixin):
 
 class BoardParticipantsManager(models.Manager):
     def board(self):
-        return self.get_queryset().exclude(
-            default_group_name=DefaultGroups.MEMBER,
-            is_absent=True)
+        return self.get_queryset().exclude(default_group_name=DefaultGroups.MEMBER, is_absent=True)
 
 
 class MeetingParticipant(models.Model):
-    meeting = models.ForeignKey(Meeting, verbose_name=_("Meeting"),
-                                related_name="participations")
+    meeting = models.ForeignKey(Meeting, verbose_name=_("Meeting"), related_name="participations")
     ordinal = models.PositiveIntegerField()
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             related_name="participations")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="participations")
     # denormalize for history :
     display_name = models.CharField(_("Name"), max_length=200)
     default_group_name = models.CharField(_('Group'), max_length=50,

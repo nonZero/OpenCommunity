@@ -62,42 +62,24 @@ class IssueStatus(object):
 
 class Issue(UIDMixin, ConfidentialMixin):
     objects = IssueManager()
-
     active = models.BooleanField(_("Active"), default=True)
     # community = models.ForeignKey('communities.Community',
     # related_name="issues")
-    committee = models.ForeignKey('communities.Committee',
-                                  related_name="issues", null=True)
+    committee = models.ForeignKey('communities.Committee', related_name="issues", null=True)
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                   verbose_name=_("Created by"),
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Created by"),
                                    related_name="issues_created")
-
     title = models.CharField(_("Title"), max_length=300)
     abstract = HTMLField(_("Background"), null=True, blank=True)
-    content = HTMLField(_("Content"), null=True,
-                        blank=True)  # TODO: remove me safely
-
-    calculated_score = models.IntegerField(_("Calculated Score"),
-                                           default=0)  # TODO: remove me
-
-    status = models.IntegerField(choices=IssueStatus.choices,
-                                 default=IssueStatus.OPEN)
+    content = HTMLField(_("Content"), null=True, blank=True)  # TODO: remove me safely
+    calculated_score = models.IntegerField(_("Calculated Score"), default=0)  # TODO: remove me
+    status = models.IntegerField(choices=IssueStatus.choices, default=IssueStatus.OPEN)
     statuses = IssueStatus
-
-    order_in_upcoming_meeting = models.IntegerField(
-        _("Order in upcoming meeting"), default=0, null=True, blank=True)
-    order_by_votes = models.FloatField(
-        _("Order in upcoming meeting by votes"), default=0, null=True,
-        blank=True)
-
-    length_in_minutes = models.IntegerField(_("Length (in minutes)"),
-                                            null=True, blank=True)
-
-    completed = models.BooleanField(_("Discussion completed"),
-                                    default=False)  # TODO: remove me safely
-    is_published = models.BooleanField(_("Is published to members"),
-                                       default=False)
+    order_in_upcoming_meeting = models.IntegerField(_("Order in upcoming meeting"), default=0, null=True, blank=True)
+    order_by_votes = models.FloatField(_("Order in upcoming meeting by votes"), default=0, null=True, blank=True)
+    length_in_minutes = models.IntegerField(_("Length (in minutes)"), null=True, blank=True)
+    completed = models.BooleanField(_("Discussion completed"), default=False)  # TODO: remove me safely
+    is_published = models.BooleanField(_("Is published to members"), default=False)
 
     class Meta:
         verbose_name = _("Issue")
@@ -164,7 +146,6 @@ class Issue(UIDMixin, ConfidentialMixin):
                                                    ])
         return decided_at_current or self.new_comments().filter(active=True)
 
-
     @property
     def is_archived(self):
         return self.status == IssueStatus.ARCHIVED
@@ -195,22 +176,15 @@ class Issue(UIDMixin, ConfidentialMixin):
 class IssueComment(UIDMixin):
     issue = models.ForeignKey(Issue, related_name="comments")
     active = models.BooleanField(default=True)
-    ordinal = models.PositiveIntegerField(null=True,
-                                          blank=True)  # TODO: remove me
+    ordinal = models.PositiveIntegerField(null=True, blank=True)  # TODO: remove me
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                   verbose_name=_("Created by"),
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Created by"),
                                    related_name="issue_comments_created")
-
     meeting = models.ForeignKey('meetings.Meeting', null=True, blank=True)
-
     version = models.PositiveIntegerField(default=1)
-    last_edited_at = models.DateTimeField(_("Last Edited at"),
-                                          auto_now_add=True)
-    last_edited_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL, verbose_name=_("Created by"),
-        related_name="issue_comments_last_edited", null=True, blank=True)
-
+    last_edited_at = models.DateTimeField(_("Last Edited at"), auto_now_add=True)
+    last_edited_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Created by"),
+                                       related_name="issue_comments_last_edited", null=True, blank=True)
     content = HTMLField(_("Comment"))
 
     @property
@@ -268,12 +242,10 @@ class IssueCommentRevision(models.Model):
     """ Holds data for historical comments """
     comment = models.ForeignKey(IssueComment, related_name='revisions')
     version = models.PositiveIntegerField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True,
-                                      verbose_name=_("Created at"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                    verbose_name=_("Created by"),
                                    related_name="issue_comment_versions_created")
-
     content = models.TextField(verbose_name=_("Content"))
 
     @property
@@ -289,17 +261,13 @@ def issue_attachment_path(instance, filename):
 
 class IssueAttachment(UIDMixin):
     issue = models.ForeignKey(Issue, related_name="attachments")
-    agenda_item = models.ForeignKey('meetings.AgendaItem', null=True,
-                                    blank=True, related_name="attachments")
-    file = models.FileField(_("File"), storage=uploads_storage,
-                            max_length=200, upload_to=issue_attachment_path)
+    agenda_item = models.ForeignKey('meetings.AgendaItem', null=True, blank=True, related_name="attachments")
+    file = models.FileField(_("File"), storage=uploads_storage, max_length=200, upload_to=issue_attachment_path)
     title = models.CharField(_("Title"), max_length=100)
     active = models.BooleanField(default=True)
     ordinal = models.PositiveIntegerField(null=True, blank=True)
     created_at = models.DateTimeField(_("File created at"), auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                   verbose_name=_("Created by"),
-                                   related_name="files_created")
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Created by"), related_name="files_created")
 
     @property
     def is_confidential(self):
@@ -379,13 +347,9 @@ class ProposalVoteArgumentVoteValue(object):
 
 class ProposalVoteBoard(models.Model):
     proposal = models.ForeignKey("Proposal")
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
-                             related_name="board_votes")
-    value = models.SmallIntegerField(_("Vote"),
-                                     choices=ProposalVoteValue.CHOICES,
-                                     default=ProposalVoteValue.NEUTRAL)
-    voted_by_chairman = models.BooleanField(_("Voted by chairman"),
-                                            default=False)  # TODO: by who?
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"), related_name="board_votes")
+    value = models.SmallIntegerField(_("Vote"), choices=ProposalVoteValue.CHOICES, default=ProposalVoteValue.NEUTRAL)
+    voted_by_chairman = models.BooleanField(_("Voted by chairman"), default=False)  # TODO: by who?
 
     @property
     def is_confidential(self):
@@ -426,40 +390,29 @@ class ProposalStatus(object):
 
 class Proposal(UIDMixin, ConfidentialMixin):
     objects = ProposalManager()
-
     issue = models.ForeignKey(Issue, related_name="proposals")
     active = models.BooleanField(_("Active"), default=True)
     created_at = models.DateTimeField(_("Create at"), auto_now_add=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                    related_name="proposals_created",
                                    verbose_name=_("Created by"))
-    type = models.PositiveIntegerField(_("Type"),
-                                       choices=ProposalType.CHOICES)
+    type = models.PositiveIntegerField(_("Type"), choices=ProposalType.CHOICES)
     types = ProposalType
-
     title = models.CharField(_("Title"), max_length=300)
     content = HTMLField(_("Details"), null=True, blank=True)
-
-    status = models.IntegerField(choices=ProposalStatus.choices,
-                                 default=ProposalStatus.IN_DISCUSSION)
+    status = models.IntegerField(choices=ProposalStatus.choices, default=ProposalStatus.IN_DISCUSSION)
     statuses = ProposalStatus
-
-    decided_at_meeting = models.ForeignKey('meetings.Meeting', null=True,
-                                           blank=True)
-    assigned_to = models.CharField(_("Assigned to"), max_length=200,
-                                   null=True, blank=True)
+    decided_at_meeting = models.ForeignKey('meetings.Meeting', null=True, blank=True)
+    assigned_to = models.CharField(_("Assigned to"), max_length=200, null=True, blank=True)
     assigned_to_user = models.ForeignKey(settings.AUTH_USER_MODEL,
                                          verbose_name=_("Assigned to user"),
                                          null=True, blank=True,
                                          related_name="proposals_assigned")
     due_by = models.DateField(_("Due by"), null=True, blank=True)
     task_completed = models.BooleanField(_("Completed"), default=False)
-    votes_pro = models.PositiveIntegerField(_("Votes pro"), null=True,
-                                            blank=True)
-    votes_con = models.PositiveIntegerField(_("Votes con"), null=True,
-                                            blank=True)
-    community_members = models.PositiveIntegerField(_("Community members"),
-                                                    null=True, blank=True)
+    votes_pro = models.PositiveIntegerField(_("Votes pro"), null=True, blank=True)
+    votes_con = models.PositiveIntegerField(_("Votes con"), null=True, blank=True)
+    community_members = models.PositiveIntegerField(_("Community members"), null=True, blank=True)
     tags = TaggableManager(_("Tags"), blank=True)
     register_board_votes = models.BooleanField(default=False)
 
@@ -494,8 +447,7 @@ class Proposal(UIDMixin, ConfidentialMixin):
 
     @property
     def can_straw_vote(self):
-        return self.status == ProposalStatus.IN_DISCUSSION and \
-               self.issue.can_straw_vote
+        return self.status == ProposalStatus.IN_DISCUSSION and self.issue.can_straw_vote
 
     @property
     def can_show_straw_votes(self):
@@ -509,8 +461,7 @@ class Proposal(UIDMixin, ConfidentialMixin):
         """ get straw voting results registered for the given meeting """
         if meeting_id:
             try:
-                res = VoteResult.objects.get(proposal=self,
-                                             meeting_id=meeting_id)
+                res = VoteResult.objects.get(proposal=self, meeting_id=meeting_id)
             except VoteResult.DoesNotExist:
                 return None
             return res
@@ -519,16 +470,14 @@ class Proposal(UIDMixin, ConfidentialMixin):
                 return self
             else:
                 try:
-                    res = VoteResult.objects.filter(proposal=self) \
-                        .latest('meeting__held_at')
+                    res = VoteResult.objects.filter(proposal=self).latest('meeting__held_at')
                     return res
                 except VoteResult.DoesNotExist:
                     return None
 
     def board_vote_by_member(self, user_id):
         try:
-            vote = ProposalVoteBoard.objects.get(user_id=user_id,
-                                                 proposal=self)
+            vote = ProposalVoteBoard.objects.get(user_id=user_id, proposal=self)
             return vote.value
         except ProposalVoteBoard.DoesNotExist:
             return None
@@ -568,10 +517,8 @@ class Proposal(UIDMixin, ConfidentialMixin):
 
     def do_votes_summation(self, members_count):
 
-        pro_votes = ProposalVote.objects.filter(proposal=self,
-                                                value=ProposalVoteValue.PRO).count()
-        con_votes = ProposalVote.objects.filter(proposal=self,
-                                                value=ProposalVoteValue.CON).count()
+        pro_votes = ProposalVote.objects.filter(proposal=self, value=ProposalVoteValue.PRO).count()
+        con_votes = ProposalVote.objects.filter(proposal=self, value=ProposalVoteValue.CON).count()
         self.votes_pro = pro_votes
         self.votes_con = con_votes
         self.community_members = members_count
@@ -584,7 +531,7 @@ class Proposal(UIDMixin, ConfidentialMixin):
     @models.permalink
     def get_absolute_url(self):
         return "proposal", (
-        self.issue.committee.community.slug, self.issue.committee.slug, str(self.issue.pk), str(self.pk))
+            self.issue.committee.community.slug, self.issue.committee.slug, str(self.issue.pk), str(self.pk))
 
     @models.permalink
     def get_email_vote_url(self):
@@ -655,11 +602,8 @@ class Proposal(UIDMixin, ConfidentialMixin):
 
 class ProposalVote(models.Model):
     proposal = models.ForeignKey(Proposal, related_name='votes')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
-                             related_name="votes")
-    value = models.SmallIntegerField(_("Vote"),
-                                     choices=ProposalVoteValue.CHOICES,
-                                     default=ProposalVoteValue.NEUTRAL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"), related_name="votes")
+    value = models.SmallIntegerField(_("Vote"), choices=ProposalVoteValue.CHOICES, default=ProposalVoteValue.NEUTRAL)
 
     @property
     def is_confidential(self):
@@ -693,26 +637,30 @@ class ProposalVoteArgument(models.Model):
     @models.permalink
     def get_delete_url(self):
         return "delete_proposal_argument", (
-        self.proposal_vote.proposal.issue.committee.community.slug, self.proposal_vote.proposal.issue.committee.slug,
-        self.id)
+            self.proposal_vote.proposal.issue.committee.community.slug,
+            self.proposal_vote.proposal.issue.committee.slug,
+            self.id)
 
     @models.permalink
     def get_edit_url(self):
         return "edit_proposal_argument", (
-        self.proposal_vote.proposal.issue.committee.community.slug, self.proposal_vote.proposal.issue.committee.slug,
-        self.id)
+            self.proposal_vote.proposal.issue.committee.community.slug,
+            self.proposal_vote.proposal.issue.committee.slug,
+            self.id)
 
     @models.permalink
     def get_data_url(self):
         return "get_argument_value", (
-        self.proposal_vote.proposal.issue.committee.community.slug, self.proposal_vote.proposal.issue.committee.slug,
-        self.id)
+            self.proposal_vote.proposal.issue.committee.community.slug,
+            self.proposal_vote.proposal.issue.committee.slug,
+            self.id)
 
     @models.permalink
     def get_vote_url(self):
         return "argument_up_down_vote", (
-        self.proposal_vote.proposal.issue.committee.community.slug, self.proposal_vote.proposal.issue.committee.slug,
-        self.id)
+            self.proposal_vote.proposal.issue.committee.community.slug,
+            self.proposal_vote.proposal.issue.committee.slug,
+            self.id)
 
     @property
     def argument_for_ranking(self):
@@ -732,10 +680,8 @@ class ProposalVoteArgument(models.Model):
 
 class ProposalVoteArgumentRanking(models.Model):
     argument = models.ForeignKey(ProposalVoteArgument)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"),
-                             related_name="argument_votes")
-    value = models.SmallIntegerField(_("Vote"),
-                                     choices=ProposalVoteArgumentVoteValue.CHOICES)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"), related_name="argument_votes")
+    value = models.SmallIntegerField(_("Vote"), choices=ProposalVoteArgumentVoteValue.CHOICES)
 
     class Meta:
         verbose_name = _("Proposal vote argument ranking")
