@@ -6,6 +6,8 @@ urlpatterns = [
 
     url(r'^$', views.CommunityDetailView.as_view(), name='community'),
 
+    url(r'^search/$', views.CommunitySearchView.as_view(), name='community_search'),
+
     url(r'^(?P<committee_slug>[a-z0-9_.-]+)/$', views.UpcomingMeetingView.as_view(), name='committee'),
 
     url(r'^(?P<committee_slug>[a-z0-9_.-]+)/upcoming/publish/$', views.PublishUpcomingView.as_view(),
@@ -42,7 +44,5 @@ urlpatterns = [
     url(r'^(?P<committee_slug>[a-z0-9_.-]+)/protocol-preview/$',
         views.ProtocolDraftPreviewView.as_view(),
         name='preview_ongoing_protocol'),
-
-    url(r'^search/$', views.CommunitySearchView.as_view(), name='community_search'),
 
 ]

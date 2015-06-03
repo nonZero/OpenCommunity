@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}
+<title>
+    {{ object_list.0.community.name }} - {% trans "Members" %}
+</title>
+{% endblock %}
+
+{% block extra-page-id %}
+id="members-groups"
+{% endblock %}
+
+{% block page_header %}
+{% endblock %}
+
+{% block content %}
+
+<div class="col-xs-12 col-sm-6 well">
+    <h2>{{ community.name }}</h2>
+    <div class="form-group">
+        <input type="text" class="form-control member-search" placeholder="{% trans 'Search members' %}">
+    </div>
+    <div class="tab-content clearfix">
+        <div role="tabpanel" class="tab-pane active" id="a-c">
+            <div class="col-xs-12 col-sm-6">
+                {% for member in members %}
+                {% ifchanged member.user.display_name.0 %}
+                <h2>&nbsp;&nbsp;&nbsp;{{ member.user.display_name.0 }}</h2>
+                {% endifchanged %}
+                {% if forloop.counter == 10 %}
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                {% endif %}
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                    </span>
+
+                    <div class="checkbox form-control members-list-abc">
+                        <label>
+                            <input type="checkbox"> {{ member.user.display_name }}
+                        </label>
+                    </div>
+                </div>
+                {% if forloop.last %}
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div role="tabpanel" class="tab-pane" id="d-f">...</div>
+        <div role="tabpanel" class="tab-pane" id="g-i">...</div>
+        <div role="tabpanel" class="tab-pane" id="j-l">...</div>
+        <div role="tabpanel" class="tab-pane" id="m-o">...</div>
+        <div role="tabpanel" class="tab-pane" id="p-r">...</div>
+        <div role="tabpanel" class="tab-pane" id="s-u">...</div>
+        <div role="tabpanel" class="tab-pane" id="v-z">...</div>
+    </div>
+    <div class="letter-sort">
+        <div class="btn-group" role="group" aria-label="members">
+            <a href="#a-c" class="btn btn-default" aria-controls="a-c" role="tab" data-toggle="tab">
+                {% trans 'A-C' %}
+            </a>
+            <a href="#d-f" class="btn btn-default" aria-controls="d-f" role="tab" data-toggle="tab">
+                {% trans 'D-F' %}
+            </a>
+            <a href="#g-i" class="btn btn-default" aria-controls="g-i" role="tab" data-toggle="tab">
+                {% trans 'G-I' %}
+            </a>
+            <a href="#j-l" class="btn btn-default" aria-controls="j-l" role="tab" data-toggle="tab">
+                {% trans 'J-L' %}
+            </a>
+            <a href="#m-o" class="btn btn-default" aria-controls="m-o" role="tab" data-toggle="tab">
+                {% trans 'M-O' %}
+            </a>
+            <a href="#p-r" class="btn btn-default" aria-controls="p-r" role="tab" data-toggle="tab">
+                {% trans 'P-R' %}
+            </a>
+            <a href="#s-u" class="btn btn-default" aria-controls="s-u" role="tab" data-toggle="tab">
+                {% trans 'S-U' %}
+            </a>
+            <a href="#v-z" class="btn btn-default" aria-controls="v-z" role="tab" data-toggle="tab">
+                {% trans 'V-Z' %}
+            </a>
+        </div>
+        <button id="add-to-list" type="button" class="btn btn-info">{% trans "Add to list" %}</button>
+    </div>
+</div>
+
+<div class="col-xs-12 col-sm-6 well">
+    <div class="selected-members-list">
+    </div>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#groupsModal">
+        {% trans "Add to groups" %}
+    </button>
+</div>
+
+<div class="modal fade" id="groupsModal" tabindex="-1" role="dialog" aria-labelledby="groupsLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="post">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="groupsLabel">{% trans "Choose groups" %}</h4>
+                </div>
+                <div class="modal-body clearfix">
+                    {{ form }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-oc">{% trans 'Add to group' %}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(function() {
+        $('#add-to-list').on('click', function (event) {
+            $('.members-list-abc input:checked').each(function () {
+                var Item = $(this).closest('.members-list-abc').parents('.input-group').html();
+                console.log(Item);
+                $('.selected-members-list').append('<div class="col-xs-12 col-sm-6">' + Item + '</div>');
+            });
+        })
+    })
+</script>
+{% endblock %}

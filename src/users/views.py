@@ -1,3 +1,4 @@
+from communities.models import Committee
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import permission_required
@@ -13,13 +14,13 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic import FormView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import DeleteView
+from django.views.generic.edit import DeleteView, UpdateView
 from django.views.generic.list import ListView
 from ocd import settings
-from ocd.base_views import CommunityMixin
+from ocd.base_views import CommunityMixin, AjaxFormView
 from users import models
 from default_roles import DefaultGroups
-from users.forms import InvitationForm, QuickSignupForm, ImportInvitationsForm
+from users.forms import InvitationForm, QuickSignupForm, ImportInvitationsForm, MembersGroupsForm
 from users.models import Invitation, OCUser, Membership
 import json
 
@@ -360,3 +361,35 @@ def oc_password_reset(request, is_admin_site=False,
         context.update(extra_context)
     return TemplateResponse(request, template_name, context,
                             current_app=current_app)
+
+
+class MembershipGroupList(CommunityMixin, ListView):
+    model = models.Membership
+    template_name = 'users/membership_groups.html'
+    required_permission = 'community.invite_member'
+    context_object_name = 'members'
+
+    def get_queryset(self):
+        return models.Membership.objects.filter(community=self.community).order_by('user__display_name')
+
+    def get_context_data(self, **kwargs):
+        d = super(MembershipGroupList, self).get_context_data(**kwargs)
+        d['form'] = MembersGroupsForm()
+
+        return d
+
+    def post(self, request, *args, **kwargs):
+
+        form = MembersGroupsForm(request.POST)
+
+        if not form.is_valid():
+            return HttpResponseBadRequest(
+                _("Form error. Please supply a valid email."))
+
+        # form.instance.community = self.community
+        # form.instance.created_by = request.user
+        #
+        i = form.save()
+        # i.send(sender=request.user, recipient_name=form.cleaned_data['name'])
+
+        return render(request, 'users/_invitation.html', {'object': i})

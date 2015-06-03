@@ -3,7 +3,8 @@
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from ocd.formfields import HTMLArea
+from ocd.formfields import HTMLArea, GroupCheckboxSelectMultiple
+from users.default_roles import DefaultGroups
 from users.models import Invitation, OCUser
 import floppyforms.__future__ as forms
 
@@ -94,3 +95,11 @@ class ImportInvitationsForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(ImportInvitationsForm, self).__init__(*args, **kwargs)
         self.fields['csv_file'].label = _("Upload CSV file to import")
+
+
+class MembersGroupsForm(forms.Form):
+    groups = forms.MultipleChoiceField(widget=GroupCheckboxSelectMultiple, required=False, label='')
+
+    def __init__(self, *args, **kwargs):
+        super(MembersGroupsForm, self).__init__(*args, **kwargs)
+        self.fields['groups'].choices = DefaultGroups.CHOICES

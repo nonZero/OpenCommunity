@@ -357,6 +357,7 @@ def rebuild_index():
 @task
 def backup_db():
     now = datetime.datetime.now()
+    run('mkdir -p {}'.format(env.backup_dir))
     filename = now.strftime("ocd-%Y-%m-%d-%H-%M.sql.gz")
     fullpath = posixpath.join(env.backup_dir, filename)
     run('sudo -u postgres pg_dump {} | gzip > {}'.format(

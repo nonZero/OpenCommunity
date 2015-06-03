@@ -187,8 +187,8 @@ def board_voters_on_proposal(proposal):
     if proposal.decided_at_meeting:
         board_attn = proposal.decided_at_meeting.participations.board()
     else:
-        c = proposal.issue.committee.community
-        board_attn = c.memberships.board().filter(
+        c = proposal.issue.committee
+        board_attn = c.community.memberships.board().filter(
             user__in=c.upcoming_meeting_participants.all())
 
     participants = [b.user for b in board_attn]

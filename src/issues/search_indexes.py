@@ -13,7 +13,7 @@ class IssueIndex(indexes.ModelSearchIndex, indexes.Indexable):
 
     # Note that regular ``SearchIndex`` methods apply.
     def index_queryset(self, using=None):
-        "Used when the entire index for model is updated."
+        """Used when the entire index for model is updated."""
         return Issue.objects.active()
 
 
@@ -43,5 +43,5 @@ class ProposalIndex(indexes.ModelSearchIndex, indexes.Indexable):
 
     # Note that regular ``SearchIndex`` methods apply.
     def index_queryset(self, using=None):
-        "Used when the entire index for model is updated."
+        """Used when the entire index for model is updated."""
         return Proposal.objects.active()

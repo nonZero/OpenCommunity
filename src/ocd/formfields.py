@@ -25,6 +25,10 @@ class OCCheckboxSelectMultiple(forms.SelectMultiple):
     template_name = 'floppyforms/oc_checkbox_select.html'
 
 
+class GroupCheckboxSelectMultiple(forms.SelectMultiple):
+    template_name = 'floppyforms/groups_checkbox_select.html'
+
+
 class OCIssueRadioButtons(forms.RadioSelect):
     template_name = 'floppyforms/oc_issue_radio_buttons.html'
 

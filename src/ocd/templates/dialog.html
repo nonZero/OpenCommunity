@@ -9,12 +9,11 @@
         <div class="modal-content{% block modal_content_classes%}{% endblock modal_content_classes %}">
 
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title"> {% block page_header %}Page Title{% endblock %} </h4>
             </div>
-
             <div class="modal-body">
                 {% block content %}
                 {{form}}
