@@ -3,14 +3,13 @@ from __future__ import unicode_literals
 from communities.models import Committee
 
 from django.db import models, migrations
-from meetings.models import Meeting
 
 
 def community_to_committee(apps, schema_editor):
-    # Meeting = apps.get_model("meetings", "Meeting")
+    Meeting = apps.get_model("meetings", "Meeting")
     meetings = Meeting.objects.all()
     for m in meetings:
-        m.committee = Committee.objects.get(pk=m.community.id)
+        m.committee_id = m.community_id
         m.save()
 
 

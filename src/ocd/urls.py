@@ -18,15 +18,15 @@ urlpatterns = [
 
     url(r'^about/$', communities.views.About.as_view(), name='about'),
 
-    url(r'^c/(?P<community_slug>[a-z0-9_.-]+)/members/', include('users.urls')),
-    url(r'^c/(?P<community_slug>[a-z0-9_.-]+)/', include('communities.urls')),
+    url(r'^c/(?P<community_slug>[a-z][a-z0-9-]+)/members/', include('users.urls')),
+    url(r'^c/(?P<community_slug>[a-z][a-z0-9-]+)/', include('communities.urls')),
 
-    url(r'^c/(?P<community_slug>[a-z0-9_.-]+)/(?P<committee_slug>[a-z0-9_.-]+)/upcoming/close/$',
+    url(r'^c/(?P<community_slug>[a-z][a-z0-9-]+)/(?P<committee_slug>[a-z][a-z0-9-]+)/upcoming/close/$',
         MeetingCreateView.as_view(),
         name="upcoming_close"),
 
-    url(r'^c/(?P<community_slug>[a-z0-9_.-]+)/(?P<committee_slug>[a-z0-9_.-]+)/issues/', include('issues.urls')),
-    url(r'^c/(?P<community_slug>[a-z0-9_.-]+)/(?P<committee_slug>[a-z0-9_.-]+)/history/', include('meetings.urls')),
+    url(r'^c/(?P<community_slug>[a-z][a-z0-9-]+)/(?P<committee_slug>[a-z][a-z0-9-]+)/issues/', include('issues.urls')),
+    url(r'^c/(?P<community_slug>[a-z][a-z0-9-]+)/(?P<committee_slug>[a-z][a-z0-9-]+)/history/', include('meetings.urls')),
 
     url(r'^login/$', 'ocd.views.login_user', {'template_name': 'login.html'}, name="login"),
 

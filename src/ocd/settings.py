@@ -17,6 +17,7 @@ ADMINS = (
 
 EMAIL_SUBJECT_PREFIX = '[OpenCommunity] '
 FROM_EMAIL = "noreply@opencommunity.dev"
+FROM_EMAIL_NAME = "DemOS"
 HOST_URL = "http://localhost:8000"
 
 MANAGERS = (('Boaz Chen', 'boaz.chen@gmail.com'),)

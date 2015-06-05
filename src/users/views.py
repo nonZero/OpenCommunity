@@ -4,7 +4,6 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.tokens import default_token_generator
-from django.contrib.sites.models import get_current_site
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponse, HttpResponseBadRequest, Http404, HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -326,8 +325,7 @@ def oc_password_reset(request, is_admin_site=False,
     if request.method == "POST":
         form = password_reset_form(request.POST)
         if form.is_valid():
-            current_site = get_current_site(request)
-            from_email = "%s <%s>" % (current_site.name, settings.FROM_EMAIL)
+            from_email = "%s <%s>" % (settings.FROM_EMAIL_NAME, settings.FROM_EMAIL)
             opts = {
                 'use_https': request.is_secure(),
                 'token_generator': token_generator,

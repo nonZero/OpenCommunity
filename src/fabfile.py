@@ -155,6 +155,27 @@ def deploy(restart=True):
         reload_app()
 
 
+#Just for deploying after changing to Django 1.8 - Maybe remove after use?
+@task
+def upgrade_to_django_18(restart=True):
+    upgrade_pip()
+    with virtualenv(env.code_dir):
+        run("git pull")
+        run("pip install -r requirements.txt")
+        run("pip install -r deploy-requirements.txt")
+        run("cd src && python manage.py migrate auth --fake-initial")
+        run("cd src && python manage.py migrate admin --fake-initial")
+        run("cd src && python manage.py migrate sessions --fake-initial")
+        run("cd src && python manage.py migrate taggit --fake-initial")
+        run("cd src && python manage.py migrate issues 0003 --fake")
+        run("cd src && python manage.py migrate --noinput")
+        run("cd src && python manage.py collectstatic --noinput")
+        run("git log -n 1 --format=\"%ai %h\" > static/version.txt")
+        run("git log -n 1 > static/version-full.txt")
+    if restart:
+        reload_app()
+
+
 @task
 def hard_reload():
     run("sudo supervisorctl restart opencommunity")

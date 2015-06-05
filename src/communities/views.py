@@ -16,7 +16,6 @@ from communities import models
 from communities.forms import EditUpcomingMeetingForm, \
     PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm, \
     EditUpcomingMeetingSummaryForm
-from communities.models import SendToOption
 from communities.notifications import send_mail
 from issues.models import IssueStatus, Issue, Proposal
 from meetings.models import Meeting
@@ -49,7 +48,6 @@ class CommunityList(ListView):
 class CommunityModelMixin(ProtectedMixin):
     model = models.Community
     slug_url_kwarg = 'community_slug'
-    query_pk_and_slug = True
 
     @property
     def community(self):
@@ -58,8 +56,10 @@ class CommunityModelMixin(ProtectedMixin):
 
 class CommitteeModelMixin(ProtectedMixin):
     model = models.Committee
-    slug_url_kwarg = 'committee_slug'
-    query_pk_and_slug = True
+
+    def get_object(self):
+        return models.Committee.objects.get(slug=self.kwargs['committee_slug'],
+                                            community__slug=self.kwargs['community_slug'])
 
     @property
     def community(self):
@@ -139,9 +139,7 @@ class UpcomingMeetingView(CommitteeModelMixin, DetailView):
     def get_context_data(self, **kwargs):
         d = super(UpcomingMeetingView, self).get_context_data(**kwargs)
         sorted_issues = {'by_time': [], 'by_rank': []}
-        open_issues = Issue.objects.filter(active=True, \
-                                           committee=self.committee) \
-            .exclude(status=IssueStatus.ARCHIVED)
+        open_issues = Issue.objects.filter(active=True, committee=self.committee).exclude(status=IssueStatus.ARCHIVED)
         for i in open_issues.order_by('-created_at'):
             sorted_issues['by_time'].append(i.id)
         for i in open_issues.order_by('-order_by_votes'):
@@ -164,7 +162,7 @@ class PublishUpcomingMeetingPreviewView(CommitteeModelMixin, DetailView):
         d = super(PublishUpcomingMeetingPreviewView, self).get_context_data(**kwargs)
         d['can_straw_vote'] = self.committee.upcoming_proposals_any(
             {'is_open': True}, user=self.request.user, committee=self.committee) \
-                              and self.community.upcoming_meeting_is_published
+                              and self.committee.upcoming_meeting_is_published
         upcoming_issues = self.committee.upcoming_issues(
             user=self.request.user, committee=self.committee)
         d['issue_container'] = []
@@ -220,7 +218,7 @@ class PublishUpcomingView(AjaxFormView, CommitteeModelMixin, UpdateView):
         form = super(PublishUpcomingView, self).get_form(form_class)
         c = self.get_object()
         if not c.upcoming_meeting_started:
-            form.fields['send_to'].choices = SendToOption.publish_choices
+            form.fields['send_to'].choices = models.SendToOption.publish_choices
 
         return form
 
@@ -230,8 +228,8 @@ class PublishUpcomingView(AjaxFormView, CommitteeModelMixin, UpdateView):
         c = self.object
 
         # increment agenda if publishing agenda.
-        if not c.upcoming_meeting_started and form.cleaned_data['send_to'] != SendToOption.ONLY_ME:
-            if form.cleaned_data['send_to'] == SendToOption.ALL_MEMBERS:
+        if not c.upcoming_meeting_started and form.cleaned_data['send_to'] != models.SendToOption.ONLY_ME:
+            if form.cleaned_data['send_to'] == models.SendToOption.ALL_MEMBERS:
                 c.upcoming_meeting_is_published = True
             c.upcoming_meeting_published_at = datetime.datetime.now()
             c.upcoming_meeting_version += 1

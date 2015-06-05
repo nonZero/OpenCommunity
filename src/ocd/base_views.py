@@ -27,10 +27,7 @@ class ProtectedMixin(object):
 
     def dispatch(self, request, *args, **kwargs):
         # check with Udi
-        try:
-            community = self.community
-        except:
-            community = self.committee.community
+        community = get_object_or_404(Community, slug=self.kwargs['community_slug'])
         if not request.user.is_authenticated():
             if not community.is_public:
                 return redirect_to_login(request.build_absolute_uri())
@@ -99,7 +96,7 @@ class CommitteeMixin(ProtectedMixin):
     @property
     def committee(self):
         if not self._committee:
-            self._committee = get_object_or_404(Committee, slug=self.kwargs['committee_slug'])
+            self._committee = get_object_or_404(Committee, slug=self.kwargs['committee_slug'], community__slug=self.kwargs['community_slug'])
         return self._committee
 
     def get_context_data(self, **kwargs):

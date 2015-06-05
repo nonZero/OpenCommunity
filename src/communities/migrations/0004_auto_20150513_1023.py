@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from communities.models import Committee, Community
 
 from django.db import models, migrations
 
 
 def copy_communities(apps, schema_editor):
-    # Community = apps.get_model("communities", "Community")
+    Community = apps.get_model("communities", "Community")
+    Committee = apps.get_model("communities", "Committee")
     communities = Community.objects.all()
     for c in communities:
         committe = Committee.objects.create(pk=c.id, community=c)
@@ -37,6 +37,7 @@ def copy_communities(apps, schema_editor):
         committe.register_missing_board_members = c.register_missing_board_members
         committe.inform_system_manager = c.inform_system_manager
         committe.no_meetings_community = c.no_meetings_community
+        committe.slug = "main"
 
         for member in c.upcoming_meeting_participants.all():
             committe.upcoming_meeting_participants.add(member)

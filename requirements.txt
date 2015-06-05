@@ -1,9 +1,8 @@
 # django
-Django==1.8.1
+Django==1.8.2
 
 # django apps
-django-floppyforms==1.4.0
-#South==0.7.6
+django-floppyforms==1.4.1
 
 # general libs
 pillow==2.8.1
