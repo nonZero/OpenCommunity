@@ -18,6 +18,7 @@ urlpatterns = [
 
     url(r'^about/$', communities.views.About.as_view(), name='about'),
 
+    url(r'^c/(?P<community_slug>[a-z][a-z0-9-]+)/roles/', include('acl.urls', namespace="role")),
     url(r'^c/(?P<community_slug>[a-z][a-z0-9-]+)/members/', include('users.urls')),
     url(r'^c/(?P<community_slug>[a-z][a-z0-9-]+)/', include('communities.urls')),
 
@@ -25,6 +26,7 @@ urlpatterns = [
         MeetingCreateView.as_view(),
         name="upcoming_close"),
 
+    url(r'^c/(?P<community_slug>[a-z][a-z0-9-]+)/groups/', include('communities.group_urls', namespace="group")),
     url(r'^c/(?P<community_slug>[a-z][a-z0-9-]+)/(?P<committee_slug>[a-z][a-z0-9-]+)/issues/', include('issues.urls')),
     url(r'^c/(?P<community_slug>[a-z][a-z0-9-]+)/(?P<committee_slug>[a-z][a-z0-9-]+)/history/', include('meetings.urls')),
 

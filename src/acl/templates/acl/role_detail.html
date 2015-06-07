@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load opencommunity highlight %}
+
+
+{% block title %}
+    <title>{% trans "Roles" %} &gt; {{ object }}</title>
+{% endblock %}
+
+{% block page_header %}
+{% endblock %}
+
+{% block content %}
+    <h1>
+        <a href="{% url 'role:list' %}">{% trans "Roles" %}</a>
+    &gt;
+        <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+    </h1>
+
+    {% if object.based_on %}
+        <b>{% blocktrans %}Based on{% endblocktrans %}:</b>
+        {{ object.get_based_on_display }}
+    {% endif %}
+    <ul>
+        {% for p in object.all_perms_titles %}
+            <li>
+                {{ p }}
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

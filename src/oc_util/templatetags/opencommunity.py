@@ -6,6 +6,7 @@ from django import template
 from django.template import defaultfilters
 from django.template.defaultfilters import stringfilter
 from django.utils.formats import date_format
+from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
 from django.utils.timezone import is_aware, utc
 from django.utils.translation import pgettext, ugettext as _, \
@@ -13,6 +14,16 @@ from django.utils.translation import pgettext, ugettext as _, \
 from issues.models import ProposalVoteBoard, ProposalVoteValue
 
 register = template.Library()
+
+
+@register.filter(needs_autoescape=True)
+def u(instance, autoescape=None):
+    if autoescape:
+        esc = conditional_escape
+    else:
+        esc = lambda x: x
+    result = '<a href="%s">%s</a>' % (esc(instance.get_absolute_url()), esc(unicode(instance)))
+    return mark_safe(result)
 
 
 @register.filter

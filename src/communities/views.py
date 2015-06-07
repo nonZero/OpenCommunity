@@ -1,25 +1,27 @@
 import datetime
 import json
+from django.forms import forms
 from django.conf import settings
 from django.contrib import messages
 from django.core.paginator import Paginator, InvalidPage
 from django.core.urlresolvers import reverse
+from django.db import IntegrityError
 from django.db.models.aggregates import Max
 from django.http.response import HttpResponseBadRequest, HttpResponseRedirect, Http404
 from django.shortcuts import redirect
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import View, ListView, TemplateView
+from django.views.generic import View, ListView, TemplateView, CreateView
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import UpdateView, DeleteView
 from communities import models
 from communities.forms import EditUpcomingMeetingForm, \
     PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm, \
-    EditUpcomingMeetingSummaryForm
+    EditUpcomingMeetingSummaryForm, GroupForm
 from communities.notifications import send_mail
 from issues.models import IssueStatus, Issue, Proposal
 from meetings.models import Meeting
-from ocd.base_views import ProtectedMixin, AjaxFormView
+from ocd.base_views import ProtectedMixin, AjaxFormView, CommunityMixin
 from ocd.base_managers import ConfidentialSearchQuerySet
 from users.permissions import has_community_perm
 from django.views.generic.base import RedirectView
@@ -396,3 +398,44 @@ class CommunitySearchView(CommunityModelMixin, DetailView):
         d = super(CommunitySearchView, self).get_context_data(**kwargs)
         d['query'] = self.get_term()
         return d
+
+
+class GroupMixin(CommunityMixin):
+    model = models.CommunityGroup
+
+    required_permission = 'communities.manage_communitygroups'
+
+    def get_queryset(self):
+        return super(GroupMixin, self).get_queryset().filter(community=self.community)
+
+
+class GroupListView(GroupMixin, ListView):
+    pass
+
+
+class GroupDetailView(GroupMixin, DetailView):
+    pass
+
+
+class GroupEditMixin(GroupMixin):
+    form_class = GroupForm
+
+    def get_success_url(self):
+        return reverse('group:list', args=(self.community.slug,))
+
+    def form_valid(self, form):
+        try:
+            return super(GroupEditMixin, self).form_valid(form)
+        except IntegrityError:
+            form._errors[forms.NON_FIELD_ERRORS] = forms.ErrorList((_('Group already exists'),))
+            return self.form_invalid(form)
+
+
+class GroupUpdateView(GroupEditMixin, UpdateView):
+    pass
+
+
+class GroupCreateView(GroupEditMixin, CreateView):
+    def form_valid(self, form):
+        form.instance.community = self.community
+        return super(GroupCreateView, self).form_valid(form)

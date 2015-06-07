@@ -8,7 +8,7 @@ from django.template.loader import render_to_string
 from django.utils import translation
 import django_rq
 from communities.models import SendToOption
-from users.default_roles import DefaultGroups
+from acl.default_roles import DefaultGroups
 from issues.models import IssueStatus
 
 

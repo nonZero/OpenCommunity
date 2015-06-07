@@ -2,7 +2,7 @@ from communities.models import SendToOption
 from django.core import mail
 from django.test import TestCase
 from users import models
-from users.default_roles import DefaultGroups
+from acl.default_roles import DefaultGroups
 from users.models import OCUser
 from communities.tests.common import create_community
 

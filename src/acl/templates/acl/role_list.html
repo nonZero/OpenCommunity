@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load opencommunity highlight %}
+
+
+{% block title %}
+    <title>{% trans "Roles" %}</title>
+{% endblock %}
+
+{% block page_header %}
+{% endblock %}
+
+{% block content %}
+    <h1>{% trans "Roles" %}</h1>
+
+    {% if object_list %}
+        <ul>
+            {% for object in object_list %}
+                <li>
+                    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <a class="btn btn-primary btn-small"
+       href="{% url "role:create" %}">{% trans "New Role" %}</a>
+
+{% endblock %}

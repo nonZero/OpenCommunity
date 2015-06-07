@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from issues.models import Proposal, ProposalVoteValue, ProposalStatus
 from meetings.models import MeetingParticipant
-from users.default_roles import DefaultGroups
+from acl.default_roles import DefaultGroups
 import datetime
 import logging
 import random

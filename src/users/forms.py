@@ -4,7 +4,7 @@ from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from ocd.formfields import HTMLArea, GroupCheckboxSelectMultiple
-from users.default_roles import DefaultGroups
+from acl.default_roles import DefaultGroups
 from users.models import Invitation, OCUser
 import floppyforms.__future__ as forms
 

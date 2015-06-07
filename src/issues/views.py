@@ -21,7 +21,7 @@ from ocd.base_views import AjaxFormView, json_response, CommitteeMixin
 from ocd.validation import enhance_html
 from ocd.base_managers import ConfidentialSearchQuerySet
 from shultze_vote import send_issue_ranking
-from users.default_roles import DefaultGroups
+from acl.default_roles import DefaultGroups
 from users.permissions import has_community_perm
 from haystack.inputs import AutoQuery
 import json

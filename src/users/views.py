@@ -13,12 +13,12 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic import FormView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import DeleteView, UpdateView
+from django.views.generic.edit import DeleteView
 from django.views.generic.list import ListView
 from ocd import settings
-from ocd.base_views import CommunityMixin, AjaxFormView
+from ocd.base_views import CommunityMixin
 from users import models
-from default_roles import DefaultGroups
+from acl.default_roles import DefaultGroups
 from users.forms import InvitationForm, QuickSignupForm, ImportInvitationsForm, MembersGroupsForm
 from users.models import Invitation, OCUser, Membership
 import json

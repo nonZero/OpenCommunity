@@ -1,5 +1,7 @@
 import logging
+from acl.models import Role
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.db import models, transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -8,7 +10,7 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 from issues.models import ProposalStatus, IssueStatus, VoteResult
 from meetings.models import MeetingParticipant, Meeting
 from ocd.base_models import HTMLField, UIDMixin
-from users.default_roles import DefaultGroups
+from acl.default_roles import DefaultGroups
 from users.models import OCUser, Membership
 import issues.models as issues_models
 import meetings.models as meetings_models
@@ -584,3 +586,38 @@ def set_default_confidental_reasons(sender, instance, created,
         for reason in settings.OPENCOMMUNITY_DEFAULT_CONFIDENTIAL_REASONS:
             CommunityConfidentialReason.objects.create(community=instance,
                                                        title=ugettext(reason))
+
+
+class CommunityGroup(models.Model):
+    community = models.ForeignKey(Community, related_name="groups")
+    title = models.CharField(max_length=200)
+
+    class Meta:
+        verbose_name = _('Group')
+        verbose_name_plural = _('Groups')
+        order_with_respect_to = 'community'
+        unique_together = (
+            ('community', 'title'),
+        )
+
+    def __unicode__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse("group:detail", args=(self.community.slug, self.pk))
+
+
+class CommunityGroupRole(models.Model):
+    group = models.ForeignKey(CommunityGroup, related_name='group_roles')
+    role = models.ForeignKey(Role, related_name='group_roles')
+    committee = models.ForeignKey(Committee, related_name='group_roles')
+
+    class Meta:
+        verbose_name = _('Group Role')
+        verbose_name_plural = _('Group Roles')
+        unique_together = (
+            ('group', 'role', 'committee'),
+        )
+
+    def __unicode__(self):
+        return u"{}: {}".format(self.committee.title, self.group)

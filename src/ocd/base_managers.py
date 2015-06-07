@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.query import QuerySet
 from haystack.query import SearchQuerySet
-from users.default_roles import DefaultGroups
+from acl.default_roles import DefaultGroups
 
 
 class ActiveQuerySetMixin(object):

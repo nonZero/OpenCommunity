@@ -2,6 +2,7 @@ from communities.models import Community, Committee
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import redirect_to_login
+from django.core.exceptions import PermissionDenied
 from django.http.response import HttpResponseForbidden, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
@@ -126,3 +127,11 @@ class AjaxFormView(object):
         resp = super(AjaxFormView, self).form_invalid(form)
         resp.status_code = 403
         return resp
+
+
+class SuperUserRequiredMixin(object):
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            raise PermissionDenied()
+        return super(SuperUserRequiredMixin, self).dispatch(request, *args, **kwargs)

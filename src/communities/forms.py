@@ -1,4 +1,4 @@
-from communities.models import SendToOption, Committee
+from communities.models import SendToOption, Committee, CommunityGroup
 from datetime import datetime, date, time
 from django.utils.translation import ugettext_lazy as _
 from ocd.formfields import HTMLArea, OCSplitDateTime, OCCheckboxSelectMultiple
@@ -130,3 +130,16 @@ class CommunitySearchForm(ModelSearchForm):
     #         return self.no_query_found()
     #
     #     return sqs
+
+
+class GroupForm(forms.ModelForm):
+    class Meta:
+        model = CommunityGroup
+
+        fields = (
+            'title',
+        )
+
+        widgets = {
+            'title': forms.TextInput,
+        }

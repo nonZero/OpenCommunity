@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n opencommunity %}
+
+{% block page_header %} {% trans "Groups" %} {% endblock %}
+
+
+{% block content %}
+
+    {% if object_list %}
+
+        <ul class="groups">
+            {% for c in object_list %}
+                <li>
+                    {{ c|u }} ({{ c.role }}
+                </li>
+            {% endfor %}
+        </ul>
+
+    {% endif %}
+
+    <a href="{% url 'group:create' community.id %}">{% trans "Create Group" %}</a>
+
+{% endblock %}

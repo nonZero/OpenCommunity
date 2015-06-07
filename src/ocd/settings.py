@@ -187,6 +187,7 @@ INSTALLED_APPS = (
     'taggit',
     'haystack',
     'oc_util',
+    'acl',
     'users',
     'communities',
     'issues',
