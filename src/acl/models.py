@@ -6,13 +6,17 @@ from acl.default_roles import DefaultRoles
 
 
 class Role(models.Model):
-    community = models.ForeignKey('communities.Community', null=True,
-                                  blank=True,
-                                  verbose_name=_("Limit to community"))
+    community = models.ForeignKey('communities.Community', null=True, blank=True, verbose_name=_("Limit to community"),
+                                  related_name='roles')
     ordinal = models.IntegerField(_("ordinal"), default=0)
-    title = models.CharField(_("title"), max_length=200, unique=True)
+    title = models.CharField(_("title"), max_length=200)
     based_on = models.CharField(_("based on"), max_length=50, null=True,
                                 blank=True, choices=DefaultRoles.choices)
+
+    class Meta:
+        unique_together = (
+            ('community', 'title'),
+        )
 
     def get_absolute_url(self):
         return reverse('role:view', kwargs={'pk': self.id})

@@ -12,10 +12,12 @@ class CommunityConfidentialReasonInline(TabularInline):
 
 class CommunityGroupRoleInline(TabularInline):
     model = models.CommunityGroupRole
+    extra = 1
 
 
 class CommunityGroupInline(TabularInline):
     model = models.CommunityGroup
+    extra = 1
 
 
 class CommunityMembershipInline(TabularInline):
@@ -44,11 +46,13 @@ class CommitteeAdmin(ModelAdmin):
 
 
 class CommunityGroupRoleAdmin(ModelAdmin):
-    pass
+    list_display = ['committee', 'group', 'role']
+    list_display_links = ['committee', 'group', 'role']
 
 
 class CommunityGroupAdmin(ModelAdmin):
-    pass
+    list_display = ['community', 'title']
+    list_display_links = ['community', 'title']
 
 
 site.register(models.Community, CommunityAdmin)

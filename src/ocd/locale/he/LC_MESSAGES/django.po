@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-14 15:04+0300\n"
-"PO-Revision-Date: 2015-04-08 23:19+0200\n"
+"POT-Creation-Date: 2015-06-07 13:13+0300\n"
+"PO-Revision-Date: 2015-06-07 13:14+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.7.5\n"
+"X-Generator: Poedit 1.7.6\n"
 
 #: .\base_models.py:13
 msgid "HTML content"
@@ -31,19 +31,28 @@ msgid ""
 "pass onconfidentiality."
 msgstr ""
 
-#: .\settings.py:296
+#: .\settings.py:300
+msgid "Admin"
+msgstr "אדמין"
+
+#: .\settings.py:301 .\templates\search\search.html:14
+#: .\templates\search\search.html.py:18 .\templates\search\search.html:22
+msgid "All"
+msgstr "כל חברי הקהילה"
+
+#: .\settings.py:305
 msgid "Privacy"
 msgstr "פרטיות"
 
-#: .\settings.py:297
+#: .\settings.py:306
 msgid "Commercial"
 msgstr "מסחרי"
 
-#: .\settings.py:298
+#: .\settings.py:307
 msgid "Security"
 msgstr "ביטחון"
 
-#: .\settings.py:299
+#: .\settings.py:308
 msgid "Legal"
 msgstr "משפטי"
 
@@ -155,7 +164,7 @@ msgstr "כותרת עמוד"
 msgid "Attention"
 msgstr "שים לב"
 
-#: .\templates\base.html:59 .\templates\dialog.html:25
+#: .\templates\base.html:59 .\templates\dialog.html:24
 msgid "Close"
 msgstr "סגור"
 
@@ -179,7 +188,7 @@ msgstr "מבית הסדנא"
 msgid "Version"
 msgstr "גרסא"
 
-#: .\templates\dialog.html:26
+#: .\templates\dialog.html:25
 msgid "Save"
 msgstr "שמור"
 
@@ -294,11 +303,6 @@ msgstr "אפס סיסמא"
 #: .\templates\search\search.html:9
 msgid "Search"
 msgstr "חיפוש"
-
-#: .\templates\search\search.html:14 .\templates\search\search.html.py:18
-#: .\templates\search\search.html:22
-msgid "All"
-msgstr "הכל"
 
 #: .\templates\search\search.html:15 .\templates\search\search.html.py:19
 #: .\templates\search\search.html:23

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-14 15:04+0300\n"
-"PO-Revision-Date: 2015-05-14 13:19+0200\n"
+"POT-Creation-Date: 2015-06-07 13:13+0300\n"
+"PO-Revision-Date: 2015-06-07 12:38+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.7.6\n"
 
-#: .\admin.py:42 .\forms.py:38
+#: .\admin.py:42 .\forms.py:39
 msgid "Password"
 msgstr "סיסמא"
 
@@ -35,38 +35,22 @@ msgstr ""
 msgid "Users, memberships & rolls"
 msgstr "משתמשים, חברי קהילה, תפקידים והזמנות"
 
-#: .\default_roles.py:101
-msgid "member"
-msgstr "חבר"
-
-#: .\default_roles.py:102
-msgid "board"
-msgstr "ועד"
-
-#: .\default_roles.py:103
-msgid "secretary"
-msgstr "מזכיר"
-
-#: .\default_roles.py:104
-msgid "chairman"
-msgstr "יושב ראש"
-
-#: .\forms.py:11
+#: .\forms.py:12
 #, python-format
 msgid ""
 "Please enter a correct %(username)s and password. Note that both fields may "
 "be case-sensitive."
 msgstr "אנא הכנס %(username)s וסיסמא תיקניים. שים לב לאותיות קטנות וגדולות."
 
-#: .\forms.py:39
+#: .\forms.py:40
 msgid "Password confirmation"
 msgstr "אימות סיסמא"
 
-#: .\forms.py:53
+#: .\forms.py:54
 msgid "Passwords don't match"
 msgstr "סיסמא לא תואמת"
 
-#: .\forms.py:96
+#: .\forms.py:97
 msgid "Upload CSV file to import"
 msgstr "העלאת קובץ csv"
 
@@ -375,10 +359,63 @@ msgstr "מההחלטות בהם לא הצביע התקבלו"
 msgid "of decisions voted against were rejected"
 msgstr "מההחלטות בהם הצביע 'נגד' נדחו"
 
+#: .\templates\users\membership_groups.html:6
 #: .\templates\users\membership_list.html:6
 #: .\templates\users\membership_list.html:34
 msgid "Members"
 msgstr "חברים"
+
+#: .\templates\users\membership_groups.html:22
+msgid "Search members"
+msgstr "חיפוש חברי קהילה"
+
+#: .\templates\users\membership_groups.html:62
+msgid "A-C"
+msgstr ""
+
+#: .\templates\users\membership_groups.html:65
+msgid "D-F"
+msgstr ""
+
+#: .\templates\users\membership_groups.html:68
+msgid "G-I"
+msgstr ""
+
+#: .\templates\users\membership_groups.html:71
+msgid "J-L"
+msgstr ""
+
+#: .\templates\users\membership_groups.html:74
+msgid "M-O"
+msgstr ""
+
+#: .\templates\users\membership_groups.html:77
+msgid "P-R"
+msgstr ""
+
+#: .\templates\users\membership_groups.html:80
+msgid "S-U"
+msgstr ""
+
+#: .\templates\users\membership_groups.html:83
+msgid "V-Z"
+msgstr ""
+
+#: .\templates\users\membership_groups.html:86
+msgid "Add to list"
+msgstr "הוסף לרשימה"
+
+#: .\templates\users\membership_groups.html:94
+msgid "Add to groups"
+msgstr "הוסף לקבוצות"
+
+#: .\templates\users\membership_groups.html:107
+msgid "Choose groups"
+msgstr "בחר קבוצות"
+
+#: .\templates\users\membership_groups.html:114
+msgid "Add to group"
+msgstr "הוסף לקבוצה"
 
 #: .\templates\users\membership_list.html:51
 msgid "No members."
@@ -396,7 +433,7 @@ msgstr "הזמן"
 msgid "Open invitations"
 msgstr "הזמנות פתוחות"
 
-#: .\tests\invitation_test.py:80 .\views.py:69
+#: .\tests\invitation_test.py:80 .\views.py:69 .\views.py:385
 msgid "Form error. Please supply a valid email."
 msgstr "יש בעיה בטופס. אנא בדוק את כתובת האימייל"
 
@@ -416,6 +453,18 @@ msgstr "אופס. משהו השתבש. אנה נסה שוב."
 #, python-format
 msgid "%d Invitations sent"
 msgstr "%d הזמנות נשלחו"
+
+#~ msgid "member"
+#~ msgstr "חבר"
+
+#~ msgid "board"
+#~ msgstr "ועד"
+
+#~ msgid "secretary"
+#~ msgstr "מזכיר"
+
+#~ msgid "chairman"
+#~ msgstr "יושב ראש"
 
 #~ msgid "Board"
 #~ msgstr "ועד"

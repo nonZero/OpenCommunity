@@ -40,9 +40,9 @@ class UserChangeForm(forms.ModelForm):
     password hash display field.
     """
     password = ReadOnlyPasswordHashField(label=_("Password"),
-        help_text=_("Raw passwords are not stored, so there is no way to see "
-                    "this user's password, but you can change the password "
-                    "using <a href=\"password/\">this form</a>."))
+                                         help_text=_("Raw passwords are not stored, so there is no way to see "
+                                                     "this user's password, but you can change the password "
+                                                     "using <a href=\"password/\">this form</a>."))
 
     class Meta:
         model = OCUser
@@ -59,17 +59,19 @@ class UserMembershipInline(admin.TabularInline):
     model = Membership
     fk_name = 'user'
 
-class MembershipAdmin(admin.ModelAdmin):
 
+class MembershipAdmin(admin.ModelAdmin):
     list_display = (
-                    'community',
-                    'default_group_name',
-                    'user',
-                    'created_at',
-                    )
-    
-    list_filter = ('community', 'default_group_name',)
-    
+        'community',
+        'group_name',
+        'default_group_name',
+        'user',
+        'created_at',
+    )
+
+    list_filter = ('community', 'group_name',)
+
+
 class OCUserAdmin(UserAdmin):
     # The forms to add and change user instances
     form = UserChangeForm
@@ -98,14 +100,17 @@ class OCUserAdmin(UserAdmin):
 
     inlines = [UserMembershipInline]
 
+
 admin.site.register(OCUser, OCUserAdmin)
 admin.site.unregister(Group)
 
 admin.site.register(Membership, MembershipAdmin)
 
+
 class InvitationAdmin(admin.ModelAdmin):
     list_display = ('community', 'name', 'email', 'default_group_name', 'last_sent_at', 'status')
     ordering = ('community', 'last_sent_at')
+
 
 admin.site.register(Invitation, InvitationAdmin)
 

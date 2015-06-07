@@ -1,0 +1,271 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-06-07 13:13+0300\n"
+"PO-Revision-Date: 2015-06-07 12:32+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: he\n"
+"X-Generator: Poedit 1.7.6\n"
+
+#: .\apps.py:7
+#, fuzzy
+#| msgid "Access Community"
+msgid "Access Control Logic"
+msgstr "גישה לקהילה"
+
+#: .\core_permissions.py:6
+msgid "Access Community"
+msgstr "גישה לקהילה"
+
+#: .\core_permissions.py:11
+msgid "View Upcoming Meeting"
+msgstr "צפייה בפגישה הקרובה"
+
+#: .\core_permissions.py:16
+msgid "View Upcoming Meeting Before Published"
+msgstr "צפייה בפגישה הקרובה לפני פירסום"
+
+#: .\core_permissions.py:21
+msgid "Edit Upcoming Agenda"
+msgstr "עריכת סדר יום בפגישה הקרובה"
+
+#: .\core_permissions.py:26
+msgid "Manage Upcoming Meeting Participants"
+msgstr "ניהול משתתפים בפגישה הקרובה"
+
+#: .\core_permissions.py:31
+msgid "Edit Summary"
+msgstr "עריכת תקציר הפגישה"
+
+#: .\core_permissions.py:36
+msgid "Edit Upcoming"
+msgstr "עריכת הפגישה"
+
+#: .\core_permissions.py:41
+msgid "Invite Member"
+msgstr "הזמנת חברים לקהילה"
+
+#: .\core_permissions.py:46
+msgid "Acceptclosed Proposal"
+msgstr "קבל/דחה הצעה"
+
+#: .\core_permissions.py:51
+msgid "Acceptopen Proposal"
+msgstr "קבל/פתח הצעה"
+
+#: .\core_permissions.py:56
+msgid "Add Issue"
+msgstr "הוספת נושא"
+
+#: .\core_permissions.py:61
+msgid "Add Issuecomment"
+msgstr "הוספת הערה לנושא"
+
+#: .\core_permissions.py:66
+msgid "Add Proposal"
+msgstr "הוספת הצעה"
+
+#: .\core_permissions.py:71
+msgid "Chairman Vote"
+msgstr "הצבעת ועד"
+
+#: .\core_permissions.py:76
+msgid "Edit Referendum"
+msgstr "ערוך משאל"
+
+#: .\core_permissions.py:81
+msgid "Edit Closed Issue"
+msgstr "ערוך/סגור נושא"
+
+#: .\core_permissions.py:86
+msgid "Edit Closed Issuecomment"
+msgstr "ערוך/סגור הערה על נושא"
+
+#: .\core_permissions.py:91
+msgid "Edit Closed Proposal"
+msgstr "ערוך/סגור הצעה"
+
+#: .\core_permissions.py:96
+msgid "Edit Open Issue"
+msgstr "ערוך/פתח נושא"
+
+#: .\core_permissions.py:101
+msgid "Edit Open Issuecomment"
+msgstr "ערוך/פתח הערה על נושא"
+
+#: .\core_permissions.py:106
+msgid "Edit Open Proposal"
+msgstr "ערוך/פתח הצעה"
+
+#: .\core_permissions.py:111
+msgid "Edit Task Proposal"
+msgstr "ערוך הצעת משימה"
+
+#: .\core_permissions.py:116
+msgid "Move To Referendum"
+msgstr "עבור למשאל"
+
+#: .\core_permissions.py:121
+msgid "Proposal Board Vote"
+msgstr "הצבעת ועד על החלטה"
+
+#: .\core_permissions.py:126
+msgid "Proposal Board Vote Self"
+msgstr "הצבעת ועד אישית"
+
+#: .\core_permissions.py:131
+msgid "View Proposal In Discussion"
+msgstr "צפייה בהחלטה במהלך דיון"
+
+#: .\core_permissions.py:136
+msgid "View Referendum Results"
+msgstr "צפייה בתוצאות המשאל"
+
+#: .\core_permissions.py:141
+msgid "View Update Status"
+msgstr "צפייה ועריכת סטטוס"
+
+#: .\core_permissions.py:146
+msgid "View straw vote result"
+msgstr "צפייה בתוצאות הצבעת שבשבת"
+
+#: .\core_permissions.py:151
+msgid "View Closed Issue"
+msgstr "צפייה בנושא סגור"
+
+#: .\core_permissions.py:156
+msgid "View Closed Proposal"
+msgstr "צפייה בהצעה סגורה"
+
+#: .\core_permissions.py:161
+msgid "View Open Issue"
+msgstr "צפייה בנושא פתוח"
+
+#: .\core_permissions.py:166
+msgid "View Open Proposal"
+msgstr "צפייה בהצעה פתוחה"
+
+#: .\core_permissions.py:171
+msgid "Vote"
+msgstr "הצבעה"
+
+#: .\core_permissions.py:176
+msgid "Vote Ranking"
+msgstr "דירוג הצבעות"
+
+#: .\core_permissions.py:181
+msgid "Add Meeting"
+msgstr "הוספת פגישה"
+
+#: .\core_permissions.py:186
+msgid "View Meeting"
+msgstr "צפייה בפגישה"
+
+#: .\core_permissions.py:191
+msgid "Show Member Profile"
+msgstr "צפייה בפרופיל משתמש"
+
+#: .\default_roles.py:16
+msgid "Viewer"
+msgstr "צופה"
+
+#: .\default_roles.py:17
+msgid "Observer"
+msgstr "משקיף"
+
+#: .\default_roles.py:18
+msgid "Participant"
+msgstr "משתתף"
+
+#: .\default_roles.py:19
+msgid "Proposer"
+msgstr "מציע"
+
+#: .\default_roles.py:20
+msgid "Contributor"
+msgstr "תורם"
+
+#: .\default_roles.py:21
+msgid "Editor"
+msgstr "עורך"
+
+#: .\default_roles.py:22
+msgid "Operator"
+msgstr "מתפעל"
+
+#: .\default_roles.py:23
+msgid "Decider"
+msgstr "מחליט"
+
+#: .\default_roles.py:24
+msgid "Manager"
+msgstr "מנהל"
+
+#: .\default_roles.py:119
+msgid "member"
+msgstr "חבר קהילה"
+
+#: .\default_roles.py:120
+msgid "board"
+msgstr "חבר ועד"
+
+#: .\default_roles.py:121
+msgid "secretary"
+msgstr "מזכיר"
+
+#: .\default_roles.py:122
+msgid "chairman"
+msgstr "יושב ראש"
+
+#: .\models.py:11
+msgid "Limit to community"
+msgstr "מוגבל לקהילה"
+
+#: .\models.py:12
+msgid "ordinal"
+msgstr "סדר"
+
+#: .\models.py:13
+msgid "title"
+msgstr "כותרת"
+
+#: .\models.py:14
+msgid "based on"
+msgstr "מבוסס על"
+
+#: .\models.py:36
+msgid "Permission"
+msgstr "הרשאה"
+
+#: .\templates\acl\role_detail.html:7 .\templates\acl\role_detail.html:15
+#: .\templates\acl\role_form.html:9 .\templates\acl\role_list.html:7
+#: .\templates\acl\role_list.html.py:14
+msgid "Roles"
+msgstr ""
+
+#: .\templates\acl\role_detail.html:21
+msgid "Based on"
+msgstr "מבוסס על"
+
+#: .\templates\acl\role_form.html:12
+msgid "Edit Role"
+msgstr ""
+
+#: .\templates\acl\role_form.html:14 .\templates\acl\role_list.html:27
+msgid "New Role"
+msgstr ""
+
+#: .\templates\acl\role_form.html:23
+msgid "Save"
+msgstr "שמירה"

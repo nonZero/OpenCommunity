@@ -6,6 +6,8 @@ TEMPLATE_DEBUG = DEBUG
 
 QA_SERVER = False  # triggers minor UI changes
 
+OCD_PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
+
 PROJECT_DIR = os.path.abspath(
     os.path.join(os.path.dirname(__file__), '..', '..'))
 
@@ -62,9 +64,9 @@ if 'test' in sys.argv:
     DATABASES['default'] = {'ENGINE': 'django.db.backends.sqlite3'}
     TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
     LANGUAGE_CODE = 'en'
-LOCALE_PATHS = (
-    ABSDIR('src/ocd/locale'),
-)
+# LOCALE_PATHS = (
+#     ABSDIR('src/ocd/locale'),
+# )
 
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
@@ -139,7 +141,7 @@ ROOT_URLCONF = 'ocd.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['ocd/templates', ],
+        'DIRS': [os.path.join(OCD_PROJECT_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -293,6 +295,11 @@ OPENCOMMUNITY_ANALYTICS = {
     #     'url': 'domain.com'
     # }
 }
+
+OPENCOMMUNITY_DEFAULT_GROUPS = [
+    gettext('Admin'),
+    gettext('All')
+]
 
 OPENCOMMUNITY_DEFAULT_CONFIDENTIAL_REASONS = [
     gettext('Privacy'),

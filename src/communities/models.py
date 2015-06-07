@@ -578,16 +578,6 @@ class CommunityConfidentialReason(models.Model):
         return self.title
 
 
-@receiver(post_save, sender=Community)
-def set_default_confidental_reasons(sender, instance, created,
-                                    dispatch_uid='set_default_confidental_reasons',
-                                    **kwargs):
-    if created:
-        for reason in settings.OPENCOMMUNITY_DEFAULT_CONFIDENTIAL_REASONS:
-            CommunityConfidentialReason.objects.create(community=instance,
-                                                       title=ugettext(reason))
-
-
 class CommunityGroup(models.Model):
     community = models.ForeignKey(Community, related_name="groups")
     title = models.CharField(max_length=200)
@@ -620,4 +610,15 @@ class CommunityGroupRole(models.Model):
         )
 
     def __unicode__(self):
-        return u"{}: {}".format(self.committee.title, self.group)
+        return u"{}: {}".format(self.committee.name, self.group)
+
+
+@receiver(post_save, sender=Community)
+def set_default_confidental_reasons(sender, instance, created,
+                                    dispatch_uid='set_default_confidental_reasons',
+                                    **kwargs):
+    if created:
+        for reason in settings.OPENCOMMUNITY_DEFAULT_CONFIDENTIAL_REASONS:
+            CommunityConfidentialReason.objects.create(community=instance, title=ugettext(reason))
+        for group in settings.OPENCOMMUNITY_DEFAULT_GROUPS:
+            CommunityGroup.objects.create(community=instance, title=ugettext(group))

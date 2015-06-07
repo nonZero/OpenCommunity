@@ -117,15 +117,11 @@ class MembershipManager(models.Manager):
 
 
 class Membership(models.Model):
-    community = models.ForeignKey('communities.Community', verbose_name=_("Community"),
-                                  related_name='memberships')
-    user = models.ForeignKey(OCUser, verbose_name=_("User"),
-                             related_name='memberships')
-    default_group_name = models.CharField(_('Group'), max_length=50,
-                                          choices=DefaultGroups.CHOICES)
-
-    created_at = models.DateTimeField(auto_now_add=True,
-                                      verbose_name=_("Created at"))
+    community = models.ForeignKey('communities.Community', verbose_name=_("Community"), related_name='memberships')
+    user = models.ForeignKey(OCUser, verbose_name=_("User"), related_name='memberships')
+    group_name = models.ForeignKey('communities.CommunityGroup', verbose_name=_('Group'), related_name='memberships', null=True, blank=True)
+    default_group_name = models.CharField(_('Old group'), max_length=50, choices=DefaultGroups.CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
     invited_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                    verbose_name=_("Invited by"),
                                    related_name="members_invited", null=True,
@@ -139,15 +135,14 @@ class Membership(models.Model):
         verbose_name_plural = _("Community Members")
 
     def __unicode__(self):
-        return "%s: %s (%s)" % (self.community.name, self.user.display_name,
-                                self.get_default_group_name_display())
+        return "%s: %s (%s)" % (self.community.name, self.user.display_name, self.group_name.title)
 
     @models.permalink
     def get_absolute_url(self):
-        return "member_profile", (self.community.id, self.id)
+        return "member_profile", (self.community.slug, self.id)
 
     def get_permissions(self):
-        return DefaultGroups.permissions[self.default_group_name]
+        return DefaultGroups.permissions[self.group_name.title]
 
     def total_meetings(self):
         """ In the future we'll check since joined to community or rejoined """

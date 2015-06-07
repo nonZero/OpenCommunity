@@ -7,6 +7,7 @@ class RolePermissionInline(admin.TabularInline):
 
 
 class RoleAdmin(admin.ModelAdmin):
+    list_display = ['community', 'title', 'based_on']
     inlines = [
         RolePermissionInline
     ]
