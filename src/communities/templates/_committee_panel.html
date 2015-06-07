@@ -3,7 +3,7 @@
 <!-- <li class="hidden-xs" style="width: 50px;height: 40px;"></li> -->
 
 {% comment "Navbar issues - remove from navbar for now" %}
-{% if cperms.issues.viewopen_issue %}
+{% if 'viewopen_issue' in cperms %}
 <li>
     <a {% if pill == 'issues' %}class="active"{% endif %} href="{% url 'issues' committee.community.slug committee.slug %}">
     {% if LANGUAGE_CODE == 'he' and committee.no_meetings_community %}{% trans "No meetings issues" %}{% else %}{% trans "Issues" %}{% endif %}</a>
@@ -13,7 +13,7 @@
 {% endcomment %}
 
 {% if committee %}
-{% if cperms.communities.viewupcoming_community %}
+{% if 'viewupcoming_community' in cperms %}
 <li>
     <a {% if pill == 'upcoming' %}class="active"{% endif %} href="{% url 'committee' committee.community.slug committee.slug %}">
     {% if LANGUAGE_CODE == 'he' and committee.no_meetings_community %}{% trans "Updates" %}{% else %}{% trans "Meetings" %}{% endif %}</a>
@@ -31,7 +31,7 @@
 {% endcomment %}
 
 {% if committee %}
-{% if cperms.issues.viewopen_issue %}
+{% if 'viewopen_issue' in cperms %}
 {% if not committee.no_meetings_community %}
 <li class="just_slash hidden-xs">/</li>
 <li>
@@ -46,7 +46,7 @@
 {% endif %}
 
 {% if committee %}
-{% if cperms.community.invite_member %}
+{% if 'invite_member' in cperms %}
 <li class="just_slash hidden-xs">/</li>
 <li>
     <a href="{% url 'members' committee.community.slug %}">{% trans "Members" %}</a>

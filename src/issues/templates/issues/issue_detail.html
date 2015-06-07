@@ -117,14 +117,14 @@ id="issue-detail"
                         --{% trans "Closed" %}--
                     {% else %}
                         {% if object.is_upcoming %}
-                            {% if committee.upcoming_meeting_is_published or cperms.communities.viewupcoming_draft %}
+                            {% if committee.upcoming_meeting_is_published or 'viewupcoming_draft' in cperms %}
                                 --{% trans "In the agenda" %}--
                             {% endif %}
                         {% endif %}
                     {% endif %}
                 </div>
             {% endif %}
-            {% if cperms.meetings.add_meeting %}
+            {% if 'add_meeting' in cperms %}
                 <div class="text-right col-xs-12 filter filter-upcoming" style="font-size: 14px;">
 					{% if object.completed and object.is_current or object.is_archived %}
 						<form id="issue-undo-complete"  method="post" action="{% url 'issue_complete' committee.community.slug committee.slug issue.id %}">
@@ -184,7 +184,7 @@ id="issue-detail"
             {% endif %}
 
             {% for proposal in object.proposals.open %}
-                {% if not proposal.decided and proposal.can_show_straw_votes and cperms.issues.view_straw_vote_result %}
+                {% if not proposal.decided and proposal.can_show_straw_votes and 'view_straw_vote_result' in cperms %}
                     createChart(
                         {{ proposal.votes_pro|default_if_none:0 }},
                         {{ proposal.votes_con|default_if_none:0 }},

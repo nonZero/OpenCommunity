@@ -18,6 +18,6 @@
 
     {% endif %}
 
-    <a href="{% url 'group:create' community.id %}">{% trans "Create Group" %}</a>
+    <a href="{% url 'group:create' community.slug %}">{% trans "Create Group" %}</a>
 
 {% endblock %}

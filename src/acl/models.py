@@ -22,7 +22,7 @@ class Role(models.Model):
         return reverse('role:view', kwargs={'pk': self.id})
 
     def __unicode__(self):
-        return self.title
+        return u"{}: {}".format(self.community, self.title)
 
     def all_perms(self):
         perms = set()

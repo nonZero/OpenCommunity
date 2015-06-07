@@ -27,7 +27,7 @@
     </li>
 
     {% if proposal.decided %}
-        {% if cperms.issues.view_proposal_in_discussion or not proposal.is_open %}
+        {% if 'view_proposal' in cperms_in_discussion or not proposal.is_open %}
             <li class="check_box{% if proposal.is_confidential %}_confidential{% endif %} {% if proposal.status == proposal.statuses.ACCEPTED %}checked{% if proposal.is_confidential %}_confidential{% endif %}{% endif %}{% if proposal.status == proposal.statuses.REJECTED %}rejected{% if proposal.is_confidential %}_confidential{% endif %}{% endif %}"></li>
         {% else %}
             <li class="check_box{% if proposal.is_confidential %}_confidential{% endif %}">
@@ -35,7 +35,7 @@
     {% else %}
         {% if not proposal.decided and proposal.can_show_straw_votes %}
             <li class="check_box_vote{% if proposal.is_confidential %} is_confidential{% endif %}">
-            {% if cperms.issues.view_straw_vote_result %}
+            {% if 'view_straw_vote_result' in cperms %}
             <canvas id="proposal{{ proposal.id }}Chart" height="40px" width="40px"></canvas>
             {% endif %}
         {% else %}

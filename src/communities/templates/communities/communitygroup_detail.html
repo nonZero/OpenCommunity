@@ -6,6 +6,6 @@
 
 {% block content %}
 
-    <a href="{% url 'group:update' community.id object.id %}">{% trans "Edit" %}</a>
+    <a href="{% url 'group:update' community.slug object.id %}">{% trans "Edit" %}</a>
 
 {% endblock %}

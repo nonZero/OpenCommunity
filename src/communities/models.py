@@ -591,7 +591,7 @@ class CommunityGroup(models.Model):
         )
 
     def __unicode__(self):
-        return self.title
+        return u"{}: {}".format(self.community, self.title)
 
     def get_absolute_url(self):
         return reverse("group:detail", args=(self.community.slug, self.pk))

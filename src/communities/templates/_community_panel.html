@@ -16,7 +16,7 @@
         </ul>
 </li>
 {% endif %}
-{% if cperms.community.invite_member %}
+{% if 'invite_member' in cperms %}
 <li class="just_slash hidden-xs">/</li>
 <li>
     <a href="{% url 'members' community.slug %}">{% trans "Members" %}</a>

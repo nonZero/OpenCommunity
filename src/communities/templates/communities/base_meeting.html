@@ -21,7 +21,7 @@
     </h2>
   <ul class="meetings_list">
     {% comment %} show upcoming meeting entry only if published or the current user has permission to view the draft {% endcomment %}
-    {% if community.upcoming_meeting_is_published or cperms.communities.viewupcoming_draft %}
+    {% if community.upcoming_meeting_is_published or 'viewupcoming_draft' in cperms %}
 		<li>
 			{% if object == committee %} <div class="pull-right" style="width: 15px;"><span class="active_meeting pull-right"></span></div>{% endif %}
 			<a href="{{ committee.get_absolute_url }}">

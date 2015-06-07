@@ -23,7 +23,7 @@ from issues.models import IssueStatus, Issue, Proposal
 from meetings.models import Meeting
 from ocd.base_views import ProtectedMixin, AjaxFormView, CommunityMixin
 from ocd.base_managers import ConfidentialSearchQuerySet
-from users.permissions import has_community_perm
+from users.permissions import has_community_perm, has_committee_perm
 from django.views.generic.base import RedirectView
 from django.http.response import HttpResponse
 
@@ -73,7 +73,7 @@ class CommitteeModelMixin(ProtectedMixin):
 
 
 class CommunityDetailView(CommunityModelMixin, DetailView):
-    required_permission = 'communities.access_community'
+    required_permission = 'access_community'
 
     template_name = "communities/community.html"
 
@@ -81,16 +81,16 @@ class CommunityDetailView(CommunityModelMixin, DetailView):
 class UpcomingMeetingView(CommitteeModelMixin, DetailView):
     # TODO show empty page to 'issues.viewopen_issue'
     # TODO: show draft only to those allowed to manage it.
-    required_permission = 'communities.access_community'
+    required_permission = 'access_community'
 
     template_name = "communities/upcoming.html"
 
-    required_permission_for_post = 'community.editagenda_community'
+    required_permission_for_post = 'editagenda_community'
 
     def get(self, request, *args, **kwargs):
-        if not has_community_perm(request.user, self.community,
-                                  'communities.viewupcoming_draft') \
-                and not self.community.upcoming_meeting_is_published:
+        if not has_committee_perm(request.user, self.committee,
+                                  'viewupcoming_draft') \
+                and not self.committee.upcoming_meeting_is_published:
             try:
                 last_meeting = Meeting.objects.filter(committee=self.committee) \
                     .latest('held_at')
@@ -157,7 +157,7 @@ class UpcomingMeetingView(CommitteeModelMixin, DetailView):
 
 
 class PublishUpcomingMeetingPreviewView(CommitteeModelMixin, DetailView):
-    required_permission = 'communities.viewupcoming_community'
+    required_permission = 'viewupcoming_community'
     template_name = "emails/agenda.html"
 
     def get_context_data(self, **kwargs):
@@ -178,7 +178,7 @@ class PublishUpcomingMeetingPreviewView(CommitteeModelMixin, DetailView):
 class EditUpcomingMeetingView(AjaxFormView, CommitteeModelMixin, UpdateView):
     reload_on_success = True
 
-    required_permission = 'community.editupcoming_community'
+    required_permission = 'editupcoming_community'
 
     form_class = EditUpcomingMeetingForm
     template_name = "communities/upcoming_form.html"
@@ -191,7 +191,7 @@ class EditUpcomingMeetingView(AjaxFormView, CommitteeModelMixin, UpdateView):
 
 class EditUpcomingMeetingParticipantsView(AjaxFormView, CommitteeModelMixin, UpdateView):
     reload_on_success = True
-    required_permission = 'community.editparticipants_community'
+    required_permission = 'editparticipants_community'
     form_class = UpcomingMeetingParticipantsForm
     template_name = "communities/participants_form.html"
 
@@ -211,7 +211,7 @@ class DeleteParticipantView(CommitteeModelMixin, DeleteView):
 class PublishUpcomingView(AjaxFormView, CommitteeModelMixin, UpdateView):
     reload_on_success = True
 
-    required_permission = 'community.editagenda_community'
+    required_permission = 'editagenda_community'
 
     form_class = PublishUpcomingMeetingForm
     template_name = "communities/publish_upcoming.html"
@@ -279,7 +279,7 @@ class EndMeetingView(CommitteeModelMixin, SingleObjectMixin, View):
 class EditUpcomingSummaryView(AjaxFormView, CommitteeModelMixin, UpdateView):
     reload_on_success = True
 
-    required_permission = 'community.editupcoming_community'
+    required_permission = 'editupcoming_community'
 
     form_class = EditUpcomingMeetingSummaryForm
 
@@ -287,7 +287,7 @@ class EditUpcomingSummaryView(AjaxFormView, CommitteeModelMixin, UpdateView):
 
 
 class ProtocolDraftPreviewView(CommitteeModelMixin, DetailView):
-    required_permission = 'meetings.add_meeting'
+    required_permission = 'add_meeting'
 
     template_name = "emails/protocol_draft.html"
 
@@ -319,7 +319,7 @@ class ProtocolDraftPreviewView(CommitteeModelMixin, DetailView):
 
 
 class SumVotesView(View):
-    required_permission = 'meetings.add_meeting'
+    required_permission = 'add_meeting'
 
     def get(self, request, pk):
         c = models.Community.objects.get(pk=pk)
@@ -403,7 +403,7 @@ class CommunitySearchView(CommunityModelMixin, DetailView):
 class GroupMixin(CommunityMixin):
     model = models.CommunityGroup
 
-    required_permission = 'communities.manage_communitygroups'
+    required_permission = 'manage_communitygroups'
 
     def get_queryset(self):
         return super(GroupMixin, self).get_queryset().filter(community=self.community)

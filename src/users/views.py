@@ -45,7 +45,7 @@ class MembershipMixin(CommunityMixin):
 
 
 class MembershipList(MembershipMixin, ListView):
-    required_permission = 'community.invite_member'
+    required_permission = 'invite_member'
 
     def get_context_data(self, **kwargs):
         d = super(MembershipList, self).get_context_data(**kwargs)
@@ -82,7 +82,7 @@ class MembershipList(MembershipMixin, ListView):
 
 
 class DeleteInvitationView(CommunityMixin, DeleteView):
-    required_permission = 'community.invite_member'
+    required_permission = 'invite_member'
 
     model = models.Invitation
 
@@ -168,7 +168,7 @@ class AcceptInvitationView(DetailView):
 
 
 class AutocompleteMemberName(MembershipMixin, ListView):
-    required_permission = 'issues.editopen_issue'
+    required_permission = 'editopen_issue'
 
     def get_queryset(self):
         members = super(AutocompleteMemberName, self).get_queryset()
@@ -212,7 +212,7 @@ class AutocompleteMemberName(MembershipMixin, ListView):
 
 
 class MemberProfile(MembershipMixin, DetailView):
-    required_permission = 'users.show_member_profile'
+    required_permission = 'show_member_profile'
 
     model = models.Membership
     template_name = "users/member_profile.html"
@@ -364,7 +364,7 @@ def oc_password_reset(request, is_admin_site=False,
 class MembershipGroupList(CommunityMixin, ListView):
     model = models.Membership
     template_name = 'users/membership_groups.html'
-    required_permission = 'community.invite_member'
+    required_permission = 'invite_member'
     context_object_name = 'members'
 
     def get_queryset(self):

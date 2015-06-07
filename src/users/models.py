@@ -119,7 +119,10 @@ class MembershipManager(models.Manager):
 class Membership(models.Model):
     community = models.ForeignKey('communities.Community', verbose_name=_("Community"), related_name='memberships')
     user = models.ForeignKey(OCUser, verbose_name=_("User"), related_name='memberships')
-    group_name = models.ForeignKey('communities.CommunityGroup', verbose_name=_('Group'), related_name='memberships', null=True, blank=True)
+    group_role = models.ForeignKey('communities.CommunityGroupRole', verbose_name=_('Group'),
+                                   related_name='memberships', null=True, blank=True)
+    group_name = models.ForeignKey('communities.CommunityGroup', verbose_name=_('Group'), related_name='memberships',
+                                   null=True, blank=True)
     default_group_name = models.CharField(_('Old group'), max_length=50, choices=DefaultGroups.CHOICES)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
     invited_by = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -143,6 +146,9 @@ class Membership(models.Model):
 
     def get_permissions(self):
         return DefaultGroups.permissions[self.group_name.title]
+
+    def get_committee_group_permissions(self):
+        return self.group_roles.role.all_perms()
 
     def total_meetings(self):
         """ In the future we'll check since joined to community or rejoined """
@@ -266,6 +272,9 @@ class Invitation(models.Model):
 
     user = models.ForeignKey(OCUser, verbose_name=_("User"),
                              related_name='invitations', null=True, blank=True)
+
+    group_role = models.ForeignKey('communities.CommunityGroupRole', verbose_name=_('Group'),
+                                   related_name='invitations', null=True, blank=True)
 
     default_group_name = models.CharField(_('Group'), max_length=50,
                                           choices=DefaultGroups.CHOICES)

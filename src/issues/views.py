@@ -62,7 +62,7 @@ class ProposalMixin(IssueMixin):
 
 
 class IssueList(IssueMixin, ListView):
-    required_permission = 'issues.viewopen_issue'
+    required_permission = 'viewopen_issue'
 
     def get_queryset(self):
         return super(IssueList, self).get_queryset().exclude(
@@ -97,7 +97,7 @@ class IssueList(IssueMixin, ListView):
                     user=self.request.user, committee=self.committee)
         return d
 
-    required_permission_for_post = 'issues.vote_ranking'
+    required_permission_for_post = 'vote_ranking'
 
     def post(self, request, *args, **kwargs):
         # TODO: check post permission for user and for each issue
@@ -108,8 +108,7 @@ class IssueList(IssueMixin, ListView):
 class IssueDetailView(IssueMixin, DetailView):
     def get_required_permission(self):
         o = self.get_object()
-        return 'issues.viewclosed_issue' if o.is_published else \
-            'issues.viewopen_issue'
+        return 'viewclosed_issue' if o.is_published else 'viewopen_issue'
 
     def get_context_data(self, **kwargs):
         d = super(IssueDetailView, self).get_context_data(**kwargs)
@@ -158,7 +157,7 @@ class IssueDetailView(IssueMixin, DetailView):
 
         return d
 
-    required_permission_for_post = 'issues.add_issuecomment'
+    required_permission_for_post = 'add_issuecomment'
 
 
     def post(self, request, *args, **kwargs):
@@ -196,8 +195,7 @@ class IssueCommentMixin(CommitteeMixin):
 
     def get_required_permission(self):
         o = self.get_object()
-        return 'issues.editopen_issuecomment' if o.issue.is_upcoming else \
-            'issues.editclosed_issuecomment'
+        return 'editopen_issuecomment' if o.issue.is_upcoming else 'editclosed_issuecomment'
 
     def get_queryset(self):
         return models.IssueComment.objects.filter(issue__committee=self.committee)
@@ -237,7 +235,7 @@ class IssueCreateView(AjaxFormView, IssueMixin, CreateView):
     reload_on_success = True
 
     def get_required_permission(self):
-        return 'community.editagenda_community' if self.upcoming else 'issues.add_issue'
+        return 'editagenda_community' if self.upcoming else 'add_issue'
 
     upcoming = False
 
@@ -268,7 +266,7 @@ class IssueCreateView(AjaxFormView, IssueMixin, CreateView):
 
 
 class IssueEditView(AjaxFormView, IssueMixin, UpdateView):
-    required_permission = 'issues.editopen_issue'
+    required_permission = 'editopen_issue'
 
     form_class = UpdateIssueForm
     reload_on_success = True
@@ -288,7 +286,7 @@ class IssueEditView(AjaxFormView, IssueMixin, UpdateView):
 
 
 class IssueEditAbstractView(AjaxFormView, IssueMixin, UpdateView):
-    required_permission = 'issues.editopen_issue'
+    required_permission = 'editopen_issue'
 
     form_class = UpdateIssueAbstractForm
 
@@ -299,7 +297,7 @@ class IssueEditAbstractView(AjaxFormView, IssueMixin, UpdateView):
 
 
 class IssueCompleteView(IssueMixin, SingleObjectMixin, View):
-    required_permission = 'meetings.add_meeting'
+    required_permission = 'add_meeting'
 
     def post(self, request, *args, **kwargs):
         o = self.get_object()
@@ -319,7 +317,7 @@ class IssueCompleteView(IssueMixin, SingleObjectMixin, View):
 
 
 class IssueSetLengthView(IssueMixin, SingleObjectMixin, View):
-    required_permission = 'community.editagenda_community'
+    required_permission = 'editagenda_community'
 
     def post(self, request, *args, **kwargs):
         o = self.get_object()
@@ -342,10 +340,9 @@ class IssueDeleteView(AjaxFormView, IssueMixin, DeleteView):
     def get_required_permission(self):
         o = self.get_object()
         if o.is_published:
-            return 'issues.editclosed_issue'
+            return 'editclosed_issue'
 
-        return 'issues.add_issue' if o.created_by == self.request.user \
-            else 'issues.editopen_issue'
+        return 'add_issue' if o.created_by == self.request.user else 'editopen_issue'
 
     def get_success_url(self):
         return "" if self.issue.active else "-"
@@ -362,7 +359,7 @@ class AttachmentCreateView(AjaxFormView, IssueMixin, CreateView):
     model = models.IssueAttachment
     form_class = AddAttachmentForm
 
-    required_permission = 'issues.editopen_issue'
+    required_permission = 'editopen_issue'
     reload_on_success = True
 
     @property
@@ -377,7 +374,7 @@ class AttachmentCreateView(AjaxFormView, IssueMixin, CreateView):
 
 class AttachmentDeleteView(AjaxFormView, CommitteeMixin, DeleteView):
     model = models.IssueAttachment
-    required_permission = 'issues.editopen_issue'
+    required_permission = 'editopen_issue'
 
     @property
     def issue(self):
@@ -395,8 +392,7 @@ class AttachmentDownloadView(CommitteeMixin, SingleObjectMixin, View):
 
     def get_required_permission(self):
         o = self.get_object().issue
-        return 'issues.viewclosed_issue' if o.is_published else \
-            'issues.viewopen_issue'
+        return 'viewclosed_issue' if o.is_published else 'viewopen_issue'
 
     def get(self, request, *args, **kwargs):
         o = self.get_object()
@@ -411,9 +407,7 @@ class ProposalCreateView(AjaxFormView, ProposalMixin, CreateView):
     reload_on_success = True
 
     def get_required_permission(self):
-        return 'issues.editclosedproposal' if \
-            self.issue.status == IssueStatus.ARCHIVED \
-            else 'issues.add_proposal'
+        return 'editclosedproposal' if self.issue.status == IssueStatus.ARCHIVED else 'add_proposal'
 
     form_class = CreateProposalForm
 
@@ -447,11 +441,11 @@ class ProposalCreateView(AjaxFormView, ProposalMixin, CreateView):
 class ProposalDetailView(ProposalMixin, DetailView):
     def get_required_permission(self):
         p = self.get_object()
-        return 'issues.viewclosed_proposal' if p.decided_at_meeting else 'issues.viewopen_proposal'
+        return 'viewclosed_proposal' if p.decided_at_meeting else 'viewopen_proposal'
 
     def get_required_permission_for_post(self):
         p = self.get_object()
-        return 'issues.acceptclosed_proposal' if p.decided_at_meeting else 'issues.acceptopen_proposal'
+        return 'acceptclosed_proposal' if p.decided_at_meeting else 'acceptopen_proposal'
 
     def board_votes_dict(self):
         total_votes = 0
@@ -586,7 +580,7 @@ class ProposalEditView(AjaxFormView, ProposalMixin, UpdateView):
 
     def get_required_permission(self):
         o = self.get_object()
-        return 'issues.editclosed_proposal' if o.decided_at_meeting else 'issues.edittask_proposal'
+        return 'editclosed_proposal' if o.decided_at_meeting else 'edittask_proposal'
 
     def get_form_kwargs(self):
         d = super(ProposalEditView, self).get_form_kwargs()
@@ -603,7 +597,7 @@ class ProposalEditTaskView(ProposalMixin, UpdateView):
 
     def get_required_permission(self):
         o = self.get_object()
-        return 'issues.editclosed_proposal' if o.decided_at_meeting else 'issues.editopen_proposal'
+        return 'editclosed_proposal' if o.decided_at_meeting else 'editopen_proposal'
 
 
 class ProposalCompletedTaskView(ProposalMixin, UpdateView):
@@ -625,10 +619,9 @@ class ProposalDeleteView(AjaxFormView, ProposalMixin, DeleteView):
     def get_required_permission(self):
         o = self.get_object()
         if o.decided_at_meeting:
-            return 'issues.editclosed_issue'
+            return 'editclosed_issue'
 
-        return 'issues.add_proposal' if o.created_by == self.request.user \
-            else 'issues.editopen_proposal'
+        return 'add_proposal' if o.created_by == self.request.user else 'editopen_proposal'
 
     def get_success_url(self):
         return "" if self.issue.active else "-"
@@ -707,7 +700,7 @@ class ProposalVoteMixin(CommitteeMixin):
 
 
 class ProposalVoteView(ProposalVoteMixin, DetailView):
-    required_permission_for_post = 'issues.vote'
+    required_permission_for_post = 'vote'
     model = models.Proposal
 
     def post(self, request, *args, **kwargs):
@@ -811,7 +804,7 @@ class ProposalVoteView(ProposalVoteMixin, DetailView):
 
 
 class MultiProposalVoteView(ProposalVoteMixin, DetailView):
-    required_permission_for_post = 'issues.chairman_vote'
+    required_permission_for_post = 'chairman_vote'
     model = models.Proposal
 
     def post(self, request, *args, **kwargs):
@@ -899,7 +892,7 @@ class RankingVoteMixin(ProposalVoteMixin):
 
 
 class ArgumentRankingVoteView(RankingVoteMixin, DetailView):
-    required_permission_for_post = 'issues.vote'
+    required_permission_for_post = 'vote'
     model = models.ProposalVoteArgument
 
     def post(self, request, *args, **kwargs):
@@ -1035,7 +1028,7 @@ def get_argument_value(request, committee_id, arg_id):
 
 
 class ChangeBoardVoteStatusView(ProposalMixin, UpdateView):
-    required_permission_for_post = 'issues.chairman_vote'
+    required_permission_for_post = 'chairman_vote'
     model = models.Proposal
 
     def post(self, request, *args, **kwargs):
@@ -1049,7 +1042,7 @@ class ChangeBoardVoteStatusView(ProposalMixin, UpdateView):
 
 
 class AssignmentsView(ProposalMixin, ListView):
-    required_permission = 'issues.viewopen_issue'
+    required_permission = 'viewopen_issue'
     template_name = 'issues/assignment_list.html'
     paginate_by = 75
 
@@ -1114,7 +1107,7 @@ class RulesMixin(CommitteeMixin):
 
 
 class ProceduresView(RulesMixin, ProposalMixin, ListView):
-    required_permission = 'issues.viewopen_issue'
+    required_permission = 'viewopen_issue'
     template_name = 'issues/procedure_list.html'
     context_object_name = 'procedure_list'
     paginate_by = 75
@@ -1162,7 +1155,7 @@ class ProceduresView(RulesMixin, ProposalMixin, ListView):
 
 
 class AutoCompleteTagView(CommitteeMixin, View):
-    required_permission = 'issues.editopen_issue'
+    required_permission = 'editopen_issue'
 
     def get(self, request, *args, **kwargs):
         tag = request.GET.get('tag', '')

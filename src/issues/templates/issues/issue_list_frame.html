@@ -45,7 +45,7 @@ id="issue-detail-siblings"
                         --{% trans "Closed" %}--
                     {% else %}
                         {% if object.is_upcoming %}
-                            {% if community.upcoming_meeting_is_published or cperms.communities.viewupcoming_draft %}
+                            {% if community.upcoming_meeting_is_published or 'viewupcoming_draft' in cperms %}
                                 --{% trans "In the agenda" %}--
                             {% endif %}
                         {% endif %}

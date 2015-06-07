@@ -63,13 +63,12 @@ class UserMembershipInline(admin.TabularInline):
 class MembershipAdmin(admin.ModelAdmin):
     list_display = (
         'community',
-        'group_name',
-        'default_group_name',
+        'group_role',
         'user',
         'created_at',
     )
 
-    list_filter = ('community', 'group_name',)
+    list_filter = ('community', 'group_role',)
 
 
 class OCUserAdmin(UserAdmin):

@@ -11,8 +11,8 @@
         {% endif %}
         <div class="abstracts">
 
-            {% if cperms.issues.editclosed_issue or not object.is_archived %}
-                {% if cperms.issues.editopen_issue or object.created_by == user %}
+            {% if 'editclosed_issue' in cperms or not object.is_archived %}
+                {% if 'editopen_issue' in cperms or object.created_by == user %}
                     <div class="filter filter-upcoming pull-right">
                         <h5>
                             <i class="fa fa-edit"></i> <a data-rel="form" data-replace="#issue-abstract" href="{% url 'issue_edit_abstract' object.committee.community.slug object.committee.slug object.id %}" title='{% trans "Edit abstract" %}' style="color: #6C6C6E;">{% trans "Edit abstract" %}</a>
@@ -33,7 +33,7 @@
                             {% for att in ai.attachments.all %}
                                 <li class="issue-attachments on filter-meeting-{{ai.meeting.id}} filter">
                                     <a href="{{ att.get_absolute_url }}" class="file_ext {{ att.get_icon }}">{{att.title}}</a>
-                                    {% if cperms.issues.editopen_issue %}
+                                    {% if 'editopen_issue' in cperms %}
                                         <a id="remove-attachment" href="{% url 'attachment_delete' committee.community.slug committee.slug object.id att.id %}" data-rel="form"><img src="{{ STATIC_URL }}images/icon-remove.gif"/></a>
                                     {% endif %}
                                 </li>
@@ -50,7 +50,7 @@
               {% for att in object.current_attachments.all %}
                   <li class="issue-attachments filter-upcoming filter">
                       <a href="{{ att.get_absolute_url }}" class="file_ext {{ att.get_icon }}">{{att.title}}</a>
-                      {% if cperms.issues.editopen_issue %}
+                      {% if 'editopen_issue' in cperms %}
                           <a id="remove-attachment" href="{% url 'attachment_delete' committee.community.slug committee.slug object.id att.id %}" data-rel="form"><img src="{{ STATIC_URL }}images/icon-remove.gif"/></a>
                       {% endif %}
                   </li>
@@ -80,7 +80,7 @@
     {% endif %}
 
     <div>
-        {% if cperms.issues.add_proposal and not object.is_archived %}
+        {% if 'add_proposal' in cperms and not object.is_archived %}
         {% if not proposals.open %}
         <h2>{% trans 'Proposals' %}</h2>
         {% endif %}
@@ -103,7 +103,7 @@
         <div class="open-proposals filter-upcoming filter">
             {% for proposal in proposals.open %}
                 {% include 'issues/_proposal.html' %}
-                {% if can_straw_vote and not proposal.decided and cperms.issues.vote and user|member_of:community %}
+                {% if can_straw_vote and not proposal.decided and 'vote' in cperms and user|member_of:community %}
                     <div class="issue_proposal_vote{% if proposal.arguments_for or proposal.arguments_against or user|voted_on:proposal.id %} with_arguments{% endif %}{% if proposal.is_confidential %} is_confidential{% endif %}" data-argument-url="{% url 'proposal_more_arguments' proposal.issue.community.id proposal.issue.id proposal.id %}">
                         {% include 'issues/_straw_vote.html' %}
                         <div class="vote_arguments clearfix clear">
@@ -123,7 +123,7 @@
             {% endfor %}
         </div>
 
-        {% if cperms.issues.add_proposal and not object.is_archived %}
+        {% if 'add_proposal' in cperms and not object.is_archived %}
         <div class="narrow clear filter filter-upcoming">
             <a class="btn btn-oc btn-lg btn-block" data-rel="form" data-append-to=".open-proposals" href="{% url 'proposal_create' committee.community.slug committee.slug object.id %}">{% trans "Add a proposal" %}</a>
         </div>
@@ -133,7 +133,7 @@
     <h2 class="filter-title">
         {% trans "Issue discussion summary" %}
     </h2>
-    {% if object.active_comments.count or cperms.issues.add_issuecomment and object.committee.upcoming_meeting_started and object.is_upcoming %}
+    {% if object.active_comments.count or 'add_issuecomment' in cperms and object.committee.upcoming_meeting_started and object.is_upcoming %}
     <div class="issuecomments">
         <ul id="comments" class="comments">
             {% for ai in object.agenda_items.all %}
@@ -146,7 +146,7 @@
             {% for c in object.new_comments %}
                 {% include "issues/_comment.html" %}
             {% endfor %}
-            {% if cperms.issues.add_issuecomment and object.committee.upcoming_meeting_started and object.is_upcoming %}
+            {% if 'add_issuecomment' in cperms and object.committee.upcoming_meeting_started and object.is_upcoming %}
                 <li class="rich_editor filter-upcoming filter">
                     <span id="comment-status"></span>
                     <form id="add-comment" method="post" data-comment-id>
@@ -165,7 +165,7 @@
     {% endif %}
 
     {% comment %}
-    {% if cperms.meetings.add_meeting %}
+    {% if 'add_meeting' in cperms %}
         {% if object.is_current and not object.completed %}
         <form id="issue-complete" method="post" action="{% url 'issue_complete' committee.community.slug committee.slug issue.id %}">
           {% csrf_token %}

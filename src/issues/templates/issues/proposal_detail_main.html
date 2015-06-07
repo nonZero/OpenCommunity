@@ -31,12 +31,12 @@
 						<i class="fa fa-times-circle"></i> {% trans "Proposal rejected" %}!
 					{% endif %}
 	                
-	                {% if object.can_vote and cperms.issues.acceptopen_proposal %}
+	                {% if object.can_vote and 'acceptopen_proposal' in cperms %}
 	                    <a href="#" class="unaccept btn btn-warning btn-md" data-value="{{object.statuses.IN_DISCUSSION}}">{% trans "Cancel approval" %}</a>
 	                {% endif %}
 
 					{% if not object.can_vote and object.is_task %}
-						{% if cperms.issues.edittask_proposal or object.assigned_to_user == user %}
+						{% if 'edittask_proposal' in cperms or object.assigned_to_user == user %}
 							<form class="form-inline" role="form" id="task-completed-form" method="post" action="{% url 'task_completed' committee.community.slug committee.slug object.issue.id object.id %}" style="margin: 5px 0; display: inline-block;">
 								{% csrf_token %}
 								{% if object.task_completed %}
@@ -59,10 +59,10 @@
 	            </div>
 	        {% endif %}
 	    {% endif %}
-		{% if cperms.issues.editclosed_proposal or object.is_open %}
-			{% if cperms.issues.editopen_proposal or object.created_by == user %}
+		{% if 'editclosed_proposal' in cperms or object.is_open %}
+			{% if 'editopen_proposal' in cperms or object.created_by == user %}
 				<div class="col-xs-12 text-right">
-					{% if not object.is_task or cperms.issues.edittask_proposal %}
+					{% if not object.is_task or 'edittask_proposal' in cperms %}
 						<i class="fa fa-edit"></i> <a href="{{object.get_edit_url}}" data-rel="form" style="color: #6C6C6E;"><span>{% trans "Edit" %}</span></a>
 					{% endif %}
 						<i class="fa fa-trash-o"></i> <a href="{{object.get_delete_url}}" data-rel="form" style="color: #6C6C6E;"><span>{% trans "Delete" %}</span></a>
@@ -113,7 +113,7 @@
 	</div>
 </div>
     {% with proposal=object c=proposal.issue.community %}
-        {% if proposal.can_straw_vote and cperms.issues.vote and user|member_of:c %}
+        {% if proposal.can_straw_vote and 'vote' in cperms and user|member_of:c %}
             {% include 'issues/_straw_vote.html' %}
         {% endif %}
         {% if not proposal.can_straw_vote and object.issue.community.upcoming_meeting_started %}
@@ -121,7 +121,7 @@
             <span>{% trans "Vote ended" %}!</span>
         </div>
         {% endif %}
-        {% if proposal.can_show_straw_votes and cperms.issues.view_straw_vote_result %}
+        {% if proposal.can_show_straw_votes and 'view_straw_vote_result' in cperms %}
             <div id="results_container" class="clear">
             	<h2>{% trans "Straw vote result" %}</h2>
                 {% include 'issues/_proposal_vote_results.html' %}
@@ -141,7 +141,7 @@
 			<h2 class="clear">{% trans "Vote by the" %} {{ object.issue.committee.name|default:_("Board") }}</h2>
 			{% include 'issues/_board_vote_res.html' %}
 	{% endif %}
-  {% if cperms.issues.proposal_board_vote and chairman_can_vote %}
+  {% if 'proposal_board_vote' in cperms and chairman_can_vote %}
   <h2 class="clear" style="margin-right: 10px;"><input type="checkbox" id="reg_board_vote" 
     data-url="{% url 'set_register_votes' committee.community.slug committee.slug object.issue.id object.id %}"
     {% if object.register_board_votes %}checked="checked"{% endif %} />
@@ -149,7 +149,7 @@
       {% include "issues/_chairman_vote.html" %}
 	{% endif %}
 	
-    {% if object.can_vote and cperms.issues.acceptopen_proposal %}
+    {% if object.can_vote and 'acceptopen_proposal' in cperms %}
     <form id="proposal-form" method="post">
         {% csrf_token %}
         <div class="narrow accept_reject_btns accept-buttons text-center">

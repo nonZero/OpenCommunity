@@ -20,7 +20,7 @@ class MeetingMixin(CommitteeMixin):
 
 
 class MeetingList(MeetingMixin, RedirectView):
-    required_permission = 'meetings.view_meeting'
+    required_permission = 'view_meeting'
     permanent = True
 
     def get_redirect_url(self, **kwargs):
@@ -35,7 +35,7 @@ class MeetingList(MeetingMixin, RedirectView):
 
 
 class MeetingDetailView(MeetingMixin, DetailView):
-    required_permission = 'meetings.view_meeting'
+    required_permission = 'view_meeting'
 
     def get_context_data(self, **kwargs):
         d = super(MeetingDetailView, self).get_context_data(**kwargs)
@@ -52,7 +52,7 @@ class MeetingDetailView(MeetingMixin, DetailView):
 
 
 class MeetingProtocolView(MeetingMixin, DetailView):
-    required_permission = 'meetings.view_meeting'
+    required_permission = 'view_meeting'
     template_name = "emails/protocol.html"
 
     def get_context_data(self, **kwargs):
@@ -74,7 +74,7 @@ class MeetingCreateView(AjaxFormView, MeetingMixin, CreateView):
     """actualy, this view handles the "close meeting" form.
        meeting objects are created only after this act """
 
-    required_permission = 'meetings.add_meeting'
+    required_permission = 'add_meeting'
 
     template_name = "meetings/meeting_close.html"
     form_class = CloseMeetingForm

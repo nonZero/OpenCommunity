@@ -7,7 +7,7 @@ from django.http.response import HttpResponseForbidden, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from users.models import Membership
-from users.permissions import has_community_perm, get_community_perms
+from users.permissions import has_community_perm, get_community_perms, has_committee_perm, get_committee_perms
 import json
 
 
@@ -29,6 +29,10 @@ class ProtectedMixin(object):
     def dispatch(self, request, *args, **kwargs):
         # check with Udi
         community = get_object_or_404(Community, slug=self.kwargs['community_slug'])
+        try:
+            committee = get_object_or_404(Committee, slug=self.kwargs['committee_slug'], community__slug=self.kwargs['community_slug'])
+        except:
+            committee = None
         if not request.user.is_authenticated():
             if not community.is_public:
                 return redirect_to_login(request.build_absolute_uri())
@@ -36,23 +40,35 @@ class ProtectedMixin(object):
         if hasattr(self, 'get_required_permission'):
             perm = self.get_required_permission()
         else:
-            perm = self.required_permission or "communities.access_community"
+            perm = self.required_permission or "access_community"
 
-        if not has_community_perm(request.user, community, perm):
-            if settings.DEBUG:
-                return HttpResponseForbidden("403 %s" % perm)
-            return HttpResponseForbidden("403 Unauthorized")  # TODO: raise PermissionDenied
+        if committee:
+            if not has_committee_perm(request.user, committee, perm):
+                if settings.DEBUG:
+                    return HttpResponseForbidden("403 %s" % perm)
+                return HttpResponseForbidden("403 Unauthorized")  # TODO: raise PermissionDenied
+        else:
+            if not has_community_perm(request.user, community, perm):
+                if settings.DEBUG:
+                    return HttpResponseForbidden("403 %s" % perm)
+                return HttpResponseForbidden("403 Unauthorized")  # TODO: raise PermissionDenied
 
         if request.method == "POST":
             if hasattr(self, 'get_required_permission_for_post'):
                 perm = self.get_required_permission_for_post()
             else:
-                perm = self.required_permission_for_post or "communities.access_community"
+                perm = self.required_permission_for_post or "access_community"
 
-            if not has_community_perm(request.user, community, perm):
-                if settings.DEBUG:
-                    return HttpResponseForbidden("403 POST %s" % perm)
-                return HttpResponseForbidden("403 Unauthorized")
+            if committee:
+                if not has_committee_perm(request.user, committee, perm):
+                    if settings.DEBUG:
+                        return HttpResponseForbidden("403 POST %s" % perm)
+                    return HttpResponseForbidden("403 Unauthorized")
+            else:
+                if not has_community_perm(request.user, community, perm):
+                    if settings.DEBUG:
+                        return HttpResponseForbidden("403 POST %s" % perm)
+                    return HttpResponseForbidden("403 Unauthorized")
 
         resp = super(ProtectedMixin, self).dispatch(request, *args, **kwargs)
 
@@ -66,11 +82,14 @@ class ProtectedMixin(object):
     def get_context_data(self, **kwargs):
         # check with Udi
         try:
-            community = self.community
+            committee = self.committee
         except:
-            community = self.committee.community
+            committee = None
         d = super(ProtectedMixin, self).get_context_data(**kwargs)
-        d['cperms'] = get_community_perms(self.request.user, community)
+        if committee:
+            d['cperms'] = get_committee_perms(self.request.user, committee)
+        else:
+            d['cperms'] = get_community_perms(self.request.user, self.community)
         return d
 
 

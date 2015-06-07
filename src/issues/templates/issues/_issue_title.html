@@ -3,7 +3,7 @@
 
 <div class="col-xs-12">
 	{% if not object.in_closed_meeting %}
-		{% if cperms.issues.editopen_issue or object.created_by == user %}
+		{% if 'editopen_issue' in cperms or object.created_by == user %}
 		<div class="pull-right">
 			<h5>
 				<i class="fa fa-edit"></i> <a data-rel="form" data-replace=".issue-top" href="{{object.get_edit_url}}" title='{% trans "Edit" %}' style="color: #6C6C6E;">{% trans "Edit" %}</a>

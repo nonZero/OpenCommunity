@@ -9,7 +9,7 @@
 		{{i.title}}
 	</a>
 
-	{% if cperms.community.editagenda_community and not i.changed_in_current and not i.completed %}
+	{% if 'editagenda_community' in cperms and not i.changed_in_current and not i.completed %}
 		<div class="timer{% if not object.upcoming_meeting_started and i.is_upcoming %} timer_extra{% endif %}" data-url="{% url 'issue_set_length' community.id i.id %}">
 			<span data-strict="{{i.length_in_minutes|minutes_strict}}">{{i.length_in_minutes|minutes|default:'--:--'}}</span>
     </div>
@@ -22,15 +22,15 @@
 			<a href="#" class="addremove"></a>
 		</div>
 	{% else %} 
-		{% if i.can_straw_vote and cperms.issues.vote and user.id and not object.upcoming_meeting_started and i.is_upcoming %}
+		{% if i.can_straw_vote and 'vote' in cperms and user.id and not object.upcoming_meeting_started and i.is_upcoming %}
 			<div class="user_votes_on_issue">
 				{% user_votes_on_issue %}
 			</div>
 		{% endif %}
 		{% if object.upcoming_meeting_started %}
 			<div class="agenda_plus_minus
-			{% if i.completed and cperms.issues.view_update_status %}tick{% else %}
-			{% if i.changed_in_current and cperms.issues.view_update_status %}cog{% endif %}
+			{% if i.completed and 'view_update_status' in cperms %}tick{% else %}
+			{% if i.changed_in_current and 'view_update_status' in cperms %}cog{% endif %}
 			{% endif %}"></div>
 		{% endif %}
 	{% endif %}

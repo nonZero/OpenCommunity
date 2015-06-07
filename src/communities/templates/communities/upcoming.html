@@ -62,10 +62,10 @@
 		{% endwith %}
 	</div>
 	<div class="col-xs-12">
-		{% if cperms.communities.viewupcoming_community %}
-			{% if cperms.communities.viewupcoming_draft or object.upcoming_meeting_is_published %}
+		{% if 'viewupcoming_community' in cperms %}
+			{% if 'viewupcoming_draft' in cperms or object.upcoming_meeting_is_published %}
 				<div class="pull-right">
-					{% if cperms.community.editupcoming_community %}
+					{% if 'editupcoming_community' in cperms %}
 						<i class="fa fa-edit"></i> <a data-rel="form" href="{% url 'upcoming_edit' committee.community.slug committee.slug %}" style="color: #6C6C6E;display: inline-block; text-align: left;"><span>{% trans "Edit" %}</span></a>
 					{% endif %}
 				</div>
@@ -73,8 +73,8 @@
 		{% endif %}
 		<div class="pull-left">
 			<h1>
-			{% if object.upcoming_meeting_title and cperms.communities.viewupcoming_community %}
-				{% if cperms.community.editagenda_community or object.upcoming_meeting_is_published %}
+			{% if object.upcoming_meeting_title and 'viewupcoming_community' in cperms %}
+				{% if 'editagenda_community' in cperms or object.upcoming_meeting_is_published %}
 					{{object.upcoming_meeting_title}}
 				{% endif %}
 			{% else %}
@@ -87,8 +87,8 @@
 			</h1>
 		</div>
 	</div>
-	{% if cperms.communities.viewupcoming_community %}
-		{% if cperms.communities.viewupcoming_draft or object.upcoming_meeting_is_published %}
+	{% if 'viewupcoming_community' in cperms %}
+		{% if 'viewupcoming_draft' in cperms or object.upcoming_meeting_is_published %}
 
 			{% if object.straw_voting_enabled and not object.straw_vote_ended and not user.id %}
 			<div class="text-center clear" style="margin-bottom: 10px;">
@@ -100,12 +100,12 @@
 				<h5 class="pull-left" style="line-height: 1.3;">
 	        		<i class="fa fa-calendar"></i> {{ object|display_upcoming_time }}
 					{% if object.upcoming_meeting_location %}<i class="fa fa-map-marker"></i> {{ object.upcoming_meeting_location }}{% endif %}
-				{% if cperms.community.editparticipants_community and committee.upcoming_meeting_started %}
+				{% if 'editparticipants' in cperms_community and committee.upcoming_meeting_started %}
 					<i class="fa fa-group"></i> <a data-rel="form" href="{% url 'upcoming_edit_participants' committee.community.slug committee.slug %}" style="color: #6C6C6E;">{% trans "Participants" %}: {{object.full_participants}}</a>
 				{% endif %}
 				</h5>
 
-				{% if cperms.community.editupcoming_community %}
+				{% if 'editupcoming_community' in cperms %}
                     <h5 class="pull-right">
                         {% if object.upcoming_meeting_started %}
                             <form method="post" action="{% url 'upcoming_end' committee.community.slug committee.slug %}">
@@ -150,10 +150,10 @@
                     {% trans "Agenda items" %}
                     {% endif %}
                     <span class="loader"> <img src="{{STATIC_URL}}images/ajax-loader.gif" alt="Loading"/> </span></h2>
-				{% if cperms.community.editagenda_community %}
+				{% if 'editagenda_community' in cperms %}
 					<a class="btn btn-oc pull-right" data-rel="form" href="{% url 'issue_create_upcoming' committee.community.slug committee.slug %}"> <i class="fa fa-plus"></i> <span>{% trans "New issue" %}</span></a>
 				{% endif %}
-				{% if has_straw_votes and cperms.issues.vote and object.upcoming_meeting_is_published and user.id and not cperms.community.editagenda_community %}
+				{% if has_straw_votes and 'vote' in cperms and object.upcoming_meeting_is_published and user.id and not 'editagenda_community' in cperms %}
 					<h2 class="pull-right">
 						<span class="badge vote-badge">
 							{% trans "All proposals / Voted" %}
@@ -166,7 +166,7 @@
 						{% include "communities/_issue.html" %}
 					{% endfor %}
 				</ul>
-                {% if cperms.community.editagenda_community %}
+                {% if 'editagenda_community' in cperms %}
                 {% comment %}
                 <h2>{% trans 'New issue' %}</h2>
                 {% endcomment %}
@@ -188,7 +188,7 @@
                 {% endif %}
 			</div>
 
-			{% if object.upcoming_meeting_started and cperms.community.editupcoming_community %}
+			{% if object.upcoming_meeting_started and 'editupcoming_community' in cperms %}
 
 				<h2 class="pull-left">
                     {% if LANGUAGE_CODE == 'he' and committee.no_meetings_committee %}
@@ -210,10 +210,10 @@
 
 			{% endif %}
 
-			{% if cperms.community.editagenda_community %}
+			{% if 'editagenda_community' in cperms %}
 			<div style="margin: 1em auto;text-align: center;clear: both;">
 				<a data-rel="form" href="{% url 'upcoming_publish' committee.community.slug committee.slug %}" class="btn btn-oc"> {% if object.upcoming_meeting_started %} <i class="fa fa-envelope-o"></i> <span>{% trans "Summary draft" %}</span> {% else %} <i class="fa fa-envelope-o"></i> <span>{% trans "Publish the agenda" %}</span> {% endif %}</a>
-			{% if object.upcoming_meeting_started and cperms.meetings.add_meeting %}
+			{% if object.upcoming_meeting_started and 'add_meeting' in cperms %}
 				<a href="{% url 'upcoming_close' committee.community.slug committee.slug %}" data-rel="form" class="btn btn-warning" style="margin: 0 20px;">
                     {% if LANGUAGE_CODE == 'he' and committee.no_meetings_committee %}
                     {% trans "Close update" %}
@@ -226,7 +226,7 @@
 			{% endif %}
 
 
-        {% if cperms.community.editagenda_community %}
+        {% if 'editagenda_community' in cperms %}
         <div id="available-agenda" class="agenda-list">
 
         {% if committee.issue_ranking_enabled %}

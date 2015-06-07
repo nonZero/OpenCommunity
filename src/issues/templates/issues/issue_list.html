@@ -18,11 +18,11 @@ id="issue-list"
 {% if committee.issue_ranking_enabled %}
 <ul id="issues-order" class="nav nav-tabs">
     <li><a href="#by_time" data-toggle="tab">{% trans "By time" %}</a></li>
-    {% if cperms.issues.vote_ranking and is_member %}
+    {% if 'vote_ranking' in cperms and is_member %}
     <li><a href="#my_vote" data-toggle="tab">{% trans "My vote" %}</a></li>
     {% endif %}
     <li><a href="#by_rank" data-toggle="tab">{% trans "By priority" %}</a></li>
-    {% if user.id and cperms.issues.add_issue %}
+    {% if user.id and 'add_issue' in cperms %}
     <li class="pull-right btn-tab">
         <a href="{% url 'issue_create' committee.community.slug committee.slug %}" class="btn btn-oc" data-rel="form">
             <i class="fa fa-plus"></i><span> {% trans "New issue" %}</span>
@@ -31,7 +31,7 @@ id="issue-list"
     {% endif %}
 </ul>
 {% endif %}
-{% if user.id and cperms.issues.add_issue and not committee.issue_ranking_enabled %}
+{% if user.id and 'add_issue' in cperms and not committee.issue_ranking_enabled %}
 <div class="one_action_icon col-xs-2 pull-right" style="width: auto;line-height: 1;padding: 0;">
     <a href="{% url 'issue_create' committee.community.slug committee.slug %}" class="btn btn-oc" data-rel="form">
         <i class="fa fa-plus"></i><span> {% trans "New issue" %}</span>
@@ -61,7 +61,7 @@ id="issue-list"
         </table>
     </div>
 
-    {% if is_member and cperms.issues.vote_ranking %}
+    {% if is_member and 'vote_ranking' in cperms %}
     <div id="my_vote" class="tab-pane">
         {% with can_sort=True %}
         <h2> {% trans "My agenda" %}
@@ -121,7 +121,7 @@ id="issue-list"
 {% else %}
 <div id="by_time">
     <div class="row">
-        <div class="form-group {% if not cperms.issues.add_issue %}col-xs-12{% else %}col-xs-9 pull-left{% endif %}">
+        <div class="form-group {% if not 'add_issue' in cperms %}col-xs-12{% else %}col-xs-9 pull-left{% endif %}">
             <input type="text" class="form-control issue-search" placeholder="{% trans 'Search the agenda' %}">
         </div>
     </div>
