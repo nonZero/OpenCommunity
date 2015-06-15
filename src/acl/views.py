@@ -3,11 +3,14 @@ from acl.forms import RoleForm
 from django.db import transaction
 from django.views.generic import ListView, CreateView, DetailView
 from django.views.generic.edit import UpdateView
-from ocd.base_views import SuperUserRequiredMixin
+from ocd.base_views import SuperUserRequiredMixin, CommunityMixin, AjaxFormView
 
 
-class RoleMixin(SuperUserRequiredMixin):
+class RoleMixin(CommunityMixin, SuperUserRequiredMixin):
     model = models.Role
+
+    def get_queryset(self):
+        return models.Role.objects.filter(community=self.community)
 
 
 class RoleListView(RoleMixin, ListView):
@@ -18,8 +21,9 @@ class RoleDetailView(RoleMixin, DetailView):
     pass
 
 
-class EditRoleMixin(RoleMixin):
+class EditRoleMixin(AjaxFormView, RoleMixin):
     form_class = RoleForm
+    reload_on_success = True
 
     def get_initial(self):
         d = super(EditRoleMixin, self).get_initial()
@@ -41,6 +45,10 @@ class EditRoleMixin(RoleMixin):
 class RoleCreateView(EditRoleMixin, CreateView):
     def get_initial_perms(self):
         return []
+
+    def form_valid(self, form):
+        form.instance.community = self.community
+        return super(RoleCreateView, self).form_valid(form)
 
 
 class RoleUpdateView(EditRoleMixin, UpdateView):

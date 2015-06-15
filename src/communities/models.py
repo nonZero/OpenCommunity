@@ -608,9 +608,13 @@ class CommunityGroupRole(models.Model):
         unique_together = (
             ('group', 'role', 'committee'),
         )
+        ordering = ['committee']
 
     def __unicode__(self):
         return u"{}: {}".format(self.committee.name, self.group)
+
+    def get_absolute_url(self):
+        return reverse("group_role:detail", args=(self.committee.community.slug, self.pk))
 
 
 @receiver(post_save, sender=Community)

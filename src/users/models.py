@@ -136,19 +136,21 @@ class Membership(models.Model):
         unique_together = (("community", "user"),)
         verbose_name = _("Community Member")
         verbose_name_plural = _("Community Members")
+        ordering = ['community']
 
     def __unicode__(self):
-        return "%s: %s (%s)" % (self.community.name, self.user.display_name, self.group_name.title)
+        return "%s: %s (%s)" % (self.community.name, self.user.display_name, self.group_role.role.title)
 
     @models.permalink
     def get_absolute_url(self):
         return "member_profile", (self.community.slug, self.id)
 
     def get_permissions(self):
-        return DefaultGroups.permissions[self.group_name.title]
+        return self.group_role.role.all_perms()
+        # return DefaultGroups.permissions[self.group_name.title]
 
     def get_committee_group_permissions(self):
-        return self.group_roles.role.all_perms()
+        return self.group_role.role.all_perms()
 
     def total_meetings(self):
         """ In the future we'll check since joined to community or rejoined """
@@ -277,7 +279,7 @@ class Invitation(models.Model):
                                    related_name='invitations', null=True, blank=True)
 
     default_group_name = models.CharField(_('Group'), max_length=50,
-                                          choices=DefaultGroups.CHOICES)
+                                          choices=DefaultGroups.CHOICES, blank=True, null=True)
 
     status = models.PositiveIntegerField(_("Status"),
                                          choices=EmailStatus.choices, default=EmailStatus.PENDING)
@@ -286,7 +288,7 @@ class Invitation(models.Model):
     last_sent_at = models.DateTimeField(_("Sent at"), null=True, blank=True)
 
     class Meta:
-        unique_together = (("community", "email"),)
+        unique_together = (("group_role", "email"),)
 
         verbose_name = _("Invitation")
         verbose_name_plural = _("Invitations")

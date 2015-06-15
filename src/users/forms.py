@@ -1,5 +1,6 @@
 # from django import forms
 #from django.forms.models import ModelForm
+from communities.models import CommunityGroupRole
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -20,12 +21,11 @@ class InvitationForm(forms.ModelForm):
         fields = (
             'name',
             'email',
-            'default_group_name',
+            'group_role',
             'message',
         )
 
         widgets = {
-            'default_group_name': forms.Select,
             'name': forms.TextInput,
             'email': forms.EmailInput,
             'message': HTMLArea,
@@ -33,6 +33,10 @@ class InvitationForm(forms.ModelForm):
 
     def clean_email(self):
         return self.cleaned_data.get("email").lower()
+
+    # def __init__(self, community=None, *args, **kwargs):
+    #     super(InvitationForm, self).__init__(*args, **kwargs)
+    #     self.fields['group_role'].queryset = CommunityGroupRole.objects.filter(committee__community=community)
 
 
 class QuickSignupForm(forms.ModelForm):

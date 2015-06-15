@@ -1,4 +1,4 @@
-from communities.models import SendToOption, Committee, CommunityGroup
+from communities.models import SendToOption, Committee, CommunityGroup, CommunityGroupRole
 from datetime import datetime, date, time
 from django.utils.translation import ugettext_lazy as _
 from ocd.formfields import HTMLArea, OCSplitDateTime, OCCheckboxSelectMultiple
@@ -143,3 +143,20 @@ class GroupForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput,
         }
+
+
+class GroupRoleForm(forms.ModelForm):
+    class Meta:
+        model = CommunityGroupRole
+
+        fields = (
+            'group',
+            'role',
+            'committee'
+        )
+
+    def __init__(self, community=None, *args, **kwargs):
+        super(GroupRoleForm, self).__init__(*args, **kwargs)
+        self.fields['group'].queryset = community.groups.all()
+        self.fields['role'].queryset = community.roles.all()
+        self.fields['committee'].queryset = community.committees.all()

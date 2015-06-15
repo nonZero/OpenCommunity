@@ -17,7 +17,7 @@ from django.views.generic.edit import UpdateView, DeleteView
 from communities import models
 from communities.forms import EditUpcomingMeetingForm, \
     PublishUpcomingMeetingForm, UpcomingMeetingParticipantsForm, \
-    EditUpcomingMeetingSummaryForm, GroupForm
+    EditUpcomingMeetingSummaryForm, GroupForm, GroupRoleForm
 from communities.notifications import send_mail
 from issues.models import IssueStatus, Issue, Proposal
 from meetings.models import Meeting
@@ -417,8 +417,9 @@ class GroupDetailView(GroupMixin, DetailView):
     pass
 
 
-class GroupEditMixin(GroupMixin):
+class GroupEditMixin(AjaxFormView, GroupMixin):
     form_class = GroupForm
+    reload_on_success = True
 
     def get_success_url(self):
         return reverse('group:list', args=(self.community.slug,))
@@ -439,3 +440,50 @@ class GroupCreateView(GroupEditMixin, CreateView):
     def form_valid(self, form):
         form.instance.community = self.community
         return super(GroupCreateView, self).form_valid(form)
+
+
+class GroupRoleMixin(CommunityMixin):
+    model = models.CommunityGroupRole
+
+    required_permission = 'manage_communitygroups'
+
+    def get_queryset(self):
+        return super(GroupRoleMixin, self).get_queryset().filter(committee__community=self.community)
+
+
+class GroupRoleListView(GroupRoleMixin, ListView):
+    pass
+
+
+class GroupRoleDetailView(GroupRoleMixin, DetailView):
+    pass
+
+
+class GroupRoleEditMixin(AjaxFormView, GroupRoleMixin):
+    form_class = GroupRoleForm
+    reload_on_success = True
+
+    def get_success_url(self):
+        return reverse('group_role:list', args=(self.community.slug,))
+
+    def form_valid(self, form):
+        try:
+            return super(GroupRoleEditMixin, self).form_valid(form)
+        except IntegrityError:
+            form._errors[forms.NON_FIELD_ERRORS] = forms.ErrorList((_('Group already exists'),))
+            return self.form_invalid(form)
+
+    def get_form_kwargs(self):
+        d = super(GroupRoleEditMixin, self).get_form_kwargs()
+        d['community'] = self.community
+        return d
+
+
+class GroupRoleUpdateView(GroupRoleEditMixin, UpdateView):
+    pass
+
+
+class GroupRoleCreateView(GroupRoleEditMixin, CreateView):
+    def form_valid(self, form):
+        form.instance.community = self.community
+        return super(GroupRoleCreateView, self).form_valid(form)

@@ -3,7 +3,7 @@
 
 {% block title %}
 	<title>
-		{{ object_list.0.community.name }} - {% trans "Members" %}  
+		{{ community.name }} - {% trans "Members" %}
 	</title>
 {% endblock %}
 
@@ -19,30 +19,25 @@ id="members-list"
 {% if object_list %}
 
 <div class="col-xs-12 col-sm-6">
-	<h2>{{ board_name }}</h2>
+	{% for member in members %}
+    {% ifchanged member.group_role.group %}
+	{% if not forloop.first %}
+    </ul>
+    {% endif %}
+    <h2>{{ member.group_role.group.title }}</h2>
 	<ul class="list-group">
-		{% for board in board_list %}
+    {% endifchanged %}
 		<li class="list-group-item">
-			<a href="{{ board.get_absolute_url }}" style="color: #333333;">
-				{{ board.user.display_name }}
-				({{ board.get_default_group_name_display }})<br />
-				<span style="font-size: 12px;">{{ board.user.email }}</span>
+			<a href="{{ member.get_absolute_url }}" style="color: #333333;">
+				{{ member.user.display_name }}
+				({{ member.group_role.group.title }})<br />
+				<span style="font-size: 12px;">{{ member.user.email }}</span>
 			</a>
 		</li>
-		{% endfor %}
-	</ul>
-	<h2>{% trans "Members" %}</h2>
-	<ul class="list-group">
-		{% for member in member_list %}
-		<li class="list-group-item">
-			{# <a href="{{ member.get_absolute_url }}" style="color: #333333;"> #}
-				{{ member.user.display_name }}
-				({{ member.get_default_group_name_display }})<br />
-				<span style="font-size: 12px;">{{ member.user.email }}</span>
-			{# </a> #}
-		</li>
-		{% endfor %}
-	</ul>
+	{% if forloop.last %}
+    </ul>
+    {% endif %}
+    {% endfor %}
 </div>
 
 {% else %}

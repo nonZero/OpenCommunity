@@ -1,4 +1,4 @@
-from communities.models import Committee
+from communities.models import Committee, CommunityGroupRole
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import permission_required
@@ -54,9 +54,11 @@ class MembershipList(MembershipMixin, ListView):
         d['form'] = InvitationForm(initial={'message':
                                                 Invitation.DEFAULT_MESSAGE %
                                                 self.community.name})
-        d['board_list'] = Membership.objects.board().filter(community=self.community)
-        d['member_list'] = Membership.objects.none_board().filter(community=self.community)
-        d['board_name'] = self.community.name
+        d['form'].fields['group_role'].queryset = CommunityGroupRole.objects.filter(committee__community=self.community)
+        d['members'] = Membership.objects.filter(community=self.community).order_by('group_role__group')
+        # d['board_list'] = Membership.objects.board().filter(community=self.community)
+        # d['member_list'] = Membership.objects.none_board().filter(community=self.community)
+        # d['board_name'] = self.community.name
 
         return d
 
@@ -109,13 +111,11 @@ class AcceptInvitationView(DetailView):
         if self.request.method == "POST":
             return QuickSignupForm(self.request.POST)
         else:
-            return QuickSignupForm(initial={ \
-                'display_name': self.get_object().name})
+            return QuickSignupForm(initial={'display_name': self.get_object().name})
 
     def get_context_data(self, **kwargs):
         d = super(AcceptInvitationView, self).get_context_data(**kwargs)
-        d['user_exists'] = OCUser.objects.filter(email=self.get_object().email
-        ).exists()
+        d['user_exists'] = OCUser.objects.filter(email=self.get_object().email).exists()
         d['path'] = self.request.path
         d['login_path'] = reverse('login') + "?next=" + self.request.path
         d['form'] = self.form if self.form else self.get_form()
@@ -138,7 +138,7 @@ class AcceptInvitationView(DetailView):
                 m = Membership.objects.get(user=user, community=i.community)
             except Membership.DoesNotExist:
                 m = Membership.objects.create(user=user, community=i.community,
-                                              default_group_name=i.default_group_name,
+                                              group_role=i.group_role,
                                               invited_by=i.created_by)
             i.delete()
             return m

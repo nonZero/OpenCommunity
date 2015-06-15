@@ -4,23 +4,21 @@
 
 
 {% block title %}
-    <title>{% trans "Roles" %} &gt; {{ object }}</title>
+    <title>{{ object }}</title>
 {% endblock %}
 
 {% block page_header %}
+    <a href="{% url 'role:list' community.slug %}">{{ community }} {% trans "Roles" %}</a>
+    &gt; {{ object.title }}
 {% endblock %}
 
 {% block content %}
-    <h1>
-        <a href="{% url 'role:list' %}">{% trans "Roles" %}</a>
-    &gt;
-        <a href="{{ object.get_absolute_url }}">{{ object }}</a>
-    </h1>
 
     {% if object.based_on %}
         <b>{% blocktrans %}Based on{% endblocktrans %}:</b>
         {{ object.get_based_on_display }}
     {% endif %}
+    <h4>{% trans 'Permission list' %}</h4>
     <ul>
         {% for p in object.all_perms_titles %}
             <li>
@@ -28,5 +26,6 @@
             </li>
         {% endfor %}
     </ul>
+    <a class="btn btn-oc" data-rel="form" href="{% url 'role:edit' community.slug object.id %}">{% trans "Edit" %}</a>
 
 {% endblock %}

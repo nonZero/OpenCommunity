@@ -17,13 +17,13 @@
         <ul>
             {% for object in object_list %}
                 <li>
-                    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+                    <a href="{{ object.get_absolute_url }}">{{ object.title }}</a>
                 </li>
             {% endfor %}
         </ul>
     {% endif %}
 
-    <a class="btn btn-primary btn-small"
-       href="{% url "role:create" %}">{% trans "New Role" %}</a>
+    <a class="btn btn-primary btn-small" data-rel="form"
+       href="{% url "role:create" community.slug %}">{% trans "New Role" %}</a>
 
 {% endblock %}

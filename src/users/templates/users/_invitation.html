@@ -1,11 +1,11 @@
 {% load i18n %}
 
 <li class="list-group-item pull-left" style="width: 100%;">
-    <form class="delete-invitation push pull-right" method="post" action="{% url 'delete_invitation' object.community.id object.id %}" role="form">
+    <form class="delete-invitation push pull-right" method="post" action="{% url 'delete_invitation' object.community.slug object.id %}" role="form">
         {% csrf_token %}
         <button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> {% trans "Delete" %}</button>
     </form>
-    <span class="pull-left">{% if object.name %}{{ object.name }} {% endif %}({{ object.get_default_group_name_display }})
+    <span class="pull-left">{% if object.name %}{{ object.name }} {% endif %}({{ object.group_role.group.title }})
     	<br /><span style="font-size: 12px;">{{ object.email }}</span>
     </span>
 </li>

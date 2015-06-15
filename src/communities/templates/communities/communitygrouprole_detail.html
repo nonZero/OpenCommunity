@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load i18n opencommunity %}
+
+{% block page_header %} {{ object.committee.name }} &gt; {{ object.group.title }} &gt; {{ object.role.title }}{% endblock %}
+
+
+{% block content %}
+
+    <a class="btn btn-oc" data-rel="form" href="{% url 'group_role:update' community.slug object.id %}">{% trans "Edit" %}</a>
+
+{% endblock %}

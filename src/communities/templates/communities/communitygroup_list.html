@@ -11,13 +11,13 @@
         <ul class="groups">
             {% for c in object_list %}
                 <li>
-                    {{ c|u }} ({{ c.role }}
+                    {{ c|u_with_title }}
                 </li>
             {% endfor %}
         </ul>
 
     {% endif %}
 
-    <a href="{% url 'group:create' community.slug %}">{% trans "Create Group" %}</a>
+    <a data-rel="form" href="{% url 'group:create' community.slug %}">{% trans "Create Group" %}</a>
 
 {% endblock %}

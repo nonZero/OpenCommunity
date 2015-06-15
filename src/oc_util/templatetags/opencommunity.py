@@ -26,6 +26,16 @@ def u(instance, autoescape=None):
     return mark_safe(result)
 
 
+@register.filter(needs_autoescape=True)
+def u_with_title(instance, autoescape=None):
+    if autoescape:
+        esc = conditional_escape
+    else:
+        esc = lambda x: x
+    result = '<a href="%s">%s</a>' % (esc(instance.get_absolute_url()), esc(unicode(instance.title)))
+    return mark_safe(result)
+
+
 @register.filter
 @stringfilter
 def userhtml(s):

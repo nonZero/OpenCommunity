@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n opencommunity %}
+
+{% block page_header %} {% trans "Groups" %} {% endblock %}
+
+
+{% block content %}
+
+    {% if object_list %}
+
+        <table class="groups table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Committee</th>
+                    <th>Group</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            </tbody>
+            {% for c in object_list %}
+                <tr>
+                    <td>
+                        <a href="{{ c.get_absolute_url }}">{{ c.committee.name }}</a>
+                    </td>
+                    <td>{{ c.group.title }}</td>
+                    <td>{{ c.role.title }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    {% endif %}
+
+    <a class="btn btn-oc" data-rel="form" href="{% url 'group_role:create' community.slug %}">{% trans "Create Group Role" %}</a>
+
+{% endblock %}

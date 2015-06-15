@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "dialog.html" %}
 {% load i18n %}
 
 {% block extra-page-id %}
@@ -6,8 +6,6 @@
 {% endblock %}
 
 {% block page_header %}
-        <a href="{% url 'role:list' %}">{% trans "Roles" %}</a>
-    &gt;
     {% if form.instance.id %}
         {% trans "Edit Role" %}
     {% else %}
@@ -17,10 +15,6 @@
 
 {% block content %}
 
-    <form method="post">
-    {%  csrf_token %}
     {{ form }}
-    <input type="submit" class="btn btn-oc" value="{% block btn_text %}{% trans "Save" %}{% endblock %}">
-    </form>
 
 {% endblock %}

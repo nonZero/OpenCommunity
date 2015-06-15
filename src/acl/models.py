@@ -17,9 +17,10 @@ class Role(models.Model):
         unique_together = (
             ('community', 'title'),
         )
+        ordering = ['community']
 
     def get_absolute_url(self):
-        return reverse('role:view', kwargs={'pk': self.id})
+        return reverse('role:view', kwargs={'community_slug': self.community.slug, 'pk': self.id})
 
     def __unicode__(self):
         return u"{}: {}".format(self.community, self.title)
