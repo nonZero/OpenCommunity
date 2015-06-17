@@ -119,8 +119,8 @@ class MembershipManager(models.Manager):
 class Membership(models.Model):
     community = models.ForeignKey('communities.Community', verbose_name=_("Community"), related_name='memberships')
     user = models.ForeignKey(OCUser, verbose_name=_("User"), related_name='memberships')
-    group_role = models.ForeignKey('communities.CommunityGroupRole', verbose_name=_('Group'),
-                                   related_name='memberships', null=True, blank=True)
+    # group_role = models.ForeignKey('communities.CommunityGroupRole', verbose_name=_('Group'),
+    #                                related_name='memberships', null=True, blank=True)
     group_name = models.ForeignKey('communities.CommunityGroup', verbose_name=_('Group'), related_name='memberships',
                                    null=True, blank=True)
     default_group_name = models.CharField(_('Old group'), max_length=50, choices=DefaultGroups.CHOICES)
@@ -139,7 +139,8 @@ class Membership(models.Model):
         ordering = ['community']
 
     def __unicode__(self):
-        return "%s: %s (%s)" % (self.community.name, self.user.display_name, self.group_role.role.title)
+        return "%s: %s" % (self.community.name, self.user.display_name)
+        # return "%s: %s (%s)" % (self.community.name, self.user.display_name, self.group_role.role.title)
 
     @models.permalink
     def get_absolute_url(self):
@@ -278,6 +279,9 @@ class Invitation(models.Model):
     group_role = models.ForeignKey('communities.CommunityGroupRole', verbose_name=_('Group'),
                                    related_name='invitations', null=True, blank=True)
 
+    group_name = models.ForeignKey('communities.CommunityGroup', verbose_name=_('Group'),
+                                   related_name='invitations', null=True, blank=True)
+
     default_group_name = models.CharField(_('Group'), max_length=50,
                                           choices=DefaultGroups.CHOICES, blank=True, null=True)
 
@@ -288,7 +292,7 @@ class Invitation(models.Model):
     last_sent_at = models.DateTimeField(_("Sent at"), null=True, blank=True)
 
     class Meta:
-        unique_together = (("group_role", "email"),)
+        unique_together = (("group_name", "email"),)
 
         verbose_name = _("Invitation")
         verbose_name_plural = _("Invitations")
@@ -297,8 +301,7 @@ class Invitation(models.Model):
                         "Once you've joined, you'll be able to see the topics for the agenda in the upcoming meeting, decisions at previous meetings, and in the near future you'll be able to discuss and influence them.")
 
     def __unicode__(self):
-        return "%s: %s (%s)" % (self.community.name, self.email,
-                                self.get_default_group_name_display())
+        return "%s: %s (%s)" % (self.community.name, self.email, self.group_name)
 
     @models.permalink
     def get_absolute_url(self):

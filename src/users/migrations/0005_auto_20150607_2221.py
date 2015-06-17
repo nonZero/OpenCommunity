@@ -7,9 +7,9 @@ from django.db import models, migrations
 def create_group_roles(apps, schema_editor):
     Membership = apps.get_model("users", "Membership")
     members = Membership.objects.all()
-    for m in members:
-        m.group_role = m.group_name.group_roles.get(committee__community=m.community)
-        m.save()
+    # for m in members:
+    #     m.group_role = m.group_name.group_roles.get(committee__community=m.community)
+    #     m.save()
 
 
 class Migration(migrations.Migration):

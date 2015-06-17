@@ -1,4 +1,4 @@
-from communities.models import Committee, CommunityGroupRole
+from communities.models import Committee, CommunityGroupRole, CommunityGroup
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import permission_required
@@ -54,8 +54,8 @@ class MembershipList(MembershipMixin, ListView):
         d['form'] = InvitationForm(initial={'message':
                                                 Invitation.DEFAULT_MESSAGE %
                                                 self.community.name})
-        d['form'].fields['group_role'].queryset = CommunityGroupRole.objects.filter(committee__community=self.community)
-        d['members'] = Membership.objects.filter(community=self.community).order_by('group_role__group')
+        d['form'].fields['group_name'].queryset = CommunityGroup.objects.filter(community=self.community)
+        d['members'] = Membership.objects.filter(community=self.community).order_by('group_name')
         # d['board_list'] = Membership.objects.board().filter(community=self.community)
         # d['member_list'] = Membership.objects.none_board().filter(community=self.community)
         # d['board_name'] = self.community.name

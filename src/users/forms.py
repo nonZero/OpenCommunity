@@ -21,7 +21,7 @@ class InvitationForm(forms.ModelForm):
         fields = (
             'name',
             'email',
-            'group_role',
+            'group_name',
             'message',
         )
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-08 00:02+0300\n"
-"PO-Revision-Date: 2015-06-07 12:37+0200\n"
+"POT-Creation-Date: 2015-06-17 21:55+0300\n"
+"PO-Revision-Date: 2015-06-17 16:14+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.7.6\n"
+"X-Generator: Poedit 1.8.1\n"
 
 #: .\apps.py:7
 msgid "Communities & Committees"
@@ -228,8 +228,8 @@ msgid "Group"
 msgstr "קבוצה"
 
 #: .\models.py:587 .\templates\communities\communitygroup_detail.html:4
-#: .\templates\communities\communitygroup_form.html:4
 #: .\templates\communities\communitygroup_list.html:4
+#: .\templates\communities\communitygrouprole_list.html:4
 msgid "Groups"
 msgstr "קבוצות"
 
@@ -241,6 +241,7 @@ msgstr "קבוצת Role"
 msgid "Group Roles"
 msgstr "קבוצות Role"
 
+#: .\models.py:637
 #: .\south_migrations\0011_auto__add_field_community_register_missing_board_members__chg_field_co.py:17
 #: .\templates\communities\participants_form.html:27
 msgid "Board"
@@ -377,18 +378,24 @@ msgid "Next"
 msgstr "הבא"
 
 #: .\templates\communities\communitygroup_detail.html:9
+#: .\templates\communities\communitygrouprole_detail.html:9
 #: .\templates\communities\participants_form.html:10
 #: .\templates\communities\upcoming.html:69
 msgid "Edit"
 msgstr "עריכה"
 
-#: .\templates\communities\communitygroup_form.html:4
-msgid "Create"
-msgstr "צור"
+#: .\templates\communities\communitygroup_form.html:5
+#: .\templates\communities\communitygrouprole_form.html:5
+msgid "Create new group"
+msgstr "צור קבוצה"
 
 #: .\templates\communities\communitygroup_list.html:21
 msgid "Create Group"
 msgstr "צור קבוצה"
+
+#: .\templates\communities\communitygrouprole_list.html:34
+msgid "Create Group Role"
+msgstr "צור קבוצת Role"
 
 #: .\templates\communities\edit_summary.html:5
 msgid "Edit summary"
@@ -950,9 +957,12 @@ msgstr "מספר עמוד צריך להיות 1 או יותר."
 msgid "No such page!"
 msgstr "דף לא קיים!"
 
-#: .\views.py:430
+#: .\views.py:431 .\views.py:473
 msgid "Group already exists"
 msgstr "קבוצה בשם זה כבר קיימת"
+
+#~ msgid "Create"
+#~ msgstr "צור"
 
 #~ msgid "Board name"
 #~ msgstr "שם הועד"

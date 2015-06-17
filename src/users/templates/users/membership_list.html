@@ -20,17 +20,17 @@ id="members-list"
 
 <div class="col-xs-12 col-sm-6">
 	{% for member in members %}
-    {% ifchanged member.group_role.group %}
+    {% ifchanged member.group_name.title %}
 	{% if not forloop.first %}
     </ul>
     {% endif %}
-    <h2>{{ member.group_role.group.title }}</h2>
+    <h2>{{ member.group_name.title }}</h2>
 	<ul class="list-group">
     {% endifchanged %}
 		<li class="list-group-item">
 			<a href="{{ member.get_absolute_url }}" style="color: #333333;">
 				{{ member.user.display_name }}
-				({{ member.group_role.group.title }})<br />
+				({{ member.group_name.title }})<br />
 				<span style="font-size: 12px;">{{ member.user.email }}</span>
 			</a>
 		</li>

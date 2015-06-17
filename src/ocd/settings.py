@@ -297,8 +297,22 @@ OPENCOMMUNITY_ANALYTICS = {
 }
 
 OPENCOMMUNITY_DEFAULT_GROUPS = [
-    gettext('Admin'),
-    gettext('All')
+    gettext('admin'),
+    gettext('chairman'),
+    gettext('board'),
+    gettext('member')
+]
+
+OPENCOMMUNITY_DEFAULT_GROUP_ROLES = [
+    gettext('chairman'),
+    gettext('board'),
+    gettext('member')
+]
+
+OPENCOMMUNITY_DEFAULT_ROLES = [
+    {'title': 'chairman', 'based_on': 'manager'},
+    {'title': 'board', 'based_on': 'participant'},
+    {'title': 'member', 'based_on': 'observer'}
 ]
 
 OPENCOMMUNITY_DEFAULT_CONFIDENTIAL_REASONS = [

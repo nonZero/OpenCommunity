@@ -622,7 +622,23 @@ def set_default_confidental_reasons(sender, instance, created,
                                     dispatch_uid='set_default_confidental_reasons',
                                     **kwargs):
     if created:
+        # Create confidential reasons
         for reason in settings.OPENCOMMUNITY_DEFAULT_CONFIDENTIAL_REASONS:
             CommunityConfidentialReason.objects.create(community=instance, title=ugettext(reason))
+
+        # Create default groups
         for group in settings.OPENCOMMUNITY_DEFAULT_GROUPS:
             CommunityGroup.objects.create(community=instance, title=ugettext(group))
+
+        # Create default roles
+        for role in settings.OPENCOMMUNITY_DEFAULT_ROLES:
+            Role.objects.create(community=instance, title=role['title'], based_on=role['based_on'])
+
+        committee = Committee.objects.create(community=instance, name=ugettext('Board'), slug='main')
+        # Create default group roles
+        for group_role in settings.OPENCOMMUNITY_DEFAULT_GROUP_ROLES:
+            CommunityGroupRole.objects.create(
+                committee=committee,
+                role=instance.roles.get(title=group_role),
+                group=instance.groups.get(title=ugettext(group_role))
+            )

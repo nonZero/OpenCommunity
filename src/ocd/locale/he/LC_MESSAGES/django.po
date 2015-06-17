@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-08 00:02+0300\n"
-"PO-Revision-Date: 2015-06-07 13:14+0200\n"
+"POT-Creation-Date: 2015-06-17 21:55+0300\n"
+"PO-Revision-Date: 2015-06-17 21:56+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.7.6\n"
+"X-Generator: Poedit 1.8.1\n"
 
 #: .\base_models.py:13
 msgid "HTML content"
@@ -32,27 +32,34 @@ msgid ""
 msgstr ""
 
 #: .\settings.py:300
-msgid "Admin"
-msgstr "אדמין"
+msgid "admin"
+msgstr "מנהל קהילה"
 
-#: .\settings.py:301 .\templates\search\search.html:14
-#: .\templates\search\search.html.py:18 .\templates\search\search.html:22
-msgid "All"
-msgstr "כל חברי הקהילה"
+#: .\settings.py:301 .\settings.py:307
+msgid "chairman"
+msgstr "יושב ראש"
 
-#: .\settings.py:305
+#: .\settings.py:302 .\settings.py:308
+msgid "board"
+msgstr "חבר ועד"
+
+#: .\settings.py:303 .\settings.py:309
+msgid "member"
+msgstr "חבר קהילה"
+
+#: .\settings.py:319
 msgid "Privacy"
 msgstr "פרטיות"
 
-#: .\settings.py:306
+#: .\settings.py:320
 msgid "Commercial"
 msgstr "מסחרי"
 
-#: .\settings.py:307
+#: .\settings.py:321
 msgid "Security"
 msgstr "ביטחון"
 
-#: .\settings.py:308
+#: .\settings.py:322
 msgid "Legal"
 msgstr "משפטי"
 
@@ -303,6 +310,11 @@ msgstr "אפס סיסמא"
 #: .\templates\search\search.html:9
 msgid "Search"
 msgstr "חיפוש"
+
+#: .\templates\search\search.html:14 .\templates\search\search.html.py:18
+#: .\templates\search\search.html:22
+msgid "All"
+msgstr "כל חברי הקהילה"
 
 #: .\templates\search\search.html:15 .\templates\search\search.html.py:19
 #: .\templates\search\search.html:23

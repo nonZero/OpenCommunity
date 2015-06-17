@@ -12,17 +12,23 @@ class CommunityConfidentialReasonInline(TabularInline):
 
 class CommunityGroupRoleInline(TabularInline):
     model = models.CommunityGroupRole
-    extra = 1
+    extra = 0
 
 
 class CommunityGroupInline(TabularInline):
     model = models.CommunityGroup
-    extra = 1
+    extra = 0
+
+
+class CommitteeInline(TabularInline):
+    model = models.Committee
+    extra = 0
 
 
 class CommunityMembershipInline(TabularInline):
     model = Membership
     fk_name = 'community'
+    extra = 0
 
 
 class CommunityAdmin(ModelAdmin):
@@ -32,11 +38,12 @@ class CommunityAdmin(ModelAdmin):
               'allow_links_in_emails', 'register_missing_board_members',
               'email_invitees', 'inform_system_manager', 'no_meetings_community')
 
-    inlines = [CommunityConfidentialReasonInline, CommunityMembershipInline, CommunityGroupInline]
+    inlines = [CommitteeInline, CommunityConfidentialReasonInline, CommunityMembershipInline, CommunityGroupInline]
 
 
 class CommitteeAdmin(ModelAdmin):
-
+    list_display = ['community', 'name', 'slug']
+    list_display_links = ['community', 'name', 'slug']
     fields = ('community', 'name', 'slug', 'official_identifier', 'logo', 'is_public',
               'straw_voting_enabled', 'issue_ranking_enabled',
               'allow_links_in_emails', 'register_missing_board_members',

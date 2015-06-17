@@ -169,6 +169,7 @@ def upgrade_to_django_18(restart=True):
         run("cd src && python manage.py migrate taggit --fake-initial")
         run("cd src && python manage.py migrate issues 0003 --fake")
         run("cd src && python manage.py migrate --noinput")
+        run("cd src && python manage.py fix_psql_pk_issue")
         run("cd src && python manage.py collectstatic --noinput")
         run("git log -n 1 --format=\"%ai %h\" > static/version.txt")
         run("git log -n 1 > static/version-full.txt")

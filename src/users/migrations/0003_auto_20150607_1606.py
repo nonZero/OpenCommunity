@@ -15,7 +15,8 @@ def create_default_groups(apps, schema_editor):
         CommunityGroup.objects.bulk_create([
             CommunityGroup(community=c, title='chairman', _order=0),
             CommunityGroup(community=c, title='board', _order=1),
-            CommunityGroup(community=c, title='member', _order=2)
+            CommunityGroup(community=c, title='member', _order=2),
+            CommunityGroup(community=c, title='administrator', _order=3)
         ])
         # Creating roles for existing communities, similar to what they have before.
         Role.objects.bulk_create([
@@ -23,10 +24,6 @@ def create_default_groups(apps, schema_editor):
             Role(community=c, title='board', based_on='participant'),
             Role(community=c, title='member', based_on='observer')
         ])
-        # Assigning new group field values (FK).
-        for member in c.memberships.all():
-            member.group_name = c.groups.get(title=member.default_group_name)
-            member.save()
 
     for c in committees:
         # Creating community group roles.
