@@ -11,8 +11,12 @@ part of the OCUser model.
 def load_community_permissions(user, community):
     if user.is_authenticated():
         try:
-            m = user.memberships.get(community=community)
-            return m.get_permissions()
+            l = []
+            memberships = user.memberships.filter(community=community)
+            for m in memberships:
+                perms = m.get_permissions(community)
+                l.extend(x for x in perms if x not in l)
+            return l
         except Membership.DoesNotExist:
             pass
 
@@ -66,8 +70,12 @@ Same functions as above, this time for committee
 def load_committee_permissions(user, committee):
     if user.is_authenticated():
         try:
-            m = user.memberships.get(community=committee.community, group_role__committee=committee)
-            return m.get_committee_group_permissions()
+            l = []
+            memberships = user.memberships.filter(community=committee.community)
+            for m in memberships:
+                perms = m.get_committee_group_permissions(committee)
+                l.extend(x for x in perms if x not in l)
+            return l
         except Membership.DoesNotExist:
             pass
 

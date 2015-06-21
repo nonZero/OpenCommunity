@@ -22,7 +22,7 @@ from ocd.validation import enhance_html
 from ocd.base_managers import ConfidentialSearchQuerySet
 from shultze_vote import send_issue_ranking
 from acl.default_roles import DefaultGroups
-from users.permissions import has_community_perm
+from users.permissions import has_community_perm, has_committee_perm
 from haystack.inputs import AutoQuery
 import json
 import mimetypes
@@ -130,15 +130,9 @@ class IssueDetailView(IssueMixin, DetailView):
             d['all_issues'] = self.get_queryset().exclude(
                 status=IssueStatus.ARCHIVED).order_by('-created_at')
         o = self.get_object()
-        group = self.request.user.get_default_group(o.committee.community) \
-            if self.request.user.is_authenticated() \
-            else ''
-
-        if group == DefaultGroups.BOARD or \
-                        group == DefaultGroups.SECRETARY:
-            if o.is_current and self.request.user in \
-                    o.community.upcoming_meeting_participants.all():
-                d['can_board_vote_self'] = True
+        if o.is_current and self.request.user in o.community.upcoming_meeting_participants.all() and has_committee_perm(
+                self.request.user, self.committee, 'proposal_board_vote_self'):
+            d['can_board_vote_self'] = True
 
         d['proposals'] = self.object.proposals.object_access_control(
             user=self.request.user, committee=self.committee).open()
@@ -182,8 +176,8 @@ class IssueDetailView(IssueMixin, DetailView):
             # created_by=request.user)
             #
             # self.object = i  # this makes the next line work
-            #     context = self.get_context_data(object=i, c=c)
-            #     return render(request, 'issues/_comment.html', context)
+            # context = self.get_context_data(object=i, c=c)
+            # return render(request, 'issues/_comment.html', context)
             # else:
             #     c = i.comments.get(pk=int(comment_id))
             #     c.content=enhance_html(form.cleaned_data['content'])
@@ -543,10 +537,10 @@ class ProposalDetailView(ProposalMixin, DetailView):
         context['show_board_vote_result'] = show_board_vote_result
         context['chairman_can_vote'] = is_current and not o.decided
         context['board_votes'] = self.board_votes_dict()
-        context['can_board_vote_self'] = is_current and not o.decided and \
-                                         (group == DefaultGroups.BOARD or \
-                                          group == DefaultGroups.SECRETARY) and \
-                                         self.request.user in board_attending
+        context['can_board_vote_self'] = is_current and not o.decided and has_committee_perm(self.request.user,
+                                                                                             self.committee,
+                                                                                             'proposal_board_vote_self')\
+                                         and self.request.user in board_attending
         rel_proposals = self.object.issue.proposals
         context['proposals'] = rel_proposals.object_access_control(
             user=self.request.user, committee=self.committee)

@@ -37,7 +37,6 @@ class DefaultRoles(object):
         'viewopen_issue',
         'viewopen_proposal',
         'viewupcoming_community',
-
         'vote',
         'proposal_board_vote_self',
         'vote_ranking',

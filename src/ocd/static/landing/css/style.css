@@ -349,7 +349,9 @@ nav #logo a:hover{
     margin-top:80px;
     margin-bottom: 10px;
 }
-
+#home .top-video iframe {
+    margin-top: 105px;
+}
 /* Button Learn More */
 
 .btn {
@@ -748,14 +750,26 @@ nav #logo a:hover{
 #tool_boxes {
     margin-top:50px;
 }
-
-#tool_boxes ul {
+#tool_boxes .tool_box_video {
+    text-align: left;
+    margin-bottom: 10px;
+    clear: both;
+}
+#tool_boxes .tool_box_video iframe {
+    border: 1px solid #eee;
+    margin-top: 20px;
+}
+#tool_boxes #player {
+    float: left;
+    background-color: #eee;
+}
+#tool_boxes .tool_box ul {
 	list-style:none; /* removes the default bullet */
     margin: 0 auto;
     text-align: center;
 }
 
-#tool_boxes ul li {
+#tool_boxes .tool_box ul li {
     position: relative;
     float: left;
     text-align: center;
@@ -770,12 +784,12 @@ nav #logo a:hover{
  	margin-bottom: 10px;
 	height: 225px;
 }
-#tool_boxes ul li span{
+#tool_boxes .tool_box ul li span{
 	display: block;
 }
 
 
-#tool_boxes li:before, #tool_boxes li:after {
+#tool_boxes .tool_box li:before, #tool_boxes .tool_box li:after {
     color: white;
     padding-right:10px;
 }
@@ -783,7 +797,39 @@ nav #logo a:hover{
 .tool_box {
     margin-bottom:	20px;
 }
-
+#tool_boxes #player_playlist {
+    top: 521px !important;
+    height: 250px !important;
+}
+#tool_boxes #player_playlist_wrap {
+    height: 247px !important;
+}
+#tool_boxes #player_playlist .border {
+    right: 0 !important;
+    left: auto !important;
+}
+#player_playlist img {
+    float: right !important;
+    margin: 0 0 0 7px !important;
+}
+#player_playlist ul {
+    padding: 0 0 0 9px !important;
+}
+#player_playlist li > a {
+    text-align: right !important;
+}
+#tool_boxes #player_carousel_navright {
+    left: 20px !important;
+    right: auto !important;
+}
+#tool_boxes #player_carousel ul li {
+    float: right;
+    margin-left: 17px;
+    margin-right: 0 !important;
+}
+#tool_boxes #player_carousel_wrap {
+    top: 22px !important;
+}
 .animbox {
 	border: none;
 	font-family: 'Droid Serif', sans-serif;

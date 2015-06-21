@@ -1,4 +1,4 @@
-from communities.models import Committee, CommunityGroupRole, CommunityGroup
+from communities.models import CommunityGroup
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import permission_required
@@ -54,7 +54,7 @@ class MembershipList(MembershipMixin, ListView):
         d['form'] = InvitationForm(initial={'message':
                                                 Invitation.DEFAULT_MESSAGE %
                                                 self.community.name})
-        d['form'].fields['group_name'].queryset = CommunityGroup.objects.filter(community=self.community)
+        d['form'].fields['group_name'].queryset = CommunityGroup.objects.filter(community=self.community).exclude(title='administrator')
         d['members'] = Membership.objects.filter(community=self.community).order_by('group_name')
         # d['board_list'] = Membership.objects.board().filter(community=self.community)
         # d['member_list'] = Membership.objects.none_board().filter(community=self.community)
@@ -134,11 +134,19 @@ class AcceptInvitationView(DetailView):
         i = self.get_object()
 
         def create_membership(user):
+            # Create selected membership type
             try:
                 m = Membership.objects.get(user=user, community=i.community)
             except Membership.DoesNotExist:
                 m = Membership.objects.create(user=user, community=i.community,
-                                              group_role=i.group_role,
+                                              group_name=i.group_name,
+                                              invited_by=i.created_by)
+            # Create all member group
+            member_group = CommunityGroup.objects.get(community=i.community, title='member')
+            try:
+                m = Membership.objects.get(user=user, community=i.community, group_name=member_group)
+            except Membership.DoesNotExist:
+                m = Membership.objects.create(user=user, community=i.community, group_name=member_group,
                                               invited_by=i.created_by)
             i.delete()
             return m
@@ -377,7 +385,6 @@ class MembershipGroupList(CommunityMixin, ListView):
         return d
 
     def post(self, request, *args, **kwargs):
-
         form = MembersGroupsForm(request.POST)
 
         if not form.is_valid():

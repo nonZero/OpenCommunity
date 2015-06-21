@@ -288,8 +288,7 @@ class Committee(UIDMixin):
         # just to order in the way that is now required.
         for index, item in enumerate(meeting_participants['board']):
             if item.get_default_group(self.community) == DefaultGroups.MEMBER:
-                meeting_participants['board'].insert(0,
-                                                     meeting_participants['board'].pop(index))
+                meeting_participants['board'].insert(0, meeting_participants['board'].pop(index))
 
         return meeting_participants
 

@@ -119,11 +119,9 @@ class MembershipManager(models.Manager):
 class Membership(models.Model):
     community = models.ForeignKey('communities.Community', verbose_name=_("Community"), related_name='memberships')
     user = models.ForeignKey(OCUser, verbose_name=_("User"), related_name='memberships')
-    # group_role = models.ForeignKey('communities.CommunityGroupRole', verbose_name=_('Group'),
-    #                                related_name='memberships', null=True, blank=True)
-    group_name = models.ForeignKey('communities.CommunityGroup', verbose_name=_('Group'), related_name='memberships',
-                                   null=True, blank=True)
-    default_group_name = models.CharField(_('Old group'), max_length=50, choices=DefaultGroups.CHOICES)
+    group_name = models.ForeignKey('communities.CommunityGroup', verbose_name=_('Group'), related_name='memberships')
+    default_group_name = models.CharField(_('Old group'), max_length=50, choices=DefaultGroups.CHOICES, blank=True,
+                                          null=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
     invited_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                    verbose_name=_("Invited by"),
@@ -133,25 +131,29 @@ class Membership(models.Model):
     objects = MembershipManager()
 
     class Meta:
-        unique_together = (("community", "user"),)
+        unique_together = ("community", "user", "group_name")
         verbose_name = _("Community Member")
         verbose_name_plural = _("Community Members")
         ordering = ['community']
 
     def __unicode__(self):
-        return "%s: %s" % (self.community.name, self.user.display_name)
-        # return "%s: %s (%s)" % (self.community.name, self.user.display_name, self.group_role.role.title)
+        return "%s: %s (%s)" % (self.community.name, self.user.display_name, self.group_name.title)
 
     @models.permalink
     def get_absolute_url(self):
         return "member_profile", (self.community.slug, self.id)
 
-    def get_permissions(self):
-        return self.group_role.role.all_perms()
-        # return DefaultGroups.permissions[self.group_name.title]
+    def get_permissions(self, community):
+        if self.group_name.title == 'administrator':
+            return ['invite_member']
+        return community.roles.get(title='member').all_perms()
 
-    def get_committee_group_permissions(self):
-        return self.group_role.role.all_perms()
+    def get_committee_group_permissions(self, committee):
+        try:
+            committee_perms = self.group_name.group_roles.get(committee=committee).role.all_perms()
+            return committee_perms
+        except:
+            return ''
 
     def total_meetings(self):
         """ In the future we'll check since joined to community or rejoined """
@@ -275,9 +277,6 @@ class Invitation(models.Model):
 
     user = models.ForeignKey(OCUser, verbose_name=_("User"),
                              related_name='invitations', null=True, blank=True)
-
-    group_role = models.ForeignKey('communities.CommunityGroupRole', verbose_name=_('Group'),
-                                   related_name='invitations', null=True, blank=True)
 
     group_name = models.ForeignKey('communities.CommunityGroup', verbose_name=_('Group'),
                                    related_name='invitations', null=True, blank=True)

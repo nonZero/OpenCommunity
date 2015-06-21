@@ -1,5 +1,4 @@
--        font-size: 22px;
- -        line-height:29px;/*##################################################################*/
+/*##################################################################*/
 /* Tablet - portrait ###############################################*/
 /*##################################################################*/
 
@@ -18,10 +17,10 @@
 		font-size: 42px;
 		line-height: 1.5em;
     }
-    #tool_boxes ul li span {
+    #tool_boxes .tool_box ul li span {
 		font-size: 0.7em;
 	}
-	#tool_boxes ul li {
+	#tool_boxes .tool_box ul li {
 		height: 200px;
 	}
 
@@ -30,6 +29,17 @@
     blockquote p.first {
 		font-size: 42px;
 		line-height: 1.5em;
+    }
+}
+@media (max-width:767px) {
+    #home .top-video iframe {
+        max-width: 100%;
+        height: auto;
+        margin-top: 20px;
+    }
+    #tool_boxes .tool_box_video iframe {
+        max-width: 100%;
+        height: auto;
     }
 }
 @media (min-width:768px) and (max-width: 992px) {
@@ -48,10 +58,10 @@
     .animbox {
         width: 220px;
     }
-    #tool_boxes ul li span {
+    #tool_boxes .tool_box ul li span {
 		font-size: 0.7em;
 	}
-	#tool_boxes ul li {
+	#tool_boxes .tool_box ul li {
 		height: 200px;
 	}
 }
@@ -87,14 +97,19 @@
         font-size: 22px;
         line-height: 29px;
     }
-    #tool_boxes ul li {
+    #tool_boxes .tool_box ul li {
 		width: 90%;
 		height: auto;
 	}
 
     #home {
-        height:400px;
+        height:auto;
         background-color: #0070aa;
+    }
+
+    #tool_boxes .tool_box_video iframe {
+        max-width: 100%;
+        height: auto;
     }
 
     #home blockquote {
@@ -102,7 +117,7 @@
     }
 
     #clients {
-        height:450  px;
+        height:450px;
     }
 
     #clients .client_logo {
@@ -126,6 +141,40 @@
     }
     .social_icons {
     margin-top:25px;
+    }
+    #tool_boxes #player_display {
+        width: 298px !important;
+        height: auto !important;
+    }
+    #tool_boxes #player_carousel {
+        width: 298px !important;
+        top: 170px !important;
+    }
+    #tool_boxes #player_carousel_wrap {
+        width: 100% !important;
+        left: 0 !important;
+    }
+    #tool_boxes #player_carousel_list {
+        width: 100% !important;
+    }
+    #tool_boxes #player_playlist {
+        top: 172px !important;
+    }
+    #player_carousel ul li {
+        width: 64px;
+        margin-left: 10px !important;
+    }
+    #tool_boxes #player {
+        width: 298px !important;
+        height: 422px !important;
+    }
+    #player_carousel_navleft,
+    #player_carousel_navright {
+        display: none !important;
+    }
+    #player_carousel ul li a img {
+        width: 100%;
+        height: auto;
     }
 }
 

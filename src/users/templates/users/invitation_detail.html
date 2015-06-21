@@ -11,63 +11,72 @@
 
 {% block content %}
 
-    {% blocktrans with s=object.community.name %}You were invited to {{s}}.{% endblocktrans %}
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            {% blocktrans with s=object.community.name %}You were invited to {{s}}.{% endblocktrans %}
 
-    {% if user.id %}
-        <h2>
-            {% trans "You are logged in as" %} {{user}}.
-        </h2>
+            {% if user.id %}
+                <h2>
+                    {% trans "You are logged in as" %} {{user}}.
+                </h2>
 
-        {% if user.email != object.email %}
-            <div>
+                {% if user.email != object.email %}
+                    <div>
+                        <p>
+                            {% blocktrans with i=object.email u=user.email %}Warning! The invitation was sent to {{i}}, but you are joining as {{u}}!{% endblocktrans %}
+                        </p>
+                    </div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    <button name="join" value="1">{% trans "Join this community as" %} {{user.email}}</button>
+                </form>
+
                 <p>
-                    {% blocktrans with i=object.email u=user.email %}Warning! The invitation was sent to {{i}}, but you are joining as {{u}}!{% endblocktrans %}
+                    {% if not user_exists %}
+                        <a href="{% url 'logout' %}?next={{path}}">{% trans "Signup and join this community as" %} {{object.email}}</a>
+                        |
+                    {% endif %}
+                    <a href="{% url 'logout' %}?next={{login_path|urlencode}}">{% trans "Logout" %}</a>
                 </p>
-            </div>
-        {% endif %}
 
-        <form method="post">
-            {% csrf_token %}
-            <button name="join" value="1">{% trans "Join this community as" %} {{user.email}}</button>
-        </form>
+            {% else %}
 
-        <p>
-            {% if not user_exists %}
-                <a href="{% url 'logout' %}?next={{path}}">{% trans "Signup and join this community as" %} {{object.email}}</a>
-                |
+                {% if user_exists %}
+
+                    <p>
+                        {% trans "Login to join" %} <a href="{% url 'login' %}?next={{path}}">{% trans "Login" %}</a>
+                    </p>
+
+                {% else %}
+
+                    <p>
+                        {% trans "Already a user?" %} <a href="{% url 'login' %}?next={{path}}">{% trans "Login" %}</a>
+                    </p>
+
+                    <h2>
+                        {% trans "Quick signup" %}
+                    </h2>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div data-role="fieldcontain" class="control-group">
+                            <label >{% trans "email" %}: {{object.email}}</label>
+                        </div>
+                        {{form}}
+                        <button name="signup" class="btn btn-oc" value="1">{% trans "Join DemOS" %}</button>
+                    </form>
+                {% endif %}
+
             {% endif %}
-            <a href="{% url 'logout' %}?next={{login_path|urlencode}}">{% trans "Logout" %}</a> 
-        </p>
-
-    {% else %}
-
-        {% if user_exists %}
-
-            <p>
-                {% trans "Login to join" %} <a href="{% url 'login' %}?next={{path}}">{% trans "Login" %}</a>
-            </p>
-
-        {% else %}
-
-            <p>
-                {% trans "Already a user?" %} <a href="{% url 'login' %}?next={{path}}">{% trans "Login" %}</a>
-            </p>
-
-            <h2>
-                {% trans "Quick signup" %}
-            </h2>
-
-            <form method="post">
-                {% csrf_token %}
-                <div data-role="fieldcontain" class="control-group">
-                    <label >{% trans "email" %}: {{object.email}}</label>
-                </div>
-                {{form}}
-                <button name="signup" class="btn btn-oc" value="1">{% trans "Join DemOS" %}</button>
-            </form>
-        {% endif %}
-
-    {% endif %}
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="https://player.vimeo.com/video/128073540?portrait=0" width="555" height="416" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
 
 
 {% endblock %}
