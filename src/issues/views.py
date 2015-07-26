@@ -130,7 +130,7 @@ class IssueDetailView(IssueMixin, DetailView):
             d['all_issues'] = self.get_queryset().exclude(
                 status=IssueStatus.ARCHIVED).order_by('-created_at')
         o = self.get_object()
-        if o.is_current and self.request.user in o.community.upcoming_meeting_participants.all() and has_committee_perm(
+        if o.is_current and self.request.user in o.committee.upcoming_meeting_participants.all() and has_committee_perm(
                 self.request.user, self.committee, 'proposal_board_vote_self'):
             d['can_board_vote_self'] = True
 
@@ -152,7 +152,6 @@ class IssueDetailView(IssueMixin, DetailView):
         return d
 
     required_permission_for_post = 'add_issuecomment'
-
 
     def post(self, request, *args, **kwargs):
 
@@ -447,12 +446,12 @@ class ProposalDetailView(ProposalMixin, DetailView):
         pro_count = 0
         con_count = 0
         neut_count = 0
-        board_attending = self.committee.meeting_participants()['board'] + \
-                          self.committee.meeting_participants()['chairmen']
+        # Board vote permission
+        board_attending = self.committee.meeting_participants()
 
         for u in board_attending:
-            vote = ProposalVoteBoard.objects.filter(proposal=self.get_object,
-                                                    user=u)
+            # check u has perm for board vote
+            vote = ProposalVoteBoard.objects.filter(proposal=self.get_object, user=u)
             if vote.exists():
                 votes_dict['per_user'][u] = vote[0]
                 if vote[0].value == 1:

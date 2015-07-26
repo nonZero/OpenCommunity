@@ -1,5 +1,4 @@
 from acl.default_roles import DefaultGroups, ALL_PERMISSIONS
-from users.models import Membership
 
 
 """
@@ -8,15 +7,19 @@ part of the OCUser model.
 """
 
 
-def load_community_permissions(user, community):
+def load_community_permissions(user, community, committee=None):
+    from users.models import Membership
     if user.is_authenticated():
         try:
-            l = []
+            all_perms = set()
             memberships = user.memberships.filter(community=community)
             for m in memberships:
-                perms = m.get_permissions(community)
-                l.extend(x for x in perms if x not in l)
-            return l
+                if committee:
+                    perms = m.get_committee_group_permissions(committee)
+                else:
+                    perms = m.get_permissions(community)
+                all_perms.update(perms)
+            return all_perms
         except Membership.DoesNotExist:
             pass
 
@@ -26,18 +29,35 @@ def load_community_permissions(user, community):
     return []
 
 
-def get_community_permissions(user, community):
+def get_community_permissions(user, community, committee=None):
     """ returns a cached list of permissions for a community and a user """
 
     if not hasattr(user, '_community_permissions_cache'):
         user._community_permissions_cache = {}
 
     if community.id not in user._community_permissions_cache:
-        perms = load_community_permissions(user, community)
+        perms = load_community_permissions(user, community, committee)
         user._community_permissions_cache[community.id] = perms
 
     return user._community_permissions_cache[community.id]
 
+
+
+def get_committee_permissions(user, committee):
+    """ returns a cached list of permissions for a community and a user """
+
+    if not hasattr(user, '_committee_permissions_cache'):
+        user._committee_permissions_cache = {}
+
+    if committee.id not in user._committee_permissions_cache:
+        perms = load_community_permissions(user, committee.community, committee)
+        user._committee_permissions_cache[committee.id] = perms
+
+    return user._committee_permissions_cache[committee.id]
+
+
+
+###################################
 
 def has_community_perm(user, community, perm):
 
@@ -55,47 +75,6 @@ def get_community_perms(user, community):
         perms = get_community_permissions(user, community)
 
     return perms
-    # d = defaultdict(dict)
-    # for s in perms:
-    #     m, p = s.split('.')
-    #     d[m][p] = True
-    # return d
-
-
-"""
-Same functions as above, this time for committee
-"""
-
-
-def load_committee_permissions(user, committee):
-    if user.is_authenticated():
-        try:
-            l = []
-            memberships = user.memberships.filter(community=committee.community)
-            for m in memberships:
-                perms = m.get_committee_group_permissions(committee)
-                l.extend(x for x in perms if x not in l)
-            return l
-        except Membership.DoesNotExist:
-            pass
-
-    if committee.community.is_public:
-        return DefaultGroups.permissions[DefaultGroups.MEMBER]
-
-    return []
-
-
-def get_committee_permissions(user, committee):
-    """ returns a cached list of permissions for a committee and a user """
-
-    if not hasattr(user, '_committee_permissions_cache'):
-        user._committee_permissions_cache = {}
-
-    if committee.id not in user._committee_permissions_cache:
-        perms = load_committee_permissions(user, committee)
-        user._committee_permissions_cache[committee.id] = perms
-
-    return user._committee_permissions_cache[committee.id]
 
 
 def has_committee_perm(user, committee, perm):
@@ -114,8 +93,3 @@ def get_committee_perms(user, committee):
         perms = get_committee_permissions(user, committee)
 
     return perms
-    # d = defaultdict(dict)
-    # for s in perms:
-    #     m, p = s.split('.')
-    #     d[m][p] = True
-    # return d

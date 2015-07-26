@@ -145,15 +145,13 @@ class Membership(models.Model):
 
     def get_permissions(self, community):
         if self.group_name.title == 'administrator':
-            return ['invite_member']
-        return community.roles.get(title='member').all_perms()
+            return {'invite_member'}
+        return set(community.roles.get(title='member').all_perms())
 
     def get_committee_group_permissions(self, committee):
-        try:
-            committee_perms = self.group_name.group_roles.get(committee=committee).role.all_perms()
-            return committee_perms
-        except:
-            return ''
+        committee_perms = self.get_permissions(committee.community)
+        committee_perms.update(self.group_name.group_roles.get(committee=committee).role.all_perms())
+        return committee_perms
 
     def total_meetings(self):
         """ In the future we'll check since joined to community or rejoined """

@@ -1,4 +1,5 @@
 import logging
+
 from acl.models import Role
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -14,7 +15,6 @@ from acl.default_roles import DefaultGroups
 from users.models import OCUser, Membership
 import issues.models as issues_models
 import meetings.models as meetings_models
-
 
 logger = logging.getLogger(__name__)
 
@@ -250,7 +250,7 @@ class Committee(UIDMixin):
     def available_issues_by_rank(self):
         return self.issues.filter(active=True,
                                   status=issues_models.IssueStatus.OPEN
-        ).order_by('order_by_votes')
+                                  ).order_by('order_by_votes')
 
     def issues_ready_to_close(self, user=None, committee=None):
         if self.upcoming_issues(user=user, committee=committee):
@@ -271,35 +271,44 @@ class Committee(UIDMixin):
 
     def meeting_participants(self):
 
-        meeting_participants = {'chairmen': [], 'board': [], 'members': [], }
-
-        board_ids = [m.user.id for m in self.community.memberships.board()]
-
+        l = []
         for u in self.upcoming_meeting_participants.all():
-            if u.id in board_ids:
-                if u.get_default_group(self.community) == DefaultGroups.CHAIRMAN:
-                    meeting_participants['chairmen'].append(u)
-                else:
-                    meeting_participants['board'].append(u)
-            else:
-                meeting_participants['members'].append(u)
+            for ug in u.memberships.all():
+                if 'proposal_board_vote' in ug.get_committee_group_permissions(self):
+                    l.append(u)
+                    break
+        return l
 
-        # doing it simply like this, as I'd need to refactor models
-        # just to order in the way that is now required.
-        for index, item in enumerate(meeting_participants['board']):
-            if item.get_default_group(self.community) == DefaultGroups.MEMBER:
-                meeting_participants['board'].insert(0, meeting_participants['board'].pop(index))
-
-        return meeting_participants
+    # def meeting_participants(self):
+    #
+    #     meeting_participants = {'chairmen': [], 'board': [], 'members': [], }
+    #
+    #     board_ids = [m.user.id for m in self.community.memberships.board()]
+    #
+    #     for u in self.upcoming_meeting_participants.all():
+    #         if u.id in board_ids:
+    #             if u.get_default_group(self.community) == DefaultGroups.CHAIRMAN:
+    #                 meeting_participants['chairmen'].append(u)
+    #             else:
+    #                 meeting_participants['board'].append(u)
+    #         else:
+    #             meeting_participants['members'].append(u)
+    #
+    #     # doing it simply like this, as I'd need to refactor models
+    #     # just to order in the way that is now required.
+    #     for index, item in enumerate(meeting_participants['board']):
+    #         if item.get_default_group(self.community) == DefaultGroups.MEMBER:
+    #             meeting_participants['board'].insert(0, meeting_participants['board'].pop(index))
+    #
+    #     return meeting_participants
+    #
 
     def previous_members_participations(self):
-        participations = MeetingParticipant.objects.filter( \
+        participations = MeetingParticipant.objects.filter(
             default_group_name=DefaultGroups.MEMBER,
-            meeting__committee=self) \
-            .order_by('-meeting__held_at')
+            meeting__committee=self).order_by('-meeting__held_at')
 
-        return list(set([p.user for p in participations]) - \
-                    set(self.upcoming_meeting_participants.all()))
+        return list(set([p.user for p in participations]) - set(self.upcoming_meeting_participants.all()))
 
     def previous_guests_participations(self):
         guests_list = Meeting.objects.filter(committee=self) \
@@ -324,6 +333,15 @@ class Committee(UIDMixin):
             if item.get_default_group(self.community) == DefaultGroups.MEMBER:
                 board.insert(0, board.pop(index))
 
+        return board
+
+    # Need to check this function, for now its replacing def get_board_members()
+    def get_community_participant_members(self):
+        board_memberships = Membership.objects.filter(community=self.community)
+        board = []
+        for m in board_memberships:
+            if 'view_meeting' in m.get_committee_group_permissions(self):
+                board.append(m.user)
         return board
 
     def get_board_count(self):
@@ -520,7 +538,7 @@ class Committee(UIDMixin):
 
         # payload should be a list of dicts. Each dict has these keys:
         # * issue
-        #   * proposals
+        # * proposals
         #
         # The values are querysets
 

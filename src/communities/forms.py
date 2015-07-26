@@ -110,7 +110,8 @@ class UpcomingMeetingParticipantsForm(forms.ModelForm):
             'id', flat=True)
         board_in = []
         board_choices = []
-        for b in self.instance.get_board_members():
+        # for b in self.instance.get_board_members():
+        for b in self.instance.get_community_participant_members():
             board_choices.append((b.id, b.display_name,))
             if b.id in participants:
                 board_in.append(b.id)

@@ -190,6 +190,11 @@ PERMISSIONS = (
         'show_member_profile',
         _('Show Member Profile'),
         ()
+    ),
+    (
+        'view_confidential',
+        _('Can view confidential Issue/Proposal'),
+        ()
     )
 )
 

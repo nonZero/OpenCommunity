@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.query import QuerySet
 from haystack.query import SearchQuerySet
 from acl.default_roles import DefaultGroups
+from users.permissions import get_committee_perms
 
 
 class ActiveQuerySetMixin(object):
@@ -40,14 +41,10 @@ class ConfidentialQuerySetMixin(object):
             return self.filter(is_confidential=False)
 
         else:
-            # we have a membership. return according to member's level.
-            # TODO: hook properly into permission system.
-            memberships = user.memberships.filter(community=committee.community)
-            lookup = [m.default_group_name for m in memberships]
-            if DefaultGroups.MEMBER in lookup and len(lookup) == 1:
-                return self.filter(is_confidential=False)
-            else:
+            if 'view_confidential' in get_committee_perms(user, committee):
                 return self.all()
+            else:
+                return self.filter(is_confidential=False)
 
 
 class ConfidentialQuerySet(QuerySet, ConfidentialQuerySetMixin):
