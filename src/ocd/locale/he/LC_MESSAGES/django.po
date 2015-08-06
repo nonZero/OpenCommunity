@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-17 21:55+0300\n"
+"POT-Creation-Date: 2015-08-03 18:08+0300\n"
 "PO-Revision-Date: 2015-06-17 21:56+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
@@ -76,7 +76,7 @@ msgid "You don't have permission to view that page"
 msgstr "אין לך הרשאה לצפיה בדף זה"
 
 #: .\templates\403.html:21 .\templates\_navbar.html:50
-#: .\templates\login.html:10 .\templates\login.html.py:28
+#: .\templates\login.html:10 .\templates\login.html.py:30
 msgid "Login"
 msgstr "כניסה"
 
@@ -199,11 +199,11 @@ msgstr "גרסא"
 msgid "Save"
 msgstr "שמור"
 
-#: .\templates\login.html:23
+#: .\templates\login.html:25
 msgid "Remember me"
 msgstr "זכור אותי"
 
-#: .\templates\login.html:26
+#: .\templates\login.html:28
 msgid "forgot password"
 msgstr "שכחת סיסמא"
 

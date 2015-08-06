@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-17 21:55+0300\n"
+"POT-Creation-Date: 2015-08-03 18:08+0300\n"
 "PO-Revision-Date: 2015-06-17 16:14+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
@@ -60,7 +60,7 @@ msgstr "לועד בלבד"
 msgid "All members"
 msgstr "לכל חברי הקהילה"
 
-#: .\models.py:43 .\models.py:133 .\models.py:573
+#: .\models.py:43 .\models.py:133 .\models.py:590
 #: .\templates\communities\participants_form.html:95
 msgid "Name"
 msgstr "שם"
@@ -205,43 +205,43 @@ msgstr "ועדה"
 msgid "Committees"
 msgstr "ועדות"
 
-#: .\models.py:562
+#: .\models.py:579
 msgid "Confidential Reason"
 msgstr "סיבה עבור נושא חסוי"
 
-#: .\models.py:563
+#: .\models.py:580
 msgid "Confidential Reasons"
 msgstr "סיבות עבור נושאים חסויים"
 
-#: .\models.py:569
+#: .\models.py:586
 msgid ""
 "A reason that can be used for marking items as confidential in your "
 "community."
 msgstr "הגדרת סיבה עבור נושאים חסויים"
 
-#: .\models.py:575
+#: .\models.py:592
 msgid "The title to give this reason."
 msgstr "כותרת עבור סיבה זו"
 
-#: .\models.py:586
+#: .\models.py:603
 msgid "Group"
 msgstr "קבוצה"
 
-#: .\models.py:587 .\templates\communities\communitygroup_detail.html:4
+#: .\models.py:604 .\templates\communities\communitygroup_detail.html:4
 #: .\templates\communities\communitygroup_list.html:4
 #: .\templates\communities\communitygrouprole_list.html:4
 msgid "Groups"
 msgstr "קבוצות"
 
-#: .\models.py:606
+#: .\models.py:623
 msgid "Group Role"
 msgstr "קבוצת Role"
 
-#: .\models.py:607
+#: .\models.py:624
 msgid "Group Roles"
 msgstr "קבוצות Role"
 
-#: .\models.py:637
+#: .\models.py:654
 #: .\south_migrations\0011_auto__add_field_community_register_missing_board_members__chg_field_co.py:17
 #: .\templates\communities\participants_form.html:27
 msgid "Board"
@@ -417,13 +417,13 @@ msgstr "הבעיה"
 
 #: .\templates\communities\landing.html:58
 #: .\templates\communities\landing.html:94
-#: .\templates\communities\landing.html:217
+#: .\templates\communities\landing.html:220
 msgid "The Solution"
 msgstr "הפתרון"
 
 #: .\templates\communities\landing.html:61
 #: .\templates\communities\landing.html:97
-#: .\templates\communities\landing.html:245
+#: .\templates\communities\landing.html:248
 msgid "Our Tool"
 msgstr "הכלי שלנו"
 
@@ -461,7 +461,7 @@ msgid "Facilitating Leaders"
 msgstr "גיבוי המנהיגות הנבחרת"
 
 #: .\templates\communities\landing.html:143
-#: .\templates\communities\landing.html:254
+#: .\templates\communities\landing.html:257
 msgid "Converging Discussions"
 msgstr "דיונים מתכנסים"
 
@@ -469,31 +469,31 @@ msgstr "דיונים מתכנסים"
 msgid "Learn More"
 msgstr "קראו עוד"
 
-#: .\templates\communities\landing.html:168
+#: .\templates\communities\landing.html:171
 msgid "What Went Wrong"
 msgstr "מה השתבש"
 
-#: .\templates\communities\landing.html:171
+#: .\templates\communities\landing.html:174
 msgid "In many communities democracy suffers from many ailments"
 msgstr "ניהול קהילה דמוקרטית מציב קשיים ואתגרים לא פשוטים"
 
-#: .\templates\communities\landing.html:175
+#: .\templates\communities\landing.html:178
 msgid "The root cause of which is the"
 msgstr "הסיבה העיקרית לתופעה זו היא"
 
-#: .\templates\communities\landing.html:175
+#: .\templates\communities\landing.html:178
 msgid "alienation"
 msgstr "ניכור"
 
-#: .\templates\communities\landing.html:175
+#: .\templates\communities\landing.html:178
 msgid "between the elected board and the public, where the public is"
 msgstr "בין ועד מנהל נבחר ובין הציבור, מכיוון שהציבור מוצא את עצמו מחוץ למעגל"
 
-#: .\templates\communities\landing.html:175
+#: .\templates\communities\landing.html:178
 msgid "excluded"
 msgstr "קבלת ההחלטות"
 
-#: .\templates\communities\landing.html:175
+#: .\templates\communities\landing.html:178
 msgid ""
 "from the decision-making process and can only elect its governors and "
 "protest in between elections"
@@ -501,18 +501,18 @@ msgstr ""
 "והוא נשאר רק עם האפשרות לבחור בחברי הוועד ולמחות בין בחירות לבחירות כאשר "
 "ההחלטות המתקבלות אינן לשביעות רצונו"
 
-#: .\templates\communities\landing.html:220
+#: .\templates\communities\landing.html:223
 msgid "Participatory decision making in democratic communities"
 msgstr "מנגנון קבלת החלטות משתף בקהילות דמוקרטיות"
 
-#: .\templates\communities\landing.html:223
+#: .\templates\communities\landing.html:226
 msgid ""
 "We aim to return democracy to its fundamental principle – public "
 "participation in the decision making process"
 msgstr ""
 "אנחנו שואפים להחזיר את הדמוקרטיה לשורשיה - שיתוף הציבור בתהליך קבלת ההחלטות"
 
-#: .\templates\communities\landing.html:226
+#: .\templates\communities\landing.html:229
 msgid ""
 "We develop an online platform that enables democratic communities, big and "
 "small, to increase transparency and levels of participation and increase "
@@ -521,37 +521,37 @@ msgstr ""
 "לכן פיתחנו כלי אינטרנטי שמאפשר לקהילות דמוקרטיות, גדולות וקטנות, לחזק את "
 "השקיפות ואת רמת המעורבות ובכך להגדיל את ההון החברתי שלהן"
 
-#: .\templates\communities\landing.html:247
+#: .\templates\communities\landing.html:250
 msgid ""
 "The complete platform will accompany the process of decision making as it "
 "progresses"
 msgstr "הפלטפורמה תלווה את תהליך קבלת ההחלטות לכל אורכו"
 
-#: .\templates\communities\landing.html:257
+#: .\templates\communities\landing.html:260
 msgid "Agenda Setting"
 msgstr "קביעת סדר יום"
 
-#: .\templates\communities\landing.html:260
+#: .\templates\communities\landing.html:263
 msgid "Solution suggestion"
 msgstr "הצעת פתרונות"
 
-#: .\templates\communities\landing.html:263
+#: .\templates\communities\landing.html:266
 msgid "Prioritization"
 msgstr "יצירת סדרי עדיפויות"
 
-#: .\templates\communities\landing.html:266
+#: .\templates\communities\landing.html:269
 msgid "Voting"
 msgstr "הצבעות"
 
-#: .\templates\communities\landing.html:269
+#: .\templates\communities\landing.html:272
 msgid "Publication monitoring"
 msgstr "מעקב ציבורי"
 
-#: .\templates\communities\landing.html:291
+#: .\templates\communities\landing.html:298
 msgid "The Proccess"
 msgstr "התהליך"
 
-#: .\templates\communities\landing.html:299
+#: .\templates\communities\landing.html:306
 msgid ""
 "The platform enables adjustments to the levels of exposure. The adjustments "
 "enable a gradual process according to the development and increase of trust "
@@ -560,11 +560,11 @@ msgstr ""
 "המערכת מאפשרת שליטה ברמת השקיפות על פי החלטת הוועד. שליטה זו מאפשרת יצירת "
 "תהליך הדרגתי בהתאם להתפתחויות ורמת האמון הקיים בין הוועד ובין הקהילה"
 
-#: .\templates\communities\landing.html:303
+#: .\templates\communities\landing.html:310
 msgid "Transparency"
 msgstr "שקיפות"
 
-#: .\templates\communities\landing.html:305
+#: .\templates\communities\landing.html:312
 msgid ""
 "The board uses the platform to manage issues, meeting agenda and decisions, "
 "and keeps the community informed with no extra effort"
@@ -572,11 +572,11 @@ msgstr ""
 "הוועד משתמש במערכת לניהול נושאים, סדר יום של פגישות והחלטות, וכך משאיר את "
 "הקהילה מיודעת ומחוברת ללא השקעת מאמץ נוסף"
 
-#: .\templates\communities\landing.html:310
+#: .\templates\communities\landing.html:317
 msgid "Consultation"
 msgstr "התייעצות"
 
-#: .\templates\communities\landing.html:312
+#: .\templates\communities\landing.html:319
 msgid ""
 "Community members can participate in non-binding discussion, polls and "
 "voting to share their preference with the board"
@@ -584,11 +584,11 @@ msgstr ""
 "חברי הקהילה מוזמנים להשתתף בדיון לא מחייב, סקרים והצבעות וכך לחלוק עם הוועד "
 "את העדפותיהם"
 
-#: .\templates\communities\landing.html:317
+#: .\templates\communities\landing.html:324
 msgid "Collaboration"
 msgstr "שיתוף"
 
-#: .\templates\communities\landing.html:319
+#: .\templates\communities\landing.html:326
 msgid ""
 "Community members raise issues (initiatives), introduce proposals, impact "
 "the agenda, and vote on proposals (referendum)"
@@ -596,11 +596,11 @@ msgstr ""
 "חברי הקהילה מסוגלים להעלות נושאים לדיון (יוזמות), להציג הצעות, להשפיע על סדר "
 "היום ולהצביע עבור החלטות"
 
-#: .\templates\communities\landing.html:324
+#: .\templates\communities\landing.html:331
 msgid "Empowerment"
 msgstr "העצמה"
 
-#: .\templates\communities\landing.html:326
+#: .\templates\communities\landing.html:333
 msgid ""
 "The community is the true sovereign and has full power over decision making "
 "(as done by jury and public committees)"
@@ -608,15 +608,15 @@ msgstr ""
 "הקהילה היא הריבון האמיתי, ובידיה הכוח המלא על קבלת ההחלטות (כפי שנעשה על ידי "
 "חבר מושבעים ועל ידי ועדות ציבוריות)"
 
-#: .\templates\communities\landing.html:348
+#: .\templates\communities\landing.html:355
 msgid "The project runs within the framework of the"
 msgstr "הפרויקט פועל במסגרת"
 
-#: .\templates\communities\landing.html:348
+#: .\templates\communities\landing.html:355
 msgid "Public Knowledge Workshop"
 msgstr "הסדנא לידע ציבורי"
 
-#: .\templates\communities\landing.html:350
+#: .\templates\communities\landing.html:357
 msgid ""
 "a non-profit incubator for open code to promote democracy and citizen "
 "involvement in government activities"

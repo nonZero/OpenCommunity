@@ -1,6 +1,5 @@
 from acl.default_roles import DefaultGroups, ALL_PERMISSIONS
 
-
 """
 These functions work with anonymous users as well, and therefore are not a
 part of the OCUser model.
@@ -42,7 +41,6 @@ def get_community_permissions(user, community, committee=None):
     return user._community_permissions_cache[community.id]
 
 
-
 def get_committee_permissions(user, committee):
     """ returns a cached list of permissions for a community and a user """
 
@@ -56,19 +54,16 @@ def get_committee_permissions(user, committee):
     return user._committee_permissions_cache[committee.id]
 
 
-
 ###################################
 
 def has_community_perm(user, community, perm):
-
     if user.is_active and user.is_superuser:
         return True
-  
+
     return perm in get_community_permissions(user, community)
 
 
 def get_community_perms(user, community):
-
     if user.is_active and user.is_superuser:
         perms = ALL_PERMISSIONS
     else:
@@ -78,7 +73,6 @@ def get_community_perms(user, community):
 
 
 def has_committee_perm(user, committee, perm):
-
     if user.is_active and user.is_superuser:
         return True
 
@@ -86,7 +80,6 @@ def has_committee_perm(user, committee, perm):
 
 
 def get_committee_perms(user, committee):
-
     if user.is_active and user.is_superuser:
         perms = ALL_PERMISSIONS
     else:
