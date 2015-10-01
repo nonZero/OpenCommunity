@@ -1,0 +1,38 @@
+{% extends "dialog.html" %}
+{% load i18n %}
+
+{% block extra-page-id %}
+    id="community-member-remove"
+{% endblock %}
+
+{% block page_header %}
+    {% trans "Remove from community" %}
+{% endblock %}
+
+{% block content %}
+    {% trans 'Are you sure you want to remove the selected members?' %}
+    {% csrf_token %}
+    {{form}}
+{% endblock %}
+
+{% block nofooter %}
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Cancel" %}</button>
+    <input type="submit" class="btn btn-danger" value="{% trans 'Delete' %}">
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(function() {
+        $('#modal-form').on('shown.bs.modal', function (e) {
+            var members = [];
+            $('.members-list-abc input:checked').each(function () {
+                members.push($(this).val())
+            });
+            $('#id_members').val(members);
+        })
+    });
+</script>
+
+{% endblock %}

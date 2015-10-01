@@ -1,5 +1,7 @@
 import datetime
 import json
+
+from communities.models import Committee
 from django.forms import forms
 from django.conf import settings
 from django.contrib import messages
@@ -10,7 +12,7 @@ from django.db.models.aggregates import Max
 from django.http.response import HttpResponseBadRequest, HttpResponseRedirect, Http404
 from django.shortcuts import redirect
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, gettext
 from django.views.generic import View, ListView, TemplateView, CreateView
 from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import UpdateView, DeleteView
@@ -23,7 +25,7 @@ from issues.models import IssueStatus, Issue, Proposal
 from meetings.models import Meeting
 from ocd.base_views import ProtectedMixin, AjaxFormView, CommunityMixin
 from ocd.base_managers import ConfidentialSearchQuerySet
-from users.permissions import has_community_perm, has_committee_perm
+from users.permissions import has_committee_perm
 from django.views.generic.base import RedirectView
 from django.http.response import HttpResponse
 
@@ -195,6 +197,13 @@ class EditUpcomingMeetingParticipantsView(AjaxFormView, CommitteeModelMixin, Upd
     form_class = UpcomingMeetingParticipantsForm
     template_name = "communities/participants_form.html"
 
+    def get_context_data(self, **kwargs):
+        d = super(EditUpcomingMeetingParticipantsView, self).get_context_data(**kwargs)
+        d['groups'] = self.get_object().community.groups.all()
+        d['all_group_members'] = self.get_object().community.memberships.all().order_by('group_name')
+        d['meeting_participants'] = self.get_object().upcoming_meeting_participants.all()
+        return d
+
 
 class DeleteParticipantView(CommitteeModelMixin, DeleteView):
     # required_permission = ''
@@ -220,7 +229,9 @@ class PublishUpcomingView(AjaxFormView, CommitteeModelMixin, UpdateView):
         form = super(PublishUpcomingView, self).get_form(form_class)
         c = self.get_object()
         if not c.upcoming_meeting_started:
-            form.fields['send_to'].choices = models.SendToOption.publish_choices
+            form.fields['send_to'].choices = ((x.group.id, gettext(x.group.title)) for x in c.group_roles.all())
+            form.fields['send_to'].label = ''
+            # form.fields['send_to'].choices = models.SendToOption.publish_choices
 
         return form
 
@@ -230,9 +241,8 @@ class PublishUpcomingView(AjaxFormView, CommitteeModelMixin, UpdateView):
         c = self.object
 
         # increment agenda if publishing agenda.
-        if not c.upcoming_meeting_started and form.cleaned_data['send_to'] != models.SendToOption.ONLY_ME:
-            if form.cleaned_data['send_to'] == models.SendToOption.ALL_MEMBERS:
-                c.upcoming_meeting_is_published = True
+        if not c.upcoming_meeting_started and form.cleaned_data['send_to'] != []:
+            c.upcoming_meeting_is_published = True
             c.upcoming_meeting_published_at = datetime.datetime.now()
             c.upcoming_meeting_version += 1
 
@@ -246,7 +256,8 @@ class PublishUpcomingView(AjaxFormView, CommitteeModelMixin, UpdateView):
                                                        committee=self.object) \
                               and c.upcoming_meeting_is_published,
         }
-        total = send_mail(c, template, self.request.user, form.cleaned_data['send_to'], tpl_data)
+        total = send_mail(c, template, self.request.user, form.cleaned_data['send_to'], tpl_data,
+                          send_to_me=form.cleaned_data['me'])
         messages.info(self.request, _("Sending to %d users") % total)
 
         return resp
@@ -300,8 +311,7 @@ class ProtocolDraftPreviewView(CommitteeModelMixin, DetailView):
 
         draft_agenda_payload = []
         issue_status = IssueStatus.IS_UPCOMING
-        issues = self.committee.issues.filter(
-            active=True, status__in=(issue_status)).order_by(
+        issues = self.committee.issues.filter(active=True, status__in=issue_status).order_by(
             'order_in_upcoming_meeting')
 
         for issue in issues:
@@ -410,7 +420,10 @@ class GroupMixin(CommunityMixin):
 
 
 class GroupListView(GroupMixin, ListView):
-    pass
+    def get_context_data(self, **kwargs):
+        d = super(GroupListView, self).get_context_data(**kwargs)
+        d['all_committees'] = Committee.objects.filter(community=self.community)
+        return d
 
 
 class GroupDetailView(GroupMixin, DetailView):

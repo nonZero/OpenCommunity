@@ -2,15 +2,14 @@
 import logging
 import datetime
 from itertools import chain
+
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils import translation
 import django_rq
-from communities.models import SendToOption
-from acl.default_roles import DefaultGroups
 from issues.models import IssueStatus
-
+from users.models import Membership
 
 logger = logging.getLogger(__name__)
 
@@ -56,7 +55,7 @@ def construct_mock_users(email_list, type):
 
 
 def _base_send_mail(committee, notification_type, sender, send_to, data=None,
-                    base_url=None, with_guests=False, language=None):
+                    base_url=None, with_guests=False, language=None, send_to_me=False):
     """Sends mail to community members, and applies object access control.
 
     The type of email being sent is detected from notification_type.
@@ -69,20 +68,17 @@ def _base_send_mail(committee, notification_type, sender, send_to, data=None,
     # before anything, we want to build our recipient list as email
     # will be personalized.
 
-    if send_to == SendToOption.ONLY_ME:
-        r = [sender]
+    r = []
+    if send_to_me:
+        r.append(sender)
 
-    elif send_to == SendToOption.ALL_MEMBERS:
-        r = [m.user for m in committee.community.memberships.all()]
+    if send_to:
+        r += [m.user for m in Membership.objects.filter(group_name_id__in=send_to)]
 
-    elif send_to == SendToOption.BOARD_ONLY:
-        r = [m.user for m in committee.community.memberships.board()]
+    # elif send_to == SendToOption.ONLY_ATTENDEES:
+    #     r = [user for user in committee.upcoming_meeting_participants.all()]
 
-    elif send_to == SendToOption.ONLY_ATTENDEES:
-        r = [user for user in committee.upcoming_meeting_participants.all()]
-
-    else:
-        r = []
+    if not send_to_me and send_to == []:
         logger.error('Received an email job with no valid send_to. '
                      'send_to: {0}.'.format(send_to))
 
@@ -90,7 +86,7 @@ def _base_send_mail(committee, notification_type, sender, send_to, data=None,
 
     w = []
 
-    if send_to != SendToOption.ONLY_ME:
+    if send_to:
         # Add guests to the watcher_recipients list if applicable
         if with_guests:
             guests_text = committee.upcoming_meeting_guests
@@ -107,14 +103,16 @@ def _base_send_mail(committee, notification_type, sender, send_to, data=None,
 
         # Add pending invitees to the watcher_recipients list if applicable
         if committee.email_invitees:
-            # pending invites to board only
-            if send_to == SendToOption.BOARD_ONLY:
-                invitees = [i for i in committee.community.invitations.exclude(
-                    default_group_name=DefaultGroups.MEMBER)]
-
-            # All pending invites
-            elif send_to == SendToOption.ALL_MEMBERS:
-                invitees = [i for i in committee.community.invitations.all()]
+            # TODO: Test if outcome it right, for now temp solution
+            invitees = [i for i in committee.community.invitations.all()]
+            # # pending invites to board only
+            # if send_to == SendToOption.BOARD_ONLY:
+            #     invitees = [i for i in committee.community.invitations.exclude(
+            #         default_group_name=DefaultGroups.MEMBER)]
+            #
+            # # All pending invites
+            # elif send_to == SendToOption.ALL_MEMBERS:
+            #     invitees = [i for i in committee.community.invitations.all()]
 
             w.extend(invitees)
 
@@ -190,16 +188,15 @@ def _base_send_mail(committee, notification_type, sender, send_to, data=None,
             })
         elif notification_type == 'agenda':
 
-            can_straw_vote = committee.upcoming_proposals_any(
-                {'is_open': True}, user=recipient, committee=committee) \
-                             and committee.upcoming_meeting_is_published
-            upcoming_issues = committee.upcoming_issues(user=recipient,
-                                                        committee=committee)
+            can_straw_vote = committee.upcoming_proposals_any({'is_open': True},
+                                                              user=recipient,
+                                                              committee=committee
+                                                              ) and committee.upcoming_meeting_is_published
+            upcoming_issues = committee.upcoming_issues(user=recipient, committee=committee)
             issues = []
 
             for i in upcoming_issues:
-                proposals = i.proposals.object_access_control(
-                    user=recipient, committee=committee)
+                proposals = i.proposals.object_access_control(user=recipient, committee=committee)
                 issues.append({'issue': i, 'proposals': proposals})
 
             d.update({

@@ -17,23 +17,43 @@
 <form id="participants_form">
 
     <div id="p_select" style="display:none;">
-        {% formfield form.upcoming_meeting_participants %}
+        {% comment %}{% formfield form.upcoming_meeting_participants %}{% endcomment %}
         {% formfield form.upcoming_meeting_guests %}
     </div>
 
     <div class="participants-body-form"{% if not object.full_participants.count %} style="display: none;"{% endif %}>
         <ul class="nav nav-tabs">
-            <li class="active">
-                <a href="#board" data-toggle="tab">{% trans "Board" %}</a>
+            {% for group in groups %}
+            <li{% if forloop.first %} class="active"{% endif %}>
+                <a href="#group_{{ group.id }}" data-toggle="tab">{{ group.title }}</a>
             </li>
+            {% endfor %}
+            {%  comment %}
             <li>
                 <a href="#members" data-toggle="tab">{% trans "Members" %}</a>
             </li>
+            {% endcomment %}
             <li>
                 <a href="#guests" data-toggle="tab">{% trans "Guests" %}</a>
             </li>
         </ul>
         <div class="tab-content">
+            {% for member in all_group_members %}
+            {% ifchanged member.group_name %}
+            {% if not forloop.first %}</ul></div>{% endif %}
+            <div class="tab-pane{% if forloop.first %} active{% endif %}" id="group_{{ member.group_name.id }}">
+                <ul class="list-group">
+            {% endifchanged %}
+                    <li class="list-group-item checkbox" style="margin: 0;">
+		                <label for="id_upcoming_meeting_participants_{{ member.user.id }}">
+			                <input {% if member.user in meeting_participants %}checked="checked" {% endif %}type="checkbox" id="id_upcoming_meeting_participants_{{ member.user.id }}" name="upcoming_meeting_participants" value="{{ member.user.id }}"> {{ member.user.display_name }}
+                        </label>
+	                </li>
+                {% comment %}<div class="board_select">{% formfield form.board %}</div>{% endcomment %}
+            {% endfor %}
+                </ul>
+            </div>
+            {% comment %}
             <div class="tab-pane active" id="board">
                 <div class="board_select">{% formfield form.board %}</div>
             </div>
@@ -77,6 +97,7 @@
                     {% endfor %}
                 </ul>
             </div>
+            {% endcomment %}
             <div class="tab-pane" id="guests">
                 <ul class="list-group" id="guests-list">
                     {% for guest in object.get_guest_list %}

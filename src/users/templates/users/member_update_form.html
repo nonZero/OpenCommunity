@@ -1,0 +1,30 @@
+{% extends "dialog.html" %}
+{% load i18n %}
+
+{% block extra-page-id %}
+    id="group-member-update"
+{% endblock %}
+
+{% block page_header %}
+    {% trans "Group" %}
+{% endblock %}
+
+{% block content %}
+    {% csrf_token %}
+    {{form}}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(function() {
+        $('#modal-form').on('shown.bs.modal', function (e) {
+            var members = [];
+            $('.members-list-abc input:checked').each(function () {
+                members.push($(this).val())
+            });
+            $('#id_members').val(members);
+        })
+    });
+</script>
+
+{% endblock %}

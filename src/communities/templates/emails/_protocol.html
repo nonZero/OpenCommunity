@@ -56,28 +56,16 @@
                 <div style="margin:0; padding: 4px">
                     <p>
                         <b>{{ committee.name }}:</b>
-                        {% for u in participants.chairmen %}
+                        {% for u in participants %}
                           {{ u }},
                         {% endfor %}
-                        {% for u in participants.board %}
-                            {{ u }}{% if not forloop.last %},{% endif %}
-                        {% endfor %}
-                        ({% trans 'from ' %}<b>{{ board_count }}</b>
-                        {% trans ' members of' %} {{ committee.name }})
                     </p>
-                    {% if participants.members or guests %}
+                    {% if guests %}
                     <p>
                         <b>{% trans "Guests" %}:</b>
-                        {% if participants.members %}
-                            {% for u in participants.members %}
-                                {{ u }}{% if not forloop.last or guests %},{% endif %}
-                            {% endfor %}
-                        {% endif %}
-                        {% if guests %}
-                            {% for x in guests %}
-                                {{ x|remove_email }}{% if not forloop.last %},{% endif %}
-                            {% endfor %}
-                        {% endif %}
+                        {% for x in guests %}
+                            {{ x|remove_email }}{% if not forloop.last %},{% endif %}
+                        {% endfor %}
                     </p>
                     {% endif %}
                 </div>

@@ -74,8 +74,7 @@ class IssueList(IssueMixin, ListView):
         if d['committee'].issue_ranking_enabled:
             d['sorted_issues'] = super(IssueList, self).get_queryset().exclude(
                 status=IssueStatus.ARCHIVED).order_by('-order_by_votes')
-            if d['cperms']['issues'].has_key('vote_ranking') and \
-                    self.request.user.is_authenticated():
+            if 'vote_ranking' in d['cperms'] and self.request.user.is_authenticated():
                 my_ranking = models.IssueRankingVote.objects.filter(
                     voted_by=self.request.user,
                     issue__committee_id=d['committee'].id) \
@@ -447,7 +446,7 @@ class ProposalDetailView(ProposalMixin, DetailView):
         con_count = 0
         neut_count = 0
         # Board vote permission
-        board_attending = self.committee.meeting_participants()
+        board_attending = self.get_object().issue.committee.meeting_participants()
 
         for u in board_attending:
             # check u has perm for board vote

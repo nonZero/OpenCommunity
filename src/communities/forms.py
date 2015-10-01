@@ -1,6 +1,7 @@
-from communities.models import SendToOption, Committee, CommunityGroup, CommunityGroupRole
 from datetime import datetime, date, time
-from django.utils.translation import ugettext_lazy as _
+
+from communities.models import Committee, CommunityGroup, CommunityGroupRole
+from django.utils.translation import ugettext_lazy as _, gettext
 from ocd.formfields import HTMLArea, OCSplitDateTime, OCCheckboxSelectMultiple
 import floppyforms.__future__ as forms
 from haystack.forms import ModelSearchForm
@@ -65,12 +66,14 @@ class EditUpcomingMeetingForm(forms.ModelForm):
 
 
 class PublishUpcomingMeetingForm(forms.ModelForm):
-    send_to = forms.TypedChoiceField(label=_("Send to"), coerce=int,
-                                     choices=SendToOption.choices,
-                                     widget=forms.RadioSelect)
+    me = forms.BooleanField(label=_("Me only"), widget=forms.CheckboxInput, required=False)
+    send_to = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), required=False)
+    # send_to = forms.TypedChoiceField(label=_("Send to"), coerce=int,
+    #                                  choices=SendToOption.choices,
+    #                                  widget=forms.RadioSelect)
 
     class Meta:
-        model = Committee
+        model = CommunityGroup
 
         fields = ()
 
@@ -104,21 +107,21 @@ class UpcomingMeetingParticipantsForm(forms.ModelForm):
             'upcoming_meeting_guests': forms.Textarea,
         }
 
-    def __init__(self, *args, **kwargs):
-        super(UpcomingMeetingParticipantsForm, self).__init__(*args, **kwargs)
-        participants = self.instance.upcoming_meeting_participants.values_list(
-            'id', flat=True)
-        board_in = []
-        board_choices = []
-        # for b in self.instance.get_board_members():
-        for b in self.instance.get_community_participant_members():
-            board_choices.append((b.id, b.display_name,))
-            if b.id in participants:
-                board_in.append(b.id)
-        self.fields['board'].choices = board_choices
-        self.initial['board'] = board_in
-        self.fields['upcoming_meeting_participants'].queryset = self.instance.get_members()
-        self.fields['upcoming_meeting_participants'].label = ""
+    # def __init__(self, *args, **kwargs):
+    #     super(UpcomingMeetingParticipantsForm, self).__init__(*args, **kwargs)
+    #     participants = self.instance.upcoming_meeting_participants.values_list(
+    #         'id', flat=True)
+    #     board_in = []
+    #     board_choices = []
+    #     # for b in self.instance.get_board_members():
+    #     for b in self.instance.get_community_participant_members():
+    #         board_choices.append((b.id, b.display_name,))
+    #         if b.id in participants:
+    #             board_in.append(b.id)
+    #     self.fields['board'].choices = board_choices
+    #     self.initial['board'] = board_in
+    #     self.fields['upcoming_meeting_participants'].queryset = self.instance.get_members()
+    #     self.fields['upcoming_meeting_participants'].label = ""
 
 
 class CommunitySearchForm(ModelSearchForm):

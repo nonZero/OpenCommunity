@@ -2,4 +2,4 @@
 
 {% trans "Summary draft" as title_type %}
 
-{% include 'emails/_protocol.html' with title=committee.upcoming_meeting_title location=committee.upcoming_meeting_location scheduled_at=meeting_time summary=committee.upcoming_meeting_summary url=committee.get_absolute_url board_count=committee.get_board_count participants=committee.meeting_participants guests=committee.get_guest_list agenda=agenda_items %}
+{% include 'emails/_protocol.html' with title=committee.upcoming_meeting_title location=committee.upcoming_meeting_location scheduled_at=meeting_time summary=committee.upcoming_meeting_summary url=committee.get_absolute_url participants=committee.meeting_participants guests=committee.get_guest_list agenda=agenda_items %}

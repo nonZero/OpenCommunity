@@ -1,12 +1,13 @@
 # from django import forms
 #from django.forms.models import ModelForm
-from communities.models import CommunityGroupRole
+from communities.models import CommunityGroupRole, CommunityGroup
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
+from django.http import HttpResponseBadRequest
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, gettext
 from ocd.formfields import HTMLArea, GroupCheckboxSelectMultiple
 from acl.default_roles import DefaultGroups
-from users.models import Invitation, OCUser
+from users.models import Invitation, OCUser, Membership
 import floppyforms.__future__ as forms
 
 
@@ -34,9 +35,9 @@ class InvitationForm(forms.ModelForm):
     def clean_email(self):
         return self.cleaned_data.get("email").lower()
 
-    # def __init__(self, community=None, *args, **kwargs):
-    #     super(InvitationForm, self).__init__(*args, **kwargs)
-    #     self.fields['group_role'].queryset = CommunityGroupRole.objects.filter(committee__community=community)
+    def __init__(self, community=None, *args, **kwargs):
+        super(InvitationForm, self).__init__(*args, **kwargs)
+        self.fields['group_name'].queryset = CommunityGroup.objects.filter(community=community).exclude(title='administrator')
 
 
 class QuickSignupForm(forms.ModelForm):
@@ -102,8 +103,19 @@ class ImportInvitationsForm(forms.Form):
 
 
 class MembersGroupsForm(forms.Form):
-    groups = forms.MultipleChoiceField(widget=GroupCheckboxSelectMultiple, required=False, label='')
+    groups = forms.MultipleChoiceField(widget=GroupCheckboxSelectMultiple, label=_('Choose groups'))
+    members = forms.CharField(widget=forms.HiddenInput())
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, community=None, *args, **kwargs):
         super(MembersGroupsForm, self).__init__(*args, **kwargs)
-        self.fields['groups'].choices = DefaultGroups.CHOICES
+        self.fields['groups'].choices = ((x.id, gettext(x.title)) for x in community.groups.all())
+
+    def save(self):
+        pass
+
+
+class MembersCommunityRemoveForm(forms.Form):
+    members = forms.CharField(widget=forms.HiddenInput())
+
+    def save(self):
+        pass

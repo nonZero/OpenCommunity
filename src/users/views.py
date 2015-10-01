@@ -1,3 +1,5 @@
+import json
+
 from communities.models import CommunityGroup
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
@@ -11,17 +13,17 @@ from django.template.response import TemplateResponse
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
-from django.views.generic import FormView
+from django.views.generic import FormView, CreateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView
 from django.views.generic.list import ListView
 from ocd import settings
-from ocd.base_views import CommunityMixin
+from ocd.base_views import CommunityMixin, AjaxFormView
 from users import models
 from acl.default_roles import DefaultGroups
-from users.forms import InvitationForm, QuickSignupForm, ImportInvitationsForm, MembersGroupsForm
+from users.forms import InvitationForm, QuickSignupForm, ImportInvitationsForm, MembersGroupsForm, \
+    MembersCommunityRemoveForm
 from users.models import Invitation, OCUser, Membership
-import json
 
 
 class MembershipMixin(CommunityMixin):
@@ -54,7 +56,8 @@ class MembershipList(MembershipMixin, ListView):
         d['form'] = InvitationForm(initial={'message':
                                                 Invitation.DEFAULT_MESSAGE %
                                                 self.community.name})
-        d['form'].fields['group_name'].queryset = CommunityGroup.objects.filter(community=self.community).exclude(title='administrator')
+        d['form'].fields['group_name'].queryset = CommunityGroup.objects.filter(community=self.community).exclude(
+            title='administrator')
         d['members'] = Membership.objects.filter(community=self.community).order_by('group_name')
         # d['board_list'] = Membership.objects.board().filter(community=self.community)
         # d['member_list'] = Membership.objects.none_board().filter(community=self.community)
@@ -311,7 +314,6 @@ class ImportInvitationsView(MembershipMixin, FormView):
         messages.success(self.request, _('%d Invitations sent') % (sent,))
         return redirect(reverse('members', kwargs={'community_id': self.community.id}))
 
-
     @method_decorator(permission_required('is_superuser'))
     def dispatch(self, *args, **kwargs):
         return super(ImportInvitationsView, self).dispatch(*args, **kwargs)
@@ -369,32 +371,135 @@ def oc_password_reset(request, is_admin_site=False,
                             current_app=current_app)
 
 
-class MembershipGroupList(CommunityMixin, ListView):
-    model = models.Membership
+class MembershipGroupList(MembershipMixin, ListView):
     template_name = 'users/membership_groups.html'
     required_permission = 'invite_member'
     context_object_name = 'members'
 
     def get_queryset(self):
-        return models.Membership.objects.filter(community=self.community).order_by('user__display_name')
+        return models.Membership.objects.filter(community=self.community).order_by('user__display_name').distinct(
+            'user__display_name')
 
     def get_context_data(self, **kwargs):
         d = super(MembershipGroupList, self).get_context_data(**kwargs)
-        d['form'] = MembersGroupsForm()
-
+        d['form'] = InvitationForm(initial={'message': Invitation.DEFAULT_MESSAGE % self.community.name})
+        d['form'].fields['group_name'].queryset = CommunityGroup.objects.filter(community=self.community).exclude(
+            title='administrator')
         return d
 
     def post(self, request, *args, **kwargs):
-        form = MembersGroupsForm(request.POST)
+
+        form = InvitationForm(request.POST)
 
         if not form.is_valid():
             return HttpResponseBadRequest(
                 _("Form error. Please supply a valid email."))
 
-        # form.instance.community = self.community
-        # form.instance.created_by = request.user
-        #
-        i = form.save()
-        # i.send(sender=request.user, recipient_name=form.cleaned_data['name'])
+        v_err = self.validate_invitation(form.instance.email)
+        if v_err:
+            return v_err
 
-        return render(request, 'users/_invitation.html', {'object': i})
+        form.instance.community = self.community
+        form.instance.created_by = request.user
+
+        i = form.save()
+        i.send(sender=request.user, recipient_name=form.cleaned_data['name'])
+
+        return HttpResponse('')
+        # return render(request, 'users/_invitation.html', {'object': i})
+
+
+class GroupMembersUpdateView(AjaxFormView, CommunityMixin, FormView):
+    form_class = MembersGroupsForm
+    template_name = "users/member_update_form.html"
+    reload_on_success = True
+    required_permission = 'invite_member'
+
+    def form_valid(self, form):
+        members = list(set(form.cleaned_data['members'].split(',')))
+        groups = form.cleaned_data['groups']
+        action = int(self.request.GET.get('action', None))
+
+        for g in groups:
+            for u in members:
+                if action == 1:
+                    obj, created = Membership.objects.get_or_create(
+                        user_id=int(u),
+                        group_name_id=int(g),
+                        community=self.community
+                    )
+                    if created:
+                        obj.invited_by = self.request.user
+                        obj.save()
+                elif action == 2:
+                    try:
+                        obj = Membership.objects.get(user_id=int(u), group_name_id=int(g), community=self.community)
+                        obj.delete()
+                    except:
+                        Membership.DoesNotExist
+
+        return super(GroupMembersUpdateView, self).form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super(GroupMembersUpdateView, self).get_form_kwargs()
+        kwargs.update({'community': self.community})
+        return kwargs
+
+
+class MembersCommunityRemoveView(AjaxFormView, CommunityMixin, FormView):
+    form_class = MembersCommunityRemoveForm
+    template_name = "users/member_community_remove_form.html"
+    reload_on_success = True
+    required_permission = 'invite_member'
+
+    def form_valid(self, form):
+        members = list(set(form.cleaned_data['members'].split(',')))
+
+        for u in members:
+            try:
+                objs = Membership.objects.filter(user_id=int(u), community=self.community)
+                for obj in objs:
+                    obj.delete()
+            except:
+                Membership.DoesNotExist
+
+        return super(MembersCommunityRemoveView, self).form_valid(form)
+
+
+class CreateInvitationView(AjaxFormView, MembershipMixin, CreateView):
+    model = Invitation
+    template_name = 'users/invitation_form.html'
+    required_permission = 'invite_member'
+    form_class = InvitationForm
+    reload_on_success = True
+
+    def get_initial(self):
+        return {'message': Invitation.DEFAULT_MESSAGE % self.community.name}
+
+    def get_form_kwargs(self):
+        kwargs = super(CreateInvitationView, self).get_form_kwargs()
+        kwargs.update({'community': self.community})
+        return kwargs
+
+    def post(self, request, *args, **kwargs):
+
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        if not form.is_valid():
+            return HttpResponseBadRequest(
+                _("Form error. Please supply a valid email."))
+
+        v_err = self.validate_invitation(form.instance.email)
+        if v_err:
+            return v_err
+
+        form.instance.community = self.community
+        form.instance.created_by = request.user
+        if form.cleaned_data['group_name']:
+            form.instance.group_name = form.cleaned_data['group_name']
+
+        i = form.save()
+        i.send(sender=request.user, recipient_name=form.cleaned_data['name'])
+
+        return HttpResponse('')

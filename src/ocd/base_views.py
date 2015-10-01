@@ -1,3 +1,5 @@
+import json
+
 from communities.models import Community, Committee
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -8,7 +10,6 @@ from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from users.models import Membership
 from users.permissions import has_community_perm, get_community_perms, has_committee_perm, get_committee_perms
-import json
 
 
 def json_response(content, *args, **kwargs):
@@ -90,7 +91,8 @@ class CommitteeMixin(CommunityMixin):
     @property
     def committee(self):
         if not self._committee:
-            self._committee = get_object_or_404(Committee, slug=self.kwargs['committee_slug'], community__slug=self.kwargs['community_slug'])
+            self._committee = get_object_or_404(Committee, slug=self.kwargs['committee_slug'],
+                                                community__slug=self.kwargs['community_slug'])
         return self._committee
 
     def get_context_data(self, **kwargs):
@@ -118,8 +120,6 @@ class CommitteeMixin(CommunityMixin):
 
         resp = super(CommitteeMixin, self).dispatch(request, *args, **kwargs)
         return resp
-
-
 
 
 class AjaxFormView(object):

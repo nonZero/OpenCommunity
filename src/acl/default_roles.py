@@ -48,6 +48,7 @@ class DefaultRoles(object):
         'view_referendum_results',
         'view_update_status',
         'view_straw_vote_result',
+        'view_confidential',
     ]
 
     permissions[PROPOSER] = permissions[PARTICIPANT] + [

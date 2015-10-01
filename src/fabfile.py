@@ -1,5 +1,6 @@
 from contextlib import contextmanager
 import datetime
+
 from fabric import operations
 from fabric.api import *
 from fabric.contrib.console import confirm
@@ -155,7 +156,7 @@ def deploy(restart=True):
         reload_app()
 
 
-#Just for deploying after changing to Django 1.8 - Maybe remove after use?
+# Just for deploying after changing to Django 1.8 - Maybe remove after use?
 @task
 def upgrade_to_django_18(restart=True):
     upgrade_pip()

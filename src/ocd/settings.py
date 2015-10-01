@@ -2,7 +2,6 @@ import os.path
 import sys
 
 DEBUG = False
-TEMPLATE_DEBUG = DEBUG
 
 QA_SERVER = False  # triggers minor UI changes
 
@@ -157,12 +156,12 @@ TEMPLATES = [
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'ocd.wsgi.application'
 
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    os.path.abspath(os.path.join(os.path.dirname(__file__), "templates")),
-)
+# TEMPLATE_DIRS = (
+#     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+#     # Always use forward slashes, even on Windows.
+#     # Don't forget to use absolute paths, not relative paths.
+#     os.path.abspath(os.path.join(os.path.dirname(__file__), "templates")),
+# )
 
 INSTALLED_APPS = (
     'django.contrib.admin',
