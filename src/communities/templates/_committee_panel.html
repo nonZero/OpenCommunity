@@ -1,5 +1,18 @@
 {% load i18n %}
 
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        {% trans "Committees" %} <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+        {% for c in committee.community.get_committees %}
+        <li><a href="{% url 'committee' committee.community.slug c.slug %}">{{ c.name }}</a></li>
+        {% endfor %}
+        <li role="separator" class="divider"></li>
+        <li><a href="{{ committee.community.get_absolute_url }}">{{ committee.community.name }}</a></li>
+    </ul>
+</li>
+<li class="just_slash hidden-xs">/</li>
 <!-- <li class="hidden-xs" style="width: 50px;height: 40px;"></li> -->
 
 {% comment "Navbar issues - remove from navbar for now" %}
@@ -42,14 +55,5 @@
     <a href="{% url 'assignments' committee.community.slug committee.slug %}">{% trans "Tasks" %}</a>
 </li>
 {% endif %}
-{% endif %}
-{% endif %}
-
-{% if committee %}
-{% if 'invite_member' in cperms %}
-<li class="just_slash hidden-xs">/</li>
-<li>
-    <a href="{% url 'members' committee.community.slug %}">{% trans "Members" %}</a>
-</li>
 {% endif %}
 {% endif %}

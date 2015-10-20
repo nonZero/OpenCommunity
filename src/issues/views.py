@@ -700,9 +700,10 @@ class ProposalVoteView(ProposalVoteMixin, DetailView):
         is_board = request.POST.get('board', False)
         user_id = request.POST.get('user', request.user.id)
         voter_id = request.user.id
-        voter_group = request.user.get_default_group(self.committee.community) \
-            if request.user.is_authenticated() \
-            else ''
+        voter_group = 'board' if has_committee_perm(request.user, self.committee, 'proposal_board_vote') else ''
+        # voter_group = request.user.get_default_group(self.committee.community) \
+        #     if request.user.is_authenticated() \
+        #     else ''
         val = request.POST['val']
         if is_board:
             # vote for board member by chairman or board member

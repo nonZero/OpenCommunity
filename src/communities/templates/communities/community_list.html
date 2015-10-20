@@ -21,9 +21,7 @@
 
                 {% if user.memberships.count %}
                     <ul class="community_home nav nav-pills nav-stacked">
-                        {% for m in user.memberships.all %}
-                            {% include 'communities/_community.html' with c=m.community role=m.get_default_group_name_display %}
-                        {% endfor %}
+                        {% include 'communities/_my_community.html' %}
                     </ul>
 
                 {% endif %}

@@ -1,0 +1,27 @@
+{% for m in user.memberships.all %}
+
+    {% ifchanged m.community %}
+        {% if not forloop.first %}
+            </a></li>
+        {% endif %}
+        <li class="left_arrow oc_li">
+        <a href="{{ m.community.get_absolute_url }}">
+        {% if m.community.is_public %}
+            <img class="ui-li-icon" src="{{ STATIC_URL }}images/world.png" width="16" height="16"/>
+        {% else %}
+            <img class="ui-li-icon" src="{{ STATIC_URL }}images/lock.png" width="16" height="16"/>
+        {% endif %}
+
+        <b>{{ m.community.name }}</b>
+
+        {% if m.get_default_group_name_display %}
+            ({{ m.get_default_group_name_display }})
+        {% endif %}
+    {% else %}
+        {% if m.get_default_group_name_display %}
+            ({{ m.get_default_group_name_display }})
+        {% endif %}
+    {% endifchanged %}
+
+{% endfor %}
+</a></li>

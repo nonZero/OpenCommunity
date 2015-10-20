@@ -216,6 +216,10 @@ class Committee(UIDMixin):
     def __unicode__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = 'committee-%s' % self.id
+
     @models.permalink
     def get_absolute_url(self):
         return "committee", (self.community.slug, self.slug)

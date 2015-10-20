@@ -76,8 +76,17 @@ class CommitteeModelMixin(ProtectedMixin):
 
 class CommunityDetailView(CommunityModelMixin, DetailView):
     required_permission = 'access_community'
-
     template_name = "communities/community.html"
+
+    def get_context_data(self, **kwargs):
+        d = super(CommunityDetailView, self).get_context_data(**kwargs)
+        committees = self.object.committees.all()
+        l = []
+        for committee in committees:
+            c = {'committee': committee, 'issues': committee.upcoming_issues(user=self.request.user, committee=self)}
+            l.append(c)
+            d['committees'] = l
+        return d
 
 
 class UpcomingMeetingView(CommitteeModelMixin, DetailView):

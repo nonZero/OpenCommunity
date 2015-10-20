@@ -276,8 +276,12 @@ class Invitation(models.Model):
     user = models.ForeignKey(OCUser, verbose_name=_("User"),
                              related_name='invitations', null=True, blank=True)
 
+    groups = models.ManyToManyField('communities.CommunityGroup', verbose_name=_('Groups'),
+                                   related_name='invitations')
+
+    # TODO: Remove field.
     group_name = models.ForeignKey('communities.CommunityGroup', verbose_name=_('Group'),
-                                   related_name='invitations', null=True, blank=True)
+                                   related_name='g_invitations', null=True, blank=True)
 
     default_group_name = models.CharField(_('Group'), max_length=50,
                                           choices=DefaultGroups.CHOICES, blank=True, null=True)
@@ -289,7 +293,7 @@ class Invitation(models.Model):
     last_sent_at = models.DateTimeField(_("Sent at"), null=True, blank=True)
 
     class Meta:
-        unique_together = (("group_name", "email"),)
+        unique_together = (("community", "email"),)
 
         verbose_name = _("Invitation")
         verbose_name_plural = _("Invitations")

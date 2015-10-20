@@ -186,7 +186,7 @@ INSTALLED_APPS = (
     'communities',
     'issues',
     'meetings',
-    'shultze',
+    # 'shultze',
 
 )
 

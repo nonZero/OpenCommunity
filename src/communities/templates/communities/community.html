@@ -1,14 +1,35 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n opencommunity community_tags %}
 
 {% block extra-page-id %}
-	id="community"
+    id="community"
 {% endblock %}
 
 {% block page_header %}
 {% endblock %}
 
-
 {% block content %}
-Empty page for now, until we decide what to do.
+    <div class="row">
+    {% for c in committees %}
+        <div class="col-xs-12 col-sm-4 committee-meeting">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a href="{{ c.committee.get_absolute_url }}">{{ c.committee.name }}</a>
+                    <small class="pull-right">{{ c.committee|display_upcoming_time }}</small>
+                </div>
+                <div class="panel-body">
+                    <div class="list-group">
+                    {% if c.issues %}
+                    {% for issue in c.issues %}
+                        <a href="{{ issue.get_absolute_url }}" class="list-group-item">{{ issue }}</a>
+                    {% endfor %}
+                    {% else %}
+                    <a href="#" class="list-group-item">{% trans 'No upcoming issues' %}</a>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
 {% endblock %}

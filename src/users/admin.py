@@ -107,9 +107,11 @@ admin.site.register(Membership, MembershipAdmin)
 
 
 class InvitationAdmin(admin.ModelAdmin):
-    list_display = ('community', 'name', 'email', 'group_name', 'last_sent_at', 'status')
+    list_display = ('community', 'name', 'email', 'get_groups', 'last_sent_at', 'status')
     ordering = ('community', 'last_sent_at')
 
+    def get_groups(self, obj):
+        return "\n".join([g.name for g in obj.groups.all()])
 
 admin.site.register(Invitation, InvitationAdmin)
 
