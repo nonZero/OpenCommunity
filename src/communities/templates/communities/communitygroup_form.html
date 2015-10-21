@@ -7,6 +7,12 @@
 
 {% block content %}
 
-    {{form}}
+    {{ form }}
 
+    <a class="btn btn-oc" role="button" data-toggle="collapse" href="#groupRoleForm" aria-expanded="false" aria-controls="groupRoleForm">
+        <i class="fa fa-plus"></i> {% trans 'Assign to committee' %}
+    </a>
+    <div class="collapse" id="groupRoleForm">
+        {{ form.group_role }}
+    </div>
 {% endblock %}

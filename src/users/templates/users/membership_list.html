@@ -55,7 +55,7 @@ id="members-list"
 			<form method="post" id="invite-form">
 				{% csrf_token %}
 				{{form}}
-				<input class="btn btn-oc" type="submit" value="{% trans "Invite" %}">
+				<input class="btn btn-oc" type="submit" value="{% trans 'Invite' %}">
 			</form>
 		</li>
         <h2{% if not invites.count %} class="hide" {% endif %}> {% trans "Open invitations" %} </h2>

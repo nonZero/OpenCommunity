@@ -45,7 +45,7 @@ id="members-groups"
                     </label>
                 </div>
             </div>
-            {% if forloop.last %}
+            {% if forloop.last or not members %}
         </div>
         {% endif %}
         {% endfor %}

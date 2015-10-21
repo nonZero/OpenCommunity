@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-03 18:08+0300\n"
-"PO-Revision-Date: 2015-06-17 16:14+0200\n"
+"POT-Creation-Date: 2015-10-21 09:28+0300\n"
+"PO-Revision-Date: 2015-10-21 09:28+0300\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,33 +16,33 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.1\n"
+"X-Generator: Poedit 1.8.5\n"
 
 #: .\apps.py:7
 msgid "Communities & Committees"
 msgstr "קהילות וועדות"
 
-#: .\forms.py:31
+#: .\forms.py:32 .\models.py:604
 msgid "Title"
 msgstr "כותרת"
 
-#: .\forms.py:32 .\templates\emails\_protocol.html:38
+#: .\forms.py:33 .\templates\emails\_protocol.html:38
 #: .\templates\emails\agenda.html:56
 msgid "Scheduled at"
 msgstr "מועד"
 
-#: .\forms.py:33 .\templates\emails\_protocol.html:42
+#: .\forms.py:34 .\templates\emails\_protocol.html:42
 #: .\templates\emails\agenda.html:59
 msgid "Location"
 msgstr "מיקום"
 
-#: .\forms.py:34
+#: .\forms.py:35
 msgid "Background"
 msgstr "רקע"
 
-#: .\forms.py:68
-msgid "Send to"
-msgstr "נמענים"
+#: .\forms.py:69
+msgid "Me only"
+msgstr "רק לי (לבדיקה)"
 
 #: .\models.py:29 .\models.py:36
 msgid "Me only (review)"
@@ -60,8 +60,8 @@ msgstr "לועד בלבד"
 msgid "All members"
 msgstr "לכל חברי הקהילה"
 
-#: .\models.py:43 .\models.py:133 .\models.py:590
-#: .\templates\communities\participants_form.html:95
+#: .\models.py:43 .\models.py:133 .\models.py:594
+#: .\templates\communities\participants_form.html:120
 msgid "Name"
 msgstr "שם"
 
@@ -129,7 +129,7 @@ msgstr "להודיע למנהל המערכת"
 msgid "Community without meetings?"
 msgstr "קהילות ללא פגישות?"
 
-#: .\models.py:90 .\models.py:132
+#: .\models.py:90 .\models.py:132 .\models.py:603
 msgid "Community"
 msgstr "קהילה"
 
@@ -197,89 +197,89 @@ msgstr "סיכום הפגישה הקרובה"
 msgid "Committee without meetings?"
 msgstr "ועדה ללא פגישות?"
 
-#: .\models.py:212
+#: .\models.py:212 .\models.py:624
 msgid "Committee"
 msgstr "ועדה"
 
-#: .\models.py:213 .\templates\_community_panel.html:10
+#: .\models.py:213 .\templates\_committee_panel.html:5
+#: .\templates\_community_panel.html:10
+#: .\templates\communities\communitygroup_list.html:31
 msgid "Committees"
 msgstr "ועדות"
 
-#: .\models.py:579
+#: .\models.py:583
 msgid "Confidential Reason"
 msgstr "סיבה עבור נושא חסוי"
 
-#: .\models.py:580
+#: .\models.py:584
 msgid "Confidential Reasons"
 msgstr "סיבות עבור נושאים חסויים"
 
-#: .\models.py:586
+#: .\models.py:590
 msgid ""
 "A reason that can be used for marking items as confidential in your "
 "community."
 msgstr "הגדרת סיבה עבור נושאים חסויים"
 
-#: .\models.py:592
+#: .\models.py:596
 msgid "The title to give this reason."
 msgstr "כותרת עבור סיבה זו"
 
-#: .\models.py:603
+#: .\models.py:607 .\models.py:622
 msgid "Group"
 msgstr "קבוצה"
 
-#: .\models.py:604 .\templates\communities\communitygroup_detail.html:4
-#: .\templates\communities\communitygroup_list.html:4
+#: .\models.py:608 .\templates\communities\communitygroup_detail.html:4
+#: .\templates\communities\communitygroup_list.html:10
+#: .\templates\communities\communitygroup_list.html:45
 #: .\templates\communities\communitygrouprole_list.html:4
 msgid "Groups"
 msgstr "קבוצות"
 
 #: .\models.py:623
+msgid "Role"
+msgstr "הרשאות"
+
+#: .\models.py:627
 msgid "Group Role"
 msgstr "קבוצת Role"
 
-#: .\models.py:624
+#: .\models.py:628
 msgid "Group Roles"
 msgstr "קבוצות Role"
 
-#: .\models.py:654
+#: .\models.py:646
 #: .\south_migrations\0011_auto__add_field_community_register_missing_board_members__chg_field_co.py:17
-#: .\templates\communities\participants_form.html:27
 msgid "Board"
 msgstr "ועד"
 
-#: .\templates\_committee_panel.html:9
+#: .\templates\_committee_panel.html:22
 #: .\templates\communities\upcoming.html:148
 msgid "No meetings issues"
 msgstr "נושאים"
 
-#: .\templates\_committee_panel.html:9 .\templates\_community_bar.html:5
+#: .\templates\_committee_panel.html:22 .\templates\_community_bar.html:5
 #: .\templates\communities\community_search.html:15
 msgid "Issues"
 msgstr "נושאים"
 
-#: .\templates\_committee_panel.html:19
-#: .\templates\communities\base_meeting.html:17
+#: .\templates\_committee_panel.html:32
+#: .\templates\communities\base_meeting.html:18
 msgid "Updates"
 msgstr "עדכונים"
 
-#: .\templates\_committee_panel.html:19
-#: .\templates\communities\base_meeting.html:19
+#: .\templates\_committee_panel.html:32
+#: .\templates\communities\base_meeting.html:20
 msgid "Meetings"
 msgstr "פגישות"
 
-#: .\templates\_committee_panel.html:38
+#: .\templates\_committee_panel.html:51
 msgid "Rules"
 msgstr "נהלים"
 
-#: .\templates\_committee_panel.html:42
+#: .\templates\_committee_panel.html:55
 msgid "Tasks"
 msgstr "משימות"
-
-#: .\templates\_committee_panel.html:52 .\templates\_community_panel.html:22
-#: .\templates\communities\participants_form.html:30
-#: .\templates\communities\participants_form.html:168
-msgid "Members"
-msgstr "חברים"
 
 #: .\templates\_community_bar.html:8 .\templates\emails\agenda.html:21
 msgid "Agenda"
@@ -288,6 +288,11 @@ msgstr "סדר יום"
 #: .\templates\_community_bar.html:11
 msgid "History"
 msgstr "היסטוריה"
+
+#: .\templates\_community_panel.html:24
+#: .\templates\communities\participants_form.html:193
+msgid "Members"
+msgstr "חברים"
 
 #: .\templates\_user_panel.html:4
 msgid "Admin"
@@ -312,17 +317,21 @@ msgstr "כניסה"
 msgid "Issue in discussion"
 msgstr "נושא בדיון"
 
-#: .\templates\communities\base_meeting.html:30
+#: .\templates\communities\base_meeting.html:31
 #: .\templates\communities\upcoming.html:37
 #: .\templates\communities\upcoming.html:82
 msgid "Next update"
 msgstr "העדכון הבא"
 
-#: .\templates\communities\base_meeting.html:32
+#: .\templates\communities\base_meeting.html:33
 msgid "Upcoming Meeting"
 msgstr "הפגישה הקרובה"
 
-#: .\templates\communities\community_list.html:17
+#: .\templates\communities\community.html:27
+msgid "No upcoming issues"
+msgstr "אין נושאים לפגישה הקרובה"
+
+#: .\templates\communities\community_list.html:19
 msgid "My communities"
 msgstr "הקהילות שלי"
 
@@ -352,12 +361,12 @@ msgid "Results"
 msgstr "תוצאות"
 
 #: .\templates\communities\community_search.html:33
-#: .\templates\emails\_protocol.html:160 .\templates\emails\agenda.html:133
+#: .\templates\emails\_protocol.html:148 .\templates\emails\agenda.html:133
 msgid "Assigned to"
 msgstr "אחראי"
 
 #: .\templates\communities\community_search.html:36
-#: .\templates\emails\_protocol.html:164 .\templates\emails\agenda.html:137
+#: .\templates\emails\_protocol.html:152 .\templates\emails\agenda.html:137
 msgid "Due by"
 msgstr "יעד"
 
@@ -389,7 +398,11 @@ msgstr "עריכה"
 msgid "Create new group"
 msgstr "צור קבוצה"
 
-#: .\templates\communities\communitygroup_list.html:21
+#: .\templates\communities\communitygroup_form.html:13
+msgid "Assign to committee"
+msgstr "שייך לועדה"
+
+#: .\templates\communities\communitygroup_list.html:17
 msgid "Create Group"
 msgstr "צור קבוצה"
 
@@ -636,42 +649,39 @@ msgstr "רשימה"
 msgid "List of participants"
 msgstr "רשימת משתתפים בפגישה"
 
-#: .\templates\communities\participants_form.html:33
-#: .\templates\communities\participants_form.html:180
-#: .\templates\emails\_protocol.html:70
+#: .\templates\communities\participants_form.html:39
+#: .\templates\communities\participants_form.html:205
+#: .\templates\emails\_protocol.html:65
 msgid "Guests"
 msgstr "אורחים"
 
-#: .\templates\communities\participants_form.html:48
-#: .\templates\communities\participants_form.html:88
+#: .\templates\communities\participants_form.html:113
 msgid "Delete"
 msgstr "מחק"
 
-#: .\templates\communities\participants_form.html:64
-#: .\templates\communities\participants_form.html:122
-msgid "Previous participants"
-msgstr "משתתפים מפגישות קודמות"
+#: .\templates\communities\participants_form.html:129
+msgid "Email"
+msgstr "אימייל"
 
-#: .\templates\communities\participants_form.html:74
-#: .\templates\communities\participants_form.html:111
-#: .\templates\communities\participants_form.html:132
+#: .\templates\communities\participants_form.html:136
+#: .\templates\communities\participants_form.html:157
 #: .\templates\communities\upcoming.html:182
 msgid "Add"
 msgstr "הוסף"
 
-#: .\templates\communities\participants_form.html:104
-msgid "Email"
-msgstr "אימייל"
+#: .\templates\communities\participants_form.html:147
+msgid "Previous participants"
+msgstr "משתתפים מפגישות קודמות"
 
-#: .\templates\communities\participants_form.html:146
+#: .\templates\communities\participants_form.html:171
 msgid "Please select participants for upcoming meeting"
 msgstr "בחר משתתפים לפגישה הקרובה"
 
-#: .\templates\communities\participants_form.html:197
+#: .\templates\communities\participants_form.html:222
 msgid "Cancel"
 msgstr "ביטול"
 
-#: .\templates\communities\participants_form.html:198
+#: .\templates\communities\participants_form.html:223
 #: .\templates\communities\upcoming.html:276
 msgid "Save"
 msgstr "שמירה"
@@ -839,35 +849,27 @@ msgstr "פרטי הפגישה"
 msgid "Not set yet"
 msgstr "טרם נקבע"
 
-#: .\templates\emails\_protocol.html:65
-msgid "from "
-msgstr "מתוך "
-
-#: .\templates\emails\_protocol.html:66
-msgid " members of"
-msgstr "חברי"
-
-#: .\templates\emails\_protocol.html:90
+#: .\templates\emails\_protocol.html:78
 msgid "Issues & Decisions"
 msgstr "נושאים והחלטות"
 
-#: .\templates\emails\_protocol.html:102 .\templates\emails\_protocol.html:105
-#: .\templates\emails\_protocol.html:153 .\templates\emails\_protocol.html:156
-#: .\templates\emails\_protocol.html:184 .\templates\emails\_protocol.html:187
+#: .\templates\emails\_protocol.html:90 .\templates\emails\_protocol.html:93
+#: .\templates\emails\_protocol.html:141 .\templates\emails\_protocol.html:144
+#: .\templates\emails\_protocol.html:172 .\templates\emails\_protocol.html:175
 #: .\templates\emails\agenda.html:85 .\templates\emails\agenda.html.py:125
 #: .\templates\emails\agenda.html:128
 msgid "Confidential"
 msgstr "חסוי"
 
-#: .\templates\emails\_protocol.html:127 .\templates\emails\agenda.html:102
+#: .\templates\emails\_protocol.html:115 .\templates\emails\agenda.html:102
 msgid "Related files"
 msgstr "קבצים קשורים"
 
-#: .\templates\emails\_protocol.html:143
+#: .\templates\emails\_protocol.html:131
 msgid "Accepted proposals"
 msgstr "החלטות שהתקבלו"
 
-#: .\templates\emails\_protocol.html:177
+#: .\templates\emails\_protocol.html:165
 msgid "Rejected proposals"
 msgstr "הצעות החלטה שנדחו"
 
@@ -940,26 +942,35 @@ msgstr "הצבעה פעילה"
 msgid "Published"
 msgstr "פורסם"
 
-#: .\views.py:250
+#: .\views.py:270
 #, python-format
 msgid "Sending to %d users"
 msgstr "שולח ל-%d משתמשים"
 
-#: .\views.py:349
+#: .\views.py:368
 msgid "Not a valid number for page."
 msgstr "מספר עמוד לא תקין"
 
-#: .\views.py:352
+#: .\views.py:371
 msgid "Pages should be 1 or greater."
 msgstr "מספר עמוד צריך להיות 1 או יותר."
 
-#: .\views.py:361
+#: .\views.py:380
 msgid "No such page!"
 msgstr "דף לא קיים!"
 
-#: .\views.py:431 .\views.py:473
+#: .\views.py:453 .\views.py:500
 msgid "Group already exists"
 msgstr "קבוצה בשם זה כבר קיימת"
+
+#~ msgid "Send to"
+#~ msgstr "נמענים"
+
+#~ msgid "from "
+#~ msgstr "מתוך "
+
+#~ msgid " members of"
+#~ msgstr "חברי"
 
 #~ msgid "Create"
 #~ msgstr "צור"

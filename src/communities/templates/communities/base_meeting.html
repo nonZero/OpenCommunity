@@ -13,13 +13,14 @@
 
 <div class="meeting_right_column col-sm-3 hidden-xs">
 	<h2>
+		<span style="text-decoration: underline; display: block;">{{ committee.name }}</span>
         {% if LANGUAGE_CODE == 'he' and committee.no_meetings_community %}
         {% trans "Updates" %}
         {% else %}
         {% trans "Meetings" %}
         {% endif %}
     </h2>
-  <ul class="meetings_list">
+  	<ul class="meetings_list">
     {% comment %} show upcoming meeting entry only if published or the current user has permission to view the draft {% endcomment %}
     {% if community.upcoming_meeting_is_published or 'viewupcoming_draft' in cperms %}
 		<li>
@@ -32,7 +33,7 @@
                 {% endif %}
 				{% if committee.upcoming_meeting_scheduled_at %}<br /><span style="font-size: 11px;">{{ committee.upcoming_meeting_scheduled_at|date:"d F, Y" }}</span>{% endif %}
 			</a>
-    </li>
+    	</li>
     {% endif %}
 	{% if committee.meetings.count %}
 		{% for i in committee.meetings.all %}

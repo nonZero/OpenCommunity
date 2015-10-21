@@ -107,21 +107,21 @@ class UpcomingMeetingParticipantsForm(forms.ModelForm):
             'upcoming_meeting_guests': forms.Textarea,
         }
 
-    # def __init__(self, *args, **kwargs):
-    #     super(UpcomingMeetingParticipantsForm, self).__init__(*args, **kwargs)
-    #     participants = self.instance.upcoming_meeting_participants.values_list(
-    #         'id', flat=True)
-    #     board_in = []
-    #     board_choices = []
-    #     # for b in self.instance.get_board_members():
-    #     for b in self.instance.get_community_participant_members():
-    #         board_choices.append((b.id, b.display_name,))
-    #         if b.id in participants:
-    #             board_in.append(b.id)
-    #     self.fields['board'].choices = board_choices
-    #     self.initial['board'] = board_in
-    #     self.fields['upcoming_meeting_participants'].queryset = self.instance.get_members()
-    #     self.fields['upcoming_meeting_participants'].label = ""
+        # def __init__(self, *args, **kwargs):
+        #     super(UpcomingMeetingParticipantsForm, self).__init__(*args, **kwargs)
+        #     participants = self.instance.upcoming_meeting_participants.values_list(
+        #         'id', flat=True)
+        #     board_in = []
+        #     board_choices = []
+        #     # for b in self.instance.get_board_members():
+        #     for b in self.instance.get_community_participant_members():
+        #         board_choices.append((b.id, b.display_name,))
+        #         if b.id in participants:
+        #             board_in.append(b.id)
+        #     self.fields['board'].choices = board_choices
+        #     self.initial['board'] = board_in
+        #     self.fields['upcoming_meeting_participants'].queryset = self.instance.get_members()
+        #     self.fields['upcoming_meeting_participants'].label = ""
 
 
 class CommunitySearchForm(ModelSearchForm):
@@ -147,6 +147,26 @@ class GroupForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput,
         }
+
+    def __init__(self, community=None, *args, **kwargs):
+        super(GroupForm, self).__init__(*args, **kwargs)
+        self.group_role = GroupRoleForm(community=community, prefix='group_role', data=self.data if self.is_bound else None)
+        self.group_role.fields['role'].required = False
+        self.group_role.fields['committee'].required = False
+        self.group_role.fields.pop('group')
+
+    def is_valid(self):
+        valid = super(GroupForm, self).is_valid()
+        if self.data.get('group') == '' or self.data.get('role') == '' or self.data.get('committee') == '':
+            return valid
+        return self.group_role.is_valid() and valid
+
+    def save(self, commit=True):
+        o = super(GroupForm, self).save(commit)
+        if self.data.get('committee') != '' and self.data.get('role') != '':
+            self.group_role.instance.group = o
+            self.group_role.save()
+        return o
 
 
 class GroupRoleForm(forms.ModelForm):

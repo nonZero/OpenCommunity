@@ -459,6 +459,11 @@ class GroupUpdateView(GroupEditMixin, UpdateView):
 
 
 class GroupCreateView(GroupEditMixin, CreateView):
+    def get_form_kwargs(self):
+        d = super(GroupEditMixin, self).get_form_kwargs()
+        d['community'] = self.community
+        return d
+
     def form_valid(self, form):
         form.instance.community = self.community
         return super(GroupCreateView, self).form_valid(form)

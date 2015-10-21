@@ -11,7 +11,7 @@ from django.http.response import HttpResponse, HttpResponseBadRequest, Http404, 
 from django.shortcuts import render, redirect
 from django.template.response import TemplateResponse
 from django.utils.decorators import method_decorator
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, gettext
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic import FormView, CreateView
 from django.views.generic.detail import DetailView
@@ -138,14 +138,15 @@ class AcceptInvitationView(DetailView):
 
         def create_membership(user):
             # Create selected membership type
-            try:
-                m = Membership.objects.get(user=user, community=i.community)
-            except Membership.DoesNotExist:
-                m = Membership.objects.create(user=user, community=i.community,
-                                              group_name=i.group_name,
-                                              invited_by=i.created_by)
+            for group in i.groups.all():
+                try:
+                    m = Membership.objects.get(user=user, community=i.community, group_name=group)
+                except Membership.DoesNotExist:
+                    m = Membership.objects.create(user=user, community=i.community,
+                                                  group_name=group,
+                                                  invited_by=i.created_by)
             # Create all member group
-            member_group = CommunityGroup.objects.get(community=i.community, title='member')
+            member_group = CommunityGroup.objects.get(community=i.community, title=gettext('member'))
             try:
                 m = Membership.objects.get(user=user, community=i.community, group_name=member_group)
             except Membership.DoesNotExist:
@@ -383,8 +384,9 @@ class MembershipGroupList(MembershipMixin, ListView):
     def get_context_data(self, **kwargs):
         d = super(MembershipGroupList, self).get_context_data(**kwargs)
         d['form'] = InvitationForm(initial={'message': Invitation.DEFAULT_MESSAGE % self.community.name})
-        d['form'].fields['group_name'].queryset = CommunityGroup.objects.filter(community=self.community).exclude(
-            title='administrator')
+        d['form'].fields['groups'].choices = ((x.id, gettext(x.title)) for x in
+                                              CommunityGroup.objects.filter(community=self.community).exclude(
+                                                  title='administrator'))
         return d
 
     def post(self, request, *args, **kwargs):
@@ -496,8 +498,6 @@ class CreateInvitationView(AjaxFormView, MembershipMixin, CreateView):
 
         form.instance.community = self.community
         form.instance.created_by = request.user
-        if form.cleaned_data['group_name']:
-            form.instance.group_name = form.cleaned_data['group_name']
 
         i = form.save()
         i.send(sender=request.user, recipient_name=form.cleaned_data['name'])

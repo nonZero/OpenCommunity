@@ -6,7 +6,7 @@
 			<span class="sr-only">Toggle navigation</span>
 		</button>
 		<span class="navbar-brand"> {% if committee %}
-			{{ committee.community.name }} - {{ committee.name }}
+			<a href="{{ committee.community.get_absolute_url }}">{{ committee.community.name }}</a> - {{ committee.name }}
 			{% elif community %}
             {{ community }}
 			{% else %}

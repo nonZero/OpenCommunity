@@ -216,9 +216,9 @@ class Committee(UIDMixin):
     def __unicode__(self):
         return self.name
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = 'committee-%s' % self.id
+    # def save(self, *args, **kwargs):
+    #     if not self.slug:
+    #         self.slug = 'committee-%s' % self.id
 
     @models.permalink
     def get_absolute_url(self):
@@ -600,8 +600,8 @@ class CommunityConfidentialReason(models.Model):
 
 
 class CommunityGroup(models.Model):
-    community = models.ForeignKey(Community, related_name="groups")
-    title = models.CharField(max_length=200)
+    community = models.ForeignKey(Community, related_name="groups", verbose_name=_("Community"))
+    title = models.CharField(_("Title"), max_length=200)
 
     class Meta:
         verbose_name = _('Group')
@@ -619,9 +619,9 @@ class CommunityGroup(models.Model):
 
 
 class CommunityGroupRole(models.Model):
-    group = models.ForeignKey(CommunityGroup, related_name='group_roles')
-    role = models.ForeignKey(Role, related_name='group_roles')
-    committee = models.ForeignKey(Committee, related_name='group_roles')
+    group = models.ForeignKey(CommunityGroup, related_name='group_roles', verbose_name=_("Group"))
+    role = models.ForeignKey(Role, related_name='group_roles', verbose_name=_("Role"))
+    committee = models.ForeignKey(Committee, related_name='group_roles', verbose_name=_("Committee"))
 
     class Meta:
         verbose_name = _('Group Role')
@@ -643,6 +643,8 @@ def set_default_confidental_reasons(sender, instance, created,
                                     dispatch_uid='set_default_confidental_reasons',
                                     **kwargs):
     if created:
+        committee = Committee.objects.create(community=instance, name=ugettext('Board'), slug='main')
+
         # Create confidential reasons
         for reason in settings.OPENCOMMUNITY_DEFAULT_CONFIDENTIAL_REASONS:
             CommunityConfidentialReason.objects.create(community=instance, title=ugettext(reason))
@@ -655,7 +657,6 @@ def set_default_confidental_reasons(sender, instance, created,
         for role in settings.OPENCOMMUNITY_DEFAULT_ROLES:
             Role.objects.create(community=instance, title=role['title'], based_on=role['based_on'])
 
-        committee = Committee.objects.create(community=instance, name=ugettext('Board'), slug='main')
         # Create default group roles
         for group_role in settings.OPENCOMMUNITY_DEFAULT_GROUP_ROLES:
             CommunityGroupRole.objects.create(

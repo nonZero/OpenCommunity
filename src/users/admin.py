@@ -91,7 +91,7 @@ class OCUserAdmin(UserAdmin):
         (None, {
             'classes': ('wide',),
             'fields': ('email', 'display_name', 'password1', 'password2')}
-        ),
+         ),
     )
     search_fields = ('email',)
     ordering = ('email',)
@@ -111,7 +111,7 @@ class InvitationAdmin(admin.ModelAdmin):
     ordering = ('community', 'last_sent_at')
 
     def get_groups(self, obj):
-        return "\n".join([g.name for g in obj.groups.all()])
+        return ", ".join([g.title for g in obj.groups.all()])
+
 
 admin.site.register(Invitation, InvitationAdmin)
-
