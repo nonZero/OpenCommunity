@@ -6,9 +6,9 @@
 			<span class="sr-only">Toggle navigation</span>
 		</button>
 		<span class="navbar-brand"> {% if committee %}
-			<a href="{{ committee.community.get_absolute_url }}">{{ committee.community.name }}</a> - {{ committee.name }}
+			<a href="{{ committee.community.get_absolute_url }}">{{ committee.community.name }}</a>
 			{% elif community %}
-            {{ community }}
+            <a href="{{ community.get_absolute_url }}">{{ community }}</a>
 			{% else %}
 			{% trans "DemOS" %}
 			{% endif %} </span>

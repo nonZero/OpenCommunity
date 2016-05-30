@@ -1,9 +1,11 @@
+from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.core.mail import send_mail
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils import timezone
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from issues.models import Proposal, ProposalVoteValue, ProposalStatus
 from meetings.models import MeetingParticipant
@@ -62,6 +64,7 @@ class OCUserManager(BaseUserManager):
         return user
 
 
+@python_2_unicode_compatible
 class OCUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), max_length=255, unique=True,
                               db_index=True,
@@ -82,7 +85,7 @@ class OCUser(AbstractBaseUser, PermissionsMixin):
         verbose_name = _('user')
         verbose_name_plural = _('users')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.display_name
 
     def get_full_name(self):
@@ -116,14 +119,16 @@ class MembershipManager(models.Manager):
             default_group_name=DefaultGroups.MEMBER)
 
 
+@python_2_unicode_compatible
 class Membership(models.Model):
-    community = models.ForeignKey('communities.Community', verbose_name=_("Community"), related_name='memberships')
-    user = models.ForeignKey(OCUser, verbose_name=_("User"), related_name='memberships')
-    group_name = models.ForeignKey('communities.CommunityGroup', verbose_name=_('Group'), related_name='memberships')
+    community = models.ForeignKey('communities.Community', on_delete=models.CASCADE, verbose_name=_("Community"), related_name='memberships')
+    user = models.ForeignKey(OCUser, on_delete=models.CASCADE, verbose_name=_("User"), related_name='memberships')
+    group_name = models.ForeignKey('communities.CommunityGroup', on_delete=models.CASCADE, verbose_name=_('Group'), related_name='memberships')
     default_group_name = models.CharField(_('Old group'), max_length=50, choices=DefaultGroups.CHOICES, blank=True,
                                           null=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
     invited_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                   on_delete=models.CASCADE,
                                    verbose_name=_("Invited by"),
                                    related_name="members_invited", null=True,
                                    blank=True)
@@ -136,7 +141,7 @@ class Membership(models.Model):
         verbose_name_plural = _("Community Members")
         ordering = ['community']
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s: %s (%s)" % (self.community.name, self.user.display_name, self.group_name.title)
 
     @models.permalink
@@ -257,13 +262,16 @@ class EmailStatus(object):
     )
 
 
+@python_2_unicode_compatible
 class Invitation(models.Model):
     community = models.ForeignKey('communities.Community',
+                                  on_delete=models.CASCADE,
                                   verbose_name=_("Community"),
                                   related_name='invitations')
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                   on_delete=models.CASCADE,
                                    verbose_name=_("Created by"),
                                    related_name="invitations_created")
 
@@ -273,14 +281,14 @@ class Invitation(models.Model):
 
     code = models.CharField(max_length=CODE_LENGTH, default=create_code)
 
-    user = models.ForeignKey(OCUser, verbose_name=_("User"),
+    user = models.ForeignKey(OCUser, verbose_name=_("User"), on_delete=models.CASCADE,
                              related_name='invitations', null=True, blank=True)
 
     groups = models.ManyToManyField('communities.CommunityGroup', verbose_name=_('Groups'),
                                    related_name='invitations')
 
     # TODO: Remove field.
-    group_name = models.ForeignKey('communities.CommunityGroup', verbose_name=_('Group'),
+    group_name = models.ForeignKey('communities.CommunityGroup', on_delete=models.CASCADE, verbose_name=_('Group'),
                                    related_name='g_invitations', null=True, blank=True)
 
     default_group_name = models.CharField(_('Group'), max_length=50,
@@ -301,7 +309,7 @@ class Invitation(models.Model):
     DEFAULT_MESSAGE = _("The system will allow you to take part in the decision making process of %s. "
                         "Once you've joined, you'll be able to see the topics for the agenda in the upcoming meeting, decisions at previous meetings, and in the near future you'll be able to discuss and influence them.")
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s: %s (%s)" % (self.community.name, self.email, self.group_name)
 
     @models.permalink

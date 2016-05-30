@@ -83,7 +83,11 @@ class CommunityDetailView(CommunityModelMixin, DetailView):
         committees = self.object.committees.all()
         l = []
         for committee in committees:
-            c = {'committee': committee, 'issues': committee.upcoming_issues(user=self.request.user, committee=self)}
+            meetings_count = 3
+            if has_committee_perm(self.request.user, committee, 'viewupcoming_community'):
+                meetings_count = 2
+            c = {'committee': committee, 'issues': committee.upcoming_issues(user=self.request.user, committee=self),
+                 'meetings': committee.meetings.all()[:meetings_count]}
             l.append(c)
             d['committees'] = l
         return d
@@ -194,7 +198,7 @@ class EditUpcomingMeetingView(AjaxFormView, CommitteeModelMixin, UpdateView):
     form_class = EditUpcomingMeetingForm
     template_name = "communities/upcoming_form.html"
 
-    def get_form(self, form_class):
+    def get_form(self, form_class=None):
         form = super(EditUpcomingMeetingView, self).get_form(form_class)
         c = self.get_object()
         return form
@@ -234,7 +238,7 @@ class PublishUpcomingView(AjaxFormView, CommitteeModelMixin, UpdateView):
     form_class = PublishUpcomingMeetingForm
     template_name = "communities/publish_upcoming.html"
 
-    def get_form(self, form_class):
+    def get_form(self, form_class=None):
         form = super(PublishUpcomingView, self).get_form(form_class)
         c = self.get_object()
         if not c.upcoming_meeting_started:

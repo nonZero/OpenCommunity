@@ -1,8 +1,9 @@
 from __future__ import unicode_literals
+
+from django.apps import apps
 from haystack.backends.whoosh_backend import WhooshEngine
 from haystack.backends.whoosh_backend import WhooshSearchBackend
 from haystack.fields import BooleanField
-from django.db.models.loading import get_model
 from haystack.constants import ID, DJANGO_CT, DJANGO_ID
 from haystack.models import SearchResult
 from haystack.utils import get_identifier
@@ -71,7 +72,7 @@ class MyWhooshSearchBackend(WhooshSearchBackend):
             score = raw_page.score(doc_offset) or 0
             app_label, model_name = raw_result[DJANGO_CT].split('.')
             additional_fields = {}
-            model = get_model(app_label, model_name)
+            model = apps.get_model(app_label, model_name)
 
             if model and model in indexed_models:
                 for key, value in raw_result.items():

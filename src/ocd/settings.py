@@ -14,6 +14,7 @@ ABSDIR = lambda path: os.path.abspath(os.path.join(PROJECT_DIR, path))
 
 ADMINS = (
     ('Udi Oron', 'udioron@gmail.com'),
+    ('Yaniv Mirel', 'yanivmirel@gmail.com'),
 )
 
 EMAIL_SUBJECT_PREFIX = '[OpenCommunity] '
@@ -21,7 +22,9 @@ FROM_EMAIL = "noreply@opencommunity.dev"
 FROM_EMAIL_NAME = "DemOS"
 HOST_URL = "http://localhost:8000"
 
-MANAGERS = (('Boaz Chen', 'boaz.chen@gmail.com'),)
+MANAGERS = (
+    ('Boaz Chen', 'boaz.chen@gmail.com'),
+)
 
 DATABASES = {
     'default': {
@@ -34,6 +37,24 @@ DATABASES = {
         'PORT': '',
     }
 }
+
+# Password validation
+# https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -49,7 +70,7 @@ TIME_ZONE = 'Asia/Jerusalem'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'he'
 
-SITE_ID = 1
+# SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -118,6 +139,7 @@ STATICFILES_FINDERS = (
 SECRET_KEY = '!9cmmoa+#@=9o33n+wf+kf)))u6!0b)z(l-h-sq4sk*jv9&^6*'
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -125,7 +147,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
 )
 
 ROOT_URLCONF = 'ocd.urls'
@@ -140,11 +161,10 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                'django.core.context_processors.debug',
-                'django.core.context_processors.i18n',
-                'django.core.context_processors.media',
-                'django.core.context_processors.static',
-                'django.core.context_processors.tz',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
                 'ocd.context_processors.analytics',
                 'ocd.context_processors.smart_404',
@@ -156,22 +176,20 @@ TEMPLATES = [
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'ocd.wsgi.application'
 
-# TEMPLATE_DIRS = (
-#     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-#     # Always use forward slashes, even on Windows.
-#     # Don't forget to use absolute paths, not relative paths.
-#     os.path.abspath(os.path.join(os.path.dirname(__file__), "templates")),
-# )
-
 INSTALLED_APPS = (
+    'oc_util.apps.OcUtilConfig',
+    'acl.apps.AclConfig',
+    'users.apps.UsersConfig',
+    'communities.apps.CommunitiesConfig',
+    'issues.apps.IssuesConfig',
+    'meetings.apps.MeetingsConfig',
+    'shultze.apps.ShultzeConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    # 'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django.contrib.admindocs',
     'django.contrib.humanize',
     'django_rq',
     'floppyforms',
@@ -180,14 +198,6 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'taggit',
     'haystack',
-    'oc_util',
-    'acl',
-    'users',
-    'communities',
-    'issues',
-    'meetings',
-    # 'shultze',
-
 )
 
 AUTH_USER_MODEL = 'users.OCUser'
@@ -238,27 +248,13 @@ LOGIN_REDIRECT_URL = "/communities/"
 LOGIN_URL = "/login/"
 LOGOUT_URL = "/logout/"
 
-FORMAT_MODULE_PATH = "ocd.formats"
+FORMAT_MODULE_PATH = ["ocd.formats", ]
 DATE_FORMAT_OCSHORTDATE = "j.n"
 DATE_FORMAT_OCSHORTTIME = "H:i"
-# DATETIME_FORMAT = '%d/%m/%Y %H:%M'
 
 DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,
 }
-
-# TEMPLATE_CONTEXT_PROCESSORS = (
-# 'django.contrib.auth.context_processors.auth',
-#     'django.core.context_processors.debug',
-#     'django.core.context_processors.i18n',
-#     'django.core.context_processors.media',
-#     'django.core.context_processors.static',
-#     'django.core.context_processors.tz',
-#     'django.core.context_processors.request',
-#     'django.contrib.messages.context_processors.messages',
-#     'ocd.context_processors.analytics',
-#     'ocd.context_processors.smart_404',
-# )
 
 SESSION_REMEMBER_DAYS = 60
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True

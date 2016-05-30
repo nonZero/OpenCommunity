@@ -11,10 +11,16 @@
 {% block content %}
     <div class="row">
     {% for c in committees %}
+        <div class="col-xs-12">
+            <h4>
+                <a href="{{ c.committee.get_absolute_url }}">{{ c.committee.name }}</a>
+            </h4>
+        </div>
+        {% if 'viewupcoming_community' in cperms %}
         <div class="col-xs-12 col-sm-4 committee-meeting">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <a href="{{ c.committee.get_absolute_url }}">{{ c.committee.name }}</a>
+                    <a href="{{ c.committee.get_absolute_url }}">{{ c.committee.upcoming_meeting_title|default_if_none:_("Upcoming meeting") }}</a>
                     <small class="pull-right">{{ c.committee|display_upcoming_time }}</small>
                 </div>
                 <div class="panel-body">
@@ -30,6 +36,28 @@
                 </div>
             </div>
         </div>
+        {% endif %}
+        {% for m in c.meetings %}
+        <div class="col-xs-12 col-sm-4 committee-meeting">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a href="{{ m.get_absolute_url }}">{{ m.get_title_or_shortdate }}</a>
+                    <small class="pull-right">{{ m.held_at|date:"d F, Y" }}</small>
+                </div>
+                <div class="panel-body">
+                    <div class="list-group">
+                    {% if m.issues %}
+                    {% for issue in m.issues %}
+                        <a href="{{ issue.get_absolute_url }}" class="list-group-item">{{ issue }}</a>
+                    {% endfor %}
+                    {% else %}
+                    {% trans 'No issues' %}
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     {% endfor %}
     </div>
 {% endblock %}

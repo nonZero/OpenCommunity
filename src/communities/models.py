@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 import logging
 
 from acl.models import Role
@@ -7,6 +8,7 @@ from django.db import models, transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext, ugettext_lazy as _
 from issues.models import ProposalStatus, IssueStatus, VoteResult
 from meetings.models import MeetingParticipant, Meeting
@@ -39,6 +41,7 @@ class SendToOption(object):
     )
 
 
+@python_2_unicode_compatible
 class Community(UIDMixin):
     name = models.CharField(max_length=200, verbose_name=_("Name"))
     slug = models.SlugField(_('Friendly URL'), max_length=200, blank=True, null=True)
@@ -90,7 +93,7 @@ class Community(UIDMixin):
         verbose_name = _("Community")
         verbose_name_plural = _("Communities")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     @models.permalink
@@ -128,8 +131,9 @@ class Community(UIDMixin):
         return self.committees.all()
 
 
+@python_2_unicode_compatible
 class Committee(UIDMixin):
-    community = models.ForeignKey(Community, verbose_name=_("Community"), related_name="committees", null=True)
+    community = models.ForeignKey(Community, on_delete=models.CASCADE, verbose_name=_("Community"), related_name="committees", null=True)
     name = models.CharField(max_length=200, verbose_name=_("Name"))
     slug = models.SlugField(_('Friendly URL'), max_length=200, blank=True, null=True)
     is_public = models.BooleanField(_("Public community"), default=False,
@@ -213,7 +217,7 @@ class Committee(UIDMixin):
         verbose_name_plural = _("Committees")
         unique_together = ("community", "slug")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     # def save(self, *args, **kwargs):
@@ -569,6 +573,7 @@ class Committee(UIDMixin):
         return [as_agenda_item(x) for x in payload]
 
 
+@python_2_unicode_compatible
 class CommunityConfidentialReason(models.Model):
     """The set of reasons a community can declare an object confidential.
 
@@ -586,6 +591,7 @@ class CommunityConfidentialReason(models.Model):
 
     community = models.ForeignKey(
         Community,
+        on_delete=models.CASCADE,
         related_name='confidential_reasons',
         help_text=_('A reason that can be used for marking items as '
                     'confidential in your community.'), )
@@ -595,12 +601,13 @@ class CommunityConfidentialReason(models.Model):
         max_length=255,
         help_text=_('The title to give this reason.'), )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
 
+@python_2_unicode_compatible
 class CommunityGroup(models.Model):
-    community = models.ForeignKey(Community, related_name="groups", verbose_name=_("Community"))
+    community = models.ForeignKey(Community, on_delete=models.CASCADE, related_name="groups", verbose_name=_("Community"))
     title = models.CharField(_("Title"), max_length=200)
 
     class Meta:
@@ -611,17 +618,18 @@ class CommunityGroup(models.Model):
             ('community', 'title'),
         )
 
-    def __unicode__(self):
+    def __str__(self):
         return u"{}: {}".format(self.community, self.title)
 
     def get_absolute_url(self):
         return reverse("group:detail", args=(self.community.slug, self.pk))
 
 
+@python_2_unicode_compatible
 class CommunityGroupRole(models.Model):
-    group = models.ForeignKey(CommunityGroup, related_name='group_roles', verbose_name=_("Group"))
-    role = models.ForeignKey(Role, related_name='group_roles', verbose_name=_("Role"))
-    committee = models.ForeignKey(Committee, related_name='group_roles', verbose_name=_("Committee"))
+    group = models.ForeignKey(CommunityGroup, on_delete=models.CASCADE, related_name='group_roles', verbose_name=_("Group"))
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name='group_roles', verbose_name=_("Role"))
+    committee = models.ForeignKey(Committee, on_delete=models.CASCADE, related_name='group_roles', verbose_name=_("Committee"))
 
     class Meta:
         verbose_name = _('Group Role')
@@ -631,7 +639,7 @@ class CommunityGroupRole(models.Model):
         )
         ordering = ['committee']
 
-    def __unicode__(self):
+    def __str__(self):
         return u"{}: {}".format(self.committee.name, self.group)
 
     def get_absolute_url(self):

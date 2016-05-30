@@ -22,6 +22,7 @@ class CommunityGroupInline(TabularInline):
 
 class CommitteeInline(TabularInline):
     model = models.Committee
+    fields = ('name', 'slug', 'is_public')
     extra = 0
 
 

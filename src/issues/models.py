@@ -1,9 +1,11 @@
+from __future__ import unicode_literals
 from django.conf import settings
 from django.db import models, transaction
 from django.db.models.signals import post_save
 from django.db.models.query import QuerySet
 from django.dispatch import receiver
 from django.utils import timezone
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.text import get_valid_filename
 from django.utils.translation import ugettext, ugettext_lazy as _
 from ocd.base_models import HTMLField, UIDMixin, UIDManager, ConfidentialMixin
@@ -60,14 +62,15 @@ class IssueStatus(object):
     NOT_IS_UPCOMING = (OPEN, ARCHIVED)
 
 
+@python_2_unicode_compatible
 class Issue(UIDMixin, ConfidentialMixin):
     objects = IssueManager()
     active = models.BooleanField(_("Active"), default=True)
     # community = models.ForeignKey('communities.Community',
     # related_name="issues")
-    committee = models.ForeignKey('communities.Committee', related_name="issues", null=True)
+    committee = models.ForeignKey('communities.Committee', on_delete=models.CASCADE, related_name="issues", null=True)
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Created by"),
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("Created by"),
                                    related_name="issues_created")
     title = models.CharField(_("Title"), max_length=300)
     abstract = HTMLField(_("Background"), null=True, blank=True)
@@ -86,7 +89,7 @@ class Issue(UIDMixin, ConfidentialMixin):
         verbose_name_plural = _("Issues")
         ordering = ['order_in_upcoming_meeting', 'title']
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     @models.permalink
@@ -174,16 +177,16 @@ class Issue(UIDMixin, ConfidentialMixin):
 
 
 class IssueComment(UIDMixin):
-    issue = models.ForeignKey(Issue, related_name="comments")
+    issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name="comments")
     active = models.BooleanField(default=True)
     ordinal = models.PositiveIntegerField(null=True, blank=True)  # TODO: remove me
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Created by"),
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("Created by"),
                                    related_name="issue_comments_created")
-    meeting = models.ForeignKey('meetings.Meeting', null=True, blank=True)
+    meeting = models.ForeignKey('meetings.Meeting', on_delete=models.CASCADE, null=True, blank=True)
     version = models.PositiveIntegerField(default=1)
     last_edited_at = models.DateTimeField(_("Last Edited at"), auto_now_add=True)
-    last_edited_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Created by"),
+    last_edited_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("Created by"),
                                        related_name="issue_comments_last_edited", null=True, blank=True)
     content = HTMLField(_("Comment"))
 
@@ -232,7 +235,6 @@ class IssueComment(UIDMixin):
     def get_edit_url(self):
         return "edit_issue_comment", (self.issue.committee.community.slug, self.issue.committee.slug, self.id)
 
-
     @models.permalink
     def get_absolute_url(self):
         return "issue", (self.issue.committee.community.slug, self.issue.committee.slug, str(self.issue.pk))
@@ -240,10 +242,11 @@ class IssueComment(UIDMixin):
 
 class IssueCommentRevision(models.Model):
     """ Holds data for historical comments """
-    comment = models.ForeignKey(IssueComment, related_name='revisions')
+    comment = models.ForeignKey(IssueComment, on_delete=models.CASCADE, related_name='revisions')
     version = models.PositiveIntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                   on_delete=models.CASCADE,
                                    verbose_name=_("Created by"),
                                    related_name="issue_comment_versions_created")
     content = models.TextField(verbose_name=_("Content"))
@@ -260,14 +263,14 @@ def issue_attachment_path(instance, filename):
 
 
 class IssueAttachment(UIDMixin):
-    issue = models.ForeignKey(Issue, related_name="attachments")
-    agenda_item = models.ForeignKey('meetings.AgendaItem', null=True, blank=True, related_name="attachments")
+    issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name="attachments")
+    agenda_item = models.ForeignKey('meetings.AgendaItem', on_delete=models.CASCADE, null=True, blank=True, related_name="attachments")
     file = models.FileField(_("File"), storage=uploads_storage, max_length=200, upload_to=issue_attachment_path)
     title = models.CharField(_("Title"), max_length=100)
     active = models.BooleanField(default=True)
     ordinal = models.PositiveIntegerField(null=True, blank=True)
     created_at = models.DateTimeField(_("File created at"), auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Created by"), related_name="files_created")
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("Created by"), related_name="files_created")
 
     @property
     def is_confidential(self):
@@ -345,9 +348,10 @@ class ProposalVoteArgumentVoteValue(object):
     )
 
 
+@python_2_unicode_compatible
 class ProposalVoteBoard(models.Model):
-    proposal = models.ForeignKey("Proposal")
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"), related_name="board_votes")
+    proposal = models.ForeignKey("Proposal", on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("User"), related_name="board_votes")
     value = models.SmallIntegerField(_("Vote"), choices=ProposalVoteValue.CHOICES, default=ProposalVoteValue.NEUTRAL)
     voted_by_chairman = models.BooleanField(_("Voted by chairman"), default=False)  # TODO: by who?
 
@@ -360,7 +364,7 @@ class ProposalVoteBoard(models.Model):
         verbose_name = _("Proposal Vote")
         verbose_name_plural = _("Proposal Votes")
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s - %s" % (self.proposal.issue.title, self.user.display_name)
 
 
@@ -388,12 +392,14 @@ class ProposalStatus(object):
     )
 
 
+@python_2_unicode_compatible
 class Proposal(UIDMixin, ConfidentialMixin):
     objects = ProposalManager()
-    issue = models.ForeignKey(Issue, related_name="proposals")
+    issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name="proposals")
     active = models.BooleanField(_("Active"), default=True)
     created_at = models.DateTimeField(_("Create at"), auto_now_add=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                   on_delete=models.CASCADE,
                                    related_name="proposals_created",
                                    verbose_name=_("Created by"))
     type = models.PositiveIntegerField(_("Type"), choices=ProposalType.CHOICES)
@@ -402,9 +408,10 @@ class Proposal(UIDMixin, ConfidentialMixin):
     content = HTMLField(_("Details"), null=True, blank=True)
     status = models.IntegerField(choices=ProposalStatus.choices, default=ProposalStatus.IN_DISCUSSION)
     statuses = ProposalStatus
-    decided_at_meeting = models.ForeignKey('meetings.Meeting', null=True, blank=True)
+    decided_at_meeting = models.ForeignKey('meetings.Meeting', on_delete=models.CASCADE, null=True, blank=True)
     assigned_to = models.CharField(_("Assigned to"), max_length=200, null=True, blank=True)
     assigned_to_user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                         on_delete=models.CASCADE,
                                          verbose_name=_("Assigned to user"),
                                          null=True, blank=True,
                                          related_name="proposals_assigned")
@@ -420,7 +427,7 @@ class Proposal(UIDMixin, ConfidentialMixin):
         verbose_name = _("Proposal")
         verbose_name_plural = _("Proposals")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     @property
@@ -456,7 +463,6 @@ class Proposal(UIDMixin, ConfidentialMixin):
                 not self.issue.committee.upcoming_meeting_is_published or \
                 self.issue.committee.straw_vote_ended)
 
-
     def get_straw_results(self, meeting_id=None):
         """ get straw voting results registered for the given meeting """
         if meeting_id:
@@ -481,7 +487,6 @@ class Proposal(UIDMixin, ConfidentialMixin):
             return vote.value
         except ProposalVoteBoard.DoesNotExist:
             return None
-
 
     @property
     def board_vote_result(self):
@@ -523,7 +528,6 @@ class Proposal(UIDMixin, ConfidentialMixin):
         self.votes_con = con_votes
         self.community_members = members_count
         self.save()
-
 
     def is_task(self):
         return self.type == ProposalType.TASK
@@ -601,8 +605,8 @@ class Proposal(UIDMixin, ConfidentialMixin):
 
 
 class ProposalVote(models.Model):
-    proposal = models.ForeignKey(Proposal, related_name='votes')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"), related_name="votes")
+    proposal = models.ForeignKey(Proposal, on_delete=models.CASCADE, related_name='votes')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("User"), related_name="votes")
     value = models.SmallIntegerField(_("Vote"), choices=ProposalVoteValue.CHOICES, default=ProposalVoteValue.NEUTRAL)
 
     @property
@@ -614,16 +618,18 @@ class ProposalVote(models.Model):
         verbose_name = _("Proposal Vote")
         verbose_name_plural = _("Proposal Votes")
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s | %s - %s (%s)" % (
             self.proposal.issue.title, self.proposal.title, self.user.display_name, self.get_value_display())
 
 
+@python_2_unicode_compatible
 class ProposalVoteArgument(models.Model):
-    proposal_vote = models.ForeignKey(ProposalVote, related_name='arguments')
+    proposal_vote = models.ForeignKey(ProposalVote, on_delete=models.CASCADE, related_name='arguments')
     argument = models.TextField(verbose_name=_("Argument"))
     created_at = models.DateTimeField(_("Create at"), auto_now_add=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                   on_delete=models.CASCADE,
                                    related_name="arguments_created",
                                    verbose_name=_("Created by"))
 
@@ -631,7 +637,7 @@ class ProposalVoteArgument(models.Model):
         verbose_name = _("Proposal vote argument")
         verbose_name_plural = _("Proposal vote arguments")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.argument
 
     @models.permalink
@@ -679,8 +685,8 @@ class ProposalVoteArgument(models.Model):
 
 
 class ProposalVoteArgumentRanking(models.Model):
-    argument = models.ForeignKey(ProposalVoteArgument)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"), related_name="argument_votes")
+    argument = models.ForeignKey(ProposalVoteArgument, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("User"), related_name="argument_votes")
     value = models.SmallIntegerField(_("Vote"), choices=ProposalVoteArgumentVoteValue.CHOICES)
 
     class Meta:
@@ -690,8 +696,8 @@ class ProposalVoteArgumentRanking(models.Model):
 
 class VoteResult(models.Model):
     """ straw vote result per proposal, per meeting """
-    proposal = models.ForeignKey(Proposal, related_name="results")
-    meeting = models.ForeignKey('meetings.Meeting')
+    proposal = models.ForeignKey(Proposal, on_delete=models.CASCADE, related_name="results")
+    meeting = models.ForeignKey('meetings.Meeting', on_delete=models.CASCADE)
     votes_pro = models.PositiveIntegerField(_("Votes pro"))
     votes_con = models.PositiveIntegerField(_("Votes con"))
     community_members = models.PositiveIntegerField(_("Community members"))
@@ -707,8 +713,8 @@ class VoteResult(models.Model):
 
 
 class IssueRankingVote(models.Model):
-    voted_by = models.ForeignKey(settings.AUTH_USER_MODEL)
-    issue = models.ForeignKey(Issue, related_name='ranking_votes')
+    voted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='ranking_votes')
     rank = models.PositiveIntegerField()
 
     @property

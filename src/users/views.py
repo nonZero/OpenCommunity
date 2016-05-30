@@ -56,7 +56,7 @@ class MembershipList(MembershipMixin, ListView):
         d['form'] = InvitationForm(initial={'message':
                                                 Invitation.DEFAULT_MESSAGE %
                                                 self.community.name})
-        d['form'].fields['group_name'].queryset = CommunityGroup.objects.filter(community=self.community).exclude(
+        d['form'].fields['groups'].queryset = CommunityGroup.objects.filter(community=self.community).exclude(
             title='administrator')
         d['members'] = Membership.objects.filter(community=self.community).order_by('group_name')
         # d['board_list'] = Membership.objects.board().filter(community=self.community)

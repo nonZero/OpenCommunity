@@ -1,5 +1,5 @@
 {% extends "dialog.html" %}
-{% load i18n %}
+{% load i18n opencommunity %}
 
 {% block page_header %}
     {% trans "Invite member" %}
@@ -7,6 +7,20 @@
 
 {% block content %}
 
-    {{form}}
+    {{ form.non_field_errors }}
+    {% for field in form %}
+    <div class="form-group clearfix">
+        {{ field.errors }}
+        <label for="{{ field.id_for_label }}" class="control-label">
+        {{ field.label }}
+        {% if field.field.required %}
+            <span class="required">*</span>
+        {% endif %}
+        </label>
+        <div class="controls field-{{ field.html_name }}">
+            {{ field|addcss:"form-control" }}
+        </div>
+    </div>
+    {% endfor %}
 
 {% endblock %}

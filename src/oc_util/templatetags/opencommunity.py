@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 import datetime
 
 from django import template
+from django.conf import settings
 from django.template import defaultfilters
 from django.template.defaultfilters import stringfilter
 from django.utils.formats import date_format
@@ -161,8 +162,8 @@ def ocshortdate(value):
 
     now = datetime.date.today()
     if value.date() != now:
-        return date_format(value, "DATE_FORMAT_OCSHORTDATE")
-    return date_format(value, "DATE_FORMAT_OCSHORTTIME")
+        return date_format(value, settings.DATE_FORMAT_OCSHORTDATE)
+    return date_format(value, settings.DATE_FORMAT_OCSHORTTIME)
 
 
 @register.filter
@@ -247,3 +248,10 @@ def board_by_vote(p, val):
 def board_votes_in_meeting(proposal, meeting_id):
     meeting = get_object_or_404(Meeting, id=meeting_id)
 """
+
+
+@register.filter(name='addcss')
+def addcss(field, css):
+    if field.field.widget.__class__.__name__ == 'Textarea':
+        return field.as_widget(attrs={"class": css, "rows": "2"})
+    return field.as_widget(attrs={"class": css})

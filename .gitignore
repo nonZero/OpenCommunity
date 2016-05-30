@@ -8,6 +8,9 @@
 # collected static files
 /static/
 
+# backup files
+/backups/
+
 # virtualenv stuff
 /Scripts/
 /Lib/
@@ -26,15 +29,11 @@ src/ocd/static/assets/
 build/pip-delete-this-directory.txt
 db/ocd_new.db
 db/opencommunity.db
-media/community_logo/Maya_3.jpg
-media/community_logo/maya.jpg
-media/community_logo/maya_1.jpg
-media/community_logo/maya_2.jpg
+/media/
 src/communities/ignored
 src/ocd/static/community_logo/maya.jpg
 src/ocd/static/community_logo/maya_1.jpg
-uploads/rngjlh7k5ru9he0iwcfv6blr/iyrokudyh9fk4ct53faczcm7/Maya.jpg
-uploads/
+/uploads/
 src/ocd/static/bootstrap-3.0.0/
 src/dummysmtp.cmd
 src/run.cmd
@@ -45,7 +44,6 @@ src/ocd/static/Chart.js/
 Boaz-Chen_OPEN-COMMUNITY/
 /.idea/
 build
-media/community_logo
 whoosh_index/
 
 # editor files
@@ -64,3 +62,6 @@ src/.idea/testrunner.xml
 src/.idea/vcs.xml
 src/.idea/workspace.xml
 pip-selfcheck.json
+notes.txt
+oc.db
+src/qa.opencommunity.org.il/
