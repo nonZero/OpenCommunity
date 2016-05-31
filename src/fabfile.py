@@ -18,7 +18,7 @@ env.venv_command = '. bin/activate'
 env.log_dir = '/var/log/opencommunity/'
 env.clone_url = "https://github.com/hasadna/OpenCommunity.git"
 env.backup_dir = '~/backups'
-env.pip_version = "1.5.4"
+env.pip_version = "8.1.2"
 
 
 @contextmanager
@@ -147,7 +147,6 @@ def deploy(restart=True):
         run("git pull")
         run("pip install -r requirements.txt")
         run("pip install -r deploy-requirements.txt")
-        run("cd src && python manage.py syncdb --noinput")
         run("cd src && python manage.py migrate --merge --noinput")
         run("cd src && python manage.py collectstatic --noinput")
         run("git log -n 1 --format=\"%ai %h\" > static/version.txt")
