@@ -147,7 +147,7 @@ def deploy(restart=True):
         run("git pull")
         run("pip install -r requirements.txt")
         run("pip install -r deploy-requirements.txt")
-        run("cd src && python manage.py migrate --merge --noinput")
+        run("cd src && python manage.py migrate --noinput")
         run("cd src && python manage.py collectstatic --noinput")
         run("git log -n 1 --format=\"%ai %h\" > static/version.txt")
         run("git log -n 1 > static/version-full.txt")
