@@ -30,7 +30,7 @@
                         <a href="{{ issue.get_absolute_url }}" class="list-group-item">{{ issue }}</a>
                     {% endfor %}
                     {% else %}
-                    <a href="#" class="list-group-item">{% trans 'No upcoming issues' %}</a>
+                    <p class="list-group-item">{% trans 'No upcoming issues' %}</p>
                     {% endif %}
                     </div>
                 </div>

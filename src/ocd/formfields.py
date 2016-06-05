@@ -18,7 +18,11 @@ class DateTimeLocalInput(forms.DateTimeInput):
 class OCSplitDateTime(forms.SplitDateTimeWidget):
     def render(self, name, value, attrs=None):
         html = super(OCSplitDateTime, self).render(name, value, attrs=attrs)
-        return mark_safe("<span class=\"oc-dt-split\">%s</span>" % html)
+        return mark_safe('<span class="oc-dt-split">%s</span>' % html)
+
+
+class OCSplitDateTimeField(forms.SplitDateTimeField):
+    widget = OCSplitDateTime
 
 
 class OCCheckboxSelectMultiple(forms.SelectMultiple):

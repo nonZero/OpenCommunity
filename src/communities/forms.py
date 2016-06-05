@@ -2,7 +2,7 @@ from datetime import datetime, date, time
 
 from communities.models import Committee, CommunityGroup, CommunityGroupRole
 from django.utils.translation import ugettext_lazy as _, gettext
-from ocd.formfields import HTMLArea, OCSplitDateTime, OCCheckboxSelectMultiple
+from ocd.formfields import HTMLArea, OCCheckboxSelectMultiple, OCSplitDateTimeField
 import floppyforms.__future__ as forms
 from haystack.forms import ModelSearchForm
 
@@ -21,10 +21,13 @@ class EditUpcomingMeetingForm(forms.ModelForm):
 
         widgets = {
             'upcoming_meeting_title': forms.TextInput,
-            'upcoming_meeting_scheduled_at': OCSplitDateTime,
             'upcoming_meeting_location': forms.TextInput,
             # 'voting_ends_at': OCSplitDateTime,
             'upcoming_meeting_comments': HTMLArea,
+        }
+
+        field_classes = {
+            'upcoming_meeting_scheduled_at': OCSplitDateTimeField,
         }
 
     def __init__(self, *args, **kwargs):
@@ -68,6 +71,7 @@ class EditUpcomingMeetingForm(forms.ModelForm):
 class PublishUpcomingMeetingForm(forms.ModelForm):
     me = forms.BooleanField(label=_("Me only"), widget=forms.CheckboxInput, required=False)
     send_to = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), required=False)
+
     # send_to = forms.TypedChoiceField(label=_("Send to"), coerce=int,
     #                                  choices=SendToOption.choices,
     #                                  widget=forms.RadioSelect)
@@ -150,7 +154,8 @@ class GroupForm(forms.ModelForm):
 
     def __init__(self, community=None, *args, **kwargs):
         super(GroupForm, self).__init__(*args, **kwargs)
-        self.group_role = GroupRoleForm(community=community, prefix='group_role', data=self.data if self.is_bound else None)
+        self.group_role = GroupRoleForm(community=community, prefix='group_role',
+                                        data=self.data if self.is_bound else None)
         self.group_role.fields['role'].required = False
         self.group_role.fields['committee'].required = False
         self.group_role.fields.pop('group')

@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 import logging
+import random
 
 from acl.models import Role
 from django.conf import settings
@@ -130,10 +131,16 @@ class Community(UIDMixin):
     def get_committees(self):
         return self.committees.all()
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = 'c{0}'.format(random.randint(1000, 1000000))
+        super(Community, self).save(*args, **kwargs)
+
 
 @python_2_unicode_compatible
 class Committee(UIDMixin):
-    community = models.ForeignKey(Community, on_delete=models.CASCADE, verbose_name=_("Community"), related_name="committees", null=True)
+    community = models.ForeignKey(Community, on_delete=models.CASCADE, verbose_name=_("Community"),
+                                  related_name="committees", null=True)
     name = models.CharField(max_length=200, verbose_name=_("Name"))
     slug = models.SlugField(_('Friendly URL'), max_length=200, blank=True, null=True)
     is_public = models.BooleanField(_("Public community"), default=False,
@@ -607,7 +614,8 @@ class CommunityConfidentialReason(models.Model):
 
 @python_2_unicode_compatible
 class CommunityGroup(models.Model):
-    community = models.ForeignKey(Community, on_delete=models.CASCADE, related_name="groups", verbose_name=_("Community"))
+    community = models.ForeignKey(Community, on_delete=models.CASCADE, related_name="groups",
+                                  verbose_name=_("Community"))
     title = models.CharField(_("Title"), max_length=200)
 
     class Meta:
@@ -627,9 +635,11 @@ class CommunityGroup(models.Model):
 
 @python_2_unicode_compatible
 class CommunityGroupRole(models.Model):
-    group = models.ForeignKey(CommunityGroup, on_delete=models.CASCADE, related_name='group_roles', verbose_name=_("Group"))
+    group = models.ForeignKey(CommunityGroup, on_delete=models.CASCADE, related_name='group_roles',
+                              verbose_name=_("Group"))
     role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name='group_roles', verbose_name=_("Role"))
-    committee = models.ForeignKey(Committee, on_delete=models.CASCADE, related_name='group_roles', verbose_name=_("Committee"))
+    committee = models.ForeignKey(Committee, on_delete=models.CASCADE, related_name='group_roles',
+                                  verbose_name=_("Committee"))
 
     class Meta:
         verbose_name = _('Group Role')

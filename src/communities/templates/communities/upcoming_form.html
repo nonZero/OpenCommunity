@@ -6,22 +6,21 @@
 {% endblock %}
 
 {% block form_name %}
-<div class="meeting-form-bg"></div>
+    <div class="meeting-form-bg"></div>
 {% endblock %}
 
 {% block scripts %}
     {{ block.super }}
     <script>
-        $('#id_upcoming_meeting_scheduled_at_0').blur(function(event) {
-            var cur_end_vote_date = $('#id_voting_ends_at_0').val()
+        $('#id_upcoming_meeting_scheduled_at_0').blur(function (event) {
+            var cur_end_vote_date = $('#id_voting_ends_at_0').val();
             var date_str = $(this).val();
-            if( !cur_end_vote_date ||
-                (new Date(date_str) < new Date(cur_end_vote_date))) {            
+            if (!cur_end_vote_date || (new Date(date_str) < new Date(cur_end_vote_date))) {
                 /*
-                var d_as_millis = d.getTime()
-                d_as_millis -= 24 * 60 * 60 * 1000
-                console.log(end_vote_time);
-                */
+                 var d_as_millis = d.getTime()
+                 d_as_millis -= 24 * 60 * 60 * 1000
+                 console.log(end_vote_time);
+                 */
                 $('#id_voting_ends_at_0').val(date_str);
                 $('#id_voting_ends_at_1').val("00:00");
             }

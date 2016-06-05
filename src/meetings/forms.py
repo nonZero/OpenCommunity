@@ -3,7 +3,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import mark_safe
 from meetings.models import Meeting
-from ocd.formfields import OCSplitDateTime
+from ocd.formfields import OCSplitDateTime, OCSplitDateTimeField
 import floppyforms.__future__ as forms
 
 
@@ -29,8 +29,12 @@ class CloseMeetingForm(forms.ModelForm):
             'held_at',
         )
 
-        widgets = {
-            'held_at': OCSplitDateTime,
+        # widgets = {
+        #     'held_at': OCSplitDateTime,
+        # }
+
+        field_classes = {
+            'held_at': OCSplitDateTimeField,
         }
 
     def _get_issue_alert(self, issue):
