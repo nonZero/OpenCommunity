@@ -38,8 +38,7 @@ class InvitationForm(forms.ModelForm):
 
     def __init__(self, community=None, *args, **kwargs):
         super(InvitationForm, self).__init__(*args, **kwargs)
-        # self.fields['groups'].choices = ((x.id, gettext(x.title)) for x in CommunityGroup.objects.filter(community=community).exclude(title='administrator'))
-        # self.fields['group_name'].queryset = CommunityGroup.objects.filter(community=community).exclude(title='administrator')
+        self.fields['groups'].queryset = CommunityGroup.objects.filter(community=community).exclude(title='administrator')
 
 
 class QuickSignupForm(forms.ModelForm):

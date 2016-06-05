@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-21 09:28+0300\n"
+"POT-Creation-Date: 2016-06-05 14:44+0300\n"
 "PO-Revision-Date: 2015-06-17 21:56+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
@@ -31,35 +31,35 @@ msgid ""
 "pass onconfidentiality."
 msgstr ""
 
-#: .\settings.py:292
+#: .\settings.py:288
 msgid "admin"
 msgstr "מנהל קהילה"
 
-#: .\settings.py:293 .\settings.py:299
+#: .\settings.py:289 .\settings.py:295
 msgid "chairman"
 msgstr "יושב ראש"
 
-#: .\settings.py:294 .\settings.py:300
+#: .\settings.py:290 .\settings.py:296
 msgid "board"
 msgstr "חבר ועד"
 
-#: .\settings.py:295 .\settings.py:301
+#: .\settings.py:291 .\settings.py:297
 msgid "member"
 msgstr "חבר קהילה"
 
-#: .\settings.py:311
+#: .\settings.py:307
 msgid "Privacy"
 msgstr "פרטיות"
 
-#: .\settings.py:312
+#: .\settings.py:308
 msgid "Commercial"
 msgstr "מסחרי"
 
-#: .\settings.py:313
+#: .\settings.py:309
 msgid "Security"
 msgstr "ביטחון"
 
-#: .\settings.py:314
+#: .\settings.py:310
 msgid "Legal"
 msgstr "משפטי"
 
@@ -76,7 +76,7 @@ msgid "You don't have permission to view that page"
 msgstr "אין לך הרשאה לצפיה בדף זה"
 
 #: .\templates\403.html:21 .\templates\_navbar.html:50
-#: .\templates\login.html:10 .\templates\login.html.py:30
+#: .\templates\login.html:9 .\templates\login.html:29
 msgid "Login"
 msgstr "כניסה"
 
@@ -84,8 +84,8 @@ msgstr "כניסה"
 msgid "DemOS 404"
 msgstr "DemOS 404"
 
-#: .\templates\404.html:24 .\templates\404.html.py:40 .\templates\404.html:56
-#: .\templates\404.html.py:72 .\templates\404.html:88 .\templates\500.html:34
+#: .\templates\404.html:24 .\templates\404.html:40 .\templates\404.html:56
+#: .\templates\404.html:72 .\templates\404.html:88 .\templates\500.html:34
 msgid "Oops..."
 msgstr "אופס..."
 
@@ -93,12 +93,12 @@ msgstr "אופס..."
 msgid "We couldn't find the requested community"
 msgstr "לא נמצאה הקהילה המבוקשת"
 
-#: .\templates\404.html:29 .\templates\404.html.py:45 .\templates\404.html:61
-#: .\templates\404.html.py:77
+#: .\templates\404.html:29 .\templates\404.html:45 .\templates\404.html:61
+#: .\templates\404.html:77
 msgid "You can go to the"
 msgstr "אתה יכול לגשת ל"
 
-#: .\templates\404.html:30 .\templates\404.html.py:94 .\templates\500.html:39
+#: .\templates\404.html:30 .\templates\404.html:94 .\templates\500.html:39
 msgid "Main page"
 msgstr "עמוד ראשי"
 
@@ -142,12 +142,12 @@ msgstr "DemOS 500"
 msgid "The server is playing up."
 msgstr "השרת משחק."
 
-#: .\templates\_navbar.html:13 .\templates\_navbar.html.py:43
+#: .\templates\_navbar.html:13 .\templates\_navbar.html:43
 #: .\templates\base.html:9
 msgid "DemOS"
 msgstr "DemOS"
 
-#: .\templates\_navbar.html:31 .\templates\_navbar.html.py:63
+#: .\templates\_navbar.html:31 .\templates\_navbar.html:63
 msgid "General search text..."
 msgstr "חיפוש טקסט כללי..."
 
@@ -199,11 +199,11 @@ msgstr "גרסא"
 msgid "Save"
 msgstr "שמור"
 
-#: .\templates\login.html:25
+#: .\templates\login.html:24
 msgid "Remember me"
 msgstr "זכור אותי"
 
-#: .\templates\login.html:28
+#: .\templates\login.html:27
 msgid "forgot password"
 msgstr "שכחת סיסמא"
 
@@ -311,17 +311,17 @@ msgstr "אפס סיסמא"
 msgid "Search"
 msgstr "חיפוש"
 
-#: .\templates\search\search.html:14 .\templates\search\search.html.py:18
+#: .\templates\search\search.html:14 .\templates\search\search.html:18
 #: .\templates\search\search.html:22
 msgid "All"
 msgstr "כל חברי הקהילה"
 
-#: .\templates\search\search.html:15 .\templates\search\search.html.py:19
+#: .\templates\search\search.html:15 .\templates\search\search.html:19
 #: .\templates\search\search.html:23
 msgid "Issues"
 msgstr "נושאים לדיון"
 
-#: .\templates\search\search.html:16 .\templates\search\search.html.py:20
+#: .\templates\search\search.html:16 .\templates\search\search.html:20
 #: .\templates\search\search.html:24
 msgid "Proposals"
 msgstr "הצעות"

@@ -62,8 +62,10 @@ class CommitteeModelMixin(ProtectedMixin):
     model = models.Committee
 
     def get_object(self):
-        return models.Committee.objects.get(slug=self.kwargs['committee_slug'],
-                                            community__slug=self.kwargs['community_slug'])
+        return models.Committee.objects.get(
+            slug=self.kwargs['committee_slug'],
+            community__slug=self.kwargs['community_slug']
+        )
 
     @property
     def community(self):
@@ -86,8 +88,11 @@ class CommunityDetailView(CommunityModelMixin, DetailView):
             meetings_count = 3
             if has_committee_perm(self.request.user, committee, 'viewupcoming_community'):
                 meetings_count = 2
-            c = {'committee': committee, 'issues': committee.upcoming_issues(user=self.request.user, committee=self),
-                 'meetings': committee.meetings.all()[:meetings_count]}
+            c = {
+                'committee': committee,
+                'issues': committee.upcoming_issues(user=self.request.user, committee=committee),
+                'meetings': committee.meetings.all()[:meetings_count]
+            }
             l.append(c)
             d['committees'] = l
         return d
@@ -107,13 +112,10 @@ class UpcomingMeetingView(CommitteeModelMixin, DetailView):
                                   'viewupcoming_draft') \
                 and not self.committee.upcoming_meeting_is_published:
             try:
-                last_meeting = Meeting.objects.filter(committee=self.committee) \
-                    .latest('held_at')
-                return HttpResponseRedirect(reverse('meeting',
-                                                    kwargs={
-                                                        'community_slug': self.community.slug,
-                                                        'committee_slug': self.committee.slug,
-                                                        'pk': last_meeting.id}))
+                last_meeting = Meeting.objects.filter(committee=self.committee).latest('held_at')
+                return HttpResponseRedirect(reverse('meeting', kwargs={'community_slug': self.community.slug,
+                                                                       'committee_slug': self.committee.slug,
+                                                                       'pk': last_meeting.id}))
             except Meeting.DoesNotExist:
                 pass
 
