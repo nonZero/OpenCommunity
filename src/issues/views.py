@@ -450,7 +450,7 @@ class ProposalDetailView(ProposalMixin, DetailView):
 
         for u in board_attending:
             # check u has perm for board vote
-            vote = ProposalVoteBoard.objects.filter(proposal=self.get_object, user=u)
+            vote = ProposalVoteBoard.objects.filter(proposal=self.get_object(), user=u)
             if vote.exists():
                 votes_dict['per_user'][u] = vote[0]
                 if vote[0].value == 1:

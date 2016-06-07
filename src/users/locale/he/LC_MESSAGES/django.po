@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-05 14:44+0300\n"
+"POT-Creation-Date: 2016-06-07 11:27+0300\n"
 "PO-Revision-Date: 2015-10-21 09:26+0300\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.5\n"
 
-#: .\admin.py:42 .\forms.py:46
+#: .\admin.py:42 .\forms.py:45
 msgid "Password"
 msgstr "סיסמא"
 
@@ -42,19 +42,19 @@ msgid ""
 "be case-sensitive."
 msgstr "אנא הכנס %(username)s וסיסמא תיקניים. שים לב לאותיות קטנות וגדולות."
 
-#: .\forms.py:47
+#: .\forms.py:46
 msgid "Password confirmation"
 msgstr "אימות סיסמא"
 
-#: .\forms.py:61
+#: .\forms.py:60
 msgid "Passwords don't match"
 msgstr "סיסמא לא תואמת"
 
-#: .\forms.py:104
+#: .\forms.py:103
 msgid "Upload CSV file to import"
 msgstr "העלאת קובץ csv"
 
-#: .\forms.py:108
+#: .\forms.py:107
 msgid "Choose groups"
 msgstr "בחר קבוצות"
 

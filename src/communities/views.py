@@ -214,9 +214,15 @@ class EditUpcomingMeetingParticipantsView(AjaxFormView, CommitteeModelMixin, Upd
 
     def get_context_data(self, **kwargs):
         d = super(EditUpcomingMeetingParticipantsView, self).get_context_data(**kwargs)
-        d['groups'] = self.get_object().community.groups.all()
-        d['all_group_members'] = self.get_object().community.memberships.all().order_by('group_name')
-        d['meeting_participants'] = self.get_object().upcoming_meeting_participants.all()
+        g_list = []
+        for group in self.get_object().community.groups.all():
+            g_list.append({
+                'group_id': group.id,
+                'group_name': group.title,
+                'members': group.memberships.all().values('user_id', 'user__display_name')
+            })
+        d['groups'] = g_list
+        d['meeting_participants'] = self.get_object().upcoming_meeting_participants.values_list('id', flat=True)
         return d
 
 
@@ -245,8 +251,6 @@ class PublishUpcomingView(AjaxFormView, CommitteeModelMixin, UpdateView):
         c = self.get_object()
         if not c.upcoming_meeting_started:
             form.fields['send_to'].choices = ((x.group.id, gettext(x.group.title)) for x in c.group_roles.all())
-            form.fields['send_to'].label = ''
-            # form.fields['send_to'].choices = models.SendToOption.publish_choices
 
         return form
 
@@ -266,10 +270,9 @@ class PublishUpcomingView(AjaxFormView, CommitteeModelMixin, UpdateView):
         template = 'protocol_draft' if c.upcoming_meeting_started else 'agenda'
         tpl_data = {
             'meeting_time': datetime.datetime.now().replace(second=0),
-            'can_straw_vote': c.upcoming_proposals_any({'is_open': True},
-                                                       user=self.request.user,
-                                                       committee=self.object) \
-                              and c.upcoming_meeting_is_published,
+            'can_straw_vote': c.upcoming_proposals_any(
+                {'is_open': True}, user=self.request.user, committee=self.object
+            ) and c.upcoming_meeting_is_published
         }
         total = send_mail(c, template, self.request.user, form.cleaned_data['send_to'], tpl_data,
                           send_to_me=form.cleaned_data['me'])

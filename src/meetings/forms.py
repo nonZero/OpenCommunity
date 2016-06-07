@@ -29,10 +29,6 @@ class CloseMeetingForm(forms.ModelForm):
             'held_at',
         )
 
-        # widgets = {
-        #     'held_at': OCSplitDateTime,
-        # }
-
         field_classes = {
             'held_at': OCSplitDateTimeField,
         }
@@ -47,8 +43,6 @@ class CloseMeetingForm(forms.ModelForm):
             return None
 
     def __init__(self, *args, **kwargs):
-        # self.helper = FormHelper()
-        # self.helper.add_input(Submit('submit', _('Close Meeting')))
         issues = kwargs.pop('issues')
         super(CloseMeetingForm, self).__init__(*args, **kwargs)
         issues_op = []

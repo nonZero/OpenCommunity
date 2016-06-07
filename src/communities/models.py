@@ -286,13 +286,14 @@ class Committee(UIDMixin):
 
     def meeting_participants(self):
 
-        l = []
-        for u in self.upcoming_meeting_participants.all():
-            for ug in u.memberships.all():
-                if 'proposal_board_vote' in ug.get_committee_group_permissions(self):
-                    l.append(u)
-                    break
-        return l
+        return self.upcoming_meeting_participants.all()
+        # l = []
+        # for u in self.upcoming_meeting_participants.all():
+        #     for ug in u.memberships.all():
+        #         if 'proposal_board_vote' in ug.get_committee_group_permissions(self):
+        #             l.append(u)
+        #             break
+        # return l
 
     # def meeting_participants(self):
     #
@@ -523,7 +524,7 @@ class Committee(UIDMixin):
             meeting_participants = self.upcoming_meeting_participants.all()
             for i, p in enumerate(meeting_participants):
                 try:
-                    mm = p.memberships.get(community=self.community)
+                    mm = p.memberships.filter(community=self.community).first()
                 except Membership.DoesNotExist:
                     mm = None
 

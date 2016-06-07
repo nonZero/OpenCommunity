@@ -17,7 +17,6 @@
 <form id="participants_form">
 
     <div id="p_select" style="display:none;">
-        {% comment %}{% formfield form.upcoming_meeting_participants %}{% endcomment %}
         {% formfield form.upcoming_meeting_guests %}
     </div>
 
@@ -25,79 +24,34 @@
         <ul class="nav nav-tabs">
             {% for group in groups %}
             <li{% if forloop.first %} class="active"{% endif %}>
-                <a href="#group_{{ group.id }}" data-toggle="tab">{{ group.title }}</a>
+                <a href="#group_{{ group.group_id }}" data-toggle="tab">{{ group.group_name }}</a>
             </li>
             {% endfor %}
-            {%  comment %}
-            <li>
-                <a href="#members" data-toggle="tab">{% trans "Members" %}</a>
-            </li>
-            {% endcomment %}
             <li>
                 <a href="#guests" data-toggle="tab">{% trans "Guests" %}</a>
             </li>
         </ul>
         <div class="tab-content">
-            {% for member in all_group_members %}
-            {% ifchanged member.group_name %}
+            {% for group in groups %}
+            {% ifchanged group.group_id %}
             {% if not forloop.first %}</ul></div>{% endif %}
-            <div class="tab-pane{% if forloop.first %} active{% endif %}" id="group_{{ member.group_name.id }}">
+            <div class="tab-pane{% if forloop.first %} active{% endif %}" id="group_{{ group.group_id }}">
                 <ul class="list-group">
             {% endifchanged %}
+                {% for member in group.members %}
                     <li class="list-group-item checkbox" style="margin: 0;">
-		                <label for="id_upcoming_meeting_participants_{{ member.user.id }}">
-			                <input {% if member.user in meeting_participants %}checked="checked" {% endif %}type="checkbox" id="id_upcoming_meeting_participants_{{ member.user.id }}" name="upcoming_meeting_participants" value="{{ member.user.id }}"> {{ member.user.display_name }}
+		                <label for="id_upcoming_meeting_participants_{{ member.user_id }}">
+			                <input {% if member.user_id in meeting_participants %}checked="checked" {% endif %}type="checkbox" id="id_upcoming_meeting_participants_{{ member.user_id }}" name="upcoming_meeting_participants" value="{{ member.user_id }}"> {{ member.user__display_name }}
                         </label>
 	                </li>
-                {% comment %}<div class="board_select">{% formfield form.board %}</div>{% endcomment %}
+                {% empty %}
+                    <li class="list-group-item" style="margin: 0;">
+		                {% trans 'No members' %}
+	                </li>
+                {% endfor %}
             {% endfor %}
                 </ul>
             </div>
-            {% comment %}
-            <div class="tab-pane active" id="board">
-                <div class="board_select">{% formfield form.board %}</div>
-            </div>
-            <div class="tab-pane" id="members">
-                <ul class="list-group" id="members-list">
-                    {% for member in object.meeting_participants.members %}
-                    <li class="list-group-item" data-uid="{{ member.id }}">
-                        <div style="display: inline;line-height: 30px;">
-                            {{ member.display_name }}
-                        </div>
-                        <button type="button" class="pull-right btn btn-danger btn-sm del_member">
-                            <i class="fa fa-trash-o"></i> {% trans "Delete" %}
-                        </button>
-                    </li>
-                    {% endfor %}
-                </ul>
-                <div class="row">
-                    <div class="form-group">
-                        <div class="col-xs-12">
-                            <input type="text" class="form-control" id="add_member"/>
-                        </div>
-                    </div>
-                </div>
-                {% if object.previous_members_participations.count %}
-                <br/>
-
-                <h3>
-                    {% trans "Previous participants" %}
-                </h3>
-                {% endif %}
-                <ul id="recommended-members" class="list-group" style="max-height: 256px; overflow: auto;">
-                    {% for pre_mp in object.previous_members_participations %}
-                    <li class="list-group-item" data-uid="{{ pre_mp.id }}">
-                        <div style="display: inline;line-height: 30px;">
-                            {{ pre_mp.display_name }}
-                        </div>
-                        <button type="button" class="pull-right btn btn-default btn-sm add-rec-member">
-                            {% trans "Add" %}
-                        </button>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endcomment %}
             <div class="tab-pane" id="guests">
                 <ul class="list-group" id="guests-list">
                     {% for guest in object.get_guest_list %}
@@ -166,32 +120,14 @@
         {% if object.full_participants == 0 %}
         <h4 class="text-center">{% trans "Please select participants for upcoming meeting" %}</h4>
         {% endif %}
-        {% if object.meeting_participants.board %}
+        {% if object.meeting_participants %}
         <div class="panel-heading">
-            <h3 class="panel-title">{{ object.name }}</h3>
+            <h3 class="panel-title">{% trans 'Committee members' %}</h3>
         </div>
         <ul class="list-group">
-            {% for chairman in object.meeting_participants.chairmen %}
+            {% for participant in object.meeting_participants %}
             <li class="list-group-item clearfix">
-                <span style="line-height: 2;">{{ chairman.display_name }}</span>
-            </li>
-            {% endfor %}
-
-            {% for board in object.meeting_participants.board %}
-            <li class="list-group-item clearfix">
-                <span style="line-height: 2;">{{ board.display_name }}</span>
-            </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% if object.meeting_participants.members %}
-        <div class="panel-heading">
-            <h3 class="panel-title">{% trans "Members" %}</h3>
-        </div>
-        <ul class="list-group">
-            {% for member in object.meeting_participants.members %}
-            <li class="list-group-item clearfix">
-                <span style="line-height: 2;">{{ member.display_name }}</span>
+                <span style="line-height: 2;">{{ participant.display_name }}</span>
             </li>
             {% endfor %}
         </ul>
@@ -222,7 +158,7 @@
 
 {% block scripts %}
 <script>
-    var typeahead_url = '{% url  "ac_user" committee.community.slug  %}' + '?limit=m';
+    var typeahead_url = '{% url  "ac_user" object.community.slug  %}' + '?limit=m';
 </script>
 <script src="{{STATIC_URL}}js/participants.js"></script>
 {% endblock %}

@@ -1,8 +1,7 @@
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.contrib.auth import logout
-from django.contrib.auth.views import password_reset_done, password_reset_confirm, password_reset_complete
+from django.contrib.auth.views import password_reset_done, password_reset_confirm, password_reset_complete, logout
 from django.core.urlresolvers import reverse_lazy
 from django.views.i18n import javascript_catalog
 from django.views.static import serve

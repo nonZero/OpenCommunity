@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-05 14:44+0300\n"
+"POT-Creation-Date: 2016-06-07 11:26+0300\n"
 "PO-Revision-Date: 2016-06-05 14:45+0300\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
@@ -707,35 +707,35 @@ msgid "Summary draft"
 msgstr "טיוטת סיכום"
 
 #: .\templates\communities\publish_upcoming.html:8
-#: .\templates\communities\publish_upcoming.html:26
+#: .\templates\communities\publish_upcoming.html:55
 msgid "Publish"
 msgstr "פרסם"
 
-#: .\templates\communities\publish_upcoming.html:17
+#: .\templates\communities\publish_upcoming.html:46
 msgid "Preview details"
 msgstr "הצגת פירוט"
 
-#: .\templates\communities\publish_upcoming.html:19
+#: .\templates\communities\publish_upcoming.html:48
 msgid "Preview protocol"
 msgstr "הצגת פרוטוקול"
 
-#: .\templates\communities\publish_upcoming.html:22
+#: .\templates\communities\publish_upcoming.html:51
 msgid "Preview draft"
 msgstr "הצגת סדר יום"
 
-#: .\templates\communities\publish_upcoming.html:25
+#: .\templates\communities\publish_upcoming.html:54
 msgid "Close"
 msgstr "סגור"
 
-#: .\templates\communities\publish_upcoming.html:32
+#: .\templates\communities\publish_upcoming.html:61
 msgid "Print details"
 msgstr "הדפס פירוט"
 
-#: .\templates\communities\publish_upcoming.html:34
+#: .\templates\communities\publish_upcoming.html:63
 msgid "Print protocol"
 msgstr "הדפס פרוטוקול"
 
-#: .\templates\communities\publish_upcoming.html:37
+#: .\templates\communities\publish_upcoming.html:66
 msgid "Print draft"
 msgstr "הדפס סדר יום"
 
@@ -949,24 +949,24 @@ msgstr "הצבעה פעילה"
 msgid "Published"
 msgstr "פורסם"
 
-#: .\views.py:274
+#: .\views.py:273
 #, python-format
 msgid "Sending to %d users"
 msgstr "שולח ל-%d משתמשים"
 
-#: .\views.py:372
+#: .\views.py:371
 msgid "Not a valid number for page."
 msgstr "מספר עמוד לא תקין"
 
-#: .\views.py:375
+#: .\views.py:374
 msgid "Pages should be 1 or greater."
 msgstr "מספר עמוד צריך להיות 1 או יותר."
 
-#: .\views.py:384
+#: .\views.py:383
 msgid "No such page!"
 msgstr "דף לא קיים!"
 
-#: .\views.py:457 .\views.py:504
+#: .\views.py:456 .\views.py:503
 msgid "Group already exists"
 msgstr "קבוצה בשם זה כבר קיימת"
 

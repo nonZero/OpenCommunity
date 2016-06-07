@@ -72,10 +72,6 @@ class PublishUpcomingMeetingForm(forms.ModelForm):
     me = forms.BooleanField(label=_("Me only"), widget=forms.CheckboxInput, required=False)
     send_to = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), required=False)
 
-    # send_to = forms.TypedChoiceField(label=_("Send to"), coerce=int,
-    #                                  choices=SendToOption.choices,
-    #                                  widget=forms.RadioSelect)
-
     class Meta:
         model = CommunityGroup
 
@@ -96,8 +92,6 @@ class EditUpcomingMeetingSummaryForm(forms.ModelForm):
 
 
 class UpcomingMeetingParticipantsForm(forms.ModelForm):
-    board = forms.MultipleChoiceField(widget=OCCheckboxSelectMultiple, required=False)
-
     class Meta:
         model = Committee
 

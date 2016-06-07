@@ -9,6 +9,35 @@
     {% endif %}
 {% endblock %}
 
+{% block content %}
+{% for field in form %}
+    {% if field.html_name == 'me' %}
+        <div class="checkbox">
+            <ul>
+                <li>
+                    {{ field.errors }}
+                    <label for="{{ field.id_for_label }}">
+                        <input type="checkbox" id="{{ field.id_for_label }}" name="{{ field.html_name }}" value="{{ field.value }}">
+                        {{ field.label }}
+                    </label>
+                    {% if field.help_text %}
+                    <p class="help">{{ field.help_text|safe }}</p>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    {% else %}
+        <div class="checkbox">
+            {{ field.errors }}
+            {{ field }}
+            {% if field.help_text %}
+            <p class="help">{{ field.help_text|safe }}</p>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endfor %}
+{% endblock %}
+
 {% block nofooter %}
 <div class="modal-footer">
 	<button type="button" class="btn btn-info hidden-print pull-left" data-toggle="collapse" data-target="#protocolPreview">

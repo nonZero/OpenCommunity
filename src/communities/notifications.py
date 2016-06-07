@@ -95,8 +95,7 @@ def _base_send_mail(committee, notification_type, sender, send_to, data=None,
             w.extend(guests)
 
         # Add system managers to the watcher_recipients list if applicable
-        if committee.inform_system_manager and \
-                        notification_type in ('agenda', 'protocol', 'protocol_draft'):
+        if committee.inform_system_manager and notification_type in ('agenda', 'protocol', 'protocol_draft'):
             manager_emails = [manager[1] for manager in settings.MANAGERS]
             managers = construct_mock_users(manager_emails, 'managers')
             w.extend(managers)

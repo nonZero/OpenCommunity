@@ -1,5 +1,5 @@
 # django
-Django==1.9.6
+Django==1.9.7
 
 # django apps
 django-floppyforms==1.6.2

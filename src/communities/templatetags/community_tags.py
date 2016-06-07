@@ -19,7 +19,7 @@ def display_upcoming_time(committee):
     else:
         return when
 
-        
+
 @register.filter
 def member_of(u, community):
     res = Membership.objects.filter(user=u)
@@ -32,7 +32,7 @@ def member_of(u, community):
 @register.filter
 def upcoming_status(committee):
     from django.template.defaultfilters import date as _date
-    
+
     rows = ['', '']
     if committee.upcoming_meeting_started:
         rows[0] = _("Started")
@@ -43,7 +43,7 @@ def upcoming_status(committee):
                     committee.upcoming_meeting_published_at)
         else:
             publish_time = ''
-            
+
         meeting_version = u'{0} {1} - {2}'.format(ver,
                             committee.upcoming_meeting_version,
                             _date(publish_time, 'd F Y, H:i'))

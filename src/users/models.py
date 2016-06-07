@@ -57,7 +57,7 @@ class OCUserManager(BaseUserManager):
         user = self.create_user(email,
                                 password=password,
                                 display_name=display_name
-        )
+                                )
         user.is_superuser = True
         user.is_staff = True
         user.save(using=self._db)
@@ -68,7 +68,7 @@ class OCUserManager(BaseUserManager):
 class OCUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), max_length=255, unique=True,
                               db_index=True,
-    )
+                              )
     display_name = models.CharField(_("Your name"), max_length=200)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(_('staff status'), default=False,
@@ -121,9 +121,11 @@ class MembershipManager(models.Manager):
 
 @python_2_unicode_compatible
 class Membership(models.Model):
-    community = models.ForeignKey('communities.Community', on_delete=models.CASCADE, verbose_name=_("Community"), related_name='memberships')
+    community = models.ForeignKey('communities.Community', on_delete=models.CASCADE, verbose_name=_("Community"),
+                                  related_name='memberships')
     user = models.ForeignKey(OCUser, on_delete=models.CASCADE, verbose_name=_("User"), related_name='memberships')
-    group_name = models.ForeignKey('communities.CommunityGroup', on_delete=models.CASCADE, verbose_name=_('Group'), related_name='memberships')
+    group_name = models.ForeignKey('communities.CommunityGroup', on_delete=models.CASCADE, verbose_name=_('Group'),
+                                   related_name='memberships')
     default_group_name = models.CharField(_('Old group'), max_length=50, choices=DefaultGroups.CHOICES, blank=True,
                                           null=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
@@ -285,7 +287,7 @@ class Invitation(models.Model):
                              related_name='invitations', null=True, blank=True)
 
     groups = models.ManyToManyField('communities.CommunityGroup', verbose_name=_('Groups'),
-                                   related_name='invitations')
+                                    related_name='invitations')
 
     # TODO: Remove field.
     group_name = models.ForeignKey('communities.CommunityGroup', on_delete=models.CASCADE, verbose_name=_('Group'),
