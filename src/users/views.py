@@ -139,19 +139,20 @@ class AcceptInvitationView(DetailView):
         def create_membership(user):
             # Create selected membership type
             for group in i.groups.all():
-                try:
-                    m = Membership.objects.get(user=user, community=i.community, group_name=group)
-                except Membership.DoesNotExist:
-                    m = Membership.objects.create(user=user, community=i.community,
-                                                  group_name=group,
-                                                  invited_by=i.created_by)
+                obj, created = Membership.objects.get_or_create(user=user, community=i.community, group_name=group)
+                if created:
+                    obj.invited_by = i.created_by
+                    obj.save()
             # Create all member group
-            member_group = CommunityGroup.objects.get(community=i.community, title=gettext('member'))
+            # TODO: Fix this process. !!!!!
             try:
-                m = Membership.objects.get(user=user, community=i.community, group_name=member_group)
-            except Membership.DoesNotExist:
-                m = Membership.objects.create(user=user, community=i.community, group_name=member_group,
-                                              invited_by=i.created_by)
+                member_group = CommunityGroup.objects.get(community=i.community, title=gettext('member'))
+                obj, created = Membership.objects.get_or_create(user=user, community=i.community, group_name=member_group)
+                if created:
+                    obj.invited_by = i.created_by
+                    obj.save()
+            except:
+                pass
             i.delete()
             return m
 
