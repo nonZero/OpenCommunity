@@ -154,7 +154,7 @@ class AcceptInvitationView(DetailView):
             except:
                 pass
             i.delete()
-            return m
+            return obj
 
         if request.user.is_authenticated():
             if 'join' in request.POST:
