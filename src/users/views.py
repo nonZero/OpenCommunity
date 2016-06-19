@@ -34,15 +34,11 @@ class MembershipMixin(CommunityMixin):
 
     def validate_invitation(self, email):
         # somewhat of a privacy problem next line. should probably fail silently
-        if Membership.objects.filter(community=self.community,
-                                     user__email=email).exists():
-            return HttpResponseBadRequest(
-                _("This user already a member of this community."))
+        if Membership.objects.filter(community=self.community, user__email=email).exists():
+            return HttpResponseBadRequest(_("This user already a member of this community."))
 
-        if Invitation.objects.filter(community=self.community,
-                                     email=email).exists():
-            return HttpResponseBadRequest(
-                _("This user is already invited to this community."))
+        if Invitation.objects.filter(community=self.community, email=email).exists():
+            return HttpResponseBadRequest(_("This user is already invited to this community."))
         return None
 
 
@@ -147,7 +143,8 @@ class AcceptInvitationView(DetailView):
             # TODO: Fix this process. !!!!!
             try:
                 member_group = CommunityGroup.objects.get(community=i.community, title=gettext('member'))
-                obj, created = Membership.objects.get_or_create(user=user, community=i.community, group_name=member_group)
+                obj, created = Membership.objects.get_or_create(user=user, community=i.community,
+                                                                group_name=member_group)
                 if created:
                     obj.invited_by = i.created_by
                     obj.save()
@@ -484,23 +481,30 @@ class CreateInvitationView(AjaxFormView, MembershipMixin, CreateView):
         kwargs.update({'community': self.community})
         return kwargs
 
-    def post(self, request, *args, **kwargs):
-
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-
-        if not form.is_valid():
-            return HttpResponseBadRequest(
-                _("Form error. Please supply a valid email."))
-
-        v_err = self.validate_invitation(form.instance.email)
-        if v_err:
-            return v_err
-
+    def form_valid(self, form):
         form.instance.community = self.community
-        form.instance.created_by = request.user
+        form.instance.created_by = self.request.user
 
         i = form.save()
-        i.send(sender=request.user, recipient_name=form.cleaned_data['name'])
+        i.send(sender=self.request.user, recipient_name=form.cleaned_data['name'])
+        return super(CreateInvitationView, self).form_valid(form)
 
-        return HttpResponse('')
+    # def post(self, request, *args, **kwargs):
+    #     form_class = self.get_form_class()
+    #     form = self.get_form(form_class)
+    #
+    #     if not form.is_valid():
+    #         return HttpResponseBadRequest(
+    #             _("Form error. Please supply a valid email."))
+    #
+    #     # v_err = self.validate_invitation(form.instance.email)
+    #     # if v_err:
+    #     #     return v_err
+    #
+    #     form.instance.community = self.community
+    #     form.instance.created_by = request.user
+    #
+    #     i = form.save()
+    #     i.send(sender=request.user, recipient_name=form.cleaned_data['name'])
+    #
+    #     return HttpResponse('')

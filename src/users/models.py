@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+
 from django.conf import settings
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.core.mail import send_mail
@@ -303,7 +304,7 @@ class Invitation(models.Model):
     last_sent_at = models.DateTimeField(_("Sent at"), null=True, blank=True)
 
     class Meta:
-        unique_together = (("community", "email"),)
+        # unique_together = (("community", "email"),)
 
         verbose_name = _("Invitation")
         verbose_name_plural = _("Invitations")

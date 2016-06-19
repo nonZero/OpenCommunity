@@ -1,15 +1,12 @@
-# from django import forms
-#from django.forms.models import ModelForm
-from communities.models import CommunityGroupRole, CommunityGroup
+from communities.models import CommunityGroup
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
-from django.http import HttpResponseBadRequest
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _, gettext
 from ocd.formfields import HTMLArea, GroupCheckboxSelectMultiple
-from acl.default_roles import DefaultGroups
 from users.models import Invitation, OCUser, Membership
 import floppyforms.__future__ as forms
-
 
 LOGIN_ERROR = _("Please enter a correct %(username)s and password. "
                 "Note that both fields may be case-sensitive.")
@@ -33,12 +30,28 @@ class InvitationForm(forms.ModelForm):
             'groups': GroupCheckboxSelectMultiple
         }
 
+    def clean(self):
+        cleaned_data = super(InvitationForm, self).clean()
+        groups = cleaned_data.get("groups")
+        email = cleaned_data.get("email")
+        if Membership.objects.filter(user__email=email, group_name__in=groups).exists():
+            raise forms.ValidationError(_("This user already a member of this community."))
+        if Invitation.objects.filter(email=email, groups__in=groups).exists():
+            raise forms.ValidationError(_("This user is already invited to this community."))
+        return cleaned_data
+
     def clean_email(self):
-        return self.cleaned_data.get("email").lower()
+        email = self.cleaned_data.get("email")
+        try:
+            validate_email(email)
+        except ValidationError as e:
+            raise forms.ValidationError(_("Form error. Please supply a valid email."))
+        return email.lower()
 
     def __init__(self, community=None, *args, **kwargs):
         super(InvitationForm, self).__init__(*args, **kwargs)
-        self.fields['groups'].queryset = CommunityGroup.objects.filter(community=community).exclude(title='administrator')
+        self.fields['groups'].queryset = CommunityGroup.objects.filter(community=community).exclude(
+            title='administrator')
 
 
 class QuickSignupForm(forms.ModelForm):
