@@ -3,8 +3,8 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from users.models import Membership
 
-
 register = template.Library()
+
 
 @register.filter
 def display_upcoming_time(committee):
@@ -40,13 +40,13 @@ def upcoming_status(committee):
         ver = _("Version")
         if committee.upcoming_meeting_published_at:
             publish_time = timezone.localtime(
-                    committee.upcoming_meeting_published_at)
+                committee.upcoming_meeting_published_at)
         else:
             publish_time = ''
 
         meeting_version = u'{0} {1} - {2}'.format(ver,
-                            committee.upcoming_meeting_version,
-                            _date(publish_time, 'd F Y, H:i'))
+                                                  committee.upcoming_meeting_version,
+                                                  _date(publish_time, 'd F Y, H:i'))
         if committee.upcoming_meeting_is_published:
             if committee.straw_voting_enabled:
                 if committee.straw_vote_ended:
@@ -62,6 +62,12 @@ def upcoming_status(committee):
 
     return rows
 
+
 @register.filter
 def remove_email(args):
     return args.split('[')[0]
+
+
+@register.filter()
+def get_user_community_groups(user, arg):
+    return user.get_related_groups(arg)

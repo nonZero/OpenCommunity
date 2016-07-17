@@ -103,6 +103,12 @@ class OCUser(AbstractBaseUser, PermissionsMixin):
         except Membership.DoesNotExist:
             return ""
 
+    def get_related_groups(self, community):
+        try:
+            return [x.group_name_id for x in self.memberships.filter(community=community)]
+        except Membership.DoesNotExist:
+            return None
+
     def email_user(self, subject, message, from_email=None):
         """
         Sends an email to this User.

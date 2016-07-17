@@ -11,20 +11,29 @@
 
 {% block content %}
     {% csrf_token %}
-    {{form}}
+    {{ form }}
 {% endblock %}
 
 {% block scripts %}
-<script>
-    $(function() {
-        $('#modal-form').on('shown.bs.modal', function (e) {
-            var members = [];
-            $('.members-list-abc input:checked').each(function () {
-                members.push($(this).val())
-            });
-            $('#id_members').val(members);
-        })
-    });
-</script>
+    <script>
+        $(function () {
+            $('#modal-form').on('shown.bs.modal', function (e) {
+                var members = [];
+                var groups = [];
+                $('input[name="groups"]').prop('checked', false);
+                $('.members-list-abc input:checked').each(function () {
+                    members.push($(this).val());
+                    var user_groups_list = $(this).data('groups');
+                    $.each(user_groups_list, function (i, el) {
+                        if ($.inArray(el, groups) === -1) groups.push(parseInt(el));
+                    });
+                });
+                $('#id_members').val(members);
+                $('input[name="groups"]').each(function () {
+                    if ($.inArray(parseInt($(this).val()), groups) !== -1) $(this).prop('checked', true);
+                })
+            })
+        });
+    </script>
 
 {% endblock %}

@@ -64,12 +64,23 @@ class UserMembershipInline(admin.TabularInline):
 class MembershipAdmin(admin.ModelAdmin):
     list_display = (
         'community',
-        'group_name',
+        'display_group_name',
+        'display_user_email',
         'user',
         'created_at',
     )
 
-    list_filter = ('community', 'group_name',)
+    list_filter = ('community', 'group_name', 'user__email', 'user')
+    ordering = ['community', ]
+
+    def display_user_email(self, obj):
+        return obj.user.email
+
+    def display_group_name(self, obj):
+        return obj.group_name.title
+
+    display_user_email.short_description = _('Email')
+    display_group_name.short_description = _('Group')
 
 
 class OCUserAdmin(UserAdmin):
@@ -107,6 +118,7 @@ class OCUserAdmin(UserAdmin):
         for g in groups:
             l.append(u'{0}: {1}'.format(g.group.title, g.committee.name))
         return " | ".join(l)
+
     get_groups.short_description = _('Committee & Groups')
 
 
