@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Open Community\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-07 11:27+0300\n"
+"POT-Creation-Date: 2016-07-17 11:37+0300\n"
 "PO-Revision-Date: 2015-05-14 13:18+0200\n"
 "Last-Translator: Yaniv Mirel <yanivmirel@gmail.com>\n"
 "Language-Team: \n"
@@ -30,11 +30,11 @@ msgstr "שלח אל"
 msgid "The selected issues will be archived"
 msgstr "הנושאים המסומנים יועברו לארכיון"
 
-#: .\forms.py:42
+#: .\forms.py:38
 msgid "Issue was not modified in this meeting"
 msgstr "לא התבצעו שינויים בנושא זה במהלך הפגישה"
 
-#: .\forms.py:45
+#: .\forms.py:41
 msgid "Undecided proposals"
 msgstr "הצעות ללא החלטה"
 

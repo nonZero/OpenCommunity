@@ -1,3 +1,4 @@
+from communities.models import CommunityGroupRole
 from django import forms
 from django.utils.translation import ugettext, ugettext_lazy as _
 from django.contrib import admin
@@ -79,8 +80,8 @@ class OCUserAdmin(UserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('email', 'display_name', 'is_staff', 'is_superuser')
-    list_filter = ('is_staff', 'is_superuser',)
+    list_display = ('email', 'display_name', 'get_groups')
+    list_filter = ()
     fieldsets = (
         (None, {'fields': ('email', 'password', 'is_active')}),
         ('Personal info', {'fields': ('display_name',)}),
@@ -98,6 +99,15 @@ class OCUserAdmin(UserAdmin):
     filter_horizontal = ()
 
     inlines = [UserMembershipInline]
+
+    def get_groups(self, obj):
+        memberships = obj.memberships.all().values_list('group_name_id', flat=True)
+        groups = CommunityGroupRole.objects.filter(group_id__in=memberships)
+        l = []
+        for g in groups:
+            l.append(u'{0}: {1}'.format(g.group.title, g.committee.name))
+        return " | ".join(l)
+    get_groups.short_description = _('Committee & Groups')
 
 
 admin.site.register(OCUser, OCUserAdmin)

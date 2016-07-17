@@ -4,6 +4,7 @@ import random
 
 from acl.models import Role
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.db import models, transaction
 from django.db.models.signals import post_save
@@ -655,6 +656,18 @@ class CommunityGroupRole(models.Model):
 
     def get_absolute_url(self):
         return reverse("group_role:detail", args=(self.committee.community.slug, self.pk))
+
+    def clean(self):
+        if self.group.community_id == self.role.community_id == self.committee.community_id:
+            return self
+        else:
+            raise ValidationError(_('Group, Role & Committee need to be from same community'))
+
+    def save(self, *args, **kwargs):
+        if self.group.community_id == self.role.community_id == self.committee.community_id:
+            super(CommunityGroupRole, self).save(*args, **kwargs)
+        else:
+            return
 
 
 @receiver(post_save, sender=Community)
