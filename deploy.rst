@@ -31,7 +31,7 @@ Le'ts install a send-only mail server as well::
 
     apt-get install postfix
     # select Internet Site and your domain
-    # make sure that myhostname = opencommunity.org.il here:
+    # make sure that myhostname = demos.org.il here:
     vi /etc/postfix/main.cf
     # and reload your server
     /etc/init.d/postfix reload
@@ -73,10 +73,10 @@ It should look like this::
             'NAME': 'opencommunity',
         }
     }
-    _host = 'www.opencommunity.org.il'
+    _host = 'www.demos.org.il'
     HOST_URL = "http://%s" % _host
     ALLOWED_HOSTS = [_host]
-    FROM_EMAIL = "noreply@opencommunity.org.il"
+    FROM_EMAIL = "noreply@demos.org.il"
 
 Let's make a directory for our uploads::
 
@@ -111,4 +111,4 @@ Let's set up a gunicorn server, back as root::
     service supervisor stop
     service supervisor start
 
-Now go to <http://opencommunity.org.il/>
+Now go to <http://demos.org.il/>

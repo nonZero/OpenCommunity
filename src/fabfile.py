@@ -37,9 +37,9 @@ def qa_old():
 
 
 def qa():
-    env.vhost = '%s.qa.opencommunity.org.il' % env.user
+    env.vhost = '%s.qa.demos.org.il' % env.user
     env.redirect_host = 'www.%s' % env.vhost
-    env.hosts = ['qa.opencommunity.org.il']
+    env.hosts = ['qa.demos.org.il']
     env.ocuser = "oc_" + env.user
     env.code_dir = '/home/%s/OpenCommunity/' % env.user
     env.log_dir = '%slogs/' % env.code_dir
