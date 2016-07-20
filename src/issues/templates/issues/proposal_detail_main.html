@@ -112,8 +112,8 @@
 		</h5>
 	</div>
 </div>
-    {% with proposal=object c=proposal.issue.community %}
-        {% if proposal.can_straw_vote and 'vote' in cperms and user|member_of:c %}
+    {% with proposal=object c=proposal.issue.committee %}
+        {% if proposal.can_straw_vote and 'vote' in cperms and user|member_of:c.community %}
             {% include 'issues/_straw_vote.html' %}
         {% endif %}
         {% if not proposal.can_straw_vote and object.issue.community.upcoming_meeting_started %}

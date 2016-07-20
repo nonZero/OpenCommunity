@@ -164,7 +164,7 @@ class Membership(models.Model):
 
     def get_committee_group_permissions(self, committee):
         committee_perms = self.get_permissions(committee.community)
-        # committee_perms.update(self.group_name.group_roles.get(committee=committee).role.all_perms())
+        committee_perms.update(self.group_name.group_roles.get(committee=committee).role.all_perms())
         return committee_perms
 
     def total_meetings(self):
