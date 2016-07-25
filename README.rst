@@ -2,8 +2,11 @@
 Installing OpenCommunity
 ========================
 
-OpenCommunity is an open source project from `Hasadna`_. Its aim is to help communities thrive in the Cloud.
-Our first step is to support setting the agenda sork for the managment committee.
+OpenCommunity (DemOS) is an open source project that provide online tools to
+real communities with elected leadership.
+
+OpenCommunity is poweerd by `Hasadna`_.
+
 Join the conversation in our `google group`_ (English and Hebrew).
 
 .. _Hasadna: http://www.hasadna.org.il
@@ -13,42 +16,37 @@ Prerequisites for Developer Machines
 ====================================
 
 * git
-* python 2.7 (Windows users can install from http://www.ninite.com/ )
-* On ubuntu 13.04::
+* python 2.7 (Windows users can quickly install python from http://www.ninite.com/ )
 
-    # Pillow build requirements:
-    sudo apt-get install python-dev libjpeg-dev libjpeg8 zlib1g-dev libfreetype6 libfreetype6-dev
+* Install `virtualenvwrapper`:
+
+  * On windows::
+
+      pip install virtualenvwrapper-win
+
+  * On ubuntu::
+
+      sudo apt-get install virtualenvwrapper
+
+* On ubuntu 16.04 additionally install some more requriements for pillow and pyscopg2::
+
+    sudo apt-get install python-dev libjpeg-dev libjpeg8 zlib1g-dev libfreetype6 libfreetype6-dev libpq-dev
 
 
 (Quick) Setup
 =============
 
+* Create a Python2 virtualenv::
+
+      mkvirtualenv opencommunity
+
+  (Note: If you both python2 and python3 installed, use the `-p` switch for
+  choosing python2 to create the virtualenv)
+
 * Fork the repo and clone it to your computer using git clone
 * cd into the cloned project
-* You will need virtualenv.  Either install it or download virtualenv.py
-  from here: https://raw.github.com/pypa/virtualenv/master/virtualenv.py
-* Now create a virtualenv.  Use either::
 
-      virtualenv .
-
-  Or::
-
-    python virtualenv.py .
-
-* Good! to activate the env use this on OSX or linux::
-
-    source bin/activate
-
-  On windows::
-
-    scripts\activate
-
-* Your prompt should start with `(OpenCommunity)`.
-* On windows install some binary packages first::
-
-    windows-setup.cmd
-
-* Now install all other requirements (This can take some time)::
+* Install requirements (This can take some time)::
 
     pip install -r requirements.txt
 
@@ -70,10 +68,11 @@ Prerequisites for Developer Machines
 
 * ... and create the database::
 
-    python manage.py syncdb
     python manage.py migrate
 
-  (When asked, create a user for the admin interface)
+* Create a superuser::
+
+    python manage.py createsuperuser
 
 * To start the dev web server::
 
@@ -94,7 +93,6 @@ Collaborating
 
     git pull upstream master
     pip install -r requirements.txt
-    python manage.py syncdb
     python manage.py migrate
 
 

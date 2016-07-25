@@ -18,6 +18,7 @@ import time
 import unittest
 
 
+@unittest.skip("UDI: too long")
 class TestSchulzePR(unittest.TestCase):
 
     # This test considers a case that SchulzeSTV starts to choke on due to the

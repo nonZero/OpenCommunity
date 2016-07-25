@@ -17,7 +17,7 @@ from shultze.pyvotecore.schulze_stv import SchulzeSTV
 import unittest
 import time
 
-
+@unittest.skip("UDI: too long")
 class TestSchulzeSTV(unittest.TestCase):
 
     # This test considers a case in which there are 10 choose 5 (252) possible
