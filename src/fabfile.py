@@ -396,9 +396,21 @@ def load_local_db_from_file(filename):
             "DELETE local db and load from backup file {}?".format(filename)):
         abort("Aborted.")
 
-    drop_command = "drop schema public cascade; create schema public;"
-    local('''python -c "print '{}'" | python manage.py dbshell'''.format(
-        drop_command, filename))
+    _drop_local_db(filename)
 
     cmd = "gunzip -c" if filename.endswith('.gz') else "cat"
     local('{} {} | python manage.py dbshell'.format(cmd, filename))
+
+
+@task
+def drop_local_db():
+    if not confirm("DELETE local db?"):
+        abort("Aborted.")
+
+    _drop_local_db()
+
+
+def _drop_local_db():
+    drop_command = "drop schema public cascade; create schema public;"
+    local('''python -c "print '{}'" | python manage.py dbshell'''.format(
+        drop_command))
