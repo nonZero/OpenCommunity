@@ -82,7 +82,7 @@ USE_L10N = True
 
 if 'test' in sys.argv:
     DATABASES['default'] = {'ENGINE': 'django.db.backends.sqlite3'}
-    TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+    # TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
     LANGUAGE_CODE = 'en'
 
 LOCALE_PATHS = [
